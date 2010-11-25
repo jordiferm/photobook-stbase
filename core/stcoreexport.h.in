@@ -1,0 +1,15 @@
+#ifndef _STCOREEXPORT_H
+#define _STCOREEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_core_EXPORTS)
+		#define ST_CORE_EXPORT __declspec(dllexport)
+	#else
+			#define ST_CORE_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_CORE_EXPORT
+#endif
+
+#endif // !_STCOREEXPORT_H
+

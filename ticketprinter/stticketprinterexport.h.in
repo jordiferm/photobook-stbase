@@ -1,0 +1,15 @@
+#ifndef _STticketprinterEXPORT_H
+#define _STticketprinterEXPORT_H
+
+#if defined(WIN32) 
+	#if defined(st_ticketprinter_EXPORTS)
+		#define ST_TICKETPRINTER_EXPORT __declspec(dllexport)
+	#else
+			#define ST_TICKETPRINTER_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_TICKETPRINTER_EXPORT
+#endif
+
+#endif // !_STticketprinterEXPORT_H
+

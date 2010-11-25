@@ -1,0 +1,11 @@
+*** starblitz-k PrintKeeper TODO file ***
+
+
+------^^^^^^^^^ Rev. 1.0.0 ^^^^^^^^^------------
+
+- Access denied if no items found.
+- Ping on windows problem solved.
+
+------^^^^^^^^^ Rev. 1.0.1 ^^^^^^^^^------------
+
+Validar por MacAddress del fabricante Sin contrasenya ??

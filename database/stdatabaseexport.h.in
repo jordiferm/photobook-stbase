@@ -1,0 +1,15 @@
+#ifndef _STDATABASEEXPORT_H
+#define _STDATABASEEXPORT_H
+
+#if defined(WIN32) 
+	#if defined(st_database_EXPORTS)
+		#define ST_DATABASE_EXPORT __declspec(dllexport)
+	#else
+		#define ST_DATABASE_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_DATABASE_EXPORT
+#endif
+
+#endif // !_STDATABASEEXPORT_H
+

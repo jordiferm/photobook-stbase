@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/digikam" >
+        <file>histogram-lin.png</file>
+        <file>histogram-log.png</file>
+        <file>duplicatebothhorz.png</file>
+        <file>duplicatebothvert.png</file>
+        <file>bothhorz.png</file>
+        <file>bothvert.png</file>
+        <file>target.png</file>
+        <file>original.png</file>
+        <file>togglemouseover.png</file>
+        <file>underexposure.png</file>
+        <file>overexposure.png</file>
+        <file>whitebalance.png</file>
+        <file>color_picker.png</file>
+        <file>system_run.png</file>
+        <file>curvefree.png</file>
+        <file>curvemooth.png</file>
+        <file>document-revert.png</file>
+        <file>color_picker_white.png</file>
+        <file>color_picker_black.png</file>
+        <file>color_picker_grey.png</file>
+        <file>dialog-apply.png</file>
+        <file>dialog-ok.png</file>
+        <file>dialog-cancel.png</file>
+        <file>transform_move.png</file>
+        <file>saveas.png</file>
+        <file>load.png</file>
+        <file>user.png</file>
+        <file>view_list_details.png</file>
+        <file>fileprint.png</file>
+        <file>editcopy.png</file>
+    </qresource>
+</RCC>

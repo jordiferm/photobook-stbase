@@ -1,0 +1,16 @@
+#ifndef _STSERIALPORTEXPORT_H
+#define _STSERIALPORTEXPORT_H
+
+
+#if defined(WIN32) 
+	#if defined(st_serialport_EXPORTS)
+		#define ST_SERIALPORT_EXPORT __declspec(dllexport)
+	#else
+			#define ST_SERIALPORT_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_SERIALPORT_EXPORT
+#endif
+
+#endif // !_STSERIALPORTEXPORT_H
+

@@ -1,0 +1,16 @@
+#ifndef _STMETADATAEXPORT_H
+#define _STMETADATAEXPORT_H
+
+
+#if defined(WIN32) 
+	#if defined(st_metadata_EXPORTS)
+		#define ST_METADATA_EXPORT __declspec(dllexport)
+	#else
+			#define ST_METADATA_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_METADATA_EXPORT
+#endif
+
+#endif // !_STMETADATAEXPORT_H
+

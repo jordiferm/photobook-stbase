@@ -1,0 +1,15 @@
+#ifndef _STDIGIKAMEXPORT_H
+#define _STDIGIKAMEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_digikam_EXPORTS)
+		#define ST_DIGIKAM_EXPORT __declspec(dllexport)
+	#else
+			#define ST_DIGIKAM_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_DIGIKAM_EXPORT
+#endif
+
+#endif // !_STDIGIKAMEXPORT_H
+

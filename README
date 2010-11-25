@@ -1,0 +1,124 @@
+In this file
+
+* About STBase Libs 
+* Licencing 
+* Usage 
+* Compile Problems 
+* More info
+
+About STBase Libs
+------------------
+
+This is version 1.0 of STBase libraries.
+
+STBase libs are multiplattform libraries
+
+STBase (Softtopia Toolkit Base) is a set of multiplatform C++ libraries that extends Qt (http://qt.nokia.com/) libraries to improve it the following areas:
+
+- Database data persistance. 
+- Imaging 
+- Printing
+- GUI
+- Input/Output
+- Programming patterns
+- Network
+
+STBase depends on Qt libs and CMake build system. It provides several CMake modules to use and build only the libs or parts of STBase than we need. 
+STBase libs are multiplarform and are tested in GNU/Linux, Windows and MacOSX.
+
+There is also an extension of STBase focused to fotography called STPhoto. Se more info of STPhoto in: http://www.softtopia.com/stphoto
+
+Here is all the STBase individual libraries grouped by the previous areas:
+
+--- Main Libs ---
+	* stcore 
+		QApplication extensions, error handling, encryption algorithms, log system, update manager and locale support.
+
+--- Database data persistance ---
+	* stdatabase
+		Models, Delegates, Views, Automapped forms, Prebuilded settings widgets and database utils and extensions.
+	* stdbmanag
+		Create, update and manage database from xml metadata definitions.
+	* stmetadata
+		Xml metadata interpreter.
+
+--- Imaging ---
+	* stimagelib
+		Image effects, image cypher algorithms, QImage improvements, Thumbnail creation, icc profile support,  histogram interfaces and image printing algorithms.
+		(Depends on imagemagick LibMagick++ (http://www.imagemagick.org/Magick++/) and libjpeg-6b (http://www.ijg.org/))
+	* stkdcraw
+		Raw image format support.(Depends on dcraw lib (http://freshmeat.net/projects/libdcraw/))
+	* stkexiv2
+		JPEG exiv support.(Depends on exiv2 lib (http://www.exiv2.org/))
+	* stdigikam
+		Contains digikam code (Without kde dependences) of digikam editor, icc tool widgets, and several effect widgets.(Depends on libicc)
+
+--- Printing ---
+	* stopenrpt
+		Report generator and editor. The code is obtained from OpenRpt project at: http://www.xtuple.com/openrpt
+	* stimagelib
+		Adjust images to printer capabilities.
+	* stprintkeeper
+		Provides a tools to protect printing for only print in a specific IP and MacAddress.
+	* stticketprinter
+		Direct print to ESC/P2 serial and USB printers from epson: http://webpages.charter.net/dperr/links/esc_p2.htm
+		Depends on libusb (http://www.sourceforge.net/projects/libusb/)
+
+--- GUI ---
+	* stwidgets
+		OnScreen keyboard, Sliders, Mappable widgets, Model View Settings, icon factories, Search widgets, Html editors, Labels, tabbars, groupbox, dialogs, progressdialog and messagebox extensions and more...
+
+--- Input/Output ---
+	* stserialport
+		Serial port QIODevice.
+	* stburning
+		CD and DVD burning. (Depends on cdrecord and growisofs tools )
+
+--- Programming patterns ---
+	* stqtilities
+		Support for Qtilities libs (http://www.qtilities.org)
+
+--- Network ---
+	* stmail
+		SMTP, Imap and Pop3 support to send and receive mails.
+
+Licencing
+-----------------
+
+The libraries themselves have been covered (since 2008)
+by the GNU Library General Public License (LGPL). Any other programs (such
+as the examples and dependences) are covered by the GNU General Public License (GPL). All
+the gory details for the LGPL reside in COPYING.LIB, and for the GPL reside
+in COPYING.
+
+When in doubt, check the individual file, they should all have license
+headings and other identifying marks.
+
+
+Installation
+-----------------
+See the file 'INSTALL'.
+
+
+Compile Problems
+-----------------
+STBase is tested with g++ 4.2.1. Please if you have problems in compilation process mail me:
+j@softtopia.com attaching the compiler output and version.
+We appretiate your reports because it could help us to improve our products.
+
+How To Report
+-----------------
+Send bug reports at: www.softopia.com/stbase/bugs
+
+Please don't hessitate to send bug reports.
+We appretiate your reports because it could help us to improve our products.
+
+
+More info
+-----------------
+See 'ChangeLog' for a list of recent changes.
+See 'AUTHORS' for a list of author contacts.
+For more info please refer to: http://www.softopia.com/stbase
+
+Enjoy STBase.
+

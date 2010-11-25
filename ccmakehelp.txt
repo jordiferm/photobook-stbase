@@ -1,0 +1,1 @@
+- use a .h.in file for global version.h.

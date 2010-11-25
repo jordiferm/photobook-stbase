@@ -1,0 +1,15 @@
+#ifndef _STKDCRAWEXPORT_H
+#define _STKDCRAWEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_kdcraw_EXPORTS)
+		#define ST_KDCRAW_EXPORT __declspec(dllexport)
+	#else
+			#define ST_KDCRAW_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_KDCRAW_EXPORT
+#endif
+
+#endif // !_STKDCRAWEXPORT_H
+

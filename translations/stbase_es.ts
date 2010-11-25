@@ -1,0 +1,5857 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="es">
+<context>
+    <name>BarcodeEditor</name>
+    <message>
+        <source>Y:</source>
+        <translation type="unfinished">Y:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished">Altura:</translation>
+    </message>
+    <message>
+        <source>X:</source>
+        <translation type="unfinished">X:</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished">Ancho:</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Bar Code Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Column:</source>
+        <translation type="unfinished">Columna:</translation>
+    </message>
+    <message>
+        <source>Query Source:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3of9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3of9+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>128</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ean13</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ean8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>upc-a</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>upc-e</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum Length of Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alignment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Position/Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.01</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BoolEdit</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Bool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>True</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>False</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ColorEditor</name>
+    <message>
+        <source>Green</source>
+        <translation type="unfinished">Verde</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation type="unfinished">Rojo</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation type="unfinished">Azul</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Color Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ColorList</name>
+    <message>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">&amp;Editar</translation>
+    </message>
+    <message>
+        <source>Color Definitions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Borrar</translation>
+    </message>
+</context>
+<context>
+    <name>DBFileDialog</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Database File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grade:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>##</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DetailGroupSectionDialog</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Group Section Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Column:</source>
+        <translation type="unfinished">Columna:</translation>
+    </message>
+    <message>
+        <source>Group Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Group Header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Group Footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert Page Break After this Footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DetailSectionDialog</name>
+    <message>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">&amp;Editar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Detail Section Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Source:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert Page Break At End of Last Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group Sections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Borrar</translation>
+    </message>
+    <message>
+        <source>Move &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::CIETongueWidget</name>
+    <message>
+        <source>Loading image...</source>
+        <translation>Cargando imagen...</translation>
+    </message>
+    <message>
+        <source>No profile available...</source>
+        <translation>No hay ningún perfil disponible...</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::Canvas</name>
+    <message>
+        <source>Pan the image to a region</source>
+        <translation>Situar imagen en región</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::ColorCorrectionDlg</name>
+    <message>
+        <source>Convert</source>
+        <translation>Convertir</translation>
+    </message>
+    <message>
+        <source>Apply the default color workspace profile to the image</source>
+        <translation>Aplicar el perfil de espacio de color por defecto a la imagen</translation>
+    </message>
+    <message>
+        <source>Do Nothing</source>
+        <translation>No hacer nada</translation>
+    </message>
+    <message>
+        <source>Do not change the image</source>
+        <translation>No cambiar la imagen</translation>
+    </message>
+    <message>
+        <source>Assign</source>
+        <translation>Asignar</translation>
+    </message>
+    <message>
+        <source>Only embed the color workspace profile in the image, do not change the image</source>
+        <translation>Solo encolar el perfil de color del espacio de trabajo en la imagen, no cambiar la imagen</translation>
+    </message>
+    <message>
+        <source>Original Image:</source>
+        <translation>Imagen original:</translation>
+    </message>
+    <message>
+        <source>Corrected Image:</source>
+        <translation>Imagen corregida:</translation>
+    </message>
+    <message>
+        <source>Current workspace color profile:</source>
+        <translation>Perfil actual de espacio de trabajo:</translation>
+    </message>
+    <message>
+        <source>Info...</source>
+        <translation>Información...</translation>
+    </message>
+    <message>
+        <source>Embedded color profile:</source>
+        <translation>Perfil de color empotrado:</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This image has not been assigned a color profile.&lt;/p&gt;&lt;p&gt;Do you want to convert it to your workspace color profile?&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Esta imagen no tiene ningún perfil asignado.&lt;/p&gt;&lt;p&gt;Quiere convertir-la al perfil de su espacio de trabajo?&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This image has been assigned to a color profile that does not match your default workspace color profile.&lt;/p&gt;&lt;p&gt;Do you want to convert it to your workspace color profile?&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Esta imagen tiene asignado un perfil de color que no corresponde al de su espacio de trabajo por defecto.&lt;/p&gt;&lt;p&gt;Quiere convertirla a su perfil de color de su espacio de trabajo ?&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::CurvesWidget</name>
+    <message>
+        <source>Loading image...</source>
+        <translation>Cargando imagen...</translation>
+    </message>
+    <message>
+        <source>Histogram calculation...</source>
+        <translation>Calculando histograma...</translation>
+    </message>
+    <message>
+        <source>Histogram
+calculation
+failed.</source>
+        <translation>El cálculo
+del histograma
+ha fallado.</translation>
+    </message>
+    <message>
+        <source>x:%1
+y:%2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>x:%1</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::DImgInterface</name>
+    <message>
+        <source>Cannot find the ICC color-space profile file. ICC profiles path seems to be invalid. No color transform will be applied. Please check the color management configuration in digiKam&apos;s setup to verify the ICC path.</source>
+        <translation>No de puede encontrar el archivo del perfil de espacio de color ICC. La ruta de los perfiles ICC parece que no es válida. No se aplicará ninguna transformación de color. Por favor compruebe la configuración de la gestión de color en las configuraciones del programa y verifique la ruta del ICC.</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Información</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::EditorToolSettings</name>
+    <message>
+        <source>&lt;p&gt;Here you can see the original image panel which can help you to select the clip preview.&lt;/p&gt;&lt;p&gt;Click and drag the mouse cursor in the red rectangle to change the clip focus.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Aqui puede ver el panel de la imagen original que le puede ayudar a seleccionar la vista previa del corte.&lt;/p&gt;&lt;p&gt;Haga clic y arrastre el cursor del ratón en el rectangulo rojo para cambiar el foco de recorte.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Guide:</source>
+        <translation>Guía:</translation>
+    </message>
+    <message>
+        <source>Set here the color used to draw guides dashed-lines.</source>
+        <translation>Assigne aqui el color usado para dibujar las lineas discontinuas guía.</translation>
+    </message>
+    <message>
+        <source>Set here the width in pixels used to draw guides dashed-lines.</source>
+        <translation>Assigne aqui el ancho del píxeles usado para dibujar las lineas discontinuas guía.</translation>
+    </message>
+    <message>
+        <source>Defa&amp;ults</source>
+        <translation>Predetermi&amp;nados</translation>
+    </message>
+    <message>
+        <source>Reset all settings to their default values.</source>
+        <translation>Resetear todas las configuraciones a sus valores predeterminados.</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation>&amp;Ok</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Load...</source>
+        <translation>Cargando...</translation>
+    </message>
+    <message>
+        <source>Load all parameters from settings text file.</source>
+        <translation>Cargar todos los parámetros de un archivo de texto de configuraciones.</translation>
+    </message>
+    <message>
+        <source>Save as</source>
+        <translation>Guardar como</translation>
+    </message>
+    <message>
+        <source>Save all parameters to settings text file.</source>
+        <translation>Guardar todos los parámetros a un archivo de texto de configuraciones.</translation>
+    </message>
+    <message>
+        <source>Try</source>
+        <translation>Probar</translation>
+    </message>
+    <message>
+        <source>Try all settings.</source>
+        <translation>Probar todas las configuraciones.</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::HistogramBox</name>
+    <message>
+        <source>Channel:</source>
+        <translation>Canal:</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the histogram channel to display:&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Seleccione el canal del histograma que quiere mostrar&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Luminosity&lt;/b&gt;: display the image&apos;s luminosity values.</source>
+        <translation>&lt;b&gt;Luminosidad&lt;/b&gt;: Muestra los valores de luminosidad de la imagen.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Red&lt;/b&gt;: display the red image-channel values.</source>
+        <translation>&lt;b&gt;Rojo&lt;/b&gt;: muestra los valores del canal rojo de la imagen.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Green&lt;/b&gt;: display the green image-channel values.</source>
+        <translation>&lt;b&gt;Verde&lt;/b&gt;: muestra los valores del canal verde de la imagen.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Blue&lt;/b&gt;: display the blue image-channel values.</source>
+        <translation>&lt;b&gt;Azul&lt;/b&gt;: muestra los valores del canal azul de la imagen.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Colors&lt;/b&gt;: Display all color channel values at the same time.</source>
+        <translation>&lt;b&gt;Colores&lt;/b&gt;: Mustra todos los valores de los canales de color al mismo tiempo.</translation>
+    </message>
+    <message>
+        <source>Luminosity</source>
+        <translation>Luminosidad</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>Rojo</translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation>Verde</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>Azul</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Colores</translation>
+    </message>
+    <message>
+        <source>Alpha</source>
+        <translation>Alfa</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Alpha&lt;/b&gt;: display the alpha image-channel values. This channel corresponds to the transparency value and is supported by some image formats, such as PNG or TIF.</source>
+        <translation>&lt;b&gt;Alfa&lt;/b&gt;: Muestra los valores del canal alfa de la imagen. Este canal corresponde al valor de la transparencia y está soportado por algunos formatos de imagen como PNG o TIF.</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the histogram scale.&lt;/p&gt;&lt;p&gt;If the image&apos;s maximal counts are small, you can use the &lt;b&gt;linear&lt;/b&gt; scale.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Logarithmic&lt;/b&gt; scale can be used when the maximal counts are big; if it is used, all values (small and large) will be visible on the graph.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selecciona la escala del histograma.&lt;/p&gt;&lt;p&gt;Si el máximo recuento de la imagen es pequeño puede usar la escala &lt;b&gt; lineal &lt;/b&gt;.&lt;/p&gt;&lt;p&gt;La escala &lt;b&gt;logarítmica&lt;/b&gt; se puede usar cuando los recuentos máximos son grandes; si es usada, todos los valores (pequeños y grandes) se verán en el gráfico.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>linear histogram scaling mode</source>
+        <comment>Linear</comment>
+        <translation>Modo de escala de histograma lineal</translation>
+    </message>
+    <message>
+        <source>logarithmic histogram scaling mode</source>
+        <comment>Logarithmic</comment>
+        <translation>Modo de escala de histograma logarítmico</translation>
+    </message>
+    <message>
+        <source>Colors:</source>
+        <translation>Colores:</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the main color displayed with Colors Channel mode here:&lt;/p&gt;&lt;p&gt;&lt;b&gt;Red&lt;/b&gt;: Draw the red image channel in the foreground.&lt;br/&gt;&lt;b&gt;Green&lt;/b&gt;: Draw the green image channel in the foreground.&lt;br/&gt;&lt;b&gt;Blue&lt;/b&gt;: Draw the blue image channel in the foreground.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selecciona el color principal mostrado en el  modo de canal de colores aquí:&lt;/p&gt;&lt;p&gt;&lt;b&gt;Rojo&lt;/b&gt;: Dibuja el canal rojo de la imagen en primer plano.&lt;br/&gt;&lt;b&gt;Verde&lt;/b&gt;: Dibuja el canal verde de la imagen en primer plano.&lt;br/&gt;&lt;b&gt;Azul&lt;/b&gt;: Dibuja el canal azul de la imagen en primer plano.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Here you can see the target preview image histogram drawing of the selected image channel. This one is re-computed at any settings changes.</source>
+        <translation>Aqui puede ver el histograma de la vista prévia resultante correspondiente al canal seleccionado. Esta es recalculada con cualquier cambio de configuracion.</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::HistogramWidget</name>
+    <message>
+        <source>Loading image...</source>
+        <translation>Cargando imagen...</translation>
+    </message>
+    <message>
+        <source>Histogram calculation...</source>
+        <translation>Calculando el histograma...</translation>
+    </message>
+    <message>
+        <source>Histogram
+calculation
+failed.</source>
+        <translation>El cálculo
+del histograma
+ha fallado.</translation>
+    </message>
+    <message>
+        <source>Mean:</source>
+        <translation>Media:</translation>
+    </message>
+    <message>
+        <source>Pixels:</source>
+        <translation>Píxels:</translation>
+    </message>
+    <message>
+        <source>Std dev.:</source>
+        <translation>Desv Std:</translation>
+    </message>
+    <message>
+        <source>Count:</source>
+        <translation>Recuento:</translation>
+    </message>
+    <message>
+        <source>Median:</source>
+        <translation>Mediana:</translation>
+    </message>
+    <message>
+        <source>Percent:</source>
+        <translation>Porcentaje:</translation>
+    </message>
+    <message>
+        <source>x:%1</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::ICCProfileInfoDlg</name>
+    <message>
+        <source>Color Profile Info - %1</source>
+        <translation>Información del perfil de color - %1</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::ICCProfileWidget</name>
+    <message>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>The ICC profile product name</source>
+        <translation>Nombre del producto de perfil ICC</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripción</translation>
+    </message>
+    <message>
+        <source>The ICC profile product description</source>
+        <translation>Descripción del producto de perfil ICC</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Información</translation>
+    </message>
+    <message>
+        <source>Additional ICC profile information</source>
+        <translation>Información adicional del perfil ICC</translation>
+    </message>
+    <message>
+        <source>Manufacturer</source>
+        <translation>Fabricante</translation>
+    </message>
+    <message>
+        <source>Raw information about the ICC profile manufacturer</source>
+        <translation>Información bruta sobre el perfil ICC del fabricante</translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation>Modelo</translation>
+    </message>
+    <message>
+        <source>Raw information about the ICC profile model</source>
+        <translation>Información bruta sobre el modelo del perfil ICC </translation>
+    </message>
+    <message>
+        <source>Copyright</source>
+        <translation>Copyright</translation>
+    </message>
+    <message>
+        <source>Raw information about the ICC profile copyright</source>
+        <translation>Información bruta sobre el copyright  del perfil ICC</translation>
+    </message>
+    <message>
+        <source>Profile ID</source>
+        <translation>ID del perfil</translation>
+    </message>
+    <message>
+        <source>The ICC profile ID number</source>
+        <translation>El número ID del perfil ICC</translation>
+    </message>
+    <message>
+        <source>Color Space</source>
+        <translation>Espacio de color</translation>
+    </message>
+    <message>
+        <source>The color space used by the ICC profile</source>
+        <translation>El espacio de color utilizado por el perfil ICC</translation>
+    </message>
+    <message>
+        <source>Connection Space</source>
+        <translation>Espacio de conexión</translation>
+    </message>
+    <message>
+        <source>The connection space used by the ICC profile</source>
+        <translation>El espacio de conexión usado por el perfil ICC</translation>
+    </message>
+    <message>
+        <source>Device Class</source>
+        <translation>Tipo de dispositivo</translation>
+    </message>
+    <message>
+        <source>The ICC profile device class</source>
+        <translation>El tipo de dispositivo del perfil ICC</translation>
+    </message>
+    <message>
+        <source>Rendering Intent</source>
+        <translation>Intento de renderizado</translation>
+    </message>
+    <message>
+        <source>The ICC profile rendering intent</source>
+        <translation>El intento de renderizado del perfil ICC</translation>
+    </message>
+    <message>
+        <source>Profile Version</source>
+        <translation>Versión del perfil</translation>
+    </message>
+    <message>
+        <source>The ICC version used to record the profile</source>
+        <translation>La version ICC usada para registrar el perfil</translation>
+    </message>
+    <message>
+        <source>CMM Flags</source>
+        <translation>Banderas CMM</translation>
+    </message>
+    <message>
+        <source>The ICC profile color management flags</source>
+        <translation>Las banderas de la gestión de color del perfil ICC</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;This area contains a CIE or chromaticity diagram. A CIE diagram is a representation of all the colors that a person with normal vision can see. This is represented by the colored sail-shaped area. In addition you will see a triangle that is superimposed on the diagram outlined in white. This triangle represents the outer boundaries of the color space of the device that is characterized by the inspected profile. This is called the device gamut.&lt;/p&gt;&lt;p&gt;In addition there are black dots and yellow lines on the diagram. Each black dot represents one of the measurement points that were used to create this profile. The yellow line represents the amount that each point is corrected by the profile, and the direction of this correction.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Esta área contiene un diagrama CIE o diagrama de cromacidad. Un diagrama CIE es la representación de todos los colores que una persona con visión normal puede ver. Esta esta representada por un área en forma de vela. Además también vereis un triángulo sobreimpuesto sobre el diagrama delimitado por líneas blancas. Este triángulo representa los límites exteriores del espacio de color del dispositivo caracterizado por el perfil inspeccionado. A este se le llama gamut.&lt;/p&gt;&lt;p&gt;Además también encontraremos líneas de puntos blancas y negras. Cada punto negro un punto de medición usado para crear el perfil. La línea amarilla representa la cantidad en la que cada punto es corregida por el perfil, y la dirección de esta corrección.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>ICC Color Profile Information</source>
+        <translation>Información del perfil de color ICC</translation>
+    </message>
+    <message>
+        <source>Lab</source>
+        <translation>Lab</translation>
+    </message>
+    <message>
+        <source>Luv</source>
+        <translation>Luv</translation>
+    </message>
+    <message>
+        <source>RGB</source>
+        <translation>RGB</translation>
+    </message>
+    <message>
+        <source>GRAY</source>
+        <translation>GRIS</translation>
+    </message>
+    <message>
+        <source>HSV</source>
+        <translation>HSV</translation>
+    </message>
+    <message>
+        <source>HLS</source>
+        <translation>HLS</translation>
+    </message>
+    <message>
+        <source>CMYK</source>
+        <translation>CMYK</translation>
+    </message>
+    <message>
+        <source>CMY</source>
+        <translation>CMY</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Desconocido</translation>
+    </message>
+    <message>
+        <source>Input device</source>
+        <translation>Dispositivo de entrada</translation>
+    </message>
+    <message>
+        <source>Display device</source>
+        <translation>Dispositivo de visualización</translation>
+    </message>
+    <message>
+        <source>Output device</source>
+        <translation>Dispositivo de salida</translation>
+    </message>
+    <message>
+        <source>Color space</source>
+        <translation>Espacio de color</translation>
+    </message>
+    <message>
+        <source>Link device</source>
+        <translation>Dispositivo de enlace</translation>
+    </message>
+    <message>
+        <source>Abstract</source>
+        <translation>Resumen</translation>
+    </message>
+    <message>
+        <source>Named color</source>
+        <translation>Color nombrado</translation>
+    </message>
+    <message>
+        <source>Perceptual</source>
+        <translation>Perceptual</translation>
+    </message>
+    <message>
+        <source>Relative Colorimetric</source>
+        <translation>Colorimétrico relativo</translation>
+    </message>
+    <message>
+        <source>Saturation</source>
+        <translation>Saturación</translation>
+    </message>
+    <message>
+        <source>Absolute Colorimetric</source>
+        <translation>Colorimétrico absoluto</translation>
+    </message>
+    <message>
+        <source>ICC color profile File to Save</source>
+        <translation>Archivo de perfil de color ICC a guardar</translation>
+    </message>
+    <message>
+        <source>ICC Files (*.icc; *.icm)</source>
+        <translation>Archivos ICC (*.icc; *.icm)</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::ImageGuideWidget</name>
+    <message>
+        <source>Original</source>
+        <translation>Original</translation>
+    </message>
+    <message>
+        <source>Target</source>
+        <translation>Objetivo</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::ImagePanelWidget</name>
+    <message>
+        <source>&lt;p&gt;Here you can see the original clip image which will be used for the preview computation.&lt;/p&gt;&lt;p&gt;Click and drag the mouse cursor in the image to change the clip focus.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Aquí puede ver el recorte de la imagen original que se utilizará para computar la vista prévia.&lt;/p&gt;&lt;p&gt;Haga clic y arrastre el cursor del ratón en la imágen para cambiar la región de recorte.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>If you enable this option, you will separate the preview area horizontally, displaying the original and target image at the same time. The target is duplicated from the original below the red dashed line.</source>
+        <translation>Si activa esta opción, separará el área de previsualización horizontalmente, mostrando la imagen original y la de objetivo al mismo tiempo. La imagen objetivo es un duplicado de la original por debajo de la linea roja de puntos.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, you will separate the preview area vertically, displaying the original and target image at the same time. The target is duplicated from the original to the right of the red dashed line.</source>
+        <translation>Si activa esta opción, separará el área de previsualización verticalmente, visualizando el original y el objetivo al mismo tiempo. El objetivo se duplicará del original en la parte derecha de la línea de puntos.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, you will separate the preview area horizontally, displaying the original and target image at the same time. The original is above the red dashed line, the target below it.</source>
+        <translation>Si activa esta opción, separará el área de previsualización horizontalmente, mostrando el original y el objetivo al mismo tiempo. El original sobre la linea roja de puntos, el objetivo por debajo de esta.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, you will separate the preview area vertically, displaying the original and target image at the same time. The original is to the left of the red dashed line, the target to the right of it.</source>
+        <translation>Si activa esta opción, separará el área de previsualización verticalmente, visualizando las imágenes original y objetivo al mismo tiempo. La original a la izquierda de la linea roja de puntos, la objetiva a la derecha de esta.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, the preview area will not be separated.</source>
+        <translation>Si activa esta opción el área de previsualización no será separada.</translation>
+    </message>
+    <message>
+        <source>&lt;nobr&gt;(%1,%2)(%3x%4)&lt;/nobr&gt;</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::ImageRegionWidget</name>
+    <message>
+        <source>Target</source>
+        <translation>Objetivo</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Original</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::ImageWidget</name>
+    <message>
+        <source>If you enable this option, you will see the original image.</source>
+        <translation>Si activa esta opción verá la imagen original.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, the preview area will split vertically. A contiguous area of the image will be shown, with one half from the original image, the other half from the target image.</source>
+        <translation>Si activa esta opción, el área de previsualización se separarà verticalmente. Una area contigua a la imagen se mostrará, con la mitad de la original y la otra mitad de la objetivo.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, the preview area will split horizontally. A contiguous area of the image will be shown, with one half from the original image, the other half from the target image.</source>
+        <translation>Si activa esta opción, el área de previsualización se partirá horizontalmente. Una área contigua de la imagen se mostrará, con una mitad de la imagen original y la otra mitad de la imagen objetivo.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, the preview area will split vertically. The same part of the original and the target image will be shown side by side.</source>
+        <translation>Si activa esta opción, el área de previsualización se partirá verticalmente. La misma parte de la imagen original y objetivo será mostrada lado a lado.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, the preview area will split horizontally. The same part of the original and the target image will be shown side by side.</source>
+        <translation>Si activa esta opción el área de previsualización se partirá horizontalmente. La misma parte de la imagen original y objetivo será mostrada lado a lado.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, you will see the target image.</source>
+        <translation>Si activa esta opción verá la imagen objetivo.</translation>
+    </message>
+    <message>
+        <source>If you enable this option, you will see the original image when the mouse is over image area, else the target image.</source>
+        <translation>Si activa esta opción, verá la imagen original cuando el cursor del raton este sobre el área de la imagen sinó verá la imagen objetivo.</translation>
+    </message>
+    <message>
+        <source>Set this option to display black overlaid on the preview. This will help you to avoid under-exposing the image.</source>
+        <translation>Active esta opción para mostrar la superposición de negro en la previsualización. Esto le ayudará a evitar la subexposición en la imagen.</translation>
+    </message>
+    <message>
+        <source>Set this option to display white overlaid on the preview. This will help you to avoid over-exposing the image.</source>
+        <translation>Active esta opción para mostrar la superposición de blanco en la previsualización. Esto le ayudará a evitar la sobreexposición en la imagen.</translation>
+    </message>
+    <message>
+        <source>(%1,%2) RGBA:%3,%4,%5,%6</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::JP2KSettings</name>
+    <message>
+        <source>Lossless JPEG 2000 files</source>
+        <translation>Arxivos JPEG sin pérdidas</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Toggle lossless compression for JPEG 2000 images.&lt;/p&gt;&lt;p&gt;If you enable this option, you will use a lossless method to compress JPEG 2000 pictures.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Activar compresión sin pérdida para imagenes JPEG 2000&lt;/p&gt;&lt;p&gt; Si activa esta opción, se utiliza un método sin pérdida para comprimir imágenes JPEG 2000.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>JPEG 2000 quality:</source>
+        <translation>Calidad JPEG 2000:</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The quality value for JPEG 2000 images:&lt;/p&gt;&lt;p&gt;&lt;b&gt;1&lt;/b&gt;: low quality (high compression and small file size)&lt;br/&gt;&lt;b&gt;50&lt;/b&gt;: medium quality&lt;br/&gt;&lt;b&gt;75&lt;/b&gt;: good quality (default)&lt;br/&gt;&lt;b&gt;100&lt;/b&gt;: high quality (no compression and large file size)&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note: JPEG 2000 is not a lossless image compression format when you use this setting.&lt;/b&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;El valor de la qualitat per a imatges JPEG 2000:&lt;/p&gt;&lt;p&gt;&lt;b&gt;1&lt;/b&gt;: Baja calidad (alta compresión y tamaño de archivo pequeño)&lt;br/&gt;&lt;b&gt;50&lt;/b&gt;: calidad media&lt;br/&gt;&lt;b&gt;75&lt;/b&gt;buena calidad (por defecto)&lt;br/&gt;&lt;b&gt;100&lt;/b&gt;: Alta calidad (no hay compresión y el tamaño de archivo grande)&lt;/p&gt;&lt;p&gt;&lt;b&gt; Nota: el JPEG 2000 no es un formato de compresión sin pérdidas cuando se usa esta configuración.&lt;/b&gt;&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::JPEGSettings</name>
+    <message>
+        <source>JPEG quality:</source>
+        <translation>Calidad JPEG:</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The JPEG quality:&lt;/p&gt;&lt;p&gt;&lt;b&gt;1&lt;/b&gt;: low quality (high compression and small file size)&lt;br/&gt;&lt;b&gt;50&lt;/b&gt;: medium quality&lt;br/&gt;&lt;b&gt;75&lt;/b&gt;: good quality (default)&lt;br/&gt;&lt;b&gt;100&lt;/b&gt;: high quality (no compression and large file size)&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note: JPEG always uses lossy compression.&lt;/b&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;La calidad JPEG:&lt;/p&gt;&lt;p&gt;&lt;b&gt;1&lt;/b&gt;: baja calidad (Compresión alta y tamaño de archivo pequeño)&lt;br/&gt;&lt;b&gt;50&lt;/b&gt;: calidad media&lt;br/&gt;&lt;b&gt;75&lt;br/&gt;:buena calidad (Por defecto)&lt;br/&gt;&lt;b&gt;100&lt;/b&gt;:Alta calidad (no hay compresión y el tamaño de archivo es grande)&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nota: JPEG siempre usa la compresión con pérdidas.&lt;/b&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Chroma subsampling:</source>
+        <translation>Muestreo secudario del Chroma:</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation>Medio</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation>Alta</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;JPEG Chroma subsampling level 
+(color is saved with less resolution than luminance):&lt;/p&gt;&lt;p&gt;&lt;b&gt;None&lt;/b&gt;=best: uses 4:4:4 ratio. Does not employ chroma subsampling at all. This preserves edges and contrasting colors, whilst adding no additional compression&lt;/p&gt;&lt;p&gt;&lt;b&gt;Medium&lt;/b&gt;: uses 4:2:2 ratio. Medium compression: reduces the color resolution by one-third with little to no visual difference&lt;/p&gt;&lt;p&gt;&lt;b&gt;High&lt;/b&gt;: use 4:1:1 ratio. High compression: suits images with soft edges but tends to alter colors&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note: JPEG always uses lossy compression.&lt;/b&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Muestreo secundario de nivel JPEG Chroma 
+(el color se guarda con menos resolución que la luminancia):&lt;/p&gt;&lt;p&gt;&lt;b&gt;No&lt;/b&gt;=mejor utiltza la relación 4:4:4. No utilizar en todos los muestreos secundarios del croma. Esto conserva los borde y los colores contrastados, aunque se añada sin compresión adicional&lt;/p&gt;&lt;p&gt;&lt;b&gt;Media&lt;/b&gt;utiliza la relación 4:2:2. Compresión media: reduce la resolución de color en un tercio con poca o ninguna diferencia visual&lt;/p&gt;&lt;p&gt;&lt;b&gt;Alta&lt;/b&gt;:utiliza la relación 4:1:1. Alta compresión:vestidos de las imágenes con bordes suaves, pero tienden a alterar los colores&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nota:JPEG utiliza siempre la compresión con péridia.&lt;/b&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;font size=&apos;-1&apos; color=&apos;red&apos;&gt;&lt;i&gt;Warning: &lt;a href=&apos;http://en.wikipedia.org/wiki/JPEG&apos;&gt;JPEG&lt;/a&gt; is a lossy compression image format!&lt;/i&gt;&lt;/font&gt;</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::MdKeyListViewItem</name>
+    <message>
+        <source>Interoperability</source>
+        <translation>Interoperabilidad</translation>
+    </message>
+    <message>
+        <source>Image Information</source>
+        <translation>Información de la imagen</translation>
+    </message>
+    <message>
+        <source>Photograph Information</source>
+        <translation>Información fotográfica</translation>
+    </message>
+    <message>
+        <source>Global Positioning System</source>
+        <translation>Sistema de posición global</translation>
+    </message>
+    <message>
+        <source>Embedded Thumbnail</source>
+        <translation>Miniatura incrustada</translation>
+    </message>
+    <message>
+        <source>IIM Envelope</source>
+        <translation>Acerca de IIM</translation>
+    </message>
+    <message>
+        <source>IIM Application 2</source>
+        <translation>Aplicaició 2 de IIM</translation>
+    </message>
+    <message>
+        <source>Basic Schema</source>
+        <translation>Esquema básico</translation>
+    </message>
+    <message>
+        <source>Rights Management</source>
+        <translation>Gestión de derechos</translation>
+    </message>
+    <message>
+        <source>Media Management </source>
+        <translation>Administración de medios</translation>
+    </message>
+    <message>
+        <source>Basic Job Ticket</source>
+        <translation>Fichas de trabajo de base</translation>
+    </message>
+    <message>
+        <source>Paged-Text</source>
+        <translation>Paginado de texto</translation>
+    </message>
+    <message>
+        <source>Dynamic Media</source>
+        <translation>Medios dinámicos</translation>
+    </message>
+    <message>
+        <source>TIFF Properties</source>
+        <translation>Propietats del TIFF</translation>
+    </message>
+    <message>
+        <source>Exif-specific Properties</source>
+        <translation>Propiedades específicas de Exif</translation>
+    </message>
+    <message>
+        <source>Additional Exif Properties</source>
+        <translation>Propiedades adicionales del Exif</translation>
+    </message>
+    <message>
+        <source>IPTC Core</source>
+        <translation>Núcleo IPTC</translation>
+    </message>
+    <message>
+        <source>Dublin Core</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Microsoft Photo</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Adobe PDF</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Adobe Photoshop</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Camera Raw</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::MetadataListView</name>
+    <message>
+        <source>&lt;b&gt;Title: &lt;/b&gt;&lt;p&gt;%1&lt;/p&gt;&lt;b&gt;Value: &lt;/b&gt;&lt;p&gt;%2&lt;/p&gt;&lt;b&gt;Description: &lt;/b&gt;&lt;p&gt;%3&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Título: &lt;/b&gt;&lt;p&gt;%1&lt;/p&gt;&lt;b&gt;Valor: &lt;/b&gt;&lt;p&gt;%2&lt;/p&gt;&lt;b&gt;Descripción: &lt;/b&gt;&lt;p&gt;%3&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::MetadataWidget</name>
+    <message>
+        <source>Switch the tags view to a simple human-readable list</source>
+        <translation>Cambia a una vista simplificada</translation>
+    </message>
+    <message>
+        <source>Simple list</source>
+        <translation>Lista simple</translation>
+    </message>
+    <message>
+        <source>Switch the tags view to a full list</source>
+        <translation>Cambia a lista completa</translation>
+    </message>
+    <message>
+        <source>Full list</source>
+        <translation>Lista completa</translation>
+    </message>
+    <message>
+        <source>Save metadata to a binary file</source>
+        <translation>Guarda los metadatos a un archivo binario</translation>
+    </message>
+    <message>
+        <source>Save metadata</source>
+        <translation>Guardar metadatos</translation>
+    </message>
+    <message>
+        <source>Print metadata to printer</source>
+        <translation>Imprime los metadatos en la impresora</translation>
+    </message>
+    <message>
+        <source>Print metadata</source>
+        <translation>Imprime los metadatos</translation>
+    </message>
+    <message>
+        <source>Copy metadata to clipboard</source>
+        <translation>Copia los metadatos al portapapeles</translation>
+    </message>
+    <message>
+        <source>File name: %1 (%2)</source>
+        <translation>Nombre del archivo: %1 (%2)</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;&lt;big&gt;&lt;big&gt;&lt;b&gt;File name: %1 (%2)&lt;/b&gt;&lt;/big&gt;&lt;/big&gt;</source>
+        <translation>&lt;p&gt;&lt;big&gt;&lt;big&gt;&lt;b&gt;Nombre del archivo: %1 (%2)&lt;/b&gt;&lt;/big&gt;&lt;/big&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::PNGSettings</name>
+    <message>
+        <source>PNG compression:</source>
+        <translation>Compresión PNG:</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The compression value for PNG images:&lt;/p&gt;&lt;p&gt;&lt;b&gt;1&lt;/b&gt;: low compression (large file size but short compression duration - default)&lt;br/&gt;&lt;b&gt;5&lt;/b&gt;: medium compression&lt;br/&gt;&lt;b&gt;9&lt;/b&gt;: high compression (small file size but long compression duration)&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note: PNG is always a lossless image compression format.&lt;/b&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;El valor de compresión para las imágenes PNG:&lt;/p&gt;&lt;p&gt;&lt;b&gt;1&lt;/b&gt;: compresión baja (Grandes dimensiones de arxivo pero la duración de compresión corta por defecto)&lt;br/&gt;&lt;b&gt;5&lt;/b&gt;: compresión media&lt;br/&gt;&lt;b&gt;9&lt;/b&gt;: alta compresión (medida del fichero pequeña, pero la duración de la compresión larga)&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note: PNG es siempre un formato de imágen de compresión sin pérdidas.&lt;/b&gt;&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::SearchTextBar</name>
+    <message>
+        <source>Case sensitive</source>
+        <translation>Entre mayúsculas y minúsculas</translation>
+    </message>
+    <message>
+        <source>Search...</source>
+        <translation>Buscar...</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::TIFFSettings</name>
+    <message>
+        <source>Compress TIFF files</source>
+        <translation>Compresión de archivos TIFF</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Toggle compression for TIFF images.&lt;/p&gt;&lt;p&gt;If you enable this option, you can reduce the final file size of the TIFF image.&lt;/p&gt;&lt;p&gt;A lossless compression format (Deflate) is used to save the file.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Activar compresión de las imágenes TIFF.&lt;/p&gt;&lt;p&gt;Si activa esta opción, puede reducir el tamaño final del fichero de la imágen TIFF.&lt;/p&gt;&lt;p&gt;Se utiliza un formato de compresión sin pérdida para guardar el archivo.&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Digikam::ThemeEngine</name>
+    <message>
+        <source>Default</source>
+        <translation>Predeterminado</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamAdjustCurvesImagesPlugin::AdjustCurvesTool</name>
+    <message>
+        <source>Adjust Curves</source>
+        <translation>Ajuste de curvas</translation>
+    </message>
+    <message>
+        <source>This is the image&apos;s curve-adjustments preview. You can pick a spot on the image to see the corresponding level in the histogram.</source>
+        <translation>Esta es la previsualización del ajuste de curvas de la imagen. Puede recoger un punto en la imagen para ver el nivel que le corresponde en el histograma.</translation>
+    </message>
+    <message>
+        <source>Here you can see the target preview image histogram drawing of the selected image channel. This one is re-computed at any curves settings changes.</source>
+        <translation>Aquí puede ver el histograma del canal seleccionado de la imagen previa objetivo.Este es recalculado cada vez que se cambian las curvas.</translation>
+    </message>
+    <message>
+        <source>This is the curve drawing of the selected channel from original image</source>
+        <translation>Este es el gráfico de la curva del canal seleccionado de la imagen original</translation>
+    </message>
+    <message>
+        <source>Curve free mode</source>
+        <translation>Modo de curva libre</translation>
+    </message>
+    <message>
+        <source>With this button, you can draw your curve free-hand with the mouse.</source>
+        <translation>Con este botón puede dibujar la curva libremente con el ratón.</translation>
+    </message>
+    <message>
+        <source>Curve smooth mode</source>
+        <translation>Modo de curva suave</translation>
+    </message>
+    <message>
+        <source>With this button, you constrains the curve type to a smooth line with tension.</source>
+        <translation>Con este botón, puede limitar el tipo de curva a una lina suave con la tensión.</translation>
+    </message>
+    <message>
+        <source>All channels shadow tone color picker</source>
+        <translation>Recogedor de color del tono de sombra de todos los canales</translation>
+    </message>
+    <message>
+        <source>With this button, you can pick the color from original image used to set &lt;b&gt;Shadow Tone&lt;/b&gt; smooth curves point on Red, Green, Blue, and Luminosity channels.</source>
+        <translation>Con este botón puede recoger el color de la imagen original que se utilizará para asignar el punto de las curvas suaves del &lt;b&gt;Tono Sombra&lt;/b&gt; de los canales rojo verde azul y de luminosidad.</translation>
+    </message>
+    <message>
+        <source>All channels middle tone color picker</source>
+        <translation>Recogedor de color del medio tono de todos los canales</translation>
+    </message>
+    <message>
+        <source>With this button, you can pick the color from original image used to set &lt;b&gt;Middle Tone&lt;/b&gt; smooth curves point on Red, Green, Blue, and Luminosity channels.</source>
+        <translation>Con este botón podrá recoger el color de la imagen original usado para asignar el punto de las curvas suaves del medio tono, de los canales Rojo, Verde, Azul y de Luminosidad.</translation>
+    </message>
+    <message>
+        <source>All channels highlight tone color picker</source>
+        <translation>Recogedor de color del tono de luz realzada de todos los canales</translation>
+    </message>
+    <message>
+        <source>With this button, you can pick the color from original image used to set &lt;b&gt;Highlight Tone&lt;/b&gt; smooth curves point on Red, Green, Blue, and Luminosity channels.</source>
+        <translation>Con este botón puede recoger el color de la imagen original usado para asignar el punto de las curvas suaves de tono de luz realzada, en los canales Rojo, Verde, Azul y de Luminosidad.</translation>
+    </message>
+    <message>
+        <source>&amp;Reset</source>
+        <translation>&amp;Reset</translation>
+    </message>
+    <message>
+        <source>Reset current channel curves&apos; values.</source>
+        <translation>Resetea los valores de curva del canal actual.</translation>
+    </message>
+    <message>
+        <source>If you press this button, all curves&apos; values from the current selected channel will be reset to the default values.</source>
+        <translation>Si presiona este botón los valores de todas las curvas del canal actual seleccionado se resetearan a sus valores predeterminados.</translation>
+    </message>
+    <message>
+        <source>Adjust Curve</source>
+        <translation>Ajustar Curva</translation>
+    </message>
+    <message>
+        <source>Select Gimp Curves File to Load</source>
+        <translation>Selecciona las curvas de Gimp a cargar</translation>
+    </message>
+    <message>
+        <source>Error reading file</source>
+        <translation>Error leyendo archivo</translation>
+    </message>
+    <message>
+        <source>Cannot load from the Gimp curves text file.</source>
+        <translation>No se puede cargar el archivo de texto de curvas de Gimp.</translation>
+    </message>
+    <message>
+        <source>Gimp Curves File to Save</source>
+        <translation>Archivo donde guardar curvas de Gimp</translation>
+    </message>
+    <message>
+        <source>Error saving file</source>
+        <translation>Error guardando archivo</translation>
+    </message>
+    <message>
+        <source>Cannot save to the Gimp curves text file.</source>
+        <translation>No se puede guardar el archivo de texto de curvas de Gimp.</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamAdjustLevelsImagesPlugin::AdjustLevelsTool</name>
+    <message>
+        <source>Adjust Levels</source>
+        <translation>Ajuste de niveles</translation>
+    </message>
+    <message>
+        <source>Here you can see the image&apos;s level-adjustments preview. You can pick a spot on the image to see the corresponding level in the histogram.</source>
+        <translation>Aquí puede ver la previsualización de los niveles de ajuste de la imagen. Puede recoger un punto de la imagen para ver el nivel correspondiente en el histograma.</translation>
+    </message>
+    <message>
+        <source>This is the histogram drawing of the selected channel from original image</source>
+        <translation>Este es el gráfico de histograma del canal seleccionado de la imagen original</translation>
+    </message>
+    <message>
+        <source>Select the inputs intensity of the histogram here.</source>
+        <translation>Seleccione las entradas de intensidad del histograma aquí.</translation>
+    </message>
+    <message>
+        <source>Intensity inputs.</source>
+        <translation>Entradas de Intensidad.</translation>
+    </message>
+    <message>
+        <source>Select the outputs intensity of the histogram here.</source>
+        <translation>Seleccione las salidas de intensidad del histograma aquí.</translation>
+    </message>
+    <message>
+        <source>Intensity outputs.</source>
+        <translation>Salidas de Intensidad.</translation>
+    </message>
+    <message>
+        <source>Select the minimal intensity input value of the histogram here.</source>
+        <translation>Seleccione el valor mínimo de la entrada de intensidad del histograma aquí.</translation>
+    </message>
+    <message>
+        <source>Minimal intensity input.</source>
+        <translation>Entrada mínima de intensidad.</translation>
+    </message>
+    <message>
+        <source>Gamma input value.</source>
+        <translation>Valor de entrada de Gamma.</translation>
+    </message>
+    <message>
+        <source>Select the gamma input value here.</source>
+        <translation>Seleccione aquí el valor de entrada de gamma.</translation>
+    </message>
+    <message>
+        <source>Maximal intensity input.</source>
+        <translation>Máxima entrada de intensidad.</translation>
+    </message>
+    <message>
+        <source>Select the maximal intensity input value of the histogram here.</source>
+        <translation>Seleccione aqui el máximo valor de intensidad del histograma.</translation>
+    </message>
+    <message>
+        <source>Minimal intensity output.</source>
+        <translation>Mínima salida de intensidad.</translation>
+    </message>
+    <message>
+        <source>Select the minimal intensity output value of the histogram here.</source>
+        <translation>Seleccione aquí la mínima intensidad de salida del histograma.</translation>
+    </message>
+    <message>
+        <source>Maximal intensity output.</source>
+        <translation>Máxima intensidad de salida.</translation>
+    </message>
+    <message>
+        <source>Select the maximal intensity output value of the histogram here.</source>
+        <translation>Selecciona aquí el valor máximo de intensidad de salida del histograma.</translation>
+    </message>
+    <message>
+        <source>All channels shadow tone color picker</source>
+        <translation>Recogedor de color de tono de sombra para todos los canales</translation>
+    </message>
+    <message>
+        <source>With this button, you can pick the color from original image used to set &lt;b&gt;Shadow Tone&lt;/b&gt; levels input on Red, Green, Blue, and Luminosity channels.</source>
+        <translation>Con este boton, puede recoger el botón de la imagen original usado para asignar los niveles de tono se sombra de entrada en los canales Rojo, Verde, Azul y de Luminosidad.</translation>
+    </message>
+    <message>
+        <source>All channels middle tone color picker</source>
+        <translation>Recogedor de color de tono medio para todos los canales</translation>
+    </message>
+    <message>
+        <source>With this button, you can pick the color from original image used to set &lt;b&gt;Middle Tone&lt;/b&gt; levels input on Red, Green, Blue, and Luminosity channels.</source>
+        <translation>Con este botón puede recoger el color de la imagen original usado para asignar los niveles de entrada del &lt;b&gt;Tono Medio &lt;/b&gt; de los canales Rojo, Verde, Azul y de Luminosidad.</translation>
+    </message>
+    <message>
+        <source>All channels highlight tone color picker</source>
+        <translation>Recogedor de color del tono de luz realzada para todos los canales</translation>
+    </message>
+    <message>
+        <source>With this button, you can pick the color from original image used to set &lt;b&gt;Highlight Tone&lt;/b&gt; levels input on Red, Green, Blue, and Luminosity channels.</source>
+        <translation>Con este botón puede recoger el color de la imagen original usado para asignar los niveles de entrada del &lt;b&gt;Tono de luz realzada &lt;/b&gt; de los canales Rojo, Verde, Azul y de Luminosidad.</translation>
+    </message>
+    <message>
+        <source>Adjust all levels automatically.</source>
+        <translation>Ajuste automático de niveles.</translation>
+    </message>
+    <message>
+        <source>If you press this button, all channel levels will be adjusted automatically.</source>
+        <translation>Si pulsa este botón, todos los niveles del canal serán ajustados automaticamente.</translation>
+    </message>
+    <message>
+        <source>&amp;Reset</source>
+        <translation>&amp;Reset</translation>
+    </message>
+    <message>
+        <source>Reset current channel levels&apos; values.</source>
+        <translation>Resetea los valores de nivel del canal actual.</translation>
+    </message>
+    <message>
+        <source>If you press this button, all levels&apos; values from the current selected channel will be reset to the default values.</source>
+        <translation>Si pulsa este botón, todos los valores de nivel del canal seleccionado serán reseteados a sus valores predeterminados.</translation>
+    </message>
+    <message>
+        <source>Adjust Level</source>
+        <translation>Ajuste de nivel</translation>
+    </message>
+    <message>
+        <source>Select Gimp Levels File to Load</source>
+        <translation>Seleccione el archivo de niveles de Gimp a cargar</translation>
+    </message>
+    <message>
+        <source>Error loading file</source>
+        <translation>Error cargando archivo</translation>
+    </message>
+    <message>
+        <source>Cannot load from the Gimp levels text file.</source>
+        <translation>No se puede cargar el archivo de texto de niveles de Gimp.</translation>
+    </message>
+    <message>
+        <source>Gimp Levels File to Save</source>
+        <translation>Archivo donde guardar niveles de Gimp</translation>
+    </message>
+    <message>
+        <source>Error saving file</source>
+        <translation>Error guardando archivo</translation>
+    </message>
+    <message>
+        <source>Cannot save to the Gimp levels text file.</source>
+        <translation>No se puede guardar el archivo de texto de niveles de Gimp.</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamBlurFXImagesPlugin::BlurFXTool</name>
+    <message>
+        <source>Blur FX</source>
+        <translation>Difuminado</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation>Tipo:</translation>
+    </message>
+    <message>
+        <source>Zoom Blur</source>
+        <translation>Difuminado de Zoom</translation>
+    </message>
+    <message>
+        <source>Radial Blur</source>
+        <translation>Difuminado Radial</translation>
+    </message>
+    <message>
+        <source>Far Blur</source>
+        <translation>Difuminado a lo lejos</translation>
+    </message>
+    <message>
+        <source>Motion Blur</source>
+        <translation>Difuminado de movimiento</translation>
+    </message>
+    <message>
+        <source>Softener Blur</source>
+        <translation>Difuminado suavizante</translation>
+    </message>
+    <message>
+        <source>Skake Blur</source>
+        <translation>Difuminado de sacudida</translation>
+    </message>
+    <message>
+        <source>Focus Blur</source>
+        <translation>Difuminado de enfoque</translation>
+    </message>
+    <message>
+        <source>Smart Blur</source>
+        <translation>Difuminado elegante</translation>
+    </message>
+    <message>
+        <source>Frost Glass</source>
+        <translation>Cristal helado</translation>
+    </message>
+    <message>
+        <source>Mosaic</source>
+        <translation>Mosaico</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the blurring effect to apply to image.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Zoom Blur&lt;/b&gt;:  blurs the image along radial lines starting from a specified center point. This simulates the blur of a zooming camera.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Radial Blur&lt;/b&gt;: blurs the image by rotating the pixels around the specified center point. This simulates the blur of a rotating camera.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Far Blur&lt;/b&gt;: blurs the image by using far pixels. This simulates the blur of an unfocalized camera lens.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Motion Blur&lt;/b&gt;: blurs the image by moving the pixels horizontally. This simulates the blur of a linear moving camera.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Softener Blur&lt;/b&gt;: blurs the image softly in dark tones and hardly in light tones. This gives images a dreamy and glossy soft focus effect. It is ideal for creating romantic portraits, glamour photographs, or giving images a warm and subtle glow.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Skake Blur&lt;/b&gt;: blurs the image by skaking randomly the pixels. This simulates the blur of a random moving camera.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Focus Blur&lt;/b&gt;: blurs the image corners to reproduce the astigmatism distortion of a lens.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Smart Blur&lt;/b&gt;: finds the edges of color in your image and blurs them without muddying the rest of the image.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Frost Glass&lt;/b&gt;: blurs the image by randomly disperse light coming through a frosted glass.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Mosaic&lt;/b&gt;: divides the photograph into rectangular cells and then recreates it by filling those cells with average pixel value.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Selecione el efecto de difuminado que quiere aplicar a la imagen.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Difuminado de zoom&lt;/b&gt;: Difumina la imagen a lo largo de lineas radiales empezando desde el punto central especificado. Este simula el difuminado del zoom de una cámara.&lt;/p&gt;&lt;p&gt;&lt;b&gt; Difuminado Radial &lt;/b&gt;: Difumina la imagen rotando sus píxels a lo large del punto central especificado. Este simila el difuminado de una cámara rotando.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Difuminado a lo lejos&lt;/b&gt;: Difumina la imagen usanto píxeles lejanos. Este simula el difuminado de una cámara con las lentes desenfocadas.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Difuminado de movimiento&lt;/b&gt;: Difumina la imagen moviendo sus píxeles de forma horizontal. Este simula el desenvocado de una cámara en movimiento lineal.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Difuminado suavizante&lt;/b&gt;: Difumina la imagen de forma suave en sus tonos oscuros y de forma fuerte en los tonos claros. Esto le da a la imagen un efecto brillante y de fantasia. Es ideal para crear retratos romanticos, fotografias de con glamour, o para dar a las imágenes un caliente y sutil resplandor.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Difuminado de sacudida&lt;/b&gt;: Difumina las esquinas de la imagen sacudiendo de forma aleatoria los píxeles. Esto simula el difuminado de un movimiento aleatorio de la cámara.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Difuminado de enfoque&lt;/b&gt;: Difumina las esquinas de la imagen para reproducir la distorsion astigmática de las lentes.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Difuminado elegante&lt;/b&gt;: Busca los límites de color en la imagen y los difumina sin empastar el resto de la imagen.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Cristal helado&lt;/b&gt;: Difumina la imagen dispersando de forma aleatoria la luz como si viniera de un cristal helado.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Mosaico&lt;/b&gt;: Divide la fotografia en celdas rectangulares y luego la recrea llenando estas celdas con valores de pixel aleatorios.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Distance:</source>
+        <translation>Distancia:</translation>
+    </message>
+    <message>
+        <source>Set here the blur distance in pixels.</source>
+        <translation>Asigne aquí la distancia del difuminado en píxeles.</translation>
+    </message>
+    <message>
+        <source>level to use for the effect</source>
+        <comment>Level:</comment>
+        <translation>Nivel a usar para el efecto</translation>
+    </message>
+    <message>
+        <source>This value controls the level to use with the current effect.</source>
+        <translation>Este valor controla el nivel al que usaremos el efecto actual.</translation>
+    </message>
+    <message>
+        <source>Blur Effects</source>
+        <translation>Efectos de Difuminado</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamChannelMixerImagesPlugin::ChannelMixerTool</name>
+    <message>
+        <source>Channel Mixer</source>
+        <translation>Mezclador de canal</translation>
+    </message>
+    <message>
+        <source>You can see here the image&apos;s color channels&apos; gains adjustments preview. You can pick color on image to see the color level corresponding on histogram.</source>
+        <translation>Aquí puede ver una vista prévia de los ajustes de ganancia de los canales de color de la imagen. Puede recoger un color en la imagen para ver el nivel correspondiente en el histograma.</translation>
+    </message>
+    <message>
+        <source>Red:</source>
+        <translation>Rojo:</translation>
+    </message>
+    <message>
+        <source>Select the red color gain in percent for the current channel here.</source>
+        <translation>Seleccione la ganancia del color rojo en porcentage para el canal actual aquí.</translation>
+    </message>
+    <message>
+        <source>Green:</source>
+        <translation>Verde:</translation>
+    </message>
+    <message>
+        <source>Select the green color gain in percent for the current channel here.</source>
+        <translation>Seleccione la ganancia del color verde en porcentage para el canal actual aquí.</translation>
+    </message>
+    <message>
+        <source>Blue:</source>
+        <translation>Azul:</translation>
+    </message>
+    <message>
+        <source>Select the blue color gain in percent for the current channel here.</source>
+        <translation>Seleccione la ganancia del color azul en porcentage para el canal actual aquí.</translation>
+    </message>
+    <message>
+        <source>&amp;Reset</source>
+        <translation>&amp;Reset</translation>
+    </message>
+    <message>
+        <source>Reset color channels&apos; gains settings from the currently selected channel.</source>
+        <translation>Resetea los valors de ganancia de los canales de color para el canal seleccionado.</translation>
+    </message>
+    <message>
+        <source>Monochrome</source>
+        <translation>Monocromo</translation>
+    </message>
+    <message>
+        <source>Enable this option if you want the image rendered in monochrome mode. In this mode, the histogram will display only luminosity values.</source>
+        <translation>Active esta opción si quiere que la imagen se genere en modo monocromo. En este modo el histograma solo mostrará valores de luminosidad.</translation>
+    </message>
+    <message>
+        <source>Preserve luminosity</source>
+        <translation>Preservar luminosidad</translation>
+    </message>
+    <message>
+        <source>Enable this option is you want preserve the image luminosity.</source>
+        <translation>Active esta opcion si quiere preservar la luminosidad de la imagen.</translation>
+    </message>
+    <message>
+        <source>Select Gimp Gains Mixer File to Load</source>
+        <translation>Seleccione el archivo de mezcla de ganancias de Gimp para cargar</translation>
+    </message>
+    <message>
+        <source>Error loading file</source>
+        <translation>Error cargando archivo</translation>
+    </message>
+    <message>
+        <source>Cannot load settings from the Gains Mixer text file.</source>
+        <translation>No se pueden cargar las configuraciones del archivo de texto de mezcla de ganancias.</translation>
+    </message>
+    <message>
+        <source>Gimp Gains Mixer File to Save</source>
+        <translation>Seleccione el archivo de mezcla de ganancias a Guardar</translation>
+    </message>
+    <message>
+        <source>Error saving file</source>
+        <translation>Error guardando archivo</translation>
+    </message>
+    <message>
+        <source>Cannot save settings to the Gains Mixer text file.</source>
+        <translation>No se puede guardar el archivo de texto de mezcla de ganancias.</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamCharcoalImagesPlugin::CharcoalTool</name>
+    <message>
+        <source>Charcoal</source>
+        <translation>Carboncillo</translation>
+    </message>
+    <message>
+        <source>Pencil size:</source>
+        <translation>Tamaño del lápiz:</translation>
+    </message>
+    <message>
+        <source>Set here the charcoal pencil size used to simulate the drawing.</source>
+        <translation>Asigne aquí el tamaño del carboncillo usado para simular el dibujo.</translation>
+    </message>
+    <message>
+        <source>smoothing value of the pencil</source>
+        <comment>Smooth:</comment>
+        <translation>El valor más suave del lápiz</translation>
+    </message>
+    <message>
+        <source>This value controls the smoothing effect of the pencil under the canvas.</source>
+        <translation>Este valor controla el efecto de suavizado del lapiz en el tapiz.</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamColorFXImagesPlugin::ColorFXTool</name>
+    <message>
+        <source>Color Effects</source>
+        <translation>Efectos de Color</translation>
+    </message>
+    <message>
+        <source>This is the color effects preview</source>
+        <translation>Esta es la previsualización de los efectos de color</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation>Tipo:</translation>
+    </message>
+    <message>
+        <source>Solarize</source>
+        <translation>Solarizar</translation>
+    </message>
+    <message>
+        <source>Vivid</source>
+        <translation>Vivo</translation>
+    </message>
+    <message>
+        <source>Neon</source>
+        <translation>Neón</translation>
+    </message>
+    <message>
+        <source>Find Edges</source>
+        <translation>Encontrar Bordes</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the effect type to apply to the image here.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Solarize&lt;/b&gt;: simulates solarization of photograph.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Vivid&lt;/b&gt;: simulates the Velvia(tm) slide film colors.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Neon&lt;/b&gt;: coloring the edges in a photograph to reproduce a fluorescent light effect.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Find Edges&lt;/b&gt;: detects the edges in a photograph and their strength.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Seleccione el tipo de efecto que quiere aplicar a la imagen aquí.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Solarizar&lt;/b&gt;: Simula una solarización de la fotografía.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Vivo&lt;/b&gt;: Simula la película de colores Velvia(tm).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Neón&lt;/b&gt;: Colorea los bordes reproduciendo un efecto de luz fluorescente.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Buscar Bordes&lt;/b&gt;: detecta los bordes en la fotografía y su alcance.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>level of the effect</source>
+        <comment>Level:</comment>
+        <translation>Nivel del efecto</translation>
+    </message>
+    <message>
+        <source>Set here the level of the effect.</source>
+        <translation>Asigne aquí el nivel de efecto.</translation>
+    </message>
+    <message>
+        <source>Iteration:</source>
+        <translation>Iteración:</translation>
+    </message>
+    <message>
+        <source>This value controls the number of iterations to use with the Neon and Find Edges effects.</source>
+        <translation>Este valor controla el número de iteraciones a usar en los efectos Neón y buscar bordes.</translation>
+    </message>
+    <message>
+        <source>ColorFX</source>
+        <translation>Efectos de Color</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamDistortionFXImagesPlugin::DistortionFXTool</name>
+    <message>
+        <source>Distortion Effects</source>
+        <translation>Efectos de Distorsión</translation>
+    </message>
+    <message>
+        <source>This is the preview of the distortion effect applied to the photograph.</source>
+        <translation>Esta es la vista prévia de los efectos de distorsión aplicados a la fotografía.</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation>Tipo:</translation>
+    </message>
+    <message>
+        <source>Fish Eyes</source>
+        <translation>Ojos de pez</translation>
+    </message>
+    <message>
+        <source>Twirl</source>
+        <translation>Giro</translation>
+    </message>
+    <message>
+        <source>Cylindrical Hor.</source>
+        <translation>Cilíndrico hor.</translation>
+    </message>
+    <message>
+        <source>Cylindrical Vert.</source>
+        <translation>Cilíndrico Vert.</translation>
+    </message>
+    <message>
+        <source>Cylindrical H/V.</source>
+        <translation>Cilíndrico H/V.</translation>
+    </message>
+    <message>
+        <source>Caricature</source>
+        <translation>Caricatura</translation>
+    </message>
+    <message>
+        <source>Multiple Corners</source>
+        <translation>Esquinas múltiples</translation>
+    </message>
+    <message>
+        <source>Waves Hor.</source>
+        <translation>Olas Hor.</translation>
+    </message>
+    <message>
+        <source>Waves Vert.</source>
+        <translation>Olas Vert.</translation>
+    </message>
+    <message>
+        <source>Block Waves 1</source>
+        <translation>Bloque de Olas 1</translation>
+    </message>
+    <message>
+        <source>Block Waves 2</source>
+        <translation>Bloque de Olas 2</translation>
+    </message>
+    <message>
+        <source>Circular Waves 1</source>
+        <translation>Olas Circulares 1</translation>
+    </message>
+    <message>
+        <source>Circular Waves 2</source>
+        <translation>Olas Circulares 2</translation>
+    </message>
+    <message>
+        <source>Polar Coordinates</source>
+        <translation>Coordenadas Polares</translation>
+    </message>
+    <message>
+        <source>Unpolar Coordinates</source>
+        <translation>Coordenadas no Polares</translation>
+    </message>
+    <message>
+        <source>Tile</source>
+        <translation>Azulejo</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Here, select the type of effect to apply to an image.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Fish Eyes&lt;/b&gt;: warps the photograph around a 3D spherical shape to reproduce the common photograph &apos;Fish Eyes&apos; effect.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Twirl&lt;/b&gt;: spins the photograph to produce a Twirl pattern.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Cylinder Hor.&lt;/b&gt;: warps the photograph around a horizontal cylinder.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Cylinder Vert.&lt;/b&gt;: warps the photograph around a vertical cylinder.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Cylinder H/V.&lt;/b&gt;: warps the photograph around 2 cylinders, vertical and horizontal.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Caricature&lt;/b&gt;: distorts the photograph with the &apos;Fish Eyes&apos; effect inverted.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Multiple Corners&lt;/b&gt;: splits the photograph like a multiple corners pattern.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Waves Horizontal&lt;/b&gt;: distorts the photograph with horizontal waves.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Waves Vertical&lt;/b&gt;: distorts the photograph with vertical waves.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Block Waves 1&lt;/b&gt;: divides the image into cells and makes it look as if it is being viewed through glass blocks.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Block Waves 2&lt;/b&gt;: like Block Waves 1 but with another version of glass blocks distortion.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Circular Waves 1&lt;/b&gt;: distorts the photograph with circular waves.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Circular Waves 2&lt;/b&gt;: another variation of the Circular Waves effect.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Polar Coordinates&lt;/b&gt;: converts the photograph from rectangular to polar coordinates.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Unpolar Coordinates&lt;/b&gt;: the Polar Coordinate effect inverted.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Tile&lt;/b&gt;: splits the photograph into square blocks and moves them randomly inside the image.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Aquí puede seleccionar el tipo de efecto a aplicar a la imágen.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Ojos de Pez&lt;/b&gt;: Envuelve la fotografía en una forma esférica  3D para reproducir el típico efecto fotográfico de &apos;Ojos de Pez&apos;.&lt;p&gt;&lt;p&gt;&lt;b&gt;Giro&lt;/b&gt;: Gira la fotografía para producir un patron de giro.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Cilíndrico Hor.&lt;/b&gt;: Envuelve la fotografía al rededor de un cilindro horizontal.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Cilíndrico Vert.&lt;/b&gt;: Envuelve la fotografía  alrededor de un cilindro vertical.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Cilíndrico H/V.&lt;/b&gt;: Envuelve la fotografia alrededor de 2 cilindros, vertical y horizontal.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Caricatura&lt;/b&gt;: Distorsiona la fotografia con el efecto de &apos;Ojos de Pez&apos; invertido.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Esquinas múltiples&lt;/b&gt;: Parte la fotografía como un patron de múltiples esquinas.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Ola Horizontal&lt;/b&gt;: Distorsiona la fotografía en forma de olas horizontales. &lt;/p&gt;&lt;p&gt;&lt;b&gt;Olas Verticales&lt;/b&gt;: Distorsiona la fotografía en forma de olas verticales.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Bloque de Olas 1&lt;/b&gt;: Divide la imagen en celdas y hace como si se viera en bloques de cristal&lt;/p&gt;&lt;p&gt;&lt;b&gt;Bloque de Olas 2&lt;/b&gt;: Como el bloque de olas 1, pero con otra version de la distorsión de bloques de cristal&lt;/p&gt;&lt;p&gt;&lt;b&gt;Olas Circulares 1&lt;/b&gt;: Distorsiona la fotografía en olas circulares.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Olas Circulares 2&lt;/b&gt;: Otra variante del efecto de Olas circulares.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Coordenadas Polares&lt;/b&gt;: convierte la fotografia de coordenadas rectangulares a polares.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Coordenadas No Polares&lt;/b&gt;: El efecto de coordenadas polares invertido.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Azulejo&lt;/b&gt;: Separa la fotografía en bloques rectangulares y los mueve de forma aleatoria dentro de la imagen.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Level:</source>
+        <translation>Nivel:</translation>
+    </message>
+    <message>
+        <source>Set here the level of the effect.</source>
+        <translation>Asigne aquí el nivel del efecto.</translation>
+    </message>
+    <message>
+        <source>Iteration:</source>
+        <translation>Iteración:</translation>
+    </message>
+    <message>
+        <source>This value controls the iterations to use for Waves, Tile, and Neon effects.</source>
+        <translation>Este valor controla las iteraciones de los efectos de Ola, Azulejo y Neón.</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamImagesPluginCore::AutoCorrectionTool</name>
+    <message>
+        <source>Auto Correction</source>
+        <translation>Auto Corrección</translation>
+    </message>
+    <message>
+        <source>Here you can see the auto-color correction tool preview. You can pick color on image to see the color level corresponding on histogram.</source>
+        <translation>Aquí puede ver la previsualización de la corrección de color automático. Puede recoger el color de la imagen para ver el nivel correspondiente en el histograma.</translation>
+    </message>
+    <message>
+        <source>Auto Levels</source>
+        <translation>Niveles Automáticos</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Auto Levels&lt;/b&gt;:&lt;p&gt;This option maximizes the tonal range in the Red, Green, and Blue channels. It searches the image shadow and highlight limit values and adjusts the Red, Green, and Blue channels to a full histogram range.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Niveles Automáticos&lt;/b&gt;: &lt;p&gt;Esta opción maximiza el rango tonal de los canales Rojo, Verde y Azul. Búsca en la imagen los valores límite de sombra y de reflejo de luz para ajustar los canales Rojo, Verde y Azul al rango máximo del histograma.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Normalize</source>
+        <translation>Normalizar</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Normalize&lt;/b&gt;:&lt;p&gt;This option scales brightness values across the active image so that the darkest point becomes black, and the brightest point becomes as bright as possible without altering its hue. This is often a &quot;magic fix&quot; for images that are dim or washed out.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Normalizar&lt;/b&gt;:&lt;p&gt;Esta opción escala los valores de brillo a lo largo de la imagen activa para que el punto más oscuro sea negro y el punto más claro sea lo más brillante possible sin alterar su matiz. Esto suele ser un &quot;corrector mágico&quot; para imágenes turbias o oscurecidas&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Equalize</source>
+        <translation>Equalizar</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Equalize&lt;/b&gt;:&lt;p&gt;This option adjusts the brightness of colors across the active image so that the histogram for the value channel is as nearly as possible flat, that is, so that each possible brightness value appears at about the same number of pixels as each other value. Sometimes Equalize works wonderfully at enhancing the contrasts in an image. Other times it gives garbage. It is a very powerful operation, which can either work miracles on an image or destroy it.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Equalizar&lt;/b&gt;:&lt;p&gt;Esta opción ajusta la claridad de los colores a lo largo de la imagen actuva para que el histograma del canal de valores sea lo más próximo a plano possible, o sea, que cada valor de claridad posible sea del mismo número de píxeles que los otros valores de claridad. A menudo Equalizar funciona muy bien para mejorar los contrastes de la imagen. Otras vezes genera basura. Esta es una operación muy potente que tanto puede hacer milagros como destruir la imagen.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Stretch Contrast</source>
+        <translation>Estirar Contraste</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Stretch Contrast&lt;/b&gt;:&lt;p&gt;This option enhances the contrast and brightness of the RGB values of an image by stretching the lowest and highest values to their fullest range, adjusting everything in between.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Estirar Contraste&lt;/b&gt;:&lt;p&gt;Esta opción mejora el contraste y el brillo de los valores RGB de la imagen estirando los valores más bajos y los más altos a su pleno rango, ajustando todos los valores del medio.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Auto Exposure</source>
+        <translation>Exposición Automática</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Auto Exposure&lt;/b&gt;:&lt;p&gt;This option enhances the contrast and brightness of the RGB values of an image to calculate optimal exposition and black level using image histogram properties.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Exposición Automática&lt;/b&gt;:&lt;p&gt;Esta opción mejora el contraste y el brillo de los valores RGB de la imagen para calcular la exposición y los niveles de negros óptimos usando las propiedades del histograma de la imagen.&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamImagesPluginCore::BCGTool</name>
+    <message>
+        <source>Brightness / Contrast / Gamma</source>
+        <translation>Brillo / Contraste / Gamma</translation>
+    </message>
+    <message>
+        <source>Here you can see the image brightness-contrast-gamma adjustments preview. You can pick color on image to see the color level corresponding on histogram.</source>
+        <translation>Aquí puede ver la vista previa de los ajustes de brillo, contraste y gamma. Puede recoger un color en la imagen para ver el nivel correspondiente en el histograma.</translation>
+    </message>
+    <message>
+        <source>Brightness:</source>
+        <translation>Brillo:</translation>
+    </message>
+    <message>
+        <source>Set here the brightness adjustment of the image.</source>
+        <translation>Asigne aquí el ajuste de brillo de la imagen.</translation>
+    </message>
+    <message>
+        <source>Contrast:</source>
+        <translation>Contraste:</translation>
+    </message>
+    <message>
+        <source>Set here the contrast adjustment of the image.</source>
+        <translation>Asigne aquí el ajuste de contraste de la imagen.</translation>
+    </message>
+    <message>
+        <source>Gamma:</source>
+        <translation>Gamma:</translation>
+    </message>
+    <message>
+        <source>Set here the gamma adjustment of the image.</source>
+        <translation>Asigne aquí el ajuste de gamma de la imagen.</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamImagesPluginCore::BWSepiaTool</name>
+    <message>
+        <source>Black &amp;&amp; White</source>
+        <translation>Blanco &amp;&amp; Negro</translation>
+    </message>
+    <message>
+        <source>Here you can see the black and white conversion tool preview. You can pick color on image to see the color level corresponding on histogram.</source>
+        <translation>Aquí puede ver la vista prévia de la herramienta de conversión a blanco y negro. Puede recoger colores en lna imagen para ver el nivel de color correspondiente en el histograma.</translation>
+    </message>
+    <message>
+        <source>generic black and white film</source>
+        <comment>Generic</comment>
+        <translation>Película genérica de banco y negro</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Generic&lt;/b&gt;:&lt;p&gt;Simulate a generic black and white film&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Genérico&lt;/b&gt;:&lt;p&gt;Simula una película de blanco y negro genérico&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Agfa 200X</source>
+        <translation>Agfa 200X</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Agfa 200X&lt;/b&gt;:&lt;p&gt;Simulate the Agfa 200X black and white film at 200 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Agfa 200X&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Agfa 200X a 200 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Agfa Pan 25</source>
+        <translation>Agfa Pan 25</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Agfa Pan 25&lt;/b&gt;:&lt;p&gt;Simulate the Agfa Pan black and white film at 25 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Afra Pan25&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Agfa Pan a 25 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Agfa Pan 100</source>
+        <translation>Agfa Pan 100</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Agfa Pan 100&lt;/b&gt;:&lt;p&gt;Simulate the Agfa Pan black and white film at 100 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Afra Pan 100&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Agfa Pan a 100 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Agfa Pan 400</source>
+        <translation>Agfa Pan 400</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Agfa Pan 400&lt;/b&gt;:&lt;p&gt;Simulate the Agfa Pan black and white film at 400 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Afra Pan 400&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Agfa Pan a 400 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Ilford Delta 100</source>
+        <translation>Ilford Delta 100</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Ilford Delta 100&lt;/b&gt;:&lt;p&gt;Simulate the Ilford Delta black and white film at 100 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Ilford Delta 100&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Ilford Delta a 100 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Ilford Delta 400</source>
+        <translation>Ilford Delta 400</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Ilford Delta 400&lt;/b&gt;:&lt;p&gt;Simulate the Ilford Delta black and white film at 400 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Ilford Delta 400&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Ilford Delta a 400 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Ilford Delta 400 Pro 3200</source>
+        <translation>Ilford Delta 400 Pro 3200</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Ilford Delta 400 Pro 3200&lt;/b&gt;:&lt;p&gt;Simulate the Ilford Delta 400 Pro black and white film at 3200 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Ilford Delta 400 Pro 3200&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Ilford Delta 400 Pro a 3200 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Ilford FP4 Plus</source>
+        <translation>Ilford FP4 Plus</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Ilford FP4 Plus&lt;/b&gt;:&lt;p&gt;Simulate the Ilford FP4 Plus black and white film at 125 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Ilford FP4 Plus&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Ilford FP4 Plus a 125 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Ilford HP5 Plus</source>
+        <translation>Ilford HP5 Plus</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Ilford HP5 Plus&lt;/b&gt;:&lt;p&gt;Simulate the Ilford HP5 Plus black and white film at 400 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Ilford HP5 Plus&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Ilford HP5 Plus a 400 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Ilford PanF Plus</source>
+        <translation>Ilford PanF Plus</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Ilford PanF Plus&lt;/b&gt;:&lt;p&gt;Simulate the Ilford PanF Plus black and white film at 50 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Ilford PanF Plus&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Ilford PanF Plus a 50 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Ilford XP2 Super</source>
+        <translation>Ilford XP2 Super</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Ilford XP2 Super&lt;/b&gt;:&lt;p&gt;Simulate the Ilford XP2 Super black and white film at 400 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Ilford XP2 Super&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Ilford XP2 Super a 400 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Kodak Tmax 100</source>
+        <translation>Kodak Tmax 100</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Kodak Tmax 100&lt;/b&gt;:&lt;p&gt;Simulate the Kodak Tmax black and white film at 100 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Kodak Tmax 100&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Kodak Tmax a 100 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Kodak Tmax 400</source>
+        <translation>Kodak Tmax 400</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Kodak Tmax 400&lt;/b&gt;:&lt;p&gt;Simulate the Kodak Tmax black and white film at 400 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Kodak Tmax 400&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Kodak Tmax a 400 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Kodak TriX</source>
+        <translation>Kodak TriX</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Kodak TriX&lt;/b&gt;:&lt;p&gt;Simulate the Kodak TriX black and white film at 400 ISO&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Kodak TriX&lt;/b&gt;:&lt;p&gt;Simula una pelicula de blanco y negro Kodak TriX a 400 ISO&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>No Lens Filter</source>
+        <translation>Filtro Sin lentes</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;No Lens Filter&lt;/b&gt;:&lt;p&gt;Do not apply a lens filter when rendering the image.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Filtro sin lentes&lt;/b&gt;:&lt;p&gt;No aplica el filtro de lentes cuando genera la imagen.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Green Filter</source>
+        <translation>Filtro Verde</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Green Filter&lt;/b&gt;:&lt;p&gt;Simulate black and white film exposure using a green filter. This is useful for all scenic shoots, especially portraits photographed against the sky.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con Filtro Verde&lt;/b&gt;: &lt;p&gt;Simula la exposición de pelicula en blanco y negro usando un filtro de verdes. Este es útil para disparos escenicos, especialmente para los retratos fotografiados contra el cielo.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Orange Filter</source>
+        <translation>Filtro Naranja</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Orange Filter&lt;/b&gt;:&lt;p&gt;Simulate black and white film exposure using an orange filter. This will enhance landscapes, marine scenes and aerial photography.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con Filtro Naranja&lt;/b&gt;: &lt;p&gt;Simula la exposición de pelicula en blanco y negro usando un filtro de naranjas. Este mejora loslas escenas de paisages marinos y la fotografia aerea.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Red Filter</source>
+        <translation>Filtro Rojo</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Red Filter&lt;/b&gt;:&lt;p&gt;Simulate black and white film exposure using a red filter. This creates dramatic sky effects, and simulates moonlight scenes in the daytime.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con Filtro Rojo&lt;/b&gt;: &lt;p&gt;Simula la exposición de pelicula en blanco y negro usando un filtro de rojos. Este crea efectos dramáticos de cielo y simula escenas de luz de luna en tiempo diurno.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Yellow Filter</source>
+        <translation>Filtro Amarillo</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Yellow Filter&lt;/b&gt;:&lt;p&gt;Simulate black and white film exposure using a yellow filter. This has the most natural tonal correction, and improves contrast. Ideal for landscapes.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con Filtro Amarillo&lt;/b&gt;: &lt;p&gt;Simula la exposición de pelicula en blanco y negro usando un filtro de amarillos. Este tiene una corrección tonal muy natural i mejora el contraste, es ideal para paisajes.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Strength:</source>
+        <translation>Intensidad:</translation>
+    </message>
+    <message>
+        <source>Here, set the strength adjustment of the lens filter.</source>
+        <translation>Aquí puede ajustar la intensidad del filtro de lentes.</translation>
+    </message>
+    <message>
+        <source>No Tone Filter</source>
+        <translation>Sin Filtro de Tono</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;No Tone Filter&lt;/b&gt;:&lt;p&gt;Do not apply a tone filter to the image.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Sin Fintro de Tono&lt;/b&gt;:&lt;p&gt;No aplica ningun filtro tonal a la imagen.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Sepia Tone</source>
+        <translation>Tono Sepia</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Sepia Tone&lt;/b&gt;:&lt;p&gt;Gives a warm highlight and mid-tone while adding a bit of coolness to the shadows - very similar to the process of bleaching a print and re-developing in a sepia toner.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con Tono Sepia&lt;/b&gt;:&lt;p&gt;Da un tono medio de luz caliente mientras calienta un poco las sobras - muy similar al proceso de blanqueo de una copia y re revelado en un toner sepia.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Brown Tone</source>
+        <translation>Tono Marrón</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Brown Tone&lt;/b&gt;:&lt;p&gt;This filter is more neutral than the Sepia Tone filter.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con tono Marrón&lt;/b&gt;:&lt;p&gt;Este filtro es más neutral que el filtro de Tono Sepia.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Cold Tone</source>
+        <translation>Tono Frio</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Cold Tone&lt;/b&gt;:&lt;p&gt;Start subtly and replicate printing on a cold tone black and white paper such as a bromide enlarging paper.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con Tono Frio&lt;/b&gt;:&lt;p&gt;Empieza sutilmente y replica una impresión en un tono frio de papel en blanco y negro como una aplicación en papel de bromuro.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Selenium Tone</source>
+        <translation>Tono Selenio</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Selenium Tone&lt;/b&gt;:&lt;p&gt;This effect replicates traditional selenium chemical toning done in the darkroom.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con tono selenio&lt;/b&gt;:&lt;p&gt;Este efecto imita el tradicional tono químico del selenio hecho en los cuartos oscuros.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Platinum Tone</source>
+        <translation>Tono Platino</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with Platinum Tone&lt;/b&gt;:&lt;p&gt;This effect replicates traditional platinum chemical toning done in the darkroom.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con tono Platino&lt;/b&gt;:&lt;p&gt;Este efecto imita el tradicional tono químico platino hecho en los cuartos oscuros.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Green Tone</source>
+        <translation>Tono Verde</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Black &amp; White with greenish tint&lt;/b&gt;:&lt;p&gt;This effect is also known as Verdante.&lt;/p&gt;</source>
+        <translation>&lt;b&gt;Blanco &amp; Negro con tinta verdosa&lt;/b&gt;:&lt;p&gt;Este efecto también se conoce como Verdante.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>This is the curve adjustment of the image luminosity</source>
+        <translation>Esta es la curva de ajuste de la luminosidad de la imagen</translation>
+    </message>
+    <message>
+        <source>Contrast:</source>
+        <translation>Contraste:</translation>
+    </message>
+    <message>
+        <source>Set here the contrast adjustment of the image.</source>
+        <translation>Asigne aquí el ajuste de contraste de la imagen.</translation>
+    </message>
+    <message>
+        <source>Film</source>
+        <translation>Película</translation>
+    </message>
+    <message>
+        <source>Lens Filters</source>
+        <translation>Filtro de lentes</translation>
+    </message>
+    <message>
+        <source>Tone</source>
+        <translation>Tono</translation>
+    </message>
+    <message>
+        <source>Lightness</source>
+        <translation>Claridad</translation>
+    </message>
+    <message>
+        <source>Convert to Black &amp;&amp; White</source>
+        <translation>Convertir a Blanco &amp;&amp; Negro</translation>
+    </message>
+    <message>
+        <source>Black &amp; White Settings File to Load</source>
+        <translation>Cargar configuraciones del archivo Blanco&amp;Negro</translation>
+    </message>
+    <message>
+        <source>Error loading file</source>
+        <translation>Error cargando archivo</translation>
+    </message>
+    <message>
+        <source>&quot;%1&quot; is not a Black &amp; White settings text file.</source>
+        <translation>&quot;%1&quot; no es un archivo de texto en Blanco &amp; Negro.</translation>
+    </message>
+    <message>
+        <source>Cannot load settings from the Black &amp; White text file.</source>
+        <translation>No se pueden cargar las configuraciones del archivo de texto de Blanco &amp; Negro.</translation>
+    </message>
+    <message>
+        <source>Black &amp; White Settings File to Save</source>
+        <translation>Guardar confighuraciones del archivo de Blanco&amp;Negro</translation>
+    </message>
+    <message>
+        <source>Error saving file</source>
+        <translation>Error guardando archivo</translation>
+    </message>
+    <message>
+        <source>Cannot save settings to the Black &amp; White text file.</source>
+        <translation>No se pueden guardar las configuraciones al archivo de texto Blanco &amp; Negro.</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamImagesPluginCore::HSLTool</name>
+    <message>
+        <source>Hue / Saturation / Lightness</source>
+        <translation>Matiz / Saturación / Claridad</translation>
+    </message>
+    <message>
+        <source>Here you can see the image Hue/Saturation/Lightness adjustments preview. You can pick color on image to see the color level corresponding on histogram.</source>
+        <translation>Aquí puede ver la vista prévia de los ajustes de Matiz/Saturación/Claridad. Puede recoger un color en la imagen para ver el nivel correspondiente en el histograma.</translation>
+    </message>
+    <message>
+        <source>Select the hue and saturation adjustments of the image.</source>
+        <translation>Seleccione los ajustes de matiz y saturación de la imagen.</translation>
+    </message>
+    <message>
+        <source>You can see here a color preview of the hue and saturation adjustments.</source>
+        <translation>Aquí puede ver la previsualización de color de los ajustes de matiz y saturación.</translation>
+    </message>
+    <message>
+        <source>Hue:</source>
+        <translation>Matiz:</translation>
+    </message>
+    <message>
+        <source>Set here the hue adjustment of the image.</source>
+        <translation>Asigne aquí los ajustes de matiz de la imagen.</translation>
+    </message>
+    <message>
+        <source>Saturation:</source>
+        <translation>Saturación:</translation>
+    </message>
+    <message>
+        <source>Set here the saturation adjustment of the image.</source>
+        <translation>Asigne aquí los ajustes de saturación de la imagen.</translation>
+    </message>
+    <message>
+        <source>Lightness:</source>
+        <translation>Claridad:</translation>
+    </message>
+    <message>
+        <source>Set here the lightness adjustment of the image.</source>
+        <translation>Asigne aqui los ajustes de claridad de la imagen.</translation>
+    </message>
+    <message>
+        <source>HSL Adjustments</source>
+        <translation>Ajustes HSL</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamImagesPluginCore::RGBTool</name>
+    <message>
+        <source>Color Balance</source>
+        <translation>Balance de color</translation>
+    </message>
+    <message>
+        <source>Here you can see the image color-balance adjustments preview. You can pick color on image to see the color level corresponding on histogram.</source>
+        <translation>Aqui puede ver la vista previa de los ajustes de color y balance. Puede recoger un color en la imagen para ver el nivel correspondiente en el histograma.</translation>
+    </message>
+    <message>
+        <source>Cyan</source>
+        <translation>Cyan</translation>
+    </message>
+    <message>
+        <source>Set here the cyan/red color adjustment of the image.</source>
+        <translation>Asigne aqui el ajuste cyan de la imagen.</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>Rojo</translation>
+    </message>
+    <message>
+        <source>Magenta</source>
+        <translation>Magenta</translation>
+    </message>
+    <message>
+        <source>Set here the magenta/green color adjustment of the image.</source>
+        <translation>Asigne aquí el ajuste de magenta/verde de la imagen.</translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation>Verde</translation>
+    </message>
+    <message>
+        <source>Yellow</source>
+        <translation>Amarillo</translation>
+    </message>
+    <message>
+        <source>Set here the yellow/blue color adjustment of the image.</source>
+        <translation>Asigne aqui el ajuste amarillo/azul de la imagen.</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>Azul</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamOilPaintImagesPlugin::OilPaintTool</name>
+    <message>
+        <source>Oil Paint</source>
+        <translation>Pintado al óleo</translation>
+    </message>
+    <message>
+        <source>Brush size:</source>
+        <translation>Tamaño del pincel:</translation>
+    </message>
+    <message>
+        <source>Set here the brush size to use for simulating the oil painting.</source>
+        <translation>Asigne aquí el tamaño del pincel usado para simular el pintado al óleo.</translation>
+    </message>
+    <message>
+        <source>value of smoothing effect</source>
+        <comment>Smooth:</comment>
+        <translation>Valor del efecto suavizado</translation>
+    </message>
+    <message>
+        <source>This value controls the smoothing effect of the brush under the canvas.</source>
+        <translation>Este valor controla la suavidad del efecto del pincel en el tapiz.</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamRainDropImagesPlugin::RainDropTool</name>
+    <message>
+        <source>Raindrops</source>
+        <translation>Gotas de agua</translation>
+    </message>
+    <message>
+        <source>This is the preview of the Raindrop effect.&lt;p&gt;Note: if you have previously selected an area in the editor, this will be unaffected by the filter. You can use this method to disable the Raindrops effect on a human face, for example.&lt;/p&gt;</source>
+        <translation>Esta es la vista previa del efecto de gotas de agua.&lt;p&gt;Nota: si antes selecciona una área en el editor, esta no será afectada por el filtro. Puede usar este método para desactivar el efecto en un rostro por ejemplo.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Drop size:</source>
+        <translation>Tamaño de la gota:</translation>
+    </message>
+    <message>
+        <source>Set here the raindrops&apos; size.</source>
+        <translation>Assigne aquí el tamaño de la gota de llúnvia.</translation>
+    </message>
+    <message>
+        <source>Number:</source>
+        <translation>Número:</translation>
+    </message>
+    <message>
+        <source>This value controls the maximum number of raindrops.</source>
+        <translation>Este valor controla el número máximo de gotes de llúvia.</translation>
+    </message>
+    <message>
+        <source>Fish eyes:</source>
+        <translation>Ojo de pez:</translation>
+    </message>
+    <message>
+        <source>This value is the fish-eye-effect optical distortion coefficient.</source>
+        <translation>Este valor es el coeficiente de distorsión del efecto de ojo de pez.</translation>
+    </message>
+    <message>
+        <source>RainDrop</source>
+        <translation>Gotas de agua</translation>
+    </message>
+</context>
+<context>
+    <name>DigikamWhiteBalanceImagesPlugin::WhiteBalanceTool</name>
+    <message>
+        <source>White Balance</source>
+        <translation>Balance de Blancos</translation>
+    </message>
+    <message>
+        <source>You can see here the image&apos;s white-balance adjustments preview. You can pick color on image to see the color level corresponding on histogram.</source>
+        <translation>Aquí puede ver la vista prévia de os ajustes de balances de blanco. Puede recojer un color a la imagen para ver el nivel de color correspondiente al histograma.</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&apos;http://en.wikipedia.org/wiki/Color_temperature&apos;&gt;Color Temperature&lt;/a&gt; (K): </source>
+        <translation>&lt;a href=&apos;http://es.wikipedia.org/wiki/Temperatura_de_color&apos;&gt;Temperatura de Color&lt;/a&gt; (K):</translation>
+    </message>
+    <message>
+        <source>Adjustment:</source>
+        <translation>Ajuste:</translation>
+    </message>
+    <message>
+        <source>Set here the white balance color temperature in Kelvin.</source>
+        <translation>Asigne aqui la temperatura de color de balanceo en grados kelvin.</translation>
+    </message>
+    <message>
+        <source>Preset:</source>
+        <translation>Preajuste:</translation>
+    </message>
+    <message>
+        <source>Candle</source>
+        <translation>Vela</translation>
+    </message>
+    <message>
+        <source>40W Lamp</source>
+        <translation>Lámpara de 40W</translation>
+    </message>
+    <message>
+        <source>100W Lamp</source>
+        <translation>Lámpara de 100W</translation>
+    </message>
+    <message>
+        <source>200W Lamp</source>
+        <translation>Lámpara de 200W</translation>
+    </message>
+    <message>
+        <source>Sunrise</source>
+        <translation>Salida de Sol</translation>
+    </message>
+    <message>
+        <source>Studio Lamp</source>
+        <translation>Lámpara de Estudio</translation>
+    </message>
+    <message>
+        <source>Moonlight</source>
+        <translation>Luz de luna</translation>
+    </message>
+    <message>
+        <source>Neutral</source>
+        <translation>Neutral</translation>
+    </message>
+    <message>
+        <source>Daylight D50</source>
+        <translation>Luz de dia D50</translation>
+    </message>
+    <message>
+        <source>Photo Flash</source>
+        <translation>Flash de foto</translation>
+    </message>
+    <message>
+        <source>Sun</source>
+        <translation>Sol</translation>
+    </message>
+    <message>
+        <source>Xenon Lamp</source>
+        <translation>Lámpara de Xenon</translation>
+    </message>
+    <message>
+        <source>Daylight D65</source>
+        <translation>Luz de dia D65</translation>
+    </message>
+    <message>
+        <source>no temperature preset</source>
+        <translation>Sin preajuste de temperatura</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Select the white balance color temperature preset to use here:&lt;/p&gt;&lt;p&gt;&lt;b&gt;Candle&lt;/b&gt;: candle light (1850K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;40W Lamp&lt;/b&gt;: 40 Watt incandescent lamp (2680K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;100W Lamp&lt;/b&gt;: 100 Watt incandescent lamp (2800K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;200W Lamp&lt;/b&gt;: 200 Watt incandescent lamp (3000K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Sunrise&lt;/b&gt;: sunrise or sunset light (3200K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Studio Lamp&lt;/b&gt;: tungsten lamp used in photo studio or light at 1 hour from dusk/dawn (3400K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Moonlight&lt;/b&gt;: moon light (4100K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Neutral&lt;/b&gt;: neutral color temperature (4750K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Daylight D50&lt;/b&gt;: sunny daylight around noon (5000K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Photo Flash&lt;/b&gt;: electronic photo flash (5500K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Sun&lt;/b&gt;: effective sun temperature (5770K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Xenon Lamp&lt;/b&gt;: xenon lamp or light arc (6420K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Daylight D65&lt;/b&gt;: overcast sky light (6500K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;None&lt;/b&gt;: no preset value.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Seleccione el preajuste de temperatura de color para balance de blancos para preajustar aquí:&lt;/p&gt;&lt;p&gt;&lt;b&gt;Vela&lt;/b&gt;: Luz de vela (1850K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Lámpara de 40W&lt;/b&gt;: Lámpara incandescente de 40 Watios (2680K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Lámpara de 100W&lt;/b&gt;: Lámpara incandescente de 100 Watios (2800K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Lámpara de 200W&lt;/b&gt;: Lámpara incandescente de 200 Watios (3000K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Salida del Sol&lt;/b&gt;: Salida o Puesta de sol (3200K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Lámpara de estudio&lt;/b&gt;: Lámpara de tulsteno usada en los estudios de foto o luz a 1 hora del crepúsculo (3400K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Luz de luna&lt;/b&gt;: Luz de luna (4100K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Neutral&lt;/b&gt;: Temperatura de color neutral (4750K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Diurna D50&lt;/b&gt;: Luz del sol diurna cercana al mediodia (5000K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Flash de Foto&lt;/b&gt;: Flash de foto electrónico (5500K). &lt;/p&gt;&lt;p&gt;&lt;b&gt;Sol&lt;/b&gt;: Temperatura efectiva del sol (5770K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Lámpara de Xenon&lt;/b&gt;: Lámpara de xenon o arco ligero (6420K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Luz de dia D65&lt;/b&gt;: Luz de cielo nublado (6500K).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Ninguno&lt;/b&gt;: Sin preajuste.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Temperature tone color picker.</source>
+        <translation>Selector de tomo de temperatura de color.</translation>
+    </message>
+    <message>
+        <source>With this button, you can pick the color from original image used to set white color balance temperature and green component.</source>
+        <translation>Con este bontón puede recoger un color de la imagen original que se utilizará para balancear la temperatura de color para la componente verde.</translation>
+    </message>
+    <message>
+        <source>Black point:</source>
+        <translation>Punto negro:</translation>
+    </message>
+    <message>
+        <source>Set here the black level value.</source>
+        <translation>Asigne aquí el valor del nivel de negro.</translation>
+    </message>
+    <message>
+        <source>Shadows:</source>
+        <translation>Sombras:</translation>
+    </message>
+    <message>
+        <source>Set here the shadows noise suppression level.</source>
+        <translation>Asigne aquí el nivel de supresión de ruido de las sombras.</translation>
+    </message>
+    <message>
+        <source>Saturation:</source>
+        <translation>Saturación:</translation>
+    </message>
+    <message>
+        <source>Set here the saturation value.</source>
+        <translation>Asigne aquí el valor de la saturación.</translation>
+    </message>
+    <message>
+        <source>Gamma:</source>
+        <translation>Gamma:</translation>
+    </message>
+    <message>
+        <source>Set here the gamma correction value.</source>
+        <translation>Assigne aquí el valor de corrección de gamma.</translation>
+    </message>
+    <message>
+        <source>Green:</source>
+        <translation>Verde:</translation>
+    </message>
+    <message>
+        <source>Set here the green component to set magenta color cast removal level.</source>
+        <translation>Asigne aqui el componente verde para asignar el nivel de moldeado de color a eliminar.</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&apos;http://en.wikipedia.org/wiki/Exposure_value&apos;&gt;Exposure Compensation&lt;/a&gt; (E.V): </source>
+        <translation>&lt;a href=&apos;http://en.wikipedia.org/wiki/Exposure_value&apos;&gt;Compensación de exposición&lt;/a&gt; (E.V): </translation>
+    </message>
+    <message>
+        <source>Main:</source>
+        <translation>Principal:</translation>
+    </message>
+    <message>
+        <source>Auto exposure adjustments</source>
+        <translation>Ajustes de exposición automáticos</translation>
+    </message>
+    <message>
+        <source>With this button, you can automatically adjust Exposure and Black Point values.</source>
+        <translation>Con este botón, puede automaticamente ajustar los niveles de exposición y de punto negro.</translation>
+    </message>
+    <message>
+        <source>Set here the main exposure compensation value in E.V.</source>
+        <translation>Asigne aqui el valor principal de compensación de exposición E.V.</translation>
+    </message>
+    <message>
+        <source>Fine:</source>
+        <translation>Fino:</translation>
+    </message>
+    <message>
+        <source>This value in E.V will be added to main exposure compensation value to set fine exposure adjustment.</source>
+        <translation>Este valor en E.V se añadirá a la compensación de exposición principal para hacer un ajuste más fino.</translation>
+    </message>
+    <message>
+        <source>White Color Balance Settings File to Load</source>
+        <translation>Archivo de ajustes Balance de Blancos a cargar</translation>
+    </message>
+    <message>
+        <source>Error reading file</source>
+        <translation>Error leyendo archivo</translation>
+    </message>
+    <message>
+        <source>&quot;%1&quot; is not a White Color Balance settings text file.</source>
+        <translation>&quot;%1&quot; no es un archivo de texto de ajustes de balance de blancos.</translation>
+    </message>
+    <message>
+        <source>Cannot load settings from the White Color Balance text file.</source>
+        <translation>No puedo cargar las configuraciones de balance de blancos del archivo de texto.</translation>
+    </message>
+    <message>
+        <source>White Color Balance Settings File to Save</source>
+        <translation>Archivo de configuraciones de balance de blancos a guardar</translation>
+    </message>
+    <message>
+        <source>Error saving file</source>
+        <translation>Error guardando archivo</translation>
+    </message>
+    <message>
+        <source>Cannot save settings to the White Color Balance text file.</source>
+        <translation>No puedo guardar las configuraciones de balance de blancos en el archivo de texto.</translation>
+    </message>
+</context>
+<context>
+    <name>DoubleEdit</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Double</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditPreferences</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Font...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grid Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Snap to grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grid Size Interval</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>X Interval:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Y Interval:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Symetrical values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FDBConfigWidget</name>
+    <message>
+        <source>Default</source>
+        <translation>Por defecto</translation>
+    </message>
+</context>
+<context>
+    <name>FGenManager</name>
+    <message>
+        <source>%1 Management</source>
+        <translation>Gestion de %1</translation>
+    </message>
+</context>
+<context>
+    <name>FPixmapSelector</name>
+    <message>
+        <source>Click to select an image.</source>
+        <translation>Hacer clic para seleccionar una imagen.</translation>
+    </message>
+    <message>
+        <source>Open File</source>
+        <translation>Abrir archivo</translation>
+    </message>
+    <message>
+        <source>Images (*.png *.xpm *.jpg)</source>
+        <translation>Imágenes (*.png *.xmp *.jpg)</translation>
+    </message>
+</context>
+<context>
+    <name>FSingleDBConfigWidget</name>
+    <message>
+        <source>Backup</source>
+        <translation>Copia de seguridad</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Restaurar</translation>
+    </message>
+    <message>
+        <source>Database backup file</source>
+        <translation>Archivo de copia de seguridad de base de datos</translation>
+    </message>
+    <message>
+        <source>Sql files (*.sql)</source>
+        <translation>Archivos Sql (*.sql)</translation>
+    </message>
+    <message>
+        <source>Error in database backup.</source>
+        <translation>Error en la copia de seguridad de la base de datos.</translation>
+    </message>
+    <message>
+        <source>Restoring database</source>
+        <translation>Restaurando base de datos</translation>
+    </message>
+    <message>
+        <source>All the data in current database will be lost. Are you sure you want to restore ?</source>
+        <translation>Todos los datos de la base de datos actual se perderán. Seguro que quiere iniciar la restauración ?</translation>
+    </message>
+    <message>
+        <source>Database restored OK</source>
+        <translation>La base de datos ha sido restaurada</translation>
+    </message>
+</context>
+<context>
+    <name>FSqlDatabaseSettings</name>
+    <message>
+        <source>Database Name</source>
+        <translation>Nombre de la base de datos</translation>
+    </message>
+    <message>
+        <source>Name of the database to conect to.</source>
+        <translation>Nombre de la base de datos a conectar.</translation>
+    </message>
+    <message>
+        <source>Driver</source>
+        <translation>Controlador</translation>
+    </message>
+    <message>
+        <source>Qt Driver to connect to a database.</source>
+        <translation>Controlador Qt para conectar a la base de datos.</translation>
+    </message>
+    <message>
+        <source>User Name</source>
+        <translation>Nombre de usuario</translation>
+    </message>
+    <message>
+        <source>The username for the database account.</source>
+        <translation>Nombre de usuario para la cuenta de la base de datos.</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Contraseña</translation>
+    </message>
+    <message>
+        <source>Connection account password.</source>
+        <translation>Contraseña para la conexión.</translation>
+    </message>
+    <message>
+        <source>Host</source>
+        <translation>Host</translation>
+    </message>
+    <message>
+        <source>Database host.</source>
+        <translation>Host de la base de datos.</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Puerto</translation>
+    </message>
+    <message>
+        <source>Host port to connect to.</source>
+        <translation>Puerto del host a conectar.</translation>
+    </message>
+    <message>
+        <source>Metadata path</source>
+        <translation>Carpeta de metadatos</translation>
+    </message>
+    <message>
+        <source>Path of metadata location.</source>
+        <translation>Carpeta de metadatos.</translation>
+    </message>
+    <message>
+        <source>Path of dump tool</source>
+        <translation>Dirección de la herramienta de volcado</translation>
+    </message>
+    <message>
+        <source>Path of dump tool for backups.</source>
+        <translation>Dirección de la herramienta de volcado.</translation>
+    </message>
+</context>
+<context>
+    <name>FTableManager</name>
+    <message>
+        <source>Error modifying table</source>
+        <translation>Error modificando la tabla</translation>
+    </message>
+    <message>
+        <source>Data management</source>
+        <translation>Gestión de datos</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete selected record ?</source>
+        <translation>Está seguro que quiere borrar el registro seleccionado ?</translation>
+    </message>
+</context>
+<context>
+    <name>FYesAction</name>
+    <message>
+        <source>&amp;Si</source>
+        <translation>&amp;Si</translation>
+    </message>
+</context>
+<context>
+    <name>FieldEditor</name>
+    <message>
+        <source>Y:</source>
+        <translation type="unfinished">Y:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished">Altura:</translation>
+    </message>
+    <message>
+        <source>X:</source>
+        <translation type="unfinished">X:</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished">Ancho:</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Properties (Field)</source>
+        <translation>Propiedades (Campo)</translation>
+    </message>
+    <message>
+        <source>Query Source:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Column:</source>
+        <translation>Columna:</translation>
+    </message>
+    <message>
+        <source>Display as Running Total</source>
+        <translation>Mostrar como Total</translation>
+    </message>
+    <message>
+        <source>Total Format</source>
+        <translation>Formato Total</translation>
+    </message>
+    <message>
+        <source>String Format </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Example: %0.2f</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Built-in Locale Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Subtotal Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished">No</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Word wrap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Position/Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.01</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview Area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Font...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FileSelectLineEdit</name>
+    <message>
+        <source>Select folder</source>
+        <translation>Seleccionar carpeta</translation>
+    </message>
+    <message>
+        <source>Select file</source>
+        <translation>Seleccionar archivo</translation>
+    </message>
+</context>
+<context>
+    <name>GraphEditor</name>
+    <message>
+        <source>Y:</source>
+        <translation>Y:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation>Altura:</translation>
+    </message>
+    <message>
+        <source>X:</source>
+        <translation>X:</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation>Ancho:</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Eliminar</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Graph Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Source:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Position/Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.01</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Base Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Font...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Base Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Data Axis Labels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Column:</source>
+        <translation type="unfinished">Columna:</translation>
+    </message>
+    <message>
+        <source>Data Axis Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Data Axis Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Data Axis Title Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Data Axis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Expand Min/Max if needed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value Axis Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value Axis Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value Axis Title Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value Axis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Series:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation type="unfinished">Nuevos</translation>
+    </message>
+    <message>
+        <source>Series Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>HistogramEditor</name>
+    <message>
+        <source>Split View</source>
+        <translation>Vista Separada</translation>
+    </message>
+    <message>
+        <source>Original Image</source>
+        <translation>Imagen Original</translation>
+    </message>
+    <message>
+        <source>Adjusted Image</source>
+        <translation>Imagen ajustada</translation>
+    </message>
+    <message>
+        <source>Click and drag to select tonal range</source>
+        <translation>Clicar y arrastrar para seleccionar el rango tonal</translation>
+    </message>
+    <message>
+        <source>Luminosity</source>
+        <translation>Luminosidad</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>Rojo</translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation>Verde</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>Azul</translation>
+    </message>
+    <message>
+        <source>Histogram channel displayed</source>
+        <translation>Mostrado el canal histograma</translation>
+    </message>
+    <message>
+        <source>No change</source>
+        <translation>Sin cambios</translation>
+    </message>
+    <message>
+        <source>Drag to adjust image brightness</source>
+        <translation>Arrastrar para ajustar el brillo de la imagen</translation>
+    </message>
+    <message>
+        <source>Reset brightness</source>
+        <translation>Resetear el brillo</translation>
+    </message>
+    <message>
+        <source>Drag to adjust image contrast</source>
+        <translation>Arrastre para ajustar el contraste de la imagen</translation>
+    </message>
+    <message>
+        <source>Reset contrast</source>
+        <translation>Resetear el contraste</translation>
+    </message>
+    <message>
+        <source>Apply</source>
+        <translation>Aplicar</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation>Reset</translation>
+    </message>
+    <message>
+        <source>Histogram Editor</source>
+        <translation>Editor de histograma</translation>
+    </message>
+</context>
+<context>
+    <name>HtmlEditWidget</name>
+    <message>
+        <source>Edit Actions</source>
+        <translation>Acciones de edición</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Editar</translation>
+    </message>
+    <message>
+        <source>&amp;Undo</source>
+        <translation>&amp;Deshacer</translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translation>&amp;Rehacer</translation>
+    </message>
+    <message>
+        <source>Cu&amp;t</source>
+        <translation>Cor&amp;tar</translation>
+    </message>
+    <message>
+        <source>&amp;Copy</source>
+        <translation>&amp;Copiar</translation>
+    </message>
+    <message>
+        <source>&amp;Paste</source>
+        <translation>&amp;Pegar</translation>
+    </message>
+    <message>
+        <source>Format Actions</source>
+        <translation>Acciones de formato</translation>
+    </message>
+    <message>
+        <source>F&amp;ormat</source>
+        <translation>F&amp;ormato</translation>
+    </message>
+    <message>
+        <source>&amp;Bold</source>
+        <translation>&amp;Negrita</translation>
+    </message>
+    <message>
+        <source>&amp;Italic</source>
+        <translation>&amp;Itálica</translation>
+    </message>
+    <message>
+        <source>&amp;Underline</source>
+        <translation>&amp;Subrallado</translation>
+    </message>
+    <message>
+        <source>&amp;Left</source>
+        <translation>&amp;Izquierda</translation>
+    </message>
+    <message>
+        <source>C&amp;enter</source>
+        <translation>C&amp;entro</translation>
+    </message>
+    <message>
+        <source>&amp;Right</source>
+        <translation>&amp;Derecha</translation>
+    </message>
+    <message>
+        <source>&amp;Justify</source>
+        <translation>&amp;Justificar</translation>
+    </message>
+    <message>
+        <source>&amp;Color...</source>
+        <translation>&amp;Color...</translation>
+    </message>
+    <message>
+        <source>&amp;Background Color</source>
+        <translation>Color de &amp;fonto</translation>
+    </message>
+    <message>
+        <source>&amp;No Background Color</source>
+        <translation>&amp;Sin color de fondo</translation>
+    </message>
+    <message>
+        <source>&amp;Outline Color</source>
+        <translation>C&amp;olor de línea exterior</translation>
+    </message>
+    <message>
+        <source>&amp;No Outline Color</source>
+        <translation>Sin color de línea e&amp;xterior</translation>
+    </message>
+</context>
+<context>
+    <name>ImageEditor</name>
+    <message>
+        <source>Y:</source>
+        <translation type="unfinished">Y:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished">Altura:</translation>
+    </message>
+    <message>
+        <source>X:</source>
+        <translation type="unfinished">X:</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished">Ancho:</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Image Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resize Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stretch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Static Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Static</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Load...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Column:</source>
+        <translation type="unfinished">Columna:</translation>
+    </message>
+    <message>
+        <source>Query Source:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Position/Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.01</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>IntEdit</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Int</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>KDcrawIface::RComboBox</name>
+    <message>
+        <source>Reset to default value</source>
+        <translation>Resetear al valor predeterminado</translation>
+    </message>
+</context>
+<context>
+    <name>KDcrawIface::RDoubleNumInput</name>
+    <message>
+        <source>Reset to default value</source>
+        <translation>Resetear al valor predeterminado</translation>
+    </message>
+</context>
+<context>
+    <name>KDcrawIface::RIntNumInput</name>
+    <message>
+        <source>Reset to default value</source>
+        <translation>Resetear al valor predeterminado</translation>
+    </message>
+</context>
+<context>
+    <name>KSqueezedTextLabel</name>
+    <message>
+        <source>&amp;Copy Full Text</source>
+        <translation>&amp;Copiar texto entero</translation>
+    </message>
+</context>
+<context>
+    <name>KeyboardW2</name>
+    <message>
+        <source>Alpha</source>
+        <translation type="unfinished">Alfa</translation>
+    </message>
+    <message>
+        <source>S3OS Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>º
+ª  \</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>! 
+1 |</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&quot;
+2 @</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>.
+3 #</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>$
+4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%
+5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>&amp;&amp;
+6 ¬</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>/
+7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(
+8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>)
+9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>=
+0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>?
+&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>¿
+¡</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;----</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Q</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>W</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>T</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>U</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>P</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>^
+`  [</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>*
++  ]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bloq
+Mayus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>G</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>H</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>J</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>K</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Ñ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&quot;
+&apos;  {</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>ç
+   }</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shift</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&gt;
+&lt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>C</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>V</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>;
+,</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>:
+.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>_
+-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AltGr</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Calc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bloq
+Num</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>/</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Intro</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LabelEditor</name>
+    <message>
+        <source>Y:</source>
+        <translation type="unfinished">Y:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished">Altura:</translation>
+    </message>
+    <message>
+        <source>X:</source>
+        <translation type="unfinished">X:</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished">Ancho:</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Properties (Label)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished">No</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Position/Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.01</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview Area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Font...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ListEdit</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">&amp;Editar</translation>
+    </message>
+    <message>
+        <source>List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Values:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+U</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Borrar</translation>
+    </message>
+</context>
+<context>
+    <name>NewVariant</name>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished">Tipo:</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>New Variant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>String</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Int</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PageSetup</name>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished">Ancho:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished">Altura:</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Page Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paper Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Letter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Legal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Labels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom dimensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>8.5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>11.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in Inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Orientation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ParamListEdit</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancelar</translation>
+    </message>
+    <message>
+        <source>List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ParameterEdit</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">&amp;Editar</translation>
+    </message>
+    <message>
+        <source>Parameter List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Borrar</translation>
+    </message>
+</context>
+<context>
+    <name>ProdPrintSelector</name>
+    <message>
+        <source>Get from system print dialog</source>
+        <translation>Obtener del diálogo de impresión del sistema</translation>
+    </message>
+</context>
+<context>
+    <name>ProdPrintSettingsWidget</name>
+    <message>
+        <source>Click to add an item</source>
+        <translation>Haz click para añadir un elemento</translation>
+    </message>
+    <message>
+        <source>No match for product %1 in model</source>
+        <translation>No coincide ningún producto %1 en el modelo</translation>
+    </message>
+</context>
+<context>
+    <name>QApplication</name>
+    <message>
+        <source>Connection settings are invalid or never assigned. 
+Please correct the above settings to connect to database</source>
+        <translation>La configuración de conexión no es válida o no se ha asignado nunca.
+Por favor, corrija las configuraciones de conexión de la base de datos</translation>
+    </message>
+    <message>
+        <source>Failed to load Database driver</source>
+        <translation>Fallo cargando el controlador de la base de datos</translation>
+    </message>
+    <message>
+        <source>Please be sure that your system configuration is correct.</source>
+        <translation>Por favor asegurese de que la configuración de su sistema es correcta.</translation>
+    </message>
+    <message>
+        <source>Failed to open database connection: &lt;br/&gt;</source>
+        <translation>Error abriendo la conexión a la base de datos:&lt;br/&gt;</translation>
+    </message>
+    <message>
+        <source>user: </source>
+        <translation>usuario:</translation>
+    </message>
+    <message>
+        <source> has not enought privileges to create databases.
+ Please contact your system administrator.</source>
+        <translation>No se tienen suficientes privilegios para crear bases de datos.
+Por favor contacte con el administrador de su sistema.</translation>
+    </message>
+    <message>
+        <source> has not enought privileges 
+ Please contact your system administrator.</source>
+        <translation>No tiene suficientes privilegios
+Por favor contacte con el administrador de su sistema.</translation>
+    </message>
+    <message>
+        <source>Error creating database &apos;</source>
+        <translation>Error creando base de datos &apos;</translation>
+    </message>
+    <message>
+        <source>Error (</source>
+        <translation>Error (</translation>
+    </message>
+    <message>
+        <source>) running query</source>
+        <translation>) ejecutando consulta</translation>
+    </message>
+    <message>
+        <source> running query</source>
+        <translation>ejecutando consulta</translation>
+    </message>
+    <message>
+        <source>Unsuported Sql Driver: </source>
+        <translation>Controlador Sql no soportado:</translation>
+    </message>
+    <message>
+        <source>Updating table</source>
+        <translation>Actualizando tabla</translation>
+    </message>
+    <message>
+        <source> From revision: </source>
+        <translation>De revisión:</translation>
+    </message>
+    <message>
+        <source> To revision: </source>
+        <translation>De revisión:</translation>
+    </message>
+    <message>
+        <source> Running explicit SQL instruction:</source>
+        <translation>Ejecutando instrucciones SQL explicitas:</translation>
+    </message>
+    <message>
+        <source>New table name: </source>
+        <translation>Nuevo nombre de la tabla:</translation>
+    </message>
+    <message>
+        <source> differs from old table name:</source>
+        <translation>difiere del nombre de la tabla vieja:</translation>
+    </message>
+    <message>
+        <source>Error &apos;%1&apos; creating table &apos;%2&apos; to database</source>
+        <translation>Error &apos;%1&apos; creando la tabla &apos;%2&apos; en la base de datos</translation>
+    </message>
+    <message>
+        <source>Error commiting changes of table &apos;%1&apos; to database</source>
+        <translation>Error confirmando los cambios de la tabla &apos;%1&apos; en la base de datos</translation>
+    </message>
+    <message>
+        <source>table: </source>
+        <translation>tabla: </translation>
+    </message>
+    <message>
+        <source> updated successfull.</source>
+        <translation>actualización completada.</translation>
+    </message>
+    <message>
+        <source>Table created</source>
+        <translation>Tabla creada</translation>
+    </message>
+    <message>
+        <source> using: </source>
+        <translation>usando:</translation>
+    </message>
+    <message>
+        <source>FTableMetaData::relatedValueQuery TableMetadata is Null !</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>DAO (Disk At Once) recording not supported with this writer</source>
+        <translation>DAO no está suportado para esta grabadora</translation>
+    </message>
+    <message>
+        <source>Please choose TAO (Track At Once) and try again</source>
+        <translation>Por favor, escoge TAO y vuelve-lo a intentar</translation>
+    </message>
+    <message>
+        <source>RAW recording not supported with this writer</source>
+        <translation>La grabación en formato RAW no puede realizarse </translation>
+    </message>
+    <message>
+        <source>Input/output error. Not necessarily serious.</source>
+        <translation>Error de entrada o salida. No es necesariamente severo.</translation>
+    </message>
+    <message>
+        <source>Reload disk </source>
+        <translation>Recarga el CD</translation>
+    </message>
+    <message>
+        <source>Trying to write more than the official disk capacity</source>
+        <translation>Intentando grabar más información que la capacidad del disco</translation>
+    </message>
+    <message>
+        <source>No valid %1 option: %2</source>
+        <translation>No válida %1 la opción: %2</translation>
+    </message>
+    <message>
+        <source>Only session 1 will be cloned.</source>
+        <translation>Sólo la sesión 1 será clonada.</translation>
+    </message>
+    <message>
+        <source>Medium or burner do not support writing at %1x speed</source>
+        <translation>El medio o o el grabador no soportan grabar a velocidad %1x</translation>
+    </message>
+    <message>
+        <source>Switching up burn speed to %1x</source>
+        <translation>Cambiando la velocidad de grabación a %1x</translation>
+    </message>
+    <message>
+        <source>Switching down burn speed to %1x</source>
+        <translation>Disminuyendo la velocidad de grabación hasta %1x</translation>
+    </message>
+    <message>
+        <source>Starting burn process</source>
+        <translation>Iniciando el proceso de grabación</translation>
+    </message>
+    <message>
+        <source>Performing Optimum Power Calibration</source>
+        <translation>Alcanzando la energía óptima de calibración</translation>
+    </message>
+    <message>
+        <source>Sending CUE sheet</source>
+        <translation>Enviando la hoja CUE</translation>
+    </message>
+    <message>
+        <source>Enabled Burnfree</source>
+        <translation>Permitida Burnfree</translation>
+    </message>
+    <message>
+        <source>Disabled Burnfree</source>
+        <translation>Desactivado Burnfree</translation>
+    </message>
+    <message>
+        <source>Burnfree was used %1 times.</source>
+        <translation>El Burnfree fue usado %1 veces.</translation>
+    </message>
+    <message>
+        <source>Buffer was low %1 times.</source>
+        <translation>El buffer estaba bajo %1 veces.</translation>
+    </message>
+    <message>
+        <source>Error executing command %1</source>
+        <translation>Error ejecutando orden %1</translation>
+    </message>
+    <message>
+        <source>Error executing command %1 : %2</source>
+        <translation>Error ejecutando la orden %1 : %2</translation>
+    </message>
+    <message>
+        <source>Error opening file %1</source>
+        <translation>Error abriendo archivo %1</translation>
+    </message>
+    <message>
+        <source>Database driver %1 is not compatible for backups.</source>
+        <translation>El controlador de la base de datos %1 no es compatible para copias de seguridad.</translation>
+    </message>
+    <message>
+        <source>Error opening file: &apos;%1&apos;</source>
+        <translation>Error abriendo archivo: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Error executing query</source>
+        <translation>Error ejecutando consulta</translation>
+    </message>
+    <message>
+        <source>There was errors restoring database.</source>
+        <translation>Ha habido errores restaurando la base de datos.</translation>
+    </message>
+    <message>
+        <source>Page out of range: %1</source>
+        <translation>Página fuera de rango: %1</translation>
+    </message>
+    <message>
+        <source>Could not open printer defined file %1</source>
+        <translation>No se puede abrir el archivo de impresora definido %1</translation>
+    </message>
+    <message>
+        <source>Error Loading File</source>
+        <translation>Error cargando archivo</translation>
+    </message>
+    <message>
+        <source>There was an error opening the file %1.
+
+%2 on line %3 column %4.</source>
+        <translation>Se ha producido un error al abrir el archivo %1.
+
+%2 en la linia %3 Columna %4.</translation>
+    </message>
+    <message>
+        <source>Not a Valid File</source>
+        <translation>No es un archivo válido</translation>
+    </message>
+    <message>
+        <source>The file %1 does not appear to be a valid file.
+The root node is not &apos;report&apos;.</source>
+        <translation>El archivo %1 no parece ser un archivo válido.
+El nodo raiz no és un &apos;reportaje&apos;.</translation>
+    </message>
+    <message>
+        <source>Error in ticket report definition</source>
+        <translation>Error  en la definición del tiquet</translation>
+    </message>
+    <message>
+        <source>unavailable</source>
+        <translation>No disponible</translation>
+    </message>
+    <message>
+        <source>Unspecified</source>
+        <translation>No especificado</translation>
+    </message>
+    <message>
+        <source>Rotation of an unrotated image</source>
+        <comment>Normal</comment>
+        <translation>Rotación de imágenes sin rotar</translation>
+    </message>
+    <message>
+        <source>Flipped Horizontally</source>
+        <translation>Espejo horizontal</translation>
+    </message>
+    <message>
+        <source>Rotated by 180 Degrees</source>
+        <translation>Rotado 180 Grados</translation>
+    </message>
+    <message>
+        <source>Flipped Vertically</source>
+        <translation>Espejo Vertical</translation>
+    </message>
+    <message>
+        <source>Flipped Horizontally and Rotated Left</source>
+        <translation>Espeho horizontal y rotado a la izquierda</translation>
+    </message>
+    <message>
+        <source>Rotated Left</source>
+        <translation>Rotado a la izquierda</translation>
+    </message>
+    <message>
+        <source>Flipped Vertically and Rotated Left</source>
+        <translation>Espejo vertical y rotado a la izquierda</translation>
+    </message>
+    <message>
+        <source>Rotated Right</source>
+        <translation>Rotado a la derecha</translation>
+    </message>
+    <message numerus="yes">
+        <source>Temperature in Kelvin</source>
+        <comment>%1 K</comment>
+        <translation>
+            <numerusform>Temperatura en grados Kelvin</numerusform>
+            <numerusform>%n</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>For use in longitude coordinate</source>
+        <comment>West</comment>
+        <translation>Oeste</translation>
+    </message>
+    <message>
+        <source>For use in longitude coordinate</source>
+        <comment>East</comment>
+        <translation>Para uso de coordenadas de longitud</translation>
+    </message>
+    <message>
+        <source>For use in latitude coordinate</source>
+        <comment>North</comment>
+        <translation>Para uso de coordenadas de latitud</translation>
+    </message>
+    <message>
+        <source>For use in latitude coordinate</source>
+        <comment>South</comment>
+        <translation>Para uso de la latitud de cooredenadas</translation>
+    </message>
+    <message>
+        <source>Height in meters</source>
+        <translation>Altura en metros</translation>
+    </message>
+    <message>
+        <source>Flash with red-eye reduction mode</source>
+        <translation>Flash con forma de ojos rojos</translation>
+    </message>
+    <message>
+        <source>File does not exist</source>
+        <translation>El archivo no existe</translation>
+    </message>
+    <message>
+        <source>Cannot create thumbnail for %1</source>
+        <translation>No se puede crear la miniatura %1</translation>
+    </message>
+    <message>
+        <source>Thumbnail is null</source>
+        <translation>La miniatura es nula</translation>
+    </message>
+    <message>
+        <source>Rotate 90 Degrees</source>
+        <translation>Rotar 90 grados</translation>
+    </message>
+    <message>
+        <source>Rotate 180 Degrees</source>
+        <translation>Rotar 180 grados</translation>
+    </message>
+    <message>
+        <source>Rotate 270 Degrees</source>
+        <translation>Rotar 270 grados</translation>
+    </message>
+    <message>
+        <source>Flip Horizontal</source>
+        <translation>Flip horizontal</translation>
+    </message>
+    <message>
+        <source>Flip Vertical</source>
+        <translation>Flip vertical</translation>
+    </message>
+    <message>
+        <source>Brightness,Contrast,Gamma</source>
+        <translation>Brillo,Contraste,Gamma</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Desconocido</translation>
+    </message>
+    <message>
+        <source>Access denied to %1 printer</source>
+        <translation>Acceso denegado a la impresora %1</translation>
+    </message>
+    <message>
+        <source>PrintKeeper Warning</source>
+        <translation>Alerta de PrintKeeper</translation>
+    </message>
+    <message>
+        <source>&amp;Accept</source>
+        <translation>&amp;Aceptar</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Editar</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Añadir</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Borrar</translation>
+    </message>
+    <message>
+        <source>&amp;Exit</source>
+        <translation>&amp;Salir</translation>
+    </message>
+    <message>
+        <source>&amp;Find</source>
+        <translation>&amp;Buscar</translation>
+    </message>
+    <message>
+        <source>Configure</source>
+        <translation>Configurar</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ayuda</translation>
+    </message>
+    <message>
+        <source>&amp;Print</source>
+        <translation>&amp;Imprimir</translation>
+    </message>
+    <message>
+        <source>&amp;No</source>
+        <translation>&amp;No</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Empezar</translation>
+    </message>
+    <message>
+        <source>Rewind</source>
+        <translation>Rebovinar</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pausa</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Stop</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Play</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Siguiente</translation>
+    </message>
+    <message>
+        <source>Forward</source>
+        <translation>Adelante</translation>
+    </message>
+    <message>
+        <source>&amp;End</source>
+        <translation>&amp;Fin</translation>
+    </message>
+    <message>
+        <source>Save File</source>
+        <translation>Guardar archivo</translation>
+    </message>
+    <message>
+        <source>File Close</source>
+        <translation>Cerrar Archivo</translation>
+    </message>
+    <message>
+        <source>Save File as</source>
+        <translation>Guardar archivo como</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Avanzado</translation>
+    </message>
+    <message>
+        <source>Invalid arguments for UpdateManager</source>
+        <translation>Argumentos inválidos para UpdateManager</translation>
+    </message>
+    <message>
+        <source>Unable to open lnk file %1</source>
+        <translation>No se puede abrir el archivo de link %1</translation>
+    </message>
+    <message>
+        <source>Flash has been fired</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>QObject::QObject</name>
+    <message>
+        <source>No or invalid size specified</source>
+        <translation>Se ha especificado un tamaño no válido</translation>
+    </message>
+    <message>
+        <source>unknown</source>
+        <translation>desconocido</translation>
+    </message>
+</context>
+<context>
+    <name>QueryEditor</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Query Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QueryList</name>
+    <message>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">&amp;Editar</translation>
+    </message>
+    <message>
+        <source>Query List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Querys:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Borrar</translation>
+    </message>
+</context>
+<context>
+    <name>QxtProgressLabel</name>
+    <message>
+        <source>ETA: %r</source>
+        <translation>PTE: %r</translation>
+    </message>
+    <message>
+        <source>mm:ss</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ReportParameter</name>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished">Tipo:</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">Descripción</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished">Valor</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Añadir</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Eliminar</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished">Etiqueta</translation>
+    </message>
+    <message>
+        <source>Parameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>String</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Integer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Static</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dynamic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Static List Values:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dynamic List Query:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined List</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReportParameterList</name>
+    <message>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">&amp;Editar</translation>
+    </message>
+    <message>
+        <source>Parameter List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parameters:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Borrar</translation>
+    </message>
+</context>
+<context>
+    <name>ReportParameterListItem</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>List Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReportProperties</name>
+    <message>
+        <source>Layout</source>
+        <translation type="unfinished">Distribución</translation>
+    </message>
+    <message>
+        <source>Y:</source>
+        <translation type="unfinished">Y:</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished">Ancho:</translation>
+    </message>
+    <message>
+        <source>X:</source>
+        <translation type="unfinished">X:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished">Altura:</translation>
+    </message>
+    <message>
+        <source>Load...</source>
+        <translation type="unfinished">Cargando...</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Report Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable Background Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation type="unfinished">Origen</translation>
+    </message>
+    <message>
+        <source>Static</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dynamic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Column:</source>
+        <translation type="unfinished">Columna:</translation>
+    </message>
+    <message>
+        <source>Query Source:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opacity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0%
+(transparent)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>10%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>100%
+(opaque)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resize Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stretch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>11.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>8.5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Static Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Static Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use best font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SConfigWidget</name>
+    <message>
+        <source>Config Dialog</source>
+        <translation>Diálogo de configuración</translation>
+    </message>
+</context>
+<context>
+    <name>SDBSettingsDialog</name>
+    <message>
+        <source>Advanced</source>
+        <translation>Avanzado</translation>
+    </message>
+    <message>
+        <source>Create Database</source>
+        <translation>Crear la base de datos</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>SPrinterSettings</name>
+    <message>
+        <source>System Printer Name</source>
+        <translation>Nombre de la impresora del sistema</translation>
+    </message>
+    <message>
+        <source>Set printer by product</source>
+        <translation>Asignar impresora por producto</translation>
+    </message>
+</context>
+<context>
+    <name>SPrinterSettingsWidget</name>
+    <message>
+        <source>Get from system print dialog</source>
+        <translation>Obtener del diálogo de impresión del sistema</translation>
+    </message>
+</context>
+<context>
+    <name>SProcessStatusWidget</name>
+    <message>
+        <source> - Enlapsed: %e - Estimated: %r</source>
+        <translation> - Transcurrido: %e - Estimado: %r</translation>
+    </message>
+</context>
+<context>
+    <name>STBurningSettings</name>
+    <message>
+        <source>Burning enabled ?</source>
+        <translation>Quemado habilitado ?</translation>
+    </message>
+    <message>
+        <source>Complete path of the mkisofs..</source>
+        <translation>Path completo para mkisofs.</translation>
+    </message>
+    <message>
+        <source>Binari to create iso images.</source>
+        <translation>Binario para crear imágenes iso.</translation>
+    </message>
+    <message>
+        <source>Complete path of the  temporary image file.</source>
+        <translation>Path completo para el archivo de imagen temporal.</translation>
+    </message>
+    <message>
+        <source>Temporary file for the CD images created with mkisofs.</source>
+        <translation>Archivo de imagen temporal creado para las imágenes de CD.</translation>
+    </message>
+    <message>
+        <source>Complete path of the cdrecord binari.</source>
+        <translation>Path completo para el binario de cdrecord.</translation>
+    </message>
+    <message>
+        <source>Path of the cdrecord.</source>
+        <translation>Path para cdrecord.</translation>
+    </message>
+    <message>
+        <source>Burning unit.</source>
+        <translation>Unidad de quemado.</translation>
+    </message>
+    <message>
+        <source>Burning speed</source>
+        <translation>Velocidad de quemado</translation>
+    </message>
+    <message>
+        <source>Simulation mode?</source>
+        <translation>Modo simulación ?</translation>
+    </message>
+    <message>
+        <source>Simulation mode</source>
+        <translation>Modo simulación</translation>
+    </message>
+    <message>
+        <source>write debug info ?</source>
+        <translation>Escribir información de depuración ?</translation>
+    </message>
+    <message>
+        <source>Console debug.</source>
+        <translation>Depuración en consola.</translation>
+    </message>
+</context>
+<context>
+    <name>STCdRecord</name>
+    <message>
+        <source>cdrecord can&apos;t be found at %0</source>
+        <translation>No se puede encontrar cdrecord a %0</translation>
+    </message>
+    <message>
+        <source>cdrecord: the process can&apos;t be started</source>
+        <translation>cdrecord: el proceso no ha podido empezar</translation>
+    </message>
+    <message>
+        <source>cdrecord: the process can&apos;t be finished</source>
+        <translation>cdrecord: el proceso no ha podido terminar</translation>
+    </message>
+    <message>
+        <source>cdrecord-clone: where the version can be found.</source>
+        <translation>cdrecord-clonación: donde se puede encontrar la versión.</translation>
+    </message>
+    <message>
+        <source>cdrecord: the version can&apos;t be detected..</source>
+        <translation>cdrecord: no se ha podido detectar la versión..</translation>
+    </message>
+    <message>
+        <source>Any recordable disk is found.</source>
+        <translation>No se ha encontrado ningún disco grabable.</translation>
+    </message>
+    <message>
+        <source>Finishing the recording...</source>
+        <translation>Finalizando la grabación...</translation>
+    </message>
+    <message>
+        <source>Start burn process in %0 seconds.</source>
+        <translation>Iniciando el proceso de quemado en %0 segundos.</translation>
+    </message>
+    <message>
+        <source>could not start command: %1</source>
+        <translation>No se puede iniciar la ordern: %1</translation>
+    </message>
+</context>
+<context>
+    <name>STFolderSelector</name>
+    <message>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>STFtpStatusWidget</name>
+    <message>
+        <source>Unknown</source>
+        <translation>Desconocido</translation>
+    </message>
+    <message>
+        <source>Unconnected</source>
+        <translation>Desconectado</translation>
+    </message>
+    <message>
+        <source>HostLookup</source>
+        <translation>Buscando Host</translation>
+    </message>
+    <message>
+        <source>Connecting</source>
+        <translation>Conectando</translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation>Conectado</translation>
+    </message>
+    <message>
+        <source>LoggedIn</source>
+        <translation>Autenticado</translation>
+    </message>
+    <message>
+        <source>Closing</source>
+        <translation>Cerrando</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Status: %1&lt;/b&gt; </source>
+        <translation>&lt;b&gt;Estado:%1&lt;/b&gt; </translation>
+    </message>
+    <message>
+        <source>Transfering (%1 of %2)</source>
+        <translation>Transfiriendo (%1 de %2)</translation>
+    </message>
+</context>
+<context>
+    <name>STMkIsoFs</name>
+    <message>
+        <source>mkisofs can&apos;t be found at %0</source>
+        <translation>no se encuentra mkisofs en %0</translation>
+    </message>
+    <message>
+        <source>mkisofs: the process can&apos;t be started</source>
+        <translation>No se puede iniciar el proceso: mkisofs</translation>
+    </message>
+    <message>
+        <source>mkisofs: the process can&apos;t finish</source>
+        <translation>mkisofs: el proceso no ha podido finalizar</translation>
+    </message>
+    <message>
+        <source>mkisofs: the version can&apos;t be detected.</source>
+        <translation>mkisofs: no s eha podido detectar la versión.</translation>
+    </message>
+</context>
+<context>
+    <name>STSizeAndPosDialog</name>
+    <message>
+        <source>X:</source>
+        <translation>X:</translation>
+    </message>
+    <message>
+        <source>Y:</source>
+        <translation>Y:</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation>Ancho:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation>Altura:</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>STUtils</name>
+    <message>
+        <source>Unknown</source>
+        <comment>Unknown (size)</comment>
+        <translation>Desconocido</translation>
+    </message>
+    <message>
+        <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
+        <translation>El proceso no se ha podido iniciar. O bien el programa no se encuentra, o quizá no tenga permisos suficientes para invocar el programa.</translation>
+    </message>
+    <message>
+        <source>The process crashed some time after starting successfully.</source>
+        <translation>El proceso se ha cerrado después de empezar con éxito.</translation>
+    </message>
+    <message>
+        <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
+        <translation>Se produjo un error al intentar escribir en el proceso. Por ejemplo, el proceso no se esté ejecutando, o puede haber cerrado su canal de entrada.</translation>
+    </message>
+    <message>
+        <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
+        <translation>Se produjo un error al intentar leer en el proceso. Por ejemplo, el proceso no se puede ejecutar.</translation>
+    </message>
+    <message>
+        <source>An unknown error occurred. This is the default return value of error()</source>
+        <translation>Ocurrió un error desconocido. Este es el valor de retorno de error ()</translation>
+    </message>
+    <message>
+        <source>B</source>
+        <comment>bytes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KiB</source>
+        <comment>kibibytes (1024 bytes)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MiB</source>
+        <comment>mebibytes (1024 kibibytes)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GiB</source>
+        <comment>gibibytes (1024 mibibytes)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TiB</source>
+        <comment>tebibytes (1024 gibibytes)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt; 1m</source>
+        <comment>&lt; 1 minute</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1m</source>
+        <comment>e.g: 10minutes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1h%2m</source>
+        <comment>e.g: 3hours 5minutes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1d%2h%3m</source>
+        <comment>e.g: 2days 10hours 2minutes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The last waitFor...() function timed out. The state of QProcess is unchanged, and you can try calling waitFor...() again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STYearAndMonthDialog</name>
+    <message>
+        <source>Year: </source>
+        <translation>Año: </translation>
+    </message>
+    <message>
+        <source>Month: </source>
+        <translation>Mes:</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>STicketPrinterSettings</name>
+    <message>
+        <source>Use Direct Print Mode</source>
+        <translation>Utilizar modo de impresión directo</translation>
+    </message>
+    <message>
+        <source>System Ticket Printer Name</source>
+        <translation>Nombre de la impresora de tiquets del sistema</translation>
+    </message>
+    <message>
+        <source>Ticket report file</source>
+        <translation>Archivo de informe de tiquet</translation>
+    </message>
+    <message>
+        <source>Ticket printer device</source>
+        <translation>Dispositivo de impresión de ticket</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Ticket printer device type</source>
+        <translation>Tipo de dispositivo de impresión de tiquet</translation>
+    </message>
+    <message>
+        <source>Box connector</source>
+        <translation>Conector de caja</translation>
+    </message>
+    <message>
+        <source>Box connector pin</source>
+        <translation>Pin de conexión de caja</translation>
+    </message>
+    <message>
+        <source>Device printer</source>
+        <translation>Dispositivo impresora</translation>
+    </message>
+    <message>
+        <source>Indicates if it is a linux device printer</source>
+        <translation>Indica si es un dispositivo de impresión de linux</translation>
+    </message>
+</context>
+<context>
+    <name>STicketPrinterSettingsSystemDriverWidget</name>
+    <message>
+        <source>System printer</source>
+        <translation>Impresora de sistema</translation>
+    </message>
+    <message>
+        <source>Design ticket</source>
+        <translation>Diseñar tiquet</translation>
+    </message>
+</context>
+<context>
+    <name>STicketPrinterSettingsWidget</name>
+    <message>
+        <source>Use system printer driver</source>
+        <translation>Utilizar controlador de impresión del sistema</translation>
+    </message>
+</context>
+<context>
+    <name>SectionEditor</name>
+    <message>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">&amp;Editar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Section Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report Header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page Footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Even Page(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Odd Page(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any Page(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report Footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page Header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Even Pages(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any Pages(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Detail Sections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Borrar</translation>
+    </message>
+    <message>
+        <source>Move &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SelectionInterface</name>
+    <message>
+        <source>Low quality image %1 x %2 (DPI: %3!)</source>
+        <translation>Imagen de baja calidad %1 x %2 (DPI: %3!)</translation>
+    </message>
+</context>
+<context>
+    <name>SplitViewInterface</name>
+    <message>
+        <source>Original</source>
+        <translation>Original</translation>
+    </message>
+    <message>
+        <source>Adjusted</source>
+        <translation>Ajustado</translation>
+    </message>
+</context>
+<context>
+    <name>StringEdit</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>String</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TemplateDownloadDialog</name>
+    <message>
+        <source>Dowloading...</source>
+        <translation>Descargando...</translation>
+    </message>
+</context>
+<context>
+    <name>TextEditor</name>
+    <message>
+        <source>Y:</source>
+        <translation type="unfinished">Y:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished">Altura:</translation>
+    </message>
+    <message>
+        <source>X:</source>
+        <translation type="unfinished">X:</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished">Ancho:</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished">Alt+C</translation>
+    </message>
+    <message>
+        <source>Properties (Text)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom Padding:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Source:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Column:</source>
+        <translation type="unfinished">Columna:</translation>
+    </message>
+    <message>
+        <source>HAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished">No</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Position/Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.01</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview Area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Font...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>blackWhiteEffect</name>
+    <message>
+        <source>Applying Black + White Effect:</source>
+        <translation>Aplicando efecto de blanco y negro:</translation>
+    </message>
+</context>
+<context>
+    <name>enhanceImageContrast</name>
+    <message>
+        <source>Enhancing Contrast:</source>
+        <translation>Mejorando el contraste:</translation>
+    </message>
+</context>
+<context>
+    <name>improveColorBalance</name>
+    <message>
+        <source>Enhancing Color Balance:</source>
+        <translation>Mejorando el balance de color:</translation>
+    </message>
+</context>
+<context>
+    <name>login</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Log In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Build: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;erver:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Database:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>loginOptions</name>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>Login Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Database:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;erver:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Driver:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PostgreSQL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ODBC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>removeRedeyeRegions</name>
+    <message>
+        <source>Removing Red-Eye:</source>
+        <translation>Eliminando ojos rojos:</translation>
+    </message>
+</context>
+<context>
+    <name>sepiaEffect</name>
+    <message>
+        <source>Applying Sepia Effect:</source>
+        <translation>Aplicando efecto sepia:</translation>
+    </message>
+</context>
+</TS>

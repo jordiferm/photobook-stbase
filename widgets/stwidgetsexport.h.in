@@ -1,0 +1,15 @@
+#ifndef _STWIDGETEXPORT_H
+#define _STWIDGETEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_widgets_EXPORTS)
+		#define ST_WIDGETS_EXPORT __declspec(dllexport)
+	#else
+			#define ST_WIDGETS_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_WIDGETS_EXPORT
+#endif
+
+#endif // !_STWIDGETEXPORT_H
+

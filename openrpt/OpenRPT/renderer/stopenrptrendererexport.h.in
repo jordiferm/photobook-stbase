@@ -1,0 +1,15 @@
+#ifndef _STOPENRPT_RENDEREREXPORT_H
+#define _STOPENRPT_RENDEREREXPORT_H
+
+#if defined(WIN32) 
+	#if defined(st_openrpt_renderer_EXPORTS)
+		#define ST_OPENRPT_RENDERER_EXPORT __declspec(dllexport)
+	#else
+			#define ST_OPENRPT_RENDERER_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_OPENRPT_RENDERER_EXPORT
+#endif
+
+#endif // !_STOPENRPT_RENDEREREXPORT_H
+

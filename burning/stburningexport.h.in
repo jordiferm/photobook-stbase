@@ -1,0 +1,15 @@
+#ifndef _STBURNINGEXPORT_H
+#define _STBURNINGEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_burning_EXPORTS)
+		#define ST_BURNING_EXPORT __declspec(dllexport)
+	#else
+			#define ST_BURNING_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_BURNING_EXPORT
+#endif
+
+#endif // !_STBURNINGEXPORT_H
+

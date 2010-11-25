@@ -1,0 +1,16 @@
+#ifndef _STDBMANAGEXPORT_H
+#define _STDBMANAGEXPORT_H
+
+
+#if defined(WIN32) 
+	#if defined(st_dbmanag_EXPORTS)
+		#define ST_DBMANAG_EXPORT __declspec(dllexport)
+	#else
+			#define ST_DBMANAG_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_DBMANAG_EXPORT
+#endif
+
+#endif // !_STDBMANAGEXPORT_H
+

@@ -1,0 +1,15 @@
+#ifndef _STKEXIV2EXPORT_H
+#define _STKEXIV2EXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_kexiv2_EXPORTS)
+		#define ST_KEXIV2_EXPORT __declspec(dllexport)
+	#else
+			#define ST_KEXIV2_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_KEXIV2_EXPORT
+#endif
+
+#endif // !_STKEXIV2EXPORT_H
+
