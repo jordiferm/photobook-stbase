@@ -17,6 +17,8 @@ SET( STBASE_SO_VERSION ${STBASE_MAJOR_VERSION}.${STBASE_MINOR_VERSION} )
 
 IF(APPLE)
 	SET(ST_APP_PATH "${ST_APP_NAME}.app")
+#	MESSAGE(SEND_ERROR "AppPath: ${ST_APP_PATH} .")
+
 ENDIF(APPLE)
 
 # --------------------------------------------------------------------------
@@ -41,6 +43,13 @@ ELSE(UNIX AND NOT APPLE)
 ENDIF(UNIX AND NOT APPLE)
 
 # --------------------------------------------------------------------------
+# Docs
+
+OPTION(STBASE_INSTALL_DOCS
+  "Install documentation"
+  OFF)
+
+# --------------------------------------------------------------------------
 # Installation dirs
 
 IF(NOT STBASE_LIBRARY_OUTPUT_PATH)
@@ -48,12 +57,22 @@ IF(NOT STBASE_LIBRARY_OUTPUT_PATH)
 		SET ( STBASE_LIBRARY_OUTPUT_PATH bin )
 	ELSE(WIN32 AND NOT UNIX)
 		IF(APPLE)
-			SET ( STBASE_LIBRARY_OUTPUT_PATH ${STBASE_APP_PATH}/Contents/MacOS )
+			SET ( STBASE_LIBRARY_OUTPUT_PATH ${ST_APP_PATH}/Contents/MacOS )
+			SET ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${${ST_APP_NAME}_BINARY_DIR}/${ST_APP_PATH}/Contents/MacOS )
 		ELSE(APPLE) #UNIX
 			SET ( STBASE_LIBRARY_OUTPUT_PATH lib/${PROJECT_NAME} )
 		ENDIF(APPLE)
 	ENDIF(WIN32 AND NOT UNIX)
 ENDIF(NOT STBASE_LIBRARY_OUTPUT_PATH)
+
+#SET(${ST_APP_NAME}_LIBRARY_DIRS ${LIBRARY_OUTPUT_DIRECTORY})
+#SET(${ST_APP_NAME}_RUNTIME_DIRS ${LIBRARY_OUTPUT_DIRECTORY})
+
+#IF(NOT RUNTIME_OUTPUT_DIRECTORY)
+#  SET(RUNTIME_OUTPUT_DIRECTORY ${${PROJECT_NAME}_BINARY_DIR}/bin CACHE INTERNAL
+#    "Single output directory for building all executables.")
+#ENDIF(NOT RUNTIME_OUTPUT_DIRECTORY)
+
 
 
 # --------------------------------------------------------------------------
@@ -175,5 +194,6 @@ IF(ST_USE_DIGIKAM)
 ENDIF(ST_USE_DIGIKAM)
 
 ADD_SUBDIRECTORY(data)
+ADD_SUBDIRECTORY(doc)
 
 ENDIF(NOT QT4_FOUND)

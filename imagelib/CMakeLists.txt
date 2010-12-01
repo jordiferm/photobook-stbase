@@ -1,6 +1,7 @@
 # --------------------------------------------------------------------------
 # General
 PROJECT(st_imagelib)
+cmake_minimum_required(VERSION 2.8)
 
 INCLUDE_DIRECTORIES( ${st_core_SOURCE_DIR} )
 INCLUDE_DIRECTORIES( ${st_core_BINARY_DIR} )

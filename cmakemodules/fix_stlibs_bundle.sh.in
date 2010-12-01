@@ -1,0 +1,33 @@
+#/bin/bash
+
+
+#BIN_DIR="sysfolderprint.app/Contents/MacOS"
+BIN_DIR="${CMAKE_PROJECT_NAME}.app/Contents/MacOS"
+
+ABS_BIN_DIR="`pwd`/$BIN_DIR"
+BASE_DIR="`pwd`"
+for i in `ls ./$BIN_DIR/libst*.?.?.?.dylib` 
+do
+	echo Fixing $i ... 
+	install_name_tool -change QtXml.framework/Versions/4/QtXml @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml $i
+	install_name_tool -change QtCore.framework/Versions/4/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore $i
+	install_name_tool -change QtGui.framework/Versions/4/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui $i
+	install_name_tool -change QtSql.framework/Versions/4/QtSql @executable_path/../Frameworks/QtSql.framework/Versions/4/QtSql $i
+	install_name_tool -change QtSvg.framework/Versions/4/QtSvg @executable_path/../Frameworks/QtSvg.framework/Versions/4/QtSvg $i
+	install_name_tool -change QtNetwork.framework/Versions/4/QtNetwork @executable_path/../Frameworks/QtNetwork.framework/Versions/4/QtNetwork $i
+	install_name_tool -change QtWebKit.framework/Versions/4/QtWebKit @executable_path/../Frameworks/QtWebKit.framework/Versions/4/QtWebKit $i
+	install_name_tool -change Qt3Support.framework/Versions/4/Qt3Support @executable_path/../Frameworks/Qt3Support.framework/Versions/4/Qt3Support $i
+
+done 
+
+pushd .
+cd $ABS_BIN_DIR
+for j in `ls libst*.?.?.dylib`
+do
+	for i in `ls libst*.?.?.dylib`
+	do
+		install_name_tool -change $ABS_BIN_DIR/$j @executable_path/./$j $i
+	done
+done
+popd
+

@@ -1,0 +1,14 @@
+/*! \mainpage STBase Database Module
+ *
+ * \section intro_sec Introduction
+ *
+ * This module provides Database extensions and consist of the following libraries:
+
+ *
+ * \section stdatabase_sec statabase
+ *		Models, Delegates, Views, Automapped forms, setting widgets, database utils and extensions.
+ * \section stdbmanag_sec stdbmanag
+ *		Create, update and manage database from xml metadata definitions.
+ * \section stmetadata_sec stmetadata
+ *		Xml metadata interpreter.
+ */

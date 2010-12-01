@@ -25,12 +25,12 @@
 #include "stdatabaseexport.h"
 #include "smappedwidget.h"
 
-/**
-Widget per a la configuració d'una base de dades.
- 
-@author Shadow
-*/
 class FSqlDatabaseSettings;
+/*! \brief Widget to store single database connection settings.
+
+This class is a mapped form with the connection settings of one database.
+
+*/
 class ST_DATABASE_EXPORT FSingleDBConfigWidget : public SMappedWidget
 {
 	Q_OBJECT
@@ -45,12 +45,14 @@ private slots:
 	void slotRestoreDb();
 };
 
-/**
-Widget per a la configuració de n base de dades. (Segons Settings)
- 
-@author Shadow
-*/
 class QTabWidget;
+
+/*! \brief Widget to store multiple database connection settings.
+
+This class is a mapped form with all the database connection settings.
+It contains a group of FSingleDBConfigWidget widgets layed out with a QTabWidget.
+
+*/
 class ST_DATABASE_EXPORT FDBConfigWidget : public QWidget
 {
 	Q_OBJECT

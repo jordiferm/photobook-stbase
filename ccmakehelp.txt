@@ -1,1 +1,5 @@
 - use a .h.in file for global version.h.
+
+To build macosx package do: 
+make && make fixmacbundle package
+

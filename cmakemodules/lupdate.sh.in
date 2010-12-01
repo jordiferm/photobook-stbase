@@ -1,0 +1,19 @@
+#!/bin/bash
+LUPDATE="lupdate"
+LANGUAGES="${PRJ_LANGUAGES}"
+echo ${CMAKE_CURRENT_SOURCE_DIR}
+echo "${FILES_TO_TRANSLATE}"
+
+
+
+for i in $LANGUAGES ;
+do
+	echo "Updating ts files..."
+	for j in ${TRANSLATE_PATHS}
+	do
+		$LUPDATE -no-recursive $j -ts ${CMAKE_CURRENT_SOURCE_DIR}/translations/${CMAKE_PROJECT_NAME}_"$i".ts
+	done
+	#$LUPDATE -no-recursive ../  -ts sysfolderprint_"$i".ts
+	#Database tables
+	#$LUPDATE ../database/share/tables/*.mtd -ts st_"$i".ts
+done
