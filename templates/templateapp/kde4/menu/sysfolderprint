@@ -1,0 +1,6 @@
+?package(ttpops):\
+	needs="X11"\
+	section="Applications/Viewers"\
+	title="templateapp"\
+	icon64x64="/usr/share/icons/hicolor/64x64/apps/appicon.png"\
+	command="/usr/bin/runtemplateapp"

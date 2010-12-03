@@ -1,0 +1,21 @@
+#This project depends on st-base libs
+http://stbase.sourceforge.net/
+
+#How to build project 
+mkdir build 
+cd build 
+cmake ..
+make 
+
+#To install run: 
+make install
+
+
+#Howto Build Packages:
+
+#On Mac OS
+make && make fixmacbundle package 
+
+#On Other systems 
+make package
+

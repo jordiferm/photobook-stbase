@@ -1,0 +1,15 @@
+#ifndef _STDOMEXPORT_H
+#define _STDOMEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_dom_EXPORTS)
+		#define ST_DOM_EXPORT __declspec(dllexport)
+	#else
+			#define ST_DOM_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_DOM_EXPORT
+#endif
+
+#endif // !_STKPHOSCOSEXPORT_H
+

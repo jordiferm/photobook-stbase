@@ -1,0 +1,55 @@
+In this file:
+
+* About This project 
+* Licencing 
+* Usage 
+* Compile Problems 
+* More info
+
+About This project
+------------------
+
+About this project.
+
+This software is available on GNU/Linux, MacOSX and Windows plattforms. However this is most tested on Windows and linux.
+
+Licencing
+-----------------
+
+The libraries themselves have been covered (since 2008)
+by the GNU Library General Public License (LGPL). Any other programs (such
+as the examples and dependences) are covered by the GNU General Public License (GPL). All
+the gory details for the LGPL reside in COPYING.LIB, and for the GPL reside
+in COPYING.
+
+When in doubt, check the individual file, they should all have license
+headings and other identifying marks.
+
+
+Installation
+-----------------
+See the file 'INSTALL'.
+
+
+Compile Problems
+-----------------
+This project is tested with g++ 4.2.1. Please if you have problems in compilation process mail me:
+j@softtopia.com attaching the compiler output and version.
+We appretiate your reports because it could help us to improve our products.
+
+How To Report
+-----------------
+Send bug reports at: www.softopia.com/sysfolderprint/bugs
+
+Please don't hessitate to send bug reports.
+We appretiate your reports because it could help us to improve our products.
+
+
+More info
+-----------------
+See 'ChangeLog' for a list of recent changes.
+See 'AUTHORS' for a list of author contacts.
+For more info please refer to: http://templateproject.sourceforge.net
+
+Enjoy it. ;)
+
