@@ -19,7 +19,7 @@ IF(WIN32)
 
 #Data, translations, icons and app files.
 	SET(${CMAKE_PROJECT_NAME}bin_dest_dir bin)
-    ADD_SUBDIRECTORY(data)
+	#ADD_SUBDIRECTORY(data)
 
 #Main app target
 	INSTALL(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION bin)
