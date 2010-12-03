@@ -49,6 +49,10 @@ OPTION(STBASE_INSTALL_DOCS
   "Install documentation"
   OFF)
 
+OPTION(BUILD_DOCS
+	"Build documentation"
+OFF)
+
 # --------------------------------------------------------------------------
 # Installation dirs
 
@@ -219,6 +223,9 @@ IF(ST_USE_DOM)
 ENDIF(ST_USE_DOM)
 
 ADD_SUBDIRECTORY(data)
-ADD_SUBDIRECTORY(doc)
+
+IF(BUILD_DOCS)
+	ADD_SUBDIRECTORY(doc)
+ENDIF(BUILD_DOCS)
 
 ENDIF(NOT QT4_FOUND)
