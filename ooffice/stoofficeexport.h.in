@@ -1,0 +1,15 @@
+#ifndef _STOOFFICEEXPORT_H
+#define _STOOFFICEEXPORT_H
+
+#if defined(WIN32) 
+	#if defined(st_ooffice_EXPORTS)
+		#define ST_OOFFICE_EXPORT __declspec(dllexport)
+	#else
+			#define ST_OOFFICE_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_OOFFICE_EXPORT
+#endif
+
+#endif // !_STOOFFICEEXPORT_H
+
