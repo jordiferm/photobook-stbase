@@ -35,18 +35,19 @@
 #include "fsqlmetadata.h" 
 #include "fdbutils.h"
 
+
 // _________________________________________________________________________*/
 //
 //	Class FRecordWidgetDelegate.
 // _________________________________________________________________________*/
 
-FRecordWidgetDelegate::FRecordWidgetDelegate(QObject* _Parent) : QSqlRelationalDelegate(_Parent)
+FRecordWidgetDelegate::FRecordWidgetDelegate(QSqlTableModel* _Model ,QObject* _Parent) : QSqlRelationalDelegate(_Parent), Model(_Model)
 {}
 
 QWidget * FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOptionViewItem& _Option, const QModelIndex& _Index) const
 {
 	QWidget* Editor = 0;
-	const QSqlTableModel* Model = qobject_cast<const QSqlTableModel*>(_Index.model());
+	//const QSqlTableModel* Model = qobject_cast<const QSqlTableModel*>(_Index.model());
 	if (Model)
 	{
 		bool RelField = false;
@@ -66,7 +67,7 @@ QWidget * FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOpti
 		{
 			if (FDBUtils::isSqlite(Model->database())) //SQLite has no booleans and itemDelegate is not able to
 			{
-				FTableMetaData TMetaData = FSqlDatabaseManager::manager().tableMetaData(Model->tableName()); 
+				FTableMetaData TMetaData = FSqlDatabaseManager::manager().tableMetaData(Model->tableName());
 				if (TMetaData.fields.contains(Model->record().fieldName(_Index.column())))
 				{
 					FFieldMetaData FMetaData = TMetaData.fields[Model->record().fieldName(_Index.column())]; 
@@ -78,7 +79,9 @@ QWidget * FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOpti
 	}	
 	
 	if (!Editor)
+	{
 		Editor = QSqlRelationalDelegate::createEditor(_Parent, _Option, _Index);
+	}
 	
 	if (Model)	
 	{
@@ -102,7 +105,7 @@ FRecordWidget::FRecordWidget(QSqlTableModel* _Model, QWidget* _Parent)
 	Mapper = new QDataWidgetMapper(this);
 	Mapper->setModel(_Model);
 	//Mapper->setItemDelegate(new FSqlRelationalDelegate(this)); //Does not work.
-	Mapper->setItemDelegate(new FRecordWidgetDelegate(this));
+	Mapper->setItemDelegate(new FRecordWidgetDelegate(_Model, this));
 	WidgetCreated = false;
 }
 
@@ -232,11 +235,12 @@ QWidget* FRecordWidget::fieldEditor(const QString& _FieldName)
 	return Res;
 }
 
+
 /*!
 	This is an overloaded member function, provided for convenience.
 */
 
-QWidget* FRecordWidget::createEditor(int _Index, const QString& _Suffix)
+QWidget* FRecordWidget::createEditor(int _Index, const QString& _Suffix, bool _ReadOnly)
 {
 	QStyleOptionViewItem Options;
 	QWidget* Editor = Mapper->itemDelegate()->createEditor(this, Options, Model->index(0, _Index));
@@ -251,6 +255,14 @@ QWidget* FRecordWidget::createEditor(int _Index, const QString& _Suffix)
 		
 	if (!_Suffix.isEmpty())
 		setSuffix(Editor, _Suffix);
+
+	if (_ReadOnly)
+	{
+		if (QLineEdit* LEditEditor = qobject_cast<QLineEdit*>(Editor))
+			LEditEditor->setReadOnly(true);
+		else
+			Editor->setEnabled(false);
+	}
 	
 	return Editor;
 }
@@ -260,14 +272,24 @@ QWidget* FRecordWidget::createEditor(int _Index, const QString& _Suffix)
 	To create the editor this function uses current QDataWidgetMapper itemDelegate.
 */
 
-QWidget* FRecordWidget::createEditor(const QString& _FieldName, const QString& _Suffix)
+QWidget* FRecordWidget::createEditor(const QString& _FieldName, const QString& _Suffix, bool _ReadOnly)
 {
-	return createEditor(FSqlModelViewUtils::indexOf(Model,_FieldName), _Suffix);
+	return createEditor(FSqlModelViewUtils::indexOf(Model,_FieldName), _Suffix, _ReadOnly);
+}
+
+QString FRecordWidget::labelForField(int _Index)
+{
+	return  Model->headerData(_Index, Qt::Horizontal).toString() + " :";
+}
+
+QString FRecordWidget::labelForField(const QString& _FieldName)
+{
+	return labelForField(FSqlModelViewUtils::indexOf(Model,_FieldName));
 }
 
 QLabel* FRecordWidget::createHeaderLabel(int _Index)
 {
-	QLabel* Res = new QLabel(Model->headerData(_Index, Qt::Horizontal).toString() + " :", this);
+	QLabel* Res = new QLabel(labelForField(_Index), this);
 	QFont Font = Res->font();
 	Font.setBold(true);
 	Res->setFont(Font);

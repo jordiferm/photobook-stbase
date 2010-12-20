@@ -10,12 +10,13 @@ INCLUDE_DIRECTORIES( ${st_metadata_SOURCE_DIR} )
 INCLUDE_DIRECTORIES( ${st_metadata_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_ticketprinter_SOURCE_DIR} )
 INCLUDE_DIRECTORIES( ${st_ticketprinter_BINARY_DIR} )
+INCLUDE_DIRECTORIES( ${st_widgets_SOURCE_DIR} )
+INCLUDE_DIRECTORIES( ${st_widgets_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_dom_BINARY_DIR} )
 
 # --------------------------------------------------------------------------
 # Modules
 INCLUDE(${st_imagelib_SOURCE_DIR}/stmodinclude.cmake)
-
 
 # --------------------------------------------------------------------------
 # Configure Qt
@@ -40,6 +41,10 @@ SET(prj_SRCS
 	printjobmodel.cpp
 	orderdatabase.cpp
 	ticketdatabase.cpp
+	stxmlpublishersettings.cpp
+	stcollectionpublishermodel.cpp
+	stftpordertransfer.cpp
+	stftpordertransferdialog.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -54,6 +59,10 @@ SET(prj_MOC_HDRS
 	printjobmodel.h
 	orderdatabase.h
 	ticketdatabase.h
+	stxmlpublishersettings.h
+	stcollectionpublishermodel.h
+	stftpordertransfer.h
+	stftpordertransferdialog.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})
@@ -74,6 +83,6 @@ CONFIGURE_FILE("${st_dom_SOURCE_DIR}/stdomexport.h.in"
 ADD_LIBRARY(st_dom SHARED ${prj_SRCS} ${prj_MOC_SRCS})
 SET_TARGET_PROPERTIES(st_dom PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
 
-TARGET_LINK_LIBRARIES(st_dom ${QT_LIBRARIES} st_database st_metadata st_ticketprinter ${ST_IMAGELIB_LIBRARIES} st_dom)
+TARGET_LINK_LIBRARIES(st_dom ${QT_LIBRARIES} st_database st_metadata st_ticketprinter st_widgets ${ST_IMAGELIB_LIBRARIES} st_dom)
 
 INSTALL(TARGETS st_dom DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})

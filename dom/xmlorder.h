@@ -163,6 +163,7 @@ public:
 	QString orderPath() const { return OrderFilesPath + "/" + OrderId + "/"; }
 	QString orderXmlFilePath() const { return orderPath() +  orderXmlFileName(); }
 	static QString orderXmlFileName() { return "order.xml"; }
+	static QString defaultOrderPath(const QString& _OrderId) { return DefaultOrderFilesPath + "/" + _OrderId + "/"; }
 };
 
 

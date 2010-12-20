@@ -155,7 +155,7 @@ bool FSqlDatabase::create(const FSqlDatabaseSettings& _Settings, QString& _Warni
 			"databases.\n Please contact your system administrator.");
 		else
 		{
-			TmpDb.exec("CREATE DATABASE " + _Settings.databaseName() + " WITH ENCODING = 'UNICODE';");
+			TmpDb.exec("CREATE DATABASE " + _Settings.databaseName() + " WITH ENCODING = 'UTF8';");
 			if(TmpDb.lastError().type()!= QSqlError::NoError)
 			{
 				if( TmpDb.lastError().databaseText().contains("permission denied") )

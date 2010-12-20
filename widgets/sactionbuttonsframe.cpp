@@ -56,6 +56,7 @@ void SActionButtonsFrame::setButtonStyle(Qt::ToolButtonStyle _Style)
 void SActionButtonsFrame::addAction(QAction* _Action)
 {
 	QToolButton* AButton = new QToolButton(this); 
+	AButton->setObjectName("SActionButton");
 	AButton->setFocusPolicy(Qt::StrongFocus);
 	AButton->setDefaultAction(_Action); 
 	AButton->setToolButtonStyle(ButtonStyle); 

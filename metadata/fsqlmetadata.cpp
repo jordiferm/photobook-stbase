@@ -303,15 +303,19 @@ QString FTableMetaData::xml() const
 	return Strm.readAll();
 }
 
-void FTableMetaData::configure(QSqlTableModel& _Model) const
+void FTableMetaData::configure(QSqlTableModel* _Model) const
 {
-	_Model.setTable(name);	
+	_Model->setTable(name);
 	TFieldList::const_iterator it;
 	for (it = fields.begin(); it != fields.end(); ++it)
 	{
-		_Model.setHeaderData(_Model.record().indexOf(it->name()), Qt::Horizontal, QApplication::translate("MetaData", it->alias.toLatin1()));
+		_Model->setHeaderData(_Model->record().indexOf(it->name()), Qt::Horizontal, QApplication::translate("MetaData", it->alias.toLatin1()));
 	}
-	
+}
+
+void FTableMetaData::configure(QSqlTableModel& _Model) const
+{
+	configure(&_Model);
 }
 
 void FTableMetaData::configureHeaderData(QSqlTableModel& _Model) const
@@ -351,36 +355,40 @@ FFieldMetaData FTableMetaData::relatedField(const QString& _RelatedTableName) co
 	return Result;
 }
 
-
-void FTableMetaData::configure(QSqlRelationalTableModel& _Model) const 
+void FTableMetaData::configure(QSqlRelationalTableModel& _Model) const
 {
-	configure(static_cast<QSqlTableModel&>(_Model));
+	configure(&_Model);
+}
+
+void FTableMetaData::configure(QSqlRelationalTableModel* _Model) const
+{
+	configure(static_cast<QSqlTableModel*>(_Model));
 	TFieldList::const_iterator it;
 	for (it = fields.begin(); it != fields.end(); ++it)
 	{
 		if (!it->relation().isNull())
 		{
 //			qDebug(QString("Configuring table: %1, index of %2 is %3 ").arg(_Model.tableName()).arg(it->name()).arg(FSqlModelViewUtils::indexOf(&_Model, it->name())).toLatin1() );
-			_Model.setRelation( FSqlModelViewUtils::indexOf(&_Model, it->name()), it->relation().qSqlRelation());
+			_Model->setRelation( FSqlModelViewUtils::indexOf(_Model, it->name()), it->relation().qSqlRelation());
 			#ifndef FLAM_NO_WARNING_OUTPUT
-			if (!_Model.database().tables().contains(it->relation().qSqlRelation().tableName()))
+			if (!_Model->database().tables().contains(it->relation().qSqlRelation().tableName()))
 			{
 				qWarning(QString("FTableMetaData::configure-> Table: " + 
 					it->relation().qSqlRelation().tableName() +  " not found !. Configuring table: " 
-					+ _Model.tableName() ).toLatin1());
+					+ _Model->tableName() ).toLatin1());
 			}
 			else 
 			{
 				QSqlRelation Relation = it->relation().qSqlRelation();
-				if (!_Model.database().record(Relation.tableName()).contains(Relation.displayColumn()))
+				if (!_Model->database().record(Relation.tableName()).contains(Relation.displayColumn()))
 					qWarning(QString("FTableMetaData::configure-> Field: " + 
 						Relation.displayColumn() +  " not found in table " + Relation.tableName() + 
-						" !. Configuring table: " + _Model.tableName() ).toLatin1());
+						" !. Configuring table: " + _Model->tableName() ).toLatin1());
 				else 
-				if (!_Model.database().record(Relation.tableName()).contains(Relation.indexColumn()))
+				if (!_Model->database().record(Relation.tableName()).contains(Relation.indexColumn()))
 					qWarning(QString("FTableMetaData::configure-> Field: " + 
 						Relation.indexColumn() +  " not found in table " + Relation.tableName() + 
-						" !. Configuring table: " + _Model.tableName() ).toLatin1());
+						" !. Configuring table: " + _Model->tableName() ).toLatin1());
 				
 			}		
 			

@@ -29,6 +29,9 @@ void FDialog::init(QWidget* _MainWidget)
 	MainWidget = 0;
 	ButBox = 0;
 	MLayout = new QVBoxLayout(this);
+	MLayout->setMargin(2);
+	MLayout->setSpacing(2);
+
 	if (_MainWidget)
 		setMainWidget(_MainWidget); 
 	
@@ -121,7 +124,8 @@ FAction::EnActionId FDialog::result() const
 
 FAction::EnActionId FDialog::exec()
 {
-	QDialog::exec(); 
+	int Res = QDialog::exec();
+	Result = static_cast<FAction::EnActionId>(Res);
 	return result();
 }
 

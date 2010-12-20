@@ -226,7 +226,16 @@ QString SApplication::appUserSharedPath(const QString& _AppPath)
 	#ifdef Q_OS_WIN32
 		Res = _AppPath + "/../share/st";
 	#else
-		Res = "/usr/share/st";
+		//In macosx bundle we first look for bundle publishers:
+		#ifdef Q_OS_MAC
+				QString BundlePath = _AppPath + "/share/st";
+				if (QFile::exists(BundlePath))
+						Res = BundlePath;
+				else
+						Res = "/usr/share/st";
+		#else
+				Res = "/usr/share/st";
+		#endif
 	#endif
 	return Res;
 }

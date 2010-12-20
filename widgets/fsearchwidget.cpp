@@ -65,13 +65,15 @@ void QFSLineEdit::keyPressEvent(QKeyEvent * _Event)
 void FSearchWidget::createControls(QAbstractItemView* _View)
 {
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
-	
-	LEditFrame = new QFrame(this); 
-	QHBoxLayout* LabLayout = new QHBoxLayout(LEditFrame); 
+	MLayout->setMargin(0);
+	MLayout->setSpacing(0);
+	LEditFrame = new QFrame(this);
+	QHBoxLayout* LabLayout = new QHBoxLayout(LEditFrame);
+	LabLayout->setMargin(2);
 	MLayout->addWidget(LEditFrame);
-	
+
 	QLabel* LabSearchIco = new QLabel(LEditFrame);	
-	LabSearchIco->setPixmap(QPixmap(":/icons/search.png"));
+	LabSearchIco->setPixmap(QPixmap(":/st/smallsearch.png"));
 	LabLayout->addWidget(LabSearchIco); 
 	LabSearch = new QLabel(LEditFrame);	
 	QFont LSFont = LabSearch->font();

@@ -34,6 +34,12 @@
 FSqlSearchDialog::FSqlSearchDialog(FSqlSearchWidget* _SqlSearchWidget, QWidget* _Parent) 
 	: FSearchDialog(_SqlSearchWidget, _Parent)
 {
+	QAction* AcceptAction = new QAction(QIcon(":/st/accept.png"), tr("Accept"), this);
+	connect(AcceptAction, SIGNAL(triggered()), this, SLOT(accept()));
+	QAction* CancelAction = new QAction(QIcon(":/st/cancel.png"), tr("Cancel"), this);
+	connect(CancelAction, SIGNAL(triggered()), this, SLOT(reject()));
+	addAction(AcceptAction);
+	addAction(CancelAction);
 }
 
 

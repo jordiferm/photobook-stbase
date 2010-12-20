@@ -75,6 +75,7 @@ SET(prj_SRCS
 	stconcurrentprogressindicator.cpp
 	stftpstatuswidget.cpp
 	templatedownloaddialog.cpp
+	sintvalueselector.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -140,6 +141,7 @@ SET(prj_MOC_HDRS
 	stconcurrentprogressindicator.h
 	stftpstatuswidget.h
 	templatedownloaddialog.h
+	sintvalueselector.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

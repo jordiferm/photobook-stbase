@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/st" >
+    <qresource prefix="/st">
         <file>fileopen.png</file>
         <file>info.png</file>
         <file>error.png</file>
@@ -57,5 +57,6 @@
         <file>rotateright.png</file>
         <file>folder.png</file>
         <file>hourglass.png</file>
+        <file>smallsearch.png</file>
     </qresource>
 </RCC>

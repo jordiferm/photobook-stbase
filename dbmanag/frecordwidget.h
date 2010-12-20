@@ -33,8 +33,9 @@
 class ST_DBMANAG_EXPORT FRecordWidgetDelegate : public QSqlRelationalDelegate
 {
 Q_OBJECT
+	QSqlTableModel* Model;
 public:
-	FRecordWidgetDelegate(QObject* _Parent = 0);
+	FRecordWidgetDelegate(QSqlTableModel* _Model, QObject* _Parent = 0);
 	virtual QWidget * createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 };
 
@@ -83,8 +84,10 @@ public:
 	void createImageEditors(QGridLayout* _ContLayout, const FSqlRelationalImageModel::TImageIndexList& _ImageIndexs, int _NumCols = 1);
 	QWidget* createImageEditors(QWidget* _Container, const QRegExp& _PrefixMatch, int _NumCols = 1);
 	QWidget* fieldEditor(const QString& _FieldName);
-	QWidget* createEditor(int _Index, const QString& _Suffix);
-	QWidget* createEditor(const QString& _FieldName, const QString& _Suffix = "");
+	QWidget* createEditor(int _Index, const QString& _Suffix, bool _ReadOnly = false);
+	QWidget* createEditor(const QString& _FieldName, const QString& _Suffix = "", bool _ReadOnly = false);
+	QString labelForField(int _Index);
+	QString labelForField(const QString& _FieldName);
 	QLabel* createHeaderLabel(int _Index);
 	QLabel* createHeaderLabel(const QString& _FieldName);
 	QDataWidgetMapper* mapper() const;

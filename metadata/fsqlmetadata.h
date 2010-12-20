@@ -134,9 +134,11 @@ public:
 	void load(const QString& _FileName); 
 	QString xml() const;
 	bool isNull() const {return IsNull;} //No està carregada;
+	void configure(QSqlTableModel* _Model) const;
 	void configure(QSqlTableModel& _Model) const;
 	void configureHeaderData(QSqlTableModel& _Model) const;
 	void configure(QSqlRelationalTableModel& _Model) const;
+	void configure(QSqlRelationalTableModel* _Model) const;
 	FFieldMetaData relatedField(const QString& _RelatedTableName) const;
 	TSqlInstr sqlAfterCreate() const {return SqlAfterCreate;} 
 	TSqlInstr sqlBeforeCreate() const {return SqlBeforeCreate;} 
