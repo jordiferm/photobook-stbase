@@ -60,7 +60,7 @@ QWidget * FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOpti
 			FSTextEdit* FSEdit = new FSTextEdit(_Parent);
 			FSEdit->setWordWrapMode(QTextOption::WordWrap);
 			FSEdit->setTabChangesFocus(true);
-			FSEdit->setMaximumHeight(((Model->record().field(_Index.column()).length() % 100) + 3) * FSEdit->fontMetrics().height());
+			//FSEdit->setMaximumHeight(((Model->record().field(_Index.column()).length() % 100) + 3) * FSEdit->fontMetrics().height());
 			Editor = FSEdit;
 		}
 		else 

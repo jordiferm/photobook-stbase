@@ -67,7 +67,9 @@ void OOfficeTemplate::parseFile(const QString& _FileName)
 	Assert(OutFile.open(), Error(QObject::tr("Error creating temporary file.")));
 
 	QTextStream StrmIn(&ContentFile);
+	StrmIn.setCodec("UTF-8");
 	QTextStream StrmOut(&OutFile);
+	StrmOut.setCodec("UTF-8");
 	QString CurrentLine;
 	do {
 		CurrentLine = StrmIn.readLine();
@@ -130,12 +132,11 @@ void OOfficeTemplate::parse(const QString& _OutputDocFilePath)
 	//Unzip the doc
 	QProcess Unzip;
 	Unzip.setWorkingDirectory(TempPath.absolutePath());
-	qDebug() << "Unzip Path :" << UnzipBinFilePath;
 	Unzip.start(UnzipBinFilePath, QStringList() << FilePath);
 
 	Assert(Unzip.waitForStarted(), Error(QObject::tr("Could not start unzip with file %1").arg(FilePath)));
 	Assert(Unzip.waitForFinished(60000), Error(QObject::tr("Could unzip file %1").arg(FilePath)));
-	qDebug() << "File " << FilePath << " unzipped at: " << TempPath.absolutePath();
+	//qDebug() << "File " << FilePath << " unzipped at: " << TempPath.absolutePath();
 
 	//Parsing file
 	parseFile(TempPath.absoluteFilePath("content.xml"));
