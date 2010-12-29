@@ -49,6 +49,7 @@ public:
 	DDocFormatList formats() const;
 	DDocFormatList formats(const QFileInfo& _File) const;
 	int copies(const DDocProduct& _Product, const QFileInfo& _FileInfo) const;
+	QRect cropRect(const DDocProduct& _Product, const QFileInfo& _FileInfo) const;
 	int totalCopies() const;
 	DDocPrintList prints() const;
 	DDocPrintList prints(const DDocProduct& _Product) const;
@@ -59,6 +60,7 @@ public:
 	void removePrintAt(int _Index);
 	void addCopies(const DDocProduct& _Product, const QFileInfo& _FileInfo, int _Copies);
 	void setCopies(const DDocProduct& _Product, const QFileInfo& _FileInfo, int _Copies);
+	void setCropRect(const DDocProduct& _Product, const QFileInfo& _FileInfo, const QRect& _Rect);
 	void clear();
 	void addOrderPrints(XmlOrder& _Order) const;
 	bool isEmpty() const;

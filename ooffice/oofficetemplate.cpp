@@ -109,13 +109,30 @@ void OOfficeTemplate::setUnzipBinFilePath(const QString& _FilePath)
 bool OOfficeTemplate::isTemplate(const QString& _DocFilePath)
 {
 	QFileInfo FInfo(_DocFilePath);
-	return FInfo.suffix() == "soot";
+	return FInfo.suffix() == templateExtension();
 }
 
-QString OOfficeTemplate::destFileName(const QString& _FileName)
+QString OOfficeTemplate::templateExtension()
 {
-	QFileInfo FInfo(_FileName);
-	return FInfo.fileName().remove(".soot");
+	return "soot";
+}
+
+QString OOfficeTemplate::destFileName(const QString& _FileName, const QString& _ProjectName)
+{
+	QString RemoveExt = QString(".") + templateExtension();
+	QString FileName = _FileName;
+	FileName = FileName.remove(RemoveExt);
+	QFileInfo FInfo(FileName);
+	QString Res = FInfo.fileName();
+	if (!_ProjectName.isEmpty())
+	{
+		int UndPos = Res.indexOf("_");
+		if ( UndPos != -1)
+		{
+			Res = Res.left(UndPos) + "_" + _ProjectName + "." + FInfo.completeSuffix();
+		}
+	}
+	return Res;
 }
 
 void OOfficeTemplate::parse(const QString& _OutputDocFilePath)

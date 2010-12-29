@@ -45,7 +45,8 @@ public:
 	static void setZipBinFilePath(const QString& _FilePath);
 	static void setUnzipBinFilePath(const QString& _FilePath);
 	static bool isTemplate(const QString& _DocFilePath);
-	static QString destFileName(const QString& _FileName);
+	static QString templateExtension();
+	static QString destFileName(const QString& _FileName, const QString& _ProjectName = "");
 	void parse(const QString& _OutputDocFilePath);
 
 };

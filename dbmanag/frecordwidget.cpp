@@ -65,7 +65,8 @@ QWidget * FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOpti
 		}
 		else 
 		{
-			if (FDBUtils::isSqlite(Model->database())) //SQLite has no booleans and itemDelegate is not able to
+			//if (FDBUtils::isSqlite(Model->database())) //SQLite has no booleans and itemDelegate is not able to
+			//And we don't like comboBox for booleans.
 			{
 				FTableMetaData TMetaData = FSqlDatabaseManager::manager().tableMetaData(Model->tableName());
 				if (TMetaData.fields.contains(Model->record().fieldName(_Index.column())))
@@ -246,6 +247,14 @@ QWidget* FRecordWidget::createEditor(int _Index, const QString& _Suffix, bool _R
 	QWidget* Editor = Mapper->itemDelegate()->createEditor(this, Options, Model->index(0, _Index));
 	if (!Editor)
 		Editor = new QLineEdit(this);
+	else
+	{
+		//CheckBox fails with his event to submit data.
+		if (QCheckBox* ChkEditor = qobject_cast<QCheckBox*>(Editor))
+		{
+			connect(ChkEditor, SIGNAL(clicked()), Mapper, SLOT(submit()));
+		}
+	}
 
 	if (MappedSections.size() == 0)
 		setFocusProxy(Editor);

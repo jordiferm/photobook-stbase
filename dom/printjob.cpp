@@ -121,6 +121,17 @@ int PrintJob::copies(const DDocProduct& _Product, const QFileInfo& _FileInfo) co
 	return Res;
 }
 
+QRect PrintJob::cropRect(const DDocProduct& _Product, const QFileInfo& _FileInfo) const
+{
+	QRect Res;
+	int Index = findPrintIndex(_Product, _FileInfo);
+	if (Index != -1)
+		Res = Prints[Index].cropRect();
+
+	return Res;
+}
+
+
 int PrintJob::totalCopies() const
 {
 	int Res;
@@ -230,6 +241,16 @@ void PrintJob::setCopies(const DDocProduct& _Product, const QFileInfo& _FileInfo
 	{
 		if (_Copies > 0)
 			addPrint(DDocPrint(_FileInfo, _Product, _Copies));
+	}
+}
+
+void PrintJob::setCropRect(const DDocProduct& _Product, const QFileInfo& _FileInfo, const QRect& _Rect)
+{
+	int CurrentIndex = findPrintIndex(_Product, _FileInfo);
+	if (CurrentIndex != -1)
+	{
+		if (_Copies > 0)
+			Prints[CurrentIndex].setCropRect(_Rect);
 	}
 }
 

@@ -53,7 +53,7 @@ public:
 	static int random(int _Min, int _Max);
 	static bool removeRecursiveForced(const QDir& _Dir);
 	static bool rmDir(const QDir& _Dir);
-	static bool copyDirRecursive(const QDir& _Source, const QDir& _Destination);
+	static bool copyDirRecursive(const QDir& _Source, const QDir& _Destination, bool _CopyHidden = true, const QString& _Exclude = "");
 	static QDate pascuaDate(int _Year);
 	//! Returns size of dir _Dir
 	static quint64 dirSize(const QDir& _Dir, bool _Recursive = false);

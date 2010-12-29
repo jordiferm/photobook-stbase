@@ -209,6 +209,7 @@ class ST_DOM_EXPORT DDocPrint
 	QString BackPrintText;
 	DDocProduct Product;
 	int NumCopies;
+	QRect CropRect;
 
 public:
 	DDocPrint(const QFileInfo& _File = QFileInfo(), const DDocProduct& _Product = DDocProduct(), int _NumCopies = 0)
@@ -224,6 +225,9 @@ public:
 
 	void setNumCopies(int _Value) { NumCopies = _Value; }
 	int numCopies() const { return NumCopies; }
+
+	void setCropRect(const QRect& _Rect) { CropRect = _Rect; }
+	QRect cropRect() const { return CropRect; }
 
 	//bool operator==(const DDocPrint& _Print) const { return FileInfo.absoluteFilePath() == _Print.FileInfo.absoluteFilePath(); }
 	//bool operator<(const DDocPrint& _Print) const { return FileInfo.absoluteFilePath() < _Print.FileInfo.absoluteFilePath(); }

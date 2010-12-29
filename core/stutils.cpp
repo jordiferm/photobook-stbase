@@ -23,6 +23,7 @@
 #include <QProcess>
 #include <QCryptographicHash>
 #include <QApplication>
+#include <QDebug>
 
 #include <ctime>
 #include <cstdlib>
@@ -140,7 +141,7 @@ bool STUtils::rmDir(const QDir& _Dir)
 }
 
 
-bool STUtils::copyDirRecursive(const QDir& _Source, const QDir& _Destination)
+bool STUtils::copyDirRecursive(const QDir& _Source, const QDir& _Destination, bool _CopyHidden, const QString& _Exclude)
 {
 	bool Res = true;
 	//!TODO Put log here !
@@ -163,28 +164,36 @@ bool STUtils::copyDirRecursive(const QDir& _Source, const QDir& _Destination)
 	{
 		QDir DestDir(_Destination.absolutePath() + "/" + dit->fileName());
 		DestDir.mkpath(DestDir.absolutePath());
-		Res = copyDirRecursive(dit->absoluteFilePath(), DestDir);
+		Res = copyDirRecursive(dit->absoluteFilePath(), DestDir, _CopyHidden, _Exclude);
 		++dit; 
 	}
 	if (Res)
 	{
-		QFileInfoList Files(_Source.entryInfoList(QDir::Files | QDir::Hidden));
+		QFileInfoList Files;
+		if (_CopyHidden)
+			Files = QFileInfoList(_Source.entryInfoList(QDir::Files | QDir::Hidden));
+		else
+			Files = QFileInfoList(_Source.entryInfoList(QDir::Files));
+
 		QFileInfoList::iterator it;
 		for (it = Files.begin(); it != Files.end(); ++it)
 		{
 			QFile CFile(it->absoluteFilePath());
-			QFileInfo DestFileInf(_Destination.absolutePath() + "/" + it->fileName());
-			//!TODO Put log here !
-			if (!DestFileInf.exists())
+			if (_Exclude.isEmpty() || !CFile.fileName().contains(_Exclude))
 			{
-				if (!CFile.copy(DestFileInf.absoluteFilePath()))
+				QFileInfo DestFileInf(_Destination.absolutePath() + "/" + it->fileName());
+				//!TODO Put log here !
+				if (!DestFileInf.exists())
 				{
-					qWarning(QString("Warning: Error copying file: %1 to %2").arg(it->absoluteFilePath()).arg(_Destination.absolutePath() + "/" + it->fileName()).toLatin1());
-					Res = false;
+					if (!CFile.copy(DestFileInf.absoluteFilePath()))
+					{
+						qWarning(QString("Warning: Error copying file: %1 to %2").arg(it->absoluteFilePath()).arg(_Destination.absolutePath() + "/" + it->fileName()).toLatin1());
+						Res = false;
+					}
 				}
+				else
+					qWarning(QString("File %1 already exist, we don't copy it").arg(it->absoluteFilePath()).toLatin1());
 			}
-			else 
-				qWarning(QString("File %1 already exist, we don't copy it").arg(it->absoluteFilePath()).toLatin1());
 		}
 	}
 	return Res;
