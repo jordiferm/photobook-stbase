@@ -117,6 +117,8 @@ QVariant::Type FFieldMetaData::strToVariantType(const QString& _Str)
 		Res = QVariant::String;
 	else if (_Str == "stringlist")
 		Res = QVariant::StringList;
+	else if (_Str == "image")
+		Res = QVariant::Image;
 
 	return Res;
 }

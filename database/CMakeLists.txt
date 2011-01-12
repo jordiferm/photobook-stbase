@@ -26,7 +26,6 @@ SET(prj_SRCS
 	fsqlmodelviewutils.cpp
 	fsqlrelationaltablemodel.cpp
 	fsqlrecord.cpp
-	fsqlrelationalimagemodel.cpp
 	ftableview.cpp
 	fsqlsearchwidget.cpp
 	fsqlactiontableview.cpp
@@ -43,7 +42,6 @@ SET(prj_MOC_HDRS
 	fsqlmodelviewutils.h
 	fsqlrelationaltablemodel.h
 	fsqlrecord.h	
-	fsqlrelationalimagemodel.h
 	ftableview.h
 	fsqlsearchwidget.h
 	fsqlactiontableview.h

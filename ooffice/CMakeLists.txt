@@ -20,10 +20,12 @@ INCLUDE(${QT_USE_FILE})
 # Project files
 SET(prj_SRCS
 	oofficetemplate.cpp
+	oofficedatasupplier.cpp
 )
 
 SET(prj_MOC_HDRS
 	oofficetemplate.h
+	oofficedatasupplier.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

@@ -32,6 +32,7 @@ Gestió genèrica en forma de tableView, sense fitxa.
 */
 class FTableManager;
 class QSqlRelationalTableModel;
+class QItemSelectionModel;
 class ST_DBMANAG_EXPORT FGenManager : public QWidget
 {
 	Q_OBJECT
@@ -53,13 +54,10 @@ public:
 	QSqlTableModel* model() const{ return Model;}
 	FTableManager* tableManager() const {return TManager; }
 	void update();
-	
+	QItemSelectionModel* selectionModel() const;
+
 protected slots:
 	virtual void primeInsert(int _Row, QSqlRecord& _Record);
-	void beforeRemoveRow(int _Index, bool& _PerformOp);
-	void afterInsertRow(int _Index);
-	void afterEditRow(int _Index);
-
 };
 
 #endif

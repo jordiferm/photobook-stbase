@@ -69,7 +69,7 @@ void FActionTableView::init(FSearchWidget* _SearchWidget)
 	if (_SearchWidget->view()) //Defensiva 
 	{
 		connect(_SearchWidget->view()->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), 
-			this, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
+			this, SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
 	}
 }
 
@@ -134,7 +134,7 @@ void FActionTableView::removeAction(int _ActionId)
 }
 
 
-void FActionTableView::selectionChanged(const QItemSelection& _Selected, const QItemSelection& _Deselected)
+void FActionTableView::slotSelectionChanged(const QItemSelection& _Selected, const QItemSelection& _Deselected)
 {
 	bool ItemsSelected = _Selected.indexes().size() > 0;
 	
@@ -143,6 +143,8 @@ void FActionTableView::selectionChanged(const QItemSelection& _Selected, const Q
 	
 	if (DeleteAction)
 		DeleteAction->setEnabled(ItemsSelected);
+
+	emit selectionChanged(_Selected, _Deselected);
 }
 
 void FActionTableView::actionTriggered()

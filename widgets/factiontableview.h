@@ -77,7 +77,7 @@ public:
 	void removeAction(int _ActionId);
 	
 protected slots: 
-	void selectionChanged(const QItemSelection& _Selected, const QItemSelection& _Deselected);
+	void slotSelectionChanged(const QItemSelection& _Selected, const QItemSelection& _Deselected);
 
 public slots:
 	virtual void actionTriggered();
@@ -100,6 +100,7 @@ signals:
 	void beforeRemoveRow(int _Index, bool& _PreformOp); 
 	//! S'emet just després de cridar removeRow();
 	void afterRemoveRow(int _Index); 
+	void selectionChanged(const QItemSelection& _Selected, const QItemSelection& _Deselected);
 };
 
 #endif

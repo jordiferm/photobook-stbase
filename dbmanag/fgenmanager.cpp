@@ -21,12 +21,13 @@
 #include "fgenmanager.h"
 #include <QLayout>
 #include <QMap>
+#include <QSqlRelationalDelegate>
+#include "fsqlsearchwidget.h"
 #include "fsqlmetadata.h"
 #include "ftablemanager.h"
 #include "fsqlrelationaltablemodel.h"
 #include "fsqlmdutils.h"
 #include "fsqlmodelviewutils.h"
-#include "fsqlrelationalimagemodel.h"
 #include "fsqlactiontableview.h"
 #include "fdbutils.h"
 
@@ -34,18 +35,15 @@ void FGenManager::init(const QString& _Columns, bool _SortHeader)
 {
 	QVBoxLayout* MainLayout = new QVBoxLayout(this);
 	Model->select();
-	TManager = new FTableManager(Model, this, _Columns, _SortHeader);
+
+	//Problem with our Model type when creating TManager.
+	if (QSqlRelationalTableModel* RelModel = qobject_cast<QSqlRelationalTableModel*>(Model))
+		TManager = new FTableManager(RelModel, this, _Columns, _SortHeader);
+	else
+		TManager = new FTableManager(Model, this, _Columns, _SortHeader);
+	
 	MainLayout->addWidget(TManager);
 	connect(Model, SIGNAL(primeInsert(int, QSqlRecord&)), this, SLOT(primeInsert(int, QSqlRecord& )));	
-	if (Model->inherits("FSqlRelationalImageModel")) //Then lets manage image files.
-	{
-		connect(TManager->actionTableView(), SIGNAL(beforeRemoveRow(int , bool& )),
-				this, SLOT(beforeRemoveRow(int , bool& )));
-		connect(TManager->actionTableView(), SIGNAL(afterInsertRow(int)),
-				this, SLOT(afterInsertRow(int)));
-		connect(TManager->actionTableView(), SIGNAL(afterEditRow(int)),
-				this, SLOT(afterEditRow(int)));
-	}	
 }
 
 FGenManager::FGenManager(QSqlRelationalTableModel* _Model, const QString& _TableName, QWidget* _Parent, 
@@ -73,17 +71,26 @@ FGenManager::FGenManager(const QString& _TableName, QWidget* _Parent, const QStr
 bool _SortHeader) : QWidget(_Parent)
 {
 	FSqlRelationalTableModel* NModel = new FSqlRelationalTableModel(this);
+	//QSqlRelationalTableModel* NModel = new QSqlRelationalTableModel(this);
 	Model = NModel;
 	TMdata = FSqlDatabaseManager::manager().tableMetaData(_TableName);
 	TMdata.configure(*NModel);
 	setWindowTitle(QString(tr("%1 Management")).arg(TMdata.alias)  );
 	init(_Columns, _SortHeader);
+	//TManager->searchWidget()->view()->setItemDelegate(new QSqlRelationalDelegate(this));
+
 }
 
 void FGenManager::update()
 {
 	Model->select();
 }
+
+QItemSelectionModel* FGenManager::selectionModel() const
+{
+	return TManager->actionTableView()->searchWidget()->view()->selectionModel();
+}
+
 
 
 void FGenManager::primeInsert(int /*_Row*/, QSqlRecord& _Record)
@@ -151,29 +158,3 @@ void FGenManager::primeInsert(int /*_Row*/, QSqlRecord& _Record)
 	TManager->setPrimeInsertRecord(_Record);
 }
 
-//! Before removing a report row. We need to remove image files.
-void FGenManager::beforeRemoveRow(int _Index, bool& _PerformOp)
-{
-	if (_PerformOp)
-	if (FSqlRelationalImageModel* IModel = qobject_cast<FSqlRelationalImageModel*>(Model))
-	{
-		_PerformOp = _PerformOp && IModel->removeImages(_Index);
-	}
-}
-
-//! Before inserting a report row. We need to save image files.
-void FGenManager::afterInsertRow(int /*_Index*/)
-{
-	if (FSqlRelationalImageModel* IModel = qobject_cast<FSqlRelationalImageModel*>(Model))
-	{
-		IModel->saveLastImages();
-	}
-}
-
-void FGenManager::afterEditRow(int /*_Index*/)
-{
-	if (FSqlRelationalImageModel* IModel = qobject_cast<FSqlRelationalImageModel*>(Model))
-	{
-		IModel->saveLastImages();
-	}
-}

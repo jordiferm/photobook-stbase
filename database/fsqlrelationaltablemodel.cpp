@@ -26,6 +26,7 @@
 #include <QSqlIndex>
 #include <QStringList>
 #include <QSqlDriver>
+#include <QDebug>
 #include "fsqlmodelviewutils.h"
 
 
@@ -233,7 +234,7 @@ QString FSqlRelationalTableModel::escapedRelationField(const QString &tableName,
     esc.reserve(tableName.size() + fieldName.size() + 1);
     esc.append(tableName).append(QLatin1Char('.')).append(fieldName);
 
-    return database().driver()->escapeIdentifier(esc, QSqlDriver::FieldName);
+	return esc;//database().driver()->escapeIdentifier(esc, QSqlDriver::FieldName);
 }
 
 
@@ -241,13 +242,12 @@ QString FSqlRelationalTableModel::escapedRelationField(const QString &tableName,
 
 QString FSqlRelationalTableModel::selectStatement () const
 {
-	//return QSqlRelationalTableModel::selectStatement();
 	QString query;
 
 	if (tableName().isEmpty())
 		return query;
-// 	if (relations().isEmpty())
-// 		return QSqlTableModel::selectStatement();
+	//if (relations().isEmpty())
+	//	return QSqlTableModel::selectStatement();
 
 	QString tList;
 	QString fList;
@@ -256,90 +256,105 @@ QString FSqlRelationalTableModel::selectStatement () const
 	QSqlRecord rec = database().record(tableName());
 	QStringList tables;
 	const QSqlRelation nullRelation;
-    for (int i = 0; i < rec.count(); ++i) {
-        QSqlRelation CRelation = relation(i);
-        if (CRelation.isValid()) {
-            QString relTableAlias = QString::fromLatin1("relTblAl_%1").arg(i);
-            fList.append(escapedRelationField(relTableAlias, CRelation.displayColumn()));
-            fList.append(QLatin1Char(','));
-            if (!tables.contains(CRelation.tableName()))
-                tables.append(database().driver()->escapeIdentifier(CRelation.tableName(),
-                       QSqlDriver::TableName).append(QLatin1String(" AS ")).append(
-                       database().driver()->escapeIdentifier(relTableAlias, QSqlDriver::TableName)));
-            
-            
-            where.append(escapedRelationField(tableName(), rec.fieldName(i)));
-            where.append(QLatin1Char('='));
-            where.append(escapedRelationField(relTableAlias, CRelation.indexColumn()));
-            where.append(QLatin1String(" AND "));
-        } else {
-            fList.append(escapedRelationField(tableName(), rec.fieldName(i)));
-            fList.append(QLatin1Char(','));
-        }
-    }
-	// A la select també hi posem el camp clau per a tenir el valor alhora de fer deletes.
-	
+
+	// Count how many times each field name occurs in the record
+	QHash<QString, int> fieldNames;
+	QStringList fieldList;
+	for (int i = 0; i < rec.count(); ++i)
+	{
+	 //QSqlRelation relation = d->relations.value(i, nullRelation).rel;
+		QSqlRelation CRelation = relation(i);
+		QString name;
+		 if (CRelation.isValid())
+		 {
+			 // Count the display column name, not the original foreign key
+			 name = CRelation.displayColumn();
+			 if (database().driver()->isIdentifierEscaped(name, QSqlDriver::FieldName))
+				 name = database().driver()->stripDelimiters(name, QSqlDriver::FieldName);
+
+			 QSqlRecord rec = database().record(CRelation.tableName());
+			 for (int i = 0; i < rec.count(); ++i) {
+				 if (name.compare(rec.fieldName(i), Qt::CaseInsensitive) == 0) {
+					 name = rec.fieldName(i);
+					 break;
+				 }
+			 }
+		 }
+		 else
+			 name = rec.fieldName(i);
+		 fieldNames.insert(name, fieldNames.value(name, 0) + 1);
+		 fieldList.append(name);
+	}
+
+	for (int i = 0; i < rec.count(); ++i) {
+	 QSqlRelation CRelation = relation(i);
+	 if (CRelation.isValid()) {
+		 QString relTableAlias = QString::fromLatin1("relTblAl_%1").arg(i);
+		 if (!fList.isEmpty())
+			 fList.append(QLatin1String(", "));
+		 fList.append(escapedRelationField(relTableAlias,CRelation.displayColumn()));
+		 // If there are duplicate field names they must be aliased
+		  if (fieldNames.value(fieldList[i]) > 1) {
+			  QString relTableName = CRelation.tableName().section(QChar::fromLatin1('.'), -1, -1);
+			  if (database().driver()->isIdentifierEscaped(relTableName, QSqlDriver::TableName))
+				  relTableName = database().driver()->stripDelimiters(relTableName, QSqlDriver::TableName);
+			  QString displayColumn = CRelation.displayColumn();
+			  if (database().driver()->isIdentifierEscaped(displayColumn, QSqlDriver::FieldName))
+				  displayColumn = database().driver()->stripDelimiters(displayColumn, QSqlDriver::FieldName);
+			  fList.append(QString::fromLatin1(" AS %1_%2_%3").arg(relTableName).arg(displayColumn).arg(fieldNames.value(fieldList[i])));
+			  fieldNames.insert(fieldList[i], fieldNames.value(fieldList[i])-1);
+		  }
+
+		  // this needs fixing!! the below if is borken.
+		  tables.append(CRelation.tableName().append(QLatin1Char(' ')).append(relTableAlias));
+		  if(!where.isEmpty())
+			  where.append(QLatin1String(" AND "));
+		  where.append(escapedRelationField(tableName(), database().driver()->escapeIdentifier(rec.fieldName(i), QSqlDriver::FieldName)));
+		  where.append(QLatin1String(" = "));
+		  where.append(escapedRelationField(relTableAlias, CRelation.indexColumn()));
+	  } else {
+		  if (!fList.isEmpty())
+			  fList.append(QLatin1String(", "));
+		  fList.append(escapedRelationField(tableName(), database().driver()->escapeIdentifier(rec.fieldName(i), QSqlDriver::FieldName)));
+	  }
+	}
 	for (int i = 0; i < rec.count(); ++i)
 	{
 		QSqlRelation CRelation = relation(i);
 		if (CRelation.isValid())
 		{
-            QString relTableAlias = QString::fromLatin1("relTblAl_%1").arg(i);
-            //--- Begin -- Added by flam 
-				if (CRelation.displayColumn() != CRelation.indexColumn() && 
+			QString relTableAlias = QString::fromLatin1("relTblAl_%1").arg(i);
+			//--- Begin -- Added by flam
+				if (CRelation.displayColumn() != CRelation.indexColumn() &&
 					database().primaryIndex(tableName()).contains(rec.fieldName(i)))
 				{
 					QString KeyCol = escapedRelationField(relTableAlias,  CRelation.indexColumn());
 					//QString KeyCol =  relTableAlias + "." + CRelation.indexColumn();
-					fList.append(KeyCol).append(" AS ").append(relTableAlias + "_" + CRelation.indexColumn()).append(QLatin1Char(','));
+					if (!fList.isEmpty())
+						fList.append(",");
+					fList.append(KeyCol).append(" AS ").append(relTableAlias + "_" + CRelation.indexColumn());
 				}
-            //--- End -- Added by flam 
+			//--- End -- Added by flam
 		}
 	}
-	
-// 	for (int i = 0; i < rec.count(); ++i)
-// 	{
-// 		QSqlRelation CRelation = relation(i);
-// 		if (CRelation.isValid())
-// 		{
-// 			QString relTableAlias = QString::fromLatin1("relTblAl_%1").arg(i);
-// 			fList.append(relTableAlias).append(QLatin1Char('.'));
-// 			fList.append(CRelation.displayColumn()).append(QLatin1Char(','));
-// 			if (CRelation.displayColumn() != CRelation.indexColumn() && 
-// 				database().primaryIndex(tableName()).contains(rec.fieldName(i)))
-// 			{
-// 				QString KeyCol = relTableAlias + "." + CRelation.indexColumn();
-// 				fList.append(KeyCol).append(" AS ").append(relTableAlias + "_" + CRelation.indexColumn()).append(QLatin1Char(','));
-// 			}
-// 			if (!tables.contains(CRelation.tableName()))
-// 				tables.append(CRelation.tableName().append(QLatin1String(" AS ")).append(relTableAlias));
-// 			where.append(tableName()).append(QLatin1Char('.')).append(rec.fieldName(i));
-// 			where.append(QLatin1Char('=')).append(relTableAlias).append(QLatin1Char('.'));
-// 			where.append(CRelation.indexColumn()).append(QLatin1String(" AND "));
-// 		}
-// 		else
-// 		{
-// 			fList.append(tableName()).append(QLatin1Char('.')).append(rec.fieldName(i)).append(
-// 			    QLatin1Char(','));
-// 		}
-// 	}
+
+
 	if (!tables.isEmpty())
-		tList.append(tables.join(QLatin1String(","))).append(QLatin1String(","));
+	  tList.append(tables.join(QLatin1String(", ")));
 	if (fList.isEmpty())
-		return query;
-	tList.prepend(QLatin1Char(',')).prepend(tableName());
-	// truncate tailing comma
-	tList.chop(1);
-	fList.chop(1);
+	  return query;
+	if(!tList.isEmpty())
+	  tList.prepend(QLatin1String(", "));
+	tList.prepend(tableName());
+
 	query.append(QLatin1String("SELECT "));
 	query.append(fList).append(QLatin1String(" FROM ")).append(tList);
-	if (!where.isEmpty())
-		where.chop(5);
 	qAppendWhereClause(query, where, filter());
 
 	QString orderBy = orderByClause();
 	if (!orderBy.isEmpty())
-		query.append(QLatin1Char(' ')).append(orderBy);
+	  query.append(QLatin1Char(' ')).append(orderBy);
+
 	return query;
 }
 
@@ -353,9 +368,9 @@ QSqlRecord FSqlRelationalTableModel::primaryValues(int row)
 	bool UsingPrimaryKey = true;
 	QSqlRecord Rec = database().record(tableName());
 	//const QSqlRelation nullRelation;
-
-	if (!query().seek(row)) {
-		setLastError(query().lastError());
+	QSqlQuery Query = query();
+	if (!Query.seek(row)) {
+		setLastError(Query.lastError());
 		return Res;
 	}
 
@@ -375,14 +390,14 @@ QSqlRecord FSqlRelationalTableModel::primaryValues(int row)
 			if (CRelation.isValid() && (CRelation.displayColumn() != CRelation.indexColumn()))
 			{
 				Res.setValue(i,
-					query().value(query().record().indexOf(QString::fromLatin1("relTblAl_%1_%2").arg(Rec.indexOf(Res.fieldName(i))).arg( CRelation.indexColumn()))));
+					Query.value(Query.record().indexOf(QString::fromLatin1("relTblAl_%1_%2").arg(Rec.indexOf(Res.fieldName(i))).arg( CRelation.indexColumn()))));
 /*				int Index = query().record().indexOf(QString::fromLatin1("relTblAl_%1_%2").arg(i).arg( CRelation.indexColumn()));*/
 			}
-			else 
-				Res.setValue(i, query().value(Rec.indexOf(Res.fieldName(i))));
+			else
+				Res.setValue(i, Query.value(Rec.indexOf(Res.fieldName(i))));
 		}
 		else			
-			Res.setValue(i, query().value(i));
+			Res.setValue(i, Query.value(i));
 	}
 	return Res;
 }
@@ -413,7 +428,7 @@ bool FSqlRelationalTableModel::deleteRowFromTable(int row)
 
 
 /*!
-    \reimp <= exec no és virtual. 
+    \reimp <= exec no Ã©s virtual. 
 */
 
 bool FSqlRelationalTableModel::updateRowInTable(int _Row, const QSqlRecord& _Values)
@@ -432,7 +447,6 @@ bool FSqlRelationalTableModel::updateRowInTable(int _Row, const QSqlRecord& _Val
 	}
 
    emit beforeUpdate(_Row, Rec);
-
 	bool prepStatement = database().driver()->hasFeature(QSqlDriver::PreparedQueries);
 	QString stmt = database().driver()->sqlStatement(QSqlDriver::UpdateStatement, tableName(),
 	               Rec, prepStatement);
@@ -443,7 +457,8 @@ bool FSqlRelationalTableModel::updateRowInTable(int _Row, const QSqlRecord& _Val
 	const QSqlRecord whereValues = primaryValues(_Row);
 	QString where = database().driver()->sqlStatement(QSqlDriver::WhereStatement, tableName(),
 	                whereValues, prepStatement);
-// 	qDebug(where.toLatin1());
+
+	// 	qDebug(where.toLatin1());
 	if (stmt.isEmpty() || where.isEmpty() || _Row < 0 || _Row >= rowCount())
 	{
 		setLastError( QSqlError(QLatin1String("No Fields to update"), QString(),
@@ -476,9 +491,6 @@ bool FSqlRelationalTableModel::submit()
 
 	return Res;
 }
-
-
-
 
 QSqlTableModel* FSqlRelationalTableModel::relationModel(const QString& _FieldName) const
 {

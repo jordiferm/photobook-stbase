@@ -24,20 +24,20 @@ INCLUDE(${QT_USE_FILE})
 # Project files
 SET(prj_SRCS
 	fgenmanager.cpp
-	fpixmapselector.cpp
 	frecdialog.cpp
 	frecordwidget.cpp
 	fsql1nmappersync.cpp
 	ftablemanager.cpp
+	simageselector.cpp
 )
 
 SET(prj_MOC_HDRS
 	fgenmanager.h
-	fpixmapselector.h
 	frecdialog.h
 	frecordwidget.h
 	fsql1nmappersync.h
 	ftablemanager.h
+	simageselector.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

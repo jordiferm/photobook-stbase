@@ -249,8 +249,7 @@ void PrintJob::setCropRect(const DDocProduct& _Product, const QFileInfo& _FileIn
 	int CurrentIndex = findPrintIndex(_Product, _FileInfo);
 	if (CurrentIndex != -1)
 	{
-		if (_Copies > 0)
-			Prints[CurrentIndex].setCropRect(_Rect);
+		Prints[CurrentIndex].setCropRect(_Rect);
 	}
 }
 

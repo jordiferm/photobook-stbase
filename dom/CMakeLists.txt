@@ -45,7 +45,7 @@ SET(prj_SRCS
 	stcollectionpublishermodel.cpp
 	stftpordertransfer.cpp
 	stftpordertransferdialog.cpp
-	printjobpriner.cpp
+	printjobprinter.cpp
 )
 
 SET(prj_MOC_HDRS

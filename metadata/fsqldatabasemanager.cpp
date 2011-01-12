@@ -455,6 +455,10 @@ QString FSqlPsqlDbTableManager::columnNameAndType(const FFieldMetaData& _Field)
 		Sql += " TEXT";
 		break;
 
+		case QVariant::Image:
+		Sql += " BYTEA";
+		break;
+
 		default:
 		Sql += " VARCHAR";
 		break;

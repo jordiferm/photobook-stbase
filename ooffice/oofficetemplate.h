@@ -24,8 +24,10 @@
 #include <QVariant>
 #include <QMap>
 #include "sterror.h"
+#include "stoofficeexport.h"
+#include "oofficedatasupplier.h"
 
-class OOfficeTemplate
+class ST_OOFFICE_EXPORT OOfficeTemplate
 {
 	ST_DECLARE_ERRORCLASS();
 
@@ -33,12 +35,15 @@ class OOfficeTemplate
 	static QString UnzipBinFilePath;
 	QMap<QString, QVariant> Vars;
 	QString FilePath;
-
-	QString parseLine(const QString& _Line);
-	void parseFile(const QString& _FileName);
+	typedef QList<OOfficeDataSupplier*> TDataSupplierList;
+	TDataSupplierList DataSuppliers;
+	QString parseLine(const QString& _Line, OOfficeDataSupplier* _DataSupplier = 0);
+	QString transformOOCalcNumericValues(const QString& _Input);
+	void parseFile(const QString& _FileName, OOfficeDataSupplier* _DataSupplier = 0);
 
 public:
-	OOfficeTemplate(QString& _FilePath);
+	OOfficeTemplate(const QString& _FilePath);
+	void addDataSupplier(OOfficeDataSupplier* _DataSupplier);
 	void setFilePath(const QString& _Value) { FilePath = _Value; }
 	void addVar(const QString& _Key, const QVariant& _Value);
 	void clearVars();

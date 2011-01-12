@@ -1,3 +1,7 @@
 Build instructions can be found at: 
 http://www.softtopia.com/stbase/build
 
+to make docs run: 
+
+make -D BUILD_DOCS:BOOL=ON doc
+

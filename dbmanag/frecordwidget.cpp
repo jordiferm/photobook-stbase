@@ -1,17 +1,17 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2010-2011 SoftTopia. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of SoftTopia Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
-** 
-** Strablitz (c) 2008
+** SoftTopia reserves all rights not expressly granted herein.
+**
+** SoftTopia (c) 2011
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
@@ -29,7 +29,7 @@
 #include <QTableView>
 #include "fsqlmodelviewutils.h"
 #include "fsqlrelationaldelegate.h" 
-#include "fpixmapselector.h" 
+#include "simageselector.h"
 #include "fsqldatabasemanager.h"
 
 #include "fsqlmetadata.h" 
@@ -44,7 +44,7 @@
 FRecordWidgetDelegate::FRecordWidgetDelegate(QSqlTableModel* _Model ,QObject* _Parent) : QSqlRelationalDelegate(_Parent), Model(_Model)
 {}
 
-QWidget * FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOptionViewItem& _Option, const QModelIndex& _Index) const
+QWidget* FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOptionViewItem& _Option, const QModelIndex& _Index) const
 {
 	QWidget* Editor = 0;
 	//const QSqlTableModel* Model = qobject_cast<const QSqlTableModel*>(_Index.model());
@@ -74,6 +74,8 @@ QWidget * FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOpti
 					FFieldMetaData FMetaData = TMetaData.fields[Model->record().fieldName(_Index.column())]; 
 					if (FMetaData.type() == QVariant::Bool) //Boolean types on SQLite.
 						Editor = new QCheckBox(_Parent);
+					if (FMetaData.type() == QVariant::Image)
+						Editor = new SImageSelector(_Parent);
 				}
 			}	
 		}
@@ -182,47 +184,6 @@ QWidget* FRecordWidget::createEditorsGroup(const QString& _Fields, QWidget* _Con
 }
 
 /*!
-	Creates a group of editors and editor labels only for the current model image. 
-	This function needs a SFSqlRelationalImageModel with image indexes added.
-	\param _Container A container to put the editors.
-	\return A widget that contains the editors.
-*/
-
-QWidget* FRecordWidget::createImageEditors(QWidget* _Container)
-{
-	if (FSqlRelationalImageModel* ImgModel = qobject_cast<FSqlRelationalImageModel*>(Model))
-	{
-		QGridLayout* ContLayout = new QGridLayout(_Container);
-		createImageEditors(ContLayout, ImgModel->imageIndexs());
-	}
-	return _Container;
-}
-
-void FRecordWidget::createImageEditors(QGridLayout* _ContLayout, const FSqlRelationalImageModel::TImageIndexList& _ImageIndexs, int _NumCols)
-{
-	FSqlRelationalImageModel::TImageIndexList::const_iterator it; 
-	for (it = _ImageIndexs.begin(); it != _ImageIndexs.end(); ++it)
-	{
-		QWidget* Editor = new FPixmapSelector(this);
-		Mapper->addMapping(Editor, *it);
-		int NCols = _NumCols * 2;
-		_ContLayout->addWidget(createHeaderLabel(*it), _ContLayout->count() / NCols, _ContLayout->count() % NCols);
-		_ContLayout->addWidget(Editor, _ContLayout->count() / NCols, _ContLayout->count() % NCols);
-	}
-}
-
-QWidget* FRecordWidget::createImageEditors(QWidget* _Container, const QRegExp& _PrefixMatch, int _NumCols)
-{
-	if (FSqlRelationalImageModel* ImgModel = qobject_cast<FSqlRelationalImageModel*>(Model))
-	{
-		QGridLayout* ContLayout = new QGridLayout(_Container);
-		createImageEditors(ContLayout, ImgModel->imageIndexs(_PrefixMatch), _NumCols);
-	}
-	return _Container;
-}
-
-
-/*!
 	\return returns the mapped widget for field _FieldName.
 	or NULL if it not exists.
 */
@@ -314,6 +275,16 @@ QDataWidgetMapper* FRecordWidget::mapper() const
 {
 	return Mapper;
 }
+
+QSqlRecord FRecordWidget::currentRecord() const
+{
+	QSqlRecord Res;
+	int CIndex = Mapper->currentIndex();
+	if (CIndex >= 0 && CIndex < Model->rowCount())
+		Res = Model->record(CIndex);
+	return Res;
+}
+
 
 void FRecordWidget::showEvent(QShowEvent* )
 {

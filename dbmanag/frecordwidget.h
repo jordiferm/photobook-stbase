@@ -26,7 +26,6 @@
 #include <QSqlRecord>
 #include <QTextEdit> 
 #include <QSqlRelationalDelegate>
-#include "fsqlrelationalimagemodel.h" 
 #include "stdbmanagexport.h"
 
 
@@ -80,9 +79,8 @@ public:
 	void setSuffix(QWidget* _Editor, const QString& _Suffix);
 	void setSuffix(const QString& _FieldName, const QString& _Suffix);
 	QWidget* createEditorsGroup(const QString& _Fields, QWidget* _Container);
-	QWidget* createImageEditors(QWidget* _Container);
-	void createImageEditors(QGridLayout* _ContLayout, const FSqlRelationalImageModel::TImageIndexList& _ImageIndexs, int _NumCols = 1);
-	QWidget* createImageEditors(QWidget* _Container, const QRegExp& _PrefixMatch, int _NumCols = 1);
+
+
 	QWidget* fieldEditor(const QString& _FieldName);
 	QWidget* createEditor(int _Index, const QString& _Suffix, bool _ReadOnly = false);
 	QWidget* createEditor(const QString& _FieldName, const QString& _Suffix = "", bool _ReadOnly = false);
@@ -92,6 +90,7 @@ public:
 	QLabel* createHeaderLabel(const QString& _FieldName);
 	QDataWidgetMapper* mapper() const;
 	void setPrimeInsertRecord(const QSqlRecord& _Record) { PrimeInsertRecord = _Record; }
+	QSqlRecord currentRecord() const;
 
 protected: 
 	//! Used to create the widget. This has to be created after primeInsert if the model is empty.

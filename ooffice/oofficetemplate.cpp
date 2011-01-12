@@ -31,36 +31,83 @@
 QString OOfficeTemplate::ZipBinFilePath = "";
 QString OOfficeTemplate::UnzipBinFilePath = "";
 
-QString OOfficeTemplate::parseLine(const QString& _Line)
+QString OOfficeTemplate::parseLine(const QString& _Line, OOfficeDataSupplier* _DataSupplier)
 {
 	QString Res = _Line;
-	QRegExp RxVar("\\[%([a-zA-Z0-9\\.]*)%\\]");
-
+	//QRegExp RxVar("\\[%([a-zA-Z0-9\\.]*)%\\]");
+	QRegExp RxVar("(sum)?\\[%([a-zA-Z0-9_]+)(\\([a-zA-Z0-9_&;@=<>!]+\\))?\\.([a-zA-Z0-9_]+)%\\]([0-9]*)");
 	int CIndex = 0;
 	while( (CIndex = RxVar.indexIn(Res, CIndex)) != -1 )
 	{
-		QString VarName = RxVar.cap(1);
+		bool ReplaceVar = true;
+		QString Op = RxVar.cap(1);
+		QString VarName = RxVar.cap(2);
+		QString Filter = RxVar.cap(3).remove("(").remove(")").replace("&apos;", "'");
+		QString Field = RxVar.cap(4);
+		int Index = RxVar.cap(5).toInt();
+
+		//qDebug() << "Line:" << RxVar.cap(0);
+		//qDebug() << "---> VarName:" << VarName << " Filter: " << Filter << " Field: " << Field << " Index: " << Index << " Op: " << Op ;
+
 		QString RepValue;
-		qDebug() << VarName;
 
 		if (!VarName.isEmpty())
 		{
 			if (Vars.contains(VarName))
+			{
 				RepValue = Vars[VarName].toString();
+			}
+			else
+			{
+				if (_DataSupplier)
+				{
+					if (_DataSupplier->accepts(VarName))
+						RepValue = _DataSupplier->getVar(VarName, Field, Filter, Op, Index).toString();
+					else
+						ReplaceVar = false;
+				}
+			}
 		}
 
-		if (RepValue.isEmpty())
-			RepValue = "EMPTY";
-
-		Res = Res.replace(RxVar.cap(0), RepValue);
-		CIndex += RepValue.length();
+		if (ReplaceVar)
+		{
+			Res = Res.replace(RxVar.cap(0), RepValue);
+			CIndex += RepValue.length();
+		}
+		else
+			CIndex += RxVar.cap(0).length();
 	}
+	return transformOOCalcNumericValues(Res);
 
-	return Res;
+
 }
 
-void OOfficeTemplate::parseFile(const QString& _FileName)
+QString OOfficeTemplate::transformOOCalcNumericValues(const QString& _Input)
 {
+	QString Res = _Input;
+	QRegExp RxVar("value-type=\"string\"><text:p>([0-9]+)</text:p>");
+	int CIndex = 0;
+	while( (CIndex = RxVar.indexIn(Res, CIndex)) != -1 )
+	{
+		//qDebug() << RxVar.cap(0) << RxVar.cap(1);
+		//CIndex += RxVar.cap(0).length();
+
+		QString RepValue = QString("value-type=\"float\" office:value=\"%1\"><text:p>%1</text:p>").arg(RxVar.cap(1));
+		Res = Res.replace(RxVar.cap(0), RepValue);
+		CIndex += RepValue.length();
+
+	}
+	return Res;
+	//value-type="float" office:value="1"><text:p>1</text:p>
+	//value-type="string"><text:p>4</text:p>
+
+}
+
+void OOfficeTemplate::parseFile(const QString& _FileName, OOfficeDataSupplier* _DataSupplier)
+{
+	if (_DataSupplier)
+		_DataSupplier->clearCache();
+
 	QFile ContentFile(_FileName);
 	Assert(ContentFile.open(QFile::ReadOnly), Error(QObject::tr("Error openning file %1").arg(_FileName)));
 	QTemporaryFile OutFile;
@@ -73,7 +120,7 @@ void OOfficeTemplate::parseFile(const QString& _FileName)
 	QString CurrentLine;
 	do {
 		CurrentLine = StrmIn.readLine();
-		StrmOut << parseLine(CurrentLine);
+		StrmOut << parseLine(CurrentLine, _DataSupplier);
 	} while (!CurrentLine.isNull());
 	ContentFile.close();
 	OutFile.close();
@@ -82,8 +129,21 @@ void OOfficeTemplate::parseFile(const QString& _FileName)
 }
 
 
-OOfficeTemplate::OOfficeTemplate(QString& _FilePath) : FilePath(_FilePath)
+OOfficeTemplate::OOfficeTemplate(const QString& _FilePath)
+	: FilePath(_FilePath)
 {
+}
+
+void OOfficeTemplate::addDataSupplier(OOfficeDataSupplier* _DataSupplier)
+{
+	OOfficeDataSupplier::TVarList SupVars = _DataSupplier->globalVars();
+	OOfficeDataSupplier::TVarList::iterator it = SupVars.begin();
+	while (it != SupVars.end())
+	{
+		addVar(it.key(), it.value());
+		++it;
+	}
+	DataSuppliers.push_back(_DataSupplier);
 }
 
 void OOfficeTemplate::addVar(const QString& _Key, const QVariant& _Value)
@@ -156,7 +216,16 @@ void OOfficeTemplate::parse(const QString& _OutputDocFilePath)
 	//qDebug() << "File " << FilePath << " unzipped at: " << TempPath.absolutePath();
 
 	//Parsing file
-	parseFile(TempPath.absoluteFilePath("content.xml"));
+	if (!DataSuppliers.isEmpty())
+	{
+		TDataSupplierList::iterator it;
+		for (it = DataSuppliers.begin(); it != DataSuppliers.end(); ++it)
+		{
+			parseFile(TempPath.absoluteFilePath("content.xml"), *it);
+		}
+	}
+	else
+		parseFile(TempPath.absoluteFilePath("content.xml"));
 
 	//Zipping aggain
 	QProcess Zip;
