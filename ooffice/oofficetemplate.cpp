@@ -31,11 +31,24 @@
 QString OOfficeTemplate::ZipBinFilePath = "";
 QString OOfficeTemplate::UnzipBinFilePath = "";
 
+
 QString OOfficeTemplate::parseLine(const QString& _Line, OOfficeDataSupplier* _DataSupplier)
 {
 	QString Res = _Line;
+	QString BaseRexp = 	"(sum)?\\[%([a-zA-Z0-9_]+)(\\([a-zA-Z0-9_&;@=<>!]+\\))?\\.([a-zA-Z0-9_]+)%\\]";
+
+	Res = parseLine(Res, _DataSupplier, QRegExp(BaseRexp + "(\\d{3})"));
+	Res = parseLine(Res, _DataSupplier, QRegExp(BaseRexp + "(\\d{2})"));
+	Res = parseLine(Res, _DataSupplier, QRegExp(BaseRexp + "(\\d{1})"));
+	Res = parseLine(Res, _DataSupplier, QRegExp(BaseRexp));
+	return transformOOCalcNumericValues(Res);
+}
+
+QString OOfficeTemplate::parseLine(const QString& _Line, OOfficeDataSupplier* _DataSupplier, const QRegExp& _RxVar)
+{
+	QString Res = _Line;
 	//QRegExp RxVar("\\[%([a-zA-Z0-9\\.]*)%\\]");
-	QRegExp RxVar("(sum)?\\[%([a-zA-Z0-9_]+)(\\([a-zA-Z0-9_&;@=<>!]+\\))?\\.([a-zA-Z0-9_]+)%\\]([0-9]*)");
+	QRegExp RxVar(_RxVar);
 	int CIndex = 0;
 	while( (CIndex = RxVar.indexIn(Res, CIndex)) != -1 )
 	{
@@ -44,6 +57,7 @@ QString OOfficeTemplate::parseLine(const QString& _Line, OOfficeDataSupplier* _D
 		QString VarName = RxVar.cap(2);
 		QString Filter = RxVar.cap(3).remove("(").remove(")").replace("&apos;", "'");
 		QString Field = RxVar.cap(4);
+
 		int Index = RxVar.cap(5).toInt();
 
 		//qDebug() << "Line:" << RxVar.cap(0);
@@ -77,15 +91,13 @@ QString OOfficeTemplate::parseLine(const QString& _Line, OOfficeDataSupplier* _D
 		else
 			CIndex += RxVar.cap(0).length();
 	}
-	return transformOOCalcNumericValues(Res);
-
-
+	return Res;
 }
 
 QString OOfficeTemplate::transformOOCalcNumericValues(const QString& _Input)
 {
 	QString Res = _Input;
-	QRegExp RxVar("value-type=\"string\"><text:p>([0-9]+)</text:p>");
+	QRegExp RxVar("value-type=\"string\"><text:p>([0-9]+\\.?[0-9]*)</text:p>");
 	int CIndex = 0;
 	while( (CIndex = RxVar.indexIn(Res, CIndex)) != -1 )
 	{

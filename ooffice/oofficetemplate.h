@@ -38,6 +38,8 @@ class ST_OOFFICE_EXPORT OOfficeTemplate
 	typedef QList<OOfficeDataSupplier*> TDataSupplierList;
 	TDataSupplierList DataSuppliers;
 	QString parseLine(const QString& _Line, OOfficeDataSupplier* _DataSupplier = 0);
+	QString parseLine(const QString& _Line, OOfficeDataSupplier* _DataSupplier, const QRegExp& _RxVar);
+
 	QString transformOOCalcNumericValues(const QString& _Input);
 	void parseFile(const QString& _FileName, OOfficeDataSupplier* _DataSupplier = 0);
 
