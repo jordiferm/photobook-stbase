@@ -37,6 +37,8 @@ PrintJobModel::PrintJobModel(QObject* _Parent) : QSortFilterProxyModel(_Parent),
 void PrintJobModel::setPrintJob(const PrintJob& _PrintJob)
 {
 	MPrintJob = _PrintJob;
+	if (SourceDocModel)
+		SourceDocModel->setDocs(_PrintJob.files());
 }
 
 void PrintJobModel::setSourceModel(DDocModel* _SourceModel)
@@ -136,6 +138,19 @@ void PrintJobModel::clearProductCopies()
 {
 	MPrintJob.clear();
 	reset();
+}
+
+void PrintJobModel::changeDocFile(const QModelIndex& _Index, const QFileInfo& _File)
+{
+	if (validIndex(_Index))
+	{
+		STDom::DDoc* CurrentDoc = doc(_Index);
+		QFileInfo OldFileInfo = CurrentDoc->fileInfo();
+		MPrintJob.copyPrints(OldFileInfo, _File);
+		MPrintJob.removeAllPrints(OldFileInfo);
+		CurrentDoc->setFilePath(_File.absoluteFilePath());
+		CurrentDoc->updateThumbnail();
+	}
 }
 
 DDocPrintList PrintJobModel::productCopies(const QModelIndex& _Index) const

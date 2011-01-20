@@ -69,6 +69,7 @@ public:
 	//! Is the tableview editable ?
 	void setEditable(bool _Editable);
 	void setPrimeInsertRecord(const QSqlRecord& _Record);
+	void editRow(int _Row);
 
 protected: 
 	void showEvent(QShowEvent * event);			

@@ -138,6 +138,11 @@ void FTableManager::setPrimeInsertRecord(const QSqlRecord& _Record)
 		MRecordWidget->setPrimeInsertRecord(_Record);
 }
 
+void FTableManager::editRow(int _Row)
+{
+	selectFormRow(_Row);
+	VarView->editCurrentRow(_Row);
+}
 
 void FTableManager::showEvent(QShowEvent* /*event */)
 {

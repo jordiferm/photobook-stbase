@@ -24,6 +24,7 @@
 #include <QSqlDatabase>
 #include <QList> 
 #include <QSqlRecord> 
+#include <QSize>
 
 /**
 	Abstraction of a publisher bill.
@@ -139,13 +140,18 @@ public:
 	//Adds database to QSqlDatabase active connections or replaces the old connection if a connection with _ConnectionName already exists.
 	static QSqlDatabase addDatabase(const QString& _DatabaseName, const QString& _ConnectionName = DefaultPublisherDBConnectionName); 
 	EnProductType productType(const QString& _ProductRef);
+	//! Overloaded function provided for convenience.
+	QString billRitchText(const PrintJob& _Job, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet = 1);
 	QString billRitchText(const XmlOrder& _Order, const QSqlRecord& _ShippingMethod = QSqlRecord(), int _ImagesPerSheet = 1);
+	PublisherBill calcBill(const PrintJob& _Job, const QSqlRecord& _ShippingMethod= QSqlRecord(), int _ImagesPerSheet = 1);
 	PublisherBill calcBill(const XmlOrder& _Order, const QSqlRecord& _ShippingMethod = QSqlRecord(), int _ImagesPerSheet = 1);
 	static int digiprintProdDisplayColumn();
 	static int digiprintProdKeyColumn();
 	double priceOf(const QString& _Ref, int _Quantity, bool _UseFixedPrice = true) const;
 	static QString productSqlFilter(const DDocProductList& _Products);
+	static QString templateSqlFilter(const QString& _TemplateRef);
 	PrintJob getPrintJob(const XmlOrder& _Order) const;
+	QAbstractItemModel* newProductsModelBySize(QObject* _Parent, PublisherDatabase::EnProductType _ProductType, const QSize& _Size) const;
 };
 } //namespace
 #endif

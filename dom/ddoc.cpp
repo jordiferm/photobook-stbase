@@ -262,3 +262,87 @@ int DDocFormat::mmToPixels(double _Mm, int _Dpis)
 {
 	return mmToInch(_Mm) * _Dpis;
 }
+
+// _________________________________________________________________________*/
+//
+// CLASS DDocFormatList
+// _________________________________________________________________________*/
+
+DDocFormat DDocFormatList::nearestRatioFormat(const DDocFormat& _Reference) const
+{
+	DDocFormat Res;
+	double RefAspectRatio = _Reference.bigSide() / _Reference.smallSide();
+	DDocFormatList::const_iterator it = begin();
+	double LastDiff = -1;
+	while (it != end())
+	{
+		double CurrAspectRatio = it->bigSide() / it->smallSide();
+		double Diff = qMax(RefAspectRatio, CurrAspectRatio) - qMin(RefAspectRatio, CurrAspectRatio);
+		if (LastDiff == -1 || Diff < LastDiff)
+		{
+			LastDiff = Diff;
+			Res = *it;
+		}
+		++it;
+	}
+	return Res;
+}
+
+DDocFormat DDocFormatList::farestRatioFormat(const DDocFormat& _Reference) const
+{
+	DDocFormat Res;
+	double RefAspectRatio = _Reference.bigSide() / _Reference.smallSide();
+	DDocFormatList::const_iterator it = begin();
+	double LastDiff = 0;
+	while (it != end())
+	{
+		double CurrAspectRatio = it->bigSide() / it->smallSide();
+		double Diff = qMax(RefAspectRatio, CurrAspectRatio) - qMin(RefAspectRatio, CurrAspectRatio);
+		if (Diff > LastDiff)
+		{
+			LastDiff = Diff;
+			Res = *it;
+		}
+		++it;
+	}
+	return Res;
+
+}
+
+
+DDocFormat DDocFormatList::biggestFormat() const
+{
+	DDocFormat Res;
+	DDocFormatList::const_iterator it = begin();
+	double LastArea = 0;
+	while (it != end())
+	{
+		double CurrArea = it->width() * it->height();
+		if (CurrArea > LastArea)
+		{
+			LastArea = CurrArea;
+			Res = *it;
+		}
+		++it;
+	}
+	return Res;
+}
+
+DDocFormat DDocFormatList::smallestFormat() const
+{
+	DDocFormat Res;
+	DDocFormatList::const_iterator it = begin();
+	double LastArea = -1;
+	while (it != end())
+	{
+		double CurrArea = it->width() * it->height();
+		if (CurrArea < LastArea || LastArea == -1)
+		{
+			LastArea = CurrArea;
+			Res = *it;
+		}
+		++it;
+	}
+	return Res;
+}
+

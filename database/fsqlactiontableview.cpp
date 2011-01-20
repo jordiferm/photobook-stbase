@@ -24,6 +24,7 @@
 #include <QSqlError>
 #include <QItemSelectionModel>
 #include <QAbstractItemView>
+#include <QDesktopWidget>
 
 void FSqlActionTableView::init()
 {
@@ -60,6 +61,11 @@ bool FSqlActionTableView::execDialog()
 	bool Res = false;
 	while (!Submitted && !Cancelled)
 	{ 
+		QDesktopWidget DesktopWidget;
+		QRect DesktopRect = DesktopWidget.screenGeometry(RecDialog);
+		int DefaultWidth = 800;
+		int DefaultHeight = 600;
+		RecDialog->setGeometry(DesktopRect.width() / 2 - DefaultWidth / 2, DesktopRect.height() / 2 - DefaultHeight / 2, DefaultWidth, DefaultHeight);
 		Cancelled = RecDialog->exec() != QDialog::Accepted;
 		if (!Cancelled)
 		{

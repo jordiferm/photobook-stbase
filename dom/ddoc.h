@@ -165,8 +165,16 @@ public:
 	static int mmToPixels(double _Mm, int _Dpis = 300);
 };
 
-class DDocFormatList : public QList<DDocFormat>
-{};
+class ST_DOM_EXPORT DDocFormatList : public QList<DDocFormat>
+{
+public:
+	//! \return The format in list than cuts the minimal portion of _Reference format.
+	DDocFormat nearestRatioFormat(const DDocFormat& _Reference) const;
+	//! \return The format in list that cuts the biggest portion of _Reference format.
+	DDocFormat farestRatioFormat(const DDocFormat& _Reference) const;
+	DDocFormat biggestFormat() const;
+	DDocFormat smallestFormat() const;
+};
 
 
 class ST_DOM_EXPORT DDocProduct
@@ -209,7 +217,6 @@ class ST_DOM_EXPORT DDocPrint
 	QString BackPrintText;
 	DDocProduct Product;
 	int NumCopies;
-	QRect CropRect;
 
 public:
 	DDocPrint(const QFileInfo& _File = QFileInfo(), const DDocProduct& _Product = DDocProduct(), int _NumCopies = 0)
@@ -225,9 +232,6 @@ public:
 
 	void setNumCopies(int _Value) { NumCopies = _Value; }
 	int numCopies() const { return NumCopies; }
-
-	void setCropRect(const QRect& _Rect) { CropRect = _Rect; }
-	QRect cropRect() const { return CropRect; }
 
 	//bool operator==(const DDocPrint& _Print) const { return FileInfo.absoluteFilePath() == _Print.FileInfo.absoluteFilePath(); }
 	//bool operator<(const DDocPrint& _Print) const { return FileInfo.absoluteFilePath() < _Print.FileInfo.absoluteFilePath(); }

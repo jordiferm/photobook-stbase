@@ -272,11 +272,25 @@ PublisherDatabase::EnProductType PublisherDatabase::productType(const QString& _
 	return Res;
 }
 
+QString PublisherDatabase::billRitchText(const PrintJob& _Job, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet)
+{
+	XmlOrder Order;
+	_Job.addOrderPrints(Order);
+	return billRitchText(Order, _ShippingMethod, _ImagesPerSheet);
+}
 
 QString PublisherDatabase::billRitchText(const XmlOrder& _Order, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet)
 {
 	PublisherBill Bill = calcBill(_Order, _ShippingMethod, _ImagesPerSheet);
 	return Bill.ritchText();
+}
+
+
+PublisherBill PublisherDatabase::calcBill(const PrintJob& _Job, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet)
+{
+	XmlOrder Order;
+	_Job.addOrderPrints(Order);
+	return calcBill(Order, _ShippingMethod, _ImagesPerSheet);
 }
 
 /*!
@@ -441,6 +455,14 @@ QString PublisherDatabase::productSqlFilter(const DDocProductList& _Products)
 	return Res; 
 }
 
+QString PublisherDatabase::templateSqlFilter(const QString& _TemplateRef)
+{
+		QString Res;
+		if (!_TemplateRef.isEmpty())
+				Res = QString(" templates_ref='%1'").arg(_TemplateRef);
+		return Res;
+}
+
 PrintJob PublisherDatabase::getPrintJob(const XmlOrder& _Order) const
 {
 	PrintJob Res;
@@ -460,5 +482,26 @@ PrintJob PublisherDatabase::getPrintJob(const XmlOrder& _Order) const
 		}
 	}
 
+	return Res;
+}
+
+QAbstractItemModel* PublisherDatabase::newProductsModelBySize(QObject* _Parent, PublisherDatabase::EnProductType _ProductType, const QSize& _Size) const
+{
+	QSqlQueryModel* Res = new QSqlQueryModel(_Parent);
+	QString Sql = "SELECT label, ref FROM products";
+	QString Filter;
+
+	if (_ProductType != PublisherDatabase::AllProducts)
+	{
+			if (!Filter.isEmpty())
+					Filter += " AND ";
+			Filter += QString("type=%1").arg(_ProductType);
+	}
+
+	Sql += " WHERE " + Filter;
+	Sql += QString(" AND ((width=%1 AND height=%2) OR (width=%2 AND height=%1))").arg(_Size.width()).arg(_Size.height());
+	Sql += " ORDER BY ordering, ref";
+
+	Res->setQuery(Sql, *this);
 	return Res;
 }

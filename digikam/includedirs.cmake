@@ -1,4 +1,4 @@
-INCLUDE_DIRECTORIES( ${st_SOURCE_DIR}/digikam )
+INCLUDE_DIRECTORIES( ${st-base_SOURCE_DIR}/digikam )
 INCLUDE_DIRECTORIES( ${st_digikam_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_digikam_SOURCE_DIR}/themeengine )
 INCLUDE_DIRECTORIES( ${st_digikam_SOURCE_DIR}/dimg )

@@ -58,6 +58,8 @@ public:
 	//Data Access
 	QVariant data(const QModelIndex& _Index, int _Role) const;
 	void setProductCopies(const QModelIndex& _Index, const DDocProduct& _Product, int _Copies);
+	//! Changes the file for _Index.
+	void changeDocFile(const QModelIndex& _Index, const QFileInfo& _File);
 	void clearProductCopies();
 	DDocPrintList productCopies(const QModelIndex& _Index) const;
 	DDoc* doc(const QModelIndex& _Index) const;
@@ -77,6 +79,7 @@ public:
 	void setRitchTextDisplay(bool _Value) { RitchTextDisplay = _Value; }
 	bool ritchTextDisplay() const { return RitchTextDisplay; }
 	void setThumbnailSize(const QSize& _Size) { ThumbnailSize = _Size; }
+	QSize thumbnailSize() const { return ThumbnailSize; }
 
 	//Filtering
 	void clearFolderFilter();

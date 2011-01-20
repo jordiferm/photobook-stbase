@@ -121,17 +121,6 @@ int PrintJob::copies(const DDocProduct& _Product, const QFileInfo& _FileInfo) co
 	return Res;
 }
 
-QRect PrintJob::cropRect(const DDocProduct& _Product, const QFileInfo& _FileInfo) const
-{
-	QRect Res;
-	int Index = findPrintIndex(_Product, _FileInfo);
-	if (Index != -1)
-		Res = Prints[Index].cropRect();
-
-	return Res;
-}
-
-
 int PrintJob::totalCopies() const
 {
 	int Res;
@@ -199,6 +188,16 @@ void PrintJob::addPrint(const DDocPrint& _Print)
 	DocPrintsMap[_Print.fileInfo().absoluteFilePath()].push_back(NewIndex);
 }
 
+void PrintJob::addPrints(const DDocPrintList& _Prints)
+{
+	DDocPrintList::const_iterator it;
+	for (it = _Prints.begin(); it != _Prints.end(); ++it)
+	{
+		addPrint(*it);
+	}
+}
+
+
 void PrintJob::removePrintAt(int _Index)
 {
 	QFileInfo CurrentFileInfo = Prints[_Index].fileInfo();
@@ -212,6 +211,17 @@ void PrintJob::removePrintAt(int _Index)
 	}
 	//Prints.removeAt(_Index);
 	Prints[_Index].setNumCopies(0);
+}
+
+void PrintJob::removeAllPrints(const QFileInfo& _FileName)
+{
+	TIndexList& IndexList = DocPrintsMap[_FileName.absoluteFilePath()];
+	TIndexList::iterator it;
+	for (it = IndexList.begin(); it != IndexList.end(); ++it)
+	{
+		Prints[*it].setNumCopies(0);
+	}
+	DocPrintsMap.remove(_FileName.absoluteFilePath());
 }
 
 /*!
@@ -244,14 +254,17 @@ void PrintJob::setCopies(const DDocProduct& _Product, const QFileInfo& _FileInfo
 	}
 }
 
-void PrintJob::setCropRect(const DDocProduct& _Product, const QFileInfo& _FileInfo, const QRect& _Rect)
+void PrintJob::copyPrints(const QFileInfo& _Source, const QFileInfo& _Dest)
 {
-	int CurrentIndex = findPrintIndex(_Product, _FileInfo);
-	if (CurrentIndex != -1)
+	DDocPrintList SourcePrints = prints(_Source);
+	DDocPrintList::iterator it;
+	for (it = SourcePrints.begin(); it != SourcePrints.end(); ++it)
 	{
-		Prints[CurrentIndex].setCropRect(_Rect);
+		addPrint(DDocPrint(_Dest, it->product(), it->numCopies()));
 	}
 }
+
+
 
 void PrintJob::clear()
 {

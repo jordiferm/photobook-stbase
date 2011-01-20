@@ -21,6 +21,7 @@
 #include <QPushButton>
 #include <QAbstractItemView>
 #include <QLineEdit>
+#include <QDesktopWidget>
 #include "fsearchwidget.h"
 
 void FSearchDialog::init(FSearchWidget* _SearchWidget)
@@ -43,6 +44,13 @@ FSearchDialog::FSearchDialog(FSearchWidget* _SearchWidget, QWidget* _Parent) : F
 
 int FSearchDialog::exec()
 {
+	//show();
+	int Width = 750;
+	int Height = qMin(500, searchWidget()->model()->rowCount() * 80);
+	QDesktopWidget DWidget;
+	QRect ScreenRect = DWidget.screenGeometry(this);
+	setGeometry(ScreenRect.width() / 2 - Width / 2 , ScreenRect.height() / 2 - Height / 2, Width, Height );
+
 	return FDialog::exec();
 }
 
