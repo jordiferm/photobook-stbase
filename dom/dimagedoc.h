@@ -24,6 +24,7 @@
 #include "stdomexport.h"
 #include "ddoc.h"
 #include "sterror.h"
+#include "exifmetadata.h"
 
 namespace STDom
 {
@@ -32,9 +33,23 @@ Image Digital Document with thumbnail capabilities.
 
 @author Shadow
 */
-
 class ST_DOM_EXPORT DImageDoc : public DDoc
 {
+public:
+	class CInfo
+	{
+		bool IsNull;
+		QSize Size;
+		ExifMetadata::EnOrientation Orientation;
+
+	public:
+		CInfo() : IsNull(true) {}
+		void setSize(const QSize& _Value) { Size = _Value; IsNull = false; }
+		QSize size() const { return Size; }
+		void setOrientation(ExifMetadata::EnOrientation _Value) { Orientation = _Value; IsNull = false;}
+		ExifMetadata::EnOrientation orientation() const { return Orientation; }
+		bool isNull() const { return IsNull; }
+	};
 
 public:
 	ST_DECLARE_ERRORCLASS();
@@ -56,6 +71,10 @@ public:
 
 	//Thumbnails
 	virtual bool createThumbnail(bool _CheckForMetadata = true) const;
+
+	//Image Info
+	CInfo getInfo(const ExifMetadata& _ExMData) const;
+	CInfo getInfo() const;
 
 	//Original image.
 	void save(const QImage& _Image, bool _SaveOriginal);

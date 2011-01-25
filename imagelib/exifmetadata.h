@@ -79,6 +79,10 @@ public:
 	QVariant ExifValueToVariant(const Exiv2::Value& _Val) const;
 	QVariant getKeyValue(const QString& _Key) const;
 	EnOrientation getOrientation() const;
+	QSize getSize() const;
+	QSize adjustSizeToOrientation(const QSize& _Size, EnOrientation _Orientation) const;
+	static QImage correctOrientation(const QImage& _Image, EnOrientation _Orientation);
+
 };
 
 #endif

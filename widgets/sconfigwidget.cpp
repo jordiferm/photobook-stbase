@@ -59,9 +59,11 @@ void SConfigWidget::addWidget(QWidget* _Widget, const QIcon& _Icon, const QStrin
 	NPLayout->setMargin(0); 
 
 	QLabel* PageLabel = new QLabel(_Label, NewPage); 
+	PageLabel->setObjectName("ConfigPageLabel");
 	QFont Font = PageLabel->font();
 	Font.setBold(true);
 	PageLabel->setFont(Font); 
+	PageLabel->setAlignment(Qt::AlignCenter);
 	NPLayout->addWidget(PageLabel);
 	
 	QFrame* Line = new QFrame(NewPage);

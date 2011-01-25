@@ -163,6 +163,9 @@ public:
 	QString toString() const;
 	static double mmToInch(double _Mm);
 	static int mmToPixels(double _Mm, int _Dpis = 300);
+	void copyOrientation(const DDocFormat& _Format);
+	void transpose();
+
 };
 
 class ST_DOM_EXPORT DDocFormatList : public QList<DDocFormat>

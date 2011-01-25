@@ -40,11 +40,16 @@ public:
 	};
 
 private:
+	static QImage CutWarningImage;
+	static QImage LowResWarningImage;
+	static int LowResWarningLimit;
 	PrintJob MPrintJob;
 	QSize ThumbnailSize;
 	DDocModel* SourceDocModel;
 	QString FolderFilter;
 	bool RitchTextDisplay;
+
+	void drawCut(QPixmap& _Pixmap, const QSize& _CutSize) const;
 
 public:
 	PrintJobModel(QObject* parent);
@@ -74,6 +79,7 @@ public:
 	void cloneImage(const QModelIndex& _Index);
 	//! \return size of all files in disk.
 	qint64 diskSize() const;
+	void clearAll();
 
 	//Data config
 	void setRitchTextDisplay(bool _Value) { RitchTextDisplay = _Value; }
@@ -92,6 +98,13 @@ public:
 	Qt::ItemFlags flags(const QModelIndex & index) const;
 	QMimeData* mimeData(const QModelIndexList &indexes) const;
 	QStringList mimeTypes() const;
+
+	//Info Display
+	static void setCutWarningImage(const QImage& _Image);
+	static void setLowResWarningImage(const QImage& _Image);
+	//! 0 (The Default) Means no limit.
+	static void setLowResWarningLimit(int _Dpis);
+
 };
 
 }//Namespace

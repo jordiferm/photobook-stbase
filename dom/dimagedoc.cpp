@@ -24,7 +24,6 @@
 #include <QDir>
 #include <QDebug>
 
-#include "exifmetadata.h"
 #include "imageTools.h"
 #include "stimage.h"
 
@@ -43,6 +42,8 @@ QImage DImageDoc::loadThumbnailImage(bool _CreateIfNotExist)
 		ExMData.load(FInfo.absoluteFilePath());
 		TmpThumb = ExMData.getThumbnail();
 		ThumbnailReaded = !TmpThumb.isNull();
+		CInfo MInfo = getInfo(ExMData);
+
 		if (ThumbnailReaded)
 			Res = TmpThumb.scaled(ThumbNailSize, Qt::KeepAspectRatio);
 	}
@@ -135,6 +136,28 @@ bool DImageDoc::createThumbnail(bool _CheckForMetadata) const
 	return Res;
 }
 
+DImageDoc::CInfo DImageDoc::getInfo(const ExifMetadata& _ExMData) const
+{
+	CInfo Res;
+	Res.setOrientation(_ExMData.getOrientation());
+	Res.setSize(_ExMData.getSize());
+	return Res;
+}
+
+DImageDoc::CInfo DImageDoc::getInfo() const
+{
+	ExifMetadata ExMData;
+	DImageDoc::CInfo Info;
+	try
+	{
+		QFileInfo FInfo(FilePath);
+		ExMData.load(FInfo.absoluteFilePath());
+		Info = getInfo(ExMData);
+	}
+	catch (...)
+		{}
+	return Info;
+}
 
 void DImageDoc::save(const QImage& _Image, bool _SaveOriginal)
 {

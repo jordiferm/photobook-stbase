@@ -21,13 +21,56 @@
 #include "printjobmodel.h"
 #include <QPixmap>
 #include <QFontMetrics>
+#include <QPainter>
+#include <QDebug>
 #include "ddocmodel.h"
+#include "dimagedoc.h"
 
 //Drag and Drop
 #include <QMimeData>
 #include <QUrl>
 
 using namespace STDom;
+
+void PrintJobModel::drawCut(QPixmap& _Pixmap, const QSize& _CutSize) const
+{
+	QSize PixmapSize = _Pixmap.size();
+	QPainter Painter(&_Pixmap);
+	int CutX = PixmapSize.width() / 2 - _CutSize.width() / 2;
+	int CutY = PixmapSize.height() / 2 - _CutSize.height() / 2;
+	QPen Pen(Qt::SolidLine);
+	Pen.setColor(Qt::black);
+	Pen.setWidth(1);
+	Painter.setPen(Pen);
+	if (CutX > 0)
+	{
+		Painter.drawLine(QPoint(CutX, 0), QPoint(CutX, PixmapSize.height()));
+		Painter.drawLine(QPoint(PixmapSize.width() - CutX - 1, 0), QPoint(PixmapSize.width() - CutX - 1, PixmapSize.height()));
+	}
+	if (CutY > 0)
+	{
+		Painter.drawLine(QPoint(0, CutY), QPoint(PixmapSize.width(), CutY));
+		Painter.drawLine(QPoint(0, PixmapSize.height() - CutY - 1), QPoint(PixmapSize.width(), PixmapSize.height() - CutY - 1));
+	}
+	Pen.setColor(Qt::white);
+	Pen.setStyle(Qt::DashLine);
+	Painter.setPen(Pen);
+	if (CutX > 0)
+	{
+		Painter.drawLine(QPoint(CutX, 0), QPoint(CutX, PixmapSize.height()));
+		Painter.drawLine(QPoint(PixmapSize.width() - CutX - 1, 0), QPoint(PixmapSize.width() - CutX - 1, PixmapSize.height()));
+	}
+	if (CutY > 0)
+	{
+		Painter.drawLine(QPoint(0, CutY), QPoint(PixmapSize.width(), CutY));
+		Painter.drawLine(QPoint(0, PixmapSize.height() - CutY - 1), QPoint(PixmapSize.width(), PixmapSize.height() - CutY - 1));
+	}
+	Painter.end();
+}
+
+int PrintJobModel::LowResWarningLimit = 0;
+QImage PrintJobModel::CutWarningImage;
+QImage PrintJobModel::LowResWarningImage;
 
 PrintJobModel::PrintJobModel(QObject* _Parent) : QSortFilterProxyModel(_Parent), FolderFilter(""), RitchTextDisplay(false)
 {
@@ -53,6 +96,7 @@ bool PrintJobModel::validIndex(const QModelIndex& _Index) const
 	return (_Index.isValid() && rowCount() > _Index.row() && _Index.row() >= 0);
 }
 
+
 //Data Access
 QVariant PrintJobModel::data(const QModelIndex& _Index, int _Role) const
 {
@@ -64,6 +108,81 @@ QVariant PrintJobModel::data(const QModelIndex& _Index, int _Role) const
 			QPixmap RPixmap = QSortFilterProxyModel::data(_Index, _Role).value<QPixmap>();
 			if (!RPixmap.isNull())
 				RPixmap = RPixmap.scaled(ThumbnailSize, Qt::KeepAspectRatio);
+
+			DDoc* CurrDoc = doc(_Index);
+			DDocFormatList DocFormats = MPrintJob.formats(CurrDoc->fileInfo());
+			if (!DocFormats.isEmpty() && CurrDoc->type() == STDom::DImageDoc::Type) //If Doc is an Image
+			{
+				STDom::DImageDoc* Image = static_cast<STDom::DImageDoc*>(CurrDoc);
+				STDom::DImageDoc::CInfo ImageInfo = Image->getInfo();
+				QSize ImageSize = ImageInfo.size();
+				QSize PixmapSize = RPixmap.rect().size();				
+				bool SizeInfo = !ImageSize.isEmpty();
+				if (!SizeInfo) //It's hard to get image size.
+						ImageSize = PixmapSize;
+				else //Cut pixmap with same aspect ratio as image.Some EXIF thumbnails has black bands ...
+				{
+					QSize ImageToPixSize = ImageSize;
+					ImageToPixSize.scale(PixmapSize, Qt::KeepAspectRatio);
+					if (ImageToPixSize != PixmapSize);
+					{
+						RPixmap = RPixmap.copy(PixmapSize.width() / 2 - ImageToPixSize.width() / 2,
+									 PixmapSize.height() / 2 - ImageToPixSize.height() / 2,
+									 ImageToPixSize.width(), ImageToPixSize.height());
+						PixmapSize = RPixmap.rect().size();
+					}
+				}
+
+				//Draw Cut markers
+				DDocFormat FarestFormat = DocFormats.farestRatioFormat(DDocFormat(ImageSize));
+				FarestFormat.copyOrientation(DDocFormat(PixmapSize));
+				QSizeF RectSize = FarestFormat.size();
+				RectSize.scale(PixmapSize, Qt::KeepAspectRatio);
+				QSize IntSize = RectSize.toSize();
+				int CurrentIDYPos = 1;
+				if (abs(IntSize.width() - PixmapSize.width()) > 1 || abs(IntSize.height() - PixmapSize.height()) > 1)
+				{
+					drawCut(RPixmap, IntSize);
+					if (!CutWarningImage.isNull())
+					{
+						QPainter Painter(&RPixmap);
+						QImage CWImage = CutWarningImage;
+						if (IntSize.width() < PixmapSize.width())
+						{
+							QMatrix Matrix;
+							Matrix.rotate(90);
+							CWImage = CWImage.transformed(Matrix);
+						}
+						Painter.drawImage(1, CurrentIDYPos, CWImage);
+						CurrentIDYPos += CWImage.height();
+					}
+				}
+
+				//Calc warning messages
+				if (LowResWarningLimit > 0 && SizeInfo)
+				{
+					QSize Dpis = FarestFormat.dpis(ImageSize);
+					if (Dpis.width() < LowResWarningLimit || Dpis.height() < LowResWarningLimit)
+					{
+						QPainter Painter(&RPixmap);
+						QFont LWRFont("Arial", 12);
+						Painter.setFont(LWRFont);
+						int FontHeight = Painter.fontMetrics().boundingRect("X").size().height();
+						int LabelXPos = 1;
+						if (!LowResWarningImage.isNull())
+						{
+							Painter.drawImage(1, CurrentIDYPos, LowResWarningImage);
+							LabelXPos = LowResWarningImage.width() -5;
+							CurrentIDYPos += LowResWarningImage.height();
+						}
+						Painter.setPen(Qt::black);
+						Painter.drawText(LabelXPos, CurrentIDYPos - FontHeight, tr("Low res"));
+						Painter.setPen(Qt::white);
+						Painter.drawText(LabelXPos + 1, (CurrentIDYPos - FontHeight) + 1, tr("Low res"));
+					}
+				}
+
+			}
 			Res = RPixmap;
 		}
 		else
@@ -243,6 +362,13 @@ qint64 PrintJobModel::diskSize() const
 	return Res;
 }
 
+void PrintJobModel::clearAll()
+{
+	clearFolderFilter();
+	clearProductCopies();
+}
+
+
 void PrintJobModel::clearFolderFilter()
 {
 	FolderFilter = "";
@@ -313,3 +439,17 @@ QMimeData* PrintJobModel::mimeData(const QModelIndexList &indexes) const
 	return QSortFilterProxyModel::mimeData(indexes);
 }
 
+void PrintJobModel::setCutWarningImage(const QImage& _Image)
+{
+	CutWarningImage = _Image;
+}
+
+void PrintJobModel::setLowResWarningImage(const QImage& _Image)
+{
+	LowResWarningImage = _Image;
+}
+
+void PrintJobModel::setLowResWarningLimit(int _Dpis)
+{
+	LowResWarningLimit = _Dpis;
+}

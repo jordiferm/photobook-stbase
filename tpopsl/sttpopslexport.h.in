@@ -1,0 +1,15 @@
+#ifndef _STTPOPSLEXPORT_H
+#define _STTPOPSLEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_tpopsl_EXPORTS)
+		#define ST_TPOPSL_EXPORT __declspec(dllexport)
+	#else
+			#define ST_TPOPSL_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_TPOPSL_EXPORT
+#endif
+
+#endif // !_STTPOPSLEXPORT_H
+

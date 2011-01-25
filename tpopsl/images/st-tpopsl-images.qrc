@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/st/tpopsl">
+        <file>next.png</file>
+        <file>previous.png</file>
+        <file>zoom.png</file>
+        <file>filter.png</file>
+        <file>nofilter.png</file>
+        <file>nocut.png</file>
+        <file>cut.png</file>
+        <file>accept.png</file>
+        <file>cancel.png</file>
+        <file>1uparrow.png</file>
+        <file>1downarrow.png</file>
+        <file>1leftarrow.png</file>
+        <file>1rightarrow.png</file>
+        <file>wand.png</file>
+        <file>object_rotate_left.png</file>
+        <file>object_rotate_right.png</file>
+        <file>viewmag+.png</file>
+        <file>viewmag-.png</file>
+        <file>edit_undo.png</file>
+        <file>edit_redo.png</file>
+        <file>xeyes.png</file>
+        <file>blackandwhite.png</file>
+        <file>sepia.png</file>
+        <file>add.png</file>
+        <file>remove.png</file>
+        <file>hide-advanced.png</file>
+        <file>show-advanced.png</file>
+        <file>printer.png</file>
+    </qresource>
+</RCC>

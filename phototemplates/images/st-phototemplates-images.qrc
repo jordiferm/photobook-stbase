@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/phototemplates" >
+        <file>thumbtack_red_plug_64.png</file>
+        <file>thumbtack_red_unplug_64.png</file>
+        <file>viewmag+.png</file>
+        <file>viewmag-.png</file>
+        <file>rotate_ccw.png</file>
+        <file>fittoframe.png</file>
+        <file>text_font.png</file>
+        <file>colorize.png</file>
+        <file>document-edit.png</file>
+        <file>go-down.png</file>
+        <file>go-up.png</file>
+        <file>collection.png</file>
+        <file>desktop.png</file>
+        <file>folder.png</file>
+        <file>list-add.png</file>
+        <file>list-remove.png</file>
+        <file>drive-harddisk.png</file>
+        <file>checked.png</file>
+        <file>rating.png</file>
+        <file>zoom-in-mini.png</file>
+        <file>zoom-out-mini.png</file>
+        <file>object-rotate-right.png</file>
+        <file>transform-scale.png</file>
+        <file>transform-move.png</file>
+        <file>dialog-warning.png</file>
+        <file>hourglass.png</file>
+    </qresource>
+</RCC>

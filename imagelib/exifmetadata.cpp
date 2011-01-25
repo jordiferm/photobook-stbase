@@ -19,6 +19,7 @@
 ****************************************************************************/
 #include "exifmetadata.h"
 #include <QVariant>
+#include <QDebug>
 
 #include "image.hpp"
 #include "tags.hpp"
@@ -43,9 +44,9 @@ void ExifMetadata::load(const QString& _FileName)
 		CExifData = Image->exifData();
 		Assert(!CExifData.empty(), Error(": No Exif data found in the file")); 
 		
-// 		Exiv2::ExifData::const_iterator i;
-// 		for (i=CExifData.begin(); i!=CExifData.end(); ++i )
-// 			qDebug(QString("EXIF Key: %1 = %2").arg( QString::fromStdString(i->key())).arg(QString::fromStdString(i->value().toString())).toLatin1());
+//		Exiv2::ExifData::const_iterator i;
+//		for (i=CExifData.begin(); i!=CExifData.end(); ++i )
+//			qDebug(QString("EXIF Key: %1 = %2").arg( QString::fromStdString(i->key())).arg(QString::fromStdString(i->value().toString())).toLatin1());
 		
 // 		Exiv2::ExifData::const_iterator i = CExifData.findKey(Exiv2::ExifKey("Exif.Image.Orientation"));
 // //		for (i=CExifData.begin(); i!=CExifData.end(); ++i )
@@ -72,6 +73,8 @@ void ExifMetadata::load(const QString& _FileName)
 		//ThumbNail = QImage::fromData( Buf.pData_, Buf.size_, ThumbnailPtr->format());
 		ThumbNail = QImage::fromData( Buf.pData_, Buf.size_, CExifData.thumbnailFormat());
 #endif 
+		if (!ThumbNail.isNull())
+			ThumbNail = correctOrientation(ThumbNail, getOrientation());
 	}
 	catch (Exiv2::AnyError& e) 
 	{
@@ -159,4 +162,61 @@ QVariant ExifMetadata::getKeyValue(const QString& _Key) const
 ExifMetadata::EnOrientation ExifMetadata::getOrientation() const
 {
 	return static_cast<ExifMetadata::EnOrientation>(getKeyValue("Exif.Image.Orientation").toInt());
+}
+
+QSize ExifMetadata::getSize() const
+{
+	return adjustSizeToOrientation(QSize(getKeyValue("Exif.Photo.PixelXDimension").toInt(), getKeyValue("Exif.Photo.PixelYDimension").toInt()), getOrientation());
+}
+
+QSize ExifMetadata::adjustSizeToOrientation(const QSize& _Size, EnOrientation _Orientation) const
+{
+	QSize Res = _Size;
+	if (_Orientation > Orientation_Bottom_Left)
+		Res.transpose();
+	return Res;
+}
+
+QImage ExifMetadata::correctOrientation(const QImage& _Image, EnOrientation _Orientation)
+{
+	QImage Res = _Image;
+	switch (_Orientation)
+	{
+		case Orientation_Right_Bottom:
+		case Orientation_Left_Bottom :
+		{
+			QTransform Transform;
+			Transform.rotate(-90);
+			Res = _Image.transformed(Transform, Qt::SmoothTransformation);
+		}
+		break;
+
+		case Orientation_Left_Top :
+		case Orientation_Right_Top :
+		{
+			QTransform Transform;
+			Transform.rotate(90);
+			Res = _Image.transformed(Transform, Qt::SmoothTransformation);
+		}
+		break;
+
+		case Orientation_Bottom_Left :
+		case Orientation_Bottom_Right :
+		{
+			QTransform Transform;
+			Transform.rotate(-180);
+			Res = _Image.transformed(Transform, Qt::SmoothTransformation);
+		}
+	}
+
+	switch (_Orientation)
+	{
+		case Orientation_Bottom_Left :
+		case Orientation_Top_Right :
+		case Orientation_Left_Top :
+		case Orientation_Right_Bottom :
+			Res = Res.mirrored(true, false);
+		break;
+	}
+	return Res;
 }

@@ -321,7 +321,8 @@ PublisherBill PublisherDatabase::calcBill(const XmlOrder& _Order, const QSqlReco
 			case PublisherDatabase::PhotoBookProduct :
 				{
 					int NPages = CurrentPrintList.size() -1;
-					CNCopies = CNCopies / NPages;
+					if (NPages > 1)
+						CNCopies = CNCopies / NPages;
 					double PagePrice = 0; //Price depends on command type.
 					double Price = 0;
 					FSqlQuery Query(*this);

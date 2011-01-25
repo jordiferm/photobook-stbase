@@ -1,0 +1,15 @@
+#ifndef _STOROMELEXPORT_H
+#define _STOROMELEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_oromel_EXPORTS)
+		#define ST_OROMEL_EXPORT __declspec(dllexport)
+	#else
+			#define ST_OROMEL_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_OROMEL_EXPORT
+#endif
+
+#endif // !_STOROMELEXPORT_H
+

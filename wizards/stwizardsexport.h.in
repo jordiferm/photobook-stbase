@@ -1,0 +1,15 @@
+#ifndef _STWIZARDSEXPORT_H
+#define _STWIZARDSEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_wizards_EXPORTS)
+		#define ST_WIZARDS_EXPORT __declspec(dllexport)
+	#else
+			#define ST_WIZARDS_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_WIZARDS_EXPORT
+#endif
+
+#endif // !_STWIZARDSEXPORT_H
+

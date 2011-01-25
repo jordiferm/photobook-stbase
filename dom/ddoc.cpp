@@ -263,6 +263,23 @@ int DDocFormat::mmToPixels(double _Mm, int _Dpis)
 	return mmToInch(_Mm) * _Dpis;
 }
 
+void DDocFormat::copyOrientation(const DDocFormat& _Format)
+{
+	if ((_Format.width() > _Format.height() && width() < height()) ||
+		(_Format.width() < _Format.height() && width() > height()))
+		transpose();
+}
+
+/*!
+  Swaps the width and the height values.
+ */
+void DDocFormat::transpose()
+{
+	double OldWidth = Width;
+	Width = Height;
+	Height = OldWidth;
+}
+
 // _________________________________________________________________________*/
 //
 // CLASS DDocFormatList

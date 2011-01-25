@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/st/wizards">
+        <file>printwizard.png</file>
+        <file>watermark.png</file>
+        <file>printer.png</file>
+        <file>nopreview.png</file>
+        <file>checked.png</file>
+        <file>invert.png</file>
+        <file>propcut.png</file>
+        <file>whitemargin.png</file>
+        <file>sidewhitemargin.png</file>
+        <file>rotateright.png</file>
+        <file>orderprintswizard.png</file>
+        <file>nocrop.png</file>
+        <file>view_refresh.png</file>
+        <file>find_media.png</file>
+        <file>albumwizard.png</file>
+        <file>folder_image.png</file>
+        <file>viewmag+.png</file>
+        <file>viewmag-.png</file>
+        <file>excluded.png</file>
+        <file>typecalendar.png</file>
+        <file>typecard.png</file>
+        <file>typeidphoto.png</file>
+        <file>typephotobook.png</file>
+        <file>personal.png</file>
+        <file>typemultiphoto.png</file>
+    </qresource>
+</RCC>

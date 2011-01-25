@@ -1,0 +1,15 @@
+#ifndef _STPHOTOTEMPLATESLIBEXPORT_H
+#define _STPHOTOTEMPLATESLIBEXPORT_H
+
+#if defined(WIN32) 
+	#if defined(st_phototemplates_EXPORTS)
+		#define ST_PHOTOTEMPLATES_EXPORT __declspec(dllexport)
+	#else
+			#define ST_PHOTOTEMPLATES_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_PHOTOTEMPLATES_EXPORT
+#endif
+
+#endif // !_STPHOTOTEMPLATESEXPORT_H
+
