@@ -23,11 +23,12 @@
 
 #include <QFileInfoList>
 #include "ddoclist.h"
+#include "stdomexport.h"
 
 namespace STDom
 {
 
-class DDocFactory
+class ST_DOM_EXPORT DDocFactory
 {
 public:
 	static DDoc* newDoc(const QFileInfo& _File);
