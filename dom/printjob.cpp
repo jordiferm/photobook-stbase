@@ -181,6 +181,18 @@ QFileInfoList PrintJob::files() const
 	return Res;
 }
 
+QFileInfoList PrintJob::files(const DDocProduct& _Product) const
+{
+	QFileInfoList Res;
+	DDocPrintList Prints = prints(_Product);
+	DDocPrintList::const_iterator it;
+	for (it = Prints.begin(); it != Prints.end(); ++it)
+	{
+		Res.push_back(it->fileInfo());
+	}
+	return Res;
+}
+
 void PrintJob::addPrint(const DDocPrint& _Print)
 {
 	int NewIndex = Prints.size();
@@ -233,6 +245,16 @@ void PrintJob::addCopies(const DDocProduct& _Product, const QFileInfo& _FileInfo
 	setCopies(_Product, _FileInfo, qMax(CurrCopies + _Copies, 0));
 }
 
+void PrintJob::addCopiesAll(const DDocProduct& _Product, int _Copies)
+{
+	QFileInfoList Files = files();
+	QFileInfoList::const_iterator it;
+	for (it = Files.begin(); it != Files.end(); ++it)
+	{
+		addCopies(_Product, *it, _Copies);
+	}
+}
+
 /*!
 	Looks for a DDocPrint with _Product and _FileInfo.
 	If it finds it sets print numCopies to _Copies else it adds a new DDocPrint with _Copies numcopies.
@@ -281,7 +303,9 @@ void PrintJob::addOrderPrints(XmlOrder& _Order) const
 		{
 			DDocPrint CurrentPrint = *it;
 			XmlOrderPrint Print(CurrentPrint.fileInfo().absoluteFilePath(), CurrentPrint.numCopies());
+			Print.setImageSize(CurrentPrint.fileInfo().size());
 			Print.setBackPrintText(CurrentPrint.backPrintText());
+			Print.setDescription(CurrentPrint.product().description());
 			_Order.addPrint(CurrentPrint.product().ref(), Print);
 		}
 	}

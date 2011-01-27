@@ -92,7 +92,10 @@ STDom::PrintJob PrintJobPrinter::storeImages(const STDom::PrintJob& _Job, const 
 			DDocPrintList::iterator it;
 			for (it = Prints.begin(); it != Prints.end(); ++it)
 			{
-				Res.addCopies(it->product(), QFileInfo(DestFilePath), it->numCopies());
+				STDom::DDocPrint Print(QFileInfo(DestFilePath), it->product(), it->numCopies());
+				Print.setBackPrintText(it->backPrintText());
+				Res.addPrint(Print);
+				//Res.addCopies(it->product(), QFileInfo(DestFilePath), it->numCopies());
 			}
 		}
 		else
@@ -262,7 +265,6 @@ void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order
 		_Order.saveXml();
 		ErrorStack += _Order.errorStack();
 	}
-
 }
 
 void PrintJobPrinter::clearErrorStack()

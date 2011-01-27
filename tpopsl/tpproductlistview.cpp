@@ -31,6 +31,7 @@ TPProductListView::TPProductListView(QWidget *parent)
 	MLayout->setMargin(1); 
 	MLayout->setSpacing(1);
 	MListView = new QListView(this);
+	MListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	connect(MListView, SIGNAL(clicked( const QModelIndex& )), this, SIGNAL(clicked(const QModelIndex&))); 
 	MListView->setObjectName("ProductsListView"); 
 

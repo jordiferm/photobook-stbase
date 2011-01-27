@@ -54,6 +54,7 @@ public:
 	DDocPrintList prints(const DDocProduct& _Product) const;
 	DDocPrintList prints(const QFileInfo& _File) const;
 	QFileInfoList files() const;
+	QFileInfoList files(const DDocProduct& _Product) const;
 
 	void addPrint(const DDocPrint& _Print);
 	void addPrints(const DDocPrintList& _Prints);
@@ -61,6 +62,7 @@ public:
 	void removePrintAt(int _Index);
 	void removeAllPrints(const QFileInfo& _Source);
 	void addCopies(const DDocProduct& _Product, const QFileInfo& _FileInfo, int _Copies);
+	void addCopiesAll(const DDocProduct& _Product, int _Copies);
 	void setCopies(const DDocProduct& _Product, const QFileInfo& _FileInfo, int _Copies);
 	void copyPrints(const QFileInfo& _Source, const QFileInfo& _Dest);
 	//! Removes all prints of _Source

@@ -223,7 +223,7 @@ class ST_DOM_EXPORT DDocPrint
 
 public:
 	DDocPrint(const QFileInfo& _File = QFileInfo(), const DDocProduct& _Product = DDocProduct(), int _NumCopies = 0)
-			: FileInfo(_File), Product(_Product), NumCopies(_NumCopies) {}
+			: FileInfo(_File), Product(_Product), NumCopies(_NumCopies), BackPrintText(_File.fileName()) {}
 	QFileInfo fileInfo() const { return FileInfo; }
 	void setFileInfo(const QFileInfo& _File) { FileInfo = _File; }
 
