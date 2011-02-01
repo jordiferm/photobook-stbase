@@ -74,8 +74,23 @@ QWidget* FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOptio
 					FFieldMetaData FMetaData = TMetaData.fields[Model->record().fieldName(_Index.column())]; 
 					if (FMetaData.type() == QVariant::Bool) //Boolean types on SQLite.
 						Editor = new QCheckBox(_Parent);
+					else
 					if (FMetaData.type() == QVariant::Image)
 						Editor = new SImageSelector(_Parent);
+					else
+					if (FMetaData.type() == QVariant::Date)
+					{
+						QDateEdit* DEdit = new QDateEdit(_Parent);
+						DEdit->setCalendarPopup(true);
+						Editor = DEdit;
+					}
+					else
+					if (FMetaData.type() == QVariant::DateTime)
+					{
+						QDateTimeEdit* DEdit = new QDateTimeEdit(_Parent);
+						DEdit->setCalendarPopup(true);
+						Editor = DEdit;
+					}
 				}
 			}	
 		}
@@ -206,6 +221,15 @@ QWidget* FRecordWidget::createEditor(int _Index, const QString& _Suffix, bool _R
 {
 	QStyleOptionViewItem Options;
 	QWidget* Editor = Mapper->itemDelegate()->createEditor(this, Options, Model->index(0, _Index));
+	if (QComboBox* ComboEditor = qobject_cast<QComboBox*>(Editor))
+	{
+		if (QSqlTableModel* TModel = qobject_cast<QSqlTableModel*>(ComboEditor->model()))
+		{
+			LookupModels.push_back(TModel);
+			TModel->sort(ComboEditor->modelColumn(), Qt::AscendingOrder);
+		}
+	}
+
 	if (!Editor)
 		Editor = new QLineEdit(this);
 	else
@@ -284,6 +308,22 @@ QSqlRecord FRecordWidget::currentRecord() const
 		Res = Model->record(CIndex);
 	return Res;
 }
+
+int FRecordWidget::currentRow() const
+{
+	return Mapper->currentIndex();
+}
+
+void FRecordWidget::updateLookups()
+{
+	QList<QSqlTableModel*>::iterator it;
+	for (it = LookupModels.begin(); it != LookupModels.end(); ++it)
+	{
+		(*it)->select();
+	}
+	Mapper->revert();
+}
+
 
 
 void FRecordWidget::showEvent(QShowEvent* )

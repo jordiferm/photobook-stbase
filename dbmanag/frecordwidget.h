@@ -61,6 +61,7 @@ class QShowEvent;
 class QGridLayout;
 class QRegExp;
 class QTableView;
+class QSqlTableModel;
 class ST_DBMANAG_EXPORT FRecordWidget : public QWidget
 {
 	Q_OBJECT
@@ -71,6 +72,7 @@ protected:
 	bool WidgetCreated;
 	QMap<int, QWidget*>	MappedSections; //mappedWidgetAt fails !!!!(Solution scheduled for qt 4.2.2)
 	QSqlRecord PrimeInsertRecord;
+	QList<QSqlTableModel*> LookupModels;
 		
 public:
 	FRecordWidget(QSqlTableModel* _Model, QWidget* _Parent = 0);
@@ -91,6 +93,9 @@ public:
 	QDataWidgetMapper* mapper() const;
 	void setPrimeInsertRecord(const QSqlRecord& _Record) { PrimeInsertRecord = _Record; }
 	QSqlRecord currentRecord() const;
+	int currentRow() const;
+	void updateLookups();
+
 
 protected: 
 	//! Used to create the widget. This has to be created after primeInsert if the model is empty.

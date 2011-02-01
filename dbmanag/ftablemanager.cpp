@@ -104,6 +104,12 @@ void FTableManager::setRecordWidget(FRecordWidget* _RecordWidget)
 	MRecordWidget = _RecordWidget;
 }
 
+void FTableManager::updateLookups()
+{
+	if (MRecordWidget)
+		MRecordWidget->updateLookups();
+}
+
 void FTableManager::setRecordWidget(FRecDialog* _RecordDialog)
 {
 	VarView->setRecordDialog(_RecordDialog);

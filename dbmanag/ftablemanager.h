@@ -66,6 +66,7 @@ public:
 	
 	void setRecordWidget(FRecordWidget* _RecordWidget);
 	void setRecordWidget(FRecDialog* _RecordDialog);
+	void updateLookups();
 	//! Is the tableview editable ?
 	void setEditable(bool _Editable);
 	void setPrimeInsertRecord(const QSqlRecord& _Record);
