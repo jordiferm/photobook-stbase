@@ -22,8 +22,9 @@
 #define PRINTKEEPERLOGINMANAGER_H
 #include <QString>
 #include <QUrl>
+#include "stprintkeeperexport.h"
 
-class PrintKeeperLoginManager
+class ST_PRINTKEEPER_EXPORT PrintKeeperLoginManager
 {
 	QString UserName, Password, AccessKey;
 	QUrl BaseUrl;
