@@ -13,8 +13,9 @@
 #define QWWBUTTONLINEEDITPRIVATE_H
 #include "qwwbuttonlineedit.h"
 #include "wwglobal_p.h"
+#include "stwidgetsexport.h"
 
-class QwwButtonLineEditPrivate : public QwwPrivate {
+class ST_WIDGETS_EXPORT QwwButtonLineEditPrivate : public QwwPrivate {
 public:
     QwwButtonLineEditPrivate(QwwButtonLineEdit *pub);
     void updateButtonPosition(int w);
