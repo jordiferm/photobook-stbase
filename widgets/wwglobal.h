@@ -14,6 +14,7 @@
 
 #include <QString>
 #include <QColor>
+#include "stwidgetsexport.h"
 
 #ifdef WW_BUILD_WWWIDGETS
 #define Q_WW_EXPORT Q_DECL_EXPORT
@@ -26,7 +27,7 @@ class QwwPrivate;
  * \internal
  * @class QwwPrivatable
  */
-class Q_WW_EXPORT QwwPrivatable {
+class ST_WIDGETS_EXPORT QwwPrivatable {
 protected:
     QwwPrivatable(QwwPrivate *p);
     ~QwwPrivatable();
