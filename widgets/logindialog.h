@@ -23,10 +23,11 @@
 
 #include <QDialog>
 #include <QUrl>
+#include "stwidgetsexport.h"
 
 class QLineEdit;
 class QLabel;
-class LoginDialog : public QDialog
+class ST_WIDGETS_EXPORT LoginDialog : public QDialog
 {
 Q_OBJECT
 	QLineEdit* LEUser;
