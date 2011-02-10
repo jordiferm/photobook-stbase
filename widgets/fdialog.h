@@ -23,7 +23,7 @@
 
 #include "stwidgetsexport.h"
 #include "fabstractactioncontainer.h"
-#include <qdialog.h>
+#include "sgeometrysavedialog.h"
 #include "sactionbuttonsframe.h"
 #include "fstdactions.h"
 /**
@@ -34,7 +34,7 @@ Connecta automàticament les actions Accept i Cancel als slots corresponents de Q
 class QVBoxLayout;
 class QBoxLayout;
 class QShowEvent; 
-class ST_WIDGETS_EXPORT FDialog : public QDialog, public FAbstractActionContainer
+class ST_WIDGETS_EXPORT FDialog : public SGeometrySaveDialog, public FAbstractActionContainer
 {
 	Q_OBJECT
 

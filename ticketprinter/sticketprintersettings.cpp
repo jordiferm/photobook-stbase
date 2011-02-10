@@ -18,6 +18,7 @@
 **
 ****************************************************************************/
 #include "sticketprintersettings.h"
+#include <QCoreApplication>
 
 STicketPrinterSettings::STicketPrinterSettings(const QString& _PrinterName, QObject* _Parent) : SAppSettings(_Parent), PrinterName(_PrinterName)
 {
@@ -27,7 +28,7 @@ STicketPrinterSettings::STicketPrinterSettings(const QString& _PrinterName, QObj
  				tr("Use Direct Print Mode"), "");
  		addKey(keyFullName("systemticketprintername"),  "", QVariant::String, 
  				tr("System Ticket Printer Name"), "");
- 		addKey(keyFullName("ticketreportfile"),  "reports/ticket.xml", QVariant::String, 
+		addKey(keyFullName("ticketreportfile"),  QCoreApplication::applicationDirPath() + "/ticket.xml", QVariant::String,
  				tr("Ticket report file"), "");
 
 		addKey(keyFullName("ticketdevice"), "/dev/ttyS0", QVariant::String, tr("Ticket printer device"), 

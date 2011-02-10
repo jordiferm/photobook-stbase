@@ -29,6 +29,7 @@ SET(prj_SRCS
 	fabstractactioncontainer.cpp
 	factiontableview.cpp
 	fpixmapselector.cpp
+	sgeometrysavedialog.cpp
 	fdialog.cpp
 	ftsdialog.cpp
 	fsearchdialog.cpp
@@ -76,6 +77,9 @@ SET(prj_SRCS
 	stftpstatuswidget.cpp
 	templatedownloaddialog.cpp
 	sintvalueselector.cpp
+	logindialog.cpp
+	wwglobal_p.cpp
+	qwwbuttonlineedit.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -93,6 +97,7 @@ SET(prj_MOC_HDRS
 	fabstractactioncontainer.h
 	factiontableview.h
 	fpixmapselector.h
+	sgeometrysavedialog.h
 	fdialog.h
 	ftsdialog.h
 	fsearchdialog.h
@@ -142,6 +147,11 @@ SET(prj_MOC_HDRS
 	stftpstatuswidget.h
 	templatedownloaddialog.h
 	sintvalueselector.h
+	logindialog.h
+	wwglobal.h
+	wwglobal_p.h
+	qwwbuttonlineedit.h
+	qwwbuttonlineedit_p.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

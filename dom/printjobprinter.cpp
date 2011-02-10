@@ -187,9 +187,10 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 			QPrinter Printer;
 			Printer.setPrinterName(productSpool(it->ref()));
 			bool PrintAccess = true;
+			STDom::DDocPrintList ProdPrints = _Job.prints(*it);
 
 	#ifdef USE_PRINTKEEPER
-			if (!PrintKeeper::printAcces(Printer.printerName()))
+			if (!PrintKeeper::printAcces(Printer.printerName(), ProdPrints.numCopies()))
 			{
 				PrintKeeper::accesDeniedWarning(Printer.printerName());
 				PrintAccess = false;
@@ -207,7 +208,6 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 				Printer.setNumCopies(1);
 				QPainter Painter(&Printer);
 
-				STDom::DDocPrintList ProdPrints = _Job.prints(*it);
 				STDom::DDocPrintList::iterator pit;
 				pit = ProdPrints.begin();
 				while ( pit != ProdPrints.end()) //For each print

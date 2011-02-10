@@ -5,6 +5,8 @@ PROJECT(st_printkeeper)
 
 INCLUDE_DIRECTORIES( ${st_core_SOURCE_DIR} )
 INCLUDE_DIRECTORIES( ${st_core_BINARY_DIR} )
+INCLUDE_DIRECTORIES( ${st_widgets_SOURCE_DIR} )
+INCLUDE_DIRECTORIES( ${st_widgets_BINARY_DIR} )
 
 # --------------------------------------------------------------------------
 # Configure Qt
@@ -16,10 +18,14 @@ INCLUDE(${QT_USE_FILE})
 # Project files
 SET(prj_SRCS
 	printkeeper.cpp
+	eprintkeeper.cpp
+	printkeeperloginmanager.cpp
 )
 
 SET(prj_MOC_HDRS
 	printkeeper.h
+	eprintkeeper.h
+	printkeeperloginmanager.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})
@@ -41,6 +47,6 @@ INCLUDE_DIRECTORIES( ${st_printkeeper_BINARY_DIR} ${LIBUSB_INCLUDE_DIR})
 ADD_LIBRARY(st_printkeeper SHARED ${prj_SRCS} ${prj_MOC_SRCS})
 
 SET_TARGET_PROPERTIES(st_printkeeper PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
-TARGET_LINK_LIBRARIES(st_printkeeper ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(st_printkeeper ${QT_LIBRARIES} st_widgets )
 
 INSTALL(TARGETS st_printkeeper DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})

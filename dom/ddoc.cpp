@@ -363,3 +363,18 @@ DDocFormat DDocFormatList::smallestFormat() const
 	return Res;
 }
 
+// _________________________________________________________________________*/
+//
+// CLASS DDocFormatList
+// _________________________________________________________________________*/
+
+int DDocPrintList::numCopies() const
+{
+	int Res = 0;
+	DDocPrintList::const_iterator it;
+	for (it = begin(); it != end(); ++it)
+	{
+		Res += it->numCopies();
+	}
+	return Res;
+}

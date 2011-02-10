@@ -22,6 +22,8 @@
 #include <QLayout>
 #include <QMap>
 #include <QSqlRelationalDelegate>
+#include <QHideEvent>
+#include <QDebug>
 #include "fsqlsearchwidget.h"
 #include "fsqlmetadata.h"
 #include "ftablemanager.h"
@@ -90,8 +92,6 @@ QItemSelectionModel* FGenManager::selectionModel() const
 {
 	return TManager->actionTableView()->searchWidget()->view()->selectionModel();
 }
-
-
 
 void FGenManager::primeInsert(int /*_Row*/, QSqlRecord& _Record)
 {

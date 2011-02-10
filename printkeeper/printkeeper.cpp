@@ -24,62 +24,156 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QIcon>
+#include <QSettings>
+#include "eprintkeeper.h"
 
 #define PK_ORG "Starblitz"
 #define PK_APP "printkeeper"
 
 QMessageBox* PrintKeeper::MessageBox = 0;
+EPrintKeeper* PrintKeeper::EPKeeper = 0;
+qlonglong PrintKeeper::CurrentCopies = 0;
 
-bool PrintKeeper::printAcces(const QString& _PrinterName)
+void PrintKeeper::enableEPrintKeeper(bool _Remote)
 {
-	if (isDisabled())
-		return true;
-
-	if (printerInfoCount() == 0)
-		return false;
-
-	PrintKeeper::PrinterInfo Info = printerInfo(_PrinterName);
-
-	if (Info.ip().isEmpty())
-		return false;
-
-	QProcess Ping;
-#ifdef Q_OS_WIN32
-	Ping.start("ping", QStringList() << Info.ip());
-#else
-	Ping.start("ping", QStringList() << "-c1" << Info.ip());
-#endif
-	Ping.waitForFinished(2000);
-	Ping.terminate();
-
-	QProcess ArpProcess;
-	QStringList Arguments;
-#ifdef Q_OS_WIN32
-	Arguments << "-a";
-#else
-	Arguments << "-n";
-#endif
-	ArpProcess.start("arp", Arguments);
-	ArpProcess.waitForFinished(10000);
-	QString CurrLine = ArpProcess.readLine();
-	bool Found = false;
-	while (!CurrLine.isEmpty() && !Found)
+	if (_Remote)
 	{
-		//qDebug() << CurrLine;
-		CurrLine = ArpProcess.readLine();
-		Found = (CurrLine.contains(Info.ip()));
+		if (!EPKeeper)
+			EPKeeper = new EPrintKeeper;
+		QSettings Settings;
+		CurrentCopies = Settings.value("pkcurrentcopies").toLongLong();
 	}
-	bool Res = false;
-	if (Found && !Info.mAC().isEmpty())
+	else
 	{
-		//Check if Mac address match:
-		QRegExp MacRegExp("(?:[0-9a-f][0-9a-f][-:]){5}[0-9a-f][0-9a-f]");
-		if (MacRegExp.indexIn(CurrLine, 0) != -1)
+		if (EPKeeper)
+			delete EPKeeper;
+		EPKeeper = 0;
+	}
+}
+
+void PrintKeeper::setRemoteUrl(const QUrl& _RemoteUrl)
+{
+	if (EPKeeper)
+		EPKeeper->setRemoteUrl(_RemoteUrl);
+}
+
+bool PrintKeeper::login(const QString& _User, const QString& _Password)
+{
+	bool Res = true;
+	if (EPKeeper)
+		Res = EPKeeper->login(_User, _Password);
+	return Res;
+}
+
+bool PrintKeeper::isValidKey(const QString& _Key)
+{
+	bool Res = false;
+	if (EPKeeper)
+		Res = EPKeeper->isValidKey(_Key);
+	return Res;
+}
+
+QString PrintKeeper::userInfo()
+{
+	QString Res;
+	if (EPKeeper)
+		Res = QString("%1 - %2").arg(EPKeeper->userRealName()).arg(EPKeeper->userEmail());
+	return Res;
+}
+
+bool PrintKeeper::userInfoIsComplete()
+{
+	bool Res = false;
+	if (EPKeeper)
+		Res = !EPKeeper->userEmail().isEmpty();
+	
+	return Res;
+}
+
+
+QString PrintKeeper::errorInfo()
+{
+	QString Res;
+	if (EPKeeper)
+		Res = EPKeeper->errorInfo();
+	return Res;
+}
+
+void PrintKeeper::setPrintAccessKey(const QString& _Key)
+{
+	EPKeeper->setPrintAccessKey(_Key);
+}
+
+bool PrintKeeper::printAcces(const QString& _PrinterName, qlonglong _Copies)
+{
+	bool Res = false;
+	PKPrinterInfo Info;
+	if (!EPKeeper)
+	{
+		if (isDisabled())
+			return true;
+
+		if (printerInfoCount() == 0)
+			return false;
+
+		Info = printerInfo(_PrinterName);
+	}
+	else
+	{
+		if (!EPKeeper->access(_PrinterName, Info, _Copies + CurrentCopies))
+			return false;
+	}
+
+	if (!Info.ip().isEmpty())
+	{
+		QProcess Ping;
+	#ifdef Q_OS_WIN32
+		Ping.start("ping", QStringList() << Info.ip());
+	#else
+		Ping.start("ping", QStringList() << "-c1" << Info.ip());
+	#endif
+		Ping.waitForFinished(2000);
+		Ping.terminate();
+
+		QProcess ArpProcess;
+		QStringList Arguments;
+	#ifdef Q_OS_WIN32
+		Arguments << "-a";
+	#else
+		Arguments << "-n";
+	#endif
+		ArpProcess.start("arp", Arguments);
+		ArpProcess.waitForFinished(10000);
+		QString CurrLine = ArpProcess.readLine();
+		bool Found = false;
+		while (!CurrLine.isEmpty() && !Found)
 		{
-			QString MacAddress = MacRegExp.cap(0);
-			Res = (Info.mAC().remove("-").remove(":") == MacAddress.remove("-").remove(":"));
+			//qDebug() << CurrLine;
+			CurrLine = ArpProcess.readLine();
+			Found = (CurrLine.contains(Info.ip()));
+		}
+		Res = false;
+		if (Found && !Info.mAC().isEmpty())
+		{
+			//Check if Mac address match:
+			QRegExp MacRegExp("(?:[0-9a-f][0-9a-f][-:]){5}[0-9a-f][0-9a-f]");
+			if (MacRegExp.indexIn(CurrLine, 0) != -1)
+			{
+				QString MacAddress = MacRegExp.cap(0);
+				Res = (Info.mAC().remove("-").remove(":") == MacAddress.remove("-").remove(":"));
+			}
 		}
 	}
+	else
+		Res = EPKeeper != 0;
+
+	if (Res)
+	{
+		CurrentCopies += _Copies;
+		QSettings Settings;
+		Settings.setValue("pkcurrentcopies", CurrentCopies);
+	}
+
 	return Res;
 }
 
@@ -97,7 +191,7 @@ int PrintKeeper::printerInfoCount()
 	return Res;
 }
 
-void PrintKeeper::setPrinterInfo(int _Index, const PrintKeeper::PrinterInfo& _Info)
+void PrintKeeper::setPrinterInfo(int _Index, const PKPrinterInfo& _Info)
 {
 	QSettings Settings(PK_ORG, PK_APP);
 	Settings.beginWriteArray("printkeeperprinters");
@@ -108,10 +202,10 @@ void PrintKeeper::setPrinterInfo(int _Index, const PrintKeeper::PrinterInfo& _In
 	Settings.endArray();
 }
 
-PrintKeeper::PrinterInfo PrintKeeper::printerInfo(int _Index)
+PKPrinterInfo PrintKeeper::printerInfo(int _Index)
 {
 	QSettings Settings(PK_ORG, PK_APP);
-	PrintKeeper::PrinterInfo Res;
+	PKPrinterInfo Res;
 	Settings.beginReadArray("printkeeperprinters");
 	Settings.setArrayIndex(_Index);
 	Res.setName(Settings.value("printername").toString());
@@ -124,10 +218,10 @@ PrintKeeper::PrinterInfo PrintKeeper::printerInfo(int _Index)
 /*!
 	\return Printer info for _PrinterName printer. And and empty PrinterInfo if _Printername does not exist.
  */
-PrintKeeper::PrinterInfo PrintKeeper::printerInfo(const QString& _PrinterName)
+PKPrinterInfo PrintKeeper::printerInfo(const QString& _PrinterName)
 {
 	QSettings Settings(PK_ORG, PK_APP);
-	PrintKeeper::PrinterInfo Res;
+	PKPrinterInfo Res;
 
 	int NumEntries = Settings.beginReadArray("printkeeperprinters");
 
@@ -160,7 +254,7 @@ void PrintKeeper::setDisabled(bool _Value)
 
 void PrintKeeper::accesDeniedWarning(const QString& _PrinterName)
 {
-	QString WarningMessage = QObject::tr("Access denied to %1 printer").arg(_PrinterName);
+	QString WarningMessage = QObject::tr("Access denied to %1 printer: %2").arg(_PrinterName).arg(PrintKeeper::errorInfo());
 	qWarning() << WarningMessage;
 	if (!MessageBox)
 		MessageBox = new QMessageBox(QMessageBox::Warning, QObject::tr("PrintKeeper Warning"), WarningMessage, QMessageBox::Ok);

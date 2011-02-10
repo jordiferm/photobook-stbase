@@ -21,6 +21,7 @@
 #include "fsqlactiontableview.h"
 #include "fsqlrelationaltablemodel.h"
 #include "fsqlsearchwidget.h"
+#include "sgeometrysavedialog.h"
 #include <QSqlError>
 #include <QItemSelectionModel>
 #include <QAbstractItemView>
@@ -33,6 +34,7 @@ void FSqlActionTableView::init()
 		if (FSqlRelationalTableModel* FModel = qobject_cast<FSqlRelationalTableModel*>(Model))
 			   connect(FModel, SIGNAL(errorOnSubmit(const QSqlError&)), this, SLOT(slotErrorOnSubmit(const QSqlError& )));
 	}*/
+	AutoCenterRecordWiget = true;
 }
 
 /*!
@@ -65,7 +67,9 @@ bool FSqlActionTableView::execDialog()
 		QRect DesktopRect = DesktopWidget.screenGeometry(RecDialog);
 		int DefaultWidth = 800;
 		int DefaultHeight = 600;
-		RecDialog->setGeometry(DesktopRect.width() / 2 - DefaultWidth / 2, DesktopRect.height() / 2 - DefaultHeight / 2, DefaultWidth, DefaultHeight);
+		if (AutoCenterRecordWiget)
+			RecDialog->setGeometry(DesktopRect.width() / 2 - DefaultWidth / 2, DesktopRect.height() / 2 - DefaultHeight / 2, DefaultWidth, DefaultHeight);
+		
 		Cancelled = RecDialog->exec() != QDialog::Accepted;
 		if (!Cancelled)
 		{

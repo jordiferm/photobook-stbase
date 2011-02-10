@@ -31,6 +31,7 @@
 #include "sactionbuttonsframe.h"
 #include "fsearchwidget.h"
 #include "fstdactions.h"
+#include "sgeometrysavedialog.h"
 
 void FActionTableView::init(FSearchWidget* _SearchWidget)
 {
@@ -92,7 +93,7 @@ FActionTableView::~FActionTableView()
 {
 }
 
-void FActionTableView::setRecordDialog(QDialog* _RecDialog)
+void FActionTableView::setRecordDialog(SGeometrySaveDialog* _RecDialog)
 {
 	RecDialog = _RecDialog;
 }

@@ -242,7 +242,10 @@ public:
 };
 
 class DDocPrintList : public QList<DDocPrint>
-{};
+{
+public:
+	int numCopies() const;
+};
 
 
 } //namespace STDom

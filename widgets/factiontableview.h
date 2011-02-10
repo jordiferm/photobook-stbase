@@ -38,6 +38,7 @@ class SActionButtonsFrame;
 class FAction;
 class QModelIndex;
 class QItemSelection;
+class SGeometrySaveDialog;
 class ST_WIDGETS_EXPORT FActionTableView : public QWidget, public FAbstractActionContainer
 {
 Q_OBJECT
@@ -56,7 +57,7 @@ public:
 	};
 
 protected:	
-	QDialog* RecDialog;
+	SGeometrySaveDialog* RecDialog;
 	FSearchWidget* SearchWidget;
 	int EditColumn;
 	FAction* AddAction; 
@@ -68,7 +69,7 @@ public:
 	FActionTableView(QAbstractTableModel* _Model, QWidget* _Parent = 0);
 	FActionTableView(FSearchWidget* _SearchWidget, QWidget* _Parent = 0);
 	virtual ~FActionTableView();
-	void setRecordDialog(QDialog* _RecDialog);
+	void setRecordDialog(SGeometrySaveDialog* _RecDialog);
 	void addAction(QAction* _Action);
 	FSearchWidget* searchWidget() {return SearchWidget;}
 	void setEditColumn(int _EditColumn) {EditColumn = _EditColumn;}

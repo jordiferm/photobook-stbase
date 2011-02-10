@@ -41,6 +41,7 @@ Q_OBJECT
 	QSqlTableModel* Model;
 	QSqlTableModel::EditStrategy LastStrategy;
 	bool Inserting;
+	bool AutoCenterRecordWiget;
 	
 	void init();
 	
@@ -54,6 +55,7 @@ public:
 	virtual void removeCurrentRow(int _Index);
 	bool commit();
 	bool isInserting() const;
+	void setAutoCcenterRecordWiget(bool _Value) { AutoCenterRecordWiget = _Value; }
 
 protected: 
 	void hideEvent( QHideEvent * _Event );

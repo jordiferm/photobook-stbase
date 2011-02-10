@@ -57,11 +57,12 @@ void FRecDialog::addTableManager(FTableManager* _TManager)
 }
 
 
-void FRecDialog::hideEvent(QHideEvent* /*_Event*/ )
+void FRecDialog::hideEvent(QHideEvent* _Event )
 {
 	FAction* CancelAction = fAction(FAction::FCancelActionId);
 	if (CancelAction)
 		CancelAction->setEnabled(true);
+	FTSDialog::hideEvent(_Event);
 }
 
 void FRecDialog::beforeInsertParentRow(int /*_Row*/, bool& /*_PerformOp*/)

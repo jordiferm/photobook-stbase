@@ -44,7 +44,7 @@ protected:
 	FTableManager* TManager;
 	QSqlTableModel* Model;
 	QSqlRecord PrimeInsertRecord;
-	
+
 public:
 	FGenManager(QSqlRelationalTableModel* _Model, const QString& _TableName, 
 	QWidget* _Parent = 0, const QString& _Columns = "", 	bool _SortHeader = false);
@@ -55,6 +55,7 @@ public:
 	FTableManager* tableManager() const {return TManager; }
 	void update();
 	QItemSelectionModel* selectionModel() const;
+
 
 protected slots:
 	virtual void primeInsert(int _Row, QSqlRecord& _Record);

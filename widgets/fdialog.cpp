@@ -60,27 +60,27 @@ void FDialog::reject()
 
 void FDialog::closeEvent ( QCloseEvent * e )
 {	
-	//
 	if (CancelAction)
 		if (!CancelAction->isEnabled())
 			e->ignore();
 }
 
-void FDialog::showEvent( QShowEvent *  )
+void FDialog::showEvent( QShowEvent *  _Event)
 {
 	if (mainWidget())
 		mainWidget()->setFocus();
+	SGeometrySaveDialog::showEvent(_Event);
 }
 
 
-FDialog::FDialog(QWidget* _Parent, Qt::WFlags _Flags) : QDialog(_Parent, _Flags), FAbstractActionContainer(this),
+FDialog::FDialog(QWidget* _Parent, Qt::WFlags _Flags) : SGeometrySaveDialog(_Parent, _Flags), FAbstractActionContainer(this),
 	CancelAction(0)
 {
 	init(0);
 }
 
 FDialog::FDialog(const QActionGroup* _Actions, QWidget* _MainWidget,  QWidget* _Parent, Qt::WFlags _Flags)
- : QDialog(_Parent, _Flags), FAbstractActionContainer(this), CancelAction(0)
+ : SGeometrySaveDialog(_Parent, _Flags), FAbstractActionContainer(this), CancelAction(0)
 {
 	init( _MainWidget);
 	addActions(*_Actions);

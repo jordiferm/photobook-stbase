@@ -238,6 +238,9 @@ private slots:
 	void setToolStartProgress(const QString& toolName);
 	void setToolProgress(int progress);
 	void setToolStopProgress();
+
+signals:
+	void savedAs(const QString& _NewFileName);
 };
 
 #endif

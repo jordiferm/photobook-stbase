@@ -85,6 +85,6 @@ CONFIGURE_FILE("${st_dom_SOURCE_DIR}/stdomexport.h.in"
 ADD_LIBRARY(st_dom SHARED ${prj_SRCS} ${prj_MOC_SRCS})
 SET_TARGET_PROPERTIES(st_dom PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
 
-TARGET_LINK_LIBRARIES(st_dom ${QT_LIBRARIES} st_database st_metadata st_ticketprinter st_widgets ${ST_IMAGELIB_LIBRARIES} st_dom)
+TARGET_LINK_LIBRARIES(st_dom ${QT_LIBRARIES} st_database st_metadata st_ticketprinter st_widgets ${ST_IMAGELIB_LIBRARIES} ${PRINTKEEPER_LIBS} st_dom)
 
 INSTALL(TARGETS st_dom DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})

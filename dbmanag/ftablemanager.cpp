@@ -25,6 +25,10 @@
 #include <QSqlRelationalDelegate>
 #include <QDataWidgetMapper>
 #include <QSqlRelationalTableModel>
+#include <QHeaderView>
+#include <QSettings>
+#include <QHideEvent>
+#include <QDebug>
 
 #include "fsqlrelationaltablemodel.h"
 #include "fsqlsearchwidget.h" 
@@ -36,6 +40,22 @@
 #include "frecdialog.h"
 #include "frecordwidget.h"
 
+void FTableManager::loadSettings()
+{
+	QSettings Settings;
+	if (QTableView* TView = qobject_cast<QTableView*>(VarSearchWidget->view()))
+	{
+		TView->horizontalHeader()->restoreState(Settings.value(QString("%1/viewstate").arg(WidgetId)).toByteArray());
+	}
+
+}
+
+void FTableManager::writeSettings()
+{
+	QSettings Settings;
+	if (QTableView* TView = qobject_cast<QTableView*>(VarSearchWidget->view()))
+		Settings.setValue(QString("%1/viewstate").arg(WidgetId), TView->horizontalHeader()->saveState());
+}
 
 void FTableManager::init(QSqlTableModel* _Model, const QString& _Columns, bool _SortHeader)
 {
@@ -66,6 +86,7 @@ void FTableManager::init(QSqlTableModel* _Model, const QString& _Columns, bool _
 	connect(VarView, SIGNAL(afterRemoveRow(int)), this, SLOT(resizeColumns())); 
 	connect(VarView, SIGNAL(beforeRemoveRow(int , bool& )), this, SLOT(beforeRemoveRow(int, bool& )));
 	connect(VarView, SIGNAL(afterRemoveRow(int)), this, SLOT(afterRemoveRow())); 
+	disableSaveState();
 }
 
 FTableManager::FTableManager(QSqlTableModel* _Model, QWidget* _Parent, const QString& _Columns, 
@@ -103,6 +124,12 @@ void FTableManager::setRecordWidget(FRecordWidget* _RecordWidget)
 				MRecordWidget, SLOT(clearEditors()));
 	MRecordWidget = _RecordWidget;
 }
+
+void FTableManager::setAutoCenterRecordWidget(bool _AutoCenter)
+{
+	VarView->setAutoCcenterRecordWiget(_AutoCenter);
+}
+
 
 void FTableManager::updateLookups()
 {
@@ -150,11 +177,36 @@ void FTableManager::editRow(int _Row)
 	VarView->editCurrentRow(_Row);
 }
 
+void FTableManager::enableSaveState(const QString& _WidgetId)
+{
+	WidgetId = _WidgetId;
+	setAutoCenterRecordWidget(!saveState());
+}
+
+void FTableManager::disableSaveState()
+{
+	WidgetId = "";
+}
+
+
 void FTableManager::showEvent(QShowEvent* /*event */)
 {
 	//Model->select();
 	//!!!!!!!!!!!!!!!!! Les combos de productes no s'actualitzen !!!!!!!
+	if (saveState())
+		loadSettings();
 }
+
+void FTableManager::hideEvent ( QHideEvent * event )
+{
+	if (saveState())
+	{
+		 writeSettings();
+		 event->accept();
+	} else {
+		event->ignore();
+	}
+ }
 
 void FTableManager::selectFormRow(int _Index)
 {
@@ -164,8 +216,9 @@ void FTableManager::selectFormRow(int _Index)
 
 void FTableManager::resizeColumns()
 {
-	if (QTableView* TView = qobject_cast<QTableView*>(VarSearchWidget->view()))
-		TView->resizeColumnsToContents();
+	if (!saveState())
+		if (QTableView* TView = qobject_cast<QTableView*>(VarSearchWidget->view()))
+			TView->resizeColumnsToContents();
 }
 
 void FTableManager::varViewError(const QSqlError& _Error)
@@ -202,4 +255,6 @@ FSqlActionTableView* FTableManager::actionTableView() const
 {
 	return VarView;
 }
+
+
 

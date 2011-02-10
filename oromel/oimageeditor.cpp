@@ -736,13 +736,14 @@ void OImageEditor::showHistogram()
 void OImageEditor::saveCurrentImageAs()
 {
 	//TODO: Ask to user if he would like to add the new image to collection and if we add it then remain in EditFromModel Mode.
-	QString NewFileName = QFileDialog::getSaveFileName(this, tr("Select filename to save")); 
+	QString NewFileName = QFileDialog::getSaveFileName(this, tr("Select filename to save"), CurrentImagePath);
 	if (!NewFileName.isEmpty())
 	{
 		beginApplyEffect();
 		if (CurrImage.save(NewFileName))
 		{
 			openImage(NewFileName);
+			emit savedAs(NewFileName);
 		}
 		else 
 			SMessageBox::critical(this, tr("Saving image"), QString(tr("Error saving image %1")).arg(CurrentImagePath));

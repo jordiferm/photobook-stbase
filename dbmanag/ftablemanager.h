@@ -52,7 +52,10 @@ class ST_DBMANAG_EXPORT FTableManager : public QWidget
 	QSqlTableModel* Model;
 	FTSDialog* MRecDialog;
 	FAction* EditAction;
+	QString WidgetId;
 
+	void loadSettings();
+	void writeSettings();
 	void init(QSqlTableModel* _Model, const QString& _Columns, bool _SortHeader);
 
 public:
@@ -65,15 +68,23 @@ public:
 	FSqlActionTableView* actionTableView() const;
 	
 	void setRecordWidget(FRecordWidget* _RecordWidget);
+	//! Default is true.
+	void setAutoCenterRecordWidget(bool _AutoCenter);
 	void setRecordWidget(FRecDialog* _RecordDialog);
 	void updateLookups();
 	//! Is the tableview editable ?
 	void setEditable(bool _Editable);
 	void setPrimeInsertRecord(const QSqlRecord& _Record);
 	void editRow(int _Row);
+	bool saveState() const { return !WidgetId.isEmpty(); }
+	void enableSaveState(const QString& _WidgetId);
+	void disableSaveState();
 
 protected: 
 	void showEvent(QShowEvent * event);			
+	void hideEvent(QHideEvent * event);
+
+
 	
 protected slots:
 	void selectFormRow(int _Index);
