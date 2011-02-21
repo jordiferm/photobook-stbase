@@ -101,7 +101,8 @@ QString PrintKeeper::errorInfo()
 
 void PrintKeeper::setPrintAccessKey(const QString& _Key)
 {
-	EPKeeper->setPrintAccessKey(_Key);
+	if (EPKeeper)
+		EPKeeper->setPrintAccessKey(_Key);
 }
 
 bool PrintKeeper::printAcces(const QString& _PrinterName, qlonglong _Copies)
