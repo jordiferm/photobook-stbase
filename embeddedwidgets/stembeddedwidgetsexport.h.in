@@ -1,0 +1,15 @@
+#ifndef _STEMBEDDEDWIDGETEXPORT_H
+#define _STEMBEDDEDWIDGETEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_embeddedwidgets_EXPORTS)
+		#define ST_EMBEDDEDWIDGETS_EXPORT __declspec(dllexport)
+	#else
+			#define ST_EMBEDDEDWIDGETS_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_EMBEDDEDWIDGETS_EXPORT
+#endif
+
+#endif // !_STEMBEDDEDWIDGETEXPORT_H
+

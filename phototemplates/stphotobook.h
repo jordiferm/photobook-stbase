@@ -99,6 +99,7 @@ private:
 	QString SourceImagesPath; 
 	QString EncryptionKey;
 	bool HasChanges; 
+	bool AutoAdjustFrames;
 
 	STTemplateScene* createPage();
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template, QList<STGraphicsPhotoItem*>& _PhotoItems);
@@ -183,6 +184,10 @@ public:
 	void setEncryptionKey(const QString& );
 	//! Means no encryption
 	void clearEncryptionKey();
+
+	//Autobuild configuration
+	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
+	bool autoAdjustFrames() const { return AutoAdjustFrames; }
 	
 private slots: 
 	void slotSceneSelectionChange(); 

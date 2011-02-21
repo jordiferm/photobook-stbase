@@ -34,6 +34,9 @@
 #include "stprogressindicator.h"
 #include "sterrorstack.h"
 
+#include "stftpordertransfer.h"
+#include "stxmlpublishersettings.h"
+
 // _________________________________________________________________________*/
 //
 //	Class STPhotoLayoutTemplate
@@ -365,9 +368,9 @@ bool STPhotoLayoutTemplate::resourcesOnDisk() const
 
 
 //!!!TODO: Move it to another class !!!!
-/*void STPhotoLayoutTemplate::downloadResources(const STXmlPublisherSettings& _PXmlS, STFtpStatusWidget* _StatusWidget)
+void STPhotoLayoutTemplate::downloadResources(const STDom::STXmlPublisherSettings& _PXmlS, STFtpStatusWidget* _StatusWidget)
 {
-	STFtpOrderTransfer* FtpTrans = new STFtpOrderTransfer;
+	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
 	if (_StatusWidget)
 		_StatusWidget->connectFtp(FtpTrans);
 	if (!SuperImposeImageFile.isEmpty())
@@ -385,8 +388,7 @@ bool STPhotoLayoutTemplate::resourcesOnDisk() const
 	if (_StatusWidget)
 		_StatusWidget->disconnectFtp(FtpTrans);
 	delete FtpTrans;
-
-}*/
+}
 
 
 QImage STPhotoLayoutTemplate::thumbnailImage() const
@@ -1378,6 +1380,38 @@ void STPhotoBookTemplate::load(const QString& _TemplateFileName)
 	}
 }
 
+void STPhotoBookTemplate::downloadRemoteContents(const STDom::STXmlPublisherSettings& _PubSettings,
+													STProgressIndicator* _ProgressIndicator, STFtpStatusWidget* _StatusWidget,
+													STErrorStack* _ErrorStack)
+{
+	TTemplateList::iterator it;
+	int NumToDownload = 0;
+	for (it=Templates.begin(); it != Templates.end(); ++it)
+	{
+		if (!it->resourcesOnDisk())
+				NumToDownload++;
+	}
+
+	_ProgressIndicator->setRange(0, NumToDownload);
+	_ProgressIndicator->setValue(0);
+
+	for (it=Templates.begin(); it != Templates.end(); ++it)
+	{
+		if (!it->resourcesOnDisk())
+		{
+			try
+			{
+				it->downloadResources(_PubSettings, _StatusWidget);
+			}
+			catch (STError& _Error)
+			{
+					if (_ErrorStack)
+							_ErrorStack->push(_Error);
+			}
+			_ProgressIndicator->incValue();
+		}
+	}
+}
 
 void STPhotoBookTemplate::save(const QString& _TemplateFileName)
 {

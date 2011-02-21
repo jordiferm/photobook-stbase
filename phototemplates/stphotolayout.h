@@ -36,10 +36,13 @@
 */
 class QDomDocument; 
 class QDir;
-class STXmlPublisherSettings;
 class STFtpStatusWidget;
 class STProgressIndicator;
 class STErrorStack;
+namespace STDom
+{
+	class STXmlPublisherSettings;
+}
 class ST_PHOTOTEMPLATES_EXPORT STPhotoLayoutTemplate
 {
 
@@ -295,7 +298,7 @@ public:
 	void setAspectRatioMode(Qt::AspectRatioMode _Value) { AspectRatioMode = _Value; }
 
 	bool resourcesOnDisk() const;
-//	void downloadResources(const STXmlPublisherSettings& _PublisherSettings, STFtpStatusWidget* _StatusWidget);
+	void downloadResources(const STDom::STXmlPublisherSettings& _PublisherSettings, STFtpStatusWidget* _StatusWidget);
 };
 
 bool operator<(int _Value, const STPhotoLayoutTemplate& _Other);
@@ -478,7 +481,7 @@ public:
 	void clear();
 	void loadAlbum(const QDomNode& _AlbumNode, const QString& _TemplateFilePath, const STPhotoLayoutTemplate::TDateList& _Holidays = STPhotoLayoutTemplate::TDateList(), const QStringList& _HolidayFuncs = QStringList()); 
 	void load(const QString& _TemplateFileName);
-	void downloadRemoteContents(const STXmlPublisherSettings& _PubSettings, STProgressIndicator* _ProgressIndicator, STFtpStatusWidget* _StatusWidget, STErrorStack* _ErrorStack = 0);
+	void downloadRemoteContents(const STDom::STXmlPublisherSettings& _PubSettings, STProgressIndicator* _ProgressIndicator, STFtpStatusWidget* _StatusWidget, STErrorStack* _ErrorStack = 0);
 	void save(const QString& _TemplateFileName); 
 	QString authorName() const { return AuthorName; }
 	void setAuthorName(const QString& _Value) { AuthorName = _Value; }

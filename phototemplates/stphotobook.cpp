@@ -44,6 +44,7 @@
 STTemplateScene* STPhotoBook::createPage()
 {
 	STTemplateScene* Scene = new STTemplateScene(this);
+	Scene->setAutoAdjustFrames(AutoAdjustFrames);
 	connect(Scene, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
 	connect(Scene, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));
 	connect(Scene, SIGNAL(itemContextMenu(QGraphicsItem*, const QPoint&)), this, SLOT(slotSceneItemContextMenu(QGraphicsItem*, const QPoint&)));
@@ -87,7 +88,7 @@ void STPhotoBook::setHasChanges(bool _Value)
 }
 
 
-STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath("")
+STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true)
 {
 }
 
@@ -313,7 +314,7 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 
 			QModelIndex CIndex = _PhotoModel->index(InsertedPhotos, 0);
 			STDom::DDoc* CDoc = _PhotoModel->doc(CIndex);
-			CurrPhotoW->setImage(CDoc->thumbnail(), CDoc->fileInfo().absoluteFilePath());
+			CurrPhotoW->setDoc(CDoc);
 
 			//OPhotoCollectionImage COImage = _PhotoModel->image(CIndex);
 			//CurrPhotoW->setImage(COImage.thumbnail(), COImage.fileInfo().absoluteFilePath());

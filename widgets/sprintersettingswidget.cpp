@@ -249,7 +249,7 @@ void ProdPrintSettingsWidget::slotDeleteLine(ProdPrintSelector* _LineWidget)
 
 
 
-SPrinterSettingsWidget::SPrinterSettingsWidget(SPrinterSettings& _Settings, QDataWidgetMapper* _Mapper, QWidget* _Parent) : SMappedWidget(_Settings.model(), _Mapper, _Parent)
+SPrinterSettingsWidget::SPrinterSettingsWidget(SPrinterSettings& _Settings, QDataWidgetMapper* _Mapper, QWidget* _Parent, bool _LabEnabled) : SMappedWidget(_Settings.model(), _Mapper, _Parent)
 {
 	Model = _Settings.model();
 	QGridLayout* MLayout = new QGridLayout(this); 
@@ -267,7 +267,8 @@ SPrinterSettingsWidget::SPrinterSettingsWidget(SPrinterSettings& _Settings, QDat
 		{
 			PrnCombo->addItem(it->printerName()); 
 		}
-		PrnCombo->addItem(SPrinterSettings::LabPrinterName);
+		if (_LabEnabled)
+			PrnCombo->addItem(SPrinterSettings::LabPrinterName);
 		_Mapper->addMapping(PrnCombo, PrnNameIndex.column()); 
 		MProdPrSettingsW->setPrinterList(PrinterList); 
 	#else 

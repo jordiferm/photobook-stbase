@@ -121,7 +121,7 @@ class ST_WIDGETS_EXPORT SPrinterSettingsWidget : public SMappedWidget
 	ProdPrintSettingsWidget* MProdPrSettingsW;
 
 public:	
-	SPrinterSettingsWidget(SPrinterSettings& _Settings, QDataWidgetMapper* _Mapper, QWidget* _Parent = 0);
+	SPrinterSettingsWidget(SPrinterSettings& _Settings, QDataWidgetMapper* _Mapper, QWidget* _Parent = 0, bool _LabEnabled = true);
 	void setProductModel(QAbstractItemModel* _Model, int _DisplayCol, int _KeyCol); 
 	void saveProductPrinters(); 
 	void loadProductPrinters(); 

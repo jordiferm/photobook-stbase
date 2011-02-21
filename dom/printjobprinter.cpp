@@ -265,6 +265,14 @@ void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order
 		_Order.saveXml();
 		ErrorStack += _Order.errorStack();
 	}
+	if (PublisherXmlFile.exists())
+	{
+		QString DestFileName = _Order.orderInfo().orderPath() + "/" + PublisherXmlFile.fileName();
+		StackAssert(QFile::copy(PublisherXmlFile.absoluteFilePath(), DestFileName),
+					Error(QObject::tr("Error copying file %1 -> %2").arg(PublisherXmlFile.absoluteFilePath()).arg(DestFileName)),
+					ErrorStack);
+	}
+
 }
 
 void PrintJobPrinter::clearErrorStack()

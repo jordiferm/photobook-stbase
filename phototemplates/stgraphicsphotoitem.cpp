@@ -30,6 +30,7 @@
 #include <QGraphicsSceneDragDropEvent> 
 #include <QGraphicsWidget> 
 #include <QFontMetrics>
+#include <QImage>
 
 //Drag And Drop
 #include <QMimeData> 
@@ -237,14 +238,18 @@ void STGraphicsPhotoItem::init()
 	setPen(Pen);
 	setAcceptDrops(true); 
 	RestoreZValue = false;
+	setAutoAdjustFramesToImages(true);
 }
 
 void STGraphicsPhotoItem::checkForImageOrientation()
 {
-	QRect CurrImageRect = ImageMatrix.mapRect(CurrImage.rect());
-	if ( AspectRatioMode == Qt::KeepAspectRatio && ((CurrImageRect.width() > CurrImageRect.height() && rect().width() < rect().height()) ||
-			(CurrImageRect.height() > CurrImageRect.width() && rect().height() < rect().width())))
-		rotateImage(90); 
+	if (!AutoAdjustFramesToImages)
+	{
+		QRect CurrImageRect = ImageMatrix.mapRect(CurrImage.rect());
+		if ( AspectRatioMode == Qt::KeepAspectRatio && ((CurrImageRect.width() > CurrImageRect.height() && rect().width() < rect().height()) ||
+				(CurrImageRect.height() > CurrImageRect.width() && rect().height() < rect().width())))
+			rotateImage(90);
+	}
 }
 
 QPointF STGraphicsPhotoItem::insideSceneRect(const QPointF& _Point)
@@ -289,11 +294,91 @@ STGraphicsPhotoItem::~STGraphicsPhotoItem()
 	delete MLoadThread;
 }
 
-void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
+void STGraphicsPhotoItem::adjustRectToImage()
 {
-	setImage(_Image.thumbnail(), _Image.fileInfo().absoluteFilePath()); 
+	if (!PaintedImage.isNull())
+		adjustRectToImage(PaintedImage.size());
 }
 
+void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
+{
+	//Adjust itemRect to Image.
+	double ImageRatio = static_cast<double>(_ImageSize.width()) / static_cast<double>(_ImageSize.height());
+	QRectF FrameRect = rect();
+	QRectF AdjustedRect = FrameRect;
+	if (ImageRatio > 1) //=> Width > height => Adjust rect height
+	{
+		AdjustedRect.setHeight(FrameRect.width() / ImageRatio);
+		AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
+	}
+	else
+	{
+		AdjustedRect.setWidth(FrameRect.height() * ImageRatio);
+		AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
+	}
+
+	setRect(AdjustedRect);
+	setSelected(false);
+}
+
+void STGraphicsPhotoItem::setAutoAdjustFramesToImages(bool _Value)
+{
+	AutoAdjustFramesToImages = _Value;
+	if (_Value)
+		setAspectRatioMode(Qt::KeepAspectRatio);
+	else
+		setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
+}
+
+void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
+{
+	STDom::DImageDoc::CInfo ImageInfo = _Image.getInfo();
+	if (!ImageInfo.isNull())
+	{
+		ImageMatrix.reset();
+		QTransform Transform;
+		switch (ImageInfo.orientation())
+		{
+			case ExifMetadata::Orientation_Right_Bottom:
+			case ExifMetadata::Orientation_Left_Bottom :
+			{
+				rotateImage(-90);
+				Transform.rotate(90);
+			}
+			break;
+
+			case ExifMetadata::Orientation_Left_Top :
+			case ExifMetadata::Orientation_Right_Top :
+			{
+				rotateImage(90);
+				Transform.rotate(-90);
+			}
+			break;
+
+			case ExifMetadata::Orientation_Bottom_Left :
+			case ExifMetadata::Orientation_Bottom_Right :
+			{
+				rotateImage(-180);
+				Transform.rotate(180);
+			}
+		}
+		QPixmap Thumbnail = _Image.thumbnail();
+		// Thumbnail is already rotated.
+		Thumbnail = Thumbnail.transformed(Transform, Qt::SmoothTransformation);
+		setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+		if (AutoAdjustFramesToImages)
+			adjustRectToImage(ImageInfo.size());
+		update();
+	}
+}
+
+void  STGraphicsPhotoItem::setDoc(STDom::DDoc* _Doc)
+{
+	if (STDom::DImageDoc* CImageDoc = static_cast<STDom::DImageDoc*>(_Doc))
+		setImage(*CImageDoc);
+	else
+		setImage(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
+}
 
 void STGraphicsPhotoItem::setImage(const QPixmap& _ThumbNail, const QString& _ImageFileName)
 {
@@ -305,6 +390,8 @@ void STGraphicsPhotoItem::setImage(const QPixmap& _ThumbNail, const QString& _Im
 	CurrImage = _ThumbNail.toImage();
 	setImageFileName(_ImageFileName); 
 	setBrush(QBrush(Qt::NoBrush));
+	checkForImageOrientation();
+
 	//loadImageSpawn();
 	//If item is selected its GraphicsView must be visible.
 	//if (ChangingImage || isSelected())
@@ -750,6 +837,7 @@ void STGraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _O
 			LastMaxResRect = MaxResRect;
 			ImageModified = false;
 		}
+
 		qreal PosImageX = qMax(qMin(-PanningPoint.x() * LevelOfDetail, static_cast<qreal>(PaintedImage.width() - MaxResRect.width())), 0.0);
 		qreal PosImageY = qMax(qMin(-PanningPoint.y() * LevelOfDetail, static_cast<qreal>(PaintedImage.height() - MaxResRect.height())), 0.0);
 		QRectF ClipRect(PosImageX , PosImageY, MaxResRect.width(), MaxResRect.height() );

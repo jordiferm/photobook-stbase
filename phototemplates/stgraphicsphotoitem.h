@@ -111,6 +111,7 @@ private:
 	bool ShowNoImageMessage;
 	bool MultiSelection;
 	bool ImageEncrypted;
+	bool AutoAdjustFramesToImages;
 	
 protected:	
 	bool ImageLoaded;
@@ -154,10 +155,16 @@ public:
 	QImage originalPaintedImage();
 	void updatePaintedImage(const QImage& _Image);
 
+	//Auto adjusting
+	void adjustRectToImage();
+	void adjustRectToImage(const QSize& _ImageSize);
+	void setAutoAdjustFramesToImages(bool _Value);
+
 	//! Sets preloaded image.
 	void setImage(const QImage& _Image, const QString& _ImageFileName);
 	void setImage(STDom::DImageDoc& _Image);
 	void setImage(const QPixmap& _ThumbNail, const QString& _ImageFileName);
+	void setDoc(STDom::DDoc* _Doc);
 	void loadImage();
 	//! returns true if big image is loaded.
 	bool imageLoaded() const { return ImageLoaded; }

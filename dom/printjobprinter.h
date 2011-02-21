@@ -55,6 +55,7 @@ private:
 	TProductSpoolMap ProductSpoolMap;
 	TProductToStoreList ProductToStoreList;
 	QString DefaultSpool;
+	QFileInfo PublisherXmlFile;
 
 	STDom::PrintJob storeImages(const STDom::PrintJob& _Job, const QDir& _DestDir, QProgressBar* _ProgBar = 0);
 
@@ -85,6 +86,10 @@ public:
 	//Error handling
 	STErrorStack errorStack() const { return ErrorStack; }
 	void clearErrorStack();
+
+	//Optional Storage
+	//! To save _File when store orders.
+	void storePublisherXmlFile(const QFileInfo& _File) { PublisherXmlFile = _File; }
 };
 
 #endif // PRINTJOBPRINTER_H

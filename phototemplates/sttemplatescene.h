@@ -62,6 +62,7 @@ private:
 	static qreal PageZValue;
 	static qreal SImposeZValue;
 	bool ModifyAllFrames;
+	bool AutoAdjustFrames;
 	QSizeF RenderBaseSize;
 	
 	QStringList storePhotoItemImage(STGraphicsPhotoItem* _Item, const STPhotobookCollectionInfo& _CInfo);
@@ -126,6 +127,8 @@ public:
 	STPhotoLayoutTemplate currentTemplate() const { return Template; }
 	QSizeF renderBaseSize() const { return RenderBaseSize; }
 	bool modifyAllFrames() const { return ModifyAllFrames; }
+	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
+	bool autoAdjustFrames() const { return AutoAdjustFrames; }
 
 protected:
 	bool event(QEvent* _Event);
