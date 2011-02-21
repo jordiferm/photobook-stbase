@@ -198,6 +198,7 @@ void PublisherDatabase::importAll(const FSqlDatabaseManager& _SourceDBManager)
 	importTable(_SourceDBManager, "products"); 
 	importTable(_SourceDBManager, "productprices"); 
 	importTable(_SourceDBManager, "shippingmethods"); 
+	importTable(_SourceDBManager, "templates");
 }
 
 
