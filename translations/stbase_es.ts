@@ -6420,7 +6420,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Comprovar</translation>
+        <translation>Pedir</translation>
     </message>
     <message>
         <source>All</source>

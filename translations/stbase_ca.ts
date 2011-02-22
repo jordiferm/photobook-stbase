@@ -6422,7 +6422,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Comprovar</translation>
+        <translation>Demanar</translation>
     </message>
     <message>
         <source>All</source>
