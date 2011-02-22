@@ -18,26 +18,36 @@
 **
 ****************************************************************************/
 #include "stburningsettings.h"
+#include <QCoreApplication>
 
 STBurningSettings::STBurningSettings(QObject* _Parent): SAppSettings(_Parent)
 {
-
 	if (!keySaved("stburning/enabled"))
 	{
 		addKey("stburning/enabled", true, QVariant::Bool,
 			tr("Burning enabled ?"), tr(""));
 
+#ifdef Q_OS_WIN32
+		addKey("stburning/mkisofsbinary", QCoreApplication::applicationDirPath() + "/mkisofs.exe", QVariant::String,
+			tr("Complete path of the mkisofs.."), tr("Binari to create iso images."));
+		addKey("stburning/tmpisofile", "c:/kpstmp.iso", QVariant::String,
+			tr("Complete path of the  temporary image file."), tr("Temporary file for the CD images created with mkisofs."));
+		addKey("stburning/cdrecordbinary", QCoreApplication::applicationDirPath() + "/cdrecord.exe", QVariant::String,
+			tr("Complete path of the cdrecord binari."), tr("Path of the cdrecord."));
+		addKey("stburning/device", "1,0,0", QVariant::String,
+			tr("Burning unit."), tr("Burning unit."));
+#else
 		addKey("stburning/mkisofsbinary", "/usr/bin/mkisofs", QVariant::String,
 			tr("Complete path of the mkisofs.."), tr("Binari to create iso images."));
-
-		addKey("stburning/tmpisofile", "/tmp/kpstmp.iso", QVariant::String, 
+		addKey("stburning/tmpisofile", "/tmp/kpstmp.iso", QVariant::String,
 			tr("Complete path of the  temporary image file."), tr("Temporary file for the CD images created with mkisofs."));
-
-		addKey("stburning/cdrecordbinary", "/usr/bin/cdrecord", QVariant::String, 
+		addKey("stburning/cdrecordbinary", "/usr/bin/cdrecord", QVariant::String,
 			tr("Complete path of the cdrecord binari."), tr("Path of the cdrecord."));
-
-		addKey("stburning/device", "/dev/cdrom", QVariant::String, 
+		addKey("stburning/device", "/dev/cdrom", QVariant::String,
 			tr("Burning unit."), tr("Burning unit."));
+#endif
+
+
 
 		addKey("stburning/speed", 48, QVariant::Int, 
 			tr("Burning speed"), tr("Burning speed"));

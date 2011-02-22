@@ -152,6 +152,8 @@ public:
 	static QString templateSqlFilter(const QString& _TemplateRef);
 	PrintJob getPrintJob(const XmlOrder& _Order) const;
 	QAbstractItemModel* newProductsModelBySize(QObject* _Parent, PublisherDatabase::EnProductType _ProductType, const QSize& _Size) const;
+	void deleteTemplateProductsByType(PublisherDatabase::EnProductType _Type);
+	void deleteTemplateProducts();
 };
 } //namespace
 #endif

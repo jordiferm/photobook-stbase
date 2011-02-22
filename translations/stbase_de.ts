@@ -2,343 +2,335 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="de_DE">
 <context>
-    <name>BarcodeEditor</name>
+    <name>AlbumWizardEndPage</name>
     <message>
-        <source>Bar Code Properties</source>
+        <source>&lt;h1&gt;Ready to create your Photobook.&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Format:</source>
+        <source>&lt;p&gt;When you press &lt;em&gt;Finish&lt;/em&gt; your Photobook will be created. Then you can modify everything you need. Look in menu and icon bar to find all your operations.&lt;/p&gt;&lt;p&gt;Remember to save your changes and don&apos;t hessitate to read help pages and manuals if you need some help.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Column:</source>
+        <source>&lt;h1&gt;Enjoy Starblitz Photo Book !&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ApplyEfectBasicWidget</name>
+    <message>
+        <source>Applies current effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Query Source:</source>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BasicFixesWidget</name>
+    <message>
+        <source>Crop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>3of9</source>
+        <source>Straighten</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>3of9+</source>
+        <source>Image transformations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>128</source>
+        <source>Red Eye correction</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChooseCreationModePage</name>
+    <message>
+        <source>&lt;h1&gt;Creation mode selection&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ean13</source>
+        <source>&lt;p&gt;How do you want to create your &lt;em&gt;Photo Book&lt;/em&gt;?&lt;/p&gt; You have 2 options:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ean8</source>
+        <source>Automatic picture fill</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>upc-a</source>
+        <source>&lt;b&gt;Automatically&lt;/b&gt; fills your book with selected source media. &lt;br/&gt; &lt;em&gt; Note:Once the book is created you can modify everything you want.&lt;/em&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>upc-e</source>
+        <source>Manual picture fill</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Maximum Length of Value</source>
+        <source>Lets the picture filling up to you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChooseCropModePage</name>
+    <message>
+        <source>&lt;h1&gt;Image adjustment to paper size&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>5</source>
+        <source>Please, select the desired policy to fit your images to paper size and press &apos;Next&apos; button.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alignment</source>
+        <source>Crop images that don&apos;t fit to media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Left</source>
+        <source>Leave space to spare as white margins and image aligned to one side</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Center</source>
+        <source>Leave space to spare as white margins and image centered</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChooseImagesPage</name>
+    <message>
+        <source>&lt;h1&gt;Image prints selection&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Right</source>
+        <source>Click &apos;Add&apos; button to add copies of all checked images. You can also select individual number of copies clicking &apos;+&apos; and &apos;-&apos; buttons that appears when your mouse is over the image. Click on each image to check and uncheck it. Only checked images will be printed. By default all the images are checked. When you have finished, please click &apos;Next&apos; button.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Position/Size</source>
+        <source>Add copies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>0.01</source>
+        <source>Add 1 more copy to all checked images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Y:</source>
+        <source>Check All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Height:</source>
+        <source>UnCheck All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>X:</source>
+        <source>Invert checks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.00</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
+        <source>Check/Uncheck</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Alt+C</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>BoolEdit</name>
     <message>
-        <source>Bool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>True</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Active</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
+        <source>Toggles exclusion to import the current picture.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ColorEditor</name>
+    <name>ChooseTemplateModePage</name>
     <message>
-        <source>Color Editor</source>
+        <source>&lt;h1&gt;Photo book size&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name:</source>
+        <source>&lt;p&gt;Which are the &lt;em&gt;Photo Book&lt;/em&gt; sizes?&lt;/p&gt; You have 2 options:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Components</source>
+        <source>Create custom size PhotoBook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Green</source>
+        <source>&lt;b&gt;Specify&lt;/b&gt; a custom photobook size. &lt;br/&gt; &lt;em&gt; Note:Suitabe for template creation too.&lt;/em&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Red</source>
+        <source>Create from template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Blue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Color...</source>
+        <source>Create photobook using template sizes.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ColorList</name>
+    <name>ChooseTemplatePage</name>
     <message>
-        <source>Color Definitions</source>
+        <source>&lt;h1&gt;Getting info from internet.&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Close</source>
+        <source>&lt;h1&gt;There is no information for this item.&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Add</source>
+        <source>&lt;h1&gt;Template selection&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Edit</source>
+        <source>The &lt;em&gt;Photo Book&lt;/em&gt; template defines the photobook features like size, number of pages, layouts, etc... &lt;/br&gt; Use the following list to choose the template that you want for your &lt;em&gt;Photo Book&lt;/em&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DBFileDialog</name>
-    <message>
-        <source>Database File</source>
+        <source>PhotoBook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Report Name:</source>
+        <source>Calendar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Grade:</source>
+        <source>Card</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>##</source>
+        <source>IdPhoto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;OK</source>
+        <source>MultiPhoto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DetailGroupSectionDialog</name>
-    <message>
-        <source>Group Section Editor</source>
+        <source>Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Column:</source>
+        <source>Themes:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Group Name:</source>
+        <source>&lt;h2&gt;There is no templates of this type.&lt;/h2&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show Group Header</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show Group Footer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Insert Page Break After this Footer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
+        <source>Information:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>DetailSectionDialog</name>
+    <name>CropFixesWidget</name>
     <message>
-        <source>Detail Section Properties</source>
+        <source>Select a dimension bellow and then click and drag on the image to define the region you wish to crop. When you are shure click &lt;b&gt;Apply&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Section Name:</source>
+        <source>Crop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Query Source:</source>
+        <source>Selection standard proportion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert Page Break At End of Last Section</source>
+        <source>Selection size</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CustomSizesPage</name>
+    <message>
+        <source> mm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Group Sections</source>
+        <source>&lt;h1&gt;Photo Book sizes&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Add</source>
+        <source>&lt;p&gt;Please specify the new &lt;em&gt;Photo Book&lt;/em&gt; sizes and features&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Edit</source>
+        <source>Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
+        <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move &amp;Up</source>
+        <source>Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move &amp;Down</source>
+        <source>Margin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Close</source>
+        <source>Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+C</source>
+        <source>Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Valid pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First page is editable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last page is editable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min. Pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max. Pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DPIS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving photobook template</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DestinationPropertiesPage</name>
+    <message>
+        <source>&lt;h1&gt;Select disk folder&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;The program generates images inside this folder.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output format: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder name:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2498,96 +2490,56 @@ failed.</source>
     </message>
 </context>
 <context>
-    <name>DoubleEdit</name>
+    <name>DiskSourceSelectionWidget</name>
     <message>
-        <source>Double</source>
+        <source>&amp;Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Value:</source>
+        <source>Select all Pictures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>name</source>
+        <source>Clear selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Active</source>
+        <source>Invert selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name:</source>
+        <source>Start Slideshow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;OK</source>
+        <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+O</source>
+        <source>Find Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
+        <source>Media finder.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+C</source>
+        <source>Sorry, could not find any media with images.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>EditPreferences</name>
+    <name>EPrintKeeper</name>
     <message>
-        <source>Preferences</source>
+        <source>EPrintKeeper error connecting for loggin: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Language :</source>
+        <source>EPrintKeeper error checking key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Default Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Font...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Grid Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show grid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Snap to grid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Grid Size Interval</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X Interval:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y Interval:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Symetrical values</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
+        <source>EPrintKeeper error retrieving access: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2723,6 +2675,17 @@ failed.</source>
     </message>
 </context>
 <context>
+    <name>FSqlSearchDialog</name>
+    <message>
+        <source>Accept</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FTableManager</name>
     <message>
         <source>Error modifying table</source>
@@ -2745,145 +2708,6 @@ failed.</source>
     </message>
 </context>
 <context>
-    <name>FieldEditor</name>
-    <message>
-        <source>Properties (Field)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Query Source:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Column:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display as Running Total</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Total Format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>String Format </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Example: %0.2f</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Built-in Locale Format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use Subtotal Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>HAlign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>VAlign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Middle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Word wrap</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Position/Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.01</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Height:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.00</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preview:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preview Area</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Font...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>FileSelectLineEdit</name>
     <message>
         <source>Select folder</source>
@@ -2891,193 +2715,6 @@ failed.</source>
     </message>
     <message>
         <source>Select file</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>GraphEditor</name>
-    <message>
-        <source>Graph Editor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Query Source:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Position/Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.01</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Height:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.00</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Base Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Font...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use Base Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data Axis Labels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Column:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data Axis Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data Axis Title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data Axis Title Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data Axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Min:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Expand Min/Max if needed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value Axis Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value Axis Title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value Axis Title Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value Axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Series:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Series Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Color:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lines</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Series</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3240,136 +2877,6 @@ failed.</source>
     </message>
     <message>
         <source>&amp;No Outline Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImageEditor</name>
-    <message>
-        <source>Image Editor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resize Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Static Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Static</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Load...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Column:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Query Source:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Position/Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.01</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Height:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.00</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>IntEdit</name>
-    <message>
-        <source>Int</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Active</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3732,420 +3239,746 @@ Num</source>
     </message>
 </context>
 <context>
-    <name>LabelEditor</name>
+    <name>LoginDialog</name>
     <message>
-        <source>Properties (Label)</source>
+        <source>Please, sign in.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Text:</source>
+        <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>HAlign</source>
+        <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>VAlign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Middle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Position/Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.01</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Height:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.00</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preview:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preview Area</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Font...</source>
+        <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ListEdit</name>
+    <name>OColorToolsWidget</name>
     <message>
-        <source>List</source>
+        <source>&lt;h1&gt;Color correction tools&lt;/h1&gt;&lt;p&gt;Here you can adjust the color aspects of your images like white balance, color curves, constrast, .... &lt;/p&gt; &lt;p&gt;Please select one of the options on the top.&lt;/p&gt; &lt;center&gt;&lt;img src=:/st/oromel/colortools.png&gt; &lt;/img&gt;&lt;/center&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Active</source>
+        <source>Auto-Correction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Values:</source>
+        <source>Color auto-correction.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name:</source>
+        <source>Curves Adjust</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>name</source>
+        <source>Adjust color curves.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;OK</source>
+        <source>Levels Adjust</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+O</source>
+        <source>Adjust color levels.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
+        <source>Channel Mixer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+C</source>
+        <source>Color channels mixer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;New</source>
+        <source>White Balance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+N</source>
+        <source>White Balance adjustments.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move &amp;Up</source>
+        <source>Black and White</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+U</source>
+        <source>Black and white and sepia effects.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Edit</source>
+        <source>Color Effects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+E</source>
+        <source>Special color effects.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move &amp;Down</source>
+        <source>Brightness/Contrast/Gamma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+D</source>
+        <source>Brightness, Contrast and Gamma adjustment.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>NewVariant</name>
-    <message>
-        <source>New Variant</source>
+        <source>Hue/Saturation/Lightness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Type:</source>
+        <source>Hue, Saturation and Lightness adjustment.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>String</source>
+        <source>Color Balance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Int</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Double</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
+        <source>Color balance adjustment.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PageSetup</name>
+    <name>OEditorActionsWidget</name>
     <message>
-        <source>Page Setup</source>
+        <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Paper Size</source>
+        <source>Back to collection manager.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Letter</source>
+        <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Legal</source>
+        <source>Save edited image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>A4</source>
+        <source>Save As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Custom</source>
+        <source>Save edited image with new name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Labels</source>
+        <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Custom dimensions</source>
+        <source>Open an image file to edit.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Width:</source>
+        <source>Original</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>8.5</source>
+        <source>Restore to oritinal image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Height:</source>
+        <source>Histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>11.0</source>
+        <source>Opens histogram dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>in Inches</source>
+        <source>Accept</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Margins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Top:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1.0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bottom:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Left:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Orientation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Portrait</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Landscape</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Type: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
+        <source>Save changes and exists.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ParamListEdit</name>
+    <name>OEditorBottomActionsWidget</name>
     <message>
-        <source>List</source>
+        <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>List:</source>
+        <source>Zoom+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select</source>
+        <source>Zoom magnify.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cancel</source>
+        <source>Zoom-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom minimize.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Window Fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fit To window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection Fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fit To selection.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ParameterEdit</name>
+    <name>OFilterToolsWidget</name>
     <message>
-        <source>Parameter List</source>
+        <source>&lt;h1&gt;Filter tools&lt;/h1&gt;&lt;p&gt;Here you can apply filters to your images.&lt;/p&gt; &lt;p&gt;Please select filters on the top.&lt;/p&gt; &lt;center&gt;&lt;img src=:/st/oromel/filter.png&gt; &lt;/img&gt;&lt;/center&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1</source>
+        <source>Oil Paint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>2</source>
+        <source>Oil paint filter.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>3</source>
+        <source>Raindrops</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>4</source>
+        <source>Raindrops filter.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;OK</source>
+        <source>Blur effects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+O</source>
+        <source>Blur effects filter.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
+        <source>Charcoal drawing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+C</source>
+        <source>Charcoal drawing filter.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;New</source>
+        <source>Distortion effects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+N</source>
+        <source>Distortion effects filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OImageEditor</name>
+    <message>
+        <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Edit</source>
+        <source>Filters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+E</source>
+        <source>Basic Fixes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>List</source>
+        <source>Editing image: %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
+        <source>Unconfirmed changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The image has been modified. Do you want to close without saving changes ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saving image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving image %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select filename to save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select file to open</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OMarketPlaceDialog</name>
+    <message>
+        <source>&lt;h3&gt;New items to install&lt;/h3&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Installed items&lt;/h3&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uninstall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Updates for installed items&lt;/h3&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h1&gt;Getting info from internet.&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h1&gt;There is no information for this item.&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uninstalling Marketplace items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure that you want to remove the package %1 from your computer ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installing Marketplace items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package has been successfull removed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error installing Marketplace items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;Installing items, please wait...&lt;/h2&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installing marketplace items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package has been successfull installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error installing marketplace items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;There are no items.&lt;/h2&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWAbstractChooseProduct</name>
+    <message>
+        <source>Could not load settings file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open publisher database file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This publisher could not provide this product. Please contact him at &lt;a href=&quot;mailto:%1&quot;&gt;%1&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWChooseAtomicProduct</name>
+    <message>
+        <source>&lt;h1&gt;PhotoBook selection&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select a photobook from the list bellow. And the number of photobook copies.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of copies:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modelo:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in sync process</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error getting publisher data</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWChooseCropModePage</name>
+    <message>
+        <source>Leave image as is. Do not cut neither modify image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWChooseDigiprintProduct</name>
+    <message>
+        <source>&lt;h1&gt;Product selection&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select a product from the list bellow.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Products :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in sync process</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error getting publisher data</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWChoosePayMethod</name>
+    <message>
+        <source>&lt;h1&gt;Pay method selection&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose between the following pay methods.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cash On delivery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit Card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit card settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit Card Owner:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit Card Number:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit Expiry Date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PayPal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paypal settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EMail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not load settings file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWChoosePublisher</name>
+    <message>
+        <source>&lt;h1&gt;Publisher selection&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select the publisher you want to order your prints from the list bellow.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template list:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWChooseShippingMethod</name>
+    <message>
+        <source>&lt;h1&gt;Shipping method selection&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select a shipping method from the list bellow.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping methods :</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWConfirmOrder</name>
+    <message>
+        <source>&lt;h1&gt;Please confirm your order&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Below you can see your order bill. Please check it and if all its ok click confirm button. Once you confirm your order all the data will be sent to your provider. Thank you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order comments:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customer data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Name:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Address:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Cp/Zip:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;City:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;State:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Country:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWUserDataPage</name>
+    <message>
+        <source>Enter or modify User Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enter your personal data or verify if it is correct. This data will be attached to your order to inform the order supplier.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Name:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Surname:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contact</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>e-mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Phone:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mobile phone:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Address:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Cp/Zip:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;City:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Country:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;State:&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publisher account number:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publisher transport route:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OPWWelcomePage</name>
+    <message>
+        <source>&lt;h1&gt;Welcome to Starblitz Order Print wizard&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This wizard will walk you throw the process of sending your photos to your publisher.
+ Click the &apos;Next&apos; button to begin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OWebInfoWidget</name>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PBImageSelectWidget</name>
+    <message>
+        <source>Previous page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Goes to the previous page of current photobook.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Goes to the next page of current photobook.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opens advanced actions and shows more images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PhotoBookNamePage</name>
+    <message>
+        <source>&lt;h1&gt;PhotoBook properties&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please, enter the new &lt;em&gt;Photo Book&lt;/em&gt; name. You will use this name later to identify the &lt;em&gt;Photo Book&lt;/em&gt; in the collection. You can also set a description related to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;New Photo Book Name: &lt;/h3&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NewPhotoBook</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New PhotoBook Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PhotoBook with name %1 already exists in the collection.  Do you want to overwrite it ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The directory: %1 could not be deleted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PrintingPage</name>
+    <message>
+        <source>&lt;h1&gt;Printing photos&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press the &apos;Finish&apos; button to print your photos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printing...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4270,6 +4103,18 @@ Please correct the above settings to connect to database</source>
     </message>
     <message>
         <source>FTableMetaData::relatedValueQuery TableMetadata is Null !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not find %1 file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Initializing ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Creating main window...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4509,10 +4354,6 @@ Please correct the above settings to connect to database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Access denied to %1 printer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>PrintKeeper Warning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4639,6 +4480,512 @@ The root node is not &apos;report&apos;.</source>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Could not open file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not save big thumbnail for image </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving image %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not remove original file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating directory %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sended</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Receiving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In Spooler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PrintFailed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancelled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deleted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not create order path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error storing image %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error loading image %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error copying file %1 -&gt; %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order Invoice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Product. Description.            Quantity.    Price    Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total amount:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;Order Invoice&lt;/h2&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;table&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;th&gt;Prod.&lt;/th&gt;&lt;th&gt;Descr.&lt;/th&gt;&lt;th&gt;Qnt.&lt;/th&gt;&lt;th&gt; Price&lt;/th&gt;&lt;th&gt;Total&lt;/th&gt;&lt;/tr&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;tr&gt;&lt;td&gt;&lt;b&gt;Total amount:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td align=right&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>with </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Pages </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> (MBytes) </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not load settings file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Phone: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artic.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Descr.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error copying from %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not delete directory: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not remove command without id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error openning file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating temporary file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not remove file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not copy file %1 to File %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating Temp path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not start unzip with file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could unzip file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not start zip with file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could zip file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Crop Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tilt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flip X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flip Y</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Red Eyes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revert to Original</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open file %1 for database export: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OMarketplace Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are new items in the market. Do you want to view them ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>X:%1, Y:%2, W:%3, H:%4  (mm)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Mask</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fit In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change text to:&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change character format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change ritch text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set brush</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set backgroundBrush</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set font:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Z Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set border size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set border color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text Outline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Opacity:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set X pos:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Y pos:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move right: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move X center: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move bottom: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to load image file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CellWith is 0!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CellHeight is 0!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to change text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not convert picgrid node to element!.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error copying clipart file from %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving mask image: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving frame image: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not convert template node to element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TemplateNode has not child nodes!.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not convert frame node to element!.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>-- No Description --</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error converting album node to element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>-- No description --</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could set document content from file: 
+ %1 
+ %2 at line %3, column %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error converting templatelist node to element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error converting subtypelist node to element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error converting subtype node to element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access denied to %1 printer: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User info is incomplete, please click &lt;a href=&quot;%1&quot;&gt;Here&lt;/a&gt; to complete it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid access key, please check your account data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login fails, please check your account data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Black And White</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sepia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto Contrast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoBook Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoIndex Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -4648,56 +4995,6 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>unknown</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QueryEditor</name>
-    <message>
-        <source>Query Editor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Query:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QueryList</name>
-    <message>
-        <source>Query List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Querys:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4713,360 +5010,9 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
-    <name>ReportParameter</name>
+    <name>RedEyeFixesWidget</name>
     <message>
-        <source>Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Parameter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>String</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Integer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Double</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Active</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Static</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dynamic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Static List Values:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dynamic List Query:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Defined List</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ReportParameterList</name>
-    <message>
-        <source>Parameter List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Parameters:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ReportParameterListItem</name>
-    <message>
-        <source>List Item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Label:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ReportProperties</name>
-    <message>
-        <source>Report Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable Background Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Source</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Static</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dynamic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Column:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Query Source:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Opacity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0%
-(transparent)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>10%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>100%
-(opaque)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resize Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stretch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>HAlign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>VAlign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Middle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bounds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>11.0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Height:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>8.5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Static Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Background</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Static Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use best font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Arial</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Watermark</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
+        <source>Click, hold, and drag the mouse around the eyes regions. Once you have selected it you can press &lt;b&gt;Apply&lt;/b&gt; button. The picture then will be displayed with the red eye removed.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5097,6 +5043,96 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
+    <name>SImageSelector</name>
+    <message>
+        <source>Click to select an image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Images (*.png *.xpm *.jpg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SPImageBoxListView</name>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select All (Ctrl+A)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SPImagesListView</name>
+    <message>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select a directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SPImagesListViewBase</name>
+    <message>
+        <source>Select All (Ctrl+A)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SPOromeImagesListView</name>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create Index</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SPToolbarListView</name>
+    <message>
+        <source>Number of %1 : %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SPrinterSettings</name>
     <message>
         <source>System Printer Name</source>
@@ -5118,6 +5154,21 @@ The root node is not &apos;report&apos;.</source>
     <name>SProcessStatusWidget</name>
     <message>
         <source> - Enlapsed: %e - Estimated: %r</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STAlbumWidget</name>
+    <message>
+        <source>Model cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sheet %1 of %2 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From %1 to %2 Pages</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5216,6 +5267,172 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
+    <name>STDom::DDocModel</name>
+    <message>
+        <source>File:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STDom::PrintJobModel</name>
+    <message>
+        <source>Low res</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STDom::STFtpOrderTransfer</name>
+    <message>
+        <source>Could not chdir to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time out Error getting files list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open file: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time out Error getting file %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not download file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time out Error disconnecting from host.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time out Error connecting to host.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not connect to host: %1 -&gt; %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could login to host: %1 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time out Error putting file %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not connect to host: &apos;%1&apos; -&gt; &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open publisher info file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not connect to host: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time out Error sending file %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not create a temporary file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time out Error closing connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File size check failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STDom::STFtpOrderTransferDialog</name>
+    <message>
+        <source>No action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Abort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transfering order: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error transfering order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order transfer info.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order num %1 transfered succesfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;&lt;font color=red weight=bold&gt;Error Transfering order: %1&lt;/font&gt;&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Overall process... (%1 of %2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aborting transfer process.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to abort this process ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STFolderImageSingleView</name>
+    <message>
+        <source>Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select All (Ctrl+A)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transforming Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving image %1, please check file permissions</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STFolderImageView</name>
+    <message>
+        <source>Parent Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>STFolderSelector</name>
     <message>
         <source>Ok</source>
@@ -5223,6 +5440,17 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STFontThumbnailModel</name>
+    <message>
+        <source>normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>italic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5266,6 +5494,96 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
+    <name>STGraphicsMonthItem</name>
+    <message>
+        <source>January</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>February</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>March</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>April</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>June</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>July</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>August</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>September</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>October</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>November</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>December</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sun</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STGraphicsPhotoItem</name>
+    <message>
+        <source>Low resolution (%1 Dpis)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Drop images here</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>STMkIsoFs</name>
     <message>
         <source>mkisofs can&apos;t be found at %0</source>
@@ -5281,6 +5599,334 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>mkisofs: the version can&apos;t be detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STMonthSelector</name>
+    <message>
+        <source>&lt;h2&gt;April&lt;/h2&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STNumQualityGauge</name>
+    <message>
+        <source>&lt;small&gt;Num of Images: %1 &lt;/small&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STOrderPrintsWizard</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order Prints Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error getting publisher data</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPIEndPage</name>
+    <message>
+        <source>&lt;h1&gt;Ready to build photoindex&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Click on &apos;Finish&apos; button to start building.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoIndex information</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPISelectOutputPage</name>
+    <message>
+        <source>&lt;h1&gt;Select index output&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Where do you want to send the Photo index ?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPIWIndexPropertiesPage</name>
+    <message>
+        <source> mm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h1&gt;Photo Index properties&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Please specify index sizes and other parameters&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Basic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Index size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A0+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A1+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A3+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>20x30</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>15x22</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>15x20</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>10x15</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DPIS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw Frames ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw File Numbers ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw File Names ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Estimated num of images per page:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Background Color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPWWelcomePage</name>
+    <message>
+        <source>&lt;h1&gt;Welcome to Starblitz Print wizard&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This wizard will walk you throw the process of printing your photos.
+ Click the &apos;Next&apos; button to begin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPhotoBook</name>
+    <message>
+        <source>STPhotoBook::removePage Range Checking Error.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>failed to open PDF file: %1, is it writable?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating path %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating Photo Book Path %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saving Model...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving photo book thumbnail at: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There was errors storing images: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading Photo Book from file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template is for first page only.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template is not for first page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rendering, please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rendering in progress...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There was problems storing the following files: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Post processing, please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Post processing in progress...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in print preprocess. Error loading file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in print preprocess. Error removing file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The model contains empty frames. Please delete or fill it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The model should have the number of pages in multiple of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Model must have at least %1 pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPhotoBookFrameModel</name>
+    <message>
+        <source>No Frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPhotoBookMaskModel</name>
+    <message>
+        <source>No Mask</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPhotoBookThumbnailModel</name>
+    <message>
+        <source>Sheet %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STPrintWizard</name>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STSenderSettingsDialog</name>
+    <message>
+        <source>User Settings Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5308,6 +5954,21 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STTemplateScene</name>
+    <message>
+        <source>Error storing image &apos;%1&apos; -&gt; &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error storing mask image &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error storing frame image &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5469,85 +6130,95 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
-    <name>SectionEditor</name>
+    <name>SelectCropsPage</name>
     <message>
-        <source>Section Editor</source>
+        <source>Photo %1 of %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Report Header</source>
+        <source>&lt;h1&gt;Crop photos&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Page Footer</source>
+        <source>Move the box bellow to tell to this wizard how to crop the photos to fit inside the photo sizes tou have given. You can crop each image differently, or just click &apos;Next&apos; to use the default center cropping for each photo.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Even Page(s)</source>
+        <source>Click and drag the mouse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>First Page</source>
+        <source>Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Last Page</source>
+        <source>Previous Photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Odd Page(s)</source>
+        <source>Next Photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SelectDiskFolderPage</name>
+    <message>
+        <source>&lt;h1&gt;Image selection&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Any Page(s)</source>
+        <source>&lt;p&gt;Please choose your PhotoBook images. Drag&amp;Drop them to the list at the bottom.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Report Footer</source>
+        <source>Source Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Page Header</source>
+        <source>PhotoBook Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SelectPrinterPage</name>
+    <message>
+        <source>width: &lt;b&gt;%1&lt;/b&gt; mm, height:&lt;b&gt;%2&lt;/b&gt; mm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Even Pages(s)</source>
+        <source>Horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Any Pages(s)</source>
+        <source>Vertical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Detail Sections</source>
+        <source>&lt;h1&gt;Printer Settings&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Add</source>
+        <source>Click the button to select printer and printer settings. At the bottom of this page you can read the information for the printer to use to print your photos. Once this are correct you can press the &apos;Next&apos; button.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Edit</source>
+        <source>Click to select printer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
+        <source>Print images to the following printer:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move &amp;Up</source>
+        <source>&lt;b&gt;Printer Name:&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move &amp;Down</source>
+        <source>&lt;b&gt;Paper Size:&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
+        <source>&lt;b&gt;Orientation:&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5570,41 +6241,194 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
-    <name>StringEdit</name>
+    <name>StraightenFixesWidget</name>
     <message>
-        <source>String</source>
+        <source>Press &lt;b&gt;Draw Rect&lt;/b&gt; button and draw a line that follows a straight plane of the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Value:</source>
+        <source>Draw Rect</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TPInputDialog</name>
+    <message>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>name</source>
+        <source>Accept</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TPPhotoEditor</name>
+    <message>
+        <source>Rotate 90º</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Active</source>
+        <source>Rotate 270º</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name:</source>
+        <source>Zoom+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;OK</source>
+        <source>Zoom-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+O</source>
+        <source>Crop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
+        <source>Black&amp;White</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+C</source>
+        <source>Sepia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto correction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Red eyes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contrast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gamma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm Red eyes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temp directory %1 could not be created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Receipt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error loading image: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading non image doc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Doc type not supported yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Basic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TPPhotoSelWidget</name>
+    <message>
+        <source>Receipt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checkout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error opening image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select directory to filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No products selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need to select at least one product</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5616,117 +6440,21 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
-    <name>TextEditor</name>
+    <name>TransformationsWidget</name>
     <message>
-        <source>Properties (Text)</source>
+        <source>Rotate Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bottom Padding:</source>
+        <source>Rotate Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Query Source:</source>
+        <source>Flip X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Column:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>HAlign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>VAlign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Middle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Position/Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.01</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Height:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0.00</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preview:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preview Area</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Font...</source>
+        <source>Flip Y</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5748,84 +6476,6 @@ The root node is not &apos;report&apos;.</source>
     <name>improveColorBalance</name>
     <message>
         <source>Enhancing Color Balance:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>login</name>
-    <message>
-        <source>Log In</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Build: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Username:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>S&amp;erver:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Database:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>loginOptions</name>
-    <message>
-        <source>Login Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Database:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>S&amp;erver:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Driver:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PostgreSQL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ODBC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -80,6 +80,7 @@ SET(prj_SRCS
 	logindialog.cpp
 	wwglobal_p.cpp
 	qwwbuttonlineedit.cpp
+	ocheckeddirmodel.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -152,6 +153,7 @@ SET(prj_MOC_HDRS
 	wwglobal_p.h
 	qwwbuttonlineedit.h
 	qwwbuttonlineedit_p.h
+	ocheckeddirmodel.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

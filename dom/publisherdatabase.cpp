@@ -507,3 +507,21 @@ QAbstractItemModel* PublisherDatabase::newProductsModelBySize(QObject* _Parent, 
 	Res->setQuery(Sql, *this);
 	return Res;
 }
+
+void PublisherDatabase::deleteTemplateProductsByType(PublisherDatabase::EnProductType _Type)
+{
+		FSqlQuery Query;
+		Query.prepare("DELETE FROM productprices WHERE products_ref IN (SELECT ref FROM products WHERE type=:type)");
+		Query.bindValue(":type", _Type);
+		Query.exec();
+		Query.prepare("DELETE FROM products WHERE type=:type");
+		Query.bindValue(":type", _Type);
+		Query.exec();
+}
+
+void PublisherDatabase::deleteTemplateProducts()
+{
+		deleteTemplateProductsByType(PublisherDatabase::DecorationsProduct);
+		deleteTemplateProductsByType(PublisherDatabase::PhotoBookProduct);
+		deleteTemplateProductsByType(PublisherDatabase::PhotoIdProduct);
+}

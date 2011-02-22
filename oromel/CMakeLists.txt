@@ -66,7 +66,6 @@ SET(prj_SRCS
 	sporomeimageslistview.cpp
 	omarketplace.cpp
 	omarketplacedialog.cpp
-	ocheckeddirmodel.cpp
 	owebinfowidget.cpp
 	sttomwatchdog.cpp
 )
@@ -85,7 +84,6 @@ SET(prj_MOC_HDRS
 	sporomeimageslistview.h
 	omarketplace.h
 	omarketplacedialog.h
-	ocheckeddirmodel.h
 	owebinfowidget.h
 	sttomwatchdog.h
 )

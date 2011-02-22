@@ -22,12 +22,12 @@
 
 #include <QDirModel>
 #include <QString>
-#include "storomelexport.h"
+#include "stwidgetsexport.h"
 
 /**
 	@author
 */
-class ST_OROMEL_EXPORT OCheckedDirModel : public QDirModel
+class ST_WIDGETS_EXPORT OCheckedDirModel : public QDirModel
 {
 	QStringList CheckedDirs; 
 
