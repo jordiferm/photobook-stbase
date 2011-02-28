@@ -63,6 +63,7 @@ private:
 	static qreal SImposeZValue;
 	bool ModifyAllFrames;
 	bool AutoAdjustFrames;
+	bool IgnoreExifRotation;
 	QSizeF RenderBaseSize;
 	
 	QStringList storePhotoItemImage(STGraphicsPhotoItem* _Item, const STPhotobookCollectionInfo& _CInfo);
@@ -129,6 +130,8 @@ public:
 	bool modifyAllFrames() const { return ModifyAllFrames; }
 	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
+	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
+	bool ignoreExifRotation() const { return IgnoreExifRotation; }
 
 protected:
 	bool event(QEvent* _Event);

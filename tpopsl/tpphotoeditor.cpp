@@ -47,8 +47,16 @@ void TPPhotoEditor::updateSelection()
 	QSizeF CAspectRatio = AspectRatio;
 
 	//select region using same aspect ratio
-	SelectedWidth = ImageWidth;
-	SelectedHeight = (int)((((double)(ImageWidth * CAspectRatio.height())) / CAspectRatio.width()));
+	if (SelectionRotated)
+	{
+		SelectedWidth = ImageHeight;
+		SelectedHeight = (int)((((double)(ImageHeight * CAspectRatio.width())) / CAspectRatio.height()));
+	}
+	else
+	{
+		SelectedWidth = ImageWidth;
+		SelectedHeight = (int)((((double)(ImageWidth * CAspectRatio.height())) / CAspectRatio.width()));
+	}
 
 	calcScaledImageDimensions(SelectedWidth, SelectedHeight,
 	                          ImageWidth, ImageHeight,
@@ -173,6 +181,7 @@ void TPPhotoEditor::retranslateUi()
 	ZoomMagAction->setText(tr("Zoom+"));
 	ZoomMinAction->setText(tr("Zoom-"));
 	CropAction->setText(tr("Crop"));
+	RotateSelectionAction->setText(tr("Rotate Sel."));
 
 	BlackAndWhiteEfAction->setText(tr("Black&White")); 
 	SepiaEfAction->setText(tr("Sepia")); 
@@ -309,8 +318,7 @@ SResetSlider* TPPhotoEditor::newSlider(QWidget* _Parent)
 	return Res;
 }
 
-
-TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent, f), Model(0), AspectRatioZoom(1), Dpis(300)
+TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent, f), Model(0), AspectRatioZoom(1), Dpis(300), SelectionRotated(false)
 {
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
 	QHBoxLayout* TopLayout = new QHBoxLayout; 
@@ -341,6 +349,8 @@ TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent
 	connect(ZoomMinAction, SIGNAL(triggered( bool )), this, SLOT(zoomMin())); 
 	CropAction = ActToolBar->addAction(QIcon(":/st/tpopsl/cut.png"), tr("Crop"));
 	connect(CropAction, SIGNAL(triggered( bool )), this, SLOT(doCropCommand())); 
+	RotateSelectionAction = ActToolBar->addAction(QIcon(":/st/tpopsl/rotateselection.png"), tr("Rotate Sel."));
+	connect(RotateSelectionAction, SIGNAL(triggered( bool )), this, SLOT(doRotateSelectionCommand()));
 
 	removeToolTips(ActToolBar); 
 
@@ -549,6 +559,7 @@ void TPPhotoEditor::setCurrentIndex(const QModelIndex& _Index)
 
 void TPPhotoEditor::init()
 {
+	SelectionRotated = false;
 	CurrentIndex = QModelIndex(); 
 	setStatus(StatusEditing); 
 	UndoStack->clear();
@@ -599,6 +610,11 @@ void TPPhotoEditor::setTempPath(const QDir& _TempPath)
 QDir TPPhotoEditor::tempPath() const
 {
 	return TempPath;
+}
+
+void TPPhotoEditor::setMinDpis(int _Dpis)
+{
+	SelectionIface->setMinDpis(_Dpis);
 }
 
 void TPPhotoEditor::setImage(const QImage& _Image)
@@ -734,12 +750,19 @@ void TPPhotoEditor::zoomMin()
 void TPPhotoEditor::doCropCommand()
 {	
 	QPoint TopLeft, BottomRight;
+	SelectionRotated = false;
 	SelectionIface->getSelection(TopLeft, BottomRight);
 	if (TopLeft.x() < BottomRight.x() &&
 	      TopLeft.y() < BottomRight.y())
 	{
 		UndoStack->push(new TPCropImageUndoCommand(this, TopLeft, BottomRight));
 	}
+}
+
+void TPPhotoEditor::doRotateSelectionCommand()
+{
+	SelectionRotated = ! SelectionRotated;
+	updateSelection();
 }
 
 void TPPhotoEditor::doRotateRightCommand()

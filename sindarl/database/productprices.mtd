@@ -1,0 +1,31 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.1 $">
+    <name>productprices</name>
+    <alias>QT_TRANSLATE_NOOP("MetaData","Product Prices")</alias>
+    <field>
+        <name>quantity</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Quantity(up to)")</alias>
+        <pk>true</pk>
+        <type>uint</type>
+    </field>
+    <field>
+        <name>products_ref</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Digital Print Id")</alias>
+        <pk>true</pk>
+        <type>string</type>
+        <length>15</length>
+        <relation>
+            <table>products</table>
+            <field>ref</field>
+            <display>ref</display>
+        </relation>
+    </field>
+    <field>
+        <name>price</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Price")</alias>
+        <required>true</required>
+        <type>double</type>
+		<precision>10</precision>
+    </field>
+</TMD>
+

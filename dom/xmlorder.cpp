@@ -27,7 +27,6 @@
 #include <QFileInfo> 
 #include <QDir>
 #include <QProgressBar>
-#include "sapplication.h"
 #include "stutils.h"
 
 using namespace STDom;
@@ -243,13 +242,6 @@ void XmlOrderPrint::clearDealerData()
 	Description = ""; 
 }
 	
-// _________________________________________________________________________
-//
-// Class XmlOrderInfo
-// _________________________________________________________________________
-
-
-QString XmlOrderInfo::DefaultOrderFilesPath = SApplication::dbFilesPath() + "/orders";
 
 // _________________________________________________________________________
 //

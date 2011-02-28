@@ -215,6 +215,7 @@ void STGraphicsPhotoItem::init()
 	WarningVisible = true;
 	setShowNoImageMessage(true);
 	ImageEncrypted = false;
+	IgnoreExifRotation = false;
 
 	QColor EmptyFrameColor("#FFD95C"); 
 	EmptyFrameColor.setAlpha(150);
@@ -326,50 +327,58 @@ void STGraphicsPhotoItem::setAutoAdjustFramesToImages(bool _Value)
 	AutoAdjustFramesToImages = _Value;
 	if (_Value)
 		setAspectRatioMode(Qt::KeepAspectRatio);
-	else
-		setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
+	//else
+	//	setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
 }
 
 void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 {
-	STDom::DImageDoc::CInfo ImageInfo = _Image.getInfo();
-	if (!ImageInfo.isNull())
+	QPixmap Thumbnail = _Image.thumbnail();
+	bool ImageAssigned = false;
+	if (!IgnoreExifRotation)
 	{
-		ImageMatrix.reset();
-		QTransform Transform;
-		switch (ImageInfo.orientation())
+		STDom::DImageDoc::CInfo ImageInfo = _Image.getInfo();
+		if (!ImageInfo.isNull())
 		{
-			case ExifMetadata::Orientation_Right_Bottom:
-			case ExifMetadata::Orientation_Left_Bottom :
+			ImageMatrix.reset();
+			QTransform Transform;
+			switch (ImageInfo.orientation())
 			{
-				rotateImage(-90);
-				Transform.rotate(90);
-			}
-			break;
+				case ExifMetadata::Orientation_Right_Bottom:
+				case ExifMetadata::Orientation_Left_Bottom :
+				{
+					rotateImage(-90);
+					Transform.rotate(90);
+				}
+				break;
 
-			case ExifMetadata::Orientation_Left_Top :
-			case ExifMetadata::Orientation_Right_Top :
-			{
-				rotateImage(90);
-				Transform.rotate(-90);
-			}
-			break;
+				case ExifMetadata::Orientation_Left_Top :
+				case ExifMetadata::Orientation_Right_Top :
+				{
+					rotateImage(90);
+					Transform.rotate(-90);
+				}
+				break;
 
-			case ExifMetadata::Orientation_Bottom_Left :
-			case ExifMetadata::Orientation_Bottom_Right :
-			{
-				rotateImage(-180);
-				Transform.rotate(180);
+				case ExifMetadata::Orientation_Bottom_Left :
+				case ExifMetadata::Orientation_Bottom_Right :
+				{
+					rotateImage(-180);
+					Transform.rotate(180);
+				}
 			}
+			// Thumbnail is already rotated.
+			Thumbnail = Thumbnail.transformed(Transform, Qt::SmoothTransformation);
+			setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+			if (AutoAdjustFramesToImages)
+				adjustRectToImage(ImageInfo.size());
+			ImageAssigned = true;
 		}
-		QPixmap Thumbnail = _Image.thumbnail();
-		// Thumbnail is already rotated.
-		Thumbnail = Thumbnail.transformed(Transform, Qt::SmoothTransformation);
-		setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
-		if (AutoAdjustFramesToImages)
-			adjustRectToImage(ImageInfo.size());
-		update();
 	}
+	if (!ImageAssigned)
+		setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+
+	update();
 }
 
 void  STGraphicsPhotoItem::setDoc(STDom::DDoc* _Doc)

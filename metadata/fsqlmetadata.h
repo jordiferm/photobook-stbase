@@ -207,11 +207,11 @@ INSERT INTO TABLE control (desc ) VALUES ('table tablename created !.');
 	 <sqlbeforedelete exclusive="true" driver="drivername"> </sqlbeforedelete>
 </TMD>
 
-<!-- Al fitxer (sharedroot)/database.mtd hi tenim la informació genèrica per a tota la base de dades. -->
-<!-- Aquest fitxer és opcional. -->
+<!-- Al fitxer (sharedroot)/database.mtd hi tenim la informacio generica per a tota la base de dades. -->
+<!-- Aquest fitxer es opcional. -->
 <!DOCTYPE DBMD>
 <DBMD >
-<!-- Indica l'ordre en que es crearan o s'actualitzaran les taules. Si una taula no apareix s'enten que està 
+<!-- Indica l'ordre en que es crearan o s'actualitzaran les taules. Si una taula no apareix s'enten que esta
 al final de la llista i que no depen de cap altre taula.. -->
 	<creationorder>table1,table2,table3</creationorder>
 </DBMD>
@@ -238,7 +238,7 @@ public:
 	typedef QMap<QString, FTableMetaData> TTablesList;
 	
 	TTablesList tables; 
-	//! Llista dels noms de les taules ordenades per preferencies de creació segons les dependencies;
+	//! Llista dels noms de les taules ordenades per preferencies de creacio segons les dependencies;
 	QStringList orderedTables; 
 
 private:
@@ -249,6 +249,7 @@ private:
 
 public:
 	FSqlMetaData();
+	void loadFromResources(const QString& _MetadataPath);
 	//! Carrega les metadades de disk.
 	void load(const QString& _TablesMetadataDir = ""); 
 	void save(const QString& _TablesMetadataDir = ""); 

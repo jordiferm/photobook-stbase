@@ -41,7 +41,8 @@ QImage STTemplateModel::createSampleThumbnail(const STPhotoLayoutTemplate _Templ
 	if (Res.isNull())
 	{
 		STTemplateScene TemplScene; 
-		TemplScene.loadPageTemplate(_Template); 
+		TemplScene.setAutoAdjustFrames(false);
+		TemplScene.loadPageTemplate(_Template);
 		TemplScene.setDummyImages(DummyImages); 
 		TemplScene.prepareForPrint();
 		TemplScene.setWarningsVisible(false);

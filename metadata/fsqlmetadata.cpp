@@ -435,6 +435,36 @@ FSqlMetaData::~FSqlMetaData()
 {}
 
 
+void FSqlMetaData::loadFromResources(const QString& _MetadataPath)
+{
+	//Carreguem info global de la bd.
+	orderedTables.clear();
+
+	QString ResourceRoot = _MetadataPath;
+
+	QFile OpFile(ResourceRoot + "database.mtd");
+	//Assert(OpFile.open(QIODevice::ReadOnly | QIODevice::Text), Error("Unable to open file " + OpFile.fileName()));
+	if (OpFile.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		QDomDocument Doc;
+		Assert(Doc.setContent(&OpFile), Error(QString("Unable to set xml document content for file:" +
+			OpFile.fileName()).toLatin1()));
+		loadDbInfo(Doc);
+		orderedTables << CreationorderList;
+	}
+
+	QStringList::iterator it;
+	for (it = orderedTables.begin(); it != orderedTables.end(); ++it)
+	{
+		FTableMetaData NTable;
+		//qDebug(QString("Inserting table: " + TablesDir.absolutePath() + "/" + (*it) ).toLatin1());
+		NTable.load(_MetadataPath + *it + ".mtd");
+		tables.insert(NTable.name, NTable);
+		if (!orderedTables.contains(NTable.name))
+			orderedTables << NTable.name ;
+	}
+}
+
 /*!
 	En cas de no trobar _TablesMetadataDir el buscarà al $(path del binari executable)/../share/tables/
 */

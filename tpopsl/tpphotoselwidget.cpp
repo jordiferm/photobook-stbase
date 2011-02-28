@@ -165,8 +165,6 @@ TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, Qt::WindowFlags f): QWidget(
 	BFrameLayout->setStretchFactor(ARWidget, 4); 
 	BFrameLayout->setStretchFactor(LVProducts, 2); 
 
-
-
 	PEditor = new TPPhotoEditor(this); 
 	connect(PEditor, SIGNAL(orderChanged()), this, SLOT(calcBill()));
 	retranslateUi();
@@ -255,6 +253,10 @@ void TPPhotoSelWidget::setHasScrollBar(bool _Value)
 		LVImages->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
+void TPPhotoSelWidget::setMinDpis(int _Dpis)
+{
+	PEditor->setMinDpis(_Dpis);
+}
 
 void TPPhotoSelWidget::editAddProduct(const QModelIndex& _Index)
 {

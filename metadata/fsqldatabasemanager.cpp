@@ -24,6 +24,7 @@
 #include <QVariant>
 #include <QApplication>
 #include <QDateTime>
+#include <QDebug>
 #include "mtdversion.h"
 #include "fsqlquery.h"
 #include <QProgressDialog>
@@ -50,7 +51,7 @@ FSqlDatabaseManager::FSqlDatabaseManager(const FSqlDatabaseSettings& _Settings) 
 {
 }
 
-FSqlDatabaseManager::FSqlDatabaseManager(QSqlDatabase _Database, const QString& _MetadataPath) : 
+FSqlDatabaseManager::FSqlDatabaseManager(QSqlDatabase _Database, const QString& _MetadataPath) :
 		Database(_Database), MetadataPath(_MetadataPath)
 {
 }
@@ -81,9 +82,11 @@ bool FSqlDatabaseManager::updateDB(QSqlDatabase _Database, const QString& _Metad
 	//Recollim la metainformació:
 	//Mirem si s'han de crear o actualitzar els MTD que tenim:
 	FSqlMetaData MetaData;
-	MetaData.load(_MetadataPath + "/" + FSqlMetaData::dataSubDir(FSqlMetaData::TablePath));
-	
-	
+	if (FSqlDatabaseSettings::embededResources())
+		MetaData.loadFromResources(_MetadataPath);
+	else
+		MetaData.load(_MetadataPath + "/" + FSqlMetaData::dataSubDir(FSqlMetaData::TablePath));
+
 	//Ensure that fmetadata table is created.
 	if (!_Database.tables().contains("fmetadata"))
 	{
@@ -179,7 +182,12 @@ FTableMetaData FSqlDatabaseManager::tableMetaData(const QString& _TableName, con
 
 QString FSqlDatabaseManager::tableFile( const QString& _TableName, const QString& _MetadataPath)
 {
-	return _MetadataPath + "/" + FSqlMetaData::dataSubDir(FSqlMetaData::TablePath) + "/" + _TableName + ".mtd";
+	QString Res;
+	if (FSqlDatabaseSettings::embededResources())
+		Res = _MetadataPath + _TableName + ".mtd";
+	else
+		Res = _MetadataPath + "/" + FSqlMetaData::dataSubDir(FSqlMetaData::TablePath) + "/" + _TableName + ".mtd";
+	return Res;
 }
 	
 /*!

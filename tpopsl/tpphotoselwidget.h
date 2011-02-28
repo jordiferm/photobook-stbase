@@ -83,6 +83,8 @@ public:
 	bool hasChanges() const;
 	void setFilterEnabled(bool _Value);
 	void setHasScrollBar(bool _Value);
+	void setMinDpis(int _Dpis);
+
 
 public slots: 
 	void editAddProduct(const QModelIndex& _Index);

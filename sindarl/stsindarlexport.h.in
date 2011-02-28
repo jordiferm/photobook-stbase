@@ -1,0 +1,15 @@
+#ifndef _STSINDARLEXPORT_H
+#define _STSINDARLEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_sindarl_EXPORTS)
+		#define ST_SINDARL_EXPORT __declspec(dllexport)
+	#else
+			#define ST_SINDARL_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_SINDARL_EXPORT
+#endif
+
+#endif // !_STSINDARLEXPORT_H
+

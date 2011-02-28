@@ -38,6 +38,7 @@
 #include "sterrorstack.h"
 #include "sprocessstatuswidget.h" 
 #include "stprogressindicator.h"
+#include "stcandidatecalculator.h"
 
 #define ITEM_AVERAGE_MARGIN 4
 
@@ -45,6 +46,7 @@ STTemplateScene* STPhotoBook::createPage()
 {
 	STTemplateScene* Scene = new STTemplateScene(this);
 	Scene->setAutoAdjustFrames(AutoAdjustFrames);
+	Scene->setIgnoreExifRotation(IgnoreExifRotation);
 	connect(Scene, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
 	connect(Scene, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));
 	connect(Scene, SIGNAL(itemContextMenu(QGraphicsItem*, const QPoint&)), this, SLOT(slotSceneItemContextMenu(QGraphicsItem*, const QPoint&)));
@@ -88,7 +90,7 @@ void STPhotoBook::setHasChanges(bool _Value)
 }
 
 
-STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true)
+STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true), IgnoreExifRotation(false)
 {
 }
 
@@ -280,8 +282,7 @@ void STPhotoBook::addMinimumPages()
 }
 
 
-//!!! Deprecated funcion provided for old code compatibility.
-
+/*
 void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 {
 	clear();
@@ -291,9 +292,9 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 	int InsertedPhotos = 0;
 	int TotalPhotos = _PhotoModel->rowCount();
 	STUtils::randomize();
-	
+
 	if (_Progress)
-		_Progress->setRange(0, TotalPhotos);		
+		_Progress->setRange(0, TotalPhotos);
 	int NPages = 0;
 	while (InsertedPhotos < TotalPhotos && Templates.count() > 0 && NPages < Template.maxPages() &&
 		   ((Template.preferMinPages() && NPages < Template.minPages()) || !Template.preferMinPages()))
@@ -344,6 +345,43 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 		if (!UsedTemplates.contains(CurrTemplate))
 			UsedTemplates.push_back(CurrTemplate);
 		//insertPage(createPage(randomTemplate(Template.templates())), NPages);
+		insertPage(createPage(CurrTemplate), NPages);
+		NPages++;
+	}
+}
+*/
+//!!! Deprecated funcion provided for old code compatibility.
+
+void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
+{
+	clear();
+	STCandidateCalculator CCalculator(Template.templates(), _PhotoModel);
+	
+	if (_Progress)
+		_Progress->setRange(0, CCalculator.totalPhotos());
+	int NPages = 0;
+	while (CCalculator.photosAvailable() && CCalculator.templatesAvailable() > 0 && NPages < Template.maxPages() &&
+		   ((Template.preferMinPages() && NPages < Template.minPages()) || !Template.preferMinPages()))
+	{
+		//Agafem un template qualsevol
+		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages,
+																	  CCalculator.calcMargin(ITEM_AVERAGE_MARGIN),
+																	  Template.hasFirstPages());
+		STTemplateScene* NewPage = createPage(CurrTemplate);
+		Pages.push_back(NewPage);
+		CCalculator.fillPage(NewPage, CurrTemplate, _Progress);
+		NPages++;
+		emit newPageCreated();
+	}
+	if (_Progress)
+		_Progress->setValue(CCalculator.totalPhotos());
+
+	//There's no images and still pages to fill.
+	while (NPages < Template.minPages())
+	{
+		//Agafem un template qualsevol
+		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages, 1,
+																	  Template.hasFirstPages());
 		insertPage(createPage(CurrTemplate), NPages);
 		NPages++;
 	}

@@ -92,6 +92,9 @@ public:
 	//! Size of original image.
 	QSize imageSize() { return origImageSize; }
 
+	void setMinDpis(int _Value) {   MinDpiSettings = _Value; }
+	int minDpis() const { return MinDpiSettings; }
+
 	//----------------------
 signals:
 	///emitted when a user CTRL-clicks a selection indicating
@@ -211,6 +214,7 @@ private:
 	int Contrast;
 	//----------------------
 	bool DrawSelectionAllowed;
+	int MinDpiSettings;
 };
 //======================
 

@@ -87,6 +87,7 @@ SET(prj_SRCS
 	stphotobookcollectioninfo.cpp
 	stcheckedproxymodel.cpp
 	stncopiesproxymodel.cpp
+	stcandidatecalculator.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -136,6 +137,7 @@ SET(prj_MOC_HDRS
 	stphotobookcollectioninfo.h
 	stcheckedproxymodel.h
 	stncopiesproxymodel.h
+	stcandidatecalculator.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

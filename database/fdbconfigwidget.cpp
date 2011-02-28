@@ -73,10 +73,13 @@ FSingleDBConfigWidget::FSingleDBConfigWidget(FSqlDatabaseSettings& _Settings, QD
 	MLayout->addWidget(createHeaderLabel(Model->index(_Settings.keyFullName("port"))), MLayout->rowCount() , 0);
 	MLayout->addWidget(createEditor(Model->index(_Settings.keyFullName("port"))), MLayout->rowCount() - 1, 1);
 
-	MLayout->addWidget(createHeaderLabel(Model->index(_Settings.keyFullName("metadatapath"))), MLayout->rowCount() , 0);
-	FileSelectLineEdit* LEPath = new FileSelectLineEdit(FileSelectLineEdit::GetExistingDirectory, this);
-	_Mapper->addMapping(LEPath, Model->index(_Settings.keyFullName("metadatapath")).column());
-	MLayout->addWidget(LEPath, MLayout->rowCount() - 1, 1);
+	if (!FSqlDatabaseSettings::embededResources())
+	{
+		MLayout->addWidget(createHeaderLabel(Model->index(_Settings.keyFullName("metadatapath"))), MLayout->rowCount() , 0);
+		FileSelectLineEdit* LEPath = new FileSelectLineEdit(FileSelectLineEdit::GetExistingDirectory, this);
+		_Mapper->addMapping(LEPath, Model->index(_Settings.keyFullName("metadatapath")).column());
+		MLayout->addWidget(LEPath, MLayout->rowCount() - 1, 1);
+	}
 	
 	MLayout->addWidget(createHeaderLabel(Model->index(_Settings.keyFullName("dumpbinarypath"))), MLayout->rowCount() , 0);
 	FileSelectLineEdit* LEDumpPath = new FileSelectLineEdit(FileSelectLineEdit::GetOpenFileName, this);

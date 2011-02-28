@@ -110,7 +110,7 @@ QString STTemplateScene::storeClipartItemFile(STGraphicsClipartItem* _CItem, con
 
 STTemplateScene::STTemplateScene(QObject* _Parent)
  : QGraphicsScene(_Parent), PageItem(0), ItemsMovable(false), ItemsResizable(true), SImposeItem(0), ModifyAllFrames(false),
-	RenderBaseSize(0, 0), AutoAdjustFrames(true)
+	RenderBaseSize(0, 0), AutoAdjustFrames(true), IgnoreExifRotation(false)
 {
 	setBackgroundBrush(QColor("#DFE1BD"));
 	connect(this, SIGNAL(imageDropped(QString,QString)), this, SLOT(slotCheckModifyAll(QString)));
@@ -204,6 +204,7 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 				STGraphicsPhotoItem* PhotoItem = new STGraphicsPhotoItem(*it);
 				PhotoItem->setAspectRatioMode(Template.aspectRatioMode()); 
 				PhotoItem->setAutoAdjustFramesToImages(AutoAdjustFrames);
+				PhotoItem->setIgnoreExifRotation(IgnoreExifRotation);
 				QImage MaskImage = it->maskImage(QDir(Template.templateFilePath())); 
 				if (!MaskImage.isNull())
 					PhotoItem->setAlphaChannel(MaskImage);

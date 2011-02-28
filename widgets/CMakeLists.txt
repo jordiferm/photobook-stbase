@@ -81,6 +81,7 @@ SET(prj_SRCS
 	wwglobal_p.cpp
 	qwwbuttonlineedit.cpp
 	ocheckeddirmodel.cpp
+	fintvalueselector.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -154,6 +155,7 @@ SET(prj_MOC_HDRS
 	qwwbuttonlineedit.h
 	qwwbuttonlineedit_p.h
 	ocheckeddirmodel.h
+	fintvalueselector.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

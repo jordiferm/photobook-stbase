@@ -28,6 +28,14 @@
 #include <QProcess>
 
 #include "stcoreexport.h"
+
+class STSortFileInfo : public QFileInfo
+{
+public:
+	STSortFileInfo(const QFileInfo& _FileInfo);
+	bool operator<(const STSortFileInfo& _Other) const;
+};
+
 /**
 
 Several usefull methods
@@ -68,6 +76,8 @@ public:
 	//BlowFish Encryption
 	static QByteArray encode(const QByteArray& _Input, const QString& _Key);
 	static QByteArray decode(const QByteArray& _Input, const QString& _Key);
+	static QFileInfoList sortByCreatedDate(const QFileInfoList& _ListToSort);
+
 
 
 };

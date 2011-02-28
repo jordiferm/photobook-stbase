@@ -62,6 +62,7 @@ private:
 	static TAppLocaleList LocaleList; 
 	static QStringList LocaleIds; 
 	static QString UserSharedPath;
+	static QString DBDefaultFilesPath;
 	static QString DBFilesPath;
 	static bool BadClosed;
 	
@@ -101,6 +102,7 @@ public:
 
 	//App default paths
 	//!Path to store database files.
+	static QString defaultDbFilesPath() { return DBDefaultFilesPath; }
 	static QString dbFilesPath();
 	static void setDbFilesPath(const QString& _Value);
 	static QString appUserSharedPath(const QString& _AppPath);

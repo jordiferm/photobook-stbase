@@ -24,11 +24,12 @@
 
 /*! 
 	Settings per la base de dades amb el nom de conexio _ConnectionName.
-	Si no li passem el nom de conexió interpreta que és la conexió per defecte. 
+	Si no li passem el nom de conexio interpreta que es la conexio per defecte.
 	\sa QSqlDatabase 
 */
 
 QString FSqlDatabaseSettings::DefaultDatabasePath = ""; 
+bool FSqlDatabaseSettings::EmbededResources = false;
 
 
 FSqlDatabaseSettings::FSqlDatabaseSettings(const QString& _ConnectionName, QObject* _Parent) : SAppSettings(_Parent) ,  ConnectionName(_ConnectionName)
@@ -51,6 +52,8 @@ FSqlDatabaseSettings::FSqlDatabaseSettings(const QString& _ConnectionName, QObje
 				tr("Metadata path"), tr("Path of metadata location."));
 		addKey(keyFullName("dumpbinarypath"),  defaultDumpBinaryPath(), QVariant::String, 
 				tr("Path of dump tool"), tr("Path of dump tool for backups."));
+		addKey(keyFullName("resourceprefix"), "", QVariant::String,
+				tr("Resource Prefix"), "");
 		SettingsModel->fetch();
 	}
 }	
@@ -148,7 +151,17 @@ void FSqlDatabaseSettings::setMetadataPath(const QString& _Value)
 		
 QString FSqlDatabaseSettings::metadataPath() const
 {
-	return SettingsModel->data(SettingsModel->index(keyFullName("metadatapath"))).toString();
+	QString Res;
+	if (embededResources())
+	{
+		Res = ":/";
+		QString ResourcePrefix = resourcePrefix();
+		if (!ResourcePrefix.isEmpty())
+			Res += ResourcePrefix + "/";
+	}
+	else
+		Res = SettingsModel->data(SettingsModel->index(keyFullName("metadatapath"))).toString();
+	return Res;
 }
 		
 void FSqlDatabaseSettings::setDumpBinaryPath(const QString& _Value)
@@ -159,6 +172,17 @@ void FSqlDatabaseSettings::setDumpBinaryPath(const QString& _Value)
 QString FSqlDatabaseSettings::dumpBinaryPath() const
 {
 	return SettingsModel->data(SettingsModel->index(keyFullName("dumpbinarypath"))).toString();
+}
+
+
+void FSqlDatabaseSettings::setResourcePrefix(const QString& _Prefix)
+{
+	SettingsModel->setData(SettingsModel->index(keyFullName("resourceprefix")), _Prefix);
+}
+
+QString FSqlDatabaseSettings::resourcePrefix() const
+{
+	return SettingsModel->data(SettingsModel->index(keyFullName("resourceprefix"))).toString();
 }
 
 

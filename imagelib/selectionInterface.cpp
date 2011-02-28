@@ -68,6 +68,7 @@ SelectionInterface::SelectionInterface(QWidget *parent) : QLabel(parent)
 
   //no crop size by default
   cropMaxDimen = -1.0;
+  MinDpiSettings = 300;
 }
 
 void SelectionInterface::resetValues()
@@ -322,7 +323,7 @@ void SelectionInterface::paintEvent(QPaintEvent *e)
       if(selectedHeight == 1) selectedHeight = 0;
       
       int DPI = -1;
-      int minDPI = 300;
+	  int minDPI = MinDpiSettings;
       if( cropMaxDimen != -1.0 )
       {
         //compute DPI that will be used in dominant direction
@@ -330,9 +331,6 @@ void SelectionInterface::paintEvent(QPaintEvent *e)
         DPI = (int) (maxDimen / cropMaxDimen);          
         
         //if DPI is below minimum use red color for selection rectangle to indicate pixalation may occur
-		//!!!!!!!! Falta !!!!!!
-        // minDPI = MyApplication::localSettings()->getMinDpi();
-		  //qDebug("DPI %d", DPI);
         if( DPI < minDPI ) 
         { 
 					selectionColor = QColor( 200, 0, 0 ); 

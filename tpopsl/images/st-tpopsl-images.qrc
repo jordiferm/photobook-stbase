@@ -28,5 +28,6 @@
         <file>hide-advanced.png</file>
         <file>show-advanced.png</file>
         <file>printer.png</file>
+        <file>rotateselection.png</file>
     </qresource>
 </RCC>

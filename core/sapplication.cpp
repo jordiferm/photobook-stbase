@@ -42,7 +42,8 @@ QTranslator* SApplication::SysTranslator = 0;
 QList<SApplication::SAppLocaleDef> SApplication::LocaleList; 
 QStringList SApplication::LocaleIds; 
 QString SApplication::UserSharedPath = "";
-QString SApplication::DBFilesPath = QDir::homePath() + "/.stdatabase";
+QString SApplication::DBDefaultFilesPath = QDir::homePath() + "/.stdatabase";
+QString SApplication::DBFilesPath = DBDefaultFilesPath;
 bool SApplication::BadClosed = false;
 
 

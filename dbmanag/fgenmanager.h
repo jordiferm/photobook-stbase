@@ -50,7 +50,8 @@ public:
 	QWidget* _Parent = 0, const QString& _Columns = "", 	bool _SortHeader = false);
 	FGenManager(QSqlTableModel* _Model, const QString& _TableName, 
 			QWidget* _Parent = 0, const QString& _Columns = "", 	bool _SortHeader = false);
-	FGenManager(const QString& _TableName, QWidget* _Parent = 0, const QString& _Columns = "", bool _SortHeader = false);
+	FGenManager(const QString& _TableName, QWidget* _Parent = 0, const QString& _Columns = "", bool _SortHeader = false,
+				const QSqlDatabase& _Database = QSqlDatabase::database());
 	QSqlTableModel* model() const{ return Model;}
 	FTableManager* tableManager() const {return TManager; }
 	void update();

@@ -32,6 +32,24 @@
 
 #include "blowfish.h"
 
+//_____________________________________________________________________________
+//
+// class STSortFileInfo
+//_____________________________________________________________________________
+
+STSortFileInfo::STSortFileInfo(const QFileInfo& _FileInfo) : QFileInfo(_FileInfo)
+{
+}
+
+bool STSortFileInfo::operator<(const STSortFileInfo& _Other) const
+{
+	return created() < _Other.created();
+}
+
+//_____________________________________________________________________________
+//
+// class STUtils
+//_____________________________________________________________________________
 
 // Convert any type of variable to C++ String
 // convert=true will convert -1 to 0
@@ -477,6 +495,27 @@ QByteArray STUtils::decode(const QByteArray& _Input, const QString& _Key)
 	unsigned char* DataOut = reinterpret_cast<unsigned char*>(Out.data());
 	BFish.Decode(Data, DataOut, DestSize);
 	return Out;
+}
+
+QFileInfoList STUtils::sortByCreatedDate(const QFileInfoList& _ListToSort)
+{
+	QFileInfoList Res;
+	QList<STSortFileInfo> SortList;
+	QFileInfoList::const_iterator it;
+
+	for (it = _ListToSort.begin(); it != _ListToSort.end(); ++it)
+	{
+		SortList.append(STSortFileInfo(*it));
+	}
+	qSort(SortList.begin(), SortList.end());
+	QList<STSortFileInfo>::iterator sit;
+
+	for (sit = SortList.begin(); sit != SortList.end(); ++sit)
+	{
+		Res.push_back(static_cast<QFileInfo>(*sit));
+	}
+
+	return Res;
 }
 
 /*#ifdef _WIN32

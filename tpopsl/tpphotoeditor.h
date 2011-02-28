@@ -95,6 +95,7 @@ private:
 	QAction* ZoomMagAction;
 	QAction* ZoomMinAction;
 	QAction* CropAction; 
+	QAction* RotateSelectionAction;
 
 	QAction* BlackAndWhiteEfAction;
 	QAction* SepiaEfAction;
@@ -118,7 +119,7 @@ private:
 	SResetSlider* GammaGSl;
 	SResetSlider* GammaBSl;
 
-
+	bool SelectionRotated;
 
 	AddRemoveWidget* ARWidget;
 
@@ -155,6 +156,7 @@ public:
 	int exec(const QModelIndex& _CurrIndex = QModelIndex());
 	void setTempPath(const QDir& _TempPath);
 	QDir tempPath() const;
+	void setMinDpis(int _Dpis);
 
 	virtual void setImage(const QImage& _Image); 
 	virtual void crop(const QPoint& _TopLeft, const QPoint& _BottomRight);
@@ -179,6 +181,7 @@ private slots:
 	void zoomMag();
 	void zoomMin();
 	void doCropCommand();
+	void doRotateSelectionCommand();
 	void doRotateRightCommand();
 	void doRotateLeftCommand();
 	void doBlackAndWhiteCommand();

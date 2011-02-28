@@ -100,6 +100,7 @@ private:
 	QString EncryptionKey;
 	bool HasChanges; 
 	bool AutoAdjustFrames;
+	bool IgnoreExifRotation;
 
 	STTemplateScene* createPage();
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template, QList<STGraphicsPhotoItem*>& _PhotoItems);
@@ -188,6 +189,9 @@ public:
 	//Autobuild configuration
 	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
+	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
+	bool ignoreExifRotation() const { return IgnoreExifRotation; }
+
 	
 private slots: 
 	void slotSceneSelectionChange(); 

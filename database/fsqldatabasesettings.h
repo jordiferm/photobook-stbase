@@ -38,9 +38,10 @@ class ST_DATABASE_EXPORT FSqlDatabaseSettings : public SAppSettings
 Q_OBJECT
 	QString ConnectionName; 
 	static QString DefaultDatabasePath;
-		
+	static bool EmbededResources;
+
 public:
-   FSqlDatabaseSettings(const QString& _ConnectionName = "", QObject* _Parent = 0);
+	FSqlDatabaseSettings(const QString& _ConnectionName = "", QObject* _Parent = 0);
 	QString keyFullName(const QString& _Key) const;
 	void setConnectionName(const QString& _ConnectionName);	
 	QString connectionName() const {return ConnectionName;}
@@ -61,7 +62,9 @@ public:
 	void setMetadataPath(const QString& _DataPath);
 	QString metadataPath() const;
 	void setDumpBinaryPath(const QString& _Value);
-	QString dumpBinaryPath() const; 
+	QString dumpBinaryPath() const;
+	void setResourcePrefix(const QString& _Prefix);
+	QString resourcePrefix() const;
 	
 	//! Retorna false si algun dels valors requerits falta o és NULL.
 	bool isValid() const;
@@ -81,6 +84,9 @@ public:
 	static QString defaultMetadataPath();
 	static QString defaultDumpBinaryPath();
 	void setDefaultSettings(); 
+	static bool embededResources() { return EmbededResources; }
+	//! If True, ST Database system look for .mtd files in resources.
+	static void setEmbededResources(bool _Value) { EmbededResources = _Value; }
 };
 
 #endif

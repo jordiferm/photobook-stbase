@@ -70,9 +70,9 @@ FGenManager::FGenManager(QSqlTableModel* _Model, const QString& _TableName, QWid
 }
 
 FGenManager::FGenManager(const QString& _TableName, QWidget* _Parent, const QString& _Columns, 
-bool _SortHeader) : QWidget(_Parent)
+bool _SortHeader, const QSqlDatabase& _Database) : QWidget(_Parent)
 {
-	FSqlRelationalTableModel* NModel = new FSqlRelationalTableModel(this);
+	FSqlRelationalTableModel* NModel = new FSqlRelationalTableModel(this, _Database);
 	//QSqlRelationalTableModel* NModel = new QSqlRelationalTableModel(this);
 	Model = NModel;
 	TMdata = FSqlDatabaseManager::manager().tableMetaData(_TableName);
@@ -102,7 +102,7 @@ void FGenManager::primeInsert(int /*_Row*/, QSqlRecord& _Record)
 		{
 			//qDebug(QString("Relation found: %1 ").arg(it->name()).toLatin1());
 			FSqlQuery Query(
-				QString("SELECT %1 FROM %2").arg(it->relation().indexColumn).arg(it->relation().tableName));
+				QString("SELECT %1 FROM %2").arg(it->relation().indexColumn).arg(it->relation().tableName), Model->database());
 			if (Query.next())
 			{
 				_Record.setValue(FSqlModelViewUtils::indexOf(Model, it->name()), Query.value(0));

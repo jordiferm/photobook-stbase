@@ -112,6 +112,7 @@ private:
 	bool MultiSelection;
 	bool ImageEncrypted;
 	bool AutoAdjustFramesToImages;
+	bool IgnoreExifRotation;
 	
 protected:	
 	bool ImageLoaded;
@@ -159,6 +160,7 @@ public:
 	void adjustRectToImage();
 	void adjustRectToImage(const QSize& _ImageSize);
 	void setAutoAdjustFramesToImages(bool _Value);
+	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 
 	//! Sets preloaded image.
 	void setImage(const QImage& _Image, const QString& _ImageFileName);
