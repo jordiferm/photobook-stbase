@@ -148,7 +148,7 @@ void PrintJobPrinter::storeProduct(const DDocProduct& _Product)
 
 bool PrintJobPrinter::hasToStore(const DDocProduct& _Product) const
 {
-	return ProductToStoreList.contains(_Product);
+	return productSpool(_Product) == SPrinterSettings::LabPrinterName || ProductToStoreList.contains(_Product);
 }
 
 void PrintJobPrinter::clearConfig()
@@ -182,6 +182,7 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 			while ( pit != ProdPrints.end()) //For each print
 			{
 				JobToStore.addPrint(*pit);
+				++pit;
 			}
 		}
 		else
