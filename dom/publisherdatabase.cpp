@@ -168,6 +168,18 @@ PublisherDatabase::PublisherDatabase(const QString& _DatabaseName): QSqlDatabase
 PublisherDatabase::PublisherDatabase(const QSqlDatabase& _Other) : QSqlDatabase(_Other)
 {}
 
+void PublisherDatabase::importLocalProducts(const QSqlDatabase& _SourceDB)
+{
+	FSqlQuery SourceDBQuery(_SourceDB);
+	FSqlQuery DestQuery(*this);
+	SourceDBQuery.exec("SELECT * FROM products WHERE localadded!=0");
+	while(SourceDBQuery.next())
+	{
+		DestQuery.prepareInsert(SourceDBQuery.record(), "products");
+		DestQuery.exec();
+	}
+}
+
 void PublisherDatabase::importTable(const FSqlDatabaseManager& _SourceDBManager, const QString& _TableName, const QString& _ImportOrderBy)
 {
 	QSqlDatabase SourceDB = _SourceDBManager.database(); 

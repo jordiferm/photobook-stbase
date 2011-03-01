@@ -53,6 +53,7 @@ class ST_SINDARL_EXPORT WProductManager : public FGenManager
 public:
 	WProductManager(QWidget* _Parent = 0, const QSqlDatabase& _Database = QSqlDatabase::database());
 	bool localAdded() const { return LocalAdded; }
+	//! Means that products added from this manager are not published.
 	void setLocalAdded(bool _Value) { LocalAdded = _Value; }
 
 protected slots:

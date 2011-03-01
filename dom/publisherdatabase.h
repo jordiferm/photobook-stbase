@@ -131,6 +131,7 @@ public:
 public:
 	PublisherDatabase(const QString& _DatabaseName);
 	PublisherDatabase(const QSqlDatabase& _Other = QSqlDatabase::database(DefaultPublisherDBConnectionName));
+	void importLocalProducts(const QSqlDatabase& _SourceDB);
 	void importTable(const FSqlDatabaseManager& _SourceDBManager, const QString& _TableName, const QString& _ImportOrderBy = "");
 	void importAll(const FSqlDatabaseManager& _SourceDBManager);
 	QAbstractItemModel* newProductsModel(QObject* _Parent = 0, EnProductType _ProductType = AllProducts, const QString& _Filter = "") const;

@@ -97,7 +97,7 @@ WProductManager::WProductManager(QWidget* _Parent, const QSqlDatabase& _Database
 	WProductRecord* MRecWidget = new WProductRecord(MRecDialog);
 	MRecDialog->setMainWidget(MRecWidget);
 	TManager->setRecordWidget(MRecDialog);	
-	TManager->enableSaveState("productmanager");
+	//TManager->enableSaveState("productmanager");
 	TManager->setEditable(false);
 	connect(TManager->actionTableView(), SIGNAL(beforeRemoveRow(int , bool& )),
 	        this, SLOT(beforeRemoveRow(int , bool& )));
