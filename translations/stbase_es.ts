@@ -170,11 +170,11 @@
     <name>ChooseTemplatePage</name>
     <message>
         <source>&lt;h1&gt;Getting info from internet.&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;h1&gt;Obteniendo información de internet.&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;h1&gt;There is no information for this item.&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;h1&gt;No hay información para este elemento.&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;h1&gt;Template selection&lt;/h1&gt;</source>
@@ -229,7 +229,7 @@
     </message>
     <message>
         <source>Crop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Recortar</translation>
     </message>
     <message>
         <source>Selection standard proportion</source>
@@ -2678,6 +2678,10 @@ ha fallado.</translation>
         <source>Path of dump tool for backups.</source>
         <translation>Dirección de la herramienta de volcado.</translation>
     </message>
+    <message>
+        <source>Resource Prefix</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FSqlSearchDialog</name>
@@ -3353,7 +3357,7 @@ Num</source>
     <name>OEditorActionsWidget</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anterior</translation>
     </message>
     <message>
         <source>Back to collection manager.</source>
@@ -3416,7 +3420,7 @@ Num</source>
     </message>
     <message>
         <source>Zoom+</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoom+</translation>
     </message>
     <message>
         <source>Zoom magnify.</source>
@@ -3424,7 +3428,7 @@ Num</source>
     </message>
     <message>
         <source>Zoom-</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoom-</translation>
     </message>
     <message>
         <source>Zoom minimize.</source>
@@ -3526,7 +3530,7 @@ Num</source>
     </message>
     <message>
         <source>Error saving image %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Error guardando imagen %1</translation>
     </message>
     <message>
         <source>Select filename to save</source>
@@ -3744,7 +3748,7 @@ Num</source>
     </message>
     <message>
         <source>Could not load settings file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No puedo abrir el archivo de configuración: %1</translation>
     </message>
 </context>
 <context>
@@ -5103,7 +5107,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Image(s)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Imagen(es)</translation>
     </message>
     <message>
         <source>Please select a directory</source>
@@ -5114,7 +5118,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>SPImagesListViewBase</name>
     <message>
         <source>Select All (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seleccionar todas (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -5335,7 +5339,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Could not open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No puedo abrir el archivo %1</translation>
     </message>
     <message>
         <source>Time out Error putting file %1.</source>
@@ -5673,7 +5677,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Imprimir</translation>
     </message>
 </context>
 <context>
@@ -5692,7 +5696,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Básico</translation>
     </message>
     <message>
         <source>Index size</source>
@@ -5831,7 +5835,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Could not open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No puedo abrir el archivo %1</translation>
     </message>
     <message>
         <source>Saving Model...</source>
@@ -5938,7 +5942,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Confirmar</translation>
     </message>
 </context>
 <context>
@@ -6391,6 +6395,10 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <source>Error saving changes</source>
         <translation>Error guardando imágenes</translation>
     </message>
+    <message>
+        <source>Rotate Sel.</source>
+        <translation>Rotar Sel.</translation>
+    </message>
 </context>
 <context>
     <name>TPPhotoSelWidget</name>
@@ -6467,6 +6475,53 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <message>
         <source>Flip Y</source>
         <translation>Voltear Y</translation>
+    </message>
+</context>
+<context>
+    <name>WProductRecord</name>
+    <message>
+        <source>References</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digital Prints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decorations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoBook</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CDRecord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gifts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoIndex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoId</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prices</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -150,11 +150,11 @@ void SApplication::installStTranslator(const QString& _Locale)
 	#ifndef Q_OS_WIN32
 		QString LocalePath = ST_LOCALE_PATH;
 		if (!LocalePath.isEmpty())
-			installTranslator(QCoreApplication::applicationDirPath() + "/" + LocalePath + "/st_" + _Locale);
+			installTranslator(QCoreApplication::applicationDirPath() + "/" + LocalePath + "/stbase_" + _Locale);
 		else 
-			installTranslator(QCoreApplication::applicationDirPath() + "/st_" + _Locale);
+			installTranslator(QCoreApplication::applicationDirPath() + "/stbase_" + _Locale);
 	#else 
-		installTranslator(QCoreApplication::applicationDirPath() + "/" + "st_" + _Locale);
+		installTranslator(QCoreApplication::applicationDirPath() + "/" + "stbase_" + _Locale);
 	#endif 
 	
 }

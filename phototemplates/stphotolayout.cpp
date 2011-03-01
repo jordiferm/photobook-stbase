@@ -55,8 +55,13 @@ STPhotoLayoutTemplate::Frame::Frame(const QRectF& _Rect, double _RotationAngle) 
 
 void STPhotoLayoutTemplate::Frame::setText(const QString& _Text)
 {
-	QString InText = _Text;
-	Text = InText.replace("%templateyear%", QString::number(Year));
+	Text = _Text;
+}
+
+QString STPhotoLayoutTemplate::Frame::text() const
+{
+	QString Res = Text;
+	return Res.replace("%templateyear%", QString::number(Year));;
 }
 
 void STPhotoLayoutTemplate::Frame::setMask(const QString& _FilenameToSave, const QImage& _MaskImage)
@@ -416,7 +421,7 @@ void STPhotoLayoutTemplate::getNewKey()
 	CurrKeyValue++;
 }
 
-STPhotoLayoutTemplate::STPhotoLayoutTemplate(const QString& _Locale ) : NumPhotoFrames(0), IsFirstPage(false), ModifyAllFrames(false),
+STPhotoLayoutTemplate::STPhotoLayoutTemplate(const QString& _Locale ) : NumPhotoFrames(0), NumMonthFrames(0), IsFirstPage(false), ModifyAllFrames(false),
 	RenderFramesOnly(false), CurrLocale(_Locale), Dpi(0), Key(-1), Encrypted(true)
 {
 #ifndef ENCRYPTED_TEMPLATES
@@ -433,7 +438,7 @@ void STPhotoLayoutTemplate::makePathsRelative(const QDir& _RootDir)
 {
 	TFrameList::iterator it; 
 	
-	for (it = PicFrames.begin(); it != PicFrames.end(); ++it)
+	for (it = FrameList.begin(); it != FrameList.end(); ++it)
 	{
 		if (!it->clipartFileName().isEmpty())
 			it->setClipartFileName(_RootDir.relativeFilePath(it->clipartFileName()));
@@ -469,7 +474,7 @@ void STPhotoLayoutTemplate::makePathsRelative(const QDir& _RootDir)
 void STPhotoLayoutTemplate::storeCliparts(const QDir& _ClipartSharedDir, const QDir& _StorageDir)
 {
 	TFrameList::iterator it; 
-	for (it = PicFrames.begin(); it != PicFrames.end(); ++it)
+	for (it = FrameList.begin(); it != FrameList.end(); ++it)
 	{
 		if (!it->clipartFileName().isEmpty())
 		{
@@ -492,7 +497,7 @@ void STPhotoLayoutTemplate::storeCliparts(const QDir& _ClipartSharedDir, const Q
 void STPhotoLayoutTemplate::storeMasks(const QDir& _StorageDir)
 {
 	TFrameList::iterator it; 
-	for (it = PicFrames.begin(); it != PicFrames.end(); ++it)
+	for (it = FrameList.begin(); it != FrameList.end(); ++it)
 	{
 		QString DestMaskFile = _StorageDir.absoluteFilePath(QFileInfo(it->maskFileName()).fileName());
 		QFileInfo MaskFInfo(DestMaskFile);
@@ -512,7 +517,7 @@ void STPhotoLayoutTemplate::storeMasks(const QDir& _StorageDir)
 void STPhotoLayoutTemplate::storeFrames(const QDir& _StorageDir)
 {
 	TFrameList::iterator it;
-	for (it = PicFrames.begin(); it != PicFrames.end(); ++it)
+	for (it = FrameList.begin(); it != FrameList.end(); ++it)
 	{
 		QString DestFrameFile = _StorageDir.absoluteFilePath(QFileInfo(it->frameFileName()).fileName());
 		QFileInfo FrameFInfo(DestFrameFile);
@@ -559,7 +564,7 @@ QDomElement STPhotoLayoutTemplate::createElement(QDomDocument& _Doc)
 	}
 
 	TFrameList::iterator it; 
-	for (it = PicFrames.begin(); it != PicFrames.end(); ++it)
+	for (it = FrameList.begin(); it != FrameList.end(); ++it)
 	{
 		QDomElement NFrame;
 		switch( it->frameType())
@@ -646,7 +651,8 @@ void STPhotoLayoutTemplate::load(QDomNode& _Node, QSizeF& _Size, int _Dpi)
 {
 	getNewKey(); 
 	NumPhotoFrames = 0;
-	PicFrames.clear();
+	NumMonthFrames = 0;
+	FrameList.clear();
 	//! El primer fill és la descripció.
 	QDomElement TempElement = _Node.toElement();
 
@@ -727,10 +733,16 @@ void STPhotoLayoutTemplate::load(QDomNode& _Node, QSizeF& _Size, int _Dpi)
 
 void STPhotoLayoutTemplate::addFrame(const Frame& _Frame)
 {
-	if (_Frame.frameType() == Frame::TypePhoto)
-		NumPhotoFrames++;
-
-	PicFrames.push_back(_Frame);
+	switch (_Frame.frameType())
+	{
+		case Frame::TypePhoto:
+			NumPhotoFrames++;
+		break;
+		case Frame::TypeCalMonth:
+			NumMonthFrames++;
+		break;
+	}
+	FrameList.push_back(_Frame); //TODO: Change the name ??
 }
 
 int STPhotoLayoutTemplate::dpi() const
@@ -850,7 +862,7 @@ void STPhotoLayoutTemplate::setSize(const QSizeF& _Size)
 void STPhotoLayoutTemplate::convertToSize(const QSizeF& _Size)
 {
 	TFrameList::iterator it; 
-	for ( it = PicFrames.begin(); it != PicFrames.end(); ++it )
+	for ( it = FrameList.begin(); it != FrameList.end(); ++it )
 	{
 		QRectF NewRect = translateRectf(*it, _Size); 
 		(*it).setRect(NewRect.x(), NewRect.y(), NewRect.width(), NewRect.height());
@@ -913,7 +925,7 @@ QImage STPhotoLayoutTemplate::sampleThumbnail(const QSize& _ThumbnailSize, bool 
 	Painter.setBrush(Qt::NoBrush); 
 	Painter.setPen(Qt::black);
 	TFrameList::const_iterator it; 
-	for ( it = PicFrames.begin(); it != PicFrames.end(); ++it )
+	for ( it = FrameList.begin(); it != FrameList.end(); ++it )
 	{
 		Painter.save(); 
 		QRectF CRect = translateRect(*it, ResImage.size());
@@ -960,9 +972,23 @@ QString STPhotoLayoutTemplate::templateFilePath() const
 	return TemplateFilePath; 
 }
 
-STPhotoLayoutTemplate::TFrameList STPhotoLayoutTemplate::picFrames() const
+STPhotoLayoutTemplate::TFrameList STPhotoLayoutTemplate::frames() const
 {
-	return PicFrames;
+	return FrameList;
+}
+
+STPhotoLayoutTemplate::TFrameList STPhotoLayoutTemplate::monthFrames() const
+{
+	STPhotoLayoutTemplate::TFrameList Res;
+	STPhotoLayoutTemplate::TFrameList::const_iterator it = FrameList.begin();
+	while (it != FrameList.end())
+	{
+		if (it->frameType() == Frame::TypeCalMonth)
+			Res.push_back(*it);
+		++it;
+	}
+
+	return Res;
 }
 
 
@@ -1083,6 +1109,34 @@ QString STPhotoLayoutTemplate::thumbnailImage(const QString& _ImgFile)
 int STPhotoLayoutTemplate::numPhotoFrames() const
 {
 	return NumPhotoFrames;
+}
+
+int STPhotoLayoutTemplate::numMonthFrames() const
+{
+	return NumMonthFrames;
+}
+
+void STPhotoLayoutTemplate::clearMonthFrames()
+{
+	int Vfor = 0;
+	while (Vfor < FrameList.size())
+	{
+		Frame CFrame = FrameList[Vfor];
+		if (CFrame.frameType() == Frame::TypeCalMonth)
+			FrameList.takeAt(Vfor);
+		else
+			Vfor++;
+	}
+}
+
+void STPhotoLayoutTemplate::setYear(int _Year)
+{
+	TFrameList::iterator it;
+	for (it = FrameList.begin(); it != FrameList.end(); ++it)
+	{
+		if (it->frameType() == Frame::TypeText)
+			it->setYear(_Year);
+	}
 }
 
 bool STPhotoLayoutTemplate::isFirstPage() const
@@ -1242,7 +1296,6 @@ void STPhotoBookTemplate::clear()
 	setPreprocessType(TypeNone);
 	setDescription(QObject::tr("-- No Description --"));
 }
-
 
 void STPhotoBookTemplate::loadAlbum(const QDomNode& _AlbumNode, const QString& _TemplateFilePath, const STPhotoLayoutTemplate::TDateList& _Holidays, const QStringList& _HolidayFuncs)
 {

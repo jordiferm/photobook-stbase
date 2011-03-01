@@ -77,6 +77,7 @@ public:
 	void setImageToSelectedItems(const QPixmap& _ThumbNail, const QString& _ImageFileName);
 	void setDummyImages(const QList<QImage>& _ImageList);
 	void setBackgroundImage(const QPixmap& _ThumbNail, const QString& _ImageFileName, bool _Encrypted);
+	bool hasBackgroundImage() const;
 	QPixmap getThumbnail(const QString& _ImageFileName, bool _Encrypted, bool _CreateIfNotExist);
 	void setSuperImposeImage(const QString& _ImageFileName, bool _Encrypted);
 	void setBgBrush(const QBrush& _Brush);

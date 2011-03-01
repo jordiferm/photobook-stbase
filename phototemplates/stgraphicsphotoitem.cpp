@@ -309,13 +309,32 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 	QRectF AdjustedRect = FrameRect;
 	if (ImageRatio > 1) //=> Width > height => Adjust rect height
 	{
-		AdjustedRect.setHeight(FrameRect.width() / ImageRatio);
-		AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
+		double NewHeight = FrameRect.width() / ImageRatio;
+		if (NewHeight < FrameRect.height())
+		{
+			AdjustedRect.setHeight(NewHeight);
+			AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
+		}
+		else
+		{
+			AdjustedRect.setWidth(FrameRect.height() * ImageRatio);
+			AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
+		}
+
 	}
 	else
 	{
-		AdjustedRect.setWidth(FrameRect.height() * ImageRatio);
-		AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
+		double NewWidth = FrameRect.height() * ImageRatio;
+		if (NewWidth < FrameRect.width())
+		{
+			AdjustedRect.setWidth(NewWidth);
+			AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
+		}
+		else
+		{
+			AdjustedRect.setHeight(FrameRect.width() / ImageRatio);
+			AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
+		}
 	}
 
 	setRect(AdjustedRect);

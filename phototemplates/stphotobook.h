@@ -101,6 +101,7 @@ private:
 	bool HasChanges; 
 	bool AutoAdjustFrames;
 	bool IgnoreExifRotation;
+	bool AutoFillBackgrounds;
 
 	STTemplateScene* createPage();
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template, QList<STGraphicsPhotoItem*>& _PhotoItems);
@@ -134,6 +135,7 @@ public:
 	void updatePage(int _Index);
 	void removePage(int _Index); 
 	void addMinimumPages();
+	void buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress);
 	void autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
 	QSize renderSize(STTemplateScene* _Scene) const;
 	QImage renderPage(int _Page, QProgressBar* _LoadImagesPrgBar = 0);
@@ -189,6 +191,8 @@ public:
 	//Autobuild configuration
 	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
+	void setAutoFillBackgrounds(bool _Value) { AutoFillBackgrounds = _Value; }
+	bool autoFillBackgrounds() const { return AutoFillBackgrounds; }
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 	bool ignoreExifRotation() const { return IgnoreExifRotation; }
 

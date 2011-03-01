@@ -24,6 +24,7 @@
 #include <QLabel> 
 #include <QApplication> 
 #include <QKeyEvent>
+#include <QDebug>
 //#include <QFileDialog> 
 
 #include "stfolderselector.h" 

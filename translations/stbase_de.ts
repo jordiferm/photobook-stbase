@@ -2673,6 +2673,10 @@ failed.</source>
         <source>Path of dump tool for backups.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Resource Prefix</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FSqlSearchDialog</name>
@@ -6380,6 +6384,10 @@ The root node is not &apos;report&apos;.</source>
         <source>Error saving changes</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Rotate Sel.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TPPhotoSelWidget</name>
@@ -6455,6 +6463,53 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>Flip Y</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WProductRecord</name>
+    <message>
+        <source>References</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digital Prints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decorations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoBook</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CDRecord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gifts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoIndex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoId</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prices</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

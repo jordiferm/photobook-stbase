@@ -30,7 +30,9 @@
 #include "printjob.h"
 #include "stimage.h"
 #include "ddoc.h"
-#include "printkeeper.h"
+#ifdef USE_PRINTKEEPER
+	#include "printkeeper.h"
+#endif
 #include "sapplication.h"
 
 using namespace STDom;

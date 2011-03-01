@@ -76,7 +76,10 @@ public:
 	//BlowFish Encryption
 	static QByteArray encode(const QByteArray& _Input, const QString& _Key);
 	static QByteArray decode(const QByteArray& _Input, const QString& _Key);
+
 	static QFileInfoList sortByCreatedDate(const QFileInfoList& _ListToSort);
+
+	static int monthsTo(const QDate& _FromDate, const QDate& _ToDate);
 
 
 

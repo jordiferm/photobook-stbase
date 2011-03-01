@@ -124,7 +124,7 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 
 	clear();
 	STPhotoLayoutTemplate::TFrameList::const_iterator it;
-	STPhotoLayoutTemplate::TFrameList PicFrames = _Template.picFrames();
+	STPhotoLayoutTemplate::TFrameList FrameList = _Template.frames();
 	setSceneRect(QRectF(QPointF(0, 0), _Template.size()));
 	
 	// Page Item
@@ -146,7 +146,7 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 	
 	
 	//Frames 
-	for ( it = PicFrames.begin(); it != PicFrames.end(); ++it )
+	for ( it = FrameList.begin(); it != FrameList.end(); ++it )
 	{
 		switch(it->frameType())
 		{
@@ -352,8 +352,11 @@ void STTemplateScene::replaceTemplate(const STPhotoLayoutTemplate& _Template)
 		if (OldIndexList.size() > CntCurrPhoto)
 		{
 			STImage Img;
-			Img.loadThumbnail(OldIndexList[CntCurrPhoto].absoluteFilePath());
-			CurrPhotoItem->setImage(QPixmap::fromImage(Img), OldIndexList[CntCurrPhoto].absoluteFilePath()); 
+
+			STDom::DImageDoc CImageDoc(OldIndexList[CntCurrPhoto].absoluteFilePath());
+			//Img.loadThumbnail(OldIndexList[CntCurrPhoto].absoluteFilePath());
+			//CurrPhotoItem->setImage(QPixmap::fromImage(Img), OldIndexList[CntCurrPhoto].absoluteFilePath());
+			CurrPhotoItem->setImage(CImageDoc);
 			
 			CurrPhotoItem->loadImageSpawn();
 		}
@@ -407,6 +410,11 @@ void STTemplateScene::setBackgroundImage(const QPixmap& _ThumbNail, const QStrin
 	PageItem->setImageEncrypted(_Encrypted);
 	//PageItem->loadImageSpawn();
 	//PageItem->update();
+}
+
+bool STTemplateScene::hasBackgroundImage() const
+{
+	return PageItem->hasImage();
 }
 
 QPixmap STTemplateScene::getThumbnail(const QString& _ImageFileName, bool _Encrypted, bool _CreateIfNotExist)
@@ -626,29 +634,29 @@ void STTemplateScene::prepareForPrint()
 
 void STTemplateScene::addRandomPhotoFrame()
 {
-	STPhotoLayoutTemplate::TFrameList PicFrames = Template.picFrames();
+	STPhotoLayoutTemplate::TFrameList FrameList = Template.frames();
 
 	QList<QGraphicsItem *> Items = items();
 	QList<QGraphicsItem *>::iterator it; 
 	for (it = Items.begin(); it != Items.end(); ++it)
 	{		
 		if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(*it))
-			PicFrames.push_back(STPhotoLayoutTemplate::Frame(CItem->rect()));
+			FrameList.push_back(STPhotoLayoutTemplate::Frame(CItem->rect()));
 	}
 	bool Found = false; 
 	STGraphicsPhotoItem* PhotoItem = 0; 
-	if (!PicFrames.isEmpty())
+	if (!FrameList.isEmpty())
 	{
-		int NTemplate = qrand() % PicFrames.size();
-		STPhotoLayoutTemplate::Frame CFrame = PicFrames[NTemplate];
+		int NTemplate = qrand() % FrameList.size();
+		STPhotoLayoutTemplate::Frame CFrame = FrameList[NTemplate];
 		int NInspectedItems = 1;
-		while (!Found && NInspectedItems <= PicFrames.size())
+		while (!Found && NInspectedItems <= FrameList.size())
 		{
 			Found = !CFrame.isTextFrame();
 			if (!Found)
 			{
-				NTemplate = (NTemplate + 1) % PicFrames.size();
-				CFrame = PicFrames[NTemplate];
+				NTemplate = (NTemplate + 1) % FrameList.size();
+				CFrame = FrameList[NTemplate];
 				NInspectedItems++;
 			}
 		}

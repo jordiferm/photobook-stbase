@@ -28,6 +28,8 @@
 #include "stutils.h"
 #include "sttemplatescene.h"
 #include "stgraphicsphotoitem.h"
+#include "stgraphicspageitem.h"
+#include "stphotobook.h"
 
 int STCandidateCalculator::numLandscapeDocs(int _FromIndex, int _ToIndex)
 {
@@ -44,7 +46,7 @@ int STCandidateCalculator::numLandscapeDocs(int _FromIndex, int _ToIndex)
 int STCandidateCalculator::numLandscapeFrames(const STPhotoLayoutTemplate& _Template)
 {
 	int Res = 0;
-	STPhotoLayoutTemplate::TFrameList TemplateFrames = _Template.picFrames();
+	STPhotoLayoutTemplate::TFrameList TemplateFrames = _Template.frames();
 	STPhotoLayoutTemplate::TFrameList::const_iterator it;
 	for (it = TemplateFrames.begin(); it != TemplateFrames.end(); ++it)
 	{
@@ -71,9 +73,11 @@ STPhotoBookTemplate::TTemplateList STCandidateCalculator::nearestByOrientation(c
 	return Res;
 }
 
-STCandidateCalculator::STCandidateCalculator(const STPhotoBookTemplate::TTemplateList& _Templates, STDom::DDocModel* _Model) :
-		Templates(_Templates), DocModel(_Model)
+STCandidateCalculator::STCandidateCalculator(const STPhotoBook& _PhotoBook, STDom::DDocModel* _Model) :
+		DocModel(_Model)
 {
+	Templates = _PhotoBook.photoBookTemplate().templates();
+	setFillBackgrounds(_PhotoBook.autoFillBackgrounds());
 	reset();
 }
 
@@ -112,6 +116,79 @@ void STCandidateCalculator::reset()
 		Cnt++;
 
 	}
+}
+
+
+void STCandidateCalculator::configureDate(STPhotoLayoutTemplate& _Template, const QDate& _Date)
+{
+	STPhotoLayoutTemplate::TFrameList MonthFrames = _Template.monthFrames();
+	if (MonthFrames.size() > 1)
+	{
+		bool Swapped;
+		do
+		{
+			Swapped = false;
+			//Sort Frames by month
+			for (int Vfor = 1; Vfor < MonthFrames.size(); Vfor++)
+			{
+				if (MonthFrames[Vfor].month() < MonthFrames[Vfor -1].month())
+				{
+					STPhotoLayoutTemplate::Frame TmpFrame = MonthFrames[Vfor];
+					MonthFrames[Vfor] = MonthFrames[Vfor -1];
+					MonthFrames[Vfor -1] = TmpFrame;
+					Swapped = true;
+				}
+			}
+		} while (Swapped);
+	}
+	_Template.clearMonthFrames();
+	STPhotoLayoutTemplate::TFrameList::iterator it = MonthFrames.begin();
+	int Middle = MonthFrames.size() / 2;
+	QDate CDate = _Date;
+	CDate = CDate.addMonths(-Middle);
+	while (it != MonthFrames.end())
+	{
+		it->setYear(CDate.year());
+		it->setMonth(CDate.month());
+		CDate = CDate.addMonths(1);
+		_Template.addFrame(*it);
+		++it;
+	}
+	_Template.setYear(_Date.year());
+}
+
+STPhotoLayoutTemplate STCandidateCalculator::getDateCandidate(const QDate& _Date)
+{
+	STPhotoLayoutTemplate Res;
+	STPhotoBookTemplate::TTemplateList::const_iterator it = Templates.begin();
+
+	//Look for a month template with 3 months.
+	bool Found = false;
+	while (it != Templates.end() && !Found)
+	{
+		Found = it->numMonthFrames() == 3;
+		if (!Found)
+			++it;
+	}
+	if (!Found)
+	{
+		it = Templates.begin();
+		while (it != Templates.end() && !Found)
+		{
+			Found = it->numMonthFrames() > 0;
+			if (!Found)
+				++it;
+		}
+	}
+
+	if (Found)
+	{
+		Res = *it;
+		configureDate(Res, _Date);
+	}
+
+	return Res;
+
 }
 
 STPhotoLayoutTemplate STCandidateCalculator::getCandidate(bool _IsFirstPage, int _PagesToFill, int _AvgMargin, bool _HasFirstPages)
@@ -240,6 +317,17 @@ void STCandidateCalculator::fillPage(STTemplateScene* _Scene, const STPhotoLayou
 		QModelIndex CIndex = DocModel->index(InsertedPhotos, 0);
 		STDom::DDoc* CDoc = DocModel->doc(CIndex);
 		CurrPhotoW->setDoc(CDoc);
+
+
+		if (FillBackgrounds)
+		{
+			if (!_Scene->hasBackgroundImage())
+			{
+				_Scene->setBackgroundImage(CDoc->thumbnail(), CDoc->fileInfo().absoluteFilePath(), false);
+				_Scene->pageItem()->setOpacity(0.4);
+			}
+		}
+
 
 		if ((_Template.modifyAllFrames() && AvailableItems.isEmpty()) || !_Template.modifyAllFrames())
 			InsertedPhotos++ ;

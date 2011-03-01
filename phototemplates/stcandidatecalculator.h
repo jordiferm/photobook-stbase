@@ -28,12 +28,15 @@ namespace STDom
 }
 class STTemplateScene;
 class QProgressBar;
+class STPhotoBook;
 class STCandidateCalculator
 {
 	STPhotoBookTemplate::TTemplateList Templates;
 	STPhotoBookTemplate::TTemplateList UsedTemplates;
 	STDom::DDocModel* DocModel;
 	int InsertedPhotos, TotalPhotos;
+	bool FillBackgrounds;
+
 
 	QList<bool> LandscapeDocList;
 
@@ -42,14 +45,17 @@ class STCandidateCalculator
 	STPhotoBookTemplate::TTemplateList nearestByOrientation(const STPhotoBookTemplate::TTemplateList& _Templates, int _ErrMargin);
 
 public:
-	STCandidateCalculator(const STPhotoBookTemplate::TTemplateList& _Templates, STDom::DDocModel* _Model);
+	STCandidateCalculator(const STPhotoBook& _PhotoBook, STDom::DDocModel* _Model);
 	void reset();
+	void configureDate(STPhotoLayoutTemplate& _Template, const QDate& _Date);
+	STPhotoLayoutTemplate getDateCandidate(const QDate& _Date);
 	STPhotoLayoutTemplate getCandidate(bool _IsFirstPage, int _PagesToFill, int _AvgMargin, bool _HasFirstPages);
 	void fillPage(STTemplateScene* _Scene, const STPhotoLayoutTemplate& _Template, QProgressBar* _Progress);
 	bool photosAvailable() const { return InsertedPhotos < TotalPhotos; }
 	bool templatesAvailable() const { return Templates.count() > 0 ; }
 	int totalPhotos() const { return TotalPhotos; }
 	int calcMargin(int _ItemAverage) const { return qMin(_ItemAverage, (TotalPhotos - InsertedPhotos) / _ItemAverage); }
+	void setFillBackgrounds(bool _Value) { FillBackgrounds = _Value; }
 };
 
 #endif // STCANDIDATECALCULATOR_H

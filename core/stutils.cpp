@@ -518,6 +518,21 @@ QFileInfoList STUtils::sortByCreatedDate(const QFileInfoList& _ListToSort)
 	return Res;
 }
 
+int STUtils::monthsTo(const QDate& _FromDate, const QDate& _ToDate)
+{
+	int RangeMonths = 12 - _FromDate.month();
+	if (_ToDate.year() > _FromDate.year())
+	{
+		RangeMonths+= _ToDate.month();
+		RangeMonths+= (_ToDate.year() - _FromDate.year() - 1) * 12;
+	}
+	else
+		RangeMonths-= 12 - _ToDate.month();
+
+	return RangeMonths;
+}
+
+
 /*#ifdef _WIN32
 	#include <windows.h>
 #else // linux stuff

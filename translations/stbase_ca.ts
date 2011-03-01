@@ -170,11 +170,11 @@
     <name>ChooseTemplatePage</name>
     <message>
         <source>&lt;h1&gt;Getting info from internet.&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;h1&gt;Obtinguent informació d&apos;internet.&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;h1&gt;There is no information for this item.&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;h1&gt;No hi ha informació per a aquest element.&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;h1&gt;Template selection&lt;/h1&gt;</source>
@@ -2678,6 +2678,10 @@ ha fallat.</translation>
         <source>Path of dump tool for backups.</source>
         <translation>Adreça de l&apos;eina de bolcat.</translation>
     </message>
+    <message>
+        <source>Resource Prefix</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FSqlSearchDialog</name>
@@ -3354,7 +3358,7 @@ Num</source>
     <name>OEditorActionsWidget</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anterior</translation>
     </message>
     <message>
         <source>Back to collection manager.</source>
@@ -3417,7 +3421,7 @@ Num</source>
     </message>
     <message>
         <source>Zoom+</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoom+</translation>
     </message>
     <message>
         <source>Zoom magnify.</source>
@@ -3425,7 +3429,7 @@ Num</source>
     </message>
     <message>
         <source>Zoom-</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoom-</translation>
     </message>
     <message>
         <source>Zoom minimize.</source>
@@ -3527,7 +3531,7 @@ Num</source>
     </message>
     <message>
         <source>Error saving image %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Error desant imatge %1</translation>
     </message>
     <message>
         <source>Select filename to save</source>
@@ -3745,7 +3749,7 @@ Num</source>
     </message>
     <message>
         <source>Could not load settings file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No puc obrir l&apos;arxiu de configuració: %1</translation>
     </message>
 </context>
 <context>
@@ -5105,7 +5109,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Image(s)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Imatge(s)</translation>
     </message>
     <message>
         <source>Please select a directory</source>
@@ -5116,7 +5120,7 @@ El node arrel no es un reportatge.</translation>
     <name>SPImagesListViewBase</name>
     <message>
         <source>Select All (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seleccionar totes (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -5337,7 +5341,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Could not open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No puc obrir l&apos;arxiu %1</translation>
     </message>
     <message>
         <source>Time out Error putting file %1.</source>
@@ -5675,7 +5679,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Imprimir</translation>
     </message>
 </context>
 <context>
@@ -5694,7 +5698,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bàsic</translation>
     </message>
     <message>
         <source>Index size</source>
@@ -5833,7 +5837,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Could not open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No puc obrir l&apos;arxiu %1</translation>
     </message>
     <message>
         <source>Saving Model...</source>
@@ -5940,7 +5944,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Confirmar</translation>
     </message>
 </context>
 <context>
@@ -6393,6 +6397,10 @@ El node arrel no es un reportatge.</translation>
         <source>Error saving changes</source>
         <translation>Error desant imatges</translation>
     </message>
+    <message>
+        <source>Rotate Sel.</source>
+        <translation>Girar Sel.</translation>
+    </message>
 </context>
 <context>
     <name>TPPhotoSelWidget</name>
@@ -6469,6 +6477,53 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>Flip Y</source>
         <translation>Voltejar Y</translation>
+    </message>
+</context>
+<context>
+    <name>WProductRecord</name>
+    <message>
+        <source>References</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digital Prints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decorations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoBook</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CDRecord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gifts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoIndex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoId</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prices</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

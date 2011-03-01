@@ -90,7 +90,7 @@ void STPhotoBook::setHasChanges(bool _Value)
 }
 
 
-STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true), IgnoreExifRotation(false)
+STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true), IgnoreExifRotation(false), AutoFillBackgrounds(false)
 {
 }
 
@@ -350,13 +350,53 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 	}
 }
 */
-//!!! Deprecated funcion provided for old code compatibility.
+
+void STPhotoBook::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress)
+{
+	clear();
+	STCandidateCalculator CCalculator(*this, _PhotoModel);
+	int NumMonths = STUtils::monthsTo(_FromDate, _ToDate) + 1;
+	if (_Progress)
+		_Progress->setRange(0, CCalculator.totalPhotos());
+
+	STPhotoBookTemplate::TTemplateList TemplateList = Template.templates();
+	//If there is firstpage, put the first page.
+	STPhotoBookTemplate::TTemplateList::iterator it = TemplateList.begin();
+	int Found = false;
+	while (it != TemplateList.end() && !Found)
+	{
+		Found = it->isFirstPage();
+		if (!Found)
+			++it;
+	}
+	if (Found)
+	{
+		STPhotoLayoutTemplate FirstPageTemplate = *it;
+		FirstPageTemplate.setYear(_FromDate.year());
+		STTemplateScene* NewPage = createPage(FirstPageTemplate);
+		Pages.push_back(NewPage);
+		CCalculator.fillPage(NewPage, FirstPageTemplate, _Progress);
+		emit newPageCreated();
+	}
+
+	//For each month
+	QDate CDate = _FromDate;
+	for (int Vfor = 0; Vfor < NumMonths; Vfor++)
+	{
+		STPhotoLayoutTemplate CurrTemplate = CCalculator.getDateCandidate(CDate);
+		CDate = CDate.addMonths(1);
+		STTemplateScene* NewPage = createPage(CurrTemplate);
+		Pages.push_back(NewPage);
+		CCalculator.fillPage(NewPage, CurrTemplate, _Progress);
+		emit newPageCreated();
+	}
+}
 
 void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 {
 	clear();
-	STCandidateCalculator CCalculator(Template.templates(), _PhotoModel);
-	
+	STCandidateCalculator CCalculator(*this, _PhotoModel);
+
 	if (_Progress)
 		_Progress->setRange(0, CCalculator.totalPhotos());
 	int NPages = 0;

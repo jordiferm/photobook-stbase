@@ -99,7 +99,7 @@ public:
 		void setTextAlignment(Qt::Alignment _Value) { TextAlignment = _Value; }
 		Qt::Alignment textAlignment() const { return TextAlignment; }
 		void setText(const QString& _Text);
-		QString text() const { return Text; }
+		QString text() const;
 		void setBorderColor(const QColor& _BorderColor) { BorderColor = _BorderColor; }
 		QColor borderColor() const { return BorderColor; }
 		void setBorderSize(int _BorderSize) { BorderSize = _BorderSize; }
@@ -159,7 +159,7 @@ private:
 	QString Description; 
 	QString TypeName;
 	QString SubTypeName;
-	TFrameList PicFrames;
+	TFrameList FrameList;
 	QString BackgroundImageFile;
 	QString SuperImposeImageFile;
 	QString DSIImageFile;
@@ -170,6 +170,7 @@ private:
 	QImage ThumbnailImage;
 	QString TemplateFilePath;
 	int NumPhotoFrames;
+	int NumMonthFrames;
 	bool IsFirstPage;
 	QColor BGColor;
 	bool ModifyAllFrames;
@@ -256,7 +257,8 @@ public:
 	void setTemplateFilePath(const QString& _TemplateFilePath);
 	QString templateFilePath() const ;
 	//! Retorna una llista de les frames.
-	TFrameList picFrames() const;
+	TFrameList frames() const;
+	TFrameList monthFrames() const;
 	//! Conversió de _Type a String;
 	static QString typeToStr(EnType _Type);
 	//! Path of superimpose Image.
@@ -280,6 +282,10 @@ public:
 	bool operator>(int _Value) const;
 	//! Numero de frames de foto (No de texte).
 	int numPhotoFrames() const;
+	int numMonthFrames() const;
+	void clearMonthFrames();
+	//! Sets _Year to all year text frames
+	void setYear(int _Year);
 	//! És la primer pàgina ?
 	bool isFirstPage() const;
 	void setIsFirstPage(bool _Value) { IsFirstPage = _Value; }
@@ -479,6 +485,7 @@ public:
 	double printPageWidth() const { return PrintPageWidth; }
 	int numPages() const { return size().width() / PrintPageWidth; }
 	void clear();
+	void clearMonthFrames();
 	void loadAlbum(const QDomNode& _AlbumNode, const QString& _TemplateFilePath, const STPhotoLayoutTemplate::TDateList& _Holidays = STPhotoLayoutTemplate::TDateList(), const QStringList& _HolidayFuncs = QStringList()); 
 	void load(const QString& _TemplateFileName);
 	void downloadRemoteContents(const STDom::STXmlPublisherSettings& _PubSettings, STProgressIndicator* _ProgressIndicator, STFtpStatusWidget* _StatusWidget, STErrorStack* _ErrorStack = 0);
