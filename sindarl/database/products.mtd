@@ -1,5 +1,5 @@
 <!DOCTYPE TMD>
-<TMD revision="$Revision: 1.2 $">
+<TMD revision="$Revision: 1.4 $">
     <name>products</name>
     <alias>QT_TRANSLATE_NOOP("MetaData","Products")</alias>
     <field>
@@ -77,4 +77,10 @@
         <default>0</default>
         <type>int</type>
     </field>
+	<field>
+		<name>localadded</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Local added")</alias>
+		<default>false</default>
+		<type>bool</type>
+	</field>
 </TMD>

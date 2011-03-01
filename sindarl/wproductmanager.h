@@ -48,11 +48,16 @@ Product management
 class ST_SINDARL_EXPORT WProductManager : public FGenManager
 {
 	Q_OBJECT
+	bool LocalAdded;
+
 public:
 	WProductManager(QWidget* _Parent = 0, const QSqlDatabase& _Database = QSqlDatabase::database());
+	bool localAdded() const { return LocalAdded; }
+	void setLocalAdded(bool _Value) { LocalAdded = _Value; }
 
 protected slots:
 	void beforeRemoveRow(int , bool& );
+	void primeInsert(int /*_Row*/, QSqlRecord& _Record);
 };
 
 #endif

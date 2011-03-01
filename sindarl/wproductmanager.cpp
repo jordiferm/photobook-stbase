@@ -73,6 +73,7 @@ void WProductRecord::createWidget()
 	
 	FGenManager* WPriceManager = new FGenManager("productprices", this, "quantity,price", false, Model->database());
 	TWidget->addTab(WPriceManager, tr("Prices"));
+	WPriceManager->tableManager()->enableSaveState("pricesmanager");
 	WPriceManager->tableManager()->searchWidget()->setSearchColumn(2);
  	(void*) new FSql1NMapperSync(Mapper, FSqlModelViewUtils::indexOf(Model, "ref"), WPriceManager->model(), FSqlModelViewUtils::indexOf( WPriceManager->model(), "products_ref"));
  	static_cast<FRecDialog*>(parentWidget())->addTableManager(WPriceManager->tableManager());	
@@ -89,13 +90,14 @@ WProductRecord::WProductRecord(FRecDialog* _Parent)
 // _________________________________________________________________________
 
 WProductManager::WProductManager(QWidget* _Parent, const QSqlDatabase& _Database)
-: FGenManager("products", _Parent, "ref,description,label,width,height,fixedprice", true, _Database)
+: FGenManager("products", _Parent, "ref,description,label,width,height,fixedprice", true, _Database), LocalAdded(false)
 {
 
 	FRecDialog* MRecDialog = new FRecDialog(Model, TManager);
 	WProductRecord* MRecWidget = new WProductRecord(MRecDialog);
 	MRecDialog->setMainWidget(MRecWidget);
 	TManager->setRecordWidget(MRecDialog);	
+	TManager->enableSaveState("productmanager");
 	TManager->setEditable(false);
 	connect(TManager->actionTableView(), SIGNAL(beforeRemoveRow(int , bool& )),
 	        this, SLOT(beforeRemoveRow(int , bool& )));
@@ -112,4 +114,8 @@ void WProductManager::beforeRemoveRow(int _Index, bool& _PerformOp)
  	}	
 }
 
+void WProductManager::primeInsert(int /*_Row*/, QSqlRecord& _Record)
+{
+	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "localadded"), LocalAdded);
+}
 
