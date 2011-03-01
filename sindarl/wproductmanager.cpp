@@ -107,7 +107,7 @@ void WProductManager::beforeRemoveRow(int _Index, bool& _PerformOp)
 {
  	if (_PerformOp)
  	{
- 		FSqlQuery Query;
+		FSqlQuery Query(Model->database());
  		QSqlRecord CurRec = Model->record(_Index);
  		//qDebug(QString("WDigiPrintManager::::beforeRemoveRow:" + CurRec.value("ref").toString()).toLatin1() );
  		_PerformOp = _PerformOp && Query.exec("DELETE FROM productprices WHERE products_ref='" + CurRec.value("ref").toString() + "'");
