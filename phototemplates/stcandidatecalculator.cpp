@@ -104,14 +104,18 @@ void STCandidateCalculator::reset()
 				if (!ImageInfo.isNull())
 				{
 					ExifMetadata::EnOrientation Orientation = ImageInfo.orientation();
-					qDebug() << "Orientation:" << Orientation;
-					LandscapeDocList[Cnt] = (Orientation == ExifMetadata::Orientation_Top_Left ||
-											 Orientation == ExifMetadata::Orientation_Top_Right ||
-											 Orientation == ExifMetadata::Orientation_Bottom_Right ||
-											 Orientation == ExifMetadata::Orientation_Bottom_Left);
+					if (ImageInfo.size().isNull())
+						LandscapeDocList[Cnt] = (Orientation == ExifMetadata::Orientation_Top_Left ||
+												 Orientation == ExifMetadata::Orientation_Top_Right ||
+												 Orientation == ExifMetadata::Orientation_Bottom_Right ||
+												 Orientation == ExifMetadata::Orientation_Bottom_Left);
+					else
+						LandscapeDocList[Cnt] = ImageInfo.size().width() >  ImageInfo.size().height();
+
+					//qDebug() << CImage->fileInfo().fileName() << "->Orientation:" << Orientation << "Size " << ImageInfo.size().width() << "x"<< ImageInfo.size().height();
 				}
 			}
-			qDebug() << CDoc->fileInfo().fileName() << "->Landscape:" << LandscapeDocList[Cnt];
+			//qDebug() << CDoc->fileInfo().fileName() << "->Landscape:" << LandscapeDocList[Cnt];
 		}
 		Cnt++;
 
@@ -201,6 +205,7 @@ STPhotoLayoutTemplate STCandidateCalculator::getCandidate(bool _IsFirstPage, int
 	if (_PagesToFill > 0)
 	{
 		int Avg = AvaliablePhotos / _PagesToFill;
+		qDebug() << "AvaliablePhotos" << AvaliablePhotos << " _PagesToFill:" << _PagesToFill << " Avg:" << Avg << "_AvgMargin" << _AvgMargin;
 		lBoundIt = qLowerBound(Templates.begin(), Templates.end(), Avg - _AvgMargin);
 		STPhotoBookTemplate::TTemplateList::const_iterator UBoundIt = qUpperBound(Templates.begin(), Templates.end(), Avg + _AvgMargin);
 
@@ -324,7 +329,9 @@ void STCandidateCalculator::fillPage(STTemplateScene* _Scene, const STPhotoLayou
 			if (!_Scene->hasBackgroundImage())
 			{
 				_Scene->setBackgroundImage(CDoc->thumbnail(), CDoc->fileInfo().absoluteFilePath(), false);
-				_Scene->pageItem()->setOpacity(0.4);
+				_Scene->setBgBrush(QBrush(Qt::white, Qt::SolidPattern));
+				_Scene->pageItem()->setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
+				_Scene->pageItem()->setOpacity(0.3);
 			}
 		}
 

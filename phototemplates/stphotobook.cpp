@@ -40,7 +40,7 @@
 #include "stprogressindicator.h"
 #include "stcandidatecalculator.h"
 
-#define ITEM_AVERAGE_MARGIN 4
+#define ITEM_AVERAGE_MARGIN 2
 
 STTemplateScene* STPhotoBook::createPage()
 {

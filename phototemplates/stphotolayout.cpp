@@ -361,8 +361,8 @@ QImage STPhotoLayoutTemplate::thumbnailImage()
 bool STPhotoLayoutTemplate::resourcesOnDisk() const
 {
 	bool Res = true;
-	qDebug() << "SuperImpose:" << superImposeImageFilePath() << "SuperImposeFile:" << SuperImposeImageFile
-			<< "Background:" << backgroundImageFilePath() << "BackgroundFile" << BackgroundImageFile;
+	//qDebug() << "SuperImpose:" << superImposeImageFilePath() << "SuperImposeFile:" << SuperImposeImageFile
+	//		<< "Background:" << backgroundImageFilePath() << "BackgroundFile" << BackgroundImageFile;
 	if (!SuperImposeImageFile.isEmpty())
 		Res = Res && QFile::exists(superImposeImageFilePath());
 
