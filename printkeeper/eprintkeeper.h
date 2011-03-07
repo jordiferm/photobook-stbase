@@ -61,6 +61,7 @@ public:
 	QString userEmail() { return UserEmail; }
 	QString errorInfo() const { return ErrorInfo; }
 	void setPrintAccessKey(const QString& _Key) { PrintAccessKey = _Key; }
+	QString printAccessKey() { return PrintAccessKey; }
 	bool access(const QString& _PrinterName, PKPrinterInfo& _Info, qlonglong _Copies);
 
 signals:

@@ -52,6 +52,7 @@ public:
 	//! \return true if we have access to print with _Printer.
 	static bool printAcces(const QString& _PrinterName, qlonglong _Copies = 0);
 	static void clearPrinterInfo();
+	static QString currentCopiesSettingsKey();
 	static int printerInfoCount();
 	static void setPrinterInfo(int _Index, const PKPrinterInfo& _Info);
 	static PKPrinterInfo printerInfo(int _Index);

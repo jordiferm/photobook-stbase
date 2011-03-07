@@ -69,7 +69,7 @@ bool PrintKeeperLoginManager::login(const QString& _UserName, const QString& _Pa
 	QUrl NewUrl = BaseUrl;
 	NewUrl.setPath("newaccount");
 	LDialog.setNewAccountUrl(NewUrl);
-	NewUrl.setPath("lostpasswd");
+	NewUrl.setPath("lostpassword");
 	LDialog.setForgetPassword(NewUrl);
 	while (!Cancel && !LoginSuccess)
 	{

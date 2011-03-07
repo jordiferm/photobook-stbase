@@ -40,8 +40,6 @@ void PrintKeeper::enableEPrintKeeper(bool _Remote)
 	{
 		if (!EPKeeper)
 			EPKeeper = new EPrintKeeper;
-		QSettings Settings;
-		CurrentCopies = Settings.value("pkcurrentcopies").toLongLong();
 	}
 	else
 	{
@@ -102,7 +100,11 @@ QString PrintKeeper::errorInfo()
 void PrintKeeper::setPrintAccessKey(const QString& _Key)
 {
 	if (EPKeeper)
+	{
 		EPKeeper->setPrintAccessKey(_Key);
+		QSettings Settings;
+		CurrentCopies = Settings.value(currentCopiesSettingsKey()).toLongLong();
+	}
 }
 
 bool PrintKeeper::printAcces(const QString& _PrinterName, qlonglong _Copies)
@@ -172,10 +174,19 @@ bool PrintKeeper::printAcces(const QString& _PrinterName, qlonglong _Copies)
 	{
 		CurrentCopies += _Copies;
 		QSettings Settings;
-		Settings.setValue("pkcurrentcopies", CurrentCopies);
+		Settings.setValue(currentCopiesSettingsKey(), CurrentCopies);
 	}
 
 	return Res;
+}
+
+QString PrintKeeper::currentCopiesSettingsKey()
+{
+	QString Res = "pkcurrentcopies";
+
+	if (EPKeeper)
+	Res += "/" + EPKeeper->printAccessKey();
+	return  Res;
 }
 
 void PrintKeeper::clearPrinterInfo()
