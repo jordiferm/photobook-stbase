@@ -23,6 +23,7 @@
 #include <QFontMetrics>
 #include <QPainter>
 #include <QDebug>
+#include <QDir>
 #include "ddocmodel.h"
 #include "dimagedoc.h"
 
@@ -390,7 +391,8 @@ bool PrintJobModel::filterAcceptsRow ( int _SourceRow, const QModelIndex& _Sourc
 	if (!FolderFilter.isEmpty())
 	{
 		DDoc* CurrentDoc = SourceDocModel->doc(SourceDocModel->index(_SourceRow, 0, _SourceParent));
-		Res = CurrentDoc->fileInfo().absoluteFilePath().contains(FolderFilter);
+		QString CleanPath = QDir::cleanPath(CurrentDoc->fileInfo().absoluteFilePath());
+		Res = CleanPath.contains(FolderFilter);
 	}
 	return Res;
 }
