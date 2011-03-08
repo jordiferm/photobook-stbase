@@ -3265,6 +3265,14 @@ Num</source>
         <source>Key</source>
         <translation>Llave</translation>
     </message>
+    <message>
+        <source>&lt;i&gt;Don&apos;t have account ?&lt;/i&gt;&lt;br&gt;&lt;/br&gt;&lt;a href=&quot;%1&quot;&gt;Create a new one&lt;/a&gt;</source>
+        <translation>&lt;i&gt;No tienes cuenta ?&lt;/i&gt;&lt;br&gt;&lt;/br&gt;&lt;a href=&quot;%1&quot;&gt;Crea una de nueva&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Lost password?,&lt;a href=&quot;%1&quot;&gt;Click here&lt;/a&gt;</source>
+        <translation>Has perdido la contraseña?,&lt;a href=&quot;%1&quot;&gt;Clica aquí&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>OColorToolsWidget</name>
@@ -3502,47 +3510,47 @@ Num</source>
     <name>OImageEditor</name>
     <message>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color</translation>
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtros</translation>
     </message>
     <message>
         <source>Basic Fixes</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambios básicos</translation>
     </message>
     <message>
         <source>Editing image: %1 </source>
-        <translation type="unfinished"></translation>
+        <translation>Editando imagen: %1 </translation>
     </message>
     <message>
         <source>Unconfirmed changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambios sin confirmar</translation>
     </message>
     <message>
         <source>The image has been modified. Do you want to close without saving changes ?</source>
-        <translation type="unfinished"></translation>
+        <translation>La imagen ha sido modificada. Quieres cerrar sin guardar los cambios ?</translation>
     </message>
     <message>
         <source>Saving image</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardando imagen</translation>
     </message>
     <message>
         <source>Error saving image %1</source>
-        <translation type="unfinished">Error guardando imagen %1</translation>
+        <translation>Error guardando imagen %1</translation>
     </message>
     <message>
         <source>Select filename to save</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona el nombre del fichero a guardar</translation>
     </message>
     <message>
         <source>Error saving image</source>
-        <translation type="unfinished"></translation>
+        <translation>Error guardando imagen</translation>
     </message>
     <message>
         <source>Select file to open</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona el archivo a abrir</translation>
     </message>
 </context>
 <context>

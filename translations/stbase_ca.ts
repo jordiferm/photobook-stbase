@@ -3266,6 +3266,14 @@ Num</source>
         <source>Key</source>
         <translation>Clau</translation>
     </message>
+    <message>
+        <source>&lt;i&gt;Don&apos;t have account ?&lt;/i&gt;&lt;br&gt;&lt;/br&gt;&lt;a href=&quot;%1&quot;&gt;Create a new one&lt;/a&gt;</source>
+        <translation>&lt;i&gt;No tens conta ?&lt;/i&gt;&lt;br&gt;&lt;/br&gt;&lt;a href=&quot;%1&quot;&gt;Crear-ne una de nova&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Lost password?,&lt;a href=&quot;%1&quot;&gt;Click here&lt;/a&gt;</source>
+        <translation>Has perdut la contrasenya?,&lt;a href=&quot;%1&quot;&gt;Fes clic aquí&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>OColorToolsWidget</name>
@@ -3503,47 +3511,47 @@ Num</source>
     <name>OImageEditor</name>
     <message>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color</translation>
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtres</translation>
     </message>
     <message>
         <source>Basic Fixes</source>
-        <translation type="unfinished"></translation>
+        <translation>Canvis bàsics</translation>
     </message>
     <message>
         <source>Editing image: %1 </source>
-        <translation type="unfinished"></translation>
+        <translation>Editant imatge: %1 </translation>
     </message>
     <message>
         <source>Unconfirmed changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Canvis sense confirmar</translation>
     </message>
     <message>
         <source>The image has been modified. Do you want to close without saving changes ?</source>
-        <translation type="unfinished"></translation>
+        <translation>La imatge ha estat modificada. Vols tancar sense guardar els canvis ?</translation>
     </message>
     <message>
         <source>Saving image</source>
-        <translation type="unfinished"></translation>
+        <translation>Desant imatge</translation>
     </message>
     <message>
         <source>Error saving image %1</source>
-        <translation type="unfinished">Error desant imatge %1</translation>
+        <translation>Error desant imatge %1</translation>
     </message>
     <message>
         <source>Select filename to save</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona el nom de l&apos;arxiu a guardar</translation>
     </message>
     <message>
         <source>Error saving image</source>
-        <translation type="unfinished"></translation>
+        <translation>Error desant imatge</translation>
     </message>
     <message>
         <source>Select file to open</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona l&apos;arxiu a obrir</translation>
     </message>
 </context>
 <context>

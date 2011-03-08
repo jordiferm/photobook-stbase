@@ -3260,6 +3260,14 @@ Num</source>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;i&gt;Don&apos;t have account ?&lt;/i&gt;&lt;br&gt;&lt;/br&gt;&lt;a href=&quot;%1&quot;&gt;Create a new one&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lost password?,&lt;a href=&quot;%1&quot;&gt;Click here&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OColorToolsWidget</name>

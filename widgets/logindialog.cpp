@@ -78,13 +78,13 @@ LoginDialog::LoginDialog(bool _AskForKey, QWidget *parent) :
 
 void LoginDialog::setNewAccountUrl(const QUrl& _Url)
 {
-	NewAccountLabel->setText(QString("<i>Don't have account ?</i><br></br><a href=\"%1\">Create a new one</a>").arg(_Url.toString()));
+	NewAccountLabel->setText(tr("<i>Don't have account ?</i><br></br><a href=\"%1\">Create a new one</a>").arg(_Url.toString()));
 	NewAccountLabel->setVisible(true);
 }
 
 void LoginDialog::setForgetPassword(const QUrl& _Url)
 {
-	LostPasswordLabel->setText(QString("Lost password?,<a href=\"%1\">Click here</a>").arg(_Url.toString()));
+	LostPasswordLabel->setText(tr("Lost password?,<a href=\"%1\">Click here</a>").arg(_Url.toString()));
 	LostPasswordLabel->setVisible(true);
 }
 
