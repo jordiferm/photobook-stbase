@@ -23,9 +23,18 @@
 #include <QToolButton> 
 
 #include "publisherdatabase.h"
+#include "qtscrollwheel.h"
 
-TPProductListView::TPProductListView(QWidget *parent)
- : QWidget(parent)
+int TPProductListView::scrollToIndexValue(int _Value)
+{
+	int Res = _Value;
+	if (MListView->model()) //Defensive
+		Res = (MListView->model()->rowCount() - _Value) -1;
+	return Res;
+}
+
+TPProductListView::TPProductListView(QWidget *parent, bool _EmbeddedWidgets)
+ : QWidget(parent), ScrWheel(0)
 {
 	QHBoxLayout* MLayout = new QHBoxLayout(this); 
 	MLayout->setMargin(1); 
@@ -33,33 +42,66 @@ TPProductListView::TPProductListView(QWidget *parent)
 	MListView = new QListView(this);
 	MListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	connect(MListView, SIGNAL(clicked( const QModelIndex& )), this, SIGNAL(clicked(const QModelIndex&))); 
-	MListView->setObjectName("ProductsListView"); 
+	connect(MListView, SIGNAL(clicked( const QModelIndex& )), this, SLOT(slotListClicked(const QModelIndex&)));
+	MListView->setObjectName("ProductsListView");
 
-	MLayout->addWidget(MListView); 
-	QVBoxLayout* TBLayout = new QVBoxLayout; 
-	TBLayout->setMargin(1); 
-	TBLayout->setSpacing(5); 
-	MLayout->addLayout(TBLayout);
+	MLayout->addWidget(MListView);
 
-	QToolButton* ButScrollUp = new QToolButton(this); 
-	ButScrollUp->setIcon(QIcon(":/st/tpopsl/1uparrow.png"));
-	ButScrollUp->setIconSize(QSize(32,32)); 
-	connect(ButScrollUp, SIGNAL(clicked( bool )), this, SLOT(scrollUpClicked())); 
-	TBLayout->addWidget(ButScrollUp); 
-	
+	if (_EmbeddedWidgets)
+	{
+		ScrWheel = new QtScrollWheel(this);
+		MLayout->addWidget(ScrWheel);
+		connect(ScrWheel, SIGNAL(valueChanged(int)), this, SLOT(slotScrollValueChanged(int)));
+	}
+	else
+	{
+		QVBoxLayout* TBLayout = new QVBoxLayout;
+		TBLayout->setMargin(1);
+		TBLayout->setSpacing(5);
+		MLayout->addLayout(TBLayout);
 
-	TBLayout->addItem(new QSpacerItem(1,1, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding)); 
-	QToolButton* ButScrollDown = new QToolButton(this);
-	ButScrollDown->setIcon(QIcon(":/st/tpopsl/1downarrow.png"));
-	ButScrollDown->setIconSize(QSize(32,32)); 
-	connect(ButScrollDown, SIGNAL(clicked( bool )), this, SLOT(scrollDownClicked())); 
-	TBLayout->addWidget(ButScrollDown); 
+		QToolButton* ButScrollUp = new QToolButton(this);
+		ButScrollUp->setIcon(QIcon(":/st/tpopsl/1uparrow.png"));
+		ButScrollUp->setIconSize(QSize(32,32));
+		connect(ButScrollUp, SIGNAL(clicked( bool )), this, SLOT(scrollUpClicked()));
+		TBLayout->addWidget(ButScrollUp);
+
+
+		TBLayout->addItem(new QSpacerItem(1,1, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding));
+		QToolButton* ButScrollDown = new QToolButton(this);
+		ButScrollDown->setIcon(QIcon(":/st/tpopsl/1downarrow.png"));
+		ButScrollDown->setIconSize(QSize(32,32));
+		connect(ButScrollDown, SIGNAL(clicked( bool )), this, SLOT(scrollDownClicked()));
+		TBLayout->addWidget(ButScrollDown);
+	}
 	
 }
 
 
 TPProductListView::~TPProductListView()
 {
+}
+
+void TPProductListView::setModel(QAbstractItemModel* _Model)
+{
+	MListView->setModel(_Model);
+	MListView->setCurrentIndex(_Model->index(0,0));
+	if (ScrWheel)
+	{
+		ScrWheel->setRange(0, _Model->rowCount() -1);
+		ScrWheel->setValue(scrollToIndexValue(0));
+	}
+}
+
+QModelIndex TPProductListView::currentIndex() const
+{
+	return MListView->currentIndex();
+}
+
+void TPProductListView::setCurrentIndex(const QModelIndex& _Index)
+{
+	MListView->setCurrentIndex(_Index);
+	slotListClicked(_Index);
 }
 
 STDom::DDocProduct TPProductListView::currentProduct() const
@@ -108,3 +150,21 @@ void TPProductListView::scrollDownClicked()
 	}
 }
 
+void TPProductListView::slotScrollValueChanged(int _Value)
+{
+	if (MListView->model()) //Defensive
+	{
+		QModelIndex NewIndex = MListView->model()->index(scrollToIndexValue(_Value), MListView->currentIndex().column());
+		if (NewIndex.row() < MListView->model()->rowCount())
+		{
+			MListView->setCurrentIndex(NewIndex);
+			clicked(NewIndex);
+		}
+	}
+}
+
+void TPProductListView::slotListClicked(const QModelIndex& _Index)
+{
+	if (_Index.isValid() && ScrWheel)
+		ScrWheel->setValue(scrollToIndexValue(_Index.row()));
+}

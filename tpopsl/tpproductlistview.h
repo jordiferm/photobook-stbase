@@ -31,21 +31,31 @@ List View with touch controls to scroll in touchscreens.
 */
 class QListView; 
 class QModelIndex; 
+class QtScrollWheel;
+class QAbstractItemModel;
 class ST_TPOPSL_EXPORT TPProductListView : public QWidget
 {
 	Q_OBJECT
 	QListView* MListView; 
+	QtScrollWheel* ScrWheel;
+
+	int scrollToIndexValue(int _Value);
 
 public:
-	TPProductListView(QWidget *parent = 0);
+	TPProductListView(QWidget *parent = 0, bool _EmbeddedWidgets = true);
 	~TPProductListView();
+	void setModel(QAbstractItemModel* _Model);
 	QListView* listView() { return MListView; }
+	QModelIndex currentIndex() const;
+	void setCurrentIndex(const QModelIndex& _Index);
 	STDom::DDocProduct currentProduct() const;
 	STDom::DDocProduct product(const QModelIndex& _Index) const;
 
 private slots: 
 	void scrollUpClicked();
 	void scrollDownClicked();
+	void slotScrollValueChanged(int _Value);
+	void slotListClicked(const QModelIndex& _Index);
 
 signals:
 	void clicked(const QModelIndex& ); 

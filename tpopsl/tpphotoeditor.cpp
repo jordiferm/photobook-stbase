@@ -516,8 +516,7 @@ void TPPhotoEditor::setModel(STDom::PrintJobModel* _Model)
 
 void TPPhotoEditor::setProductsModel(QAbstractItemModel* _Model)
 {
-	LVProducts->listView()->setModel(_Model); 
-	LVProducts->listView()->setCurrentIndex(_Model->index(0,0)); 
+	LVProducts->setModel(_Model);
 }
 
 void TPPhotoEditor::setCurrentIndex(const QModelIndex& _Index)
@@ -711,6 +710,11 @@ void TPPhotoEditor::setAspectRatioZoom(double _Value)
 void TPPhotoEditor::setReceiptText(const QString& _Text)
 { 
 	ReceiptLabel->setText(_Text); 
+}
+
+void TPPhotoEditor::setCurrentProductIndex(const QModelIndex& _Index)
+{
+	LVProducts->setCurrentIndex(_Index);
 }
 
 void TPPhotoEditor::productActivated(const QModelIndex& _Index)

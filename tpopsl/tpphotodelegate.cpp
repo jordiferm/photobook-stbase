@@ -496,8 +496,12 @@ TPPhotoDelegate::~TPPhotoDelegate() {
 }
 
 
-QSize TPPhotoDelegate::sizeHint( const QStyleOptionViewItem & /*option*/, const QModelIndex & /*index*/ ) const {
-	return QSize( d->itemWidth(), d->itemHeight() );
+QSize TPPhotoDelegate::sizeHint( const QStyleOptionViewItem & /*option*/, const QModelIndex& _Index ) const {
+	QSize Res = QSize( d->itemWidth(), d->itemHeight() );
+	if (_Index.model())
+		if (_Index.row() == _Index.model()->rowCount() -1)
+			Res = QSize( d->itemWidth(), d->itemHeight() + 40);
+	return Res;
 }
 
 void TPPhotoDelegate::setCopyActionVisible(bool _Visible)

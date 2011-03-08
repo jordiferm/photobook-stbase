@@ -176,6 +176,8 @@ public:
 	int dpis() const { return Dpis; }
 	void setReceiptText(const QString& _Text);
 
+	void setCurrentProductIndex(const QModelIndex& _Index);
+
 private slots: 
 	void productActivated(const QModelIndex& );
 	void zoomMag();

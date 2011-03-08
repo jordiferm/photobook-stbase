@@ -31,6 +31,7 @@ TPPhotoListView::TPPhotoListView(QWidget* parent): QListView(parent), ThumbnailS
 	setViewMode(QListView::IconMode);
 	setResizeMode(QListView::Adjust);
 	setSpacing(SPACING);
+
 	setMovement(QListView::Static); 
 	setDragEnabled(true);
 	setAcceptDrops(true);
@@ -68,3 +69,4 @@ bool TPPhotoListView::hasPhotos(const QModelIndex& _Index) const
 		Res = CModel->hasCopies(_Index.row());
 	return Res;
 }
+

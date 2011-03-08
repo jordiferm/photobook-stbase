@@ -226,8 +226,7 @@ void TPPhotoSelWidget::setModel(STDom::PrintJobModel* _Model)
 
 void TPPhotoSelWidget::setProductsModel(QAbstractItemModel* _Model)
 {
-	LVProducts->listView()->setModel(_Model); 
-	LVProducts->listView()->setCurrentIndex(_Model->index(0,0)); 
+	LVProducts->setModel(_Model);
 	PEditor->setProductsModel(_Model); 
 }
 
@@ -309,6 +308,7 @@ void TPPhotoSelWidget::editCurrent()
 	//PEditor->setModel(static_cast<STProductPrintsProxyModel*>(LVImages->model())); 
 	try
 	{
+		PEditor->setCurrentProductIndex(LVProducts->currentIndex());
 		PEditor->exec(LVImages->currentIndex()); 
 	}
 	catch(const STError& _Error)
@@ -335,7 +335,7 @@ void TPPhotoSelWidget::getFolderFilter()
 		QString FFilter = STFolderSelector::getExistingDirectory(this, tr("Please select directory to filter"), InitDir.absolutePath());
 		if (!FFilter.isEmpty())
 		{
-			Model->setFolderFilter(FFilter); 
+			Model->setFolderFilter(QDir::cleanPath(FFilter));
 			NoFilterBut->setVisible(true); 
 		}
 

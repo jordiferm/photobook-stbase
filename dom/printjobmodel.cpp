@@ -231,7 +231,10 @@ QVariant PrintJobModel::data(const QModelIndex& _Index, int _Role) const
 
 			if (!DocPrints.isEmpty())
 				FontHeight = FontHeight * DocPrints.size();
-			Res = QSize(ThumbnailSize.width() + 4, qMax(ThumbnailSize.height() + 4, FontHeight + 4));
+			int AddedVMargin = 0;
+			if (_Index.row() == rowCount() -1)
+				AddedVMargin = 100;
+			Res = QSize(ThumbnailSize.width() + 4, qMax(ThumbnailSize.height() + 4, FontHeight + 4) + AddedVMargin);
 		}
 		else
 		if (_Role == HasPhotosRole)
