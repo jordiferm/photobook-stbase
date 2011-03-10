@@ -347,7 +347,12 @@ void PrintJobModel::cloneImage(const QModelIndex& _Index)
 	if (validIndex(_Index) && SourceDocModel)
 	{
 		DDoc* CurrentDoc = doc(_Index);
-		DDoc* NewDoc = new DDoc(*CurrentDoc);
+		DDoc* NewDoc;
+		if (CurrentDoc->type() == STDom::DImageDoc::Type)
+			NewDoc = new STDom::DImageDoc(*(static_cast<STDom::DImageDoc*>(CurrentDoc)));
+		else
+			NewDoc = new STDom::DDoc(*CurrentDoc);
+
 		SourceDocModel->insertDoc(mapToSource(_Index), NewDoc);
 	}
 }

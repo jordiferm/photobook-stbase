@@ -165,7 +165,8 @@ STicketPrinterSettingsWidget::STicketPrinterSettingsWidget(STicketPrinterSetting
 	MLayout->addWidget(DirectPrintSettingsWidget);
 	
 	MLayout->addItem(new QSpacerItem(0, 10, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding)); 
-	showSysDriver(false);
+	showSysDriver(true);
+	RBSysDriver->setChecked(true);
 }
 
 

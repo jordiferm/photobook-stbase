@@ -2680,7 +2680,7 @@ ha fallado.</translation>
     </message>
     <message>
         <source>Resource Prefix</source>
-        <translation type="unfinished"></translation>
+        <translation>Prefijo de los recursos</translation>
     </message>
 </context>
 <context>
@@ -3272,6 +3272,73 @@ Num</source>
     <message>
         <source>Lost password?,&lt;a href=&quot;%1&quot;&gt;Click here&lt;/a&gt;</source>
         <translation>Has perdido la contraseña?,&lt;a href=&quot;%1&quot;&gt;Clica aquí&lt;/a&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>MetaData</name>
+    <message>
+        <source>Product Prices</source>
+        <translation>Precios del producto</translation>
+    </message>
+    <message>
+        <source>Quantity(up to)</source>
+        <translation>Cantidad (Hasta)</translation>
+    </message>
+    <message>
+        <source>Digital Print Id</source>
+        <translation>Id de impresión digital</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>Precio</translation>
+    </message>
+    <message>
+        <source>Products</source>
+        <translation>Productos</translation>
+    </message>
+    <message>
+        <source>Reference</source>
+        <translation>Referencia</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripción</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etiqueta</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Template</source>
+        <translation>Plantilla</translation>
+    </message>
+    <message>
+        <source>Private reference</source>
+        <translation>Referencia privada</translation>
+    </message>
+    <message>
+        <source>Width</source>
+        <translation>Ancho</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>Alto</translation>
+    </message>
+    <message>
+        <source>Ordering (smaller is First)</source>
+        <translation>Orden (Num inferior es primero)</translation>
+    </message>
+    <message>
+        <source>Local added</source>
+        <translation>Añadido localmente</translation>
+    </message>
+    <message>
+        <source>Templates</source>
+        <translation>Plantillas</translation>
     </message>
 </context>
 <context>
@@ -6489,47 +6556,47 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>WProductRecord</name>
     <message>
         <source>References</source>
-        <translation type="unfinished"></translation>
+        <translation>Referencias</translation>
     </message>
     <message>
         <source>Digital Prints</source>
-        <translation type="unfinished"></translation>
+        <translation>Copias Digitales</translation>
     </message>
     <message>
         <source>Decorations</source>
-        <translation type="unfinished"></translation>
+        <translation>Decoraciones</translation>
     </message>
     <message>
         <source>PhotoBook</source>
-        <translation type="unfinished"></translation>
+        <translation>FotoLibro</translation>
     </message>
     <message>
         <source>CDRecord</source>
-        <translation type="unfinished"></translation>
+        <translation>Grabación de CD</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Vídeo</translation>
     </message>
     <message>
         <source>Gifts</source>
-        <translation type="unfinished"></translation>
+        <translation>Regalos</translation>
     </message>
     <message>
         <source>PhotoIndex</source>
-        <translation type="unfinished"></translation>
+        <translation>Foto índice</translation>
     </message>
     <message>
         <source>PhotoId</source>
-        <translation type="unfinished"></translation>
+        <translation>Foto carnet</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>General</translation>
     </message>
     <message>
         <source>Prices</source>
-        <translation type="unfinished"></translation>
+        <translation>Precios</translation>
     </message>
 </context>
 <context>

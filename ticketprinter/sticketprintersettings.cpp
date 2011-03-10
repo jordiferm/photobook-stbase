@@ -28,7 +28,7 @@ STicketPrinterSettings::STicketPrinterSettings(const QString& _PrinterName, QObj
  				tr("Use Direct Print Mode"), "");
  		addKey(keyFullName("systemticketprintername"),  "", QVariant::String, 
  				tr("System Ticket Printer Name"), "");
-		addKey(keyFullName("ticketreportfile"),  QCoreApplication::applicationDirPath() + "/ticket.xml", QVariant::String,
+		addKey(keyFullName("ticketreportfile"),  QCoreApplication::applicationDirPath() + "/reports/ticket.xml", QVariant::String,
  				tr("Ticket report file"), "");
 
 		addKey(keyFullName("ticketdevice"), "/dev/ttyS0", QVariant::String, tr("Ticket printer device"), 
@@ -40,7 +40,7 @@ STicketPrinterSettings::STicketPrinterSettings(const QString& _PrinterName, QObj
 		addKey(keyFullName("boxconnector"), 0, QVariant::Int, tr("Box connector"), 
 			tr("Box connector pin"));
 
-		addKey(keyFullName("isdeviceprinter"), true, QVariant::Bool, tr("Device printer"), 
+		addKey(keyFullName("isdeviceprinter"), false, QVariant::Bool, tr("Device printer"),
 			tr("Indicates if it is a linux device printer"));
 
 		//SettingsModel->fetch();

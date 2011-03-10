@@ -961,10 +961,10 @@ int STPhotoBook::numRenderedPages(bool _Booklet)
 	return Res;
 }
 
-bool STPhotoBook::exportImages(const QString& _ExportDir, const STPhotoBookRenderSettings& _RSettings, 
+QFileInfoList STPhotoBook::exportImages(const QString& _ExportDir, const STPhotoBookRenderSettings& _RSettings,
 	STErrorStack& _ErrorStack, SProcessStatusWidget* _StatusWidget)
 {
-	bool Res = false;
+	QFileInfoList Res;
 	//bool Booklet = (_RSettings.PrintPreprocessType == STPhotoBookRenderSettings::TypeBooklet || Template.preprocessType() == STPhotoBookTemplate::TypeBooklet);
 	bool Booklet = isExportedAsBooklet(_RSettings);
 	bool PrintFirstAtLast = (_RSettings.PrintFirstAtLast || Template.preprocessType() == STPhotoBookTemplate::TypeBooklet || Template.printFirstPageAtLast());
@@ -1016,12 +1016,14 @@ bool STPhotoBook::exportImages(const QString& _ExportDir, const STPhotoBookRende
 						QString::number(((HalfPageOrder) * PageImages.size()) + CntPage++), 4, '0') + "." + Format; 
 					StackAssert(it->save(CurrImageFileName), Error(tr("There was problems storing the following files: %1").arg(CurrImageFileName)), _ErrorStack);
 					PageFiles.push_back(CurrImageFileName); 
+					Res.push_back(QFileInfo(CurrImageFileName));
 				}
 			}
 			else 
 			{
 				QString CurrImageFileName = _ExportDir + "/" + QString("page_%1.pdf").arg(QString::number(PageOrder), 4, '0'); 
 				renderPageToPdf(Vfor, 0, CurrImageFileName); 
+				Res.push_back(QFileInfo(CurrImageFileName));
 			}
 		}
 		catch (STError& _Error)
@@ -1039,6 +1041,7 @@ bool STPhotoBook::exportImages(const QString& _ExportDir, const STPhotoBookRende
 	//Post Processing
 	if (Booklet)
 	{
+		Res.clear();
 		if (_StatusWidget)
 		{
 			_StatusWidget->setWindowTitle(tr("Post processing, please wait..."));
@@ -1101,6 +1104,9 @@ bool STPhotoBook::exportImages(const QString& _ExportDir, const STPhotoBookRende
 
 			if (!BookletPage.save(CurrImageFileName))
 				_ErrorStack.push_back(QString(tr("There was problems storing the following files: %1").arg(CurrImageFileName))); 
+			else
+				Res.push_back(CurrImageFileName);
+
 			if (_StatusWidget)
 			{
 				_StatusWidget->incrementProgress();
@@ -1108,7 +1114,6 @@ bool STPhotoBook::exportImages(const QString& _ExportDir, const STPhotoBookRende
 			}
 		}
 	}
-	Res = _ErrorStack.isEmpty();
 
 	if (_StatusWidget)
 		_StatusWidget->hide();

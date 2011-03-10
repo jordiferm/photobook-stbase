@@ -179,7 +179,7 @@ public:
 	bool suitableTemplate(int _PageIndex, const STPhotoLayoutTemplate& _Template, QString& _Reason);
 	bool isExportedAsBooklet(const STPhotoBookRenderSettings& _RSettings) const;
 	int numRenderedPages(bool _Booklet);
-	bool exportImages(const QString& _ExportDir, const STPhotoBookRenderSettings& _RSettings, STErrorStack& _Errors, SProcessStatusWidget* _StatusWidget);
+	QFileInfoList exportImages(const QString& _ExportDir, const STPhotoBookRenderSettings& _RSettings, STErrorStack& _Errors, SProcessStatusWidget* _StatusWidget);
 	QImage getPageThumbnail(int _Index, const QSize& _MaxSize);
 	QImage getLastPageThumbnail(const QSize& _MaxSize);
 	bool isPhotoBookCorrect(QString& _ErrorMessage, bool _CheckToOrder = true);

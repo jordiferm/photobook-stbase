@@ -3270,6 +3270,73 @@ Num</source>
     </message>
 </context>
 <context>
+    <name>MetaData</name>
+    <message>
+        <source>Product Prices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quantity(up to)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digital Print Id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Products</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reference</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Private reference</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ordering (smaller is First)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Local added</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Templates</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OColorToolsWidget</name>
     <message>
         <source>&lt;h1&gt;Color correction tools&lt;/h1&gt;&lt;p&gt;Here you can adjust the color aspects of your images like white balance, color curves, constrast, .... &lt;/p&gt; &lt;p&gt;Please select one of the options on the top.&lt;/p&gt; &lt;center&gt;&lt;img src=:/st/oromel/colortools.png&gt; &lt;/img&gt;&lt;/center&gt;</source>

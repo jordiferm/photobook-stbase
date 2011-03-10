@@ -17,6 +17,9 @@ do
 	fi
 done
 
+#Add manually dirs containing .mtd
+STDIRS=$STDIRS" ../sindarl/database/*.mtd"
+
 for i in $LANGUAGES ;
 do
 	$LUPDATE $STDIRS -ts stbase_"$i".ts

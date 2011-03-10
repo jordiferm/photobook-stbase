@@ -37,6 +37,93 @@
 
 using namespace STDom;
 
+
+void PrintJobPrinter::printAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar)
+{
+	STDom::DDocPrintList::iterator pit;
+	bool RemainsCopies = true;
+	QPainter* Painter = 0;
+
+	while (RemainsCopies)
+	{
+		if (Painter)
+		{
+			delete Painter;
+			Painter = 0;
+		}
+		RemainsCopies = false;
+		pit = _ProductPrints.begin();
+		while ( pit != _ProductPrints.end()) //For each print
+		{
+			STImage CImage;
+			//Printer.setNumCopies(pit.value());
+			if (CImage.load(pit->fileInfo().absoluteFilePath()))
+			{
+				int NumCopies = pit->numCopies();
+				if (NumCopies > 0)
+				{
+					if (!Painter)
+						Painter = new QPainter(&_Printer); //We need to start a new job
+					RemainsCopies = true;
+					CImage.print(*Painter, FitMode == FitModeWhiteMarginCenter, FitMode == FitModeCrop);
+					pit->setNumCopies(NumCopies -1);
+					//if (pit->numCopies() > 0)
+					//	_Printer.newPage();
+				}
+				if (_ProgBar && pit->numCopies() == 1)
+				{
+					_ProgBar->setValue(_ProgBar->value() + 1);
+					QApplication::processEvents();
+				}
+				++pit;
+				if (pit != _ProductPrints.end() && NumCopies > 0)
+					_Printer.newPage();
+			}
+			else
+			{
+				ErrorStack.push(Error(QObject::tr("Error loading image %1").arg(pit->fileInfo().absoluteFilePath())));
+				++pit;
+			}
+		}
+	}
+}
+
+void PrintJobPrinter::printNonAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar)
+{
+	QPainter Painter(&_Printer);
+	STDom::DDocPrintList::iterator pit;
+	pit = _ProductPrints.begin();
+	while ( pit != _ProductPrints.end()) //For each print
+	{
+		STImage CImage;
+		//Printer.setNumCopies(pit.value());
+		if (CImage.load(pit->fileInfo().absoluteFilePath()))
+		{
+			int NumCopies = pit->numCopies();
+			while (NumCopies > 0)
+			{
+				CImage.print(Painter, FitMode == FitModeWhiteMarginCenter, FitMode == FitModeCrop);
+				NumCopies--;
+				if (NumCopies > 0 )
+					_Printer.newPage();
+			}
+			++pit;
+			if (pit != _ProductPrints.end())
+				_Printer.newPage();
+			if (_ProgBar)
+			{
+				_ProgBar->setValue(_ProgBar->value() + 1);
+				QApplication::processEvents();
+			}
+		}
+		else
+		{
+			ErrorStack.push(Error(QObject::tr("Error loading image %1").arg(pit->fileInfo().absoluteFilePath())));
+			++pit;
+		}
+	}
+}
+
 /*!
   Stores _Job images into _Dir and changes _Job paths. If image size is bigger than the size needed to print biggest
   format in current dpis it reduces it at optimal size.
@@ -158,6 +245,7 @@ void PrintJobPrinter::clearConfig()
 }
 
 
+
 PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, QProgressBar* _ProgBar)
 {
 	PrintJob JobToStore;
@@ -209,39 +297,12 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 				Printer.setResolution(Dpis);
 				Printer.setFullPage(true);
 				Printer.setNumCopies(1);
-				QPainter Painter(&Printer);
 
-				STDom::DDocPrintList::iterator pit;
-				pit = ProdPrints.begin();
-				while ( pit != ProdPrints.end()) //For each print
-				{
-					STImage CImage;
-					//Printer.setNumCopies(pit.value());
-					if (CImage.load(pit->fileInfo().absoluteFilePath()))
-					{
-						int NumCopies = pit->numCopies();
-						while (NumCopies > 0)
-						{
-							CImage.print(Painter, FitMode == FitModeWhiteMarginCenter, FitMode == FitModeCrop);
-							NumCopies--;
-							if (NumCopies > 0 )
-								Printer.newPage();
-						}
-						++pit;
-						if (pit != ProdPrints.end())
-							Printer.newPage();
-						if (_ProgBar)
-						{
-							_ProgBar->setValue(_ProgBar->value() + 1);
-							QApplication::processEvents();
-						}
-					}
-					else
-					{
-						ErrorStack.push(Error(QObject::tr("Error loading image %1").arg(pit->fileInfo().absoluteFilePath())));
-						++pit;
-					}
-				}
+				if (AtomicPrint)
+					printAtomic(Printer, ProdPrints, _ProgBar);
+				else
+					printNonAtomic(Printer, ProdPrints, _ProgBar);
+
 			}//PrintAccess
 		}//hasToStore
 		++it;

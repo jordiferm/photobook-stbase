@@ -57,6 +57,8 @@ private:
 	QString DefaultSpool;
 	QFileInfo PublisherXmlFile;
 
+	void printAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar);
+	void printNonAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar);
 	STDom::PrintJob storeImages(const STDom::PrintJob& _Job, const QDir& _DestDir, QProgressBar* _ProgBar = 0);
 
 public:
