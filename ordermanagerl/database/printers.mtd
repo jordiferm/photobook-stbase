@@ -1,0 +1,82 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.0 $">
+    <name>printers</name>
+    <alias>QT_TRANSLATE_NOOP("MetaData","Printers")</alias>
+    <field>
+        <name>idprinters</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Identifier")</alias>
+        <pk>true</pk>
+        <type>uint</type>
+        <serial>true</serial>
+    </field>
+    <field>
+        <name>name</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Printer Name")</alias>
+        <type>string</type>
+        <length>50</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>type</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Type")</alias>
+        <null>false</null>
+        <type>uint</type>
+		  <default>0</default>
+    </field>
+    <field>
+        <name>systemname</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","System Name")</alias>
+        <type>string</type>
+        <length>50</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>hosturl</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Host Url.")</alias>
+        <type>string</type>
+        <length>120</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>ftpport</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Port")</alias>
+        <null>false</null>
+        <type>uint</type>
+		  <default>0</default>
+    </field>
+    <field>
+        <name>ftplogin</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Login")</alias>
+        <type>string</type>
+        <length>60</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>ftppassword</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Password")</alias>
+        <type>string</type>
+        <length>30</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>ftpinitdir</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Initial Dir.")</alias>
+        <type>string</type>
+        <length>60</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>transfermode</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","TransferMode")</alias>
+        <null>false</null>
+        <type>uint</type>
+		  <default>0</default>
+    </field>
+    <field>
+        <name>hotfolderurl</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Shared Folder")</alias>
+        <required>false</required>
+        <type>string</type>
+        <length>100</length>
+    </field>
+</TMD>

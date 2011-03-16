@@ -68,6 +68,7 @@ public:
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
 	QString publisherPath(); 
 	STCollectionPublisherInfo publisherInfo(const QModelIndex& _Index); 
+	static STCollectionPublisherInfo defaultPublisherInfo();
 	QString sharedDataPath() const { return SharedDataPath; } 
 	void setSharedDataPath(const QString& _Value) { SharedDataPath = _Value; }
 };

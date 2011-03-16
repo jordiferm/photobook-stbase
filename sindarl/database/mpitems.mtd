@@ -1,0 +1,48 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.1$">
+	<name>mpitems</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","MarketPlaceItems")</alias>
+    <field>
+		<name>src</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Source")</alias>
+        <required>true</required>
+        <pk>true</pk>
+        <type>string</type>
+		<length>150</length>
+    </field>
+	<field>
+		<name>urlinfo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Url Info")</alias>
+		<required>false</required>
+		<type>string</type>
+		<length>150</length>
+	</field>
+	<field>
+        <name>description</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Description")</alias>
+        <required>false</required>
+        <type>string</type>
+		<length>300</length>
+    </field>
+    <field>
+        <name>type</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Type")</alias>
+        <null>false</null>
+        <type>uint</type>
+		  <default>0</default>
+    </field>
+    <field>
+		<name>ver</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Version")</alias>
+        <null>false</null>
+        <type>uint</type>
+		  <default>0</default>
+    </field>
+	<field>
+		<name>installedver</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Installed Version")</alias>
+		<null>false</null>
+		<type>uint</type>
+		  <default>0</default>
+	</field>
+</TMD>

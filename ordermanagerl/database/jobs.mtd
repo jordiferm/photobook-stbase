@@ -1,0 +1,81 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.2 $">
+    <name>jobs</name>
+    <alias>QT_TRANSLATE_NOOP("MetaData","Jobs")</alias>
+    <field>
+        <name>idjobs</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Identifier")</alias>
+        <pk>true</pk>
+        <type>uint</type>
+        <serial>true</serial>
+    </field>
+    <field>
+        <name>printers_idprinters</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Printer")</alias>
+        <type>uint</type>
+        <relation>
+            <table>printers</table>
+            <field>idprinters</field>
+            <display>name</display>
+        </relation>
+    </field>
+    <field>
+        <name>orders_idorders</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Order")</alias>
+        <type>uint</type>
+        <relation>
+            <table>orders</table>
+            <field>idorders</field>
+            <display>idorders</display>
+        </relation>
+    </field>
+    <field>
+        <name>products_ref</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Related product")</alias>
+        <type>string</type>
+        <length>15</length>
+        <required>true</required>
+        <relation>
+            <table>products</table>
+            <field>ref</field>
+            <display>description</display>
+        </relation>
+    </field>
+    <field>
+        <name>priorityorder</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Priority Order")</alias>
+        <type>string</type>
+        <length>15</length>
+    </field>
+    <field>
+        <name>jobstatus</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Status")</alias>
+        <type>uint</type>
+    </field>
+    <field>
+        <name>completedimages</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Completed Images")</alias>
+        <type>uint</type>
+    </field>
+    <field>
+        <name>totalimages</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","N. Images")</alias>
+        <type>uint</type>
+    </field>
+    <field>
+        <name>width</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Format width")</alias>
+        <type>uint</type>
+    </field>
+    <field>
+        <name>height</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Format height")</alias>
+        <type>uint</type>
+    </field>
+	<field>
+		<name>isatomic</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Atomic Print?")</alias>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+</TMD>

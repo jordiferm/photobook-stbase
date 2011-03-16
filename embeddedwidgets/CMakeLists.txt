@@ -23,6 +23,8 @@ SET(prj_SRCS
 	qtbasicdialgauge.cpp
 	qtsvgdialgauge.cpp
 	stnumqualitygauge.cpp
+	qtscrolldial.cpp
+	scrolldialpopup.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -33,6 +35,8 @@ SET(prj_MOC_HDRS
 	qtbasicdialgauge.h
 	qtsvgdialgauge.h
 	stnumqualitygauge.h
+	qtscrolldial.h
+	scrolldialpopup.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})
@@ -44,6 +48,7 @@ QT4_WRAP_CPP(prj_MOC_SRCS ${prj_MOC_HDRS})
 SET(prj_RCCS
 	./skins/beryl_svgtoggleswitch.qrc
 	./skins/beryl_scrollwheel.qrc
+	./skins/beryl_scrolldial.qrc
 	./skins/amperemeter_svgdialgauge.qrc
 	./skins/tachometer_svgdialgauge.qrc
 	./skins/thermometer_svgdialgauge.qrc

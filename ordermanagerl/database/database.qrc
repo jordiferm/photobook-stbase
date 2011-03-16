@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>jobs.mtd</file>
+        <file>orderlines.mtd</file>
+        <file>orders.mtd</file>
+        <file>printers.mtd</file>
+        <file>printersettings.mtd</file>
+        <file>printworkflows.mtd</file>
+        <file>smessages.mtd</file>
+    </qresource>
+</RCC>

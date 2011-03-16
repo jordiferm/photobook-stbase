@@ -105,3 +105,13 @@ STCollectionPublisherInfo STCollectionPublisherModel::publisherInfo(const QModel
 	}
 	return Res; 
 }
+
+STCollectionPublisherInfo STCollectionPublisherModel::defaultPublisherInfo()
+{
+	STCollectionPublisherInfo  PubInfo;
+	STDom::STCollectionPublisherModel Model;
+	Model.loadPublishers();
+	if(Model.rowCount() > 0)
+		PubInfo= Model.publisherInfo(Model.index(0,0));
+	return PubInfo;
+}

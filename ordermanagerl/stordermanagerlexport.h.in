@@ -1,0 +1,15 @@
+#ifndef _STORDERMANAGERLEXPORT_H
+#define _STORDERMANAGERLEXPORT_H
+
+#if defined(WIN32)
+	#if defined(st_ordermanagerl_EXPORTS)
+		#define ST_ORDERMANAGERL_EXPORT __declspec(dllexport)
+	#else
+			#define ST_ORDERMANAGERL_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_ORDERMANAGERL_EXPORT
+#endif
+
+#endif // !_STORDERMANAGERLEXPORT_H
+

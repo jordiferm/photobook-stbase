@@ -207,7 +207,7 @@ STPhotoLayoutTemplate STCandidateCalculator::getCandidate(bool _IsFirstPage, int
 		int Avg = AvaliablePhotos / _PagesToFill;
 		qDebug() << "AvaliablePhotos" << AvaliablePhotos << " _PagesToFill:" << _PagesToFill << " Avg:" << Avg << "_AvgMargin" << _AvgMargin;
 		lBoundIt = qLowerBound(Templates.begin(), Templates.end(), Avg - _AvgMargin);
-		STPhotoBookTemplate::TTemplateList::const_iterator UBoundIt = qUpperBound(Templates.begin(), Templates.end(), Avg + _AvgMargin);
+		STPhotoBookTemplate::TTemplateList::const_iterator UBoundIt = qUpperBound(Templates.begin(), Templates.end(), Avg + _AvgMargin + 1);
 
 		for (it = lBoundIt; it != UBoundIt; ++it)
 		{

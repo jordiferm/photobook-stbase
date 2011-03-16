@@ -90,7 +90,7 @@ void STPhotoBook::setHasChanges(bool _Value)
 }
 
 
-STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true), IgnoreExifRotation(false), AutoFillBackgrounds(false)
+STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true), IgnoreExifRotation(false), AutoFillBackgrounds(false), PagesToFill(0)
 {
 }
 
@@ -400,12 +400,16 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 	if (_Progress)
 		_Progress->setRange(0, CCalculator.totalPhotos());
 	int NPages = 0;
-	while (CCalculator.photosAvailable() && CCalculator.templatesAvailable() > 0 && NPages < Template.maxPages() &&
+	int PagToFill = qMin(PagesToFill, Template.maxPages());
+	if (PagToFill == 0)
+		PagToFill = Template.minPages();
+
+	while (CCalculator.photosAvailable() && CCalculator.templatesAvailable() > 0 && NPages < PagToFill &&
 		   ((Template.preferMinPages() && NPages < Template.minPages()) || !Template.preferMinPages()))
 	{
 		//Agafem un template qualsevol
-		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages,
-																	  CCalculator.calcMargin(ITEM_AVERAGE_MARGIN),
+		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, PagToFill - NPages,
+																	  CCalculator.calcMargin(ITEM_AVERAGE_MARGIN, PagToFill - NPages),
 																	  Template.hasFirstPages());
 		STTemplateScene* NewPage = createPage(CurrTemplate);
 		Pages.push_back(NewPage);

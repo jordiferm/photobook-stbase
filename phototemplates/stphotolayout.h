@@ -71,6 +71,7 @@ public:
 		bool ShowPhotoId;
 		bool ShowFileName;
 		bool IgnoreModifyAll;
+		bool IsTitle;
 		qreal RotationAngle; 
 		Qt::Alignment TextAlignment;
 		int Month, Year; 
@@ -85,7 +86,7 @@ public:
 		Frame(const QRectF& _Rect, double _RotationAngle = 0);
 		void setFrameType(EnFrameType _Type) { FrameType = _Type;}
 		EnFrameType frameType() const { return FrameType; }
-		bool isTextFrame() const { return FrameType == TypeText; }
+		bool isTextFrame() const { return FrameType == TypeText || FrameType == TypeRitchText; }
 		void setMonth(int _Value) { Month = _Value; }
 		int month() const { return Month; }
 		void setYear(int _Value) { Year = _Value; }
@@ -113,6 +114,8 @@ public:
 		void setClipartFileName(const QString& _Value) { ClipartFileName = _Value; }
 		//! \return Clipart file name relative to templates path.
 		QString clipartFileName() const { return ClipartFileName; }
+		void setIsTitle(bool _Value) { IsTitle = _Value; }
+		bool isTitle() const { return IsTitle; }
 
 		// ---- Masks ----
 		void setMaskFileName(const QString& _Value) { MaskFileName = _Value; }
@@ -205,6 +208,11 @@ public:
 	void load(QDomNode& _Node);
 	//! Sobrecàrrega de l'anterior, però indicant les mides.
 	void load(QDomNode& _Node, QSizeF& _Size, int _Dpi);
+	int biggestFrameIndex();
+	void addSubTittleTextFrame(int _FrameIndex);
+	void setText(int _FrameIndex, const QString& _Text);
+	void splitXFrame(int _FrameIndex);
+	void splitYFrame(int _FrameIndex);
 	//! Afegeix un frame a la llista de frames.
 	void addFrame(const Frame& _Frame);
 	//! Retorna la resolució en DPis.
@@ -299,6 +307,9 @@ public:
 	static QString thumbnailImage(const QString& _ImgFile);
 	QImage thumbnailImage();
 	QImage thumbnailImage() const;
+	bool hasSameFrames(const STPhotoLayoutTemplate& _Other) const;
+	bool hasTextFrames() const;
+	int titleFrameIndex() const;
 
 	Qt::AspectRatioMode aspectRatioMode() const { return AspectRatioMode; }
 	void setAspectRatioMode(Qt::AspectRatioMode _Value) { AspectRatioMode = _Value; }
@@ -439,6 +450,7 @@ private:
 	int MaxPages;
 	int MinPages;
 	int ModPages;
+	int NumOptimalImagesPerPage;
 	double PrintPageWidth;
 	QString CurrLocale; 
 	TMarginRectList PageMarginRects; 
@@ -449,12 +461,15 @@ private:
 	bool IsAtomic;
 	bool PreferMinPages;
 	bool PrintFirstPageAtLast;
+	bool AutoGenerateTemplates;
 	QString InfoUrl;
 
 public:
 	STPhotoBookTemplate(const QString& _Locale = "");
 	TTemplateList& templates();
 	TTemplateList templates() const;
+	void removeTextTemplates();
+	void setTitleText(const QString& _Text);
 	void setColors(const TColorList& _Colors);
 	TColorList colors() const;
 	void setDescription(const QString& _Value);
@@ -477,6 +492,11 @@ public:
 	void setMinPages(int _Value ) { MinPages = _Value; }
 	int minPages() const { return MinPages; }
 	void setModPages(int _Value) { ModPages = _Value; }
+	void setAutoGenerateTemplates(bool _Value) { AutoGenerateTemplates = _Value; }
+	bool autoGenerateTemplates() const { return AutoGenerateTemplates; }
+	void setNumOptimalImagesPerPage(int _Value) { NumOptimalImagesPerPage = _Value; }
+	int numOptimalImagesPerPage() const { return NumOptimalImagesPerPage; }
+
 	void setPreferMinPages(bool _Value) { PreferMinPages = _Value; }
 	bool preferMinPages() const { return PreferMinPages; }
 	//! The number of pages mod modPages() must be 0.

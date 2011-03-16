@@ -1,0 +1,15 @@
+#ifndef _STPRNLIBEXPORT_H
+#define _STPRNLIBEXPORT_H
+
+#if defined(WIN32) 
+	#if defined(st_prnlib_EXPORTS)
+		#define ST_PRNLIB_EXPORT __declspec(dllexport)
+	#else
+			#define ST_PRNLIB_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_PRNLIB_EXPORT
+#endif
+
+#endif // !_STPRNLIBEXPORT_H
+

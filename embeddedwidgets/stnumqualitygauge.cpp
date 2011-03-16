@@ -42,7 +42,7 @@ void STNumQualityGauge::calcGaugeValue()
 
 void STNumQualityGauge::updateInfoLabel()
 {
-	InfoLabel->setText(tr("<small>Num of Images: %1 </small>").arg(CurrentValue));
+	InfoLabel->setText(tr("<small>N.Imag.:%1,Optimal(%2-%3)</small>").arg(CurrentValue).arg(RangeFrom).arg(RangeTo));
 }
 
 STNumQualityGauge::STNumQualityGauge(QWidget *parent) :

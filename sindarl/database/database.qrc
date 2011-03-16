@@ -3,5 +3,6 @@
         <file>productprices.mtd</file>
         <file>products.mtd</file>
         <file>templates.mtd</file>
+        <file>mpitems.mtd</file>
     </qresource>
 </RCC>

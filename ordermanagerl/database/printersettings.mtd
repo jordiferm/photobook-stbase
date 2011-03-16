@@ -1,0 +1,30 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.2 $">
+    <name>printersettings</name>
+    <alias>QT_TRANSLATE_NOOP("MetaData","Printer Settings")</alias>
+    <field>
+        <name>printers_idprinters</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Printer")</alias>
+        <pk>true</pk>
+        <type>uint</type>
+        <relation>
+            <table>printers</table>
+            <field>idprinters</field>
+            <display>idprinters</display>
+        </relation>
+    </field>
+    <field>
+        <name>keyname</name>
+        <pk>true</pk>
+        <type>string</type>
+        <length>100</length>
+    </field>
+    <field>
+        <name>keyvalue</name>
+        <type>string</type>
+        <length>255</length>
+    </field>
+	 <sqlbeforeupdate exclusive="true" fromrevision="=1.0">alter table printersettings alter column keyvalue type varchar(255);</sqlbeforeupdate>
+	 <sqlbeforeupdate exclusive="true" fromrevision="=1.1">alter table printersettings alter column keyvalue type varchar(255);</sqlbeforeupdate>
+
+</TMD>

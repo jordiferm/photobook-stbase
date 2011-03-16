@@ -1,0 +1,41 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.0 $">
+    <name>printworkflows</name>
+    <alias>QT_TRANSLATE_NOOP("MetaData","Print Workflows")</alias>
+    <field>
+        <name>idworkflows</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Identifier")</alias>
+        <pk>true</pk>
+        <type>uint</type>
+        <serial>true</serial>
+    </field>
+    <field>
+        <name>products_ref</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Related product")</alias>
+        <type>string</type>
+        <length>15</length>
+        <required>false</required>
+        <relation>
+            <table>products</table>
+            <field>ref</field>
+            <display>ref</display>
+        </relation>
+    </field>
+    <field>
+        <name>senderid</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Sender Id")</alias>
+        <type>string</type>
+        <length>30</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>printers_idprinters</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Printer")</alias>
+        <type>uint</type>
+        <relation>
+            <table>printers</table>
+            <field>idprinters</field>
+            <display>description</display>
+        </relation>
+    </field>
+</TMD>

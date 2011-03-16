@@ -33,6 +33,7 @@
 #include "stftpstatuswidget.h"
 #include "stprogressindicator.h"
 #include "sterrorstack.h"
+#include "stphotolayouttemplategenerator.h"
 
 #include "stftpordertransfer.h"
 #include "stxmlpublishersettings.h"
@@ -44,7 +45,7 @@
 
 
 STPhotoLayoutTemplate::Frame::Frame(const QRectF& _Rect, double _RotationAngle) : QRectF(_Rect), RotationAngle(_RotationAngle), BorderSize(0), 
-		ShowPhotoId(false), ShowFileName(false), IgnoreModifyAll(false), TextAlignment(Qt::AlignCenter), FrameType(TypePhoto), ZValue(0)
+		ShowPhotoId(false), ShowFileName(false), IgnoreModifyAll(false), TextAlignment(Qt::AlignCenter), FrameType(TypePhoto), ZValue(0), IsTitle(false)
 {
 	QDate CDate = QDate::currentDate(); 
 	if (CDate.month() > 4)
@@ -249,6 +250,7 @@ void STPhotoLayoutTemplate::addFrame(const Frame& _ParentFrame, const QDomElemen
 			CurFrame.setTextAlignment(Qt::AlignLeft);
 		if (_Frame.attribute("textalignment").toLower() == "right")
 			CurFrame.setTextAlignment(Qt::AlignRight);
+		CurFrame.setIsTitle(_Frame.attribute("photobooktitle", "false").toLower() == "true");
 	}
 	else
 	if (_Frame.tagName() == "ritchtextframe")
@@ -258,6 +260,7 @@ void STPhotoLayoutTemplate::addFrame(const Frame& _ParentFrame, const QDomElemen
 		Font.setBold(_Frame.attribute("fontbold", "false").toLower() == "true");
 		CurFrame.setFont(Font);
 		CurFrame.setText(_Frame.attribute("text", QObject::tr("Click to change text")));
+		CurFrame.setIsTitle(_Frame.attribute("photobooktitle", "false").toLower() == "true");
 	}
 	else 
 	if (_Frame.tagName() == "clipartframe")
@@ -358,6 +361,51 @@ QImage STPhotoLayoutTemplate::thumbnailImage()
 	return ThumbnailImage;
 }
 
+bool STPhotoLayoutTemplate::hasSameFrames(const STPhotoLayoutTemplate& _Other) const
+{
+	bool Res = true;
+
+	Res = _Other.FrameList.size() == FrameList.size();
+	int Cnt = 0;
+	while (Res && Cnt < FrameList.size())
+	{
+		Res = _Other.FrameList.contains(FrameList[Cnt]);
+		Cnt++;
+	}
+
+	return Res;
+}
+
+bool STPhotoLayoutTemplate::hasTextFrames() const
+{
+	bool Res = false;
+	int Cnt = 0;
+	while (!Res && Cnt < FrameList.size())
+	{
+		Res = FrameList[Cnt].isTextFrame();
+		Cnt++;
+	}
+	return Res;
+}
+
+// -1 if it has not title frames.
+int STPhotoLayoutTemplate::titleFrameIndex() const
+{
+	int Res = -1;
+	bool Found = false;
+	int Cnt = 0;
+	while (!Found && Cnt < FrameList.size())
+	{
+		Found = FrameList[Cnt].isTitle();
+		if (!Found)
+			Cnt++;
+	}
+	if (Found)
+		Res = Cnt;
+	return Res;
+}
+
+
 bool STPhotoLayoutTemplate::resourcesOnDisk() const
 {
 	bool Res = true;
@@ -422,7 +470,7 @@ void STPhotoLayoutTemplate::getNewKey()
 }
 
 STPhotoLayoutTemplate::STPhotoLayoutTemplate(const QString& _Locale ) : NumPhotoFrames(0), NumMonthFrames(0), IsFirstPage(false), ModifyAllFrames(false),
-	RenderFramesOnly(false), CurrLocale(_Locale), Dpi(0), Key(-1), Encrypted(true)
+	RenderFramesOnly(false), CurrLocale(_Locale), Dpi(0), Key(-1), Encrypted(true), AspectRatioMode(Qt::KeepAspectRatioByExpanding)
 {
 #ifndef ENCRYPTED_TEMPLATES
 	Encrypted = false;
@@ -729,6 +777,71 @@ void STPhotoLayoutTemplate::load(QDomNode& _Node, QSizeF& _Size, int _Dpi)
 		if (CurrFrameElement.tagName() == "thumbnailimage")
 			setLocaleImageFile(CurrLocale, CurrFrameElement, ThumbnailImageFile);
 	}
+}
+
+int STPhotoLayoutTemplate::biggestFrameIndex()
+{
+	int Index = -1;
+	double LastArea = 0;
+	for (int Vfor = 0; Vfor < FrameList.size(); Vfor++)
+	{
+		double CurrArea = FrameList[Vfor].size().width() * FrameList[Vfor].size().height();
+		if (CurrArea > LastArea)
+		{
+			LastArea = CurrArea;
+			Index = Vfor;
+		}
+	}
+	return Index;
+}
+
+void STPhotoLayoutTemplate::addSubTittleTextFrame(int _FrameIndex)
+{
+	double TextFrameHeight = 15;
+	double TextFrameMarginX = 15;
+	double TextFrameMarginY = 2;
+	Frame& CFrame = FrameList[_FrameIndex];
+	CFrame.setHeight(CFrame.height() - TextFrameHeight);
+
+	Frame NewFrame(QRectF(CFrame.x() + TextFrameMarginX, CFrame.y() + CFrame.height() + TextFrameMarginY, CFrame.width() - TextFrameMarginX * 2, TextFrameHeight - TextFrameMarginY * 2));
+	NewFrame.setFrameType(STPhotoLayoutTemplate::Frame::TypeText);
+	QString Text;
+	for (int Vfor = 0; Vfor < static_cast<int>(NewFrame.width() / 20); Vfor++)
+	{
+		Text = Text + QObject::tr("TEXT ");
+	}
+	NewFrame.setText(Text);
+	NewFrame.setFont(QFont("Arial",16));
+	addFrame(NewFrame);
+}
+
+void STPhotoLayoutTemplate::setText(int _FrameIndex, const QString& _Text)
+{
+	if (_FrameIndex > -1 && _FrameIndex < FrameList.size()) //Defensive
+	{
+		FrameList[_FrameIndex].setText(_Text);
+	}
+}
+
+
+void STPhotoLayoutTemplate::splitXFrame(int _FrameIndex)
+{
+	Frame& CFrame = FrameList[_FrameIndex];
+	CFrame.setWidth(CFrame.width() / 2);
+
+	Frame NewFrame = CFrame;
+	NewFrame.moveLeft(NewFrame.x() + CFrame.width());
+	addFrame(NewFrame);
+}
+
+void STPhotoLayoutTemplate::splitYFrame(int _FrameIndex)
+{
+	Frame& CFrame = FrameList[_FrameIndex];
+	CFrame.setHeight(CFrame.height() / 2);
+
+	Frame NewFrame = CFrame;
+	NewFrame.moveTop(NewFrame.y() + CFrame.height());
+	addFrame(NewFrame);
 }
 
 void STPhotoLayoutTemplate::addFrame(const Frame& _Frame)
@@ -1177,7 +1290,7 @@ STPhotoLayoutTemplate::TDateList STPhotoLayoutTemplate::holidays(int _Year) cons
 QString STPhotoBookTemplate::DefaultRef = "000000";
 
 STPhotoBookTemplate::STPhotoBookTemplate(const QString& _Locale) : CurrLocale(_Locale), PrintPageWidth(0), CutPagesOnPrint(true), PreprocessType(TypeNone),
-	IsAtomic(true), PreferMinPages(false), PrintFirstPageAtLast(false)
+	IsAtomic(true), PreferMinPages(false), PrintFirstPageAtLast(false), AutoGenerateTemplates(false), NumOptimalImagesPerPage(3)
 {
 	if (CurrLocale.isEmpty())
 		CurrLocale = SApplication::currentLocale();
@@ -1193,10 +1306,41 @@ STPhotoBookTemplate::TTemplateList STPhotoBookTemplate::templates() const
 	return Templates;
 }
 
+void STPhotoBookTemplate::removeTextTemplates()
+{
+	STPhotoBookTemplate::TTemplateList NoTextTemplateList;
+	STPhotoBookTemplate::TTemplateList::const_iterator it = Templates.begin();
+	while (it != Templates.end())
+	{
+		if (!it->hasTextFrames() || it->isFirstPage())
+			NoTextTemplateList.push_back(*it);
+		++it;
+	}
+	Templates = NoTextTemplateList;
+}
+
+void STPhotoBookTemplate::setTitleText(const QString& _Text)
+{
+	//Look for title Frame and change its text;
+	STPhotoBookTemplate::TTemplateList::iterator it = Templates.begin();
+	bool Found = false;
+	while (it != Templates.end() && !Found)
+	{
+		int TFIndex = it->titleFrameIndex();
+		if (TFIndex > -1)
+		{
+			it->setText(TFIndex, _Text);
+			qDebug("------------------ Setting title text frame !!!");
+		}
+		++it;
+	}
+}
+
 STPhotoBookTemplate::TColorList STPhotoBookTemplate::colors() const
 {
 	return Colors;
 }
+
 
 void STPhotoBookTemplate::setColors(const STPhotoBookTemplate::TColorList& _Colors)
 {
@@ -1316,6 +1460,9 @@ void STPhotoBookTemplate::loadAlbum(const QDomNode& _AlbumNode, const QString& _
 	setMaxPages(AlbumEl.attribute("maxpages", "10000").toInt()); 
 	setMinPages(AlbumEl.attribute("minpages", "0").toInt());
 	setModPages(AlbumEl.attribute("modpages", "0").toInt());
+	setAutoGenerateTemplates(AlbumEl.attribute("autogeneratetemplates", "false").toLower() == "true");
+	setNumOptimalImagesPerPage(AlbumEl.attribute("optimalimagesperpage", "3").toInt());
+
 	setPreferMinPages(AlbumEl.attribute("preferminpages", "false").toLower() == "true");
 	double PrintPageWidth = AlbumEl.attribute("printpagewidth", QString::number(Size.width())).toDouble();
 	if (PrintPageWidth > Size.width())
@@ -1392,6 +1539,14 @@ void STPhotoBookTemplate::loadAlbum(const QDomNode& _AlbumNode, const QString& _
 		//CurrTemplate.setSubTypeName(CurrSubType);
 		CurrTemplate.load(CurrTemplateNode, Size, Dpi);
 		templates().push_back(CurrTemplate);
+	}
+
+	if (AutoGenerateTemplates)
+	{
+		STPhotoLayoutTemplateGenerator TGenerator(size());
+		//MPhotoBookTemplate.templates().clear();
+		templates().append(TGenerator.generatePhotoBookTemplates());
+
 	}
 }
 

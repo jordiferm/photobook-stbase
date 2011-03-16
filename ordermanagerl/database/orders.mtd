@@ -1,0 +1,108 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.0 $">
+    <name>orders</name>
+    <alias>QT_TRANSLATE_NOOP("MetaData","Orders")</alias>
+    <field>
+        <name>idorders</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Identifier")</alias>
+        <pk>true</pk>
+        <type>uint</type>
+        <serial>true</serial>
+    </field>
+    <field>
+        <name>senderid</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Sender Id")</alias>
+        <type>string</type>
+        <length>30</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>globalorderid</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Global Order Id")</alias>
+        <type>string</type>
+        <length>60</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>creationdatetime</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Date of creation")</alias>
+        <type>datetime</type>    
+        <default></default>
+    </field>
+    <field>
+        <name>senderorderid</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Sender Order Identifier")</alias>
+        <default>0</default>
+        <type>uint</type>
+    </field>
+    <field>
+        <name>sendername</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Sender Name")</alias>
+        <type>string</type>
+        <length>50</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>senderphone</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Sender Phone")</alias>
+        <type>string</type>
+        <length>30</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>senderaddress</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Sender Address")</alias>
+        <type>string</type>
+        <length>70</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>senderemail</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Sender Email")</alias>
+        <type>string</type>
+        <length>50</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>sendercomment</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Comment")</alias>
+        <required>false</required>
+        <type>string</type>
+        <length>1024</length>
+    </field>
+    <field>
+        <name>customername</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Customer Name")</alias>
+        <type>string</type>
+        <length>50</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>customerphone</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Customer Phone")</alias>
+        <type>string</type>
+        <length>30</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>customeraddress</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Customer Address")</alias>
+        <type>string</type>
+        <length>70</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>customeremail</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Customer Email")</alias>
+        <type>string</type>
+        <length>50</length>
+        <required>false</required>
+    </field>
+    <field>
+        <name>status</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Status")</alias>
+        <required>true</required>
+        <type>uint</type>
+		  <default>1</default>
+    </field>
+</TMD>

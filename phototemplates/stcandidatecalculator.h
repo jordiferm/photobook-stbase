@@ -54,7 +54,7 @@ public:
 	bool photosAvailable() const { return InsertedPhotos < TotalPhotos; }
 	bool templatesAvailable() const { return Templates.count() > 0 ; }
 	int totalPhotos() const { return TotalPhotos; }
-	int calcMargin(int _ItemAverage) const { return qMin(_ItemAverage, (TotalPhotos - InsertedPhotos) / _ItemAverage); }
+	int calcMargin(int _ItemAverage, int _PagesToFill) const { return qMin(_ItemAverage, _PagesToFill -1); }
 	void setFillBackgrounds(bool _Value) { FillBackgrounds = _Value; }
 };
 

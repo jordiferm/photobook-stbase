@@ -102,6 +102,7 @@ private:
 	bool AutoAdjustFrames;
 	bool IgnoreExifRotation;
 	bool AutoFillBackgrounds;
+	int PagesToFill;
 
 	STTemplateScene* createPage();
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template, QList<STGraphicsPhotoItem*>& _PhotoItems);
@@ -134,6 +135,8 @@ public:
 	//!Updates the page(_Index) images.
 	void updatePage(int _Index);
 	void removePage(int _Index); 
+	void setPagesToFill(int _Value) { PagesToFill = _Value; }
+	int pagesToFill() const { return PagesToFill; }
 	void addMinimumPages();
 	void buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress);
 	void autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
