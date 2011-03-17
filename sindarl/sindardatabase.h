@@ -26,8 +26,9 @@
 #include "stphotolayout.h"
 #include "sterror.h"
 #include "publisherdatabase.h"
+#include "stsindarlexport.h"
 
-class DefaultSindarDatabase : public QSqlDatabase
+class ST_SINDARL_EXPORT DefaultSindarDatabase : public QSqlDatabase
 {
 public:
 	ST_DECLARE_ERRORCLASS();
