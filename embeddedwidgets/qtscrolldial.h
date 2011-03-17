@@ -13,12 +13,13 @@
 #include <QPointer>
 #include <QPicture>
 #include <QtCore/QString>
+#include "stembeddedwidgetsexport.h"
 
 class ScrollDialPopup;
 class QtBasicDialGauge;
 class QLabel;
 
-class QtScrollDial : public QAbstractSlider
+class ST_EMBEDDEDWIDGETS_EXPORT QtScrollDial : public QAbstractSlider
 {
     Q_OBJECT
     Q_PROPERTY(QString skin READ skin WRITE setSkin)

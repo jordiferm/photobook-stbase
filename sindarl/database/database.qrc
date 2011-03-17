@@ -4,5 +4,6 @@
         <file>products.mtd</file>
         <file>templates.mtd</file>
         <file>mpitems.mtd</file>
+	<file>shippingmethods.mtd</file>
     </qresource>
 </RCC>

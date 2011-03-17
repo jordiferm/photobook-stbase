@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/sindarldefaultdb">
+        <file>digitalandsublimation_generic.db</file>
+        <file>digital_generic.db</file>
+        <file>sublimation_generic.db</file>
+    </qresource>
+</RCC>

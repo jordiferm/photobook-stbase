@@ -14,6 +14,7 @@
 #include <QtCore/QString>
 
 #include <QtGui/QAbstractButton>
+#include "stembeddedwidgetsexport.h"
 
 class QtScrollDial;
 
@@ -22,7 +23,7 @@ class QtBasicDialGauge;
 class QLabel;
 
 
-class PopupCloseButton : public QAbstractButton
+class ST_EMBEDDEDWIDGETS_EXPORT PopupCloseButton : public QAbstractButton
 {
     Q_OBJECT
     Q_PROPERTY(QString skin READ skin WRITE setSkin)
@@ -42,7 +43,7 @@ private:
     QString m_skin;
 };
 
-class ScrollDialPopup : public QWidget
+class ST_EMBEDDEDWIDGETS_EXPORT ScrollDialPopup : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QString skin READ skin WRITE setSkin)

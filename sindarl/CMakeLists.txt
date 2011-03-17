@@ -14,6 +14,8 @@ INCLUDE_DIRECTORIES( ${st_database_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_database_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_dom_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_dom_BINARY_DIR})
+INCLUDE_DIRECTORIES( ${st_phototemplates_SOURCE_DIR})
+INCLUDE_DIRECTORIES( ${st_phototemplates_BINARY_DIR} )
 
 # --------------------------------------------------------------------------
 # Modules
@@ -41,6 +43,7 @@ SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "MARKETPLACEINFO_BASE
 #Resource files
 SET(prj_RCCS
 	./database/database.qrc
+	./database/defaultdatabases/sindarldefaultdatabases.qrc
 )
 
 QT4_ADD_RESOURCES(prj_RCC_SRCS ${prj_RCCS})
@@ -49,11 +52,13 @@ QT4_ADD_RESOURCES(prj_RCC_SRCS ${prj_RCCS})
 SET(prj_SRCS
 	kpprinterinfo.cpp
 	wproductmanager.cpp
+	sindardatabase.cpp
 )
 
 SET(prj_MOC_HDRS
 	kpprinterinfo.h
 	wproductmanager.h
+	sindardatabase.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})
@@ -75,5 +80,5 @@ INCLUDE_DIRECTORIES( ${st_sindarl_BINARY_DIR} )
 ADD_LIBRARY(st_sindarl SHARED ${prj_SRCS} ${prj_MOC_SRCS} ${prj_RCC_SRCS})
 
 SET_TARGET_PROPERTIES(st_sindarl PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
-TARGET_LINK_LIBRARIES(st_sindarl ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_digikam st_dom st_phototemplates st_dbmanag st_metadata st_database)
+TARGET_LINK_LIBRARIES(st_sindarl ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_digikam st_dom st_phototemplates st_dbmanag st_metadata st_database st_phototemplates)
 INSTALL(TARGETS st_sindarl DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})

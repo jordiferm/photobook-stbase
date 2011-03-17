@@ -30,7 +30,7 @@ SConfigWidget::SConfigWidget(QWidget* _Parent) : QWidget(_Parent)
 	contentsWidget->setViewMode(QListView::IconMode);
 	contentsWidget->setIconSize(QSize(96, 84));
 	contentsWidget->setMovement(QListView::Static);
-	contentsWidget->setMinimumWidth(150);
+	contentsWidget->setMinimumWidth(160);
 	//contentsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	//contentsWidget->setSpacing(52);
 	
@@ -77,7 +77,9 @@ void SConfigWidget::addWidget(QWidget* _Widget, const QIcon& _Icon, const QStrin
 	QListWidgetItem *configButton = new QListWidgetItem(contentsWidget);
 	configButton->setIcon(_Icon);
 	configButton->setText(_Label);
+	configButton->setFont(QFont("Arial", 10, QFont::Bold));
 	configButton->setTextAlignment(Qt::AlignHCenter);
+	configButton->setSizeHint(QSize(120, 100));
 	configButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 	if (pagesWidget->count() == 1)
 		contentsWidget->setCurrentRow(0);

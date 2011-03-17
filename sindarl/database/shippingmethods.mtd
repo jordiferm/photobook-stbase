@@ -1,0 +1,23 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.0 $">
+    <name>shippingmethods</name>
+    <alias>QT_TRANSLATE_NOOP("MetaData","Payment")</alias>
+    <field>
+        <name>idshippingmethods</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Identifier")</alias>
+        <pk>true</pk>
+        <type>uint</type>
+        <serial>true</serial>
+    </field>
+    <field>
+        <name>description</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Description")</alias>
+        <type>string</type>
+        <length>50</length>
+    </field>
+    <field>
+        <name>shippingamount</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Amount")</alias>
+        <type>double</type>
+    </field>
+</TMD>
