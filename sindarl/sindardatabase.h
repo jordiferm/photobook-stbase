@@ -47,9 +47,11 @@ public:
 	void exportPublisherDB(const QString& _FileName);
 };
 
+class QFileInfo;
 class ST_SINDARL_EXPORT SindarDatabase : public QSqlDatabase
 {
 public:
+	ST_DECLARE_ERRORCLASS();
 	typedef QList<DefaultSindarDatabase> TDefaultDatabaseList;
 
 private:
@@ -63,6 +65,8 @@ public:
 	int importTemplateRefs(STPhotoLayout::EnLayoutType _Type);
 	int importTemplateRefs();
 	static SindarDatabase::TDefaultDatabaseList getDefaultDatabases();
+	void importDefaultPublisherProducts(const QFileInfo& _PubliserDbFile);
+
 };
 
 #endif // SINDARDATABASE_H

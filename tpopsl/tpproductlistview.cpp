@@ -76,7 +76,6 @@ TPProductListView::TPProductListView(QWidget *parent, bool _EmbeddedWidgets)
 		connect(ButScrollDown, SIGNAL(clicked( bool )), this, SLOT(scrollDownClicked()));
 		TBLayout->addWidget(ButScrollDown);
 	}
-	
 }
 
 TPProductListView::~TPProductListView()

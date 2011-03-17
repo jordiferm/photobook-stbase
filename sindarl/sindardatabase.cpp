@@ -23,6 +23,7 @@
 #include "fsqlquery.h"
 #include "stcollectiontemplatemodel.h"
 #include "fsqldatabasemanager.h"
+#include "stcollectionpublishermodel.h"
 #include <QApplication>
 #include <QDebug>
 
@@ -232,4 +233,17 @@ SindarDatabase::TDefaultDatabaseList SindarDatabase::getDefaultDatabases()
 	Res.push_back(DefaultSindarDatabase(QObject::tr("Digital Generic"), ":/sindarldefaultdb/digital_generic.db", QObject::tr("Generic database for digital printers")));
 	Res.push_back(DefaultSindarDatabase(QObject::tr("Sublimation and Digital Generic"), ":/sindarldefaultdb/digitalandsublimation_generic.db", QObject::tr("Generic database for sublimation and digital printers")));
 	return Res;
+}
+
+void SindarDatabase::importDefaultPublisherProducts(const QFileInfo& _PubliserDbFile)
+{
+
+	//Check if we have publisher database
+	Assert(_PubliserDbFile.exists(), Error(QObject::tr("Publisher database file: %1 , does not exists!").arg(_PubliserDbFile.absoluteFilePath())));
+	STDom::PublisherDatabase SourceDataBase(_PubliserDbFile.absoluteFilePath());
+	Assert(SourceDataBase.open(), Error(QString(QObject::tr("Could not open file %1 for database export.")).arg(_PubliserDbFile.absoluteFilePath())));
+	STDom::PublisherDatabase DestDatabase(*this);
+	FSqlDatabaseManager Manager(SourceDataBase, ":/");
+	DestDatabase.importAll(Manager);
+	SourceDataBase.close();
 }
