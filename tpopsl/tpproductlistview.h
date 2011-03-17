@@ -44,12 +44,14 @@ class ST_TPOPSL_EXPORT TPProductListView : public QWidget
 public:
 	TPProductListView(QWidget *parent = 0, bool _EmbeddedWidgets = true);
 	~TPProductListView();
+	QSize sizeHint() const;
 	void setModel(QAbstractItemModel* _Model);
 	QListView* listView() { return MListView; }
 	QModelIndex currentIndex() const;
 	void setCurrentIndex(const QModelIndex& _Index);
 	STDom::DDocProduct currentProduct() const;
 	STDom::DDocProduct product(const QModelIndex& _Index) const;
+
 
 private slots: 
 	void scrollUpClicked();

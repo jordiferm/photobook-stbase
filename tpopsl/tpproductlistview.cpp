@@ -36,6 +36,7 @@ int TPProductListView::scrollToIndexValue(int _Value)
 TPProductListView::TPProductListView(QWidget *parent, bool _EmbeddedWidgets)
  : QWidget(parent), ScrWheel(0)
 {
+	setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 	QHBoxLayout* MLayout = new QHBoxLayout(this); 
 	MLayout->setMargin(1); 
 	MLayout->setSpacing(1);
@@ -78,9 +79,13 @@ TPProductListView::TPProductListView(QWidget *parent, bool _EmbeddedWidgets)
 	
 }
 
-
 TPProductListView::~TPProductListView()
 {
+}
+
+QSize TPProductListView::sizeHint() const
+{
+	return QSize(300, 80);
 }
 
 void TPProductListView::setModel(QAbstractItemModel* _Model)

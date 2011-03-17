@@ -2,6 +2,45 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ca_ES">
 <context>
+    <name>AdvancedEffectFilterManager</name>
+    <message>
+        <source>Apply advanced filters ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Median filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modulate filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Brightness</source>
+        <translation type="unfinished">Brillantor</translation>
+    </message>
+    <message>
+        <source>Saturation</source>
+        <translation type="unfinished">Saturació</translation>
+    </message>
+    <message>
+        <source>Hue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reduce Noise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumWizardEndPage</name>
     <message>
         <source>&lt;h1&gt;Ready to create your Photobook.&lt;/h1&gt;</source>
@@ -186,7 +225,7 @@
     </message>
     <message>
         <source>PhotoBook</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">FotoLlibre</translation>
     </message>
     <message>
         <source>Calendar</source>
@@ -260,11 +299,11 @@
     </message>
     <message>
         <source>Width</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Amplada</translation>
     </message>
     <message>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Altura</translation>
     </message>
     <message>
         <source>Margin</source>
@@ -2728,6 +2767,29 @@ ha fallat.</translation>
     </message>
 </context>
 <context>
+    <name>GammaEffectFilterManager</name>
+    <message>
+        <source>Apply Color correction ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gamma</source>
+        <translation type="unfinished">Gamma</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation type="unfinished">Vermell</translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation type="unfinished">Verd</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation type="unfinished">Blau</translation>
+    </message>
+</context>
+<context>
     <name>HistogramEditor</name>
     <message>
         <source>Split View</source>
@@ -2887,6 +2949,48 @@ ha fallat.</translation>
     <message>
         <source>&amp;No Outline Color</source>
         <translation>&amp;Sense color de linia exterior</translation>
+    </message>
+</context>
+<context>
+    <name>ImageEnhancementEffectManager</name>
+    <message>
+        <source>Apply Enhancements ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normalize</source>
+        <translation type="unfinished">Normalitzar</translation>
+    </message>
+    <message>
+        <source>Despeckle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enhance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Equalize</source>
+        <translation type="unfinished">Equalitzar</translation>
+    </message>
+    <message>
+        <source>Apply contrast ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contrast</source>
+        <translation type="unfinished">Contrast</translation>
+    </message>
+    <message>
+        <source>MidPoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageEnhancementEffectWidget</name>
+    <message>
+        <source>Apply image enhancement effects</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3340,6 +3444,38 @@ Num</source>
     <message>
         <source>Templates</source>
         <translation>Plantilles</translation>
+    </message>
+    <message>
+        <source>MarketPlaceItems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Url Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5076,7 +5212,39 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>PhotoIndex Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistent de foto índex</translation>
+    </message>
+    <message>
+        <source>TEXT </source>
+        <translation>TEXTE</translation>
+    </message>
+    <message>
+        <source>Could not open file %1 for database export.</source>
+        <translation>No puc obrir l&apos;arxiu %1 per a exportar a la base de dades.</translation>
+    </message>
+    <message>
+        <source>Sublimation Generic</source>
+        <translation>Sublimació Genèric</translation>
+    </message>
+    <message>
+        <source>Generic database for sublimation printers</source>
+        <translation>Base de dades genèrica per a les impressores de sublimació</translation>
+    </message>
+    <message>
+        <source>Digital Generic</source>
+        <translation>Digital Genèrica</translation>
+    </message>
+    <message>
+        <source>Generic database for digital printers</source>
+        <translation>Base de dades genèrica per a les impressores digitals</translation>
+    </message>
+    <message>
+        <source>Sublimation and Digital Generic</source>
+        <translation>Sublimació i Digital Genèrica</translation>
+    </message>
+    <message>
+        <source>Generic database for sublimation and digital printers</source>
+        <translation>Base de dades genèrica per a les impressores de sublimació i digital</translation>
     </message>
 </context>
 <context>
@@ -5704,8 +5872,8 @@ El node arrel no es un reportatge.</translation>
 <context>
     <name>STNumQualityGauge</name>
     <message>
-        <source>&lt;small&gt;Num of Images: %1 &lt;/small&gt;</source>
-        <translation>&lt;small&gt;Nombre d&apos;imatges: %1 &lt;/small&gt;</translation>
+        <source>&lt;small&gt;N.Imag.:%1,Optimal(%2-%3)&lt;/small&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5845,11 +6013,11 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Amplada</translation>
     </message>
     <message>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Altura</translation>
     </message>
     <message>
         <source>DPIS</source>
@@ -6319,6 +6487,36 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>Low quality image %1 x %2 (DPI: %3!)</source>
         <translation>Imatge de baixa qualitat %1 x %2 (DPI: %3!)</translation>
+    </message>
+</context>
+<context>
+    <name>SharpenEffectFilterManager</name>
+    <message>
+        <source>Apply sharpen?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharpen Radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharpen Sigma</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SharpenEffectWidget</name>
+    <message>
+        <source>Apply sharpen image effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Radius: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sigma: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

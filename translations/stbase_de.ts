@@ -2,6 +2,45 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="de_DE">
 <context>
+    <name>AdvancedEffectFilterManager</name>
+    <message>
+        <source>Apply advanced filters ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Median filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modulate filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saturation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reduce Noise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumWizardEndPage</name>
     <message>
         <source>&lt;h1&gt;Ready to create your Photobook.&lt;/h1&gt;</source>
@@ -2723,6 +2762,29 @@ failed.</source>
     </message>
 </context>
 <context>
+    <name>GammaEffectFilterManager</name>
+    <message>
+        <source>Apply Color correction ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gamma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HistogramEditor</name>
     <message>
         <source>Split View</source>
@@ -2881,6 +2943,48 @@ failed.</source>
     </message>
     <message>
         <source>&amp;No Outline Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageEnhancementEffectManager</name>
+    <message>
+        <source>Apply Enhancements ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normalize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Despeckle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enhance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Equalize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply contrast ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contrast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MidPoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageEnhancementEffectWidget</name>
+    <message>
+        <source>Apply image enhancement effects</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3333,6 +3437,38 @@ Num</source>
     </message>
     <message>
         <source>Templates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MarketPlaceItems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Url Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Amount</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5065,6 +5201,38 @@ The root node is not &apos;report&apos;.</source>
         <source>PhotoIndex Wizard</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>TEXT </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open file %1 for database export.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sublimation Generic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generic database for sublimation printers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digital Generic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generic database for digital printers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sublimation and Digital Generic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generic database for sublimation and digital printers</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -5691,7 +5859,7 @@ The root node is not &apos;report&apos;.</source>
 <context>
     <name>STNumQualityGauge</name>
     <message>
-        <source>&lt;small&gt;Num of Images: %1 &lt;/small&gt;</source>
+        <source>&lt;small&gt;N.Imag.:%1,Optimal(%2-%3)&lt;/small&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6305,6 +6473,36 @@ The root node is not &apos;report&apos;.</source>
     <name>SelectionInterface</name>
     <message>
         <source>Low quality image %1 x %2 (DPI: %3!)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SharpenEffectFilterManager</name>
+    <message>
+        <source>Apply sharpen?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharpen Radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharpen Sigma</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SharpenEffectWidget</name>
+    <message>
+        <source>Apply sharpen image effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Radius: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sigma: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
