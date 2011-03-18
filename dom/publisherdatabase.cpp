@@ -217,7 +217,7 @@ void PublisherDatabase::importAll(const FSqlDatabaseManager& _SourceDBManager)
 QAbstractItemModel* PublisherDatabase::newProductsModel(QObject* _Parent, PublisherDatabase::EnProductType _ProductType, const QString& _Filter) const
 {
 	QSqlQueryModel* Res = new QSqlQueryModel(_Parent);
-	QString Sql = "SELECT label, ref FROM products";
+	QString Sql = "SELECT label, ref, ordering FROM products";
 	QString Filter = _Filter; 
 
 
@@ -231,7 +231,7 @@ QAbstractItemModel* PublisherDatabase::newProductsModel(QObject* _Parent, Publis
 	if (!Filter.isEmpty())
 		Sql += " WHERE " + Filter;
 	
-	Sql += " ORDER BY ref";
+	Sql += " ORDER BY ordering";
 	//qDebug(Sql.toLatin1()); 
 	Res->setQuery(Sql, *this);
 	return Res; 
