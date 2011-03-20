@@ -30,8 +30,8 @@ STAlbumPageGraphicsView::STAlbumPageGraphicsView(STTemplateScene* _Scene, QWidge
 	NoScaleMatrix = matrix();
 	setBackgroundBrush(QBrush(QColor("#747470"))); 
 
-	viewport()->setAttribute(Qt::WA_AcceptTouchEvents);//For MultiTouch
-	setDragMode(ScrollHandDrag);//For MultiTouch
+	//viewport()->setAttribute(Qt::WA_AcceptTouchEvents);//For MultiTouch
+	//setDragMode(ScrollHandDrag);//For MultiTouch
 }
 
 STAlbumPageGraphicsView::~STAlbumPageGraphicsView()
