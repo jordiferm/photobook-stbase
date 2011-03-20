@@ -217,6 +217,7 @@ signals:
 	void newPageCreated();
 	void templateDropped(STTemplateScene* _Scene, const STPhotoLayoutTemplate& _Template);
 	void clipartDropped(const QString& _FileName, const QPointF _Point);
+	void sceneClicked();
 };
 
 #endif

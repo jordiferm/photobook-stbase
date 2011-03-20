@@ -40,6 +40,7 @@ void STGraphicsSimpleTextItem::init()
 	BGBrush = QBrush(Qt::NoBrush);
 	BorderPen.setStyle(Qt::NoPen);	
 	Opacity = 1; 
+	ManuallyEdited = false;
 }
 
 

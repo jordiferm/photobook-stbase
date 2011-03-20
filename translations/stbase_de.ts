@@ -5233,6 +5233,10 @@ The root node is not &apos;report&apos;.</source>
         <source>Generic database for sublimation and digital printers</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Publisher database file: %1 , does not exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>

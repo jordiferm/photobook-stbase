@@ -23,6 +23,7 @@
 #include <QTreeView> 
 #include <QDialogButtonBox> 
 #include <QPushButton> 
+#include <QDebug>
 
 #include "siconfactory.h" 
 
@@ -50,7 +51,7 @@ QIcon STFSIconProvider::icon ( const QFileInfo & info ) const
 //_____________________________________________________________________________
 
 
-STFSDirModel::STFSDirModel(QObject* _Parent) : QDirModel(_Parent) 
+STFSDirModel::STFSDirModel(QObject* _Parent) : QFileSystemModel(_Parent)
 {}
 
 QVariant STFSDirModel::data(const QModelIndex& _Index, int _Role) const
@@ -58,7 +59,7 @@ QVariant STFSDirModel::data(const QModelIndex& _Index, int _Role) const
 	if (_Role == Qt::DecorationRole)
 		return iconProvider()->icon(QFileInfo(filePath(_Index))).pixmap(QSize(64, 64));
 	else 
-		return QDirModel::data(_Index, _Role); 
+		return QFileSystemModel::data(_Index, _Role);
 }
 
 
@@ -78,7 +79,7 @@ STFolderSelector::STFolderSelector(QWidget* parent, Qt::WindowFlags f): QDialog(
 	IconProvider = new STFSIconProvider; 
 	DirModel->setIconProvider(IconProvider); 
 	DirModel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot ); 
-	TView->setModel(DirModel); 
+	TView->setModel(DirModel);
 	
 	MLayout->addWidget(TView); 
 
@@ -112,12 +113,12 @@ QString STFolderSelector::selectedDir() const
 
 void STFolderSelector::setDirectory(const QString& _Dir)
 {
-	qDebug(_Dir.toLatin1()); 
+	DirModel->setRootPath(_Dir);
 	TView->setRootIndex(DirModel->index(_Dir));
 	for (int Vfor = 1; Vfor < DirModel->columnCount(); Vfor++)
 		TView->hideColumn(Vfor); 
 
-	TView->expandToDepth(2); 
+	//TView->expandToDepth(2); //It doesn't works :(
 }
 
 QString STFolderSelector::getExistingDirectory(QWidget* _Parent, const QString& _Caption, const QString& _Dir)

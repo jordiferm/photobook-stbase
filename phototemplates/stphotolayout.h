@@ -460,6 +460,7 @@ private:
 	QString Ref; //Template Reference
 	bool IsAtomic;
 	bool PreferMinPages;
+	bool IsVariableCalendar;
 	bool PrintFirstPageAtLast;
 	bool AutoGenerateTemplates;
 	QString InfoUrl;
@@ -499,6 +500,8 @@ public:
 
 	void setPreferMinPages(bool _Value) { PreferMinPages = _Value; }
 	bool preferMinPages() const { return PreferMinPages; }
+	void setIsVariableCalendar(bool _Value) { IsVariableCalendar = _Value; }
+	bool isVariableCalendar() const { return  IsVariableCalendar; }
 	//! The number of pages mod modPages() must be 0.
 	int modPages() const { return ModPages; }
 	void setPrintPageWidth(double _Value) { PrintPageWidth = _Value; }

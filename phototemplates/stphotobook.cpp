@@ -54,6 +54,7 @@ STTemplateScene* STPhotoBook::createPage()
 	connect(Scene, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&))); 
 	connect(Scene, SIGNAL(templateDropped(STTemplateScene*,STPhotoLayoutTemplate)), this, SIGNAL(templateDropped(STTemplateScene*,STPhotoLayoutTemplate)));
 	connect(Scene, SIGNAL(clipartDropped(QString, QPointF)), this, SIGNAL(clipartDropped(QString, QPointF)));
+	connect(Scene, SIGNAL(clicked()), this, SIGNAL(sceneClicked()));
 
 	//FIXME: changed no és prou bon indicador.
 	connect(Scene, SIGNAL(changed( const QList< QRectF >& )), this, SLOT(someSceneChanged()));
@@ -353,6 +354,11 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 
 void STPhotoBook::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress)
 {
+	if (!Template.isVariableCalendar())
+	{
+		autoBuild(_PhotoModel, _Progress);
+		return;
+	}
 	clear();
 	STCandidateCalculator CCalculator(*this, _PhotoModel);
 	int NumMonths = STUtils::monthsTo(_FromDate, _ToDate) + 1;

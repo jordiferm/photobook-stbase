@@ -62,7 +62,7 @@ class ST_TPOPSL_EXPORT TPPhotoSelWidget : public QWidget
 	AddRemoveWidget* ARWidget;
 	int ImagesPerSheet; 
 	STDom::PrintJobModel* Model;
-	QDir InitDir; 
+	QDir RootDir;
 
 	QToolButton* newActionButton(const QString& _Icon);
 	QToolButton* newImageActionButton(const QString& _Icon);
@@ -76,6 +76,7 @@ public:
 	void retranslateUi();
 	void setModel(STDom::PrintJobModel* _Model);
 	void setProductsModel(QAbstractItemModel* _Model); 
+	void setRootDir(const QDir& _Dir) { RootDir = _Dir; }
 	void setShippingMethod(const QSqlRecord& _Value) { ShippingMethod = _Value; } 
 	void setDpis(int _Value); 
 	//! To bill calculation.

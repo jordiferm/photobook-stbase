@@ -53,6 +53,9 @@ private:
 	TFormatList AvailableFormats;
 	QDir BaseDir;
 
+	static QString BaseInfoUrl;
+	static const QString DefaultBaseInfoUrl;
+
 public:	
 	STCollectionTemplateInfo(); //Null template info
 	STCollectionTemplateInfo(QDir& _TemplateDir); 
@@ -67,6 +70,9 @@ public:
 	bool isEmpty() const;
 	QUrl remoteInfo() const { return RemoteInfo; }
 	STDom::DDocFormatList availableFormats() const;
+	static QString defaultBaseInfoUrl() { return DefaultBaseInfoUrl; }
+	static void setBaseInfoUrl(const QString& _Value) { BaseInfoUrl = _Value; }
+	static QString baseInfoUrl() { return BaseInfoUrl; }
 };
 
 /**

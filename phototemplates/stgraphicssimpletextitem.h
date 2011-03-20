@@ -41,8 +41,6 @@ Q_OBJECT
 
 public:	
 	enum { Type = UserType + 2 };
-
-
 	
 private:
 	STPhotoLayoutTemplate::Frame Frame;
@@ -50,6 +48,7 @@ private:
 	QPen BorderPen; 
 	qreal Opacity; 
 	void init();
+	bool ManuallyEdited;
 
 public:
 	STGraphicsSimpleTextItem(const STPhotoLayoutTemplate::Frame& _Frame, QGraphicsItem * parent = 0);
@@ -68,6 +67,8 @@ public:
 	QTextCharFormat textCharFormat() const;
 	void setTextCharFormat(const QTextCharFormat& _Format);
 	static QString tagName() { return "simpletextitem"; }
+	void setManuallyEdited(bool _Value) { ManuallyEdited = _Value; }
+	bool manuallyEdited() const { return ManuallyEdited; }
 
 protected:
 	void paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* _Widget = 0);	

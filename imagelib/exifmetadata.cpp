@@ -64,9 +64,9 @@ void ExifMetadata::load(const QString& _FileName)
 
 		Exiv2::ExifThumbC ExThumbNail(CExifData); 
 		Exiv2::DataBuf Buf = ExThumbNail.copy();
-		Assert(Buf.size_ > 0 && Buf.pData_ != 0, Error(": No thumbnail found.")); 
-		//ThumbNail = QImage::fromData( Buf.pData_, Buf.size_, ThumbnailPtr->format());
-		ThumbNail = QImage::fromData( Buf.pData_, Buf.size_, ExThumbNail.mimeType());
+		//Assert(Buf.size_ > 0 && Buf.pData_ != 0, Error(": No thumbnail found."));
+		if (Buf.size_ > 0 && Buf.pData_ != 0)
+			ThumbNail = QImage::fromData( Buf.pData_, Buf.size_, ExThumbNail.mimeType());
 #else 
 		Exiv2::DataBuf Buf = CExifData.copyThumbnail();
 		Assert(Buf.size_ > 0 && Buf.pData_ != 0, Error(": No thumbnail found.")); 

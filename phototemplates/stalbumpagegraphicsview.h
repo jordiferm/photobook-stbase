@@ -26,7 +26,7 @@
 #include "stphotolayout.h"
 
 /**
-	@author Jordi Fernàndez <shadow@softwarelliure.com>
+	@author Jordi Fernandez <shadow@softwarelliure.com>
 */
 class QShowEvent;
 class STTemplateScene;
@@ -36,6 +36,7 @@ Q_OBJECT
 	QMatrix NoScaleMatrix; 
 	STPhotoBookTemplate::TMarginRectList MarginRects; 
 	bool DrawTwoPagesEffect; 
+	qreal totalScaleFactor;
 	
 public:
 	STAlbumPageGraphicsView(STTemplateScene* _Scene, QWidget* _Parent = 0);
@@ -49,6 +50,7 @@ public:
 protected:
 	void showEvent(QShowEvent* _Event);
 	void drawForeground(QPainter* _Painter, const QRectF& _Rect);
+	bool viewportEvent(QEvent *event);
 };
 
 #endif

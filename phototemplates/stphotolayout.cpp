@@ -1444,6 +1444,12 @@ void STPhotoBookTemplate::clear()
 void STPhotoBookTemplate::loadAlbum(const QDomNode& _AlbumNode, const QString& _TemplateFilePath, const STPhotoLayoutTemplate::TDateList& _Holidays, const QStringList& _HolidayFuncs)
 {
 	clear();
+	//Default values
+	setFrameDirPath(_TemplateFilePath + "/../../../frames/");
+	setBGImageDirPath(_TemplateFilePath + "/../../../backgrounds/");
+	setClipartDirPath(_TemplateFilePath + "/../../../clipart/");
+	setMaskDirPath(_TemplateFilePath + "/../../../masks/");
+
 	QDomElement AlbumEl = _AlbumNode.toElement();
 
 	Assert(!AlbumEl.isNull(),
@@ -1464,6 +1470,7 @@ void STPhotoBookTemplate::loadAlbum(const QDomNode& _AlbumNode, const QString& _
 	setNumOptimalImagesPerPage(AlbumEl.attribute("optimalimagesperpage", "3").toInt());
 
 	setPreferMinPages(AlbumEl.attribute("preferminpages", "false").toLower() == "true");
+	setIsVariableCalendar(AlbumEl.attribute("variablecalendar", "true").toLower() == "true");
 	double PrintPageWidth = AlbumEl.attribute("printpagewidth", QString::number(Size.width())).toDouble();
 	if (PrintPageWidth > Size.width())
 		PrintPageWidth = Size.width();

@@ -83,6 +83,23 @@ public:
 };
 
 /**
+Sets mask for image frame.
+	@author Jordi Fernandez <shadow@starblitz-k.com>
+*/
+class STGraphicsPhotoItem;
+class ST_PHOTOTEMPLATES_EXPORT STSetFrameGIO : public STGraphicsItemOperation
+{
+	QString FrameImageFile;
+	QImage LastFrameImage;
+
+public:
+	STSetFrameGIO(STGraphicsPhotoItem* _Item, const QString& _FrameImageFile, QUndoCommand* _Parent = 0);
+	virtual void redo();
+	virtual void undo();
+	STGraphicsItemOperation* clone(QGraphicsItem* _NewItem);
+};
+
+/**
 Sets shadow for image frame.
 	@author Jordi Fernandez <shadow@starblitz-k.com>
 */

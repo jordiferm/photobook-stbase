@@ -5246,6 +5246,10 @@ El node arrel no es un reportatge.</translation>
         <source>Generic database for sublimation and digital printers</source>
         <translation>Base de dades genèrica per a les impressores de sublimació i digital</translation>
     </message>
+    <message>
+        <source>Publisher database file: %1 , does not exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -5541,7 +5545,7 @@ El node arrel no es un reportatge.</translation>
     <name>STDom::PrintJobModel</name>
     <message>
         <source>Low res</source>
-        <translation>Baixa res.</translation>
+        <translation>Baixa res</translation>
     </message>
 </context>
 <context>
@@ -5873,7 +5877,7 @@ El node arrel no es un reportatge.</translation>
     <name>STNumQualityGauge</name>
     <message>
         <source>&lt;small&gt;N.Imag.:%1,Optimal(%2-%3)&lt;/small&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;small&gt;N.Imag.:%1,Optim(%2-%3)&lt;/small&gt;</translation>
     </message>
 </context>
 <context>

@@ -120,6 +120,46 @@ STGraphicsItemOperation* STSetMaskGIO::clone(QGraphicsItem* _NewItem)
 
 // ____________________________________________________________________________
 //
+// Class STSetFrameGIO
+// ____________________________________________________________________________
+
+STSetFrameGIO::STSetFrameGIO(STGraphicsPhotoItem* _Item, const QString& _FrameImageFile, QUndoCommand* _Parent)
+	: STGraphicsItemOperation(_Item, QObject::tr("Set Mask"), _Parent), FrameImageFile(_FrameImageFile)
+{
+}
+
+void STSetFrameGIO::redo()
+{
+	if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Item))
+	{
+		LastFrameImage = CItem->frameImage();
+		CItem->setFrameImage(QImage(FrameImageFile));
+	}
+}
+
+void STSetFrameGIO::undo()
+{
+	if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Item))
+		CItem->setFrameImage(LastFrameImage);
+}
+
+
+STGraphicsItemOperation* STSetFrameGIO::clone(QGraphicsItem* _NewItem)
+{
+	STGraphicsItemOperation* Res = 0;
+	STGraphicsPhotoItem* CItem = 0;
+	//For all supported types.
+	CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(_NewItem);
+
+	if (CItem)
+		Res = new STSetFrameGIO(CItem, FrameImageFile);
+
+	return Res;
+}
+
+
+// ____________________________________________________________________________
+//
 // Class STSetItemShadowGIO
 // ____________________________________________________________________________
 

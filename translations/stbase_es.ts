@@ -5244,6 +5244,10 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <source>Generic database for sublimation and digital printers</source>
         <translation>Base de datos genérica para las impresoras de sublimación y digital</translation>
     </message>
+    <message>
+        <source>Publisher database file: %1 , does not exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -5539,7 +5543,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>STDom::PrintJobModel</name>
     <message>
         <source>Low res</source>
-        <translation>Baja resol.</translation>
+        <translation>Baja resol</translation>
     </message>
 </context>
 <context>
@@ -5871,7 +5875,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>STNumQualityGauge</name>
     <message>
         <source>&lt;small&gt;N.Imag.:%1,Optimal(%2-%3)&lt;/small&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;small&gt;N.Imag.:%1,Optimo(%2-%3)&lt;/small&gt;</translation>
     </message>
 </context>
 <context>

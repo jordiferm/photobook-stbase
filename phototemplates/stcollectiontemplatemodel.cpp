@@ -33,6 +33,9 @@
 // STCollectionTemplateModel
 //_____________________________________________________________________________
 	
+QString STCollectionTemplateInfo::BaseInfoUrl = TEMPLATEINFO_BASE_URL;
+const QString STCollectionTemplateInfo::DefaultBaseInfoUrl = TEMPLATEINFO_BASE_URL;
+
 STCollectionTemplateInfo::STCollectionTemplateInfo()
 {
 }
@@ -58,7 +61,7 @@ STCollectionTemplateInfo::STCollectionTemplateInfo(QDir& _TemplateDir)
 			QDomElement RootEl = Doc.documentElement();
 			Description = RootEl.attribute("description", QObject::tr("No Description"));
 			LocaleDescription.setDefaultValue(Description);
-			RemoteInfo = QUrl(QString(TEMPLATEINFO_BASE_URL) + "/" + RootEl.attribute("infourl"));
+			RemoteInfo = QUrl(BaseInfoUrl + "/" + RootEl.attribute("infourl"));
 
 			QDomNodeList DescriptionNodes = RootEl.elementsByTagName("description");
 			if (!DescriptionNodes.isEmpty())

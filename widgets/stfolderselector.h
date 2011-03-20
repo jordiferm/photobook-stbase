@@ -22,7 +22,7 @@
 
 #include <QDialog>
 #include <QFileIconProvider> 
-#include <QDirModel> 
+#include <QFileSystemModel>
 #include "stwidgetsexport.h"
 
 
@@ -34,7 +34,7 @@ public:
 	virtual QIcon icon ( const QFileInfo & info ) const;
 };
 
-class STFSDirModel : public QDirModel
+class STFSDirModel : public QFileSystemModel
 {
 public: 
 	STFSDirModel(QObject* _Parent = 0); 
@@ -51,7 +51,7 @@ class ST_WIDGETS_EXPORT STFolderSelector : public QDialog
 {
 	Q_OBJECT
 	QTreeView* TView; 
-	QDirModel* DirModel; 
+	STFSDirModel* DirModel;
 	STFSIconProvider* IconProvider;
 
 public:

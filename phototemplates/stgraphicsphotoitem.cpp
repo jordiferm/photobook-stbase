@@ -393,6 +393,8 @@ void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 				adjustRectToImage(ImageInfo.size());
 			ImageAssigned = true;
 		}
+		else
+			qDebug("Image Info is Null :( .....");
 	}
 	if (!ImageAssigned)
 		setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());

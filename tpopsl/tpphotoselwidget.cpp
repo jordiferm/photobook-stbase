@@ -182,18 +182,6 @@ void TPPhotoSelWidget::init()
 	{
 		if (Model->rowCount() > 0)
 		{
-			//Search for dir nearest to root dir.
-			STDom::DDoc* CDoc = Model->doc(Model->index(0, 0));
-			InitDir = CDoc->fileInfo().dir();
-#ifdef Q_OS_WIN32
-			while (InitDir.cdUp()){}
-#else 
- 			bool CouldCd = true;
- 			while (InitDir.absolutePath().count(QChar('/')) > 2 && CouldCd) 
- 			{
- 				CouldCd = InitDir.cdUp(); 
- 			}
-#endif 		
 			NoFilterBut->setVisible(false); 
 			calcBill();
 		}
@@ -332,7 +320,7 @@ void TPPhotoSelWidget::getFolderFilter()
 {
 	if (Model)
 	{
-		QString FFilter = STFolderSelector::getExistingDirectory(this, tr("Please select directory to filter"), InitDir.absolutePath());
+		QString FFilter = STFolderSelector::getExistingDirectory(this, tr("Please select directory to filter"), RootDir.absolutePath());
 		if (!FFilter.isEmpty())
 		{
 			Model->setFolderFilter(QDir::cleanPath(FFilter));

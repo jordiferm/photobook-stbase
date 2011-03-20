@@ -231,7 +231,7 @@ QAbstractItemModel* PublisherDatabase::newProductsModel(QObject* _Parent, Publis
 	if (!Filter.isEmpty())
 		Sql += " WHERE " + Filter;
 	
-	Sql += " ORDER BY ordering";
+	Sql += " ORDER BY ordering, label";
 	//qDebug(Sql.toLatin1()); 
 	Res->setQuery(Sql, *this);
 	return Res; 
