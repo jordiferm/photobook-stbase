@@ -29,6 +29,8 @@ STAlbumPageGraphicsView::STAlbumPageGraphicsView(STTemplateScene* _Scene, QWidge
 {
 	NoScaleMatrix = matrix();
 	setBackgroundBrush(QBrush(QColor("#747470"))); 
+	viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+	setDragMode(ScrollHandDrag);
 }
 
 STAlbumPageGraphicsView::~STAlbumPageGraphicsView()
