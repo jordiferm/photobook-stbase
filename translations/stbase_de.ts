@@ -3471,6 +3471,178 @@ Num</source>
         <source>Amount</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Jobs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Related product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Priority Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>N. Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Atomic Print?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Orders Id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quantity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Orders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sender Id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global Order Id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date of creation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sender Order Identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sender Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sender Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sender Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sender Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customer Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customer Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customer Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customer Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printer Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Host Url.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Initial Dir.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TransferMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shared Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printer Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print Workflows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date and Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Informed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OColorToolsWidget</name>

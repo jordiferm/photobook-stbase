@@ -13,6 +13,13 @@ do
 			then
 				STDIRS=$STDIRS" ../$stdir"
 			fi
+			if [ $stdir != "doc" ]
+			then
+				if [ -d ../$stdir/database ]
+				then
+					STDIRS=$STDIRS" ../$stdir/database/*.mtd"
+				fi
+			fi
 		fi
 	fi
 done
