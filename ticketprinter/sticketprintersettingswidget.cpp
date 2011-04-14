@@ -75,7 +75,12 @@ void STicketPrinterSettingsSystemDriverWidget::getPrinterName()
 
 void STicketPrinterSettingsSystemDriverWidget::openReportEditor()
 {
-	QString Program = QApplication::applicationDirPath() + "/openrpt";
+#ifndef Q_OS_WIN32
+	QString Program = QApplication::applicationDirPath() + "/openrptbin";
+#else
+	QString Program = QApplication::applicationDirPath() + "/openrptbin.exe";
+#endif
+
 	QStringList Arguments;
 	//Arguments << Model->data(ReportFileIndex).toString();
 	Arguments << LERFile->text(); 

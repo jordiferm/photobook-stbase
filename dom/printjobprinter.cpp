@@ -205,6 +205,13 @@ PrintJobPrinter::PrintJobPrinter(int _Dpis) : Dpis(_Dpis)
 QString PrintJobPrinter::productSpool(const DDocProduct& _Product) const
 {
 	QString Res = DefaultSpool;
+
+	if(!_Product.format().key().isEmpty())
+	{
+		if (FormatSpoolMap.contains(_Product.format().key()))
+			Res = FormatSpoolMap[_Product.format().key()];
+	}
+
 	if (ProductSpoolMap.contains(_Product))
 		Res = ProductSpoolMap[_Product];
 	return Res;
@@ -215,9 +222,24 @@ void PrintJobPrinter::setProductSpool(const DDocProduct& _Product, const QString
 	ProductSpoolMap.insert(_Product, _Printer);
 }
 
+void PrintJobPrinter::setFormatSpool(const QString& _FormatKey, const QString& _Printer)
+{
+	FormatSpoolMap.insert(_FormatKey, _Printer);
+}
+
+
 void PrintJobPrinter::configure(SPrinterSettings& _Settings)
 {
 	clearConfig();
+
+	if (_Settings.printerByFormatEnabled())
+	{
+		for (int Vfor = 0; Vfor < _Settings.numFormatPrinters(); Vfor++)
+		{
+			setFormatSpool(_Settings.formatId(Vfor), _Settings.formatPrinterName(Vfor));
+		}
+	}
+
 	if (_Settings.printerByProductEnabled())
 	{
 		for (int Vfor = 0; Vfor < _Settings.numProdPrinters(); Vfor++)
@@ -242,6 +264,7 @@ void PrintJobPrinter::clearConfig()
 {
 	ProductToStoreList.clear();
 	ProductSpoolMap.clear();
+	FormatSpoolMap.clear();
 }
 
 
@@ -276,7 +299,7 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 		else
 		{
 			QPrinter Printer;
-			Printer.setPrinterName(productSpool(it->ref()));
+			Printer.setPrinterName(productSpool(*it));
 			bool PrintAccess = true;
 			STDom::DDocPrintList ProdPrints = _Job.prints(*it);
 

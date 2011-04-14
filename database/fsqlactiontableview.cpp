@@ -97,6 +97,7 @@ void FSqlActionTableView::insertRow(int _Row)
 	{
 		if (RecDialog)
 		{
+			Inserting = true;
 			//FActionTableView::insertRow();
 			QSqlTableModel::EditStrategy LStrategy = Model->editStrategy();
 			Model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -105,6 +106,7 @@ void FSqlActionTableView::insertRow(int _Row)
 			if (execDialog())
 				emit afterInsertRow(_Row);
 			Model->setEditStrategy(LStrategy);
+			Inserting = false;
 		}
 		else
 		{	

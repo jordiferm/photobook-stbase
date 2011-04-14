@@ -31,34 +31,66 @@ FRecordWidget for commands.
 @author Shadow
 */
 class FRecDialog;
+class QToolButton;
 class ST_SINDARL_EXPORT WProductRecord : public FRecordWidget
 {
 Q_OBJECT
+	QToolButton* TBFormatManager;
 	void createWidget();
 
 public:
 	WProductRecord(FRecDialog* _Parent);
+	virtual void setInserting(bool _Value);
+
+signals:
+	void openFormatManager();
 };
+
+/**
+Format management
+
+	@author Jordi Fernandez <jordif@starblitz-k.com>
+*/
+class ST_SINDARL_EXPORT WFormatManager : public FGenManager
+{
+	Q_OBJECT
+	bool LocalAdded;
+
+public:
+	WFormatManager(QWidget* _Parent = 0, const QSqlDatabase& _Database = QSqlDatabase::database());
+	bool localAdded() const { return LocalAdded; }
+	//! Means that products added from this manager are not published.
+	void setLocalAdded(bool _Value) { LocalAdded = _Value; }
+
+protected slots:
+	void primeInsert(int /*_Row*/, QSqlRecord& _Record);
+	void beforeRemoveRow(int _Index, bool& _PerformOp);
+};
+
 
 /**
 Product management
 
 	@author Jordi Fernandez <shadow@softwarelliure.com>
 */
+class FTSDialog;
 class ST_SINDARL_EXPORT WProductManager : public FGenManager
 {
 	Q_OBJECT
 	bool LocalAdded;
+	WFormatManager* FormatManager;
+	FTSDialog* FormatsDialog;
+	WProductRecord* MRecWidget;
 
 public:
 	WProductManager(QWidget* _Parent = 0, const QSqlDatabase& _Database = QSqlDatabase::database());
 	bool localAdded() const { return LocalAdded; }
-	//! Means that products added from this manager are not published.
-	void setLocalAdded(bool _Value) { LocalAdded = _Value; }
+	void setLocalAdded(bool _Value);
 
 protected slots:
 	void beforeRemoveRow(int , bool& );
 	void primeInsert(int /*_Row*/, QSqlRecord& _Record);
+	void slotOpenFormatManager();
 };
 
 #endif

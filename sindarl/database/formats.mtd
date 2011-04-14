@@ -1,0 +1,40 @@
+<!DOCTYPE TMD>
+<TMD revision="$Revision: 1.1 $">
+	<name>formats</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Formats")</alias>
+    <field>
+		<name>idformats</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Identifier")</alias>
+        <required>true</required>
+        <pk>true</pk>
+		<type>uint</type>
+		<serial>true</serial>
+    </field>
+    <field>
+        <name>description</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Description")</alias>
+        <required>false</required>
+        <type>string</type>
+		<length>30</length>
+    </field>
+	<field>
+		<name>width</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Width")</alias>
+		<null>false</null>
+		<type>uint</type>
+		<default>0</default>
+	</field>
+	<field>
+		<name>height</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Height")</alias>
+		<null>false</null>
+		<type>uint</type>
+		<default>0</default>
+	</field>
+	<field>
+		<name>localadded</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Local added")</alias>
+		<default>false</default>
+		<type>bool</type>
+	</field>
+</TMD>

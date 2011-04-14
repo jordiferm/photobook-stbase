@@ -73,6 +73,7 @@ protected:
 	QMap<int, QWidget*>	MappedSections; //mappedWidgetAt fails !!!!(Solution scheduled for qt 4.2.2)
 	QSqlRecord PrimeInsertRecord;
 	QList<QSqlTableModel*> LookupModels;
+	bool Inserting;
 		
 public:
 	FRecordWidget(QSqlTableModel* _Model, QWidget* _Parent = 0);
@@ -95,6 +96,8 @@ public:
 	QSqlRecord currentRecord() const;
 	int currentRow() const;
 	void updateLookups();
+	virtual void setInserting(bool _Value) { Inserting = _Value; }
+	bool inserting() const { return Inserting; }
 
 
 protected: 

@@ -168,6 +168,19 @@ PublisherDatabase::PublisherDatabase(const QString& _DatabaseName): QSqlDatabase
 PublisherDatabase::PublisherDatabase(const QSqlDatabase& _Other) : QSqlDatabase(_Other)
 {}
 
+
+void PublisherDatabase::importLocalFormats(const QSqlDatabase& _SourceDB)
+{
+	FSqlQuery SourceDBQuery(_SourceDB);
+	FSqlQuery DestQuery(*this);
+	SourceDBQuery.exec("SELECT * FROM formats WHERE localadded!=0");
+	while(SourceDBQuery.next())
+	{
+		DestQuery.prepareInsert(SourceDBQuery.record(), "formats");
+		DestQuery.exec();
+	}
+}
+
 void PublisherDatabase::importLocalProducts(const QSqlDatabase& _SourceDB)
 {
 	FSqlQuery SourceDBQuery(_SourceDB);
@@ -207,7 +220,8 @@ void PublisherDatabase::importTable(const FSqlDatabaseManager& _SourceDBManager,
 
 void PublisherDatabase::importAll(const FSqlDatabaseManager& _SourceDBManager)
 {
-	importTable(_SourceDBManager, "products"); 
+	importTable(_SourceDBManager, "formats");
+	importTable(_SourceDBManager, "products");
 	importTable(_SourceDBManager, "productprices"); 
 	importTable(_SourceDBManager, "shippingmethods"); 
 	importTable(_SourceDBManager, "templates");
@@ -237,6 +251,20 @@ QAbstractItemModel* PublisherDatabase::newProductsModel(QObject* _Parent, Publis
 	return Res; 
 }
 
+QAbstractItemModel* PublisherDatabase::newFormatsModel(QObject* _Parent, const QString& _Filter) const
+{
+	QSqlQueryModel* Res = new QSqlQueryModel(_Parent);
+	QString Sql = "SELECT description, idformats FROM formats";
+	QString Filter = _Filter;
+
+	if (!Filter.isEmpty())
+		Sql += " WHERE " + Filter;
+
+	Sql += " ORDER BY description";
+	Res->setQuery(Sql, *this);
+	return Res;
+}
+
 QSqlTableModel* PublisherDatabase::newShippingMethodModel(QObject* _Parent) const
 {
 	QSqlTableModel* Model = new QSqlTableModel(_Parent, *this); 
@@ -257,12 +285,14 @@ DDocProduct PublisherDatabase::getProduct(const QString& _ProductRef) const
 {
 	DDocProduct Res;
 	FSqlQuery Query(*this);
-	Query.prepare("SELECT width, height, label, ordering FROM products WHERE ref=:ref");
+	Query.prepare("SELECT formats.width, formats.height, products.label, products.ordering, formats.idformats "
+				  "FROM products INNER JOIN formats ON  products.formats_idformats = formats.idformats "
+				  "WHERE ref=:ref");
 	Query.bindValue(":ref", _ProductRef);
 	Query.exec();
 	if (Query.next())
 	{
-		Res = DDocProduct(_ProductRef, Query.value(2).toString(), DDocFormat(Query.value(0).toInt(), Query.value(1).toInt()), Query.value(3).toInt());
+		Res = DDocProduct(_ProductRef, Query.value(2).toString(), DDocFormat(Query.value(0).toInt(), Query.value(1).toInt(), Query.value(4).toString()), Query.value(3).toInt());
 	}
 	return Res;
 }
@@ -407,6 +437,17 @@ int PublisherDatabase::digiprintProdKeyColumn()
 	return 1;
 }
 
+int PublisherDatabase::digiprintFormatDisplayColumn()
+{
+	return 0;
+}
+
+int PublisherDatabase::digiprintFormatKeyColumn()
+{
+	return 1;
+}
+
+
 //! \return 0 if no price is found
 
 double PublisherDatabase::priceOf(const QString& _Ref, int _Quantity, bool _UseFixedPrice ) const
@@ -502,7 +543,8 @@ PrintJob PublisherDatabase::getPrintJob(const XmlOrder& _Order) const
 QAbstractItemModel* PublisherDatabase::newProductsModelBySize(QObject* _Parent, PublisherDatabase::EnProductType _ProductType, const QSize& _Size) const
 {
 	QSqlQueryModel* Res = new QSqlQueryModel(_Parent);
-	QString Sql = "SELECT label, ref FROM products";
+	QString Sql = "SELECT products.label, products.ref "
+				  "FROM products INNER JOIN formats ON  products.formats_idformats = formats.idformats ";
 	QString Filter;
 
 	if (_ProductType != PublisherDatabase::AllProducts)
@@ -513,7 +555,7 @@ QAbstractItemModel* PublisherDatabase::newProductsModelBySize(QObject* _Parent, 
 	}
 
 	Sql += " WHERE " + Filter;
-	Sql += QString(" AND ((width=%1 AND height=%2) OR (width=%2 AND height=%1))").arg(_Size.width()).arg(_Size.height());
+	Sql += QString(" AND ((formats.width=%1 AND formats.height=%2) OR (formats.width=%2 AND formats.height=%1))").arg(_Size.width()).arg(_Size.height());
 	Sql += " ORDER BY ordering, ref";
 
 	Res->setQuery(Sql, *this);

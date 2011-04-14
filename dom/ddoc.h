@@ -129,13 +129,14 @@ class ST_DOM_EXPORT DDocFormat
 {
 	double Width; //!Width of the format in mm
 	double Height;//!Height of the format in mm
+	QString Key;
 	QString Description;
 
 public:
 	//! Null format.
-	DDocFormat(double _Width = 0, double _Height = 0);
-	DDocFormat(const QSizeF& _Size);
-	DDocFormat(const QString& _Format);
+	DDocFormat(double _Width = 0, double _Height = 0, const QString& _Key = QString());
+	DDocFormat(const QSizeF& _Size, const QString& _Key = QString());
+	DDocFormat(const QString& _Format, const QString& _Key = QString());
 	QSizeF size() const { return QSizeF(Width, Height); }
 	double width() const;
 	void setWidth(double );
@@ -149,6 +150,8 @@ public:
 	double bigSide() const;
 	//! Retorna el mínim entre width i height.
 	double smallSide() const;
+	void setKey(const QString& _Key) { Key = _Key; }
+	QString key() const { return Key; }
 	QString description() const { return Description; }
 	void setDescription(const QString& _Value) { Description = _Value; }
 	QSizeF landscapeSize() const { return QSizeF(bigSide(), smallSide()); }

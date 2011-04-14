@@ -19,10 +19,9 @@ IF(WIN32)
 
 #Data, translations, icons and app files.
 	SET(${CMAKE_PROJECT_NAME}bin_dest_dir bin)
-	#ADD_SUBDIRECTORY(data)
 
 #Main app target
-	INSTALL(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION bin)
+	INSTALL(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION ${${CMAKE_PROJECT_NAME}bin_dest_dir})
 
 ELSE(WIN32)
 
@@ -30,7 +29,7 @@ ELSE(WIN32)
 
     SET(plugin_dest_dir bin)
     SET(qtconf_dest_dir bin)
-	SET(${CMAKE_PROJECT_NAME}bin_dest_dir bin)
+	SET(${CMAKE_PROJECT_NAME}bin_dest_dir bin/${ST_APP_NAME})
 	SET(APPS "\${CMAKE_INSTALL_PREFIX}/bin/${CMAKE_PROJECT_NAME}")
     IF(APPLE)
 	  SET(plugin_dest_dir ${CMAKE_PROJECT_NAME}.app/Contents/MacOS)
@@ -42,13 +41,20 @@ ELSE(WIN32)
 	  SET(APPS "\${CMAKE_INSTALL_PREFIX}/bin/${CMAKE_PROJECT_NAME}.exe")
     ENDIF(WIN32)
 
-    #--------------------------------------------------------------------------------
-	# Install the ${CMAKE_PROJECT_NAME} application, on Apple, the bundle is at the root of the
-    # install tree, and on other platforms it'll go into the bin directory.
-	INSTALL(TARGETS ${CMAKE_PROJECT_NAME}
-	    BUNDLE DESTINATION . COMPONENT Runtime
-	    RUNTIME DESTINATION bin COMPONENT Runtime
-	    )
+	IF (UNIX)
+		INSTALL(TARGETS ${CMAKE_PROJECT_NAME}
+			BUNDLE DESTINATION ./${ST_APP_NAME} COMPONENT Runtime
+			RUNTIME DESTINATION ${${CMAKE_PROJECT_NAME}bin_dest_dir} COMPONENT Runtime
+			)
+	ELSE (UNIX)
+		#--------------------------------------------------------------------------------
+		# Install the ${CMAKE_PROJECT_NAME} application, on Apple, the bundle is at the root of the
+		# install tree, and on other platforms it'll go into the bin directory.
+		INSTALL(TARGETS ${CMAKE_PROJECT_NAME}
+			BUNDLE DESTINATION . COMPONENT Runtime
+			RUNTIME DESTINATION bin COMPONENT Runtime
+			)
+	ENDIF (UNIX)
 
 
 	IF (APPLE)

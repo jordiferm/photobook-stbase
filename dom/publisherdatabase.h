@@ -131,10 +131,12 @@ public:
 public:
 	PublisherDatabase(const QString& _DatabaseName);
 	PublisherDatabase(const QSqlDatabase& _Other = QSqlDatabase::database(DefaultPublisherDBConnectionName));
+	void importLocalFormats(const QSqlDatabase& _SourceDB);
 	void importLocalProducts(const QSqlDatabase& _SourceDB);
 	void importTable(const FSqlDatabaseManager& _SourceDBManager, const QString& _TableName, const QString& _ImportOrderBy = "");
 	void importAll(const FSqlDatabaseManager& _SourceDBManager);
 	QAbstractItemModel* newProductsModel(QObject* _Parent = 0, EnProductType _ProductType = AllProducts, const QString& _Filter = "") const;
+	QAbstractItemModel* newFormatsModel(QObject* _Parent = 0, const QString& _Filter = "") const;
 	QSqlTableModel* newShippingMethodModel(QObject* _Parent = 0) const;
 	DDocProduct getProduct(QAbstractItemModel*  _ProdModel, int _Row) const;
 	DDocProduct getProduct(const QString& _ProductRef) const;
@@ -148,6 +150,8 @@ public:
 	PublisherBill calcBill(const XmlOrder& _Order, const QSqlRecord& _ShippingMethod = QSqlRecord(), int _ImagesPerSheet = 1);
 	static int digiprintProdDisplayColumn();
 	static int digiprintProdKeyColumn();
+	static int digiprintFormatDisplayColumn();
+	static int digiprintFormatKeyColumn();
 	double priceOf(const QString& _Ref, int _Quantity, bool _UseFixedPrice = true) const;
 	static QString productSqlFilter(const DDocProductList& _Products);
 	static QString templateSqlFilter(const QString& _TemplateRef);

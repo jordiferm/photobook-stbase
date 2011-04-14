@@ -28,7 +28,7 @@
  #include <QApplication>
 #endif
 
-#include "SApplication.h"
+#include "sapplication.h"
 
 QStringList STTemplatePaths::PathList; 
 

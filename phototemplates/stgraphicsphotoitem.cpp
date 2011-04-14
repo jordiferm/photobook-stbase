@@ -31,6 +31,7 @@
 #include <QGraphicsWidget> 
 #include <QFontMetrics>
 #include <QImage>
+#include <QDebug>
 
 //Drag And Drop
 #include <QMimeData> 
@@ -390,7 +391,15 @@ void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 			Thumbnail = Thumbnail.transformed(Transform, Qt::SmoothTransformation);
 			setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
 			if (AutoAdjustFramesToImages)
-				adjustRectToImage(ImageInfo.size());
+			{
+				QSize ImgSize;
+				if (!ImageInfo.size().isNull())
+					ImgSize = ImageInfo.size();
+				else
+					ImgSize = Thumbnail.size();
+				if (!ImgSize.isNull())
+					adjustRectToImage(ImgSize);
+			}
 			ImageAssigned = true;
 		}
 		else

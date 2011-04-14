@@ -257,6 +257,8 @@ SPrinterSettingsWidget::SPrinterSettingsWidget(SPrinterSettings& _Settings, QDat
 	PrnNameIndex = Model->index(_Settings.keyFullName("systemprintername")); 
 	MLayout->addWidget(createHeaderLabel(PrnNameIndex), 0, 0);
 	MProdPrSettingsW = new ProdPrintSettingsWidget(this); 
+	MFormatPrSettingsW = new ProdPrintSettingsWidget(this);
+
 	#if QT_VERSION >= 0x040400
 		QList<QPrinterInfo> PrinterList = QPrinterInfo::availablePrinters(); 
 		SMappableComboBox* PrnCombo = new SMappableComboBox(this); 
@@ -271,6 +273,7 @@ SPrinterSettingsWidget::SPrinterSettingsWidget(SPrinterSettings& _Settings, QDat
 			PrnCombo->addItem(SPrinterSettings::LabPrinterName);
 		_Mapper->addMapping(PrnCombo, PrnNameIndex.column()); 
 		MProdPrSettingsW->setPrinterList(PrinterList); 
+		MFormatPrSettingsW->setPrinterList(PrinterList);
 	#else 
 		MLayout->addWidget(createEditor(PrnNameIndex), 1, 0);
 		QPushButton* PBPDialog = new QPushButton(tr("Get from system print dialog"), this); 
@@ -280,18 +283,31 @@ SPrinterSettingsWidget::SPrinterSettingsWidget(SPrinterSettings& _Settings, QDat
 
 	// -- Printer by product -- 
 	QxtGroupBox* GBProdPrint = new QxtGroupBox(headerLabelText(Model->index(_Settings.keyFullName("printerbyproductenabled"))), this);
-	_Mapper->addMapping(GBProdPrint, 	Model->index(_Settings.keyFullName("printerbyproductenabled")).column()); 
+	_Mapper->addMapping(GBProdPrint, Model->index(_Settings.keyFullName("printerbyproductenabled")).column());
 	MLayout->addWidget(GBProdPrint, 2, 0, 1, 2); 
-
 	QHBoxLayout* GBProdPrintLayout = new QHBoxLayout(GBProdPrint); 
-
 	GBProdPrintLayout->addWidget(MProdPrSettingsW);
+
+	// -- Printer by format
+	QxtGroupBox* GBFormatPrint = new QxtGroupBox(headerLabelText(Model->index(_Settings.keyFullName("printerbyformatenabled"))), this);
+	_Mapper->addMapping(GBFormatPrint, Model->index(_Settings.keyFullName("printerbyformatenabled")).column());
+	MLayout->addWidget(GBFormatPrint, 3, 0, 1, 2);
+	QHBoxLayout* GBFormatPrintLayout = new QHBoxLayout(GBFormatPrint);
+	GBFormatPrintLayout->addWidget(MFormatPrSettingsW);
+
+
 }
 
 void SPrinterSettingsWidget::setProductModel(QAbstractItemModel* _Model, int _DisplayCol, int _KeyCol)
 {
 	MProdPrSettingsW->setProductModel(_Model, _DisplayCol, _KeyCol); 
 }
+
+void SPrinterSettingsWidget::setFormatsModel(QAbstractItemModel* _Model, int _DisplayCol, int _KeyCol)
+{
+	MFormatPrSettingsW->setProductModel(_Model, _DisplayCol, _KeyCol);
+}
+
 
 void SPrinterSettingsWidget::saveProductPrinters()
 {
@@ -307,6 +323,23 @@ void SPrinterSettingsWidget::loadProductPrinters()
 	for (int Vfor = 0; Vfor < SPrinterSettings::numProdPrinters(); Vfor++)
 	{
 		MProdPrSettingsW->addLine(SPrinterSettings::prodId(Vfor), SPrinterSettings::printerName(Vfor));
+	}
+}
+
+void SPrinterSettingsWidget::saveFormatPrinters()
+{
+	SPrinterSettings::clearFormatPrinters();
+	for (int Vfor = 0; Vfor < MFormatPrSettingsW->linesCount(); Vfor++)
+	{
+		SPrinterSettings::setFormatPrinter(Vfor, MFormatPrSettingsW->prodId(Vfor), MFormatPrSettingsW->printerName(Vfor));
+	}
+}
+
+void SPrinterSettingsWidget::loadFormatPrinters()
+{
+	for (int Vfor = 0; Vfor < SPrinterSettings::numFormatPrinters(); Vfor++)
+	{
+		MFormatPrSettingsW->addLine(SPrinterSettings::formatId(Vfor), SPrinterSettings::formatPrinterName(Vfor));
 	}
 }
 

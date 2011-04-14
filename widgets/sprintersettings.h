@@ -43,12 +43,20 @@ public:
 	bool hasToStore(const QString& _Product) const;
 	QString printerToPrint(const QString& _Product) const;
 	bool printerByProductEnabled() const;
+	bool printerByFormatEnabled() const;
 	static void clearProductPrinters();
 	static void setProductPrinter(int _Index, const QString& _ProductId, const QString& _PrinterName);
 	static int numProdPrinters();
 	static QString prodId(int _Index);
 	static QString printerName(int _Index);
 	static QString printerForProduct(const QString& _ProdId); 
+	static void clearFormatPrinters();
+	static void setFormatPrinter(int _Index, const QString& _ProductId, const QString& _PrinterName);
+	static int numFormatPrinters();
+	static QString formatId(int _Index);
+	static QString formatPrinterName(int _Index);
+	static QString printerForFormat(const QString& _FormatId);
+
 };
 
 #endif

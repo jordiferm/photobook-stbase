@@ -38,7 +38,7 @@ INCLUDE(${QT_USE_FILE})
 
 #Resource files
 SET(prj_RCCS
-	./database/database.qrc
+	./database/omdatabase.qrc
 )
 
 QT4_ADD_RESOURCES(prj_RCC_SRCS ${prj_RCCS})

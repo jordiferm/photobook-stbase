@@ -211,7 +211,10 @@ void FTableManager::hideEvent ( QHideEvent * event )
 void FTableManager::selectFormRow(int _Index)
 {
 	if (MRecordWidget)
+	{
 		MRecordWidget->mapper()->setCurrentIndex(_Index);
+		MRecordWidget->setInserting(VarView->isInserting());
+	}
 }
 
 void FTableManager::resizeColumns()

@@ -269,9 +269,10 @@ QString FSqlRelationalTableModel::selectStatement () const
 		 {
 			 // Count the display column name, not the original foreign key
 			 name = CRelation.displayColumn();
+#if QT_VERSION >= 0x040600
 			 if (database().driver()->isIdentifierEscaped(name, QSqlDriver::FieldName))
 				 name = database().driver()->stripDelimiters(name, QSqlDriver::FieldName);
-
+#endif
 			 QSqlRecord rec = database().record(CRelation.tableName());
 			 for (int i = 0; i < rec.count(); ++i) {
 				 if (name.compare(rec.fieldName(i), Qt::CaseInsensitive) == 0) {
@@ -296,11 +297,15 @@ QString FSqlRelationalTableModel::selectStatement () const
 		 // If there are duplicate field names they must be aliased
 		  if (fieldNames.value(fieldList[i]) > 1) {
 			  QString relTableName = CRelation.tableName().section(QChar::fromLatin1('.'), -1, -1);
+#if QT_VERSION >= 0x040600
 			  if (database().driver()->isIdentifierEscaped(relTableName, QSqlDriver::TableName))
 				  relTableName = database().driver()->stripDelimiters(relTableName, QSqlDriver::TableName);
+#endif
 			  QString displayColumn = CRelation.displayColumn();
+#if QT_VERSION >= 0x040600 //=> Means that this function may have problems in Qt<= 4.6
 			  if (database().driver()->isIdentifierEscaped(displayColumn, QSqlDriver::FieldName))
 				  displayColumn = database().driver()->stripDelimiters(displayColumn, QSqlDriver::FieldName);
+#endif
 			  fList.append(QString::fromLatin1(" AS %1_%2_%3").arg(relTableName).arg(displayColumn).arg(fieldNames.value(fieldList[i])));
 			  fieldNames.insert(fieldList[i], fieldNames.value(fieldList[i])-1);
 		  }
