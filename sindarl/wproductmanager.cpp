@@ -44,6 +44,18 @@
 #include "siconfactory.h"
 #include "smessagebox.h"
 
+WPricesManager::WPricesManager(QWidget* _Parent, const QSqlDatabase& _Database) : FGenManager("productprices", _Parent, "quantity,price", false, _Database)
+{
+}
+
+void WPricesManager::primeInsert(int _Row, QSqlRecord& _Record)
+{
+	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "quantity"), 1);
+	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "price"), 0);
+	FGenManager::primeInsert(_Row, _Record);
+}
+
+
 // _________________________________________________________________________
 //
 // Class WProductRecord
@@ -90,7 +102,7 @@ void WProductRecord::createWidget()
 
 	setSuffix("fixedprice", EURO_UTF_STR);
 	
-	FGenManager* WPriceManager = new FGenManager("productprices", this, "quantity,price", false, Model->database());
+	FGenManager* WPriceManager = new WPricesManager(this, Model->database());
 	TWidget->addTab(WPriceManager, tr("Prices"));
 	WPriceManager->tableManager()->enableSaveState("pricesmanager");
 	WPriceManager->tableManager()->searchWidget()->setSearchColumn(2);

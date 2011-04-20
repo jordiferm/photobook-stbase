@@ -26,6 +26,24 @@
 #include "stsindarlexport.h"
 
 /**
+Format management
+
+	@author Jordi Fernandez <jordif@starblitz-k.com>
+*/
+class ST_SINDARL_EXPORT WPricesManager : public FGenManager
+{
+	Q_OBJECT
+	bool LocalAdded;
+
+public:
+	WPricesManager(QWidget* _Parent = 0, const QSqlDatabase& _Database = QSqlDatabase::database());
+
+protected slots:
+	void primeInsert(int /*_Row*/, QSqlRecord& _Record);
+};
+
+
+/**
 FRecordWidget for commands.
  
 @author Shadow

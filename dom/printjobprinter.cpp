@@ -107,14 +107,15 @@ void PrintJobPrinter::printNonAtomic(QPrinter& _Printer, STDom::DDocPrintList& _
 				if (NumCopies > 0 )
 					_Printer.newPage();
 			}
+			if (_ProgBar)
+			{
+				_ProgBar->setValue(_ProgBar->value() + pit->numCopies());
+				QApplication::processEvents();
+			}
+
 			++pit;
 			if (pit != _ProductPrints.end())
 				_Printer.newPage();
-			if (_ProgBar)
-			{
-				_ProgBar->setValue(_ProgBar->value() + 1);
-				QApplication::processEvents();
-			}
 		}
 		else
 		{
@@ -293,6 +294,8 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 			while ( pit != ProdPrints.end()) //For each print
 			{
 				JobToStore.addPrint(*pit);
+				if(_ProgBar)
+					_ProgBar->setValue(_ProgBar->value() + pit->numCopies());
 				++pit;
 			}
 		}

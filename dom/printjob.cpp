@@ -123,7 +123,7 @@ int PrintJob::copies(const DDocProduct& _Product, const QFileInfo& _FileInfo) co
 
 int PrintJob::totalCopies() const
 {
-	int Res;
+	int Res = 0;
 	DDocPrintList Prints = prints();
 	DDocPrintList::const_iterator it;
 	for (it = Prints.begin(); it != Prints.end(); ++it)

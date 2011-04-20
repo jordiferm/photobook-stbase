@@ -408,8 +408,8 @@ void STTemplateScene::setBackgroundImage(const QPixmap& _ThumbNail, const QStrin
 {
 	PageItem->setImage(_ThumbNail, _ImageFileName);
 	PageItem->setImageEncrypted(_Encrypted);
-	//PageItem->loadImageSpawn();
-	//PageItem->update();
+	PageItem->loadImageSpawn();
+	PageItem->update();
 }
 
 bool STTemplateScene::hasBackgroundImage() const

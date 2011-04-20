@@ -46,6 +46,7 @@ public:
 	QDate currentDate() const { return CurrentDate; }
 
 signals:
+	void dateChanged(const QDate& _Date);
 
 public slots:
 	void slotWheelValueChanged(int _Value);

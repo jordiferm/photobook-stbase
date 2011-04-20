@@ -85,4 +85,5 @@ void STMonthSelector::setDate(const QDate& _Date)
 void STMonthSelector::slotWheelValueChanged(int _Value)
 {
 	setCurrentDate(ToDate.addMonths(-_Value));
+	emit dateChanged(CurrentDate);
 }

@@ -452,8 +452,8 @@ TPPhotoDelegate::TPPhotoDelegate(TPPhotoListView* view)
 	d->mRatingPainter.setMaxRating(10);
 #endif*/
 
-	connect(view, SIGNAL(thumbnailSizeChanged(int)),
-		SLOT(setThumbnailSize(int)) );
+	//connect(view, SIGNAL(thumbnailSizeChanged(int)),
+	//	SLOT(setThumbnailSize(int)) );
 
 	// Button frame
 	d->mContextBar = new QWidget(d->mView->viewport());
