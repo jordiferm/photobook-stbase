@@ -39,13 +39,15 @@ QImage DImageDoc::loadThumbnailImage(bool _CreateIfNotExist)
 	bool ThumbnailReaded = false;
 	try
 	{
-		ExMData.load(FInfo.absoluteFilePath());
-		TmpThumb = ExMData.getThumbnail();
-		ThumbnailReaded = !TmpThumb.isNull();
-		CInfo MInfo = getInfo(ExMData);
+		if (ExMData.load(FInfo.absoluteFilePath()))
+		{
+			TmpThumb = ExMData.getThumbnail();
+			ThumbnailReaded = !TmpThumb.isNull();
+			CInfo MInfo = getInfo(ExMData);
 
-		if (ThumbnailReaded)
-			Res = TmpThumb.scaled(ThumbNailSize, Qt::KeepAspectRatio);
+			if (ThumbnailReaded)
+				Res = TmpThumb.scaled(ThumbNailSize, Qt::KeepAspectRatio);
+		}
 	}
 	catch (...)
 		{}
@@ -120,10 +122,13 @@ bool DImageDoc::createThumbnail(bool _CheckForMetadata) const
 		ExifMetadata ExMData;
 		try
 		{
-			ExMData.load(FInfo.absoluteFilePath());
-			TmpThumb = ExMData.getThumbnail();
-			ThumbnailReaded = !TmpThumb.isNull();
-			Res = true;
+
+			if (ExMData.load(FInfo.absoluteFilePath()))
+			{
+				TmpThumb = ExMData.getThumbnail();
+				ThumbnailReaded = !TmpThumb.isNull();
+				Res = true;
+			}
 		}
 		catch (...)
 			{}
@@ -151,8 +156,8 @@ DImageDoc::CInfo DImageDoc::getInfo() const
 	try
 	{
 		QFileInfo FInfo(FilePath);
-		ExMData.load(FInfo.absoluteFilePath());
-		Info = getInfo(ExMData);
+		if (ExMData.load(FInfo.absoluteFilePath()))
+			Info = getInfo(ExMData);
 	}
 	catch (...)
 		{}

@@ -33,16 +33,25 @@ ExifMetadata::~ExifMetadata()
 {
 }
 
-void ExifMetadata::load(const QString& _FileName)
+bool ExifMetadata::load(const QString& _FileName)
 {
+	bool Res = false;
 	try 
 	{
 		Exiv2::Image::AutoPtr Image = Exiv2::ImageFactory::open(_FileName.toStdString());
-		Assert(Image.get() != 0, Error(QString("Could not open image: %1").arg(_FileName)));
+
+		//Exceptions throw dynamic libs causes problems in some compilers.
+		//Assert(Image.get() != 0, Error(QString("Could not open image: %1").arg(_FileName)));
+		if (Image.get() == 0)
+			return false;
+
 		Image->readMetadata();
 	
 		CExifData = Image->exifData();
-		Assert(!CExifData.empty(), Error(": No Exif data found in the file")); 
+
+		//Assert(!CExifData.empty(), Error(": No Exif data found in the file"));
+		if (CExifData.empty())
+			return false;
 		
 //		Exiv2::ExifData::const_iterator i;
 //		for (i=CExifData.begin(); i!=CExifData.end(); ++i )
@@ -75,11 +84,13 @@ void ExifMetadata::load(const QString& _FileName)
 #endif 
 		if (!ThumbNail.isNull())
 			ThumbNail = correctOrientation(ThumbNail, getOrientation());
+		Res = true;
 	}
 	catch (Exiv2::AnyError& e) 
 	{
 		throw Error(QString("Caught Exiv2 exception '" + QString::fromStdString(e.what())));
 	}	
+	return Res;
 }
 
 QImage ExifMetadata::getThumbnail() const

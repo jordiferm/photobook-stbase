@@ -74,7 +74,7 @@ private:
 public:
 	ExifMetadata();
 	~ExifMetadata();
-	void load(const QString& _FileName);
+	bool load(const QString& _FileName);
 	QImage getThumbnail() const;
 	QVariant ExifValueToVariant(const Exiv2::Value& _Val) const;
 	QVariant getKeyValue(const QString& _Key) const;
