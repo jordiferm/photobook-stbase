@@ -1,9 +1,10 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/" >
         <file>productprices.mtd</file>
         <file>products.mtd</file>
         <file>templates.mtd</file>
         <file>mpitems.mtd</file>
-	<file>shippingmethods.mtd</file>
+        <file>shippingmethods.mtd</file>
+        <file>formats.mtd</file>
     </qresource>
 </RCC>

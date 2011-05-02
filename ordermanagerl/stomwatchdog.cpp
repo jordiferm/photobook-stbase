@@ -47,9 +47,9 @@ bool STOmWatchDog::isOmAlive()
 void STOmWatchDog::runOm()
 {
 #ifndef Q_OS_WIN32
-	QProcess::startDetached("\"" + QCoreApplication::applicationDirPath() + "\"/ordermanager");
+	QProcess::startDetached("\"" + QCoreApplication::applicationDirPath() + "\"/ordermanagerbin");
 #else
-	QProcess::startDetached("\"" + QCoreApplication::applicationDirPath() + "\"/ordermanager.exe");
+	QProcess::startDetached("\"" + QCoreApplication::applicationDirPath() + "\"/ordermanagerbin.exe");
 #endif
 }
 

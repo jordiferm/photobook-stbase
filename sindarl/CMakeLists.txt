@@ -42,7 +42,7 @@ SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "MARKETPLACEINFO_BASE
 
 #Resource files
 SET(prj_RCCS
-	./database/database.qrc
+	./database/sindardatabase.qrc
 	./database/defaultdatabases/sindarldefaultdatabases.qrc
 )
 

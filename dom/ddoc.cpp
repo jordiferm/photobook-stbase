@@ -145,18 +145,19 @@ QString DDoc::pathHash() const
 // CLASS DDocFormat
 // _________________________________________________________________________*/
 
-DDocFormat::DDocFormat(double _Width, double _Height)
-	: Width(_Width), Height(_Height)
+DDocFormat::DDocFormat(double _Width, double _Height, const QString& _Key)
+	: Width(_Width), Height(_Height), Key(_Key)
 {}
 
-DDocFormat::DDocFormat(const QSizeF& _Size)
-	: Width(_Size.width()), Height(_Size.height())
+DDocFormat::DDocFormat(const QSizeF& _Size, const QString& _Key)
+	: Width(_Size.width()), Height(_Size.height()), Key(_Key)
 {}
 
-DDocFormat::DDocFormat(const QString& _Format)
+DDocFormat::DDocFormat(const QString& _Format, const QString& _Key)
 {
 	Width = _Format.left(_Format.indexOf("x")).toInt();
 	Height = _Format.right(_Format.length() - (_Format.indexOf("x") + 1)).toInt();
+	Key = _Key;
 }
 
 double DDocFormat::width() const
@@ -207,7 +208,12 @@ bool DDocFormat::isNull() const
 
 bool DDocFormat::operator==(const DDocFormat& _Format) const
 {
-	return (_Format.Width == Width && _Format.Height == Height);
+	bool Res;
+	if (!Key.isEmpty())
+		Res = _Format.key() == key();
+	else
+		Res = (_Format.Width == Width && _Format.Height == Height);
+	return Res;
 }
 
 bool DDocFormat::operator<(const DDocFormat& _Format) const

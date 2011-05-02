@@ -122,7 +122,7 @@ void FGenManager::primeInsert(int /*_Row*/, QSqlRecord& _Record)
 			QString CurrFieldName(CFMdata.name());
 			if (CFMdata.isSerial)
 			{
-				QVariant NextVal = FSqlQuery::sequenceNextVal(Model->tableName(), CurrFieldName);
+				QVariant NextVal = FSqlQuery::sequenceNextVal(Model->tableName(), CurrFieldName, Model->database());
 				if (NextVal.isValid())
 					_Record.setValue(CurrFieldName, NextVal.toInt());
 				else

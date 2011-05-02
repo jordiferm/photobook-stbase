@@ -118,7 +118,7 @@ QWidget* FRecordWidgetDelegate::createEditor(QWidget* _Parent, const QStyleOptio
 	By default it uses QSqlRelationalDelegate to be usable on SqlRelational models.
 */
 FRecordWidget::FRecordWidget(QSqlTableModel* _Model, QWidget* _Parent)
-		: QWidget(_Parent), Model(_Model)
+		: QWidget(_Parent), Model(_Model), Inserting(false)
 {
 	Mapper = new QDataWidgetMapper(this);
 	Mapper->setModel(_Model);

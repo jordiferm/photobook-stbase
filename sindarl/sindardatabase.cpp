@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2010 SoftTopia. All rights reserved.
+** Copyright (C) 2F6-2010 SoftTopia. All rights reserved.
 **
 ** This file is part of SoftTopia Software.
 **
@@ -139,15 +139,37 @@ int SindarDatabase::insertProductsForAllTemplates(STPhotoLayout::EnLayoutType _T
 					PQuery.exec();
 					if (!PQuery.next()) //Lets insert it
 					{
+						STDom::DDocFormat Format = *fit;
+						QVariant IdFormats;
+						//Look for a format with the same size
+						FSqlQuery FQuery(*this);
+						FQuery.prepare("SELECT idformats FROM formats WHERE (width=:width and height=:height) or description=:description");
+						FQuery.bindValue(":width", Format.width());
+						FQuery.bindValue(":height", Format.height());
+						FQuery.bindValue(":description", Format.description());
+						FQuery.exec();
+						if (!FQuery.next()) //Lets insert a new format
+						{
+							FQuery.prepare("INSERT INTO formats(idformats, description, width, height) "
+										   "VALUES( :idformats, :description, :width, :height)");
+							IdFormats = FSqlQuery::sequenceNextVal("formats", "idformats", *this);
+							FQuery.bindValue(":idformats", IdFormats);
+							FQuery.bindValue(":description", Format.description());
+							FQuery.bindValue(":width", Format.width());
+							FQuery.bindValue(":height", Format.height());
+							FQuery.exec();
+						}
+						else
+							IdFormats = FQuery.value(0);
+
+
 						QSqlRecord RecProduct = PQuery.database().record("products");
 						RecProduct.setValue("ref", it->ref());
 						RecProduct.setValue("description", it->description());
 						RecProduct.setValue("fixedprice", 0);
 						RecProduct.setValue("label", it->description().left(25));
 						RecProduct.setValue("templates_ref", it->ref());
-						STDom::DDocFormat Format = *fit;
-						RecProduct.setValue("width", Format.width());
-						RecProduct.setValue("height", Format.height());
+						RecProduct.setValue("formats_idformats", IdFormats);
 						RecProduct.setValue("type", productTypeFromLayoutType(_Type));
 						FSqlQuery IQuery(*this);
 						IQuery.prepareInsert(RecProduct, "products");
@@ -215,6 +237,19 @@ int SindarDatabase::importTemplateRefs(STPhotoLayout::EnLayoutType _Type)
 	return NInserts;
 }
 
+void SindarDatabase::clearTemplatesTable()
+{
+	FSqlQuery Query(*this);
+	Query.prepare("DELETE FROM templates WHERE ref!=:ref");
+	Query.bindValue(":ref", notemplateRef());
+	Query.exec();
+}
+
+QString SindarDatabase::notemplateRef()
+{
+	return "000000";
+}
+
 int SindarDatabase::importTemplateRefs()
 {
 	int NInserts = 0;
@@ -230,8 +265,10 @@ SindarDatabase::TDefaultDatabaseList SindarDatabase::getDefaultDatabases()
 {
 	TDefaultDatabaseList Res;
 	Res.push_back(DefaultSindarDatabase(QObject::tr("Sublimation Generic"), ":/sindarldefaultdb/sublimation_generic.db", QObject::tr("Generic database for sublimation printers")));
+	Res.push_back(DefaultSindarDatabase(QObject::tr("Sublimation DNP"), ":/sindarldefaultdb/sublimation_dnp.db", QObject::tr("Generic database for DNP sublimation printers")));
 	Res.push_back(DefaultSindarDatabase(QObject::tr("Digital Generic"), ":/sindarldefaultdb/digital_generic.db", QObject::tr("Generic database for digital printers")));
 	Res.push_back(DefaultSindarDatabase(QObject::tr("Sublimation and Digital Generic"), ":/sindarldefaultdb/digitalandsublimation_generic.db", QObject::tr("Generic database for sublimation and digital printers")));
+	Res.push_back(DefaultSindarDatabase(QObject::tr("Sublimation and Digital DNP"), ":/sindarldefaultdb/digitalandsublimation_dnp.db", QObject::tr("Generic database for DNP sublimation and digital printers")));
 	return Res;
 }
 

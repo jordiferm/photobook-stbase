@@ -22,6 +22,41 @@
 #include <QDir> 
 #include <QDebug>
 
+QString STImageTools::commonDir(const QFileInfoList& _Files)
+{
+	QString Res;
+	QDir CurrDir;
+	QString CurrDirStr;
+
+	if (_Files.size() > 0)
+	{
+		CurrDir = _Files[0].dir();
+		CurrDirStr = QDir::cleanPath(CurrDir.absolutePath());
+	}
+	int Cnt = 1;
+	bool Exist = true;
+
+	while (Cnt < _Files.size() && Exist)
+	{
+		QFileInfo CFile = _Files[Cnt];
+		if (!QDir::cleanPath(CFile.dir().absolutePath()).contains(CurrDirStr))
+		{
+			if (CurrDir.cdUp())
+				CurrDirStr = QDir::cleanPath(CurrDir.absolutePath());
+			else
+				Exist = false;
+			Cnt = 1;
+		}
+		else
+			Cnt++;
+	}
+	if (Exist)
+		Res = CurrDirStr;
+
+	return Res;
+}
+
+
 QFileInfoList STImageTools::recursiveImagesEntryInfoList(const QDir& _Dir, bool _Recursive)
 {
 	QFileInfoList Res; 

@@ -119,12 +119,16 @@ class ST_WIDGETS_EXPORT SPrinterSettingsWidget : public SMappedWidget
 	QModelIndex ReportFileIndex;
 	FileSelectLineEdit* LERFile;	
 	ProdPrintSettingsWidget* MProdPrSettingsW;
+	ProdPrintSettingsWidget* MFormatPrSettingsW;
 
 public:	
 	SPrinterSettingsWidget(SPrinterSettings& _Settings, QDataWidgetMapper* _Mapper, QWidget* _Parent = 0, bool _LabEnabled = true);
 	void setProductModel(QAbstractItemModel* _Model, int _DisplayCol, int _KeyCol); 
-	void saveProductPrinters(); 
+	void setFormatsModel(QAbstractItemModel* _Model, int _DisplayCol, int _KeyCol);
+	void saveProductPrinters();
 	void loadProductPrinters(); 
+	void saveFormatPrinters();
+	void loadFormatPrinters();
 	virtual QSize sizeHint () const { return QSize(400, 800); }
 
 public slots: 

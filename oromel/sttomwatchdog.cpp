@@ -47,9 +47,9 @@ bool STTomWatchDog::isTomAlive()
 void STTomWatchDog::runTom()
 {
 #ifndef Q_OS_WIN32
-	QProcess::startDetached("\"" + QCoreApplication::applicationDirPath() + "\"/tom");
+	QProcess::startDetached("\"" + QCoreApplication::applicationDirPath() + "\"/tombin");
 #else
-	QProcess::startDetached("\"" + QCoreApplication::applicationDirPath() + "\"/tom.exe");
+	QProcess::startDetached("\"" + QCoreApplication::applicationDirPath() + "\"/tombin.exe");
 #endif
 }
 

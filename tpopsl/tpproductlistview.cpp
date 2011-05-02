@@ -160,7 +160,7 @@ void TPProductListView::slotScrollValueChanged(int _Value)
 	if (MListView->model()) //Defensive
 	{
 		QModelIndex NewIndex = MListView->model()->index(scrollToIndexValue(_Value), MListView->currentIndex().column());
-		if (NewIndex.row() < MListView->model()->rowCount())
+		if (NewIndex.row() < MListView->model()->rowCount() && NewIndex.row() >= 0)
 		{
 			MListView->setCurrentIndex(NewIndex);
 			clicked(NewIndex);

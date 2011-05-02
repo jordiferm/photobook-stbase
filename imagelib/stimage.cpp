@@ -100,9 +100,11 @@ void STImage::loadThumbnail(const QString& _FilePath, QSize _MinThumbSize )
 	bool ThumbnailReaded = false;
 	try
 	{
-		ExMData.load(FInfo.absoluteFilePath());
-		TmpThumb = ExMData.getThumbnail();
-		ThumbnailReaded = !TmpThumb.isNull();
+		if(ExMData.load(FInfo.absoluteFilePath()))
+		{
+			TmpThumb = ExMData.getThumbnail();
+			ThumbnailReaded = !TmpThumb.isNull();
+		}
 	}
 	catch(...)
 	{}

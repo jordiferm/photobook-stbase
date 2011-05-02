@@ -47,12 +47,14 @@ public:
 private:
 
 	typedef QMap<DDocProduct, QString> TProductSpoolMap;
+	typedef QMap<QString, QString> TFormatSpoolMap;
 	typedef QList<DDocProduct> TProductToStoreList;
 	int Dpis;
 	bool AtomicPrint;
 	STErrorStack ErrorStack;
 	EnFitMode FitMode;
 	TProductSpoolMap ProductSpoolMap;
+	TFormatSpoolMap FormatSpoolMap;
 	TProductToStoreList ProductToStoreList;
 	QString DefaultSpool;
 	QFileInfo PublisherXmlFile;
@@ -73,6 +75,7 @@ public:
 	//Print Operations
 	QString productSpool(const DDocProduct& _Product) const;
 	void setProductSpool(const DDocProduct& _Product, const QString& _Printer);
+	void setFormatSpool(const QString& _FormatKey, const QString& _Printer);
 	void setDefaultSpool(const QString& _SpoolName) { DefaultSpool = _SpoolName; }
 	QString defaultSpool() const { return DefaultSpool; }
 	void configure(SPrinterSettings& _Settings);

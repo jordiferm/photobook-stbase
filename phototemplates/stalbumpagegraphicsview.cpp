@@ -19,7 +19,9 @@
 ****************************************************************************/
 
 #include "stalbumpagegraphicsview.h"
+#if QT_VERSION >= 0x040600
 #include <QTouchEvent>
+#endif
 #include "sttemplatescene.h"
 #include "stgraphicsphotoitem.h"
 #include "stgraphicspageitem.h"
@@ -129,7 +131,8 @@ void STAlbumPageGraphicsView::drawForeground(QPainter* _Painter, const QRectF& _
 
 bool STAlbumPageGraphicsView::viewportEvent(QEvent *event)
  {
-     switch (event->type()) {
+#if QT_VERSION >= 0x040600
+	switch (event->type()) {
      case QEvent::TouchBegin:
      case QEvent::TouchUpdate:
      case QEvent::TouchEnd:
@@ -158,5 +161,6 @@ bool STAlbumPageGraphicsView::viewportEvent(QEvent *event)
      default:
          break;
      }
+#endif
      return QGraphicsView::viewportEvent(event);
  }

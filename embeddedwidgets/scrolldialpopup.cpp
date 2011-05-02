@@ -64,9 +64,10 @@ void ScrollDialPopup::init()
     m_gauge = new QtBasicDialGauge(this);
     m_gauge->setFixedSize(60, 60);
     m_label = new QLabel("0", this);
-    m_label->setAlignment(Qt::AlignHCenter);
+    m_label->setAlignment(Qt::AlignCenter);
     m_label->setMinimumWidth(40);
-    m_label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+	m_label->setMinimumHeight(40);
+	m_label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     m_wheel = new QtScrollWheel(this);
 
     m_closeButton = new PopupCloseButton(this);
@@ -108,7 +109,7 @@ void ScrollDialPopup::setSkin(const QString& skin)
 
     // m_gauge does not support setSkin(), it's painted with QPainter
     m_wheel->setSkin(skin);
-    m_label->setStyleSheet(QString("font: %1pt;").arg(font().pointSize() + 2) +
+	m_label->setStyleSheet(QString("font: 14pt;") +
                            "color: white; border-width: 2px;"
                            "border-image: url(" + base + "label.svg);");
     m_closeButton->setSkin(skin);

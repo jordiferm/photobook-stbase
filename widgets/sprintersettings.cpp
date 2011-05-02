@@ -33,13 +33,14 @@ SPrinterSettings::SPrinterSettings(const QString& _PrinterName, QObject* _Parent
 #if QT_VERSION >= 0x040400
 		DefaultPrinterName = QPrinterInfo::defaultPrinter().printerName();
 #endif 
-	addKey(keyFullName("systemprintername"),  DefaultPrinterName, QVariant::String, 
-			tr("System Printer Name"), "");
-	addKey(keyFullName("printerbyproductenabled"),  false, QVariant::Bool, 
-			tr("Set printer by product"), "");
+		addKey(keyFullName("systemprintername"),  DefaultPrinterName, QVariant::String,
+				tr("System Printer Name"), "");
+		addKey(keyFullName("printerbyproductenabled"),  false, QVariant::Bool,
+				tr("Set printer by product"), "");
 
+		addKey(keyFullName("printerbyformatenabled"),  false, QVariant::Bool,
+				tr("Set printer by format"), "");
 	}
-	
 }
 
 
@@ -81,6 +82,11 @@ QString SPrinterSettings::printerToPrint(const QString& _Product) const
 bool SPrinterSettings::printerByProductEnabled() const
 {
 	return value(keyFullName("printerbyproductenabled")).toBool(); 		
+}
+
+bool SPrinterSettings::printerByFormatEnabled() const
+{
+	return value(keyFullName("printerbyformatenabled")).toBool();
 }
 
 void SPrinterSettings::clearProductPrinters()
@@ -153,6 +159,74 @@ QString SPrinterSettings::printerForProduct(const QString& _ProdId)
 	}
 	return Res; 
 }
+
+//---- Printers for formats
+
+void SPrinterSettings::clearFormatPrinters()
+{
+	QSettings Settings;
+	Settings.remove("formatprinters");
+}
+
+void SPrinterSettings::setFormatPrinter(int _Index, const QString& _ProductId, const QString& _PrinterName)
+{
+	QSettings Settings;
+	Settings.beginWriteArray("formatprinters");
+	Settings.setArrayIndex(_Index);
+	Settings.setValue("formatid", _ProductId);
+	Settings.setValue("printername", _PrinterName);
+	Settings.endArray();
+}
+
+int SPrinterSettings::numFormatPrinters()
+{
+	QSettings Settings;
+	int Res = Settings.beginReadArray("formatprinters");
+	Settings.endArray();
+	return Res;
+}
+
+QString SPrinterSettings::formatId(int _Index)
+{
+	QSettings Settings;
+	QString Res;
+	Settings.beginReadArray("formatprinters");
+	Settings.setArrayIndex(_Index);
+	Res = Settings.value("formatid").toString();
+	Settings.endArray();
+	return Res;
+}
+
+QString SPrinterSettings::formatPrinterName(int _Index)
+{
+	QSettings Settings;
+	QString Res;
+	Settings.beginReadArray("formatprinters");
+	Settings.setArrayIndex(_Index);
+	Res = Settings.value("printername").toString();
+	Settings.endArray();
+	return Res;
+}
+
+QString SPrinterSettings::printerForFormat(const QString& _FormatId)
+{
+	QSettings Settings;
+	QString Res = "";
+	int NumEntries = Settings.beginReadArray("formatprinters");
+	bool Found = false;
+	int Cnt = 0;
+	while (!Found && Cnt < NumEntries)
+	{
+		Settings.setArrayIndex(Cnt);
+		Found = (Settings.value("formatid").toString() == _FormatId);
+		if (!Found)
+			Cnt++;
+		else
+			Res = Settings.value("printername").toString();
+	}
+	return Res;
+}
+
 
 
 

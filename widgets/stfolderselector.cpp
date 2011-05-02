@@ -73,6 +73,7 @@ STFolderSelector::STFolderSelector(QWidget* parent, Qt::WindowFlags f): QDialog(
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
 	
 	TView = new QTreeView(this); 
+	TView->setObjectName("SelectFolderTreeView");
 	TView->setHeaderHidden(true);
 
 	DirModel = new STFSDirModel(this); 

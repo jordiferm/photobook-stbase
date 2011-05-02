@@ -32,6 +32,8 @@ class QDir;
 class ST_IMAGELIB_EXPORT STImageTools
 {
 public:
+	//! \returns the common dir for all _Files.
+	static QString commonDir(const QFileInfoList& _Files);
 	//! \returns a QFileInfoList with all readable images inside _Dir.
 	static QFileInfoList recursiveImagesEntryInfoList(const QDir& _Dir, bool _Recursive);
 	//! Search for images in all system dirs except _ExcludedDirs

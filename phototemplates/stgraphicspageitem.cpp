@@ -35,6 +35,7 @@ void STGraphicsPageItem::init()
 	#endif
 	setBrush(QBrush(Qt::white));
 	setAcceptsHoverEvents (false);
+	setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
 	setToolTip("");
 	ResizeAllowed = false; 
 	setControlsEnabled(false); 

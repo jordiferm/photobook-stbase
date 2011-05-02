@@ -63,6 +63,9 @@ public:
 	//! \return The num products inserted.
 	int insertProductsForAllTemplates();
 	int importTemplateRefs(STPhotoLayout::EnLayoutType _Type);
+	void clearTemplatesTable();
+	static QString notemplateRef();
+
 	int importTemplateRefs();
 	static SindarDatabase::TDefaultDatabaseList getDefaultDatabases();
 	void importDefaultPublisherProducts(const QFileInfo& _PubliserDbFile);

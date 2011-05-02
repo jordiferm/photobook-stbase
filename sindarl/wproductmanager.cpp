@@ -25,6 +25,8 @@
 #include <QTabWidget> 
 #include <QLabel>
 #include <QDataWidgetMapper> 
+#include <QToolButton>
+#include <QDebug>
 
 #include "frecdialog.h"
 #include "ftablemanager.h"
@@ -39,6 +41,25 @@
 #include "publisherdatabase.h"
 #include "fintvalueselector.h"
 #include "globals.h"
+#include "siconfactory.h"
+#include "smessagebox.h"
+
+WPricesManager::WPricesManager(QWidget* _Parent, const QSqlDatabase& _Database) : FGenManager("productprices", _Parent, "quantity,price", false, _Database)
+{
+}
+
+void WPricesManager::primeInsert(int _Row, QSqlRecord& _Record)
+{
+	//qDebug() << Model->data(Model->index(1, FSqlModelViewUtils::indexOf( Model, "products_ref"))).toString();
+	int Quantity = 1;
+	if (Model->rowCount() > 1)
+		Quantity = (Model->rowCount() -1) * 10;
+
+	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "quantity"), Quantity);
+	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "price"), 0.0);
+	FGenManager::primeInsert(_Row, _Record);
+}
+
 
 // _________________________________________________________________________
 //
@@ -48,10 +69,13 @@
 void WProductRecord::createWidget()
 {
 	setMinimumWidth(450); 
-	QGridLayout* MLayout = new QGridLayout(this);
-	MLayout->addWidget(createEditorsGroup("ref,privateref,templates_ref", new QGroupBox(tr("References"), this)),MLayout->rowCount(), 0, 1, 2);
+	QVBoxLayout* MLayout = new QVBoxLayout(this);
+	MLayout->addWidget(createEditorsGroup("ref,privateref,templates_ref", new QGroupBox(tr("References"), this)));
 
-	MLayout->addWidget(createHeaderLabel("type"), MLayout->rowCount(), 0);
+	QHBoxLayout* TypeLayout = new QHBoxLayout;
+	MLayout->addLayout(TypeLayout);
+
+	TypeLayout->addWidget(createHeaderLabel("type"));
 	FIntValueSelector* CBType = new FIntValueSelector(this);
 	CBType->addItem(tr("Digital Prints"), STDom::PublisherDatabase::DigiprintsProduct);
 	CBType->addItem(tr("Decorations"), STDom::PublisherDatabase::DecorationsProduct);
@@ -61,17 +85,29 @@ void WProductRecord::createWidget()
 	CBType->addItem(tr("Gifts"), STDom::PublisherDatabase::GiftProduct);
 	CBType->addItem(tr("PhotoIndex"), STDom::PublisherDatabase::PhotoIndexProduct);
 	CBType->addItem(tr("PhotoId"), STDom::PublisherDatabase::PhotoIdProduct);
-	MLayout->addWidget(CBType, MLayout->rowCount() - 1, 1);
+	TypeLayout->addWidget(CBType);
 	Mapper->addMapping(CBType, FSqlModelViewUtils::indexOf(Model,"type"));
+	TypeLayout->addItem(new QSpacerItem(10, 0, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding));
 
-	MLayout->addWidget(createEditorsGroup("description,label,width,height,ordering,fixedprice", new QGroupBox(tr("General"), this)),MLayout->rowCount(),0, 1, 2);
+	MLayout->addWidget(createEditorsGroup("description,label,ordering,fixedprice", new QGroupBox(tr("General"), this)));
+
+	//Formats
+	QHBoxLayout* FormatLayout = new QHBoxLayout;
+	MLayout->addLayout(FormatLayout);
+	FormatLayout->addWidget(createHeaderLabel("formats_idformats"));
+	FormatLayout->addWidget(createEditor("formats_idformats"));
+	connect(TBFormatManager, SIGNAL(clicked()), this, SIGNAL(openFormatManager()));
+	TBFormatManager->setIcon(stIcon(SIconFactory::Configure));
+	FormatLayout->addWidget(TBFormatManager);
+	FormatLayout->addItem(new QSpacerItem(10, 0, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding));
+
 
 	QTabWidget* TWidget = new QTabWidget(this);
-	MLayout->addWidget(TWidget,MLayout->rowCount(),0,1,2);
+	MLayout->addWidget(TWidget);
 
 	setSuffix("fixedprice", EURO_UTF_STR);
 	
-	FGenManager* WPriceManager = new FGenManager("productprices", this, "quantity,price", false, Model->database());
+	FGenManager* WPriceManager = new WPricesManager(this, Model->database());
 	TWidget->addTab(WPriceManager, tr("Prices"));
 	WPriceManager->tableManager()->enableSaveState("pricesmanager");
 	WPriceManager->tableManager()->searchWidget()->setSearchColumn(2);
@@ -82,6 +118,13 @@ void WProductRecord::createWidget()
 WProductRecord::WProductRecord(FRecDialog* _Parent)
 	: FRecordWidget(_Parent->model(), _Parent)
 {
+	TBFormatManager = new QToolButton(this);
+}
+
+void WProductRecord::setInserting(bool _Value)
+{
+	TBFormatManager->setEnabled(!_Value);
+	FRecordWidget::setInserting(_Value);
 }
 
 // _________________________________________________________________________
@@ -89,19 +132,71 @@ WProductRecord::WProductRecord(FRecDialog* _Parent)
 // Class WProductManager
 // _________________________________________________________________________
 
+WFormatManager::WFormatManager(QWidget* _Parent, const QSqlDatabase& _Database)
+: FGenManager("formats", _Parent, "description,width,height", true, _Database), LocalAdded(false)
+{
+	connect(TManager->actionTableView(), SIGNAL(beforeRemoveRow(int , bool& )),
+			this, SLOT(beforeRemoveRow(int , bool& )));
+}
+
+void WFormatManager::primeInsert(int _Row, QSqlRecord& _Record)
+{
+	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "localadded"), LocalAdded);
+	FGenManager::primeInsert(_Row, _Record);
+
+}
+
+void WFormatManager::beforeRemoveRow(int _Index, bool& _PerformOp)
+{
+	if (_PerformOp)
+	{
+		FSqlQuery Query(Model->database());
+		QSqlRecord CurRec = Model->record(_Index);
+		Query.prepare("SELECT * FROM products WHERE formats_idformats=:idformats");
+		Query.bindValue(":idformats", CurRec.value("idformats"));
+		Query.exec();
+		if (Query.next())
+		{
+			_PerformOp = false;
+			SMessageBox::warning(this, tr("Removing formats"), tr("You can not remove this format because there are products that references it"));
+		}
+	}
+}
+
+
+// _________________________________________________________________________
+//
+// Class WProductManager
+// _________________________________________________________________________
+
 WProductManager::WProductManager(QWidget* _Parent, const QSqlDatabase& _Database)
-: FGenManager("products", _Parent, "ref,description,label,width,height,fixedprice", true, _Database), LocalAdded(false)
+: FGenManager("products", _Parent, "ref,description,label,formats_idformats,fixedprice", true, _Database), LocalAdded(false)
 {
 
 	FRecDialog* MRecDialog = new FRecDialog(Model, TManager);
-	WProductRecord* MRecWidget = new WProductRecord(MRecDialog);
+	MRecWidget = new WProductRecord(MRecDialog);
 	MRecDialog->setMainWidget(MRecWidget);
 	TManager->setRecordWidget(MRecDialog);	
 	//TManager->enableSaveState("productmanager");
 	TManager->setEditable(false);
 	connect(TManager->actionTableView(), SIGNAL(beforeRemoveRow(int , bool& )),
 	        this, SLOT(beforeRemoveRow(int , bool& )));
+	connect(MRecWidget, SIGNAL(openFormatManager()), this, SLOT(slotOpenFormatManager()));
+
+	FormatsDialog = new FTSDialog(this);
+	FormatsDialog->addAction(new FAcceptAction(this));
+
+	FormatManager = new WFormatManager(FormatsDialog, _Database);
+	FormatsDialog->setMainWidget(FormatManager);
 }
+
+	//! Means that products added from this manager are not published.
+void WProductManager::setLocalAdded(bool _Value)
+{
+	LocalAdded = _Value;
+	FormatManager->setLocalAdded(_Value);
+}
+
 
 void WProductManager::beforeRemoveRow(int _Index, bool& _PerformOp)
 {
@@ -109,7 +204,6 @@ void WProductManager::beforeRemoveRow(int _Index, bool& _PerformOp)
  	{
 		FSqlQuery Query(Model->database());
  		QSqlRecord CurRec = Model->record(_Index);
- 		//qDebug(QString("WDigiPrintManager::::beforeRemoveRow:" + CurRec.value("ref").toString()).toLatin1() );
  		_PerformOp = _PerformOp && Query.exec("DELETE FROM productprices WHERE products_ref='" + CurRec.value("ref").toString() + "'");
  	}	
 }
@@ -119,3 +213,12 @@ void WProductManager::primeInsert(int /*_Row*/, QSqlRecord& _Record)
 	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "localadded"), LocalAdded);
 }
 
+void WProductManager::slotOpenFormatManager()
+{
+	FormatsDialog->exec();
+	//Update formats model
+	TManager->updateLookups();
+	int CIndex = MRecWidget->mapper()->currentIndex();
+	Model->select();
+	MRecWidget->mapper()->setCurrentIndex(CIndex);
+}
