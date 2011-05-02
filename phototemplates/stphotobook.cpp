@@ -363,7 +363,7 @@ void STPhotoBook::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _Fro
 	STCandidateCalculator CCalculator(*this, _PhotoModel);
 	int NumMonths = STUtils::monthsTo(_FromDate, _ToDate) + 1;
 	if (_Progress)
-		_Progress->setRange(0, CCalculator.totalPhotos());
+		_Progress->setRange(0, NumMonths);
 
 	STPhotoBookTemplate::TTemplateList TemplateList = Template.templates();
 	//If there is firstpage, put the first page.

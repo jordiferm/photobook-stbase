@@ -424,8 +424,9 @@ TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent
 	QHBoxLayout* BCLayout = new QHBoxLayout(FrameBasicControls);
 
 	QToolBar* UndoToolBar = new QToolBar(FrameBasicControls);
+	UndoToolBar->setOrientation(Qt::Vertical);
 
-	UndoToolBar->setIconSize(QSize(64,64));
+	UndoToolBar->setIconSize(QSize(32,32));
 	UndoToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	BCLayout->addWidget(UndoToolBar);
 
@@ -576,17 +577,22 @@ void TPPhotoEditor::show()
 
 void TPPhotoEditor::showAdvanced(bool _Value)
 {
-	FrameAdvanced->setVisible(_Value);
-	FrameBasicControls->setVisible(!_Value && LVProducts->listView()->model());
+	Rotate270Action->setVisible(!_Value);
+	RotateSelectionAction->setVisible(!_Value);
+	NoCutEfAction->setVisible(!_Value);
 	RedEyesAction->setVisible(!_Value);
 
 	if (_Value)
 	{
+		FrameBasicControls->setVisible(!_Value && LVProducts->listView()->model());
+		FrameAdvanced->setVisible(_Value);
 		AdvancedAction->setIcon(QIcon(":/st/tpopsl/hide-advanced.png"));
 		AdvancedAction->setText(tr("Basic"));
 	}
 	else
 	{
+		FrameAdvanced->setVisible(_Value);
+		FrameBasicControls->setVisible(!_Value && LVProducts->listView()->model());
 		AdvancedAction->setIcon(QIcon(":/st/tpopsl/show-advanced.png"));
 		AdvancedAction->setText(tr("Advanced"));
 	}

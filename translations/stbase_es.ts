@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="es">
 <context>
+    <name></name>
+    <message utf8="true">
+        <source>â¬</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AdvancedEffectFilterManager</name>
     <message>
         <source>Apply advanced filters ?</source>
@@ -352,6 +359,17 @@
     <message>
         <source>Error saving photobook template</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DDocModel</name>
+    <message>
+        <source>File:</source>
+        <translation>Archivo:</translation>
+    </message>
+    <message>
+        <source>Modified:</source>
+        <translation>Modificado:</translation>
     </message>
 </context>
 <context>
@@ -2726,7 +2744,7 @@ ha fallado.</translation>
     <name>FSqlSearchDialog</name>
     <message>
         <source>Accept</source>
-        <translation>&amp;Aceptar</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -3031,11 +3049,6 @@ ha fallado.</translation>
         <source>S3OS Keyboard</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>º
-ª  \</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>! 
 1 |</source>
@@ -3061,11 +3074,6 @@ ha fallado.</translation>
 5</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>&amp;&amp;
-6 ¬</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>/
 7</source>
@@ -3089,11 +3097,6 @@ ha fallado.</translation>
     <message>
         <source>?
 &apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>¿
-¡</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3195,18 +3198,9 @@ Mayus</source>
         <source>L</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>Ñ</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>&quot;
 &apos;  {</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>ç
-   }</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3350,6 +3344,30 @@ Num</source>
         <source>Intro</source>
         <translation type="unfinished"></translation>
     </message>
+    <message utf8="true">
+        <source>Âº
+Âª  \</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>&amp;&amp;
+6 Â¬</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Â¿
+Â¡</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Ã</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Ã§
+   }</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LoginDialog</name>
@@ -3446,207 +3464,215 @@ Num</source>
     </message>
     <message>
         <source>MarketPlaceItems</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementos del MarketPlace</translation>
     </message>
     <message>
         <source>Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Origen</translation>
     </message>
     <message>
         <source>Url Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Url de Info</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <source>Installed Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión instalada</translation>
     </message>
     <message>
         <source>Payment</source>
-        <translation type="unfinished"></translation>
+        <translation>Pago</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Identificador</translation>
     </message>
     <message>
         <source>Amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Cantidad</translation>
     </message>
     <message>
         <source>Jobs</source>
-        <translation type="unfinished"></translation>
+        <translation>Trabajos</translation>
     </message>
     <message>
         <source>Printer</source>
-        <translation type="unfinished"></translation>
+        <translation>Impresora</translation>
     </message>
     <message>
         <source>Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Pedido</translation>
     </message>
     <message>
         <source>Related product</source>
-        <translation type="unfinished"></translation>
+        <translation>Producto relacionado</translation>
     </message>
     <message>
         <source>Priority Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Orden de prioridad</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Estado</translation>
     </message>
     <message>
         <source>Completed Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Imágenes completadas</translation>
     </message>
     <message>
         <source>N. Images</source>
-        <translation type="unfinished"></translation>
+        <translation>N. Imágenes</translation>
     </message>
     <message>
         <source>Format width</source>
-        <translation type="unfinished"></translation>
+        <translation>Ancho de formato</translation>
     </message>
     <message>
         <source>Format height</source>
-        <translation type="unfinished"></translation>
+        <translation>Alto de formato</translation>
     </message>
     <message>
         <source>Atomic Print?</source>
-        <translation type="unfinished"></translation>
+        <translation>Impresión atómica ?</translation>
     </message>
     <message>
         <source>Order lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Línias de pedido</translation>
     </message>
     <message>
         <source>Orders Id</source>
-        <translation type="unfinished"></translation>
+        <translation>Id de pedido</translation>
     </message>
     <message>
         <source>Quantity</source>
-        <translation type="unfinished"></translation>
+        <translation>Cantidad</translation>
     </message>
     <message>
         <source>Orders</source>
-        <translation type="unfinished"></translation>
+        <translation>Pedidos</translation>
     </message>
     <message>
         <source>Sender Id</source>
-        <translation type="unfinished"></translation>
+        <translation>Id del remitente</translation>
     </message>
     <message>
         <source>Global Order Id</source>
-        <translation type="unfinished"></translation>
+        <translation>Id global de pedido</translation>
     </message>
     <message>
         <source>Date of creation</source>
-        <translation type="unfinished"></translation>
+        <translation>Fecha de creación</translation>
     </message>
     <message>
         <source>Sender Order Identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Identificador de pedido del remitent</translation>
     </message>
     <message>
         <source>Sender Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del remitente</translation>
     </message>
     <message>
         <source>Sender Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Teléfono del remitente</translation>
     </message>
     <message>
         <source>Sender Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Direción del remitente</translation>
     </message>
     <message>
         <source>Sender Email</source>
-        <translation type="unfinished"></translation>
+        <translation>Correo del remitente</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Comenterio</translation>
     </message>
     <message>
         <source>Customer Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del cliente</translation>
     </message>
     <message>
         <source>Customer Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Teléfono del cliente</translation>
     </message>
     <message>
         <source>Customer Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirección del cliente</translation>
     </message>
     <message>
         <source>Customer Email</source>
-        <translation type="unfinished"></translation>
+        <translation>Correo del cliente</translation>
     </message>
     <message>
         <source>Printers</source>
-        <translation type="unfinished"></translation>
+        <translation>Impresoras</translation>
     </message>
     <message>
         <source>Printer Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de la impresora</translation>
     </message>
     <message>
         <source>System Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del sistema</translation>
     </message>
     <message>
         <source>Host Url.</source>
-        <translation type="unfinished"></translation>
+        <translation>Url del Host.</translation>
     </message>
     <message>
         <source>Port</source>
-        <translation type="unfinished">Puerto</translation>
+        <translation>Puerto</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Contraseña</translation>
+        <translation>Contraseña</translation>
     </message>
     <message>
         <source>Initial Dir.</source>
-        <translation type="unfinished"></translation>
+        <translation>Directorio inicial.</translation>
     </message>
     <message>
         <source>TransferMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de transferencia</translation>
     </message>
     <message>
         <source>Shared Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Carpeta compartida</translation>
     </message>
     <message>
         <source>Printer Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Parámetros de impresora</translation>
     </message>
     <message>
         <source>Print Workflows</source>
-        <translation type="unfinished"></translation>
+        <translation>Flujos de trabajos impresión</translation>
     </message>
     <message>
         <source>System Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensages del sistema</translation>
     </message>
     <message>
         <source>Date and Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Dia y hora</translation>
     </message>
     <message>
         <source>Informed</source>
-        <translation type="unfinished"></translation>
+        <translation>Informado</translation>
+    </message>
+    <message>
+        <source>Formats</source>
+        <translation>Formatos</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Formato</translation>
     </message>
 </context>
 <context>
@@ -3788,7 +3814,7 @@ Num</source>
     </message>
     <message>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aceptar</translation>
     </message>
     <message>
         <source>Save changes and exists.</source>
@@ -4357,6 +4383,13 @@ Num</source>
     <message>
         <source>The directory: %1 could not be deleted.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PrintJobModel</name>
+    <message>
+        <source>Low res</source>
+        <translation>Baja resol</translation>
     </message>
 </context>
 <context>
@@ -5418,7 +5451,23 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Publisher database file: %1 , does not exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>El archivo de la base de datos del editor no existe: %1 !</translation>
+    </message>
+    <message>
+        <source>Sublimation DNP</source>
+        <translation>Sublimación DNP</translation>
+    </message>
+    <message>
+        <source>Generic database for DNP sublimation printers</source>
+        <translation>Base de datos genérica para impresoras de sublimación DNP</translation>
+    </message>
+    <message>
+        <source>Sublimation and Digital DNP</source>
+        <translation>Sublimación y digital DNP</translation>
+    </message>
+    <message>
+        <source>Generic database for DNP sublimation and digital printers</source>
+        <translation>Base de datos genérica para impresoras de sublimación DNP y digitales</translation>
     </message>
 </context>
 <context>
@@ -5576,6 +5625,10 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <source>Set printer by product</source>
         <translation>Asignar impresora por producto</translation>
     </message>
+    <message>
+        <source>Set printer by format</source>
+        <translation>Asignar impresora por formato</translation>
+    </message>
 </context>
 <context>
     <name>SPrinterSettingsWidget</name>
@@ -5701,25 +5754,55 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
 </context>
 <context>
-    <name>STDom::DDocModel</name>
+    <name>STFolderImageSingleView</name>
     <message>
-        <source>File:</source>
-        <translation>Archivo:</translation>
+        <source>Folder</source>
+        <translation>Carpeta</translation>
     </message>
     <message>
-        <source>Modified:</source>
-        <translation>Modificado:</translation>
+        <source>Select All (Ctrl+A)</source>
+        <translation>Seleccionar todas (Ctrl+A)</translation>
+    </message>
+    <message>
+        <source>Transforming Image</source>
+        <translation>Transformando imagen</translation>
+    </message>
+    <message>
+        <source>Error saving image %1, please check file permissions</source>
+        <translation>Error guardando imagen %1 por favor compruebe los permisos del archivo</translation>
     </message>
 </context>
 <context>
-    <name>STDom::PrintJobModel</name>
+    <name>STFolderImageView</name>
     <message>
-        <source>Low res</source>
-        <translation>Baja resol</translation>
+        <source>Parent Folder</source>
+        <translation>Carpeta Padre</translation>
     </message>
 </context>
 <context>
-    <name>STDom::STFtpOrderTransfer</name>
+    <name>STFolderSelector</name>
+    <message>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>STFontThumbnailModel</name>
+    <message>
+        <source>normal</source>
+        <translation>normal</translation>
+    </message>
+    <message>
+        <source>italic</source>
+        <translation>itálica</translation>
+    </message>
+</context>
+<context>
+    <name>STFtpOrderTransfer</name>
     <message>
         <source>Could not chdir to: %1</source>
         <translation type="unfinished"></translation>
@@ -5794,7 +5877,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
 </context>
 <context>
-    <name>STDom::STFtpOrderTransferDialog</name>
+    <name>STFtpOrderTransferDialog</name>
     <message>
         <source>No action</source>
         <translation type="unfinished"></translation>
@@ -5838,54 +5921,6 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <message>
         <source>Are you sure to abort this process ?</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>STFolderImageSingleView</name>
-    <message>
-        <source>Folder</source>
-        <translation>Carpeta</translation>
-    </message>
-    <message>
-        <source>Select All (Ctrl+A)</source>
-        <translation>Seleccionar todas (Ctrl+A)</translation>
-    </message>
-    <message>
-        <source>Transforming Image</source>
-        <translation>Transformando imagen</translation>
-    </message>
-    <message>
-        <source>Error saving image %1, please check file permissions</source>
-        <translation>Error guardando imagen %1 por favor compruebe los permisos del archivo</translation>
-    </message>
-</context>
-<context>
-    <name>STFolderImageView</name>
-    <message>
-        <source>Parent Folder</source>
-        <translation>Carpeta Padre</translation>
-    </message>
-</context>
-<context>
-    <name>STFolderSelector</name>
-    <message>
-        <source>Ok</source>
-        <translation>Ok</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
-    </message>
-</context>
-<context>
-    <name>STFontThumbnailModel</name>
-    <message>
-        <source>normal</source>
-        <translation>normal</translation>
-    </message>
-    <message>
-        <source>italic</source>
-        <translation>itálica</translation>
     </message>
 </context>
 <context>
@@ -6924,6 +6959,17 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <message>
         <source>Flip Y</source>
         <translation>Voltear Y</translation>
+    </message>
+</context>
+<context>
+    <name>WFormatManager</name>
+    <message>
+        <source>Removing formats</source>
+        <translation>Eliminando formatos</translation>
+    </message>
+    <message>
+        <source>You can not remove this format because there are products that references it</source>
+        <translation>No puedes eliminar este formato porque hay productos que le hacen referencia</translation>
     </message>
 </context>
 <context>

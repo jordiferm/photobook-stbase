@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ca_ES">
 <context>
+    <name></name>
+    <message utf8="true">
+        <source>â¬</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AdvancedEffectFilterManager</name>
     <message>
         <source>Apply advanced filters ?</source>
@@ -352,6 +359,17 @@
     <message>
         <source>Error saving photobook template</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DDocModel</name>
+    <message>
+        <source>File:</source>
+        <translation>Arxiu:</translation>
+    </message>
+    <message>
+        <source>Modified:</source>
+        <translation>Modificat:</translation>
     </message>
 </context>
 <context>
@@ -2726,7 +2744,7 @@ ha fallat.</translation>
     <name>FSqlSearchDialog</name>
     <message>
         <source>Accept</source>
-        <translation>&amp;Acceptar</translation>
+        <translation>Acceptar</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -3033,11 +3051,6 @@ Majús</translation>
         <source>S3OS Keyboard</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>º
-ª  \</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>! 
 1 |</source>
@@ -3063,11 +3076,6 @@ Majús</translation>
 5</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>&amp;&amp;
-6 ¬</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>/
 7</source>
@@ -3091,11 +3099,6 @@ Majús</translation>
     <message>
         <source>?
 &apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>¿
-¡</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3192,18 +3195,9 @@ Majús</translation>
         <source>L</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>Ñ</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>&quot;
 &apos;  {</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>ç
-   }</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3351,6 +3345,30 @@ Num</source>
         <source>Intro</source>
         <translation type="unfinished"></translation>
     </message>
+    <message utf8="true">
+        <source>Âº
+Âª  \</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>&amp;&amp;
+6 Â¬</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Â¿
+Â¡</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Ã</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Ã§
+   }</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LoginDialog</name>
@@ -3447,207 +3465,215 @@ Num</source>
     </message>
     <message>
         <source>MarketPlaceItems</source>
-        <translation type="unfinished"></translation>
+        <translation>Elements del MarketPlace</translation>
     </message>
     <message>
         <source>Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Origen</translation>
     </message>
     <message>
         <source>Url Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Url de info</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versió</translation>
     </message>
     <message>
         <source>Installed Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versió instalada</translation>
     </message>
     <message>
         <source>Payment</source>
-        <translation type="unfinished"></translation>
+        <translation>Pagament</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Identificador</translation>
     </message>
     <message>
         <source>Amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Quantitat</translation>
     </message>
     <message>
         <source>Jobs</source>
-        <translation type="unfinished"></translation>
+        <translation>Treballs</translation>
     </message>
     <message>
         <source>Printer</source>
-        <translation type="unfinished"></translation>
+        <translation>Impressora</translation>
     </message>
     <message>
         <source>Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Comanda</translation>
     </message>
     <message>
         <source>Related product</source>
-        <translation type="unfinished"></translation>
+        <translation>Producte relacionat</translation>
     </message>
     <message>
         <source>Priority Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre de prioritat</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Estat</translation>
     </message>
     <message>
         <source>Completed Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Imatges completades</translation>
     </message>
     <message>
         <source>N. Images</source>
-        <translation type="unfinished"></translation>
+        <translation>N. Imatges</translation>
     </message>
     <message>
         <source>Format width</source>
-        <translation type="unfinished"></translation>
+        <translation>Amplada de format</translation>
     </message>
     <message>
         <source>Format height</source>
-        <translation type="unfinished"></translation>
+        <translation>Altura de format</translation>
     </message>
     <message>
         <source>Atomic Print?</source>
-        <translation type="unfinished"></translation>
+        <translation>Impressió atómica?</translation>
     </message>
     <message>
         <source>Order lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Linies de comanda</translation>
     </message>
     <message>
         <source>Orders Id</source>
-        <translation type="unfinished"></translation>
+        <translation>Id de comanda</translation>
     </message>
     <message>
         <source>Quantity</source>
-        <translation type="unfinished"></translation>
+        <translation>Quantitat</translation>
     </message>
     <message>
         <source>Orders</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandes</translation>
     </message>
     <message>
         <source>Sender Id</source>
-        <translation type="unfinished"></translation>
+        <translation>Id del remitent</translation>
     </message>
     <message>
         <source>Global Order Id</source>
-        <translation type="unfinished"></translation>
+        <translation>Id global de comanda</translation>
     </message>
     <message>
         <source>Date of creation</source>
-        <translation type="unfinished"></translation>
+        <translation>Data de creació</translation>
     </message>
     <message>
         <source>Sender Order Identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Identificador de comanda del remitent</translation>
     </message>
     <message>
         <source>Sender Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de remitent</translation>
     </message>
     <message>
         <source>Sender Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Telèfon del remitent</translation>
     </message>
     <message>
         <source>Sender Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Direcció del remitent</translation>
     </message>
     <message>
         <source>Sender Email</source>
-        <translation type="unfinished"></translation>
+        <translation>Correu del remitent</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Comentari</translation>
     </message>
     <message>
         <source>Customer Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del client</translation>
     </message>
     <message>
         <source>Customer Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Telèfon del client</translation>
     </message>
     <message>
         <source>Customer Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Direcció del client</translation>
     </message>
     <message>
         <source>Customer Email</source>
-        <translation type="unfinished"></translation>
+        <translation>Correu del client</translation>
     </message>
     <message>
         <source>Printers</source>
-        <translation type="unfinished"></translation>
+        <translation>Impressores</translation>
     </message>
     <message>
         <source>Printer Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de la impressora</translation>
     </message>
     <message>
         <source>System Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del sistema</translation>
     </message>
     <message>
         <source>Host Url.</source>
-        <translation type="unfinished"></translation>
+        <translation>Url del Host.</translation>
     </message>
     <message>
         <source>Port</source>
-        <translation type="unfinished">Port</translation>
+        <translation>Port</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Contrassenya</translation>
+        <translation>Contrassenya</translation>
     </message>
     <message>
         <source>Initial Dir.</source>
-        <translation type="unfinished"></translation>
+        <translation>Directori inicial.</translation>
     </message>
     <message>
         <source>TransferMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode de transferència</translation>
     </message>
     <message>
         <source>Shared Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Carpeta compartida</translation>
     </message>
     <message>
         <source>Printer Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paràmetres d&apos;impressora</translation>
     </message>
     <message>
         <source>Print Workflows</source>
-        <translation type="unfinished"></translation>
+        <translation>Fluxes de treballs d&apos;impressió</translation>
     </message>
     <message>
         <source>System Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Missatges del sistema</translation>
     </message>
     <message>
         <source>Date and Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Dia i hora</translation>
     </message>
     <message>
         <source>Informed</source>
-        <translation type="unfinished"></translation>
+        <translation>Informat</translation>
+    </message>
+    <message>
+        <source>Formats</source>
+        <translation>Formats</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Format</translation>
     </message>
 </context>
 <context>
@@ -3789,7 +3815,7 @@ Num</source>
     </message>
     <message>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Acceptar</translation>
     </message>
     <message>
         <source>Save changes and exists.</source>
@@ -4358,6 +4384,13 @@ Num</source>
     <message>
         <source>The directory: %1 could not be deleted.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PrintJobModel</name>
+    <message>
+        <source>Low res</source>
+        <translation>Baixa res</translation>
     </message>
 </context>
 <context>
@@ -5420,7 +5453,23 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Publisher database file: %1 , does not exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;arxiu de la base de dades de l&apos;editor no exiteix:%1 !</translation>
+    </message>
+    <message>
+        <source>Sublimation DNP</source>
+        <translation>Sublimació DNP</translation>
+    </message>
+    <message>
+        <source>Generic database for DNP sublimation printers</source>
+        <translation>Base de dades genèrica per a impressores de sublimació DNP</translation>
+    </message>
+    <message>
+        <source>Sublimation and Digital DNP</source>
+        <translation>Sublimació i digital DNP</translation>
+    </message>
+    <message>
+        <source>Generic database for DNP sublimation and digital printers</source>
+        <translation>Base de dades genèrica per a impressores de sublimació DNP y impressores digitals</translation>
     </message>
 </context>
 <context>
@@ -5578,6 +5627,10 @@ El node arrel no es un reportatge.</translation>
         <source>Set printer by product</source>
         <translation>Assignar impressora per producte</translation>
     </message>
+    <message>
+        <source>Set printer by format</source>
+        <translation>Assignar impressora per format</translation>
+    </message>
 </context>
 <context>
     <name>SPrinterSettingsWidget</name>
@@ -5703,25 +5756,55 @@ El node arrel no es un reportatge.</translation>
     </message>
 </context>
 <context>
-    <name>STDom::DDocModel</name>
+    <name>STFolderImageSingleView</name>
     <message>
-        <source>File:</source>
-        <translation>Arxiu:</translation>
+        <source>Folder</source>
+        <translation>Carpeta</translation>
     </message>
     <message>
-        <source>Modified:</source>
-        <translation>Modificat:</translation>
+        <source>Select All (Ctrl+A)</source>
+        <translation>Seleccionar totes (Ctrl+A)</translation>
+    </message>
+    <message>
+        <source>Transforming Image</source>
+        <translation>Transformant imatge</translation>
+    </message>
+    <message>
+        <source>Error saving image %1, please check file permissions</source>
+        <translation>Error desant imatge %1, si us plau comprobi els permisos de l&apos;arxiu</translation>
     </message>
 </context>
 <context>
-    <name>STDom::PrintJobModel</name>
+    <name>STFolderImageView</name>
     <message>
-        <source>Low res</source>
-        <translation>Baixa res</translation>
+        <source>Parent Folder</source>
+        <translation>Carpeta Pare</translation>
     </message>
 </context>
 <context>
-    <name>STDom::STFtpOrderTransfer</name>
+    <name>STFolderSelector</name>
+    <message>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>STFontThumbnailModel</name>
+    <message>
+        <source>normal</source>
+        <translation>normal</translation>
+    </message>
+    <message>
+        <source>italic</source>
+        <translation>itàlica</translation>
+    </message>
+</context>
+<context>
+    <name>STFtpOrderTransfer</name>
     <message>
         <source>Could not chdir to: %1</source>
         <translation type="unfinished"></translation>
@@ -5796,7 +5879,7 @@ El node arrel no es un reportatge.</translation>
     </message>
 </context>
 <context>
-    <name>STDom::STFtpOrderTransferDialog</name>
+    <name>STFtpOrderTransferDialog</name>
     <message>
         <source>No action</source>
         <translation type="unfinished"></translation>
@@ -5840,54 +5923,6 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>Are you sure to abort this process ?</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>STFolderImageSingleView</name>
-    <message>
-        <source>Folder</source>
-        <translation>Carpeta</translation>
-    </message>
-    <message>
-        <source>Select All (Ctrl+A)</source>
-        <translation>Seleccionar totes (Ctrl+A)</translation>
-    </message>
-    <message>
-        <source>Transforming Image</source>
-        <translation>Transformant imatge</translation>
-    </message>
-    <message>
-        <source>Error saving image %1, please check file permissions</source>
-        <translation>Error desant imatge %1, si us plau comprobi els permisos de l&apos;arxiu</translation>
-    </message>
-</context>
-<context>
-    <name>STFolderImageView</name>
-    <message>
-        <source>Parent Folder</source>
-        <translation>Carpeta Pare</translation>
-    </message>
-</context>
-<context>
-    <name>STFolderSelector</name>
-    <message>
-        <source>Ok</source>
-        <translation>Ok</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
-    </message>
-</context>
-<context>
-    <name>STFontThumbnailModel</name>
-    <message>
-        <source>normal</source>
-        <translation>normal</translation>
-    </message>
-    <message>
-        <source>italic</source>
-        <translation>itàlica</translation>
     </message>
 </context>
 <context>
@@ -6926,6 +6961,17 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>Flip Y</source>
         <translation>Voltejar Y</translation>
+    </message>
+</context>
+<context>
+    <name>WFormatManager</name>
+    <message>
+        <source>Removing formats</source>
+        <translation>Eliminant formats</translation>
+    </message>
+    <message>
+        <source>You can not remove this format because there are products that references it</source>
+        <translation>No pots eliminar aquest format perque hi ha productes que li fan referencia</translation>
     </message>
 </context>
 <context>

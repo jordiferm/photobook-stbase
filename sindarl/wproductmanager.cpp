@@ -50,8 +50,13 @@ WPricesManager::WPricesManager(QWidget* _Parent, const QSqlDatabase& _Database) 
 
 void WPricesManager::primeInsert(int _Row, QSqlRecord& _Record)
 {
-	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "quantity"), 1);
-	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "price"), 0);
+	//qDebug() << Model->data(Model->index(1, FSqlModelViewUtils::indexOf( Model, "products_ref"))).toString();
+	int Quantity = 1;
+	if (Model->rowCount() > 1)
+		Quantity = (Model->rowCount() -1) * 10;
+
+	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "quantity"), Quantity);
+	_Record.setValue(FSqlModelViewUtils::indexOf(Model, "price"), 0.0);
 	FGenManager::primeInsert(_Row, _Record);
 }
 

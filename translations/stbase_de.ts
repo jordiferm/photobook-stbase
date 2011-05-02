@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="de_DE">
 <context>
+    <name></name>
+    <message utf8="true">
+        <source>â¬</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AdvancedEffectFilterManager</name>
     <message>
         <source>Apply advanced filters ?</source>
@@ -351,6 +358,17 @@
     </message>
     <message>
         <source>Error saving photobook template</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DDocModel</name>
+    <message>
+        <source>File:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3022,11 +3040,6 @@ failed.</source>
         <source>S3OS Keyboard</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>º
-ª  \</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>! 
 1 |</source>
@@ -3052,11 +3065,6 @@ failed.</source>
 5</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>&amp;&amp;
-6 ¬</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>/
 7</source>
@@ -3080,11 +3088,6 @@ failed.</source>
     <message>
         <source>?
 &apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>¿
-¡</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3186,18 +3189,9 @@ Mayus</source>
         <source>L</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>Ñ</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>&quot;
 &apos;  {</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>ç
-   }</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3343,6 +3337,30 @@ Num</source>
     </message>
     <message>
         <source>Intro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Âº
+Âª  \</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>&amp;&amp;
+6 Â¬</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Â¿
+Â¡</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Ã</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Ã§
+   }</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3641,6 +3659,14 @@ Num</source>
     </message>
     <message>
         <source>Informed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Formats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4351,6 +4377,13 @@ Num</source>
     </message>
     <message>
         <source>The directory: %1 could not be deleted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PrintJobModel</name>
+    <message>
+        <source>Low res</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5409,6 +5442,22 @@ The root node is not &apos;report&apos;.</source>
         <source>Publisher database file: %1 , does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Sublimation DNP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generic database for DNP sublimation printers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sublimation and Digital DNP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generic database for DNP sublimation and digital printers</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -5565,6 +5614,10 @@ The root node is not &apos;report&apos;.</source>
         <source>Set printer by product</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Set printer by format</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SPrinterSettingsWidget</name>
@@ -5690,25 +5743,55 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
-    <name>STDom::DDocModel</name>
+    <name>STFolderImageSingleView</name>
     <message>
-        <source>File:</source>
+        <source>Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Modified:</source>
+        <source>Select All (Ctrl+A)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transforming Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving image %1, please check file permissions</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>STDom::PrintJobModel</name>
+    <name>STFolderImageView</name>
     <message>
-        <source>Low res</source>
+        <source>Parent Folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>STDom::STFtpOrderTransfer</name>
+    <name>STFolderSelector</name>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STFontThumbnailModel</name>
+    <message>
+        <source>normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>italic</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>STFtpOrderTransfer</name>
     <message>
         <source>Could not chdir to: %1</source>
         <translation type="unfinished"></translation>
@@ -5783,7 +5866,7 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
-    <name>STDom::STFtpOrderTransferDialog</name>
+    <name>STFtpOrderTransferDialog</name>
     <message>
         <source>No action</source>
         <translation type="unfinished"></translation>
@@ -5826,54 +5909,6 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>Are you sure to abort this process ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>STFolderImageSingleView</name>
-    <message>
-        <source>Folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select All (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Transforming Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error saving image %1, please check file permissions</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>STFolderImageView</name>
-    <message>
-        <source>Parent Folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>STFolderSelector</name>
-    <message>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>STFontThumbnailModel</name>
-    <message>
-        <source>normal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>italic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6912,6 +6947,17 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>Flip Y</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WFormatManager</name>
+    <message>
+        <source>Removing formats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can not remove this format because there are products that references it</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
