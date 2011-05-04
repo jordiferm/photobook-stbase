@@ -1,5 +1,5 @@
 <!DOCTYPE TMD>
-<TMD revision="$Revision: 1.0 $">
+<TMD revision="$Revision: 1.1 $">
     <name>printworkflows</name>
     <alias>QT_TRANSLATE_NOOP("MetaData","Print Workflows")</alias>
     <field>
@@ -21,7 +21,18 @@
             <display>ref</display>
         </relation>
     </field>
-    <field>
+	<field>
+		<name>formats_idformats</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Related format")</alias>
+		<type>uint</type>
+		<required>false</required>
+		<relation>
+			<table>formats</table>
+			<field>idformats</field>
+			<display>idformats</display>
+		</relation>
+	</field>
+	<field>
         <name>senderid</name>
         <alias>QT_TRANSLATE_NOOP("MetaData","Sender Id")</alias>
         <type>string</type>

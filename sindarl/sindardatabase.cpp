@@ -272,6 +272,13 @@ SindarDatabase::TDefaultDatabaseList SindarDatabase::getDefaultDatabases()
 	return Res;
 }
 
+void SindarDatabase::importDefaultPublisherProducts(const QSqlDatabase& _SourceDatabase)
+{
+	STDom::PublisherDatabase DestDatabase(*this);
+	FSqlDatabaseManager Manager(_SourceDatabase, ":/");
+	DestDatabase.importAll(Manager);
+}
+
 void SindarDatabase::importDefaultPublisherProducts(const QFileInfo& _PubliserDbFile)
 {
 
@@ -279,8 +286,6 @@ void SindarDatabase::importDefaultPublisherProducts(const QFileInfo& _PubliserDb
 	Assert(_PubliserDbFile.exists(), Error(QObject::tr("Publisher database file: %1 , does not exists!").arg(_PubliserDbFile.absoluteFilePath())));
 	STDom::PublisherDatabase SourceDataBase(_PubliserDbFile.absoluteFilePath());
 	Assert(SourceDataBase.open(), Error(QString(QObject::tr("Could not open file %1 for database export.")).arg(_PubliserDbFile.absoluteFilePath())));
-	STDom::PublisherDatabase DestDatabase(*this);
-	FSqlDatabaseManager Manager(SourceDataBase, ":/");
-	DestDatabase.importAll(Manager);
+	importDefaultPublisherProducts(SourceDataBase);
 	SourceDataBase.close();
 }

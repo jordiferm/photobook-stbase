@@ -68,6 +68,7 @@ public:
 
 	int importTemplateRefs();
 	static SindarDatabase::TDefaultDatabaseList getDefaultDatabases();
+	void importDefaultPublisherProducts(const QSqlDatabase& _SourceDatabase);
 	void importDefaultPublisherProducts(const QFileInfo& _PubliserDbFile);
 
 };
