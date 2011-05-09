@@ -46,6 +46,7 @@ SET(prj_SRCS
 	stftpordertransfer.cpp
 	stftpordertransferdialog.cpp
 	printjobprinter.cpp
+	ordertransfermodel.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -65,6 +66,7 @@ SET(prj_MOC_HDRS
 	stftpordertransfer.h
 	stftpordertransferdialog.h
 	printjobprinter.h
+	ordertransfermodel.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

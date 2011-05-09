@@ -29,6 +29,7 @@
 	@author Shadow
 */
 class STImage;
+class QSize;
 class ST_PHOTOTEMPLATES_EXPORT STPhotobookCollectionInfo
 {
 	QString PhotoBookName; 
@@ -54,6 +55,7 @@ public:
 	//! returns the hash name for _SourceFileName including the path. 
 	QString imageFilePath(const QString& _SourceFileName) const;
 	QString imageFilePath(const STImage& _Image, const QString& _Format) const;
+	static QString bookmarkTemplatesFile(const QSize& _Size);
 	static QString defaultRootPathName() { return DefaultRootPathName; }
 };
 
