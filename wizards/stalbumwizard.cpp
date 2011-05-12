@@ -659,9 +659,35 @@ ChooseCreationModePage::ChooseCreationModePage(QWidget* _Parent) : QWizardPage(_
 int ChooseCreationModePage::nextId() const
 {
 	if (RBAutomaticFill->isChecked())
-		return STAlbumWizard::Page_SelectDiskFolder;
+		return STAlbumWizard::Page_BuildOptions;
 	else 
 		return STAlbumWizard::Page_End;
+}
+
+
+//_____________________________________________________________________________
+//
+// class BuildOptionsPage
+//_____________________________________________________________________________
+
+BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
+{
+	setTitle(tr("<h1>Build options</h1>"));
+	setSubTitle(tr("<p>Please, configure your <em>Photo Book</em>?</p> automatic options:"));
+	QVBoxLayout* MLayout = new QVBoxLayout(this);
+
+}
+
+int BuildOptionsPage::nextId() const
+{
+	return STAlbumWizard::Page_SelectDiskFolder;
+
+}
+
+
+void BuildOptionsPage::setTemplateType(STPhotoLayout::EnLayoutType _Type)
+{
+
 }
 
 

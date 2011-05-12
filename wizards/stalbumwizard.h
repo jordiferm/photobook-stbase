@@ -149,6 +149,17 @@ public:
 	int nextId() const;
 };
 
+class BuildOptionsPage : public QWizardPage
+{
+	Q_OBJECT
+
+public:
+	BuildOptionsPage(QWidget* _Parent = 0);
+	int nextId() const;
+	void setTemplateType(STPhotoLayout::EnLayoutType _Type);
+};
+
+
 class SPImageBoxListView;
 class SelectDiskFolderPage : public QWizardPage
 {
@@ -182,7 +193,7 @@ class ST_WIZARDS_EXPORT STAlbumWizard : public QWizard
 
 public:	
 	enum { Page_PhotoBookName, Page_ChooseTemplateMode, Page_CustomSizes, Page_ChooseTemplate, Page_CooseCreationMode,
-		 Page_SelectDiskFolder, Page_End };
+			Page_BuildOptions, Page_SelectDiskFolder, Page_End };
 		
 private: 		
 	ChooseTemplatePage* CTemplatePage; 
