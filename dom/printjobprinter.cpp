@@ -286,7 +286,7 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 	it = ProdList.begin();
 	while (it != ProdList.end()) //For each product
 	{
-		if (hasToStore(it->ref()))
+		if (hasToStore(*it))
 		{
 			STDom::DDocPrintList ProdPrints = _Job.prints(*it);
 			STDom::DDocPrintList::iterator pit;

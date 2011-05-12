@@ -35,6 +35,8 @@
 #include <QToolBar>
 #include <QAction>
 #include <QActionGroup>
+#include <QFormLayout>
+#include <QDateTimeEdit>
 
 //Template info
 #include <QtWebKit/QWebView>
@@ -676,6 +678,45 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
 	setSubTitle(tr("<p>Please, configure your <em>Photo Book</em>?</p> automatic options:"));
 	QVBoxLayout* MLayout = new QVBoxLayout(this);
 
+
+	// ----  General  ----
+	QGroupBox* GBGeneral = new QGroupBox(tr("General"), this);
+	MLayout->addWidget(GBGeneral);
+	QVBoxLayout* GenLayout = new QVBoxLayout(GBGeneral);
+	QCheckBox* CBAutoAdjust = new QCheckBox(tr("Auto adjust images to frames"), GBGeneral);
+	GenLayout->addWidget(CBAutoAdjust);
+	registerField("autoadjust", CBAutoAdjust);
+
+	QCheckBox* CBUseBackgrounds = new QCheckBox(tr("Use photos as background images"), GBGeneral);
+	GenLayout->addWidget(CBUseBackgrounds);
+	registerField("autofillbackgrounds", CBUseBackgrounds);
+
+
+	// ----  PhotoBook  ----
+	QGroupBox* GBPhotoBook = new QGroupBox(tr("PhotoBoook"), this);
+	MLayout->addWidget(GBPhotoBook);
+	QVBoxLayout* PhotoBookLayout = new QVBoxLayout(GBPhotoBook);
+	QCheckBox* CBIncludeTexts = new QCheckBox(tr("Include layouts with texts"), GBPhotoBook);
+	PhotoBookLayout->addWidget(CBIncludeTexts);
+	registerField("includetexts", CBIncludeTexts);
+
+	QFormLayout* FormLayout = new QFormLayout();
+	PhotoBookLayout->addLayout(FormLayout);
+	QLineEdit* LETitle = new QLineEdit(GBPhotoBook);
+	FormLayout->addRow(tr("Title"), LETitle);
+
+
+	// ----  Calendar  ----
+	QGroupBox* GBCalendar = new QGroupBox(tr("Calendar"), this);
+	MLayout->addWidget(GBCalendar);
+	QFormLayout* CalFormLayout = new QFormLayout(GBCalendar);
+
+	QDateTimeEdit* FromMonth = new QDateTimeEdit(GBCalendar);
+	CalFormLayout->addRow(tr("From month"), FromMonth);
+
+	QDateTimeEdit* ToMonth = new QDateTimeEdit(GBCalendar);
+	CalFormLayout->addRow(tr("To month"), ToMonth);
+
 }
 
 int BuildOptionsPage::nextId() const
@@ -796,6 +837,7 @@ STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(pa
 	CTemplatePage = new ChooseTemplatePage(this);
 	setPage(Page_ChooseTemplate, CTemplatePage);
 	setPage(Page_CooseCreationMode, new ChooseCreationModePage(this));
+	setPage(Page_BuildOptions, new BuildOptionsPage(this));
 	SDFolderPage = new SelectDiskFolderPage(this);
 	setPage(Page_SelectDiskFolder, SDFolderPage);
 	setPage(Page_End, new AlbumWizardEndPage(this)); 

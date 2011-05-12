@@ -90,6 +90,7 @@ SET(prj_SRCS
 	stcandidatecalculator.cpp
 	stphotobookcollectionmodel.cpp
 	stphotolayouttemplategenerator.cpp
+	stphotobookbuildoptions.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -142,6 +143,7 @@ SET(prj_MOC_HDRS
 	stcandidatecalculator.h
 	stphotobookcollectionmodel.h
 	stphotolayouttemplategenerator.h
+	stphotobookbuildoptions.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})
