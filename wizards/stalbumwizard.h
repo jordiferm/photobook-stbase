@@ -27,6 +27,7 @@
 #include "ddoc.h"
 #include "stphotolayout.h"
 #include "ddocmodel.h"
+#include "stphotobookbuildoptions.h"
 
 
 class QTextEdit; 
@@ -110,6 +111,9 @@ private slots:
 	void slotWebLoadFinished(bool _Error);
 	void reloadTemplates();
 	void inetgetBlinkTimeout();
+signals:
+	void templateSelected();
+
 };
 
 
@@ -149,14 +153,28 @@ public:
 	int nextId() const;
 };
 
+
+class QGroupBox;
+class QSpinBox;
 class BuildOptionsPage : public QWizardPage
 {
 	Q_OBJECT
 
+	QGroupBox* GBGeneral;
+	QGroupBox* GBPhotoBook;
+	QGroupBox* GBCalendar;
+	QSpinBox* SBNumPages;
+	STPhotoLayout::EnLayoutType LayoutType;
+
+
 public:
 	BuildOptionsPage(QWidget* _Parent = 0);
 	int nextId() const;
-	void setTemplateType(STPhotoLayout::EnLayoutType _Type);
+	virtual void initializePage ();
+	virtual bool isComplete() const;
+	void setBuildOptions(const STPhotoBookBuildOptions& _Options);
+	STPhotoBookBuildOptions getBuildOptions() const;
+	void setTemplate(const STPhotoBookTemplate& _Template, STPhotoLayout::EnLayoutType _Type);
 };
 
 
@@ -166,12 +184,18 @@ class SelectDiskFolderPage : public QWizardPage
 Q_OBJECT
 
 	SPImageBoxListView* ImageBoxListView;
+	QLabel* InfoLabel;
+	int PagesToFill, OptimalImagesPerPage;
+	void updateInfo();
 
 public:
 	SelectDiskFolderPage(QWidget* _Parent = 0);
+	void setTemplate(const STPhotoBookTemplate& _Template, const STPhotoBookBuildOptions& _Options);
 	int nextId() const;
 	bool isComplete() const;
 	STDom::DDocModel* selectedImages() const;
+private slots:
+	void slotUpdateInfo();
 };
 
 class AlbumWizardEndPage : public QWizardPage
@@ -199,8 +223,10 @@ private:
 	ChooseTemplatePage* CTemplatePage; 
 	CustomSizesPage* CCustomSizesPage;
 	SelectDiskFolderPage* SDFolderPage;
+	BuildOptionsPage* PBuildOptions;
 	bool CustomSizesEnabled; 
-	
+	STPhotoBookTemplate PhotoBookTemplate;
+
 public:
 	STAlbumWizard(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 	~STAlbumWizard();
@@ -210,9 +236,13 @@ public:
 	bool imagesFromCollection() const; 
 	quint64 collectionFolderKey() const;
 	int nextId() const;
+	STPhotoLayout::EnLayoutType templateType() const;
 	void setCustomSizesEnabled(bool _Enabled) { CustomSizesEnabled = _Enabled; }
 	bool customSizesEnabled() const { return CustomSizesEnabled; }
 	STDom::DDocModel* selectedImages() const;
+	STPhotoBookBuildOptions buildOptions() const;
+private slots:
+	void slotLoadTemplate();
 };
 
 

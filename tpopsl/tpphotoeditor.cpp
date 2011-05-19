@@ -223,8 +223,20 @@ QToolButton* TPPhotoEditor::newMiniActionButton(const QString& _Icon)
 
 void TPPhotoEditor::updateCurrProductSelection()
 {
-	productActivated(LVProducts->listView()->currentIndex());
+	productActivated(currentProduct());
 }
+
+STDom::DDocProduct TPPhotoEditor::currentProduct() const
+{
+	STDom::DDocProduct Res;
+
+	if (SingleProduct.isNull())
+		Res = LVProducts->currentProduct();
+	else
+		Res = SingleProduct;
+	return Res;
+}
+
 
 void TPPhotoEditor::adjustToolButtonWidth(QToolBar* _ToolBar)
 {
@@ -723,20 +735,23 @@ void TPPhotoEditor::setCurrentProductIndex(const QModelIndex& _Index)
 	LVProducts->setCurrentIndex(_Index);
 }
 
+void TPPhotoEditor::productActivated(const STDom::DDocProduct& _Product )
+{
+	AspectRatioZoom = 1;
+	QSize ImgSize = SelectionIface->imageSize();
+	QSizeF FormatSize = _Product.format().size();
+	if ((ImgSize.width() > ImgSize.height() && FormatSize.width() < FormatSize.height()) ||
+			(ImgSize.width() < ImgSize.height() && FormatSize.width() > FormatSize.height()))
+		FormatSize.transpose();
+
+	setAspectRatio(FormatSize);
+}
+
+/*! Added for Convenience */
 void TPPhotoEditor::productActivated(const QModelIndex& _Index)
 {
 	if (_Index.isValid())
-	{
-		AspectRatioZoom = 1; 
-		STDom::DDocProduct CurrProduct = LVProducts->product(_Index);
-		QSize ImgSize = SelectionIface->imageSize(); 
-		QSizeF FormatSize = CurrProduct.format().size();
-		if ((ImgSize.width() > ImgSize.height() && FormatSize.width() < FormatSize.height()) ||
-				(ImgSize.width() < ImgSize.height() && FormatSize.width() > FormatSize.height()))
-			FormatSize.transpose();
-	
-		setAspectRatio(FormatSize); 
-	}
+		productActivated(LVProducts->product(_Index));
 }
 
 void TPPhotoEditor::zoomMag()

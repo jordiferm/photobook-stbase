@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/st/wizards">
+    <qresource prefix="/st/wizards" >
         <file>printwizard.png</file>
         <file>watermark.png</file>
         <file>printer.png</file>
@@ -25,5 +25,6 @@
         <file>typephotobook.png</file>
         <file>personal.png</file>
         <file>typemultiphoto.png</file>
+        <file>printpreview.png</file>
     </qresource>
 </RCC>

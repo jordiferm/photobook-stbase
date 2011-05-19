@@ -20,12 +20,7 @@
 
 #include "stphotobookbuildoptions.h"
 
-STPhotoBookBuildOptions::STPhotoBookBuildOptions() :
-		IgnoreExifRotation(false), AutoadjustFrames(true), UseTexts(false), AutoFillBackgrounds(false), PagesToFill(0)
-{
-}
-
-void STPhotoBookBuildOptions::setDefaults(STPhotoLayout::EnLayoutType _Type)
+void STPhotoBookBuildOptions::clear()
 {
 	IgnoreExifRotation = false;
 	AutoadjustFrames = true;
@@ -33,7 +28,20 @@ void STPhotoBookBuildOptions::setDefaults(STPhotoLayout::EnLayoutType _Type)
 	AutoFillBackgrounds = false;
 	int PagesToFill = 0;
 	QString Title = "";
+	FromDate = QDate(QDate::currentDate().year(), QDate::currentDate().month(), 1);
+	ToDate = QDate(QDate::currentDate().year(), 12, 31);
+}
 
+
+STPhotoBookBuildOptions::STPhotoBookBuildOptions()
+{
+	clear();
+}
+
+void STPhotoBookBuildOptions::setDefaults(STPhotoLayout::EnLayoutType _Type, int _MinPages)
+{
+	clear();
+	PagesToFill = _MinPages;
 	switch (_Type)
 	{
 		case STPhotoLayout::TypeMultiPhoto :

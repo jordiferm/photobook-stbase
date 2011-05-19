@@ -45,20 +45,33 @@
 
 void TPPhotoSelWidget::incSelectedProduct(const QModelIndex& _Index, int _Quantity)
 {
-	if (STDom::PrintJobModel* PrPrModel = static_cast<STDom::PrintJobModel*>(LVImages->model()))
-		PrPrModel->incProductCopies(_Index, _Quantity, LVProducts->currentProduct());
+	//if (STDom::PrintJobModel* PrPrModel = static_cast<STDom::PrintJobModel*>(LVImages->model()))
+	if (Model)
+		Model->incProductCopies(_Index, _Quantity, currentProduct());
 }
 
 void TPPhotoSelWidget::incAllProduct(int _Quantity)
 {
-	if (STDom::PrintJobModel* PrPrModel = static_cast<STDom::PrintJobModel*>(LVImages->model()))
+	//if (STDom::PrintJobModel* PrPrModel = static_cast<STDom::PrintJobModel*>(LVImages->model()))
+	if (Model)
 	{
 		NoCalcBill = true;
-		PrPrModel->incProductCopiesAll(_Quantity, LVProducts->currentProduct()); 
+		Model->incProductCopiesAll(_Quantity, currentProduct());
 		NoCalcBill = false; 
 		calcBill(); 
 	}
 }
+
+STDom::DDocProduct TPPhotoSelWidget::currentProduct() const
+{
+	STDom::DDocProduct Res;
+	if (SingleProduct.isNull())
+		Res = LVProducts->currentProduct();
+	else
+		Res = SingleProduct;
+	return Res;
+}
+
 
 QToolButton* TPPhotoSelWidget::newActionButton(const QString& _Icon)
 {
@@ -77,7 +90,7 @@ QToolButton* TPPhotoSelWidget::newImageActionButton(const QString& _Icon)
 	return Res; 
 }
 
-TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f), NoCalcBill(false), ImagesPerSheet(1), Model(0)
+TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, bool _ShowNavigation, Qt::WindowFlags f): QWidget(parent, f), NoCalcBill(false), ImagesPerSheet(1), Model(0)
 {
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
 	MLayout->setMargin(2); 
@@ -131,14 +144,17 @@ TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, Qt::WindowFlags f): QWidget(
 
 	// Bottom Frame 
 	QFrame* BottomFrame = new QFrame(this); 
-	BottomFrame->setMinimumHeight(200);
-	MLayout->addWidget(BottomFrame); 	
-
-	MLayout->setStretchFactor(TopLayout, 5); 
-	MLayout->setStretchFactor(BottomFrame, 1); 
+	MLayout->addWidget(BottomFrame);
+	if (_ShowNavigation)
+	{
+		BottomFrame->setMinimumHeight(200);
+		MLayout->setStretchFactor(TopLayout, 5);
+		MLayout->setStretchFactor(BottomFrame, 1);
+	}
 	QHBoxLayout* BFrameLayout = new QHBoxLayout(BottomFrame); 
 
 	CancelBut = newActionButton(":/st/tpopsl/previous.png");
+	CancelBut->setVisible(_ShowNavigation);
 	connect(CancelBut, SIGNAL(clicked( bool )), this, SIGNAL(rejected())); 
 	BFrameLayout->addWidget(CancelBut); 
 
@@ -147,7 +163,11 @@ TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, Qt::WindowFlags f): QWidget(
 	LVProducts = new TPProductListView(this); 
 	BFrameLayout->addWidget(LVProducts); 
 
-	ARWidget = new AddRemoveWidget(this); 
+	if (_ShowNavigation)
+		ARWidget = new AddRemoveWidget(this);
+	else
+		ARWidget = new AddRemoveWidget(this, Qt::Horizontal);
+
 	connect(ARWidget, SIGNAL(addClicked()), this, SLOT(editAddProductToAll())); 
 	connect(ARWidget, SIGNAL(removeClicked()), this, SLOT(editDelProductToAll())); 
 	BFrameLayout->addWidget(ARWidget); 
@@ -159,6 +179,7 @@ TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, Qt::WindowFlags f): QWidget(
 	BFrameLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Preferred)); 
 	
 	AcceptBut = newActionButton(":/st/tpopsl/printer.png");
+	AcceptBut->setVisible(_ShowNavigation);
 	connect(AcceptBut, SIGNAL(clicked( bool )), this, SLOT(slotAccepted())); 
 	BFrameLayout->addWidget(AcceptBut); 
 
@@ -214,9 +235,18 @@ void TPPhotoSelWidget::setModel(STDom::PrintJobModel* _Model)
 
 void TPPhotoSelWidget::setProductsModel(QAbstractItemModel* _Model)
 {
+	LVProducts->setVisible(true);
 	LVProducts->setModel(_Model);
 	PEditor->setProductsModel(_Model); 
 }
+
+void TPPhotoSelWidget::setSingleProduct(const STDom::DDocProduct& _Product)
+{
+	SingleProduct = _Product;
+	LVProducts->setVisible(false);
+	PEditor->setSingleProduct(_Product);
+}
+
 
 void TPPhotoSelWidget::setDpis(int _Value)
 {
@@ -232,6 +262,12 @@ void TPPhotoSelWidget::setFilterEnabled(bool _Value)
 {
 	FilterBut->setVisible(_Value);
 }
+
+void TPPhotoSelWidget::setBillEnabled(bool _Enabled)
+{
+	ReceiptLabel->setVisible(_Enabled);
+}
+
 
 void TPPhotoSelWidget::setHasScrollBar(bool _Value)
 {
@@ -281,7 +317,7 @@ void TPPhotoSelWidget::editDelProductToAll()
 
 void TPPhotoSelWidget::calcBill()
 {
-	if (!NoCalcBill)
+	if (!NoCalcBill && ReceiptLabel->isVisible())
 	{
 		STDom::PublisherDatabase PublDB;
 		//QString StrBill = PublDB.billRitchText(static_cast<STProductPrintsProxyModel*>(LVImages->model()), ShippingMethod, ImagesPerSheet);

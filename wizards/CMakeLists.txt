@@ -12,6 +12,8 @@ INCLUDE_DIRECTORIES( ${st_phototemplates_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_phototemplates_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_dom_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_dom_BINARY_DIR} )
+INCLUDE_DIRECTORIES( ${st_tpopsl_SOURCE_DIR})
+INCLUDE_DIRECTORIES( ${st_tpopsl_BINARY_DIR} )
 
 # --------------------------------------------------------------------------
 # Modules

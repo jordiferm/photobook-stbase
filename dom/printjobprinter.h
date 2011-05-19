@@ -59,6 +59,8 @@ private:
 	QString DefaultSpool;
 	QFileInfo PublisherXmlFile;
 
+	void printProductPrints(QPrinter& _Printer, STDom::DDocPrintList& _ProdPrints, const STDom::DDocProduct& _Product,
+							const QString& _JobName, QProgressBar* _ProgBar);
 	void printAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar);
 	void printNonAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar);
 	STDom::PrintJob storeImages(const STDom::PrintJob& _Job, const QDir& _DestDir, QProgressBar* _ProgBar = 0);
@@ -84,6 +86,7 @@ public:
 	void clearConfig();
 	void setAtomicPrint(bool _Atomic) { AtomicPrint = _Atomic; }
 	bool atomicPrint() { return AtomicPrint; }
+	void printToPrinter(QPrinter& _Printer, const PrintJob& _Job, const QString& _JobName = "noname", QProgressBar* _ProgBar = 0);
 	PrintJob print(const PrintJob& _Job, const QString& _JobName = "noname", QProgressBar* _ProgBar = 0);
 	//! If _FitImagestoFormat is false PrintJobPrinter don't modify images, else it uses FitMode, dpis and format to generate new images.
 	void store(const PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat = true, QProgressBar* _ProgBar = 0);
@@ -97,5 +100,6 @@ public:
 	void storePublisherXmlFile(const QFileInfo& _File) { PublisherXmlFile = _File; }
 };
 
-#endif // PRINTJOBPRINTER_H
 } //STDom namespace
+
+#endif // PRINTJOBPRINTER_H

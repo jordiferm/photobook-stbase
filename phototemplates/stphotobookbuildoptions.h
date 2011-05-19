@@ -28,14 +28,17 @@ class STPhotoBookBuildOptions
 	bool IgnoreExifRotation, AutoadjustFrames, UseTexts, AutoFillBackgrounds;
 	int PagesToFill;
 	QString Title;
+	QDate FromDate, ToDate;
+
+	void clear();
 
 public:
 	STPhotoBookBuildOptions();
-	void setDefaults(STPhotoLayout::EnLayoutType _Type);
+	void setDefaults(STPhotoLayout::EnLayoutType _Type, int _MinPages = 1);
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 	bool ignoreExifRotation() const { return IgnoreExifRotation; }
 	void setAutoadjustFrames(bool _Value) { AutoadjustFrames = _Value; }
-	bool autoadkistFrames() const { return AutoadjustFrames; }
+	bool autoadjustFrames() const { return AutoadjustFrames; }
 	void setUseTexts(bool _Value) { UseTexts = _Value; }
 	bool useTexts() const { return UseTexts; }
 	void setAutoFillBackgrounds(bool _Value) { AutoFillBackgrounds = _Value; }
@@ -44,6 +47,10 @@ public:
 	int pagesToFill() const { return PagesToFill; }
 	void setTitle(const QString& _Title) { Title = _Title; }
 	QString title() const { return Title; }
+	void setFromDate(const QDate& _Value) { FromDate = _Value; }
+	QDate fromDate() const { return FromDate; }
+	void setToDate(const QDate& _Value) { ToDate = _Value; }
+	QDate toDate() const { return ToDate; }
 };
 
 #endif // STPHOTOBOOKBUILDOPTIONS_H

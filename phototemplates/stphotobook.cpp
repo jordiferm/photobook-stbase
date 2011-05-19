@@ -90,6 +90,19 @@ void STPhotoBook::setHasChanges(bool _Value)
 	}
 }
 
+void STPhotoBook::setBuildOptions(const STPhotoBookBuildOptions& _Options)
+{
+	setIgnoreExifRotation(_Options.ignoreExifRotation());
+	setAutoFillBackgrounds(_Options.autoFillBackgrounds());
+	setPagesToFill(_Options.pagesToFill());
+	setAutoAdjustFrames(_Options.autoadjustFrames());
+	if (!_Options.useTexts())
+		Template.removeTextTemplates();
+	if (!_Options.title().isEmpty())
+		Template.setTitleText(_Options.title());
+}
+
+
 
 STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true), IgnoreExifRotation(false), AutoFillBackgrounds(false), PagesToFill(0)
 {
@@ -219,6 +232,14 @@ STPhotoLayoutTemplate STPhotoBook::candidateTemplate(int _AvaliablePhotos,
 	}
 	return Res;
 }
+
+
+void STPhotoBook::setTemplate(STPhotoBookTemplate& _Template, const STPhotoBookBuildOptions& _Options)
+{
+	Template = _Template;
+	setBuildOptions(_Options);
+}
+
 
 /*! After clear() call isEmpty() returns true
 */
@@ -1196,6 +1217,7 @@ void STPhotoBook::clearEncryptionKey()
 {
 	EncryptionKey.clear();
 }
+
 
 void STPhotoBook::slotSceneSelectionChange()
 {

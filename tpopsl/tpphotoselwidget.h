@@ -63,26 +63,32 @@ class ST_TPOPSL_EXPORT TPPhotoSelWidget : public QWidget
 	int ImagesPerSheet; 
 	STDom::PrintJobModel* Model;
 	QDir RootDir;
+	STDom::DDocProduct SingleProduct;
 
 	QToolButton* newActionButton(const QString& _Icon);
 	QToolButton* newImageActionButton(const QString& _Icon);
 	void incSelectedProduct(const QModelIndex& _Index, int _Quantity);
 	void incAllProduct(int _Quantity);
+	STDom::DDocProduct currentProduct() const;
 
 public:
-	TPPhotoSelWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
+	TPPhotoSelWidget(QWidget* parent = 0, bool _ShowNavigation = true, Qt::WindowFlags f = 0);
 	~TPPhotoSelWidget();
 	void init(); 
 	void retranslateUi();
 	void setModel(STDom::PrintJobModel* _Model);
 	void setProductsModel(QAbstractItemModel* _Model); 
+	//! Instead of use productmodes uses only this product.
+	void setSingleProduct(const STDom::DDocProduct& _Product);
 	void setRootDir(const QDir& _Dir) { RootDir = _Dir; }
 	void setShippingMethod(const QSqlRecord& _Value) { ShippingMethod = _Value; } 
 	void setDpis(int _Value); 
-	//! To bill calculation.
+	//! For bill calculation.
 	void setImagesPerSheet(int _Value) { ImagesPerSheet = _Value; }
 	bool hasChanges() const;
+	//Configuration
 	void setFilterEnabled(bool _Value);
+	void setBillEnabled(bool _Enabled);
 	void setHasScrollBar(bool _Value);
 	void setMinDpis(int _Dpis);
 

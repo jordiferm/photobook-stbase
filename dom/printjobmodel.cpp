@@ -73,7 +73,7 @@ int PrintJobModel::LowResWarningLimit = 0;
 QImage PrintJobModel::CutWarningImage;
 QImage PrintJobModel::LowResWarningImage;
 
-PrintJobModel::PrintJobModel(QObject* _Parent) : QSortFilterProxyModel(_Parent), FolderFilter(""), RitchTextDisplay(false)
+PrintJobModel::PrintJobModel(QObject* _Parent) : QSortFilterProxyModel(_Parent), FolderFilter(""), RitchTextDisplay(false), SourceDocModel(0)
 {
 	ThumbnailSize = QSize(60, 60);
 }

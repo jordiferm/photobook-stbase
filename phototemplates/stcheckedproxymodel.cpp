@@ -19,10 +19,11 @@
 ****************************************************************************/
 #include "stcheckedproxymodel.h"
 #include <QPixmap> 
-#include <QPainter> 
+#include <QPainter>
+#include <QDebug>
 
 STCheckedProxyModel::STCheckedProxyModel(QObject* _Parent, const QImage& _CheckedImage)
- : QSortFilterProxyModel(_Parent), CheckedImage(_CheckedImage)
+ : QSortFilterProxyModel(_Parent), CheckedImage(_CheckedImage), NumMatchLimit(0)
 {
 	ThumbnailSize = QSize(60, 60);
 }
@@ -87,14 +88,20 @@ void STCheckedProxyModel::setChecked(const QModelIndex& _Index, bool _Checked)
 void STCheckedProxyModel::setNumMatches(const QModelIndex& _Index, int _NumMatches)
 {
 	bool Changed = false;
+	int NumMatches;
+	if (NumMatchLimit > 0)
+		NumMatches = qMin(_NumMatches, NumMatchLimit);
+	else
+		NumMatches = _NumMatches;
+
 	if (CheckedImages.contains(_Index))
 	{
-		Changed = CheckedImages[_Index] == _NumMatches;
+		Changed = CheckedImages[_Index] != NumMatches;
 	}
-	else Changed = (_NumMatches > 0);
+	else Changed = (NumMatches > 0);
 
-	if (_NumMatches > 0)
-		CheckedImages[_Index] = _NumMatches;
+	if (NumMatches > 0)
+		CheckedImages[_Index] = NumMatches;
 	else
 		CheckedImages.remove(_Index);
 

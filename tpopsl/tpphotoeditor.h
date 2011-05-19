@@ -77,6 +77,7 @@ private:
 
 	SelectionInterface* SelectionIface; 
 	STDom::PrintJobModel* Model;
+	STDom::DDocProduct SingleProduct;
 	TPProductListView* LVProducts;
 	SProcessStatusWidget* ProcStatusW; 
 	QToolBar* ActToolBar;
@@ -137,6 +138,7 @@ private:
 	QToolButton* newActionButton(const QString& _Icon);
 	QToolButton* newMiniActionButton(const QString& _Icon);
 	void updateCurrProductSelection();
+	STDom::DDocProduct currentProduct() const;
 	void adjustToolButtonWidth(QToolBar* _ToolBar);
 
 	void removeToolTips(QToolBar* _ToolBar); 
@@ -149,6 +151,7 @@ public:
 	TPPhotoEditor(QWidget* parent = 0, Qt::WindowFlags f = 0);
 	void setModel(STDom::PrintJobModel* _Model);
 	void setProductsModel(QAbstractItemModel* _Model);
+	void setSingleProduct(const STDom::DDocProduct& _Product) { SingleProduct = _Product; }
 	void setCurrentIndex(const QModelIndex& _Index);
 	void init();
 	void show();
@@ -177,6 +180,7 @@ public:
 	void setReceiptText(const QString& _Text);
 
 	void setCurrentProductIndex(const QModelIndex& _Index);
+	void productActivated(const STDom::DDocProduct& _Product );
 
 private slots: 
 	void productActivated(const QModelIndex& );

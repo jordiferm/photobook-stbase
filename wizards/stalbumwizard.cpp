@@ -56,6 +56,7 @@
 #include "stphotolayout.h" 
 #include "disksourceselectionwidget.h" 
 #include "strecentfiles.h"
+#include "sterror.h"
 
 
 //_____________________________________________________________________________
@@ -342,6 +343,7 @@ STDom::DDocFormat ChooseTemplatePage::currentSize() const
 bool ChooseTemplatePage::validatePage()
 {
 	TemplateFileInfo = Model->photoLayoutFileInfo(View->currentIndex(), currentSize());
+	emit templateSelected();
 	//TODO: Set the current locale.
 	return true; 
 }
@@ -680,7 +682,7 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
 
 
 	// ----  General  ----
-	QGroupBox* GBGeneral = new QGroupBox(tr("General"), this);
+	GBGeneral = new QGroupBox(tr("General"), this);
 	MLayout->addWidget(GBGeneral);
 	QVBoxLayout* GenLayout = new QVBoxLayout(GBGeneral);
 	QCheckBox* CBAutoAdjust = new QCheckBox(tr("Auto adjust images to frames"), GBGeneral);
@@ -691,9 +693,13 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
 	GenLayout->addWidget(CBUseBackgrounds);
 	registerField("autofillbackgrounds", CBUseBackgrounds);
 
+	QCheckBox* CBDetectRotations = new QCheckBox(tr("Auto detect image orientation"), GBGeneral);
+	GenLayout->addWidget(CBDetectRotations);
+	registerField("autodetectrotation", CBDetectRotations);
+
 
 	// ----  PhotoBook  ----
-	QGroupBox* GBPhotoBook = new QGroupBox(tr("PhotoBoook"), this);
+	GBPhotoBook = new QGroupBox(tr("PhotoBoook"), this);
 	MLayout->addWidget(GBPhotoBook);
 	QVBoxLayout* PhotoBookLayout = new QVBoxLayout(GBPhotoBook);
 	QCheckBox* CBIncludeTexts = new QCheckBox(tr("Include layouts with texts"), GBPhotoBook);
@@ -703,20 +709,33 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
 	QFormLayout* FormLayout = new QFormLayout();
 	PhotoBookLayout->addLayout(FormLayout);
 	QLineEdit* LETitle = new QLineEdit(GBPhotoBook);
+	registerField("title", LETitle);
 	FormLayout->addRow(tr("Title"), LETitle);
+
+	SBNumPages = new QSpinBox(GBPhotoBook);
+	registerField("numpages", SBNumPages);
+	FormLayout->addRow(tr("Number of pages"), SBNumPages);
+	SBNumPages->setRange(1, 999);
 
 
 	// ----  Calendar  ----
-	QGroupBox* GBCalendar = new QGroupBox(tr("Calendar"), this);
+	GBCalendar = new QGroupBox(tr("Calendar"), this);
 	MLayout->addWidget(GBCalendar);
 	QFormLayout* CalFormLayout = new QFormLayout(GBCalendar);
 
 	QDateTimeEdit* FromMonth = new QDateTimeEdit(GBCalendar);
+	registerField("fromdate", FromMonth);
+	FromMonth->setDisplayFormat("MMMM yyyy");
+	FromMonth->setCalendarPopup(true);
 	CalFormLayout->addRow(tr("From month"), FromMonth);
+	connect(FromMonth, SIGNAL(dateChanged(QDate)), this, SIGNAL(completeChanged()));
 
 	QDateTimeEdit* ToMonth = new QDateTimeEdit(GBCalendar);
+	registerField("todate", ToMonth);
+	ToMonth->setDisplayFormat("MMMM yyyy");
+	ToMonth->setCalendarPopup(true);
 	CalFormLayout->addRow(tr("To month"), ToMonth);
-
+	connect(ToMonth, SIGNAL(dateChanged(QDate)), this, SIGNAL(completeChanged()));
 }
 
 int BuildOptionsPage::nextId() const
@@ -725,9 +744,57 @@ int BuildOptionsPage::nextId() const
 
 }
 
-
-void BuildOptionsPage::setTemplateType(STPhotoLayout::EnLayoutType _Type)
+void BuildOptionsPage::initializePage()
 {
+}
+
+
+bool BuildOptionsPage::isComplete() const
+{
+	STPhotoBookBuildOptions BOptions = getBuildOptions();
+	bool Res = true;
+	Res = Res && BOptions.fromDate() < BOptions.toDate();
+	return Res;
+}
+
+
+void BuildOptionsPage::setBuildOptions(const STPhotoBookBuildOptions& _Options)
+{
+	setField("autoadjust", _Options.autoadjustFrames());
+	setField("autofillbackgrounds", _Options.autoFillBackgrounds());
+	setField("autodetectrotation", !_Options.ignoreExifRotation());
+	setField("includetexts", _Options.useTexts());
+	setField("title", _Options.title());
+	setField("numpages", _Options.pagesToFill());
+	setField("fromdate", _Options.fromDate());
+	setField("todate", _Options.toDate());
+}
+
+
+STPhotoBookBuildOptions BuildOptionsPage::getBuildOptions() const
+{
+	STPhotoBookBuildOptions Res;
+	Res.setAutoadjustFrames(field("autoadjust").toBool());
+	Res.setAutoFillBackgrounds(field("autofillbackgrounds").toBool());
+	Res.setIgnoreExifRotation(!field("autodetectrotation").toBool());
+	Res.setUseTexts(field("includetexts").toBool());
+	Res.setTitle(field("title").toString());
+	Res.setPagesToFill(field("numpages").toInt());
+	Res.setFromDate(field("fromdate").toDate());
+	Res.setToDate(field("todate").toDate());
+	return Res;
+}
+
+void BuildOptionsPage::setTemplate(const STPhotoBookTemplate& _Template, STPhotoLayout::EnLayoutType _Type)
+{
+	SBNumPages->setRange(_Template.minPages(), _Template.maxPages());
+
+	LayoutType = _Type;
+	STPhotoBookBuildOptions InitOpts;
+	InitOpts.setDefaults(LayoutType, _Template.minPages());
+	setBuildOptions(InitOpts);
+	GBPhotoBook->setVisible(_Type == STPhotoLayout::TypePhotoBook);
+	GBCalendar->setVisible(_Type == STPhotoLayout::TypeCalendar);
 
 }
 
@@ -738,7 +805,20 @@ void BuildOptionsPage::setTemplateType(STPhotoLayout::EnLayoutType _Type)
 //_____________________________________________________________________________
 
 
-SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Parent)
+void SelectDiskFolderPage::updateInfo()
+{
+	//ImageBoxListView->model()->rowCount()
+	QString FontColor="#000000";
+	int SelectedImages = ImageBoxListView->model()->rowCount();
+	int OptimalImageNum = OptimalImagesPerPage * PagesToFill;
+	if ( SelectedImages < OptimalImageNum)
+		FontColor="#FF0000";
+	InfoLabel->setText(tr("Optimal image number: <span style=\"font-size:20px;\"><font color=\%1><b>%2</b></font></span>, Images per page: <span style=\"font-size:20px;\"><font  color=\%1><b>%3</b></font></span>").arg(
+			FontColor).arg(OptimalImageNum).arg(SelectedImages / qMax(PagesToFill, 1)));
+
+}
+
+SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Parent), PagesToFill(0), OptimalImagesPerPage(0)
 {
 	setTitle(tr("<h1>Image selection</h1>"));
 	setSubTitle(tr("<p>Please choose your PhotoBook images. Drag&Drop them to the list at the bottom.</p>"));
@@ -757,6 +837,7 @@ SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Pare
 	TopLayout->addWidget(SourceLabel);
 	//MLayout->addWidget(new QLabel(tr("Folder name:"), this));
 	SPImagesListView* ImagesListView = new SPImagesListView(this);
+	ImagesListView->model()->setNumMatchLimit(1);
 	TopLayout->addWidget(ImagesListView);
 	ImagesListView->showSelectAllAction(true);
 
@@ -771,6 +852,9 @@ SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Pare
 	MiddleLayout->addWidget(DestinationLabel);
 
 	ImageBoxListView = new SPImageBoxListView(this);
+	InfoLabel = new QLabel(this);
+	ImageBoxListView->toolBar()->addSeparator();
+	ImageBoxListView->toolBar()->addWidget(InfoLabel);
 	MiddleLayout->addWidget(ImageBoxListView );
 
 	ImageBoxListView->model()->setReportDropsMd5(true);
@@ -778,7 +862,18 @@ SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Pare
 	connect(ImageBoxListView->model(), SIGNAL(imageRemoved(QString,QString)), ImagesListView->model(), SLOT(slotUncheckImage(QString,QString)));
 	connect(ImageBoxListView->model(), SIGNAL(rowsInserted(const QModelIndex&, int , int )), this, SIGNAL(completeChanged()));
 	connect(ImageBoxListView->model(), SIGNAL(rowsRemoved(const QModelIndex&, int , int )), this, SIGNAL(completeChanged()));
+	connect(this, SIGNAL(completeChanged()), this, SLOT(slotUpdateInfo()));
+
+	updateInfo();
 }
+
+void SelectDiskFolderPage::setTemplate(const STPhotoBookTemplate& _Template, const STPhotoBookBuildOptions& _Options)
+{
+	PagesToFill = _Options.pagesToFill();
+	OptimalImagesPerPage = _Template.numOptimalImagesPerPage();
+	updateInfo();
+}
+
 
 
 int SelectDiskFolderPage::nextId() const
@@ -796,6 +891,10 @@ STDom::DDocModel* SelectDiskFolderPage::selectedImages() const
 	return ImageBoxListView->model()->sourceModel();
 }
 
+void SelectDiskFolderPage::slotUpdateInfo()
+{
+	updateInfo();
+}
 
 
 //_____________________________________________________________________________
@@ -837,7 +936,8 @@ STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(pa
 	CTemplatePage = new ChooseTemplatePage(this);
 	setPage(Page_ChooseTemplate, CTemplatePage);
 	setPage(Page_CooseCreationMode, new ChooseCreationModePage(this));
-	setPage(Page_BuildOptions, new BuildOptionsPage(this));
+	PBuildOptions = new BuildOptionsPage(this);
+	setPage(Page_BuildOptions, PBuildOptions);
 	SDFolderPage = new SelectDiskFolderPage(this);
 	setPage(Page_SelectDiskFolder, SDFolderPage);
 	setPage(Page_End, new AlbumWizardEndPage(this)); 
@@ -852,6 +952,7 @@ STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(pa
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/st/wizards/albumwizard.png").scaled(64,64));
 
 	connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
+	connect(CTemplatePage, SIGNAL(templateSelected()), this, SLOT(slotLoadTemplate()));
 
 	setWindowTitle(QObject::tr("PhotoBook Wizard"));
 }
@@ -893,15 +994,50 @@ quint64 STAlbumWizard::collectionFolderKey() const
 
 int STAlbumWizard::nextId() const
 {
+
 	int Res = QWizard::nextId();
 	if (!CustomSizesEnabled && Res == Page_ChooseTemplateMode)
 		Res = Page_ChooseTemplate;
+	if (Res ==  Page_BuildOptions)
+	{
+		STPhotoLayout::EnLayoutType TemplType = CTemplatePage->currentType();
+		PBuildOptions->setTemplate(PhotoBookTemplate, TemplType);
+		if (TemplType != STPhotoLayout::TypeCalendar && TemplType != STPhotoLayout::TypePhotoBook)
+			Res = PBuildOptions->nextId();
+	}
+	if (Res == Page_SelectDiskFolder)
+	{
+		SDFolderPage->setTemplate(PhotoBookTemplate, PBuildOptions->getBuildOptions());
+	}
+
 	return Res; 
+}
+
+STPhotoLayout::EnLayoutType STAlbumWizard::templateType() const
+{
+	return CTemplatePage->currentType();
 }
 
 STDom::DDocModel* STAlbumWizard::selectedImages() const
 {
 	return SDFolderPage->selectedImages();
+}
+
+STPhotoBookBuildOptions STAlbumWizard::buildOptions() const
+{
+	return PBuildOptions->getBuildOptions();
+}
+
+void STAlbumWizard::slotLoadTemplate()
+{
+	try
+	{
+		PhotoBookTemplate.load(photoBookTemplateFileInfo().absoluteFilePath());
+	}
+	catch (STError& _Error)
+	{
+		SMessageBox::critical(this, tr("Error loading template"), _Error.description());
+	}
 }
 
 
