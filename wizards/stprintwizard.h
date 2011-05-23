@@ -40,12 +40,14 @@ class STPWPrintingPage : public QWizardPage
 	STDom::PrintJob PrintJob;
 	STDom::PrintJobPrinter::EnFitMode FitMode;
 	QPrintPreviewDialog* PDialog;
+	bool AtomicPrint;
 
 public:
 	STPWPrintingPage(QWidget* _Parent = 0);
 	void setPrinter(QPrinter* _Printer) { Printer = _Printer; }
 	void setPrintJob(const STDom::PrintJob& _PrintJob) { PrintJob = _PrintJob; }
 	void setFitMode(STDom::PrintJobPrinter::EnFitMode _FitMode) { FitMode = _FitMode; }
+	void setAtomicPrint(bool _Value) { AtomicPrint = _Value; }
 	void initializePage();
 	bool print(QPrinter* _Printer);
 	bool validatePage();
@@ -100,6 +102,7 @@ Q_OBJECT
 public:
 	STPWImageSelectionPage(QWidget* _Parent = 0);
 	void setPrintJob(const STDom::PrintJob& _PrintJob);
+	void setAtomicPrint(bool _Value);
 	int nextId() const;
 	virtual QSize sizeHint () const { return QSize(750, 550); }
 	STDom::PrintJob printJob() const;
@@ -127,6 +130,7 @@ public:
 public:
 	STPrintJobWizard(QWidget* _Parent);
 	void setPrintJob(const STDom::PrintJob& _PrintJob);
+	void setAtomicPrint(bool _Value);
 	int printImages(const QFileInfoList& _Images);
 
 private slots:

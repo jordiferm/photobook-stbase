@@ -71,7 +71,7 @@ public:
 	//Printer config
 	void setDpis(int _Dpis) { Dpis = _Dpis; }
 	int dpis() const { return Dpis; }
-	void setFitMode(EnFitMode _Mode) { FitMode = FitModeCrop; }
+	void setFitMode(EnFitMode _Mode) { FitMode = _Mode; }
 	EnFitMode fitMode() const { return FitMode; }
 
 	//Print Operations

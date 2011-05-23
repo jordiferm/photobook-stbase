@@ -26,6 +26,7 @@
 #include <QRadioButton> 
 #include <QToolButton>
 #include <QPrintPreviewDialog>
+#include <QPageSetupDialog>
 #include <QDebug>
 
 #include "sprocessstatuswidget.h"
@@ -47,7 +48,7 @@
 //_____________________________________________________________________________
 
 STPWPrintingPage::STPWPrintingPage( QWidget* _Parent)
-	: QWizardPage(_Parent), PDialog(0)
+	: QWizardPage(_Parent), PDialog(0), AtomicPrint(false)
 {
 	setTitle(tr("<h1>Printing photos</h1>"));
 	setSubTitle(tr("Press the 'Finish' button to print your photos."));
@@ -79,6 +80,7 @@ bool STPWPrintingPage::print(QPrinter* _Printer)
 	QApplication::processEvents();
 	STDom::PrintJobPrinter PJPrinter;
 	PJPrinter.setFitMode(FitMode);
+	PJPrinter.setAtomicPrint(AtomicPrint);
 	PJPrinter.clearErrorStack();
 	PJPrinter.printToPrinter(*_Printer, PrintJob, "st-print-wizard", StatusWidg->progressBar());
 	if (!PJPrinter.errorStack().isEmpty())
@@ -195,7 +197,7 @@ STPWImageSelectionPage::STPWImageSelectionPage(QWidget* _Parent) : QWizardPage(_
 	PhotoSelW->setBillEnabled(false);
 	PhotoSelW->setFilterEnabled(false);
 	MLayout->addWidget(PhotoSelW);
-	//setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+	setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
 
 void STPWImageSelectionPage::setPrintJob(const STDom::PrintJob& _PrintJob)
@@ -204,6 +206,10 @@ void STPWImageSelectionPage::setPrintJob(const STDom::PrintJob& _PrintJob)
 	PhotoSelW->setSingleProduct(_PrintJob.products().first());
 }
 
+void STPWImageSelectionPage::setAtomicPrint(bool _Value)
+{
+	PhotoSelW->setAtomicPrintSelection(_Value);
+}
 
 int STPWImageSelectionPage::nextId() const
 {
@@ -250,13 +256,26 @@ void STPrintJobWizard::setPrintJob(const STDom::PrintJob& _PrintJob)
 	ImageSelectPage->setPrintJob(_PrintJob); 
 }
 
+void STPrintJobWizard::setAtomicPrint(bool _Value)
+{
+	ImageSelectPage->setAtomicPrint(_Value);
+	PrnPage->setAtomicPrint(_Value);
+}
+
 int STPrintJobWizard::printImages(const QFileInfoList& _Images)
 {
 	QPrintDialog PDialog(&Printer, this);
 	PDialog.setOption(QAbstractPrintDialog::PrintToFile,false);
 	PDialog.setOption(QAbstractPrintDialog::PrintSelection,false);
 	PDialog.setOption(QAbstractPrintDialog::PrintPageRange,false);
-	PDialog.exec();
+	if (PDialog.exec() != QDialog::Accepted)
+		return QDialog::Rejected;
+
+#ifdef Q_OS_MAC
+	QPageSetupDialog PSDialog(&Printer, this);
+	if (PSDialog.exec() != QDialog::Accepted)
+		return QDialog::Rejected;
+#endif
 
 	// Create a PrintJob with Images
 	QSizeF ProdSize = Printer.paperSize(QPrinter::Millimeter);

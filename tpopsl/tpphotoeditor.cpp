@@ -818,7 +818,7 @@ void TPPhotoEditor::doAutoCorrectionCommand()
 
 void TPPhotoEditor::doWhiteMarginCommand()
 {
-	STDom::DDocProduct CurrProduct = LVProducts->currentProduct();
+	STDom::DDocProduct CurrProduct = currentProduct();
 	UndoStack->push(new TPWhiteMarginUndoCommand(this, CurrProduct.format().pixelSize(Dpis))); 
 }
 

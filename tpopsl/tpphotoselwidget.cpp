@@ -99,7 +99,7 @@ TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, bool _ShowNavigation, Qt::Wi
 	MLayout->addLayout(TopLayout); 
 
 	LVImages = new TPPhotoListView(this); 
-	TPPhotoDelegate* PDelegate = new TPPhotoDelegate(LVImages); 
+	PDelegate = new TPPhotoDelegate(LVImages);
 	connect(PDelegate, SIGNAL(editAddRequested(const QModelIndex&)), this, SLOT(editAddProduct(const QModelIndex&))); 
 	connect(PDelegate, SIGNAL(editDelRequested(const QModelIndex&)), this, SLOT(editDelProduct(const QModelIndex&))); 
 	connect(PDelegate, SIGNAL(editCloneRequested(const QModelIndex&)), this, SLOT(editCloneProduct(const QModelIndex&))); 
@@ -281,6 +281,14 @@ void TPPhotoSelWidget::setMinDpis(int _Dpis)
 {
 	PEditor->setMinDpis(_Dpis);
 }
+
+
+void TPPhotoSelWidget::setAtomicPrintSelection(bool _Value)
+{
+	PDelegate->setEditActionsVisible(!_Value);
+	PDelegate->setCopyActionVisible(!_Value);
+}
+
 
 void TPPhotoSelWidget::editAddProduct(const QModelIndex& _Index)
 {

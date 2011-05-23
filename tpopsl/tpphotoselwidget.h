@@ -42,6 +42,7 @@ class QModelIndex;
 class QLabel; 
 class TPPhotoEditor; 
 class AddRemoveWidget; 
+class TPPhotoDelegate;
 class ST_TPOPSL_EXPORT TPPhotoSelWidget : public QWidget
 {
 	Q_OBJECT
@@ -62,6 +63,7 @@ class ST_TPOPSL_EXPORT TPPhotoSelWidget : public QWidget
 	AddRemoveWidget* ARWidget;
 	int ImagesPerSheet; 
 	STDom::PrintJobModel* Model;
+	TPPhotoDelegate* PDelegate;
 	QDir RootDir;
 	STDom::DDocProduct SingleProduct;
 
@@ -91,6 +93,7 @@ public:
 	void setBillEnabled(bool _Enabled);
 	void setHasScrollBar(bool _Value);
 	void setMinDpis(int _Dpis);
+	void setAtomicPrintSelection(bool _Value);
 
 
 public slots: 

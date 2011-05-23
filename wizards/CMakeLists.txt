@@ -80,5 +80,5 @@ INCLUDE_DIRECTORIES( ${st_wizards_BINARY_DIR} )
 ADD_LIBRARY(st_wizards SHARED ${prj_SRCS} ${prj_MOC_SRCS} ${prj_RCC_SRCS})
 
 SET_TARGET_PROPERTIES(st_wizards PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
-TARGET_LINK_LIBRARIES(st_wizards ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_phototemplates st_dom)
+TARGET_LINK_LIBRARIES(st_wizards ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_phototemplates st_dom st_tpopsl)
 INSTALL(TARGETS st_wizards DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})
