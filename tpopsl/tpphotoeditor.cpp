@@ -223,8 +223,20 @@ QToolButton* TPPhotoEditor::newMiniActionButton(const QString& _Icon)
 
 void TPPhotoEditor::updateCurrProductSelection()
 {
-	productActivated(LVProducts->listView()->currentIndex());
+	productActivated(currentProduct());
 }
+
+STDom::DDocProduct TPPhotoEditor::currentProduct() const
+{
+	STDom::DDocProduct Res;
+
+	if (SingleProduct.isNull())
+		Res = LVProducts->currentProduct();
+	else
+		Res = SingleProduct;
+	return Res;
+}
+
 
 void TPPhotoEditor::adjustToolButtonWidth(QToolBar* _ToolBar)
 {
@@ -321,6 +333,8 @@ SResetSlider* TPPhotoEditor::newSlider(QWidget* _Parent)
 TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent, f), Model(0), AspectRatioZoom(1), Dpis(300), SelectionRotated(false)
 {
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
+	MLayout->setMargin(1);
+	MLayout->setSpacing(0);
 	QHBoxLayout* TopLayout = new QHBoxLayout; 
 	MLayout->addLayout(TopLayout); 
 	QHBoxLayout* BottomLayout = new QHBoxLayout;
@@ -380,6 +394,13 @@ TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent
 	LabImageInfo = new QLabel(tr("No Info"), this); 
 	IFrameBottomLayout->addWidget(LabImageInfo); 
 
+	QToolBar* UndoToolBar = new QToolBar(this);
+
+	UndoToolBar->setIconSize(QSize(32,32));
+	UndoToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+	IFrameBottomLayout->addWidget(UndoToolBar);
+
+
 	ButNextImage = newMiniActionButton(":/st/tpopsl/next.png"); 
 	connect(ButNextImage, SIGNAL(clicked( bool )), this, SLOT(nextImage())); 
 	IFrameBottomLayout->addWidget(ButNextImage); 
@@ -422,13 +443,6 @@ TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent
 	BottomLayout->addWidget((FrameBasicControls));
 
 	QHBoxLayout* BCLayout = new QHBoxLayout(FrameBasicControls);
-
-	QToolBar* UndoToolBar = new QToolBar(FrameBasicControls);
-	UndoToolBar->setOrientation(Qt::Vertical);
-
-	UndoToolBar->setIconSize(QSize(32,32));
-	UndoToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-	BCLayout->addWidget(UndoToolBar);
 
 	LVProducts = new TPProductListView(FrameBasicControls);
 	connect(LVProducts, SIGNAL(clicked( const QModelIndex& )), this, SLOT(productActivated(const QModelIndex& )));
@@ -723,20 +737,23 @@ void TPPhotoEditor::setCurrentProductIndex(const QModelIndex& _Index)
 	LVProducts->setCurrentIndex(_Index);
 }
 
+void TPPhotoEditor::productActivated(const STDom::DDocProduct& _Product )
+{
+	AspectRatioZoom = 1;
+	QSize ImgSize = SelectionIface->imageSize();
+	QSizeF FormatSize = _Product.format().size();
+	if ((ImgSize.width() > ImgSize.height() && FormatSize.width() < FormatSize.height()) ||
+			(ImgSize.width() < ImgSize.height() && FormatSize.width() > FormatSize.height()))
+		FormatSize.transpose();
+
+	setAspectRatio(FormatSize);
+}
+
+/*! Added for Convenience */
 void TPPhotoEditor::productActivated(const QModelIndex& _Index)
 {
 	if (_Index.isValid())
-	{
-		AspectRatioZoom = 1; 
-		STDom::DDocProduct CurrProduct = LVProducts->product(_Index);
-		QSize ImgSize = SelectionIface->imageSize(); 
-		QSizeF FormatSize = CurrProduct.format().size();
-		if ((ImgSize.width() > ImgSize.height() && FormatSize.width() < FormatSize.height()) ||
-				(ImgSize.width() < ImgSize.height() && FormatSize.width() > FormatSize.height()))
-			FormatSize.transpose();
-	
-		setAspectRatio(FormatSize); 
-	}
+		productActivated(LVProducts->product(_Index));
 }
 
 void TPPhotoEditor::zoomMag()
@@ -803,7 +820,7 @@ void TPPhotoEditor::doAutoCorrectionCommand()
 
 void TPPhotoEditor::doWhiteMarginCommand()
 {
-	STDom::DDocProduct CurrProduct = LVProducts->currentProduct();
+	STDom::DDocProduct CurrProduct = currentProduct();
 	UndoStack->push(new TPWhiteMarginUndoCommand(this, CurrProduct.format().pixelSize(Dpis))); 
 }
 

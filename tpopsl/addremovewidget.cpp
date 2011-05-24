@@ -21,9 +21,14 @@
 #include <QToolButton> 
 #include <QLayout> 
 
-AddRemoveWidget::AddRemoveWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
+AddRemoveWidget::AddRemoveWidget(QWidget* parent, Qt::Orientation _Orientation): QWidget(parent)
 {
-	QVBoxLayout* ARItemsLayout = new QVBoxLayout(this); 
+	QLayout* ARItemsLayout;
+	if (_Orientation == Qt::Vertical)
+		ARItemsLayout = new QVBoxLayout(this);
+	else
+		ARItemsLayout = new QHBoxLayout(this);
+
 	ARItemsLayout->setMargin(0);
 	ARItemsLayout->setSpacing(0);
 	AddItemsBut = new QToolButton(this);

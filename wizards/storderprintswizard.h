@@ -303,10 +303,10 @@ public:
 */
 
 
-class OPWSelectCropsPage : public SelectCropsPage
+class OPWSelectCropsPage : public QWizardPage
 {
 public:
-	OPWSelectCropsPage(QWidget* _Parent = 0) : SelectCropsPage(_Parent) {}
+	OPWSelectCropsPage(QWidget* _Parent = 0) : QWizardPage(_Parent) {}
 	int nextId() const;
 };
 
@@ -339,6 +339,7 @@ public:
 */
 
 class QSqlTableModel;
+class QLabel;
 class OPWChoosePayMethod : public STOWizardPage
 {
 Q_OBJECT

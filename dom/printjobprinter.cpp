@@ -38,6 +38,38 @@
 using namespace STDom;
 
 
+void PrintJobPrinter::printProductPrints(QPrinter& _Printer, STDom::DDocPrintList& _ProdPrints, const STDom::DDocProduct& _Product,
+										 const QString& _JobName, QProgressBar* _ProgBar)
+{
+	bool PrintAccess = true;
+
+#ifdef USE_PRINTKEEPER
+	if (!PrintKeeper::printAcces(_Printer.printerName(), _ProdPrints.numCopies()))
+	{
+		PrintKeeper::accesDeniedWarning(_Printer.printerName());
+		PrintAccess = false;
+	}
+#endif
+	if (PrintAccess)
+	{
+#if QT_VERSION >= 0x040400
+		_Printer.setPaperSize(_Product.format().size(), QPrinter::Millimeter);
+	#endif
+		_Printer.setDocName(_JobName);
+		_Printer.setPrintProgram(SApplication::fullApplicationName());
+		_Printer.setResolution(Dpis);
+		_Printer.setFullPage(true);
+		_Printer.setNumCopies(1);
+
+		if (AtomicPrint)
+			printAtomic(_Printer, _ProdPrints, _ProgBar);
+		else
+			printNonAtomic(_Printer, _ProdPrints, _ProgBar);
+
+	}//PrintAccess
+}
+
+
 void PrintJobPrinter::printAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar)
 {
 	STDom::DDocPrintList::iterator pit;
@@ -268,7 +300,25 @@ void PrintJobPrinter::clearConfig()
 	FormatSpoolMap.clear();
 }
 
+void PrintJobPrinter::printToPrinter(QPrinter& _Printer, const PrintJob& _Job, const QString& _JobName, QProgressBar* _ProgBar)
+{
+	if (_ProgBar)
+	{
+		_ProgBar->setRange(0, _Job.totalCopies() - 1);
+		_ProgBar->setValue(0);
+		QApplication::processEvents();
+	}
 
+	STDom::DDocProductList ProdList = _Job.products();
+	STDom::DDocProductList::iterator it;
+	it = ProdList.begin();
+	while (it != ProdList.end()) //For each product
+	{
+		STDom::DDocPrintList ProdPrints = _Job.prints(*it);
+		printProductPrints(_Printer, ProdPrints, *it, _JobName, _ProgBar);
+		++it;
+	}
+}
 
 PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, QProgressBar* _ProgBar)
 {
@@ -286,7 +336,7 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 	it = ProdList.begin();
 	while (it != ProdList.end()) //For each product
 	{
-		if (hasToStore(it->ref()))
+		if (hasToStore(*it))
 		{
 			STDom::DDocPrintList ProdPrints = _Job.prints(*it);
 			STDom::DDocPrintList::iterator pit;
@@ -303,33 +353,10 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 		{
 			QPrinter Printer;
 			Printer.setPrinterName(productSpool(*it));
-			bool PrintAccess = true;
 			STDom::DDocPrintList ProdPrints = _Job.prints(*it);
 
-	#ifdef USE_PRINTKEEPER
-			if (!PrintKeeper::printAcces(Printer.printerName(), ProdPrints.numCopies()))
-			{
-				PrintKeeper::accesDeniedWarning(Printer.printerName());
-				PrintAccess = false;
-			}
-	#endif
-			if (PrintAccess)
-			{
-	#if QT_VERSION >= 0x040400
-				Printer.setPaperSize(it->format().size(), QPrinter::Millimeter);
-		#endif
-				Printer.setDocName(_JobName);
-				Printer.setPrintProgram(SApplication::fullApplicationName());
-				Printer.setResolution(Dpis);
-				Printer.setFullPage(true);
-				Printer.setNumCopies(1);
+			printProductPrints(Printer, ProdPrints, *it, _JobName, _ProgBar);
 
-				if (AtomicPrint)
-					printAtomic(Printer, ProdPrints, _ProgBar);
-				else
-					printNonAtomic(Printer, ProdPrints, _ProgBar);
-
-			}//PrintAccess
 		}//hasToStore
 		++it;
 	}

@@ -25,186 +25,117 @@
 #include <QFileInfoList>
 #include "stwizardsexport.h"
 #include "ddocmodel.h"
+#include "printjobprinter.h"
 
-class STPWWelcomePage : public QWizardPage
-{
-Q_OBJECT
-public:
-	STPWWelcomePage(QWidget* _Parent = 0);
-	int nextId() const;
-};
-
-class QLabel; 
-class QPrinter; 
-class SelectPrinterPage : public QWizardPage
-{
-Q_OBJECT
-	QPrinter* Printer;
-	QLabel* PNameInfo;
-	QLabel* PSizeInfo;
-	QLabel* POrientatioInfo;
-	int ImagesToPrint; 
-	
-	void updatePrinterInfo(const QPrinter& _Printer);
-	
-public:
-	SelectPrinterPage(QPrinter* _Printer, QWidget* _Parent = 0);
-	void setNumImagesToPrint(int _Value) { ImagesToPrint = _Value; }
-	int nextId() const;
-	void initializePage();
-
-private slots:
-	void getPrinterSettings();
-};
-
-class SProcessStatusWidget; 
-class STNCopiesProxyModel;
-class QListView;
-class QModelIndex;
-class STThumbnailView; 
-class ChooseImagesPage : public QWizardPage
+/**
+Print process page
+*/
+class QPrintPreviewDialog;
+class SProcessStatusWidget;
+class STPWPrintingPage : public QWizardPage
 {
 	Q_OBJECT
-
-public: 
-	typedef struct TImagePrint
-	{
-		public: 
-		int NCopies; 
-		QFileInfo FInfo; 
-	};
-
-	typedef QList<TImagePrint> TImagePrintList; 
-
-private: 
-	STThumbnailView* LView;
-	QFileInfoList Images; 
 	SProcessStatusWidget* StatusWidg;
-	STDom::DDocModel* ImageModel;
-	STNCopiesProxyModel* MProxyModel;
+	QPrinter* Printer;
+	STDom::PrintJob PrintJob;
+	STDom::PrintJobPrinter::EnFitMode FitMode;
+	QPrintPreviewDialog* PDialog;
+	bool AtomicPrint;
 
 public:
-	ChooseImagesPage(QWidget* _Parent = 0);
-	int nextId() const;
-	void setImages(const QFileInfoList& _Images) { Images = _Images; }
+	STPWPrintingPage(QWidget* _Parent = 0);
+	void setPrinter(QPrinter* _Printer) { Printer = _Printer; }
+	void setPrintJob(const STDom::PrintJob& _PrintJob) { PrintJob = _PrintJob; }
+	void setFitMode(STDom::PrintJobPrinter::EnFitMode _FitMode) { FitMode = _FitMode; }
+	void setAtomicPrint(bool _Value) { AtomicPrint = _Value; }
 	void initializePage();
-	bool isComplete() const;
-	TImagePrintList imagesToPrint();
-	static QFileInfoList imagesToPrintFileInfoList(const TImagePrintList& _PrnList);
+	bool print(QPrinter* _Printer);
+	bool validatePage();
 
-public slots: 
-	void toggleChecked(const QModelIndex& _Index);
-	void toggleCheckedCurrent();
+private slots:
+	void slotRunPreview();
+	void slotPreviewPaintRequested(QPrinter* _Printer);
+
 };
 
+
+/**
+Page to choose crop mode
+*/
 
 class QRadioButton;
 class QGridLayout;
 class ChooseCropModePage : public QWizardPage
 {
-	Q_OBJECT 
-
-public:
-	enum EnCropMode
-	{
-		CropModeCut, 
-		CropModeNoCut,
-		CropModelNoCutCentered
-	};
+	Q_OBJECT
 
 protected:
 	QRadioButton* RBNoCut;
-	QRadioButton* RBSideNoCut; 
+	QRadioButton* RBSideNoCut;
 	QGridLayout* MLayout;
 
 public:
 	ChooseCropModePage(QWidget* _Parent = 0);
 	int nextId() const;
-	EnCropMode cropMode() const;
+	STDom::PrintJobPrinter::EnFitMode fitMode() const;
 };
 
-class SelectionInterface;
-class QLabel;
-class SelectCropsPage : public QWizardPage
-{
-public: 
-	typedef QList<QRect> TCropRectList; 
-
-private:
-
-	Q_OBJECT 
-	QRadioButton* RBNoCut;
-	QFileInfoList ImagesToCrop; 
-	TCropRectList CropRects; 
-	SelectionInterface* MSelIface;
-	QAction* PreviousAct;
-	QAction* NextAct;
-	QLabel* LabInfo;
-	
-	int CurrentIndex; 
-	QRect PageRect; 
-	TCropRectList PageRectList;
-	bool IsComplete; 
-
-	void updateActionStatus();
-	void updateInfo();
-	void updateSelection();
-	void setCurrentIndex(int _Index); 
-	void storeCurrentCrop();
-	void initialize(const QFileInfoList& _ImagesToCrop);
-
-public:
-	SelectCropsPage(QWidget* _Parent = 0);
-	int nextId() const;
-	void initialize(const QFileInfoList& _ImagesToCrop, const QRect& _PageRect);
-	void initialize(const QFileInfoList& _ImagesToCrop, const TCropRectList& _PageRectList);
-	bool validatePage(); 
-	TCropRectList cropRects() const { return CropRects; } 
-	bool isComplete() const;
-	
-
-private slots:
-	void first(); 
-	void next(); 
-	void previous(); 
-	void rotate();
-};
-
-class PrintingPage : public QWizardPage
-{
-	Q_OBJECT 
-	SProcessStatusWidget* StatusWidg; 
-	ChooseImagesPage* CIPage;
-	QPrinter* Printer;
-	ChooseCropModePage* ChooseCropPage;
-	SelectCropsPage* CropsPage;
-
-public:
-	PrintingPage(ChooseImagesPage* _CIPage, QPrinter* _Printer, ChooseCropModePage* _ChooseCropPage, SelectCropsPage* _CropsPage, QWidget* _Parent = 0);
-	void initializePage();
-	bool validatePage();
-};
 
 /**
-Wizard to print collections of images.
+Page to select, edit and cut images.
+
+	@author Jordi Fernandez
+*/
+
+namespace STDom
+{
+	class PrintJobModel;
+	class PrintJob;
+}
+class TPPhotoSelWidget;
+class STPWImageSelectionPage : public QWizardPage
+{
+Q_OBJECT
+	STDom::PrintJobModel* PJModel;
+	TPPhotoSelWidget* PhotoSelW;
+
+public:
+	STPWImageSelectionPage(QWidget* _Parent = 0);
+	void setPrintJob(const STDom::PrintJob& _PrintJob);
+	void setSingleProduct(const STDom::DDocProduct& _Product);
+	void setAtomicPrint(bool _Value);
+	int nextId() const;
+	virtual QSize sizeHint () const { return QSize(750, 550); }
+	STDom::PrintJob printJob() const;
+};
+
+
+/**
+Wizard to print images using a printjob printer.
 
 	@author
 */
-class ST_WIZARDS_EXPORT STPrintWizard : public QWizard
+
+class ST_WIZARDS_EXPORT STPrintJobWizard : public QWizard
 {
 	Q_OBJECT
-	QPrinter Printer; 
-	ChooseImagesPage* ChooseImgPage;
-	SelectCropsPage* SelCropPage;
-	SelectPrinterPage* SelPrinterPage;
+	QWidget* Parent;
+	QPrinter Printer;
+	STPWImageSelectionPage* ImageSelectPage;
+	ChooseCropModePage* CropModePage;
+	STPWPrintingPage* PrnPage;
 
-public:	
-	enum { Page_Welcome, Page_SelectPrinter, Page_ChooseImages, Page_ChooseCropMode, Page_SelectCrops, 
-		Page_Printing};
-			
 public:
-	STPrintWizard(QWidget* parent, Qt::WindowFlags flags = 0);
-	void setImages(const QFileInfoList& _Images); 
+	enum { Page_ImageSelection, Page_ChooseCropMode, Page_Printing};
+
+public:
+	STPrintJobWizard(QWidget* _Parent);
+	void setPrintJob(const STDom::PrintJob& _PrintJob);
+	void setSingleProduct(const STDom::DDocProduct& _Product);
+	void setAtomicPrint(bool _Value);
+	int getPrinter();
+	int printImages(const QFileInfoList& _Images);
+	int printPrintJobProduct(const STDom::PrintJob& _SourcePrintJob, const STDom::DDocProduct& _Product);
 
 private slots:
 	void slotCurrentIdChanged(int _Id);

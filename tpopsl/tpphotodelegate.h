@@ -66,6 +66,7 @@ public:
 	virtual void paint( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 	virtual QSize sizeHint( const QStyleOptionViewItem & /*option*/, const QModelIndex & /*index*/ ) const;
 	void setCopyActionVisible(bool _Visible);
+	void setEditActionsVisible(bool _Visible);
 	void setSelectItemsWithPhotos(bool _Value) { SelectItemsWithPhotos = _Value; }
 
 

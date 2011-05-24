@@ -509,6 +509,12 @@ void TPPhotoDelegate::setCopyActionVisible(bool _Visible)
 	d->mCopyImageButton->setVisible(_Visible);
 }
 
+void TPPhotoDelegate::setEditActionsVisible(bool _Visible)
+{
+	d->mAddProductButton->setVisible(_Visible);
+	d->mRemoveProductButton->setVisible(_Visible);
+}
+
 bool TPPhotoDelegate::eventFilter(QObject*, QEvent* event) {
 	switch (event->type()) {
 	case QEvent::ToolTip:

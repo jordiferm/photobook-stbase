@@ -29,6 +29,7 @@
 #include "stphotobookcollectioninfo.h"
 #include "stphototemplatesexport.h"
 #include "ddocmodel.h"
+#include "stphotobookbuildoptions.h"
 
 
 struct ST_PHOTOTEMPLATES_EXPORT STPhotoBookRenderSettings
@@ -64,6 +65,8 @@ class QGraphicsScene;
 class QGraphicsItem;
 class STErrorStack; 
 class SProcessStatusWidget;
+class STPhotoBookBuildOptions;
+
 class ST_PHOTOTEMPLATES_EXPORT STPhotoBook : public QObject
 {
 	Q_OBJECT 
@@ -108,6 +111,7 @@ private:
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template, QList<STGraphicsPhotoItem*>& _PhotoItems);
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template);
 	void setHasChanges(bool _Value);
+	void setBuildOptions(const STPhotoBookBuildOptions& _Options);
 
 public:
 	ST_DECLARE_ERRORCLASS();
@@ -118,7 +122,7 @@ public:
 	STPhotoLayoutTemplate randomTemplate(const STPhotoBookTemplate::TTemplateList& _Templates);
 	STPhotoLayoutTemplate candidateTemplate(int _AvaliablePhotos, const STPhotoBookTemplate::TTemplateList& _AllTemplates, bool _FirstPage
 														, int _PagesToFill = 0, int _AvgMargin = 0, const STPhotoBookTemplate::TTemplateList& _UsedTemplates =  STPhotoBookTemplate::TTemplateList());
-	void setTemplate(STPhotoBookTemplate& _Template) { Template = _Template; }
+	void setTemplate(STPhotoBookTemplate& _Template, const STPhotoBookBuildOptions& _Options = STPhotoBookBuildOptions());
 	STPhotoBookTemplate::TMarginRectList pageMarginRects() const { return Template.pageMarginRects(); }
 	STPhotoBookTemplate::TMarginRectList coverMarginRects() const { return Template.coverMarginRects(); }
 

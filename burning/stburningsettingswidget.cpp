@@ -60,14 +60,20 @@ STBurningSettingsWidget::STBurningSettingsWidget(STBurningSettings& _Settings, Q
 	_Mapper->addMapping(LEPath, Model->index("stburning/device").column());
 	GBLayout->addWidget(LEPath, GBLayout->rowCount(), 0);
 
-	GBLayout->addWidget(createHeaderLabel(Model->index("stburning/speed")), GBLayout->rowCount() , 0);
-	GBLayout->addWidget(createEditor(Model->index("stburning/speed")), GBLayout->rowCount(), 0);
+	QGridLayout* GBBottomLayout = new QGridLayout;
+	GBLayout->addLayout(GBBottomLayout, GBLayout->rowCount(), 0);
 
-	GBLayout->addWidget(createHeaderLabel(Model->index("stburning/simulationmode")), GBLayout->rowCount(), 0);
-	GBLayout->addWidget(createEditor(Model->index("stburning/simulationmode")), GBLayout->rowCount(), 0);
+	GBBottomLayout->addWidget(createHeaderLabel(Model->index("stburning/speed")), GBBottomLayout->rowCount() , 0);
+	GBBottomLayout->addWidget(createEditor(Model->index("stburning/speed")), GBBottomLayout->rowCount() - 1, 1);
 
-	GBLayout->addWidget(createHeaderLabel(Model->index("stburning/writedebuginfo")), GBLayout->rowCount() , 0);
-	GBLayout->addWidget(createEditor(Model->index("stburning/writedebuginfo")), GBLayout->rowCount(), 0);
+	GBBottomLayout->addWidget(createHeaderLabel(Model->index("stburning/simulationmode")), GBBottomLayout->rowCount(), 0);
+	GBBottomLayout->addWidget(createEditor(Model->index("stburning/simulationmode")), GBBottomLayout->rowCount() -1, 1);
+
+	GBBottomLayout->addWidget(createHeaderLabel(Model->index("stburning/multisession")), GBBottomLayout->rowCount(), 0);
+	GBBottomLayout->addWidget(createEditor(Model->index("stburning/multisession")), GBBottomLayout->rowCount() -1, 1);
+
+	GBBottomLayout->addWidget(createHeaderLabel(Model->index("stburning/writedebuginfo")), GBBottomLayout->rowCount() , 0);
+	GBBottomLayout->addWidget(createEditor(Model->index("stburning/writedebuginfo")), GBBottomLayout->rowCount() -1, 1);
 
 	GBLayout->addItem(new QSpacerItem(0,10, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding), GBLayout->rowCount(), 0);
 }

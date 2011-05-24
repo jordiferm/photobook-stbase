@@ -105,7 +105,6 @@ STDom::DDocModel* STPhotoBookCheckedProxyModel::sourceModel() const
 	return qobject_cast<STDom::DDocModel*>(STCheckedProxyModel::sourceModel());
 }
 
-
 void STPhotoBookCheckedProxyModel::updateMD5SumImageMatches(const QString& _MD5Sum, bool _Added)
 {
 	if (!UpdateCheckedFuture.isFinished())

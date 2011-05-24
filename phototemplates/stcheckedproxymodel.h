@@ -39,6 +39,7 @@ class ST_PHOTOTEMPLATES_EXPORT STCheckedProxyModel : public QSortFilterProxyMode
 
 protected:
 	QImage CheckedImage; 
+	int NumMatchLimit;
 	
 public:
 	STCheckedProxyModel(QObject* _Parent, const QImage& _CheckedImage);
@@ -52,6 +53,9 @@ public:
 	void decNumMatches(const QModelIndex& _Index);
 	bool isChecked(const QModelIndex& _Index) const;
 	int numCheckedImages() const;
+	//! If _Value > 0 => numMatches will never been greater than _Value.
+	void setNumMatchLimit(int _Value) { NumMatchLimit = _Value; }
+	int numMatchLimit() const { return NumMatchLimit; }
 	
 public slots:
 	void clearChecked();

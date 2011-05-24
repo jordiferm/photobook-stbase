@@ -35,7 +35,7 @@ class ST_TPOPSL_EXPORT AddRemoveWidget : public QWidget
 	QToolButton* RemoveItemsBut; 
 	
 public:
-	AddRemoveWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
+	AddRemoveWidget(QWidget* parent = 0, Qt::Orientation _Orientation = Qt::Vertical);
 	~AddRemoveWidget();
 	void setAddLabel(const QString& _Label); 
 	void setRemoveLabel(const QString& _Label); 

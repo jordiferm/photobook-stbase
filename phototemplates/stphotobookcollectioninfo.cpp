@@ -71,3 +71,8 @@ QString STPhotobookCollectionInfo::imageFilePath(const STImage& _Image, const QS
 {
 	return photoBookPath() + "/" + _Image.hashString() + "." + _Format; 
 }
+
+QString STPhotobookCollectionInfo::bookmarkTemplatesFile(const QSize& _Size)
+{
+	return 	DefaultRootPathName + QString("/templateBookmark_%1_%2.kpspltml").arg(_Size.width()).arg(_Size.height());
+}
