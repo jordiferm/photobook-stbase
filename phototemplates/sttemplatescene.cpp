@@ -360,6 +360,15 @@ void STTemplateScene::replaceTemplate(const STPhotoLayoutTemplate& _Template)
 			
 			CurrPhotoItem->loadImageSpawn();
 		}
+		else
+		{
+			if (ModifyAllFrames && OldIndexList.size() > 0)
+			{
+				STDom::DImageDoc CImageDoc(OldIndexList[OldIndexList.size() -1].absoluteFilePath());
+				CurrPhotoItem->setImage(CImageDoc);
+				CurrPhotoItem->loadImageSpawn();
+			}
+		}
 //			CurrPhotoItem->setIndex(static_cast<KPhotoListModel*>(OldIndexList[CntCurrPhoto].model()), OldIndexList[CntCurrPhoto]);
 		
 		CntCurrPhoto++;
@@ -1230,12 +1239,16 @@ void STTemplateScene::slotCheckModifyAll(const QString& _ImagePath)
 		selectAllByType(STGraphicsPhotoItem::Type);
 		QList<QGraphicsItem *> Items = selectedItems();
 		QList<QGraphicsItem *>::iterator it;
-		STDom::DDoc Doc(_ImagePath);
+
+		STDom::DImageDoc Doc(_ImagePath);
 		for (it = Items.begin(); it != Items.end(); ++it)
 		{
 			STGraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(*it);
 			if (CPhotoItem)
-				CPhotoItem->setImage(Doc.thumbnail(), _ImagePath);
+			{
+				CPhotoItem->setImage(Doc);
+				CPhotoItem->loadImageSpawn();
+			}
 		}
 
 	}
