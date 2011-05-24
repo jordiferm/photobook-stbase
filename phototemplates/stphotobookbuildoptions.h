@@ -22,8 +22,9 @@
 #define STPHOTOBOOKBUILDOPTIONS_H
 
 #include "stphotolayout.h"
+#include "stphototemplatesexport.h"
 
-class STPhotoBookBuildOptions
+class ST_PHOTOTEMPLATES_EXPORT STPhotoBookBuildOptions
 {
 	bool IgnoreExifRotation, AutoadjustFrames, UseTexts, AutoFillBackgrounds;
 	int PagesToFill;
