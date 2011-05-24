@@ -125,7 +125,10 @@ FAction::EnActionId FDialog::result() const
 FAction::EnActionId FDialog::exec()
 {
 	int Res = QDialog::exec();
-	Result = static_cast<FAction::EnActionId>(Res);
+	if (Res == QDialog::Accepted)
+		Result = FAction::FAcceptActionId;
+	else
+		Result = FAction::FCancelActionId;
 	return result();
 }
 
