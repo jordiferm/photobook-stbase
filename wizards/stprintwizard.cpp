@@ -86,6 +86,7 @@ bool STPWPrintingPage::print(QPrinter* _Printer)
 	if (!PJPrinter.errorStack().isEmpty())
 		SMessageBox::criticalDetailed(this, tr("Print Wizard"), tr("There were errors while printing"), PJPrinter.errorStack().errorString().join("\n"));
 
+	StatusWidg->setVisible(false);
 	QApplication::restoreOverrideCursor();
 	return PJPrinter.errorStack().isEmpty();
 }
@@ -203,7 +204,11 @@ STPWImageSelectionPage::STPWImageSelectionPage(QWidget* _Parent) : QWizardPage(_
 void STPWImageSelectionPage::setPrintJob(const STDom::PrintJob& _PrintJob)
 {
 	PJModel->setPrintJob(_PrintJob);
-	PhotoSelW->setSingleProduct(_PrintJob.products().first());
+}
+
+void STPWImageSelectionPage::setSingleProduct(const STDom::DDocProduct& _Product)
+{
+	PhotoSelW->setSingleProduct(_Product);
 }
 
 void STPWImageSelectionPage::setAtomicPrint(bool _Value)
@@ -256,13 +261,20 @@ void STPrintJobWizard::setPrintJob(const STDom::PrintJob& _PrintJob)
 	ImageSelectPage->setPrintJob(_PrintJob); 
 }
 
+void STPrintJobWizard::setSingleProduct(const STDom::DDocProduct& _Product)
+{
+	ImageSelectPage->setSingleProduct(_Product);
+}
+
+
 void STPrintJobWizard::setAtomicPrint(bool _Value)
 {
 	ImageSelectPage->setAtomicPrint(_Value);
 	PrnPage->setAtomicPrint(_Value);
 }
 
-int STPrintJobWizard::printImages(const QFileInfoList& _Images)
+
+int STPrintJobWizard::getPrinter()
 {
 	QPrintDialog PDialog(&Printer, this);
 	PDialog.setOption(QAbstractPrintDialog::PrintToFile,false);
@@ -276,20 +288,58 @@ int STPrintJobWizard::printImages(const QFileInfoList& _Images)
 	if (PSDialog.exec() != QDialog::Accepted)
 		return QDialog::Rejected;
 #endif
+	return QDialog::Accepted;
+}
 
-	// Create a PrintJob with Images
-	QSizeF ProdSize = Printer.paperSize(QPrinter::Millimeter);
-	STDom::DDocProduct NewProduct("noref", "Prints", STDom::DDocFormat(ProdSize.width(), ProdSize.height()));
-	STDom::PrintJob PJob;
-	QFileInfoList::const_iterator it;
-	for (it = _Images.begin(); it != _Images.end(); ++it)
+int STPrintJobWizard::printImages(const QFileInfoList& _Images)
+{
+	if (getPrinter() == QDialog::Accepted)
 	{
-		PJob.addCopies(NewProduct, *it, Printer.numCopies());
+		// Create a PrintJob with Images
+		QSizeF ProdSize = Printer.paperSize(QPrinter::Millimeter);
+		STDom::DDocProduct NewProduct("noref", "Prints", STDom::DDocFormat(ProdSize.width(), ProdSize.height()));
+		setSingleProduct(NewProduct);
+		STDom::PrintJob PJob;
+		QFileInfoList::const_iterator it;
+		for (it = _Images.begin(); it != _Images.end(); ++it)
+		{
+			PJob.addCopies(NewProduct, *it, Printer.numCopies());
+		}
+		setPrintJob(PJob);
+		restart();
+		return exec();
 	}
-	setPrintJob(PJob);
-	restart();
-	return exec();
+	else
+		return QDialog::Rejected;
+}
 
+int STPrintJobWizard::printPrintJobProduct(const STDom::PrintJob& _SourcePrintJob, const STDom::DDocProduct& _Product)
+{
+	int Res = QDialog::Rejected;
+	if (_SourcePrintJob.prints(_Product).size() > 0)
+	{
+		if (getPrinter() == QDialog::Accepted)
+		{
+			// Create a PrintJob with Images
+			QSizeF ProdSize = Printer.paperSize(QPrinter::Millimeter);
+			STDom::DDocProduct NewProduct("noref", "Prints", STDom::DDocFormat(ProdSize.width(), ProdSize.height()));
+			setSingleProduct(NewProduct);
+			STDom::PrintJob PJob;
+			QFileInfoList Images = _SourcePrintJob.files();
+			QFileInfoList::const_iterator it;
+			for (it = Images.begin(); it != Images.end(); ++it)
+			{
+				PJob.setCopies(NewProduct, *it, _SourcePrintJob.copies(_Product, *it));
+			}
+			setPrintJob(PJob);
+			restart();
+			Res = exec();
+		}
+	}
+	else
+		SMessageBox::warning(this, tr("Print Wizard"), tr("There are no selected copies of '%1' product, please select a different product").arg(
+				_Product.description()));
+	return Res;
 }
 
 void STPrintJobWizard::slotCurrentIdChanged(int _Id)

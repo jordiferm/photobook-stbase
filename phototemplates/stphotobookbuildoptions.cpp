@@ -45,8 +45,8 @@ void STPhotoBookBuildOptions::setDefaults(STPhotoLayout::EnLayoutType _Type, int
 	switch (_Type)
 	{
 		case STPhotoLayout::TypeMultiPhoto :
+			PagesToFill = 9999;
 		case STPhotoLayout::TypeIdPhoto :
-		break;
 			IgnoreExifRotation = true;
 			AutoadjustFrames = false;
 		break;
@@ -54,8 +54,11 @@ void STPhotoBookBuildOptions::setDefaults(STPhotoLayout::EnLayoutType _Type, int
 			AutoadjustFrames = false;
 		break;
 		case STPhotoLayout::TypePhotoBook :
+			AutoadjustFrames = true;
+		break;
 		case STPhotoLayout::TypeCalendar :
 			AutoadjustFrames = true;
+			UseTexts = true;
 		break;
 	}
 }

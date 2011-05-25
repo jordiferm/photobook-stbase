@@ -42,6 +42,7 @@ public:
 	QString device() const; 
 	int speed() const;
 	bool simulationMode() const;
+	bool multiSession() const;
 	bool writeDebugInfo() const;
 };
 

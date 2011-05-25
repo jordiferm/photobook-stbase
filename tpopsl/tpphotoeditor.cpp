@@ -333,6 +333,8 @@ SResetSlider* TPPhotoEditor::newSlider(QWidget* _Parent)
 TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent, f), Model(0), AspectRatioZoom(1), Dpis(300), SelectionRotated(false)
 {
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
+	MLayout->setMargin(1);
+	MLayout->setSpacing(0);
 	QHBoxLayout* TopLayout = new QHBoxLayout; 
 	MLayout->addLayout(TopLayout); 
 	QHBoxLayout* BottomLayout = new QHBoxLayout;
@@ -392,6 +394,13 @@ TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent
 	LabImageInfo = new QLabel(tr("No Info"), this); 
 	IFrameBottomLayout->addWidget(LabImageInfo); 
 
+	QToolBar* UndoToolBar = new QToolBar(this);
+
+	UndoToolBar->setIconSize(QSize(32,32));
+	UndoToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+	IFrameBottomLayout->addWidget(UndoToolBar);
+
+
 	ButNextImage = newMiniActionButton(":/st/tpopsl/next.png"); 
 	connect(ButNextImage, SIGNAL(clicked( bool )), this, SLOT(nextImage())); 
 	IFrameBottomLayout->addWidget(ButNextImage); 
@@ -434,13 +443,6 @@ TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent
 	BottomLayout->addWidget((FrameBasicControls));
 
 	QHBoxLayout* BCLayout = new QHBoxLayout(FrameBasicControls);
-
-	QToolBar* UndoToolBar = new QToolBar(FrameBasicControls);
-	UndoToolBar->setOrientation(Qt::Vertical);
-
-	UndoToolBar->setIconSize(QSize(32,32));
-	UndoToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-	BCLayout->addWidget(UndoToolBar);
 
 	LVProducts = new TPProductListView(FrameBasicControls);
 	connect(LVProducts, SIGNAL(clicked( const QModelIndex& )), this, SLOT(productActivated(const QModelIndex& )));

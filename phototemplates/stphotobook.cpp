@@ -96,6 +96,7 @@ void STPhotoBook::setBuildOptions(const STPhotoBookBuildOptions& _Options)
 	setAutoFillBackgrounds(_Options.autoFillBackgrounds());
 	setPagesToFill(_Options.pagesToFill());
 	setAutoAdjustFrames(_Options.autoadjustFrames());
+	qDebug() << "_Options.autoadjustFrames()" << _Options.autoadjustFrames();
 	if (!_Options.useTexts())
 		Template.removeTextTemplates();
 	if (!_Options.title().isEmpty())

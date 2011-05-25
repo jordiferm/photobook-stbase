@@ -193,7 +193,6 @@ QFileInfoList PrintJob::files(const DDocProduct& _Product) const
 	return Res;
 }
 
-//!!!!! Aixo provoca duplicats !!! s'ha de fer privada i posar un setPrint o algo aixíi que comprovi els indexos del mapa-
 void PrintJob::addPrint(const DDocPrint& _Print)
 {
 	int NewIndex = Prints.size();

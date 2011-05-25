@@ -52,7 +52,10 @@ STBurningSettings::STBurningSettings(QObject* _Parent): SAppSettings(_Parent)
 		addKey("stburning/speed", 48, QVariant::Int, 
 			tr("Burning speed"), tr("Burning speed"));
 
-		addKey("stburning/simulationmode", false, QVariant::Bool, 
+		addKey("stburning/multisession", true, QVariant::Bool,
+			tr("Use multisession?"), "");
+
+		addKey("stburning/simulationmode", false, QVariant::Bool,
 			tr("Simulation mode?"), tr("Simulation mode"));
 
 		addKey("stburning/writedebuginfo", false, QVariant::Bool, 
@@ -93,6 +96,11 @@ int STBurningSettings::speed() const
 bool STBurningSettings::simulationMode() const
 {
 	return value("stburning/simulationmode").toBool();
+}
+
+bool STBurningSettings::multiSession() const
+{
+	return value("stburning/multisession").toBool();
 }
 
 bool STBurningSettings::writeDebugInfo() const

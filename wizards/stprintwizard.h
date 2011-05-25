@@ -102,6 +102,7 @@ Q_OBJECT
 public:
 	STPWImageSelectionPage(QWidget* _Parent = 0);
 	void setPrintJob(const STDom::PrintJob& _PrintJob);
+	void setSingleProduct(const STDom::DDocProduct& _Product);
 	void setAtomicPrint(bool _Value);
 	int nextId() const;
 	virtual QSize sizeHint () const { return QSize(750, 550); }
@@ -130,8 +131,11 @@ public:
 public:
 	STPrintJobWizard(QWidget* _Parent);
 	void setPrintJob(const STDom::PrintJob& _PrintJob);
+	void setSingleProduct(const STDom::DDocProduct& _Product);
 	void setAtomicPrint(bool _Value);
+	int getPrinter();
 	int printImages(const QFileInfoList& _Images);
+	int printPrintJobProduct(const STDom::PrintJob& _SourcePrintJob, const STDom::DDocProduct& _Product);
 
 private slots:
 	void slotCurrentIdChanged(int _Id);
