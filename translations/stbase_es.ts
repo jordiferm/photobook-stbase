@@ -3588,7 +3588,7 @@ Num</source>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Comenterio</translation>
+        <translation>Comentario</translation>
     </message>
     <message>
         <source>Customer Name</source>
