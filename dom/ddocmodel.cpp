@@ -284,6 +284,26 @@ QModelIndex DDocModel::addDoc(DDoc* _Doc)
 	return index(DocList.dDocs().count() -1, 0);
 }
 
+/*! Overloaded function provided for convenience */
+QModelIndex DDocModel::addDoc(const QFileInfo& _Doc)
+{
+	STDom::DDoc* CurrDoc = DDocFactory::newDoc(_Doc);
+	if (!DocList.contains(CurrDoc))
+		addDoc(CurrDoc);
+	else
+		delete CurrDoc;
+}
+
+void DDocModel::removeDoc(const QModelIndex& _Index)
+{
+	if (_Index.isValid() && _Index.row() < DocList.size())
+	{
+		beginRemoveRows(QModelIndex(), _Index.row(), _Index.row() );
+		DocList.removeAt(_Index.row());
+		endRemoveRows();
+	}
+}
+
 void DDocModel::insertDoc(const QModelIndex& _Index, DDoc* _Doc)
 {
 	if (_Index.isValid() && _Index.row() < DocList.size())
@@ -328,7 +348,7 @@ void DDocModel::setDoc(const QModelIndex& _Index, DDoc* _Doc)
 	}
 }
 
-QModelIndex DDocModel::docIndex(const DDoc* _Doc)
+QModelIndex DDocModel::docIndex(const DDoc* _Doc) const
 {
 	QModelIndex Res;
 	int ImageRow = DocList.indexOf(_Doc);
@@ -337,6 +357,17 @@ QModelIndex DDocModel::docIndex(const DDoc* _Doc)
 
 	return Res;
 }
+
+QModelIndex DDocModel::docIndex(const QFileInfo& _File) const
+{
+	QModelIndex Res;
+	STDom::DDoc CDoc(_File);
+	QModelIndex SourceIndex = docIndex(&CDoc);
+	if (SourceIndex.isValid())
+		Res = SourceIndex;
+	return Res;
+}
+
 
 Qt::DropActions DDocModel::supportedDropActions() const
 {
@@ -429,6 +460,8 @@ bool DDocModel::dropMimeData ( const QMimeData * data, Qt::DropAction action, in
 						//emit imageDropped(ImagePath, STImage::hashString(ImagePath));
 						Res = true;
 					}
+					else
+						delete CurrDoc;
 				}
 			}
 		}

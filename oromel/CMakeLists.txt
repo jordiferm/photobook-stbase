@@ -68,6 +68,7 @@ SET(prj_SRCS
 	omarketplacedialog.cpp
 	owebinfowidget.cpp
 	sttomwatchdog.cpp
+	obigimagepreviewwidget.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -86,6 +87,7 @@ SET(prj_MOC_HDRS
 	omarketplacedialog.h
 	owebinfowidget.h
 	sttomwatchdog.h
+	obigimagepreviewwidget.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

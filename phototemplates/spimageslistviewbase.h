@@ -48,6 +48,8 @@ public:
 	void setPath(const QString& _Path);
 	QString currentPath() const { return CurrentPath; }
 	void setImages(const QFileInfoList& _Images);
+	void addImage(const QFileInfo& _Image);
+	void removeImage(const QFileInfo& _Image);
 	void setPhotoBook(const STPhotoBook* _PhotoBook); //To check files.
 	void showSelectAllAction(bool _Show);
 	void selectImage(const QString& _ImageFileName);
