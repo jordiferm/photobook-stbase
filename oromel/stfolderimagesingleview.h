@@ -63,9 +63,11 @@ public:
 signals:
 	void openDir(const QDir& _Dir);
 	void editImage(const QString& _ImageFileName);
+	void bigPreviewDir(const QDir& _Dir);
 
 public slots:
 	void openFolderAction();
+	void slotBigPreviewFolder();
 	void slotThumbnailSizeChanged(int _Value);
 	void slotEditIndex(const QModelIndex& _Index);
 	void slotRotateRightIndex(const QModelIndex& _Index);
