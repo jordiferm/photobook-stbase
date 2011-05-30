@@ -419,6 +419,12 @@ bool STPhotoLayoutTemplate::resourcesOnDisk() const
 	return Res;
 }
 
+void STPhotoLayoutTemplate::generateKey()
+{
+	getNewKey();
+}
+
+
 
 //!!!TODO: Move it to another class !!!!
 void STPhotoLayoutTemplate::downloadResources(const STDom::STXmlPublisherSettings& _PXmlS, STFtpStatusWidget* _StatusWidget)

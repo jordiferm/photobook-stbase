@@ -442,6 +442,7 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 		STTemplateScene* NewPage = createPage(CurrTemplate);
 		Pages.push_back(NewPage);
 		CCalculator.fillPage(NewPage, CurrTemplate, _Progress);
+		CCalculator.markAsUsed(CurrTemplate);
 		NPages++;
 		emit newPageCreated();
 	}
@@ -452,9 +453,10 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 	while (NPages < Template.minPages())
 	{
 		//Agafem un template qualsevol
-		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages, 1,
+		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages, Template.numOptimalImagesPerPage(),
 																	  Template.hasFirstPages());
 		insertPage(createPage(CurrTemplate), NPages);
+		CCalculator.markAsUsed(CurrTemplate);
 		NPages++;
 	}
 }

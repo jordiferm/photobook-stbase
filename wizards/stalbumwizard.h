@@ -151,6 +151,7 @@ Q_OBJECT
 public:
 	ChooseCreationModePage(QWidget* _Parent = 0);
 	int nextId() const;
+	bool autoBuildModeSelected() const;
 };
 
 
@@ -165,6 +166,7 @@ class BuildOptionsPage : public QWizardPage
 	QGroupBox* GBCalendar;
 	QSpinBox* SBNumPages;
 	STPhotoLayout::EnLayoutType LayoutType;
+	bool AutoBuildMode;
 
 
 public:
@@ -175,6 +177,7 @@ public:
 	void setBuildOptions(const STPhotoBookBuildOptions& _Options);
 	STPhotoBookBuildOptions getBuildOptions() const;
 	void setTemplate(const STPhotoBookTemplate& _Template, STPhotoLayout::EnLayoutType _Type);
+	void setAutoBuildMode(bool _Value);
 };
 
 
@@ -224,6 +227,7 @@ private:
 	CustomSizesPage* CCustomSizesPage;
 	SelectDiskFolderPage* SDFolderPage;
 	BuildOptionsPage* PBuildOptions;
+	ChooseCreationModePage* CCreationModePage;
 	bool CustomSizesEnabled; 
 	STPhotoBookTemplate PhotoBookTemplate;
 
