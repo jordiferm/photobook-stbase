@@ -42,8 +42,8 @@ class ST_WIDGETS_EXPORT FAction : public QAction
 public:
 	enum EnActionId
 	{
-	    FAcceptActionId,
-	    FCancelActionId,
+		FAcceptActionId = QDialog::Accepted,
+		FCancelActionId = QDialog::Rejected,
 	    FEditActionId,
 	    FEditAddActionId,
 	    FEditDeleteActionId,
