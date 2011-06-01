@@ -346,3 +346,8 @@ void STCandidateCalculator::fillPage(STTemplateScene* _Scene, const STPhotoLayou
 		}
 	}
 }
+
+void STCandidateCalculator::markAsUsed(const STPhotoLayoutTemplate& _Template)
+{
+	UsedTemplates.push_back(_Template);
+}

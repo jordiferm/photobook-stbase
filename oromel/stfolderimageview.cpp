@@ -30,13 +30,21 @@
 #include <QApplication>
 
 #include "stfolderimagesingleview.h"
+#include "obigimagepreviewwidget.h"
 
 
 STFolderImageView::STFolderImageView(QWidget *parent) :
 	QWidget(parent), CurrentDirIsNull(true)
 {
-	QScrollArea* ScrArea = new QScrollArea(this);
+	ScrArea = new QScrollArea(this);
 	QVBoxLayout* MLayout = new QVBoxLayout(this);
+
+	IPWidget = new OBigImagePreviewWidget(this);
+	connect(IPWidget, SIGNAL(includeImage(QFileInfo)), this, SIGNAL(addImage(QFileInfo)));
+	connect(IPWidget, SIGNAL(excludeImage(QFileInfo)), this, SIGNAL(removeImage(QFileInfo)));
+	connect(IPWidget, SIGNAL(closeRequest()), this, SLOT(slotHideBigPreview()));
+	MLayout->addWidget(IPWidget);
+
 	MLayout->setSpacing(0);
 	MLayout->setMargin(0);
 	MLayout->addWidget(ScrArea);
@@ -58,6 +66,14 @@ STFolderImageView::STFolderImageView(QWidget *parent) :
 
 	QSpacerItem* BottomSpacer = new QSpacerItem(1, 1, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 	ViewLayout->addItem(BottomSpacer);
+
+	showBigImagePreview(false);
+}
+
+void STFolderImageView::showBigImagePreview(bool _Show)
+{
+	IPWidget->setVisible(_Show);
+	ScrArea->setVisible(!_Show);
 }
 
 void STFolderImageView::setStoredDir()
@@ -117,6 +133,7 @@ void STFolderImageView::addDir(const QDir& _Dir, bool _HeaderMode)
 	//NView->setAttribute(Qt::WA_DeleteOnClose);
 	connect(NView, SIGNAL(openDir(QDir)), this, SLOT(setDir(QDir)));
 	connect(NView, SIGNAL(editImage(QString)), this, SIGNAL(editImage(QString)));
+	connect(NView, SIGNAL(bigPreviewDir(QDir)), this, SLOT(slotShowBigPreview(QDir)));
 	//ViewLayout->addWidget(NView);
 	ViewLayout->insertWidget(ViewLayout->count() -1, NView);
 	NView->setDir(_Dir);
@@ -156,4 +173,18 @@ void STFolderImageView::slotCDUpAction()
 	QDir ParentDir = currentDir();
 	if (ParentDir.cdUp())
 		setDir(ParentDir);
+}
+
+void STFolderImageView::slotShowBigPreview(const QDir& _Dir)
+{
+	IPWidget->clear();
+	QApplication::processEvents();
+	showBigImagePreview(true);
+	QApplication::processEvents();
+	IPWidget->setDir(_Dir);
+}
+
+void STFolderImageView::slotHideBigPreview()
+{
+	showBigImagePreview(false);
 }

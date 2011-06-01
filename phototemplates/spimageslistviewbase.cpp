@@ -85,6 +85,19 @@ void SPImagesListViewBase::setImages(const QFileInfoList& _Images)
 	updateCheckedFiles();
 }
 
+void SPImagesListViewBase::addImage(const QFileInfo& _Image)
+{
+	ImageModel->addDoc(_Image);
+	updateCheckedFiles();
+}
+
+void SPImagesListViewBase::removeImage(const QFileInfo& _Image)
+{
+	QModelIndex ImageIndex = ImageModel->docIndex(_Image);
+	if (ImageIndex.isValid())
+		ImageModel->removeDoc(ImageIndex);
+}
+
 void SPImagesListViewBase::setPhotoBook(const STPhotoBook* _PhotoBook)
 {
 	ImageProxyModel->setPhotoBook(_PhotoBook);
