@@ -662,19 +662,23 @@ ChooseCreationModePage::ChooseCreationModePage(QWidget* _Parent) : QWizardPage(_
 
 int ChooseCreationModePage::nextId() const
 {
-	if (RBAutomaticFill->isChecked())
-		return STAlbumWizard::Page_BuildOptions;
-	else 
-		return STAlbumWizard::Page_End;
+//	if (RBAutomaticFill->isChecked())
+	return STAlbumWizard::Page_BuildOptions;
+//	else
+//		return STAlbumWizard::Page_End;
 }
 
+bool ChooseCreationModePage::autoBuildModeSelected() const
+{
+	return RBAutomaticFill->isChecked();
+}
 
 //_____________________________________________________________________________
 //
 // class BuildOptionsPage
 //_____________________________________________________________________________
 
-BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
+BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent), AutoBuildMode(false)
 {
 	setTitle(tr("<h1>Build options</h1>"));
 	setSubTitle(tr("<p>Please, configure your <em>Photo Book</em>?</p> automatic options:"));
@@ -740,8 +744,12 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
 
 int BuildOptionsPage::nextId() const
 {
-	return STAlbumWizard::Page_SelectDiskFolder;
-
+	int Res;
+	if (AutoBuildMode)
+		Res = STAlbumWizard::Page_SelectDiskFolder;
+	else
+		Res = STAlbumWizard::Page_End;
+	return Res;
 }
 
 void BuildOptionsPage::initializePage()
@@ -796,6 +804,12 @@ void BuildOptionsPage::setTemplate(const STPhotoBookTemplate& _Template, STPhoto
 	GBPhotoBook->setVisible(_Type == STPhotoLayout::TypePhotoBook);
 	GBCalendar->setVisible(_Type == STPhotoLayout::TypeCalendar);
 
+}
+
+void BuildOptionsPage::setAutoBuildMode(bool _Value)
+{
+	AutoBuildMode = _Value;
+	GBGeneral->setVisible(_Value);
 }
 
 
@@ -935,7 +949,8 @@ STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(pa
 	setPage(Page_CustomSizes, CCustomSizesPage); 
 	CTemplatePage = new ChooseTemplatePage(this);
 	setPage(Page_ChooseTemplate, CTemplatePage);
-	setPage(Page_CooseCreationMode, new ChooseCreationModePage(this));
+	CCreationModePage = new ChooseCreationModePage(this);
+	setPage(Page_CooseCreationMode, CCreationModePage);
 	PBuildOptions = new BuildOptionsPage(this);
 	setPage(Page_BuildOptions, PBuildOptions);
 	SDFolderPage = new SelectDiskFolderPage(this);
@@ -1002,6 +1017,7 @@ int STAlbumWizard::nextId() const
 	{
 		STPhotoLayout::EnLayoutType TemplType = CTemplatePage->currentType();
 		PBuildOptions->setTemplate(PhotoBookTemplate, TemplType);
+		PBuildOptions->setAutoBuildMode(CCreationModePage->autoBuildModeSelected());
 		if (TemplType != STPhotoLayout::TypeCalendar && TemplType != STPhotoLayout::TypePhotoBook)
 			Res = PBuildOptions->nextId();
 	}
