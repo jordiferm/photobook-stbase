@@ -100,6 +100,7 @@ void STGraphicsItemModifier::scale(double _Sx, double _Sy)
 	CScaleX = _Sx;
 	CScaleY = _Sy;
 	applyTransformations();
+	modified();
 }
 
 void STGraphicsItemModifier::setPos(const QPointF& _Pos, QGraphicsItem* _Sender)
@@ -171,6 +172,7 @@ void STGraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsIt
 	}
 
 	updateToolTip(); 
+	modified();
 }
 
 
@@ -202,6 +204,7 @@ void STGraphicsItemModifier::resizeContents(const QRect & rect, bool keepRatio)
 	//layoutChildren();
 	
 //    GFX_CHANGED();
+	modified();
 }
 
 void STGraphicsItemModifier::layoutChildren()
@@ -220,6 +223,7 @@ void STGraphicsItemModifier::rotate(double _Angle)
 {
 	m_zRotationAngle = _Angle; 
 	applyTransformations(); 
+	modified();
 }
 
 void STGraphicsItemModifier::setRotation(double angle, Qt::Axis axis)
@@ -230,6 +234,7 @@ void STGraphicsItemModifier::setRotation(double angle, Qt::Axis axis)
         case Qt::ZAxis: if (m_zRotationAngle == angle) return; m_zRotationAngle = angle; break;
     }
     applyTransformations();
+	modified();
 }
 
 double STGraphicsItemModifier::rotation(Qt::Axis axis) const

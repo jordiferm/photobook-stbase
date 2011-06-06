@@ -79,6 +79,7 @@ void STGraphicsClipartItem::setOpacity(qreal _Value)
 	Opacity = _Value; 
 	qDebug("Set Opacity %f", _Value);
 	update(); 
+	modified();
 }
 
 
@@ -87,6 +88,7 @@ void STGraphicsClipartItem::scaleToHeight(qreal _Height)
 	QRectF BRect = boundingRect(); 
 	qreal SY = _Height / BRect.height(); 
 	Modifier->scale(SY, SY); 
+	modified();
 }
 
 void STGraphicsClipartItem::scaleToWidth(qreal _Width)
@@ -94,6 +96,7 @@ void STGraphicsClipartItem::scaleToWidth(qreal _Width)
 	QRectF BRect =  transform().mapRect(boundingRect()); 
 	qreal SX = _Width / BRect.width(); 
 	Modifier->scale(SX, SX); 
+	modified();
 }
 
 
@@ -110,6 +113,9 @@ QVariant STGraphicsClipartItem::itemChange(GraphicsItemChange change, const QVar
 		setControlsVisible(isSelected());
 	else
 	if (change == ItemPositionHasChanged)
+	{
 		STAbstractGraphicsItem::updateToolTip(); 
+		modified();
+	}
 	return QGraphicsItem::itemChange(change, value);	
 }

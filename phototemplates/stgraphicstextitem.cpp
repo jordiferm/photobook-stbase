@@ -132,6 +132,7 @@ QVariant STGraphicsTextItem::itemChange(GraphicsItemChange change, const QVarian
 			newPos.setY(snapToGridValue(newPos.y()));
 			return newPos; 
 		}
+		modified();
 	}
 	return QGraphicsItem::itemChange(change, value);
 }

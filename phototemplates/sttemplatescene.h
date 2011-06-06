@@ -65,6 +65,7 @@ private:
 	bool ModifyAllFrames;
 	bool AutoAdjustFrames;
 	bool IgnoreExifRotation;
+	bool HasChanges;
 	QSizeF RenderBaseSize;
 	
 	QStringList storePhotoItemImage(STGraphicsPhotoItem* _Item, const STPhotobookCollectionInfo& _CInfo);
@@ -137,6 +138,7 @@ public:
 	//IChangesControl
 	void modified();
 	void clearChanges();
+	bool hasChanges() const { return HasChanges; }
 
 protected:
 	bool event(QEvent* _Event);
