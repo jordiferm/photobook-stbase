@@ -25,8 +25,7 @@
 #include <QToolTip> 
 
 #include "stcorneritem.h" 
-
-//Tests 
+#include "sttemplatescene.h"
 #include "stgraphicsphotoitem.h" 
 
 void STGraphicsItemModifier::applyTransformations()
@@ -128,7 +127,7 @@ void STGraphicsItemModifier::setPos(const QPointF& _Pos, QGraphicsItem* _Sender)
 	{
 		Item->setPos(_Sender->mapToScene(_Pos));
 	}
-
+	modified();
 	updateToolTip();
 }
 
@@ -253,4 +252,20 @@ void STGraphicsItemModifier::setChildrenVisible(bool _Value)
 		(*it)->setVisible(_Value); 
 	}
 
+}
+
+void STGraphicsItemModifier::modified()
+{
+	if (STTemplateScene* Scene = qobject_cast<STTemplateScene*>(item()->scene()))
+	{
+		Scene->modified();
+	}
+}
+
+void STGraphicsItemModifier::clearChanges()
+{
+	if (STTemplateScene* Scene = qobject_cast<STTemplateScene*>(item()->scene()))
+	{
+		Scene->clearChanges();
+	}
 }

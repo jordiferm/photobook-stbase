@@ -22,6 +22,7 @@
 
 #include <QAction>
 #include <QString>
+#include <QDialog>
 #include "stwidgetsexport.h"
 #include "siconfactory.h"
 

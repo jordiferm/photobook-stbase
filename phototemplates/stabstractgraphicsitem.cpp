@@ -35,7 +35,7 @@
 int STAbstractGraphicsItem::GridValue = 5; 
 bool STAbstractGraphicsItem::SnapToGrid = true; 
 
-STAbstractGraphicsItem::STAbstractGraphicsItem(QGraphicsItem* _Item) : ResizeAllowed(true), MControlGWidget(0), ControlsEnabled(true)
+STAbstractGraphicsItem::STAbstractGraphicsItem(QGraphicsItem* _Item) : ResizeAllowed(true), MControlGWidget(0), ControlsEnabled(true), Modified(false)
 {
 	Modifier = new STGraphicsItemModifier(_Item); 
 }
@@ -252,6 +252,18 @@ void STAbstractGraphicsItem::updateToolTip(const QRectF& _Rect)
 {
 	Modifier->updateToolTip(_Rect); 
 }
+
+void STAbstractGraphicsItem::modified()
+{
+	Modifier->modified();
+}
+
+void STAbstractGraphicsItem::clearChanges()
+{
+	Modifier->clearChanges();
+}
+
+
 
 
 /*void STAbstractGraphicsItem::updateToolTip(QGraphicsItem* _Item)

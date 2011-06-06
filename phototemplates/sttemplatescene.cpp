@@ -26,6 +26,7 @@
 #include <QDir>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QUrl>
+#include <QDebug>
 
 
 #include "stgraphicsphotoitem.h"
@@ -192,8 +193,8 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 				if (it->width() > 0)
 					STItem->scaleToWidth(it->width()); 
 				else
-				if (it->height() > 0)
-					STItem->scaleToHeight(it->height()); 
+					if (it->height() > 0)
+						STItem->scaleToHeight(it->height());
 				STItem->setPos(it->topLeft());
 				//addItemOnTop(STItem);
 				addItem(STItem); 
@@ -1073,6 +1074,17 @@ void STTemplateScene::selectFirstEmptyPhotoItem()
 		++it; 
 	}
 }
+
+void STTemplateScene::modified()
+{
+	qDebug() << "Puta santa puta !!!!!!!!!!!!!!!!!! ";
+}
+
+void STTemplateScene::clearChanges()
+{
+	qDebug() << "Puta santa puta !!!!!!!!!!!!!!!!!! ";
+}
+
 
 /*!
 	\return a list of saved images.
