@@ -41,6 +41,7 @@ void STGraphicsSimpleTextItem::init()
 	BorderPen.setStyle(Qt::NoPen);	
 	Opacity = 1; 
 	ManuallyEdited = false;
+
 }
 
 

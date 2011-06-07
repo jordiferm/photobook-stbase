@@ -45,6 +45,10 @@
 #include <QAction> 
 #include <QGraphicsProxyWidget> 
 
+//Others
+#include <QGraphicsColorizeEffect>
+#include <QGraphicsBlurEffect>
+
 #include "stupdateitemevent.h"
 #include "stimage.h"
 #include "imageTools.h" 
@@ -53,6 +57,7 @@
 //#include "ophotocollection.h" // For OPhotoCollectionImage.
 
 #include "stgraphicsitemmodifier.h"
+
 
 // _________________________________________________________________________*/
 //
@@ -241,6 +246,12 @@ void STGraphicsPhotoItem::init()
 	setAcceptDrops(true); 
 	RestoreZValue = false;
 	setAutoAdjustFramesToImages(true);
+
+	QGraphicsColorizeEffect* ColEffect = new QGraphicsColorizeEffect(this);
+	QGraphicsBlurEffect* BlurEffect = new QGraphicsBlurEffect(this);
+	ColEffect->setColor(Qt::red);
+	//setGraphicsEffect(ColEffect);
+	//setGraphicsEffect(BlurEffect);
 }
 
 void STGraphicsPhotoItem::checkForImageOrientation()
