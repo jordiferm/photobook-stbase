@@ -277,7 +277,11 @@ QString KExiv2::getExifTagTitle(const char *exifTagName)
     {
         std::string exifkey(exifTagName);
         Exiv2::ExifKey ek(exifkey); 
+    #if (EXIV2_TEST_VERSION(0,21,0))
+        return QString::fromLocal8Bit( ek.tagLabel().c_str() );
+    #else
         return QString::fromLocal8Bit( Exiv2::ExifTags::tagTitle(ek.tag(), ek.ifdId()) );
+    #endif
     }
     catch (Exiv2::Error& e) 
     {
@@ -293,7 +297,11 @@ QString KExiv2::getExifTagDescription(const char *exifTagName)
     {
         std::string exifkey(exifTagName);
         Exiv2::ExifKey ek(exifkey); 
+    #if (EXIV2_TEST_VERSION(0,21,0))
+        return QString::fromLocal8Bit( ek.tagDesc().c_str());
+    #else
         return QString::fromLocal8Bit( Exiv2::ExifTags::tagDesc(ek.tag(), ek.ifdId()) );
+    #endif
     }
     catch (Exiv2::Error& e) 
     {

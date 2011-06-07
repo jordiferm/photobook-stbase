@@ -136,7 +136,7 @@ DColor ImageIface::getColorInfoFromTargetPreviewImage(const QPoint& point)
     if ( d->targetPreviewImage.isNull() || point.x() > previewWidth() || point.y() > previewHeight() )
     {
         qWarning() << "Coordinate out of range or no image data available!" << endl;
-        return DColor::DColor();
+        return DColor();
     }
 
     return d->targetPreviewImage.getPixelColor(point.x(), point.y());
