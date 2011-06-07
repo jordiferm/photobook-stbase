@@ -35,6 +35,7 @@
 #include "stgraphicssimpletextitem.h"
 #include "stgraphicspageitem.h"
 #include "stgraphicstextitem.h"
+#include "stgraphicsclipartitem.h"
 #include "sterrorstack.h"
 #include "sprocessstatuswidget.h" 
 #include "stprogressindicator.h"
@@ -879,6 +880,9 @@ STPhotoBook::EnItemType STPhotoBook::itemType(QGraphicsItem* _Item)
 		break; 
 		case STGraphicsPageItem::Type:
 			CurrType = PageItemType;
+		break;
+		case STGraphicsClipartItem::Type:
+			CurrType = ClipartItemType;
 		break;
 		default:
 			CurrType = PageItemType;

@@ -78,6 +78,7 @@ public:
   		RitchTextItemType,
 		PhotoItemType, 
 		PageItemType, 
+		ClipartItemType,
 		UnknownItemType
 	};
 
