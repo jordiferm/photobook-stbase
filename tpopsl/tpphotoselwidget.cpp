@@ -148,10 +148,10 @@ TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, bool _ShowNavigation, Qt::Wi
 	if (_ShowNavigation)
 	{
 		BottomFrame->setMinimumHeight(200);
-		MLayout->setStretchFactor(TopLayout, 5);
-		MLayout->setStretchFactor(BottomFrame, 1);
 	}
-	QHBoxLayout* BFrameLayout = new QHBoxLayout(BottomFrame); 
+	MLayout->setStretchFactor(TopLayout, 5);
+	MLayout->setStretchFactor(BottomFrame, 1);
+	QHBoxLayout* BFrameLayout = new QHBoxLayout(BottomFrame);
 
 	CancelBut = newActionButton(":/st/tpopsl/previous.png");
 	CancelBut->setVisible(_ShowNavigation);

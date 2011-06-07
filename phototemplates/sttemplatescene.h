@@ -28,6 +28,7 @@
 #include "stphotolayout.h"
 #include "sterror.h"
 #include "stphototemplatesexport.h"
+#include "ichangescontrol.h"
 
 /**
 	QGraphicsScene to represent templates.
@@ -45,7 +46,7 @@ class STGraphicsClipartItem;
 class STGraphicsSuperImposeItem; 
 class STAbstractGraphicsItem;
 class STGraphicsMonthItem;
-class ST_PHOTOTEMPLATES_EXPORT STTemplateScene : public QGraphicsScene
+class ST_PHOTOTEMPLATES_EXPORT STTemplateScene : public QGraphicsScene, public IChangesControl
 {
 Q_OBJECT
 		
@@ -64,6 +65,7 @@ private:
 	bool ModifyAllFrames;
 	bool AutoAdjustFrames;
 	bool IgnoreExifRotation;
+	bool HasChanges;
 	QSizeF RenderBaseSize;
 	
 	QStringList storePhotoItemImage(STGraphicsPhotoItem* _Item, const STPhotobookCollectionInfo& _CInfo);
@@ -133,6 +135,10 @@ public:
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 	bool ignoreExifRotation() const { return IgnoreExifRotation; }
+	//IChangesControl
+	void modified();
+	void clearChanges();
+	bool hasChanges() const { return HasChanges; }
 
 protected:
 	bool event(QEvent* _Event);

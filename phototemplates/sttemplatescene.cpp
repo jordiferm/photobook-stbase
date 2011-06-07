@@ -26,6 +26,7 @@
 #include <QDir>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QUrl>
+#include <QDebug>
 
 
 #include "stgraphicsphotoitem.h"
@@ -110,7 +111,7 @@ QString STTemplateScene::storeClipartItemFile(STGraphicsClipartItem* _CItem, con
 
 STTemplateScene::STTemplateScene(QObject* _Parent)
  : QGraphicsScene(_Parent), PageItem(0), ItemsMovable(false), ItemsResizable(true), SImposeItem(0), ModifyAllFrames(false),
-	RenderBaseSize(0, 0), AutoAdjustFrames(true), IgnoreExifRotation(false)
+	RenderBaseSize(0, 0), AutoAdjustFrames(true), IgnoreExifRotation(false), HasChanges(false)
 {
 	setBackgroundBrush(QColor("#DFE1BD"));
 	connect(this, SIGNAL(imageDropped(QString,QString)), this, SLOT(slotCheckModifyAll(QString)));
@@ -192,8 +193,8 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 				if (it->width() > 0)
 					STItem->scaleToWidth(it->width()); 
 				else
-				if (it->height() > 0)
-					STItem->scaleToHeight(it->height()); 
+					if (it->height() > 0)
+						STItem->scaleToHeight(it->height());
 				STItem->setPos(it->topLeft());
 				//addItemOnTop(STItem);
 				addItem(STItem); 
@@ -235,6 +236,7 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 		QPixmap ThumbnailPix = getThumbnail(BGImgFile, Template.encrypted(), true);
 		setBackgroundImage(ThumbnailPix, BGImgFile, Template.encrypted());
 	}
+	modified();
 }
 
 
@@ -373,6 +375,7 @@ void STTemplateScene::replaceTemplate(const STPhotoLayoutTemplate& _Template)
 		
 		CntCurrPhoto++;
 	}
+	modified();
 }
 
 
@@ -392,6 +395,7 @@ void STTemplateScene::setImageToSelectedItems(const QPixmap& _ThumbNail, const Q
 			CPhotoItem->update();			
 		}
 	}
+	modified();
 }
 
 void STTemplateScene::setDummyImages(const QList<QImage>& _ImageList)
@@ -472,6 +476,7 @@ void STTemplateScene::setBgBrush(const QBrush& _Brush)
 {
 	//PageItem->unloadImage();	
 	PageItem->setBrush(_Brush);
+	modified();
 }
 
 QBrush STTemplateScene::bgBrush() const
@@ -698,6 +703,7 @@ void STTemplateScene::addPhotoItem(STGraphicsPhotoItem* _PhotoItem)
 	connect(_PhotoItem, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&)));
 
 	QGraphicsScene::addItem(_PhotoItem);
+	modified();
 }
 
 void STTemplateScene::setPageItem(STGraphicsPageItem* _PageItem)
@@ -728,7 +734,8 @@ QGraphicsItem* STTemplateScene::addSimpleTextFrame(const QString& _Text, const Q
 	NewFrame->setFlag(QGraphicsItem::ItemIsMovable, true); //The text is always movable.
 	configureItem(NewFrame); 
 	addItemOnTop(NewFrame);	
-	return NewFrame; 
+	modified();
+	return NewFrame;
 }
 
 QGraphicsItem* STTemplateScene::addClipartItem(const QString& _FileName)
@@ -738,6 +745,7 @@ QGraphicsItem* STTemplateScene::addClipartItem(const QString& _FileName)
 	//NewItem->scaleToWidth(75); 
 	NewItem->scaleToHeight(75); 
 	addItemOnTop(NewItem);	
+	modified();
 	return NewItem;
 }
 
@@ -753,6 +761,7 @@ QGraphicsItem* STTemplateScene::addTextFrame(const QString& _Html)
 	configureItem(NewFrame); 
 	addItemOnTop(NewFrame);	
 	NewFrame->adjustSize();
+	modified();
 	return NewFrame;
 }
 
@@ -762,7 +771,8 @@ STGraphicsMonthItem* STTemplateScene::createMonthTextFrameItem()
 	NewItem->setMovable(true);
 	configureItem(NewItem); 
 	addItemOnTop(NewItem);
-	return NewItem; 
+	modified();
+	return NewItem;
 }
 
 QGraphicsItem* STTemplateScene::addElement(const QString& _ImageSourcePath, QDomElement& _Element)
@@ -950,6 +960,7 @@ void STTemplateScene::addItemOnTop(QGraphicsItem* _Item)
 {
 	_Item->setZValue(topZValue());
 	addItem(_Item);
+	modified();
 }
 
 QGraphicsItem* STTemplateScene::currentItem() const
@@ -1073,6 +1084,17 @@ void STTemplateScene::selectFirstEmptyPhotoItem()
 		++it; 
 	}
 }
+
+void STTemplateScene::modified()
+{
+	HasChanges = true;
+}
+
+void STTemplateScene::clearChanges()
+{
+	HasChanges = false;
+}
+
 
 /*!
 	\return a list of saved images.

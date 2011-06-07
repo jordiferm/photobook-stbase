@@ -91,6 +91,7 @@ SET(prj_SRCS
 	stphotobookcollectionmodel.cpp
 	stphotolayouttemplategenerator.cpp
 	stphotobookbuildoptions.cpp
+	ichangescontrol.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -144,6 +145,7 @@ SET(prj_MOC_HDRS
 	stphotobookcollectionmodel.h
 	stphotolayouttemplategenerator.h
 	stphotobookbuildoptions.h
+	ichangescontrol.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

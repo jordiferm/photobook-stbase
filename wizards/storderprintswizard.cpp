@@ -35,6 +35,7 @@
 #include <QSpinBox> 
 #include <QToolButton>
 #include <QTextEdit>
+#include <QDebug>
 
 #include "smessagebox.h"
 #include "sprocessstatuswidget.h"
@@ -44,7 +45,7 @@
 
 #include "stftpordertransfer.h"
 #include "printjobmodel.h"
-
+#include "tpphotoselwidget.h"
 
 //_____________________________________________________________________________
 //
@@ -271,111 +272,7 @@ bool OPWChoosePublisher::isComplete() const
 }
 
 
-//_____________________________________________________________________________
-//
-// class OPWProdChooseWidget
-//_____________________________________________________________________________
 
-OPWSingleProdChooseWidget::OPWSingleProdChooseWidget(QWidget* _Parent) : QWidget(_Parent)
-{
-	QHBoxLayout* MLayout = new QHBoxLayout(this); 
-	MCBox = new QComboBox(this); 
-	connect(MCBox, SIGNAL(currentIndexChanged( int )), this, SIGNAL(changed())); 
-	MLayout->addWidget(MCBox);
-
-
-	QHBoxLayout* AddRemoveButLayout = new QHBoxLayout; 
-	MLayout->addLayout(AddRemoveButLayout); 
-
-	AddButton = new QToolButton(this); 
-	AddButton->setIcon(QIcon(":/st/wizards/viewmag+.png"));
-	AddRemoveButLayout->addWidget(AddButton); 
-	connect(AddButton, SIGNAL(clicked( bool )), this, SLOT(buttonClicked()));
-
-	RemoveButton = new QToolButton(this); 
-	RemoveButton->setIcon(QIcon(":/st/wizards/viewmag-.png"));
-	AddRemoveButLayout->addWidget(RemoveButton); 
-	connect(RemoveButton, SIGNAL(clicked( bool )), this, SLOT(buttonClicked()));
-
-	ResetButton = new QToolButton(this); 
-	ResetButton->setIcon(QIcon(":/st/wizards/excluded.png"));
-	AddRemoveButLayout->addWidget(ResetButton); 
-	connect(ResetButton, SIGNAL(clicked( bool )), this, SLOT(buttonClicked()));
-	
-	//MSpinBox = new QSpinBox(this);
-	//connect(MSpinBox, SIGNAL(valueChanged( int )), this, SIGNAL(changed())); 
-	//MLayout->addWidget(MSpinBox); 
-}
-
-
-void OPWSingleProdChooseWidget::setModel(QAbstractItemModel* _Model)
-{
-	MCBox->setModel(_Model); 
-}
-
-void OPWSingleProdChooseWidget::setProductIndex(int _Index) 
-{
-	MCBox->setCurrentIndex(qMin(_Index, MCBox->maxCount())); 
-}
-
-int OPWSingleProdChooseWidget::productIndex() const
-{
-	return MCBox->currentIndex();
-}
-
-void OPWSingleProdChooseWidget::buttonClicked()
-{
-	if ( sender() == AddButton )
-		emit incProduct(productIndex(), +1); 
-	else 
-	if ( sender() == RemoveButton )
-		emit incProduct(productIndex(), -1); 
-	else 
-	if ( sender() == ResetButton )
-		emit resetProduct(productIndex()); 
-}
-
-
-//_____________________________________________________________________________
-//
-// class OPWProdChooseWidget
-//_____________________________________________________________________________
-
-OPWProdChooseWidget::OPWProdChooseWidget(int _NumRows, QWidget* _Parent) : QWidget(_Parent)
-{
-	QVBoxLayout* MLayout = new QVBoxLayout(this); 
-	MLayout->setSpacing(0); 
-	for (int Vfor = 0; Vfor < _NumRows; Vfor++)
-	{
-		OPWSingleProdChooseWidget* NSSelWidg = new OPWSingleProdChooseWidget(this);
-		connect(NSSelWidg, SIGNAL(incProduct(int, int)), this, SIGNAL(incProduct(int, int))); 
-		connect(NSSelWidg, SIGNAL(resetProduct(int)), this, SIGNAL(resetProduct(int))); 
-		MLayout->addWidget(NSSelWidg); 
-	}
-}
-
-void OPWProdChooseWidget::setModel(QAbstractItemModel* _Model)
-{
-	QList<OPWSingleProdChooseWidget*> ProdSelWList = findChildren<OPWSingleProdChooseWidget*>();
-	QList<OPWSingleProdChooseWidget*>::const_iterator it;
-	int Cnt = 0; 
-	for (it = ProdSelWList.begin(); it != ProdSelWList.end(); ++it)
-	{
-		(*it)->setModel(_Model);
-		(*it)->setProductIndex(Cnt++);
-	}
-}
-
-
-int OPWProdChooseWidget::firstProdIndex() const
-{
-	int Res = -1; 
-	QList<OPWSingleProdChooseWidget*> ProdSelWList = findChildren<OPWSingleProdChooseWidget*>();
-	if (ProdSelWList.size() > 0)
-		Res = (ProdSelWList.first())->productIndex(); 
-	
-	return Res; 
-}
 
 //_____________________________________________________________________________
 //
@@ -411,9 +308,8 @@ void OPWAbstractChooseProduct::syncPublisherData()
 void OPWAbstractChooseProduct::getPublisherData()
 {
 	QString PubDBFile = PublisherPage->publisherInfo().publisherDatabaseFile().absoluteFilePath(); 
-	QSqlDatabase::cloneDatabase(STDom::PublisherDatabase(PubDBFile), STOrderPrintsWizard::PublisherDBConnectionName);
-	STDom::PublisherDatabase PubDatabase(QSqlDatabase::database(STOrderPrintsWizard::PublisherDBConnectionName));
-	Assert(PubDatabase.open(), Error(QString(tr("Could not open publisher database file %1")).arg(PubDBFile))); 	
+	STDom::PublisherDatabase PubDatabase = STDom::PublisherDatabase::addDatabase(PubDBFile);
+	Assert(PubDatabase.open(), Error(QString(tr("Could not open publisher database file %1")).arg(PubDBFile)));
 
 	if (PModel)
 		delete PModel;
@@ -433,29 +329,28 @@ OPWAbstractChooseProduct::OPWAbstractChooseProduct(OPWChoosePublisher* _Publishe
 		STOWizardPage(_Parent), PublisherPage(_PublisherPage), PModel(0), FtpTrans(0), ProductType(STDom::PublisherDatabase::AllProducts),
 		TemplateRef("")
 {
-/*	DocModel = new STDom::DDocModel(this);
-	PJobModel = new STDom::PrintJobModel(this);
-	ImageModel = new OPhotoCollectionImageModel(this);
-	ImageModel->setNoImagePixmap(QPixmap(":/st/wizards/nopreview.png")); 
-	MProxyModel = new STProductPrintsProxyModel(this);	
-	MProxyModel->setSourceModel(ImageModel); 
-	MProxyModel->setThumbnailSize(QSize(90, 60));*/
+	PJModel = new STDom::PrintJobModel(this);
+	DocModel = new STDom::DDocModel(this);
+	PJModel->setSourceModel(DocModel);
+	PJModel->setThumbnailSize(QSize(128, 128));
+	PJModel->setRitchTextDisplay(true);
 }
 
 void OPWAbstractChooseProduct::initialize(const QFileInfoList& _Images)
 {
+	DocModel->setDocs(_Images);
 	/*ImageModel->setImages(_Images);
 	ImageModel->invalidateThumbnails();*/
 }
 
 int OPWAbstractChooseProduct::nextId() const
 {
-	return STOrderPrintsWizard::Page_ChooseCropMode;
+	return STOrderPrintsWizard::Page_ChooseShipMethod;
 }
 
-STProductPrintsProxyModel* OPWAbstractChooseProduct::prodPrintsModel() const
+STDom::PrintJob OPWAbstractChooseProduct::printJob() const
 {
-	//return MProxyModel;
+	return PJModel->printJob();
 }
 
 
@@ -466,35 +361,19 @@ STProductPrintsProxyModel* OPWAbstractChooseProduct::prodPrintsModel() const
 
 
 OPWChooseDigiprintProduct::OPWChooseDigiprintProduct(OPWChoosePublisher* _PublisherPage, QWidget* _Parent) : 
-	OPWAbstractChooseProduct(_PublisherPage, _Parent), LView(0)
+	OPWAbstractChooseProduct(_PublisherPage, _Parent), PhotoSelW(0)
 {
-	setTitle(tr("<h1>Product selection</h1>"));
-	//TODO Fetch and show html from a remote URL stored in database.
-	setSubTitle(tr("Please select a product from the list bellow."));
-	QGridLayout* MLayout = new QGridLayout(this); 
-	QLabel* ProdLabel = new QLabel(tr("Products :"), this);
-	MLayout->addWidget(ProdLabel, 0, 1); 
-	MLayout->setAlignment(ProdLabel, Qt::AlignBottom);
-	//CBProducts = new QComboBox(this); 
-	//MLayout->addWidget(CBProducts, 0, 1); 	
-	WProducts = new OPWProdChooseWidget(4, this); 
-	connect(WProducts, SIGNAL(incProduct(int, int)), this, SLOT(incSelectedProduct(int, int))); 
-	connect(WProducts, SIGNAL(incProduct(int, int)), this, SIGNAL(completeChanged()));
-	connect(WProducts, SIGNAL(resetProduct(int)), this, SLOT(resetSelectedProduct(int))); 
-	connect(WProducts, SIGNAL(resetProduct(int)), this, SIGNAL(completeChanged()));
-	
-	MLayout->addWidget(WProducts, 1, 1); 	
-	LView = new QListView(this);
-	//LView->setViewMode(QListView::IconMode); 
-	//LView->setFlow(QListView::LeftToRight); 
-	LView->setWrapping(false);
-	LView->setSelectionMode(QAbstractItemView::ExtendedSelection); 
-	LView->setSelectionBehavior(QAbstractItemView::SelectRows); 
-	//LView->setTextElideMode(Qt::ElideNone);
-	MLayout->addWidget(LView, 0, 0, 3, 1); 
+	setTitle(tr("<h1>Image selection page</h1>"));
+	setSubTitle(tr("Here you can select and edit printed images."));
+	QVBoxLayout* MLayout = new QVBoxLayout(this);
 
-	LView->setModel(MProxyModel); 
+	PhotoSelW = new TPPhotoSelWidget(this, false);
+	PhotoSelW->setModel(PJModel);
+	PhotoSelW->setBillEnabled(false);
+	PhotoSelW->setFilterEnabled(false);
+	MLayout->addWidget(PhotoSelW);
 	setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+	connect(PJModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SIGNAL(completeChanged()));
 }
 
 
@@ -507,8 +386,7 @@ void OPWChooseDigiprintProduct::initializePage()
 {
 	try
 	{
-		MProxyModel->clearProductCopies();
-		LView->selectAll();
+		PJModel->clearProductCopies();
 		syncPublisherData();
 	}
 	catch (STError& _Error)
@@ -518,7 +396,8 @@ void OPWChooseDigiprintProduct::initializePage()
 	try
 	{
 		getPublisherData();
-		WProducts->setModel(PModel);
+		PhotoSelW->setProductsModel(PModel);
+		//WProducts->setModel(PModel);
 	}
 	catch (STError& _Error)
 	{
@@ -530,51 +409,16 @@ void OPWChooseDigiprintProduct::initializePage()
 bool OPWChooseDigiprintProduct::isComplete() const
 {
 	bool Res = true; 
-	if (MProxyModel) //Defensive 
-		Res = MProxyModel->hasCopies(); 
+	if (PJModel) //Defensive
+		Res = PJModel->hasCopies();
 	return Res;
 }
 
-void OPWChooseDigiprintProduct::resetSelectedProduct(int _Index)
-{
-/*	STPublisherDatabase PubDatabase = QSqlDatabase::database(STOrderPrintsWizard::PublisherDBConnectionName);
-	KPhotoProduct CurrProduct =  PubDatabase.getProduct(PModel, _Index); 
-	Assert(!CurrProduct.isNull(), Error(QString(tr("Could not get product for reference %1")).arg(_Index)));
-	QModelIndexList SelIndexes = LView->selectionModel()->selectedRows();
-	QModelIndexList::iterator sit; 
-	for (sit = SelIndexes.begin(); sit != SelIndexes.end(); ++sit)
-	{
-		MProxyModel->setProductCopies(*sit, CurrProduct, 0);  
-	}
-	LView->setSpacing(2);*/
-}
-
-
-void OPWChooseDigiprintProduct::incSelectedProduct(int _Index, int _Quantity)
-{
-/*	STPublisherDatabase PubDatabase = QSqlDatabase::database(STOrderPrintsWizard::PublisherDBConnectionName);
-	KPhotoProduct CurrProduct =  PubDatabase.getProduct(PModel, _Index); 
-	Assert(!CurrProduct.isNull(), Error(QString(tr("Could not get product for reference %1")).arg(_Index)));
-	QModelIndexList SelIndexes = LView->selectionModel()->selectedRows();
-	QModelIndexList::iterator sit; 
-	for (sit = SelIndexes.begin(); sit != SelIndexes.end(); ++sit)
-	{
-		int CValue = 0; 
-		KProductList PCMap = MProxyModel->productCopies(*sit);
-		if (PCMap.contains(CurrProduct))
-			CValue = PCMap[CurrProduct];
-		CValue += _Quantity; 
-		MProxyModel->setProductCopies(*sit, CurrProduct, CValue);  
-	}
-	LView->setSpacing(2);*/
-}
 
 //_____________________________________________________________________________
 //
 // class OPWChooseAtomicProduct
 //_____________________________________________________________________________
-
-
 
 OPWChooseAtomicProduct::OPWChooseAtomicProduct(OPWChoosePublisher* _PublisherPage, QWidget* _Parent) :
 	OPWAbstractChooseProduct(_PublisherPage, _Parent)
@@ -605,7 +449,7 @@ void OPWChooseAtomicProduct::initializePage()
 {
 	try
 	{
-		MProxyModel->clearProductCopies(); 
+		//MProxyModel->clearProductCopies();
 		syncPublisherData();
 	}
 	catch (STError& _Error)
@@ -631,74 +475,15 @@ bool OPWChooseAtomicProduct::isComplete() const
 
 void OPWChooseAtomicProduct::updateSelectedProduct()
 {
-/*	if (PModel)
+	if (PModel)
 	{
-		STPublisherDatabase PubDatabase = QSqlDatabase::database(STOrderPrintsWizard::PublisherDBConnectionName);
-		KPhotoProduct CurrProduct =  PubDatabase.getProduct(PModel, CBoxModel->currentIndex()); 
+		STDom::PublisherDatabase PubDatabase;
+		STDom::DDocProduct CurrProduct = PubDatabase.getProduct(PModel, CBoxModel->currentIndex());
 		Assert(!CurrProduct.isNull(), Error(QString(tr("Error getting product"))));
 
-		MProxyModel->clearProductCopies(); 
-		MProxyModel->incProductCopiesAll(SBoxNCopies->value(), CurrProduct);
-	}	*/
-}
-
-
-
-//_____________________________________________________________________________
-//
-// class OPWChooseCropModePage
-//_____________________________________________________________________________
-
-
-OPWChooseCropModePage::OPWChooseCropModePage(QWidget* _Parent) : ChooseCropModePage(_Parent)
-{
-	QLabel* NoCropPixLabel = new QLabel(this); 
-	NoCropPixLabel->setPixmap(QPixmap(":/st/wizards/nocrop.png")); 
-	NoCropPixLabel->setAlignment(Qt::AlignCenter); 
-	NoCropPixLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred); 
-	MLayout->addWidget(NoCropPixLabel, MLayout->rowCount(), 0);
-	RBNoModify = new QRadioButton(tr("Leave image as is. Do not cut neither modify image."), this);
-	MLayout->addWidget(RBNoModify, MLayout->rowCount() -1, 1);
-}
-
-
-int OPWChooseCropModePage::nextId() const
-{
-	int Res; 
-
-	if (RBNoCut->isChecked() || RBNoModify->isChecked() || RBSideNoCut->isChecked())
-		Res = STOrderPrintsWizard::Page_ChooseShipMethod;
-	else 
-		Res = STOrderPrintsWizard::Page_SelectCrops;
-
-	return Res; 
-}
-
-OPWChooseCropModePage::EnCropMode OPWChooseCropModePage::cropMode()
-{
-
-	OPWChooseCropModePage::EnCropMode Res; 
-	if (RBNoCut->isChecked())
-		Res = ModeWhiteMarginCentered;
-	else 
-	if (RBSideNoCut->isChecked())
-		Res = ModeWhiteMargin;
-	else 
-	if (RBNoModify->isChecked())
-		Res = ModeNoModify;
-	else 
-		Res = ModeUserSelectCrop;
-	return Res; 	
-}
-
-//_____________________________________________________________________________
-//
-// class OPWSelectCropsPage
-//_____________________________________________________________________________
-
-int OPWSelectCropsPage::nextId() const
-{
-	return STOrderPrintsWizard::Page_ChooseShipMethod;
+		PJModel->clearProductCopies();
+		PJModel->incProductCopiesAll(SBoxNCopies->value(), CurrProduct);
+	}
 }
 
 
@@ -720,7 +505,8 @@ OPWChooseShippingMethod::OPWChooseShippingMethod(QWidget* _Parent) : STOWizardPa
 
 void OPWChooseShippingMethod::initializePage()
 {
-	STDom::PublisherDatabase PubDatabase = QSqlDatabase::database(STOrderPrintsWizard::PublisherDBConnectionName);
+	STDom::PublisherDatabase PubDatabase;
+
 	if (PModel)
 		delete PModel;
 	PModel = PubDatabase.newShippingMethodModel(this);
@@ -731,13 +517,13 @@ void OPWChooseShippingMethod::initializePage()
 bool OPWChooseShippingMethod::forgetMe() 
 {
 	initializePage();
-	return PModel->rowCount() == 1; 	
+	return PModel->rowCount() <= 1;
 }
 
 
 int OPWChooseShippingMethod::nextId() const
 {
-	return STOrderPrintsWizard::Page_ChoosePayMethod; 
+	return STOrderPrintsWizard::Page_ConfirmOrder;
 }
 
 QSqlRecord OPWChooseShippingMethod::currentShippingMethod() const
@@ -745,118 +531,13 @@ QSqlRecord OPWChooseShippingMethod::currentShippingMethod() const
 	return PModel->record(CBSMethods->currentIndex());
 }
 
-//_____________________________________________________________________________
-//
-// class OPWChoosePayMethod
-//_____________________________________________________________________________
-
-OPWChoosePayMethod::OPWChoosePayMethod(OPWChoosePublisher* _PublisherPage, QWidget* _Parent) : STOWizardPage(_Parent), PublisherPage(_PublisherPage)
-{
-	setTitle(tr("<h1>Pay method selection</h1>"));
-	//TODO Fetch and show html from a remote URL stored in database.
-	setSubTitle(tr("Please choose between the following pay methods."));
-	QVBoxLayout* MLayout = new QVBoxLayout(this); 
-	BillLabel = new QLabel(this); 
-	MLayout->addWidget(BillLabel);
-
-	RBCOnDel = new QRadioButton(tr("Cash On delivery"), this); 
-	MLayout->addWidget(RBCOnDel); 
-	connect(RBCOnDel, SIGNAL(toggled( bool )), this, SIGNAL(completeChanged()));  
-
-	RBCredCard = new QRadioButton(tr("Credit Card"), this); 
-	MLayout->addWidget(RBCredCard); 
-	QGroupBox* GBCreditCard = new QGroupBox(tr("Credit card settings"), this); 
-	MLayout->addWidget(GBCreditCard); 
-	
-	QGridLayout* GLCCard = new QGridLayout(GBCreditCard); 
-	GLCCard->addWidget(new QLabel(tr("Credit Card Owner:"), GBCreditCard), 0, 0);
-	QLineEdit* NewLEdit = new QLineEdit(GBCreditCard); 
-	connect(NewLEdit, SIGNAL(textChanged( const QString& )), this, SIGNAL(completeChanged()));
-	GLCCard->addWidget(NewLEdit, 0, 1); 
-	registerField("ccowner", NewLEdit);
-
-	GLCCard->addWidget(new QLabel(tr("Credit Card Number:"), GBCreditCard), 1, 0);
-	NewLEdit = new QLineEdit(GBCreditCard); 
-	connect(NewLEdit, SIGNAL(textChanged( const QString& )), this, SIGNAL(completeChanged()));
-	GLCCard->addWidget(NewLEdit, 1, 1); 
-	registerField("ccnumber", NewLEdit);
-	
-	GLCCard->addWidget(new QLabel(tr("Credit Expiry Date:"), GBCreditCard), 2, 0);
-	NewLEdit = new QLineEdit(GBCreditCard); 
-	connect(NewLEdit, SIGNAL(textChanged( const QString& )), this, SIGNAL(completeChanged()));
-	GLCCard->addWidget(NewLEdit, 2, 1); 
-	registerField("ccexpdate", NewLEdit);
-	
-	GBCreditCard->setVisible(false); 
-	connect(RBCredCard, SIGNAL(toggled( bool )), GBCreditCard, SLOT(setVisible( bool )));
-	connect(RBCredCard, SIGNAL(toggled( bool )), this, SIGNAL(completeChanged()));  
-
-	RBPayPal = new QRadioButton(tr("PayPal"), this); 
-	MLayout->addWidget(RBPayPal); 
-	QGroupBox* GBPayPal = new QGroupBox(tr("Paypal settings"), this); 
-	MLayout->addWidget(GBPayPal); 
-	
-	QGridLayout* GLPaypal = new QGridLayout(GBPayPal); 
-	GLPaypal->addWidget(new QLabel(tr("EMail:"), GBCreditCard), 0, 0);
-	NewLEdit = new QLineEdit(GBPayPal); 
-	connect(NewLEdit, SIGNAL(textChanged( const QString& )), this, SIGNAL(completeChanged()));
-	GLPaypal->addWidget(NewLEdit, 0, 1); 
-	registerField("paypalmail", NewLEdit);
-
-	GBPayPal->setVisible(false); 
-	connect(RBPayPal, SIGNAL(toggled( bool )), GBPayPal, SLOT(setVisible( bool ))); 
-	connect(RBPayPal, SIGNAL(toggled( bool )), this, SIGNAL(completeChanged()));  
-
-}
-
-void OPWChoosePayMethod::initializePage()
-{
-	RBCOnDel->setChecked(true); 
-	STDom::STXmlPublisherSettings PXmlS;
-	Assert(PXmlS.loadXml(PublisherPage->publisherInfo().publisherXmlFile().absoluteFilePath()), Error(QString(tr("Could not load settings file: %1")).arg(PublisherPage->publisherInfo().publisherXmlFile().absoluteFilePath())));
-	RBCOnDel->setEnabled(PXmlS.cODPayment()); 
-	RBCredCard->setEnabled(PXmlS.cCPayment()); 
-	RBPayPal->setEnabled(PXmlS.payPalPayment()); 
-}
-
-
-bool OPWChoosePayMethod::isComplete () const
-{
-	bool Res = true; 
-	if (RBPayPal->isChecked())
-		Res = !field("paypalmail").toString().isEmpty();
-	else 
-	if (RBCredCard->isChecked())
-		Res = !field("ccowner").toString().isEmpty() && !field("ccnumber").toString().isEmpty() && !field("ccexpdate").toString().isEmpty();
-	return Res;
-}
-
-bool OPWChoosePayMethod::forgetMe() 
-{
-	STDom::STXmlPublisherSettings PXmlS;
-	Assert(PXmlS.loadXml(PublisherPage->publisherInfo().publisherXmlFile().absoluteFilePath()), Error(QString(tr("Could not load settings file: %1")).arg(PublisherPage->publisherInfo().publisherXmlFile().absoluteFilePath())));
-	int NOptionsEnabled = 0; 
-	if (PXmlS.cODPayment())
-		NOptionsEnabled++;
-	if (PXmlS.cCPayment())
-		NOptionsEnabled++;
-	if (PXmlS.payPalPayment())
-		NOptionsEnabled++;
-
-	return NOptionsEnabled == 1; 
-}
-
-int OPWChoosePayMethod::nextId() const
-{
-	return STOrderPrintsWizard::Page_ConfirmOrder;  
-}
 
 //_____________________________________________________________________________
 //
 // class STOrderPrintsWizard
 //_____________________________________________________________________________
 
-OPWConfirmOrder::OPWConfirmOrder(OPWSelectCropsPage* _CropsPage, QWidget* _Parent) : STOWizardPage(_Parent), CropsPage(_CropsPage)
+OPWConfirmOrder::OPWConfirmOrder(QWidget* _Parent) : STOWizardPage(_Parent)
 {
 	setTitle(tr("<h1>Please confirm your order</h1>"));
 	//TODO Fetch and show html from a remote URL stored in database.
@@ -909,18 +590,19 @@ OPWConfirmOrder::OPWConfirmOrder(OPWSelectCropsPage* _CropsPage, QWidget* _Paren
 	MLayout->addWidget(StatusWidg); 	
 }
 
-void OPWConfirmOrder::calcBill(STProductPrintsProxyModel* _ProdPrModel, const QSqlRecord& _ShippingMethod)
+void OPWConfirmOrder::calcBill(const STDom::PrintJob& _Job, const QSqlRecord& _ShippingMethod)
 {
-	/*STDom::PublisherDatabase PubDatabase = QSqlDatabase::database(STOrderPrintsWizard::PublisherDBConnectionName);
-	BillLabel->setText(PubDatabase.billRitchText(ProdPrModel, _ShippingMethod )); */
+	STDom::PublisherDatabase PublDB;
+	STDom::PublisherBill Bill;
+	Bill = PublDB.calcBill(_Job, _ShippingMethod);
+	BillLabel->setText(Bill.ritchText());
 }
 
-void OPWConfirmOrder::initialize(STProductPrintsProxyModel* _ProdPrModel, const STDom::STCollectionPublisherInfo& _PubInfo, OPWChooseCropModePage::EnCropMode _CropMode)
+void OPWConfirmOrder::initialize(const STDom::PrintJob& _Job, const STDom::STCollectionPublisherInfo& _PubInfo)
 {
 	SenderOrderTE->clear();
 	StatusWidg->setVisible(false);
-	ProdPrModel = _ProdPrModel;
-	CropMode = _CropMode; 
+	PrintJob = _Job;
 	PublisherXmlFile = _PubInfo.publisherXmlFile(); 
 }
 
@@ -971,8 +653,38 @@ STDom::XmlOrderDealer OPWConfirmOrder::customer()
 	return Res; 
 }
 
-bool OPWConfirmOrder::storeImages()
+void OPWConfirmOrder::storeImages()
 {
+	STDom::PrintJobPrinter Printer;
+	Printer.storePublisherXmlFile(PublisherXmlFile);
+	Printer.setDpis(STOrderPrintsWizard::dpis());
+
+	QString OrderRef = newOrderRef();
+	LastOrderRef = OrderRef;
+	STDom::XmlOrder XmlOrder(OrderRef);
+	//Setting sender data
+	XmlOrder.setSender(sender());
+	XmlOrder.setSentDateTime(QDateTime::currentDateTime());
+	XmlOrder.setCreationDateTime(QDateTime::currentDateTime());
+	XmlOrder.setSenderComment(SenderOrderTE->toPlainText());
+	XmlOrder.setCustomer(customer());
+
+	//Publisher info
+	STDom::STXmlPublisherSettings PXmlSettings;
+	PXmlSettings.loadXml(PublisherXmlFile.absoluteFilePath());
+	STDom::XmlOrderDealer Publisher(PXmlSettings.id(), PXmlSettings.name());
+	Publisher.setEmail(PXmlSettings.email());
+	XmlOrder.setPublisher(Publisher);
+
+	StatusWidg->setVisible(true);
+	StatusWidg->showProgressBar(tr("Storing images..."), 100);
+	QApplication::processEvents();
+	Printer.clearErrorStack();
+	Printer.store(PrintJob, XmlOrder, true, StatusWidg->progressBar());
+	StatusWidg->hide();
+	Assert(Printer.errorStack().isEmpty(), Error("Error storing order.", Printer.errorStack().errorString().join(",")));
+
+
 	//!!!!!!!!!!!!!!!!!!!! CropRect are now Stored in DDocPrint so in PrintJob !!!!!!!!!!!!!
 	//Find a new Order Num
 /*	QString OrderRef = newOrderRef();
@@ -1018,16 +730,16 @@ bool OPWConfirmOrder::storeImages()
 bool OPWConfirmOrder::validatePage()
 {
 	bool Res = true; 
-/*	try
+	try
 	{
 		//if (ImagesToSend.isEmpty())
 		//	emit getImagesToSend(ImagesToSend, StatusWidg);
-		if (ProdPrModel->rowCount() > 0)
+		if (PrintJob.totalCopies() > 0)
 		{
 			Res = Res && validatePayment(); 	
 			
 			//Cropping and storing images: 
-			Res = Res && storeImages(); 
+			storeImages();
 		}
 		else 
 			SMessageBox::critical(this, tr("Error storing images"), tr("There was problems getting images to send. Please try again.")); 
@@ -1036,7 +748,7 @@ bool OPWConfirmOrder::validatePage()
 	{
 		Res = false; 
 		SMessageBox::critical(this, tr("Error storing images"), _Error.description()); 
-	}*/
+	}
 
 	return Res; 
 }
@@ -1079,22 +791,13 @@ STOrderPrintsWizard::STOrderPrintsWizard(bool _AtomicOrder, QWidget* parent, Qt:
 		ProductPage = new OPWChooseDigiprintProduct(PublisherPage, this);
 
 	setPage(Page_ChoosePublisher, PublisherPage); 
-	setPage(Page_ChooseProduct, ProductPage); 
-
-	SelCropModePage = new OPWChooseCropModePage(this);
-	setPage(Page_ChooseCropMode, SelCropModePage);
-	
-	SelCropPage = new OPWSelectCropsPage(this);
-	setPage(Page_SelectCrops, SelCropPage);
+	setPage(Page_ChooseProduct, ProductPage);
 
 	SMethPage = new OPWChooseShippingMethod(this);
 	setPage(Page_ChooseShipMethod, SMethPage); 
 
-	SPayMPage = new OPWChoosePayMethod(PublisherPage, this); 
-	setPage(Page_ChoosePayMethod, SPayMPage);
-
-	ConfirmOrderPage = new OPWConfirmOrder(SelCropPage, this); 
-	setPage(Page_ConfirmOrder, ConfirmOrderPage); 
+	ConfirmOrderPage = new OPWConfirmOrder(this);
+	setPage(Page_ConfirmOrder, ConfirmOrderPage);
 	
 
 	setStartId(nonForgetId(Page_Welcome));
@@ -1139,8 +842,6 @@ QString STOrderPrintsWizard::sendedOrderRef() const
 	return ConfirmOrderPage->lastOrderRef(); 
 }
 
-
-
 void STOrderPrintsWizard::initializePage(int _Id)
 {
 	try
@@ -1153,19 +854,10 @@ void STOrderPrintsWizard::initializePage(int _Id)
 				ProductPage->initialize(ImagesToSend);
 				
 			break;
-			case Page_SelectCrops:
-				//if (ImagesToSend.isEmpty())
-				//	emit getImagesToSend(ImagesToSend, 0);
-				//SelCropPage->initialize(ProductPage->prodPrintsModel()->imagesWithCopies(), ProductPage->prodPrintsModel()->referenceFormatList(DPIS));
-			break;  
 			case Page_ConfirmOrder : 
 			{
-				if (AtomicOrder)
-					ConfirmOrderPage->initialize(ProductPage->prodPrintsModel(), PublisherPage->publisherInfo(), OPWChooseCropModePage::ModeNoModify );  
-				else 
-					ConfirmOrderPage->initialize(ProductPage->prodPrintsModel(), PublisherPage->publisherInfo(), SelCropModePage->cropMode());  
-
-				ConfirmOrderPage->calcBill(ProductPage->prodPrintsModel(), SMethPage->currentShippingMethod()); 
+				ConfirmOrderPage->initialize(ProductPage->printJob(), PublisherPage->publisherInfo());
+				ConfirmOrderPage->calcBill(ProductPage->printJob(), SMethPage->currentShippingMethod());
 			}
 			break; 
 		}

@@ -22,6 +22,7 @@
 
 #include <QTransform> 
 #include "stphototemplatesexport.h"
+#include "ichangescontrol.h"
 
 /**
 Abstract class for al St graphics items.
@@ -35,7 +36,7 @@ class QGraphicsSceneMouseEvent;
 class QGraphicsSceneHoverEvent; 
 class QGraphicsWidget; 
 class STGraphicsItemModifier;
-class ST_PHOTOTEMPLATES_EXPORT STAbstractGraphicsItem
+class ST_PHOTOTEMPLATES_EXPORT STAbstractGraphicsItem : public IChangesControl
 {
 
 public:
@@ -56,6 +57,7 @@ protected:
 	bool ControlsEnabled; 
 	QGraphicsWidget* MControlGWidget;
 	STGraphicsItemModifier* Modifier;
+	bool Modified;
 	
 public:
 	STAbstractGraphicsItem(QGraphicsItem* _Item);
@@ -90,6 +92,9 @@ protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* _Event, QGraphicsItem* _Item);
 	void updateToolTip();
 	void updateToolTip(const QRectF& _Rect);
+	//IChangesControl interface
+	void modified();
+	void clearChanges();
 };
 
 #endif

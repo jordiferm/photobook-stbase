@@ -110,6 +110,8 @@ private:
 	STTemplateScene* createPage();
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template, QList<STGraphicsPhotoItem*>& _PhotoItems);
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template);
+	void clearAllSceneChanges();
+	bool anySceneHasChanges() const;
 	void setHasChanges(bool _Value);
 	void setBuildOptions(const STPhotoBookBuildOptions& _Options);
 
@@ -178,6 +180,7 @@ public:
 	static bool isSingleTypeSelection(QList<QGraphicsItem*> _SelectedItems);
 	bool hasChanges() const { return HasChanges; }
 	void cleanHasChanges() { setHasChanges(false); }
+	void modified() { setHasChanges(true); }
 	int maxPages() const; 
 	int minPages() const; 
 	//! \returns true if this photobook contains any photoitem with no image assigned.

@@ -53,6 +53,10 @@ void STFolderImageSingleView::setupImageActions()
 	ImageActionsToolBar->addWidget(ThumbnailSizeWidget);
 	ThumbnailSizeWidget->setValue(3);
 	slotThumbnailSizeChanged(3);
+
+	QAction* BigViewAction = new QAction(QIcon(":/phototemplates/preview.png"), tr("Big view"), this);
+	ImageActionsToolBar->addAction(BigViewAction);
+	connect(BigViewAction, SIGNAL(triggered()), this, SLOT(slotBigPreviewFolder()));
 }
 
 void STFolderImageSingleView::setEmptyMode(bool _Value)
@@ -191,6 +195,11 @@ QFileInfoList STFolderImageSingleView::selectedFiles() const
 void STFolderImageSingleView::openFolderAction()
 {
 	emit openDir(MDir);
+}
+
+void STFolderImageSingleView::slotBigPreviewFolder()
+{
+	emit bigPreviewDir(MDir);
 }
 
 void STFolderImageSingleView::slotThumbnailSizeChanged(int _Value)

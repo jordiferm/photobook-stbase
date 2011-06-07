@@ -21,13 +21,14 @@
 #define ORDERTRANSFERMODEL_H
 
 #include <QStandardItemModel>
+#include "stdomexport.h"
 
 /**
 Model to handle starblitz photocollection orders status.
 
 	@author
 */
-class OrderTransferModel : public QStandardItemModel
+class ST_DOM_EXPORT OrderTransferModel : public QStandardItemModel
 {
 	Q_OBJECT
 

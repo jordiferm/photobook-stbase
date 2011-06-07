@@ -81,8 +81,33 @@ STTemplateScene* STPhotoBook::createPage(STPhotoLayoutTemplate _Template)
 	return createPage(_Template, DummyList);
 }
 
+void STPhotoBook::clearAllSceneChanges()
+{
+	TPagesList::iterator it;
+	for (it = Pages.begin(); it != Pages.end(); ++it)
+	{
+		(*it)->clearChanges();
+	}
+}
+
+bool STPhotoBook::anySceneHasChanges() const
+{
+	bool Res = false;
+	TPagesList::const_iterator it = Pages.begin();
+
+	while (!Res && it != Pages.end())
+	{
+		Res = (*it)->hasChanges();
+		++it;
+	}
+
+	return Res;
+}
+
 void STPhotoBook::setHasChanges(bool _Value)
 {
+	if (!_Value)
+		clearAllSceneChanges();
 	if (_Value != HasChanges)
 	{
 		HasChanges = _Value; 
@@ -264,6 +289,7 @@ bool STPhotoBook::isEmpty() const
 void STPhotoBook::insertPage(STTemplateScene* _Page, int _Index)
 {
 	Pages.insert(_Index, _Page);
+	modified();
 }
 
 void STPhotoBook::insertRandomPage(int _Index)
@@ -281,7 +307,8 @@ void STPhotoBook::removePage(int _Index)
 {
 	Assert(_Index >= 0 && _Index < Pages.count(), Error(tr("STPhotoBook::removePage Range Checking Error.")));
 	Pages[_Index]->clear(); 
-	Pages.removeAt(_Index); 
+	Pages.removeAt(_Index);
+	modified();
 }
 
 void STPhotoBook::addMinimumPages()
@@ -442,6 +469,7 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 		STTemplateScene* NewPage = createPage(CurrTemplate);
 		Pages.push_back(NewPage);
 		CCalculator.fillPage(NewPage, CurrTemplate, _Progress);
+		CCalculator.markAsUsed(CurrTemplate);
 		NPages++;
 		emit newPageCreated();
 	}
@@ -452,9 +480,10 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 	while (NPages < Template.minPages())
 	{
 		//Agafem un template qualsevol
-		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages, 1,
+		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages, Template.numOptimalImagesPerPage(),
 																	  Template.hasFirstPages());
 		insertPage(createPage(CurrTemplate), NPages);
+		CCalculator.markAsUsed(CurrTemplate);
 		NPages++;
 	}
 }
@@ -944,6 +973,7 @@ void STPhotoBook::movePage(int _Source, int _Destination)
 	if (_Source >= 0 && _Source < Pages.size() && _Destination >= 0 && _Destination < Pages.size())
 	{
 		Pages.move(_Source, _Destination); 
+		modified();
 	}
 }
 
@@ -1240,6 +1270,8 @@ void STPhotoBook::slotSceneItemContextMenu(QGraphicsItem* _Item, const QPoint& _
 
 void STPhotoBook::someSceneChanged()
 {
-	setHasChanges(true); 
+	//Check if the chages made on scene are important:
+	if (anySceneHasChanges())
+		setHasChanges(true);
 }
 

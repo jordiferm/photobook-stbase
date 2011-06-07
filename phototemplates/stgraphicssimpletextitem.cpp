@@ -41,6 +41,7 @@ void STGraphicsSimpleTextItem::init()
 	BorderPen.setStyle(Qt::NoPen);	
 	Opacity = 1; 
 	ManuallyEdited = false;
+
 }
 
 
@@ -304,6 +305,7 @@ QVariant STGraphicsSimpleTextItem::itemChange(GraphicsItemChange change, const Q
 			newPos.setY(snapToGridValue(newPos.y()));
 			//return newPos; 
 		}
+		modified();
 		//FIXME: When items are rotated it does not runs well.
 		/*QRectF rect = scene()->sceneRect();
 		QRectF NewItemRect(sceneBoundingRect()); 

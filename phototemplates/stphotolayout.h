@@ -316,6 +316,8 @@ public:
 
 	bool resourcesOnDisk() const;
 	void downloadResources(const STDom::STXmlPublisherSettings& _PublisherSettings, STFtpStatusWidget* _StatusWidget);
+
+	void generateKey();
 };
 
 bool operator<(int _Value, const STPhotoLayoutTemplate& _Other);

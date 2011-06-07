@@ -45,6 +45,10 @@
 #include <QAction> 
 #include <QGraphicsProxyWidget> 
 
+//Others
+#include <QGraphicsColorizeEffect>
+#include <QGraphicsBlurEffect>
+
 #include "stupdateitemevent.h"
 #include "stimage.h"
 #include "imageTools.h" 
@@ -53,6 +57,7 @@
 //#include "ophotocollection.h" // For OPhotoCollectionImage.
 
 #include "stgraphicsitemmodifier.h"
+
 
 // _________________________________________________________________________*/
 //
@@ -241,6 +246,12 @@ void STGraphicsPhotoItem::init()
 	setAcceptDrops(true); 
 	RestoreZValue = false;
 	setAutoAdjustFramesToImages(true);
+
+	QGraphicsColorizeEffect* ColEffect = new QGraphicsColorizeEffect(this);
+	QGraphicsBlurEffect* BlurEffect = new QGraphicsBlurEffect(this);
+	ColEffect->setColor(Qt::red);
+	//setGraphicsEffect(ColEffect);
+	//setGraphicsEffect(BlurEffect);
 }
 
 void STGraphicsPhotoItem::checkForImageOrientation()
@@ -340,6 +351,7 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 
 	setRect(AdjustedRect);
 	setSelected(false);
+	modified();
 }
 
 void STGraphicsPhotoItem::setAutoAdjustFramesToImages(bool _Value)
@@ -480,6 +492,7 @@ void STGraphicsPhotoItem::setAlphaChannel(const QImage& _AlphaChannel)
 	setBrush(CurrBrush);
 
 	update();
+	modified();
 }
 
 void STGraphicsPhotoItem::setFrameImage(const QImage& _FrameImage)
@@ -578,12 +591,14 @@ void STGraphicsPhotoItem::rotateImage(qreal _Degrees)
 	ImageMatrix.rotate(_Degrees);
 	ImageModified = true;
 	update();
+	modified();
 }
 
 void STGraphicsPhotoItem::scaleImage(qreal _Scale)
 {
 	CurrScale *= _Scale;
 	setImageScale(CurrScale);
+	modified();
 }
 
 void STGraphicsPhotoItem::setImageScale(qreal _Scale)
@@ -592,6 +607,7 @@ void STGraphicsPhotoItem::setImageScale(qreal _Scale)
 	ImageModified = true;
 
 	update();
+	modified();
 }
 
 qreal STGraphicsPhotoItem::imageScale()
@@ -618,7 +634,7 @@ void STGraphicsPhotoItem::setImageFileName(const QString& _ImageFileName)
 	CurrImageFileName = _ImageFileName; 
 	if (!_ImageFileName.isEmpty())
 	ImageMD5Sum = STImage::hashString(_ImageFileName); 	
-	
+	modified();
 }
 
 void STGraphicsPhotoItem::setImageSourcePath(const QString& _ImagesSourcePath)
@@ -768,12 +784,14 @@ void STGraphicsPhotoItem::setOpacity(qreal _Value)
 {
 	Opacity = _Value; 
 	update(); 
+	modified();
 }
 
 void STGraphicsPhotoItem::setShadowDepth(qreal _Value)
 {
 	ShadowDepth = _Value;
 	update(); 
+	modified();
 }
 
 bool STGraphicsPhotoItem::encryptedByFileName(const QString& _FilePath)
@@ -1202,6 +1220,13 @@ void STGraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 
 void STGraphicsPhotoItem::panImage(const QPointF& _PanningPoint)
 {
+	if (hasImage())
+	{
+		double DifX = (PanningPoint.x() * 10) - (_PanningPoint.x() * 10);
+		double DifY = (PanningPoint.y() * 10) - (_PanningPoint.y() * 10);
+		if (abs(DifX) > 1 || abs(DifY) > 1)
+			modified();
+	}
 	PanningPoint = _PanningPoint;
 	update();
 }
