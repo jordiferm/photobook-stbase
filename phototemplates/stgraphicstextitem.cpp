@@ -100,6 +100,7 @@ void STGraphicsTextItem::loadElement(QDomElement& _Element)
 	setHtml(_Element.text());
 	setTextWidth(_Element.attribute("textwidth", "-1").toDouble());
 	setTransform(STAbstractGraphicsItem::loadTransformElement(_Element)); 
+	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
 	STAbstractGraphicsItem::updateToolTip(); 
 }
 
@@ -112,6 +113,8 @@ QDomElement STGraphicsTextItem::createElement(QDomDocument& _Doc)
 	QDomText CText = _Doc.createTextNode(toHtml());
 	MElement.appendChild(CText);
 	MElement.appendChild(STAbstractGraphicsItem::createTransformElement(this, _Doc));
+	//Effects
+	STAbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
 
 	return MElement; 
 }

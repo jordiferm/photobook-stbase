@@ -174,7 +174,8 @@ void STGraphicsSimpleTextItem::loadElement(QDomElement& _Element)
 		}
 		CNode = CNode.nextSibling();
 	}	
-	updateToolTip(); 
+	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
+	updateToolTip();
 }
 	
 QDomElement STGraphicsSimpleTextItem::createElement(QDomDocument& _Doc)
@@ -233,6 +234,9 @@ QDomElement STGraphicsSimpleTextItem::createElement(QDomDocument& _Doc)
 	
 	
 	MElement.appendChild(STAbstractGraphicsItem::createTransformElement(this, _Doc));
+	//Effects
+	STAbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
+
 
 	return MElement; 
 }

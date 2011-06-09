@@ -75,6 +75,8 @@ public:
 
 	virtual void setResizeAllowed(bool _Value) { ResizeAllowed = _Value; } 
 	static QDomElement createTransformElement(const QGraphicsItem* _Item, QDomDocument& _Doc);
+	static void appendEffectElements(QDomElement& _Parent, const QGraphicsItem* _Item, QDomDocument& _Doc);
+	void loadEffectElements(QGraphicsItem* _Item, QDomElement& _Element);
 	static QTransform loadTransformElement(QDomElement& _Element);
 	static void setGridValue(int _Value) { GridValue = _Value; }
 	static int gridValue() { return GridValue; }

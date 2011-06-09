@@ -58,7 +58,8 @@ void STGraphicsClipartItem::loadElement(QDomElement& _Element)
 	Opacity = _Element.attribute("opacity", "1").toDouble();
 	//renderer()->load(ImageSourcePath + "/" + _Element.attribute("src", ""));
 	setTransform(STAbstractGraphicsItem::loadTransformElement(_Element)); 
-	STAbstractGraphicsItem::updateToolTip();  
+	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
+	STAbstractGraphicsItem::updateToolTip();
 }
 
 QDomElement STGraphicsClipartItem::createElement(QDomDocument& _Doc)
@@ -70,6 +71,8 @@ QDomElement STGraphicsClipartItem::createElement(QDomDocument& _Doc)
 	QFileInfo FNInfo(FileName); 
 	MElement.setAttribute("src", FNInfo.fileName()); 
 	MElement.appendChild(STAbstractGraphicsItem::createTransformElement(this, _Doc));
+	//Effects
+	STAbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
 
 	return MElement; 	
 }

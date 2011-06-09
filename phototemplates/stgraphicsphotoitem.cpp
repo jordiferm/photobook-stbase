@@ -723,6 +723,9 @@ void STGraphicsPhotoItem::loadElement(QDomElement& _Element)
 		FrameSrc = ImagesSourcePath + "/" + FrameSrc;
 		setFrameImage(QImage(FrameSrc));
 	}
+
+	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
+
 	updateToolTip(); 
 	layoutControlWidget();
 }
@@ -777,6 +780,9 @@ QDomElement STGraphicsPhotoItem::createElement(QDomDocument& _Doc)
 	MElement.appendChild(PenEl); 
 
 	MElement.appendChild(STAbstractGraphicsItem::createTransformElement(this, _Doc));
+	//Effects
+	STAbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
+
 	return MElement; 
 }
 

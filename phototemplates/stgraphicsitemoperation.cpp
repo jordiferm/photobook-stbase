@@ -197,6 +197,33 @@ STGraphicsItemOperation* STSetItemShadowGIO::clone(QGraphicsItem* _NewItem)
 	return Res;
 }
 
+// ____________________________________________________________________________
+//
+// Class STSetItemGraphicsEffectGIO
+// ____________________________________________________________________________
+
+STSetItemGraphicsEffectGIO::STSetItemGraphicsEffectGIO(QGraphicsItem* _Item, QGraphicsEffect* _Effect, QUndoCommand* _Parent)
+	: STGraphicsItemOperation(_Item, QObject::tr("Graphics Effect"), _Parent), NewEffect(_Effect)
+{
+}
+
+void STSetItemGraphicsEffectGIO::redo()
+{
+	OldEffect = Item->graphicsEffect();
+	Item->setGraphicsEffect(NewEffect);
+}
+
+void STSetItemGraphicsEffectGIO::undo()
+{
+	Item->setGraphicsEffect(OldEffect);
+}
+
+
+STGraphicsItemOperation* STSetItemGraphicsEffectGIO::clone(QGraphicsItem* _NewItem)
+{
+	return new STSetItemGraphicsEffectGIO(_NewItem, NewEffect);
+}
+
 
 // ____________________________________________________________________________
 //
