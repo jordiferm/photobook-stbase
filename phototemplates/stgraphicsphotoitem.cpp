@@ -222,6 +222,7 @@ void STGraphicsPhotoItem::init()
 	setShowNoImageMessage(true);
 	ImageEncrypted = false;
 	IgnoreExifRotation = false;
+	OrientationChanged = false;
 
 	QColor EmptyFrameColor("#FFD95C"); 
 	EmptyFrameColor.setAlpha(150);
@@ -319,10 +320,11 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 	double ImageRatio = static_cast<double>(_ImageSize.width()) / static_cast<double>(_ImageSize.height());
 	QRectF FrameRect = rect();
 	QRectF AdjustedRect = FrameRect;
+	qDebug() << "OrientationChanged:" << OrientationChanged;
 	if (ImageRatio > 1) //=> Width > height => Adjust rect height
 	{
 		double NewHeight = FrameRect.width() / ImageRatio;
-		if (NewHeight < FrameRect.height())
+		if (NewHeight < FrameRect.height() && !OrientationChanged)
 		{
 			AdjustedRect.setHeight(NewHeight);
 			AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
@@ -337,7 +339,7 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 	else
 	{
 		double NewWidth = FrameRect.height() * ImageRatio;
-		if (NewWidth < FrameRect.width())
+		if (NewWidth < FrameRect.width() && !OrientationChanged)
 		{
 			AdjustedRect.setWidth(NewWidth);
 			AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
@@ -349,7 +351,12 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 		}
 	}
 
+	if ((FrameRect.width() > FrameRect.height() && AdjustedRect.width() <= AdjustedRect.height())
+		|| (FrameRect.width() <= FrameRect.height() && AdjustedRect.width() > AdjustedRect.height()))
+		OrientationChanged = !OrientationChanged;
+
 	setRect(AdjustedRect);
+
 	setSelected(false);
 	modified();
 }
@@ -1200,22 +1207,27 @@ void STGraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 	{
 		if (_Event->mimeData()->hasUrls())
 		{
-			QList<QUrl> Urls = _Event->mimeData()->urls();
-
-			QUrl FirstUrl = _Event->mimeData()->urls().first();
-			if (!FirstUrl.isEmpty() && FirstUrl.isValid())
+			if (_Event->mimeData()->urls().size() > 1)
+				emit imageListDropped(_Event->mimeData()->urls());
+			else
 			{
-				QString LocalPath = FirstUrl.toString();
-				//Only local file uris are supported.
-				QString ImagePath = FirstUrl.toLocalFile();
-				if (!ImagePath.isEmpty())
+				QList<QUrl> Urls = _Event->mimeData()->urls();
+
+				QUrl FirstUrl = _Event->mimeData()->urls().first();
+				if (!FirstUrl.isEmpty() && FirstUrl.isValid())
 				{
-					STDom::DImageDoc Image(ImagePath);
-					setImage(Image);
-					if (encryptedByFileName(ImagePath))
-						setImageEncrypted(true);
-					loadImageSpawn();
-					emit imageDropped(ImagePath, ImageMD5Sum);
+					QString LocalPath = FirstUrl.toString();
+					//Only local file uris are supported.
+					QString ImagePath = FirstUrl.toLocalFile();
+					if (!ImagePath.isEmpty())
+					{
+						STDom::DImageDoc Image(ImagePath);
+						setImage(Image);
+						if (encryptedByFileName(ImagePath))
+							setImageEncrypted(true);
+						loadImageSpawn();
+						emit imageDropped(ImagePath, ImageMD5Sum);
+					}
 				}
 			}
 		}

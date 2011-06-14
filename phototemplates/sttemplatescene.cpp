@@ -115,6 +115,7 @@ STTemplateScene::STTemplateScene(QObject* _Parent)
 {
 	setBackgroundBrush(QColor("#DFE1BD"));
 	connect(this, SIGNAL(imageDropped(QString,QString)), this, SLOT(slotCheckModifyAll(QString)));
+	connect(this, SIGNAL(imageListDropped(QList<QUrl>)), this, SLOT(slotImageListDropped(QList<QUrl>)));
 }
 
 void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
@@ -700,6 +701,7 @@ void STTemplateScene::addPhotoItem(STGraphicsPhotoItem* _PhotoItem)
 	configureItem(_PhotoItem); 
 	connect(_PhotoItem, SIGNAL(mousePanning(const QPointF&)), this, SLOT(panSelectedPhotoItems(const QPointF&)));
 	connect(_PhotoItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
+	connect(_PhotoItem, SIGNAL(imageListDropped(QList<QUrl>)), this, SIGNAL(imageListDropped(QList<QUrl>)));
 	connect(_PhotoItem, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&)));
 
 	QGraphicsScene::addItem(_PhotoItem);
@@ -712,6 +714,7 @@ void STTemplateScene::setPageItem(STGraphicsPageItem* _PageItem)
 	if (_PageItem) //Defensive 
 	{
 		connect(_PageItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
+		connect(_PageItem, SIGNAL(imageListDropped(QList<QUrl>)), this, SIGNAL(imageListDropped(QList<QUrl>)));
 		connect(_PageItem, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&)));
 	}
 }
@@ -1273,5 +1276,34 @@ void STTemplateScene::slotCheckModifyAll(const QString& _ImagePath)
 			}
 		}
 
+	}
+}
+
+void STTemplateScene::slotImageListDropped(const QList<QUrl>& _Urls)
+{
+	qDebug() << "STTemplateScene::slotImageListDropped-----";
+	selectAllByType(STGraphicsPhotoItem::Type);
+	QList<QGraphicsItem *> Items = selectedItems();
+
+	QList<QUrl>::const_iterator it = _Urls.begin();
+	int CntItem = 0;
+	while (CntItem < Items.size() && it != _Urls.end())
+	{
+		//Only local file uris are supported.
+		QString ImagePath = it->toLocalFile();
+		if (!ImagePath.isEmpty())
+		{
+			STDom::DImageDoc Doc(ImagePath);
+			STGraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Items[CntItem]);
+			if (CPhotoItem)
+			{
+				CPhotoItem->setImage(Doc);
+				CPhotoItem->loadImageSpawn();
+
+				emit imageDropped(ImagePath, STImage::hashString(ImagePath));
+				CntItem++;
+			}
+		}
+		++it;
 	}
 }

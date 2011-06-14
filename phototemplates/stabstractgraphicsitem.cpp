@@ -135,7 +135,6 @@ void STAbstractGraphicsItem::appendEffectElements(QDomElement& _Parent, const QG
 		ShadowElement.setAttribute("blurradius", NewEffect->blurRadius());
 		ShadowElement.setAttribute("color", NewEffect->color().name());
 		_Parent.appendChild(ShadowElement);
-		qDebug() << "Appending element ...........................";
 	}
 }
 

@@ -25,6 +25,7 @@
 #include <QFont>
 #include <QList> 
 #include <QImage> 
+#include <QUrl>
 #include "stphotolayout.h"
 #include "sterror.h"
 #include "stphototemplatesexport.h"
@@ -150,13 +151,15 @@ protected:
 private slots:
 	void panSelectedPhotoItems(const QPointF&);
 	void slotCheckModifyAll(const QString& _ImagePath);
+	void slotImageListDropped(const QList<QUrl>& _Urls);
 
 signals:
 	void doubleClicked();
 	void clicked();
 	void itemContextMenu(QGraphicsItem* _Item, const QPoint&);
 	void imageDropped(const QString& _FileName, const QString& _MD5Sum); 
-	void imageRemoved(const QString& _FileName, const QString& _MD5Sum); 
+	void imageListDropped(const QList<QUrl>& _Urls);
+	void imageRemoved(const QString& _FileName, const QString& _MD5Sum);
 	void templateDropped(STTemplateScene* _Scene, const STPhotoLayoutTemplate& _Template);
 	void clipartDropped(const QString& _FileName, const QPointF _Pos);
 };

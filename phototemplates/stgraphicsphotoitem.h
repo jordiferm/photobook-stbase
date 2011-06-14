@@ -113,6 +113,7 @@ private:
 	bool ImageEncrypted;
 	bool AutoAdjustFramesToImages;
 	bool IgnoreExifRotation;
+	bool OrientationChanged;
 	
 protected:	
 	bool ImageLoaded;
@@ -237,6 +238,7 @@ signals:
 	void mousePanning(const QPointF& _PanningPoint); 
 	void imageDropped(const QString& _FileName, const QString& _MD5Sum); 
 	void imageRemoved(const QString& _FileName, const QString& _MD5Sum); 
+	void imageListDropped(const QList<QUrl>& _Urls);
 };
 
 #endif
