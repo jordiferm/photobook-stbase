@@ -232,6 +232,29 @@ public:
 	QSqlRecord currentShippingMethod() const;
 };
 
+
+/**
+	Page to choose send mode.
+
+	@author Shadow
+*/
+
+class OPWChooseSendMode : public STOWizardPage
+{
+Q_OBJECT
+	QRadioButton* RBInteSent;
+	QRadioButton* RBLocalStore;
+	bool AllowInetSend;
+
+public:
+	OPWChooseSendMode(QWidget* _Parent = 0);
+	void setAllowInetSend(bool _Value);
+	void initializePage();
+	bool inetSend() const;
+	bool forgetMe();
+	int nextId() const;
+};
+
 /**
 	Wizard to order prints, photobooks and gifts.
 
@@ -250,13 +273,14 @@ private:
 	OPWChooseShippingMethod* SMethPage;
 	OPWChoosePublisher* PublisherPage;
 	OPWConfirmOrder* ConfirmOrderPage; 
+	OPWChooseSendMode* SendModePage;
 	QPushButton* ButConfirmAndSend;
 	int NumImages;
 	bool AtomicOrder;
 	static int DPIS; 
 	
 public:	
-	enum { Page_Welcome, Page_UserData, Page_ChoosePublisher, Page_ChooseProduct, Page_ChooseShipMethod, Page_ConfirmOrder};
+	enum { Page_Welcome, Page_UserData, Page_ChoosePublisher, Page_ChooseProduct, Page_ChooseShipMethod, Page_ChooseSendMode, Page_ConfirmOrder};
 
 	static const QString PublisherDBConnectionName; 
 	int nonForgetId(int _FromId) const;
@@ -274,6 +298,8 @@ public:
 	static int dpis() { return DPIS; }
 	void initializePage(int _Id);
 	int nextId () const;
+	void setAllowInetSend(bool _Value);
+	bool inetSend() const;
 	STDom::STXmlPublisherSettings publisherSettings() const;
 	
 signals:
@@ -305,12 +331,14 @@ private:
 	QString LastOrderRef;
 	QTextEdit* SenderOrderTE;
 	STDom::PrintJob PrintJob;
+	bool SendViaInternet;
 
 public:
 	OPWConfirmOrder(QWidget* _Parent = 0);
 	void calcBill(const STDom::PrintJob& _Job, const QSqlRecord& _ShippingMethod);
 	void initialize(const STDom::PrintJob& _Job, const STDom::STCollectionPublisherInfo& _PubInfo);
 	bool validatePayment();
+	void sendViaInternet(bool _Value);
 	QString newOrderRef();
 	STDom::XmlOrderDealer sender();
 	STDom::XmlOrderDealer customer();

@@ -42,6 +42,13 @@
 #include <QtWebKit/QWebView>
 #include <QApplication>
 
+//GUI Other
+#include "qxtgroupbox.h"
+
+//Models
+#include "stphotobookcollectionmodel.h"
+#include "stphotobook.h"
+
 //Image Selection
 #include "spimageslistview.h"
 #include "spimageboxlistview.h"
@@ -636,7 +643,7 @@ int CustomSizesPage::nextId() const
 // class ChooseCreationModePage
 //_____________________________________________________________________________
 
-ChooseCreationModePage::ChooseCreationModePage(QWidget* _Parent) : QWizardPage(_Parent)
+ChooseCreationModePage::ChooseCreationModePage(QWidget* _Parent) : QWizardPage(_Parent), PredesignPhotoItems(0)
 {
 	setTitle(tr("<h1>Creation mode selection</h1>"));
 	setSubTitle(tr("<p>How do you want to create your <em>Photo Book</em>?</p> You have 2 options:"));
@@ -657,6 +664,20 @@ ChooseCreationModePage::ChooseCreationModePage(QWidget* _Parent) : QWizardPage(_
 	MLayout->addWidget(RBManualFill); 
 	MLayout->addWidget(new QLabel(tr("Lets the picture filling up to you."), this)); 
 
+	GBUsePredesign = new QxtGroupBox(tr("Use a predesign"), this);
+	MLayout->addWidget(GBUsePredesign);
+
+	QVBoxLayout* GBLayout = new QVBoxLayout(GBUsePredesign);
+
+	LVPredesigns = new QListView(GBUsePredesign);
+	GBLayout->addWidget(LVPredesigns);
+
+	PredesignModel = new STPhotoBookCollectionModel(this);
+	LVPredesigns->setModel(PredesignModel);
+
+	MLayout->setStretchFactor(LVPredesigns, 5);
+
+	MLayout->addItem( new QSpacerItem(10, 10, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding));
 }
 
 
@@ -668,9 +689,58 @@ int ChooseCreationModePage::nextId() const
 //		return STAlbumWizard::Page_End;
 }
 
+void ChooseCreationModePage::setPhotoBookTemplateFileInfo(const QFileInfo& _FileInfo)
+{
+	//Fill predesigns of template.
+	PredesignModel->setRootDir(_FileInfo.dir());
+	PredesignModel->load(true);
+	GBUsePredesign->setEnabled(true);
+	if (PredesignModel->rowCount()==0)
+	{
+		GBUsePredesign->setChecked(false);
+		GBUsePredesign->setEnabled(false);
+	}
+	else
+		LVPredesigns->setCurrentIndex(PredesignModel->index(0, 0));
+
+}
+
+bool ChooseCreationModePage::validatePage()
+{
+	PredesignPhotoItems = 0;
+	if (usePredesign())
+	{
+		try
+		{
+			STPhotoBook CurrentPB;
+			CurrentPB.load(predesignDir());
+			PredesignPhotoItems = CurrentPB.numPhotoFrames();
+		}
+		catch (STError& _Error)
+		{
+			SMessageBox::critical(this, tr("Error loading predesign"), _Error.description());
+		}
+	}
+	return true;
+}
+
 bool ChooseCreationModePage::autoBuildModeSelected() const
 {
 	return RBAutomaticFill->isChecked();
+}
+
+bool ChooseCreationModePage::usePredesign() const
+{
+	return GBUsePredesign->isChecked();
+}
+
+QDir ChooseCreationModePage::predesignDir() const
+{
+	QDir Res;
+	if (usePredesign())
+		Res = QDir(PredesignModel->photoBookPath(LVPredesigns->currentIndex()));
+
+	return Res;
 }
 
 //_____________________________________________________________________________
@@ -812,6 +882,11 @@ void BuildOptionsPage::setAutoBuildMode(bool _Value)
 	GBGeneral->setVisible(_Value);
 }
 
+void BuildOptionsPage::setUsePredesign(bool _Value)
+{
+	GBPhotoBook->setVisible(!_Value);
+}
+
 
 //_____________________________________________________________________________
 //
@@ -824,7 +899,11 @@ void SelectDiskFolderPage::updateInfo()
 	//ImageBoxListView->model()->rowCount()
 	QString FontColor="#000000";
 	int SelectedImages = ImageBoxListView->model()->rowCount();
-	int OptimalImageNum = OptimalImagesPerPage * PagesToFill;
+	int OptimalImageNum = 0;
+	if (AbsoluteImageCount)
+		OptimalImageNum = AbsoluteImageCount;
+	else
+		OptimalImageNum = OptimalImagesPerPage * PagesToFill;
 	if ( SelectedImages < OptimalImageNum)
 		FontColor="#FF0000";
 	InfoLabel->setText(tr("Optimal image number: <span style=\"font-size:20px;\"><font color=\%1><b>%2</b></font></span>, Images per page: <span style=\"font-size:20px;\"><font  color=\%1><b>%3</b></font></span>").arg(
@@ -832,7 +911,7 @@ void SelectDiskFolderPage::updateInfo()
 
 }
 
-SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Parent), PagesToFill(0), OptimalImagesPerPage(0)
+SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Parent), PagesToFill(0), OptimalImagesPerPage(0), AbsoluteImageCount(0)
 {
 	setTitle(tr("<h1>Image selection</h1>"));
 	setSubTitle(tr("<p>Please choose your PhotoBook images. Drag&Drop them to the list at the bottom.</p>"));
@@ -885,10 +964,15 @@ void SelectDiskFolderPage::setTemplate(const STPhotoBookTemplate& _Template, con
 {
 	PagesToFill = _Options.pagesToFill();
 	OptimalImagesPerPage = _Template.numOptimalImagesPerPage();
+	AbsoluteImageCount = 0;
 	updateInfo();
 }
 
-
+void SelectDiskFolderPage::setAbsoluteImageCount(int _Value)
+{
+	AbsoluteImageCount = _Value;
+	updateInfo();
+}
 
 int SelectDiskFolderPage::nextId() const
 {
@@ -990,7 +1074,7 @@ QFileInfo STAlbumWizard::photoBookTemplateFileInfo() const
 
 bool STAlbumWizard::autoFillSelected() const
 {
-	return hasVisitedPage(Page_SelectDiskFolder);
+	return CCreationModePage->autoBuildModeSelected();
 }
 	
 //! DEPRECARED !!!
@@ -1013,17 +1097,29 @@ int STAlbumWizard::nextId() const
 	int Res = QWizard::nextId();
 	if (!CustomSizesEnabled && Res == Page_ChooseTemplateMode)
 		Res = Page_ChooseTemplate;
+
 	if (Res ==  Page_BuildOptions)
 	{
 		STPhotoLayout::EnLayoutType TemplType = CTemplatePage->currentType();
 		PBuildOptions->setTemplate(PhotoBookTemplate, TemplType);
 		PBuildOptions->setAutoBuildMode(CCreationModePage->autoBuildModeSelected());
-		if (TemplType != STPhotoLayout::TypeCalendar && TemplType != STPhotoLayout::TypePhotoBook)
+		PBuildOptions->setUsePredesign(CCreationModePage->usePredesign());
+		if (TemplType != STPhotoLayout::TypeCalendar && TemplType != STPhotoLayout::TypePhotoBook ||
+				(!CCreationModePage->autoBuildModeSelected() && CCreationModePage->usePredesign()))
 			Res = PBuildOptions->nextId();
 	}
+	else
+	if (Res == Page_CooseCreationMode)
+	{
+		CCreationModePage->setPhotoBookTemplateFileInfo(CTemplatePage->photoBookTemplateFileInfo());
+	}
+	else
 	if (Res == Page_SelectDiskFolder)
 	{
-		SDFolderPage->setTemplate(PhotoBookTemplate, PBuildOptions->getBuildOptions());
+		if (CCreationModePage->usePredesign())
+			SDFolderPage->setAbsoluteImageCount(CCreationModePage->predesignPhotoItems());
+		else
+			SDFolderPage->setTemplate(PhotoBookTemplate, PBuildOptions->getBuildOptions());
 	}
 
 	return Res; 
@@ -1043,6 +1139,17 @@ STPhotoBookBuildOptions STAlbumWizard::buildOptions() const
 {
 	return PBuildOptions->getBuildOptions();
 }
+
+bool STAlbumWizard::usePredesign() const
+{
+	return CCreationModePage->usePredesign();
+}
+
+QDir STAlbumWizard::predesignDir() const
+{
+	return CCreationModePage->predesignDir();
+}
+
 
 void STAlbumWizard::slotLoadTemplate()
 {

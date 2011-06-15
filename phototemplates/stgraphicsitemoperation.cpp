@@ -286,7 +286,7 @@ void STFitInImageGIO::redo()
 void STFitInImageGIO::undo()
 {
 	STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Item);
-	CItem->rotateImage(OldScale); 
+	CItem->setImageScale(OldScale);
 }
 
 STGraphicsItemOperation* STFitInImageGIO::clone(QGraphicsItem* _NewItem)
@@ -298,6 +298,47 @@ STGraphicsItemOperation* STFitInImageGIO::clone(QGraphicsItem* _NewItem)
 
 	if (CItem)
 		Res = new STFitInImageGIO(CItem);
+
+	return Res;
+}
+
+
+// ____________________________________________________________________________
+//
+// Class STFitInFrameGIO
+// ____________________________________________________________________________
+
+STFitInFrameGIO::STFitInFrameGIO(STGraphicsPhotoItem* _Item, QUndoCommand* _Parent)
+			: STGraphicsItemOperation(_Item, QObject::tr("Fit In"), _Parent), OldScale(1)
+{
+}
+
+void STFitInFrameGIO::redo()
+{
+	STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Item);
+	OldScale = CItem->imageScale();
+	CItem->setImageScale(1);
+
+	OldRect = CItem->rect();
+	CItem->adjustRectToImage();
+}
+
+void STFitInFrameGIO::undo()
+{
+	STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Item);
+	CItem->setRect(OldRect);
+	CItem->setImageScale(OldScale);
+}
+
+STGraphicsItemOperation* STFitInFrameGIO::clone(QGraphicsItem* _NewItem)
+{
+	STGraphicsItemOperation* Res = 0;
+	STGraphicsPhotoItem* CItem = 0;
+	//For all supported types.
+	CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(_NewItem);
+
+	if (CItem)
+		Res = new STFitInFrameGIO(CItem);
 
 	return Res;
 }

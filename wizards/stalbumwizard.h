@@ -144,14 +144,26 @@ public:
 
 
 class QRadioButton; 
+class STPhotoBookCollectionModel;
+class QxtGroupBox;
 class ChooseCreationModePage : public QWizardPage
 {
 Q_OBJECT
 	QRadioButton* RBAutomaticFill;
+	STPhotoBookCollectionModel* PredesignModel;
+	QxtGroupBox* GBUsePredesign;
+	QListView* LVPredesigns;
+	int PredesignPhotoItems;
+
 public:
 	ChooseCreationModePage(QWidget* _Parent = 0);
 	int nextId() const;
+	void setPhotoBookTemplateFileInfo(const QFileInfo& _FileInfo);
+	bool validatePage();
 	bool autoBuildModeSelected() const;
+	bool usePredesign() const;
+	int predesignPhotoItems() const { return PredesignPhotoItems; }
+	QDir predesignDir() const;
 };
 
 
@@ -178,6 +190,7 @@ public:
 	STPhotoBookBuildOptions getBuildOptions() const;
 	void setTemplate(const STPhotoBookTemplate& _Template, STPhotoLayout::EnLayoutType _Type);
 	void setAutoBuildMode(bool _Value);
+	void setUsePredesign(bool _Value);
 };
 
 
@@ -188,12 +201,13 @@ Q_OBJECT
 
 	SPImageBoxListView* ImageBoxListView;
 	QLabel* InfoLabel;
-	int PagesToFill, OptimalImagesPerPage;
+	int PagesToFill, OptimalImagesPerPage, AbsoluteImageCount;
 	void updateInfo();
 
 public:
 	SelectDiskFolderPage(QWidget* _Parent = 0);
 	void setTemplate(const STPhotoBookTemplate& _Template, const STPhotoBookBuildOptions& _Options);
+	void setAbsoluteImageCount(int _Value);
 	int nextId() const;
 	bool isComplete() const;
 	STDom::DDocModel* selectedImages() const;
@@ -245,6 +259,9 @@ public:
 	bool customSizesEnabled() const { return CustomSizesEnabled; }
 	STDom::DDocModel* selectedImages() const;
 	STPhotoBookBuildOptions buildOptions() const;
+	bool usePredesign() const;
+	QDir predesignDir() const;
+
 private slots:
 	void slotLoadTemplate();
 };

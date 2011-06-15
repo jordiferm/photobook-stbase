@@ -122,7 +122,6 @@ void STPhotoBook::setBuildOptions(const STPhotoBookBuildOptions& _Options)
 	setAutoFillBackgrounds(_Options.autoFillBackgrounds());
 	setPagesToFill(_Options.pagesToFill());
 	setAutoAdjustFrames(_Options.autoadjustFrames());
-	qDebug() << "_Options.autoadjustFrames()" << _Options.autoadjustFrames();
 	if (!_Options.useTexts())
 		Template.removeTextTemplates();
 	if (!_Options.title().isEmpty())
@@ -487,6 +486,24 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 		CCalculator.markAsUsed(CurrTemplate);
 		NPages++;
 	}
+}
+
+void STPhotoBook::autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
+{
+	STCandidateCalculator CCalculator(*this, _PhotoModel);
+
+	if (_Progress)
+		_Progress->setRange(0, CCalculator.totalPhotos());
+
+	TPagesList::iterator it = Pages.begin();
+
+	while (CCalculator.photosAvailable() && it != Pages.end())
+	{
+		CCalculator.fillPage(*it, (*it)->getPageTemplate(), _Progress);
+		++it;
+	}
+	if (_Progress)
+		_Progress->setValue(CCalculator.totalPhotos());
 }
 
 QSize STPhotoBook::renderSize(STTemplateScene* _Scene) const
@@ -861,6 +878,19 @@ int STPhotoBook::numImageMatches(const QString& _ImageMD5Sum) const
 		++it;
 	}
 	return Res;
+}
+
+int STPhotoBook::numPhotoFrames() const
+{
+	TPagesList::const_iterator it = Pages.begin();
+	int Res = 0;
+	while (it != Pages.end())
+	{
+		Res +=(*it)->numPhotoItems();
+		++it;
+	}
+	return Res;
+
 }
 
 

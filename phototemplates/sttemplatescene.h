@@ -26,6 +26,7 @@
 #include <QList> 
 #include <QImage> 
 #include <QUrl>
+#include <QFileInfoList>
 #include "stphotolayout.h"
 #include "sterror.h"
 #include "stphototemplatesexport.h"
@@ -128,6 +129,8 @@ public:
 	//! \return true is photobook currently contains image with MD5Sum _ImageMD5Sum.
 	bool containsImage(const QString& _ImageMD5Sum); 
 	bool hasEmptyPhotoItems() const; 
+	int numPhotoItems() const ;
+	int numEmptyPhotoItems() const;
 	void selectFirstEmptyPhotoItem();
 	STPhotoLayoutTemplate currentTemplate() const { return Template; }
 	QSizeF renderBaseSize() const { return RenderBaseSize; }
@@ -140,6 +143,7 @@ public:
 	void modified();
 	void clearChanges();
 	bool hasChanges() const { return HasChanges; }
+	void autoFillImages(const QFileInfoList& _Images);
 
 protected:
 	bool event(QEvent* _Event);
@@ -151,6 +155,7 @@ protected:
 private slots:
 	void panSelectedPhotoItems(const QPointF&);
 	void slotCheckModifyAll(const QString& _ImagePath);
+
 	void slotImageListDropped(const QList<QUrl>& _Urls);
 
 signals:

@@ -105,6 +105,22 @@ STDom::DDocModel* STPhotoBookCheckedProxyModel::sourceModel() const
 	return qobject_cast<STDom::DDocModel*>(STCheckedProxyModel::sourceModel());
 }
 
+QFileInfoList STPhotoBookCheckedProxyModel::uncheckedImages() const
+{
+	QFileInfoList Res;
+	for (int Vfor = 0; Vfor < rowCount(); Vfor++)
+	{
+		QModelIndex CurrIndex = index(Vfor, 0);
+		if(!isChecked(CurrIndex))
+		{
+			Res.push_back(sourceModel()->doc(mapToSource(CurrIndex))->fileInfo());
+		}
+	}
+
+	return Res;
+}
+
+
 void STPhotoBookCheckedProxyModel::updateMD5SumImageMatches(const QString& _MD5Sum, bool _Added)
 {
 	if (!UpdateCheckedFuture.isFinished())

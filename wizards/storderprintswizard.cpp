@@ -35,6 +35,7 @@
 #include <QSpinBox> 
 #include <QToolButton>
 #include <QTextEdit>
+#include <QFileDialog>
 #include <QDebug>
 
 #include "smessagebox.h"
@@ -523,7 +524,7 @@ bool OPWChooseShippingMethod::forgetMe()
 
 int OPWChooseShippingMethod::nextId() const
 {
-	return STOrderPrintsWizard::Page_ConfirmOrder;
+	return STOrderPrintsWizard::Page_ChooseSendMode;
 }
 
 QSqlRecord OPWChooseShippingMethod::currentShippingMethod() const
@@ -534,10 +535,71 @@ QSqlRecord OPWChooseShippingMethod::currentShippingMethod() const
 
 //_____________________________________________________________________________
 //
+// class OPWChooseSendMode
+//_____________________________________________________________________________
+
+OPWChooseSendMode::OPWChooseSendMode(QWidget* _Parent) : STOWizardPage(_Parent), AllowInetSend(true)
+{
+	setTitle(tr("<h1>Send mode selection</h1>"));
+	setSubTitle(tr("<p>How do you want to send your order?</p> You have 2 options:"));
+	QVBoxLayout* MLayout = new QVBoxLayout(this);
+
+	QFont RBFont = font();
+	RBFont.setBold(true);
+	RBFont.setPointSize(12);
+	RBLocalStore = new QRadioButton(tr("Store it to a folder"), this);
+	RBLocalStore->setIcon(QIcon(":/st/wizards/pendrive.png"));
+	RBLocalStore->setIconSize(QSize(128, 128));
+	RBLocalStore->setMinimumHeight(150);
+	RBLocalStore->setFont(RBFont);
+	RBLocalStore->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+	MLayout->addWidget(RBLocalStore);
+	MLayout->addWidget(new QLabel(tr("Store it to a <b>Pen drive</b> folder and bring it personaly to your publisher store."), this));
+
+	RBInteSent = new QRadioButton(tr("Sent it via internet"), this);
+	RBInteSent->setIcon(QIcon(":/st/wizards/inetsend.png"));
+	RBInteSent->setIconSize(QSize(128, 128));
+	RBInteSent->setMinimumHeight(150);
+	RBInteSent->setFont(RBFont);
+	RBInteSent->setChecked(true);
+	MLayout->addWidget(RBInteSent);
+	MLayout->addWidget(new QLabel(tr("Automatically sent it to your store via internet."), this));
+}
+
+void OPWChooseSendMode::setAllowInetSend(bool _Value)
+{
+	AllowInetSend = _Value;
+}
+
+void OPWChooseSendMode::initializePage()
+{
+}
+
+bool OPWChooseSendMode::inetSend() const
+{
+	return (AllowInetSend && RBInteSent->isChecked());
+}
+
+
+bool OPWChooseSendMode::forgetMe()
+{
+	return !AllowInetSend;
+}
+
+
+int OPWChooseSendMode::nextId() const
+{
+	return STOrderPrintsWizard::Page_ConfirmOrder;
+}
+
+
+
+//_____________________________________________________________________________
+//
 // class STOrderPrintsWizard
 //_____________________________________________________________________________
 
-OPWConfirmOrder::OPWConfirmOrder(QWidget* _Parent) : STOWizardPage(_Parent)
+OPWConfirmOrder::OPWConfirmOrder(QWidget* _Parent) : STOWizardPage(_Parent), SendViaInternet(false)
 {
 	setTitle(tr("<h1>Please confirm your order</h1>"));
 	//TODO Fetch and show html from a remote URL stored in database.
@@ -604,6 +666,11 @@ void OPWConfirmOrder::initialize(const STDom::PrintJob& _Job, const STDom::STCol
 	StatusWidg->setVisible(false);
 	PrintJob = _Job;
 	PublisherXmlFile = _PubInfo.publisherXmlFile(); 
+}
+
+void OPWConfirmOrder::sendViaInternet(bool _Value)
+{
+	SendViaInternet = _Value;
 }
 
 bool OPWConfirmOrder::validatePayment()
@@ -680,10 +747,25 @@ void OPWConfirmOrder::storeImages()
 	StatusWidg->showProgressBar(tr("Storing images..."), 100);
 	QApplication::processEvents();
 	Printer.clearErrorStack();
-	Printer.store(PrintJob, XmlOrder, true, StatusWidg->progressBar());
+
+	if (SendViaInternet)
+		Printer.store(PrintJob, XmlOrder, true, StatusWidg->progressBar());
+	else
+	{
+		//Choose a folder to store
+		QString StoreDirPath = QFileDialog::getExistingDirectory(this, tr("Storage folder"), tr("Please select the folder to store your order"));
+		if (!StoreDirPath.isEmpty())
+		{
+			QDir DestDir(StoreDirPath);
+			QString OrderDirName = QString("Order_%1").arg(OrderRef);
+			DestDir.mkdir(OrderDirName);
+			DestDir.cd(OrderDirName);
+			Printer.storeEncoded(PrintJob, XmlOrder, DestDir, StatusWidg->progressBar());
+		}
+	}
+
 	StatusWidg->hide();
 	Assert(Printer.errorStack().isEmpty(), Error("Error storing order.", Printer.errorStack().errorString().join(",")));
-
 
 	//!!!!!!!!!!!!!!!!!!!! CropRect are now Stored in DDocPrint so in PrintJob !!!!!!!!!!!!!
 	//Find a new Order Num
@@ -796,6 +878,9 @@ STOrderPrintsWizard::STOrderPrintsWizard(bool _AtomicOrder, QWidget* parent, Qt:
 	SMethPage = new OPWChooseShippingMethod(this);
 	setPage(Page_ChooseShipMethod, SMethPage); 
 
+	SendModePage = new OPWChooseSendMode(this);
+	setPage(Page_ChooseSendMode, SendModePage);
+
 	ConfirmOrderPage = new OPWConfirmOrder(this);
 	setPage(Page_ConfirmOrder, ConfirmOrderPage);
 	
@@ -871,8 +956,22 @@ void STOrderPrintsWizard::initializePage(int _Id)
 
 int STOrderPrintsWizard::nextId() const
 {
-	return nonForgetId(QWizard::nextId()); 
+	int Res = nonForgetId(QWizard::nextId());
+	if (Res == Page_ConfirmOrder)
+		ConfirmOrderPage->sendViaInternet(SendModePage->inetSend());
+	return Res;
 }
+
+void STOrderPrintsWizard::setAllowInetSend(bool _Value)
+{
+	SendModePage->setAllowInetSend(_Value);
+}
+
+bool STOrderPrintsWizard::inetSend() const
+{
+	return SendModePage->inetSend();
+}
+
 
 STDom::STXmlPublisherSettings STOrderPrintsWizard::publisherSettings() const
 {

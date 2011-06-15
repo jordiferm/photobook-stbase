@@ -1072,6 +1072,36 @@ bool STTemplateScene::hasEmptyPhotoItems() const
 	return Found; 
 }
 
+int STTemplateScene::numPhotoItems() const
+{
+	int Res = 0;
+	QList<QGraphicsItem *> Items = items();
+	QList<QGraphicsItem *>::iterator it;
+	for (it = Items.begin(); it != Items.end(); ++it)
+	{
+		if ((*it)->isVisible())
+			if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(*it))
+				++Res;
+
+	}
+	return Res;
+}
+
+int STTemplateScene::numEmptyPhotoItems() const
+{
+	int Res = 0;
+	QList<QGraphicsItem *> Items = items();
+	QList<QGraphicsItem *>::iterator it;
+	for (it = Items.begin(); it != Items.end(); ++it)
+	{
+		if ((*it)->isVisible())
+			if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(*it))
+				if (!CItem->hasImage())
+					++Res;
+	}
+	return Res;
+}
+
 void STTemplateScene::selectFirstEmptyPhotoItem()
 {
 	QList<QGraphicsItem *> Items = items();
@@ -1096,6 +1126,17 @@ void STTemplateScene::modified()
 void STTemplateScene::clearChanges()
 {
 	HasChanges = false;
+}
+
+void STTemplateScene::autoFillImages(const QFileInfoList& _Images)
+{
+	QList<QUrl> UrlList;
+	QFileInfoList::const_iterator it;
+	for (it = _Images.begin(); it != _Images.end(); ++it)
+	{
+		UrlList.push_back(QUrl::fromLocalFile(it->absoluteFilePath()));
+	}
+	slotImageListDropped(UrlList);
 }
 
 
@@ -1281,27 +1322,40 @@ void STTemplateScene::slotCheckModifyAll(const QString& _ImagePath)
 
 void STTemplateScene::slotImageListDropped(const QList<QUrl>& _Urls)
 {
-	qDebug() << "STTemplateScene::slotImageListDropped-----";
 	selectAllByType(STGraphicsPhotoItem::Type);
 	QList<QGraphicsItem *> Items = selectedItems();
-
+	bool EmptyItemsAvailable = true;
+	bool ItemFound = true;
 	QList<QUrl>::const_iterator it = _Urls.begin();
 	int CntItem = 0;
-	while (CntItem < Items.size() && it != _Urls.end())
+	while (ItemFound && it != _Urls.end())
 	{
 		//Only local file uris are supported.
 		QString ImagePath = it->toLocalFile();
 		if (!ImagePath.isEmpty())
 		{
 			STDom::DImageDoc Doc(ImagePath);
-			STGraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Items[CntItem]);
-			if (CPhotoItem)
+			ItemFound = false;
+			//Look for an item
+			while (CntItem < Items.size() && !ItemFound)
 			{
-				CPhotoItem->setImage(Doc);
-				CPhotoItem->loadImageSpawn();
-
-				emit imageDropped(ImagePath, STImage::hashString(ImagePath));
+				STGraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Items[CntItem]);
+				if (CPhotoItem)
+				{
+					if (!CPhotoItem->hasImage() || !EmptyItemsAvailable)
+					{
+						CPhotoItem->setImage(Doc);
+						CPhotoItem->loadImageSpawn();
+						ItemFound = true;
+						emit imageDropped(ImagePath, STImage::hashString(ImagePath));
+					}
+				}
 				CntItem++;
+				if (!ItemFound && EmptyItemsAvailable && CntItem == Items.size())
+				{
+					EmptyItemsAvailable = false;
+					CntItem = 0;
+				}
 			}
 		}
 		++it;

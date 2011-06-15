@@ -311,7 +311,10 @@ STGraphicsPhotoItem::~STGraphicsPhotoItem()
 void STGraphicsPhotoItem::adjustRectToImage()
 {
 	if (!PaintedImage.isNull())
+	{
+		OrientationChanged = false;
 		adjustRectToImage(PaintedImage.size());
+	}
 }
 
 void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
@@ -320,7 +323,6 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 	double ImageRatio = static_cast<double>(_ImageSize.width()) / static_cast<double>(_ImageSize.height());
 	QRectF FrameRect = rect();
 	QRectF AdjustedRect = FrameRect;
-	qDebug() << "OrientationChanged:" << OrientationChanged;
 	if (ImageRatio > 1) //=> Width > height => Adjust rect height
 	{
 		double NewHeight = FrameRect.width() / ImageRatio;

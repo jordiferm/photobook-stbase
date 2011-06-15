@@ -164,6 +164,24 @@ public:
 	STGraphicsItemOperation* clone(QGraphicsItem* _NewItem);
 };
 
+
+/**
+Adjust frame to image size.
+	@author Jordi Fernandez <shadow@starblitz-k.com>
+*/
+class ST_PHOTOTEMPLATES_EXPORT STFitInFrameGIO : public STGraphicsItemOperation
+{
+	QRectF OldRect;
+	qreal OldScale;
+
+public:
+	STFitInFrameGIO(STGraphicsPhotoItem* _Item, QUndoCommand* _Parent = 0);
+	virtual void redo();
+	virtual void undo();
+	STGraphicsItemOperation* clone(QGraphicsItem* _NewItem);
+};
+
+
 /**
 Changes the text for simpleTextItem.
 	@author Jordi Fernandez <shadow@starblitz-k.com>

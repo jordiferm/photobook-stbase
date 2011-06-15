@@ -63,7 +63,7 @@ private:
 							const QString& _JobName, QProgressBar* _ProgBar);
 	void printAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar);
 	void printNonAtomic(QPrinter& _Printer, STDom::DDocPrintList& _ProductPrints, QProgressBar* _ProgBar);
-	STDom::PrintJob storeImages(const STDom::PrintJob& _Job, const QDir& _DestDir, QProgressBar* _ProgBar = 0);
+	STDom::PrintJob storeImages(const STDom::PrintJob& _Job, const QDir& _DestDir, QProgressBar* _ProgBar = 0, bool _Encode = false);
 
 public:
 	PrintJobPrinter(int _Dpis = 120);
@@ -90,6 +90,7 @@ public:
 	PrintJob print(const PrintJob& _Job, const QString& _JobName = "noname", QProgressBar* _ProgBar = 0);
 	//! If _FitImagestoFormat is false PrintJobPrinter don't modify images, else it uses FitMode, dpis and format to generate new images.
 	void store(const PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat = true, QProgressBar* _ProgBar = 0);
+	void storeEncoded(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, const QDir& _DestinationDir, QProgressBar* _ProgBar = 0);
 
 	//Error handling
 	STErrorStack errorStack() const { return ErrorStack; }

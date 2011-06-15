@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/st/oromel" >
+    <qresource prefix="/st/oromel">
         <file>colortools.png</file>
         <file>adjustcurves.png</file>
         <file>adjusthsl.png</file>
@@ -51,5 +51,6 @@
         <file>uninstall.png</file>
         <file>update.png</file>
         <file>back.png</file>
+        <file>autofill.png</file>
     </qresource>
 </RCC>
