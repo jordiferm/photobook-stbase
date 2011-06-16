@@ -65,6 +65,7 @@ QStringList STTemplateScene::storePhotoItemImage(STGraphicsPhotoItem* _CItem, co
 		if (!QFile::exists(StoredImageName))
 			Assert(QFile::copy(_CItem->imageFileName(), StoredImageName), Error(QString(tr("Error storing image '%1' -> '%2'")).arg(_CItem->imageFileName()).arg(StoredImageName)));
 		_CItem->setImageFileName(StoredImageName); 
+		_CItem->setImageSourcePath(QFileInfo(StoredImageName).absolutePath());
 
 		//Store mask image if it does not exist.
 		if (_CItem->hasAlphaChannel())

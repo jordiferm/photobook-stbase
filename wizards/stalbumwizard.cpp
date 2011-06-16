@@ -37,6 +37,7 @@
 #include <QActionGroup>
 #include <QFormLayout>
 #include <QDateTimeEdit>
+#include <QTextBrowser>
 
 //Template info
 #include <QtWebKit/QWebView>
@@ -649,35 +650,43 @@ ChooseCreationModePage::ChooseCreationModePage(QWidget* _Parent) : QWizardPage(_
 	setSubTitle(tr("<p>How do you want to create your <em>Photo Book</em>?</p> You have 2 options:"));
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
 	
-	QFont RBFont = font(); 
-	RBFont.setBold(true); 
-	RBFont.setPointSize(12); 
+
+	QGridLayout* TopLayout = new QGridLayout;
+	MLayout->addLayout(TopLayout);
 	RBAutomaticFill = new QRadioButton(tr("Automatic picture fill"), this); 
-	RBAutomaticFill->setFont(RBFont); 
+	RBAutomaticFill->setIcon(QIcon(":/st/wizards/automatic.png"));
+	RBAutomaticFill->setIconSize(QSize(128, 128));
 	RBAutomaticFill->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred); 
-	MLayout->addWidget(RBAutomaticFill); 
+	TopLayout->addWidget(RBAutomaticFill, 0, 0);
 	RBAutomaticFill->setChecked(true); 			
-	MLayout->addWidget(new QLabel(tr("<b>Automatically</b> fills your book with selected source media. <br/> <em> Note:Once the book is created you can modify everything you want.</em>"), this)); 
+	TopLayout->addWidget(new QLabel(tr("<b>Automatically</b> fills your book with selected source media. <br/> <em> Note:Once the book is created you can modify everything you want.</em>"), this), 1, 0);
 
 	QRadioButton* RBManualFill = new QRadioButton(tr("Manual picture fill"), this); 
-	RBManualFill->setFont(RBFont); 
-	MLayout->addWidget(RBManualFill); 
-	MLayout->addWidget(new QLabel(tr("Lets the picture filling up to you."), this)); 
+	RBManualFill->setIcon(QIcon(":/st/wizards/manual.png"));
+	RBManualFill->setIconSize(QSize(128, 128));
+	TopLayout->addWidget(RBManualFill, 0, 1);
+	TopLayout->addWidget(new QLabel(tr("Lets the picture filling up to you."), this), 1, 1);
 
 	GBUsePredesign = new QxtGroupBox(tr("Use a predesign"), this);
 	MLayout->addWidget(GBUsePredesign);
+	GBUsePredesign->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 
-	QVBoxLayout* GBLayout = new QVBoxLayout(GBUsePredesign);
+	QHBoxLayout* GBLayout = new QHBoxLayout(GBUsePredesign);
 
 	LVPredesigns = new QListView(GBUsePredesign);
+	LVPredesigns->setIconSize(QSize(32, 32));
+	LVPredesigns->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+
 	GBLayout->addWidget(LVPredesigns);
 
 	PredesignModel = new STPhotoBookCollectionModel(this);
+	PredesignModel->setThumbnailSize(LVPredesigns->iconSize());
 	LVPredesigns->setModel(PredesignModel);
 
-	MLayout->setStretchFactor(LVPredesigns, 5);
+	QTextBrowser* TBDescription = new QTextBrowser(this);
+	GBLayout->addWidget(TBDescription);
+	TBDescription->setHtml("<h1>This is a sample description</h1><p>Here comes the description for each selected item. It depends upon a description that user enters while predesign creation.</p><img src=:/st/wizards/automatic.png/>");
 
-	MLayout->addItem( new QSpacerItem(10, 10, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding));
 }
 
 

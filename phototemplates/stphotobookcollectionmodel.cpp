@@ -41,7 +41,7 @@ void STPhotoBookCollectionModel::loadDir(const QDir& _PBDir, bool _Recursive)
 }
 
 STPhotoBookCollectionModel::STPhotoBookCollectionModel(QObject* _Parent, bool _Load)
-	: QAbstractListModel(_Parent), PBDir(STPhotobookCollectionInfo::defaultRootPathName())
+	: QAbstractListModel(_Parent), PBDir(STPhotobookCollectionInfo::defaultRootPathName()), ThumbnailSize(150, 150)
 {
 	PBFInfoList.clear();
 	if (_Load)
@@ -68,12 +68,12 @@ QVariant STPhotoBookCollectionModel::data(const QModelIndex& _Index, int _Role )
 			{
 				//STPhotobookCollectionInfo CInfo(CPBookName, PBDir.absolutePath());
 				STPhotobookCollectionInfo CInfo(QDir(PBFInfoList[_Index.row()].absoluteFilePath()));
-				Res = QPixmap(CInfo.thumbnailFileName());
+				Res = QPixmap(CInfo.thumbnailFileName()).scaled(ThumbnailSize, Qt::KeepAspectRatio);
 				//Res = QPixmap(CInfo.thumbnailFileName()).scaled(150, 100);
 				//qDebug(CInfo.thumbnailFileName().toLatin1()); 
 			}
 			if (_Role == Qt::SizeHintRole)
-				Res = QSize(150, 150);
+				Res = QSize(ThumbnailSize.width() + 5, ThumbnailSize.height() + 5);
 			//TODO Put the description on ToolTip Role.
 		}
 	}

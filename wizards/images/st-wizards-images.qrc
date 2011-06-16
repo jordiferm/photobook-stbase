@@ -28,5 +28,7 @@
         <file>printpreview.png</file>
         <file>pendrive.png</file>
         <file>inetsend.png</file>
+        <file>automatic.png</file>
+        <file>manual.png</file>
     </qresource>
 </RCC>
