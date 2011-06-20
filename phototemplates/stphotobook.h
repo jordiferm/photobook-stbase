@@ -147,6 +147,7 @@ public:
 
 	void addMinimumPages();
 	void buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress);
+	void autoBuild(QProgressBar* _Progress);
 	void autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
 	void autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
 

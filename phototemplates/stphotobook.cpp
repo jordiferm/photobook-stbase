@@ -447,6 +447,13 @@ void STPhotoBook::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _Fro
 	}
 }
 
+//! Overload procedure provided for convenience
+void STPhotoBook::autoBuild(QProgressBar* _Progress)
+{
+	STDom::DDocModel Model;
+	autoBuild(&Model, _Progress);
+}
+
 void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 {
 	clear();

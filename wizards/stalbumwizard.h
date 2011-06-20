@@ -146,13 +146,16 @@ public:
 class QRadioButton; 
 class STPhotoBookCollectionModel;
 class QxtGroupBox;
+class QTextBrowser;
+class QxtPushButton;
 class ChooseCreationModePage : public QWizardPage
 {
 Q_OBJECT
-	QRadioButton* RBAutomaticFill;
+	QxtPushButton* PBAutomatic;
 	STPhotoBookCollectionModel* PredesignModel;
 	QxtGroupBox* GBUsePredesign;
 	QListView* LVPredesigns;
+	QTextBrowser* TBDescription;
 	int PredesignPhotoItems;
 
 public:
@@ -164,6 +167,9 @@ public:
 	bool usePredesign() const;
 	int predesignPhotoItems() const { return PredesignPhotoItems; }
 	QDir predesignDir() const;
+private slots:
+	void slotPredesignChanged(const QModelIndex& _Index);
+
 };
 
 
@@ -208,6 +214,7 @@ public:
 	SelectDiskFolderPage(QWidget* _Parent = 0);
 	void setTemplate(const STPhotoBookTemplate& _Template, const STPhotoBookBuildOptions& _Options);
 	void setAbsoluteImageCount(int _Value);
+	void clearSelection();
 	int nextId() const;
 	bool isComplete() const;
 	STDom::DDocModel* selectedImages() const;
