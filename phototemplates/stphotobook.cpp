@@ -267,6 +267,18 @@ void STPhotoBook::setTemplate(STPhotoBookTemplate& _Template, const STPhotoBookB
 }
 
 
+STPhotoLayout::TTemplateList STPhotoBook::getPageTemplates() const
+{
+	STPhotoLayout::TTemplateList Res;
+	TPagesList::const_iterator it;
+	for (it = Pages.begin(); it != Pages.end(); ++it)
+	{
+		Res.push_back((*it)->getPageTemplate());
+	}
+	return Res;
+}
+
+
 /*! After clear() call isEmpty() returns true
 */
 void STPhotoBook::clear()

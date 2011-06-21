@@ -130,6 +130,8 @@ public:
 	STPhotoBookTemplate::TMarginRectList coverMarginRects() const { return Template.coverMarginRects(); }
 
 	STPhotoBookTemplate photoBookTemplate() const { return Template; }
+	//Generates a template for each photobook page.
+	STPhotoLayout::TTemplateList getPageTemplates() const;
 	//! Sets only the template file path, does not load the template. To do it use setTemplate()
 	void setTemplateFilePath(const QString& _FilePath) { TemplateFilePath = _FilePath; }
 	QString templateFilePath() const { return TemplateFilePath; }

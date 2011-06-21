@@ -30,21 +30,6 @@
 #include "stphotobookbuildoptions.h"
 
 
-class QTextEdit; 
-class QLineEdit;
-class PhotoBookNamePage : public QWizardPage
-{
-Q_OBJECT
-	QTextEdit* TEDescription; 
-	QLineEdit* LEName;
-	
-public:
-	PhotoBookNamePage(QWidget* _Parent = 0);
-	int nextId() const;
-	void initializePage();
-	bool validatePage();
-};
-
 class QRadioButton; 
 class ChooseTemplateModePage : public QWizardPage
 {
@@ -64,6 +49,7 @@ class QComboBox;
 class QTimer;
 class QLabel;
 class QActionGroup;
+class QToolBar;
 class ChooseTemplatePage : public QWizardPage
 {
 Q_OBJECT
@@ -90,6 +76,10 @@ Q_OBJECT
 	QActionGroup* TypeActions;
 	QFrame* BottomFrame;
 	QLabel* NoTemplatesLabel;
+	bool HasPreselection;
+	STPhotoLayout::EnLayoutType PreselectedType;
+	QToolBar* TBType;
+
 
 	void setCurrentState(EnState _State);
 
@@ -103,6 +93,7 @@ public:
 	bool validatePage();
 	bool isComplete() const; 
 	bool typeSelected();
+	void setTemplateType(STPhotoLayout::EnLayoutType _Type);
 	QFileInfo photoBookTemplateFileInfo() const { return TemplateFileInfo; }
 
 private slots:
@@ -240,7 +231,7 @@ class ST_WIZARDS_EXPORT STAlbumWizard : public QWizard
 	Q_OBJECT
 
 public:	
-	enum { Page_PhotoBookName, Page_ChooseTemplateMode, Page_CustomSizes, Page_ChooseTemplate, Page_CooseCreationMode,
+	enum { Page_ChooseTemplateMode, Page_CustomSizes, Page_ChooseTemplate, Page_CooseCreationMode,
 			Page_BuildOptions, Page_SelectDiskFolder, Page_End };
 		
 private: 		
@@ -268,25 +259,11 @@ public:
 	STPhotoBookBuildOptions buildOptions() const;
 	bool usePredesign() const;
 	QDir predesignDir() const;
+	void setTemplateType(STPhotoLayout::EnLayoutType _Type);
 
 private slots:
 	void slotLoadTemplate();
 };
 
-
-class ST_WIZARDS_EXPORT STAlbumMiniWizard : public QWizard
-{
-
-	Q_OBJECT
-
-public:	
-	enum { Page_PhotoBookName, Page_End };
-		
-private: 		
-	
-public:
-	STAlbumMiniWizard(QWidget* parent = 0, Qt::WindowFlags flags = 0);
-	int nextId() const;
-};
 
 #endif
