@@ -153,7 +153,7 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 	{
 		switch(it->frameType())
 		{
-			case STPhotoLayoutTemplate::Frame::TypeText :
+/*			case STPhotoLayoutTemplate::Frame::TypeText :
 			{
 				TextFrameFont = it->font();
 				STGraphicsSimpleTextItem* STItem = new STGraphicsSimpleTextItem(*it);
@@ -163,7 +163,8 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 				//addItemOnTop(STItem);
 				addItem(STItem); 
 			}
-			break;
+			break;*/
+			case STPhotoLayoutTemplate::Frame::TypeText :
 			case STPhotoLayoutTemplate::Frame::TypeRitchText:
 			{
 				STGraphicsTextItem* STItem = new STGraphicsTextItem(*it);
@@ -826,7 +827,7 @@ QGraphicsItem* STTemplateScene::addElement(const QString& _ImageSourcePath, QDom
 				qWarning(QString("Clipart filename Not Found: %1 ").arg(ClipartFileName).toLatin1()); 
 		}
 		else
-		if (_Element.tagName().toLower() ==  STGraphicsTextItem::tagName() )
+		if (_Element.tagName().toLower() ==  STGraphicsTextItem::tagName())
 		{
 			STGraphicsTextItem* NItem = new STGraphicsTextItem;
 			configureItem(NItem); 
