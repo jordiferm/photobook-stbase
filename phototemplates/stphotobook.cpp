@@ -134,6 +134,23 @@ STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false
 {
 }
 
+STPhotoBook::STPhotoBook(const STPhotoBook& _Other)
+{
+	Template = _Other.Template;
+	Pages = _Other.Pages;
+	PBInfo = _Other.PBInfo;
+	Description = _Other.Description;
+	TemplateFilePath = _Other.TemplateFilePath;
+	SourceImagesPath = _Other.SourceImagesPath;
+	EncryptionKey = _Other.EncryptionKey;
+	HasChanges = _Other.HasChanges;
+	AutoAdjustFrames = _Other.AutoAdjustFrames;
+	IgnoreExifRotation = _Other.IgnoreExifRotation;
+	AutoFillBackgrounds = _Other.AutoFillBackgrounds;
+	PagesToFill = _Other.PagesToFill;
+}
+
+
 STPhotoBook::~STPhotoBook()
 {
 	closePhotoBook();
@@ -655,13 +672,13 @@ void STPhotoBook::save(STProgressIndicator* _Progress , bool _AutoSave)
 	saveAs(QDir(PBInfo.defaultRootPathName()), PBInfo.photoBookName(), _Progress, _AutoSave);
 }
 
-void STPhotoBook::saveAs(const QDir& _Dir, STProgressIndicator* _Progress, bool _AutoSave )
+void STPhotoBook::saveAs(const QDir& _Dir, STProgressIndicator* _Progress, bool _AutoSave, bool _OnlyDesignImages )
 {
 	STPhotobookCollectionInfo MInfo(_Dir); 
-	saveAs(QDir(MInfo.rootPathName()), MInfo.photoBookName(), _Progress, _AutoSave);
+	saveAs(QDir(MInfo.rootPathName()), MInfo.photoBookName(), _Progress, _AutoSave, _OnlyDesignImages);
 }
 
-void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _Progress, bool _AutoSave)
+void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _Progress, bool _AutoSave, bool _OnlyDesignImages)
 {
 	//STPhotobookCollectionInfo MInfo(_Name, _RootPath.absolutePath()); 
 	PBInfo.setPhotoBookName(_Name); 
@@ -701,7 +718,7 @@ void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgress
 		{
 			try
 			{
-				StoredFiles += (*it)->storePhotoItemImages(PBInfo);
+				StoredFiles += (*it)->storePhotoItemImages(PBInfo, _OnlyDesignImages);
 			}
 			catch(STError& _Error)
 			{

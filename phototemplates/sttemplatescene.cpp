@@ -1164,7 +1164,7 @@ void STTemplateScene::autoFillImages(const QFileInfoList& _Images)
 /*!
 	\return a list of saved images.
 */
-QStringList STTemplateScene::storePhotoItemImages(const STPhotobookCollectionInfo& _CInfo)
+QStringList STTemplateScene::storePhotoItemImages(const STPhotobookCollectionInfo& _CInfo, bool _OnlyDesignImages)
 {
 	QStringList StoredFiles; 
 	if (PageItem)
@@ -1179,7 +1179,10 @@ QStringList STTemplateScene::storePhotoItemImages(const STPhotobookCollectionInf
 		if ((*it)->isVisible())	
 		{
 			if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(*it))
-				StoredFiles += storePhotoItemImage(CItem, _CInfo); 
+			{
+				if (!_OnlyDesignImages)
+					StoredFiles += storePhotoItemImage(CItem, _CInfo);
+			}
 			else 
 			if (STGraphicsClipartItem* CItem = qgraphicsitem_cast<STGraphicsClipartItem*>(*it))
 				StoredFiles += storeClipartItemFile(CItem, _CInfo); 

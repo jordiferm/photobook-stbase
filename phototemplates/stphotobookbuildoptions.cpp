@@ -52,6 +52,7 @@ void STPhotoBookBuildOptions::setDefaults(STPhotoLayout::EnLayoutType _Type, int
 		break;
 		case STPhotoLayout::TypeCard :
 			AutoadjustFrames = false;
+			UseTexts = true;
 		break;
 		case STPhotoLayout::TypePhotoBook :
 			AutoadjustFrames = true;

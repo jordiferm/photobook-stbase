@@ -113,7 +113,7 @@ public:
 	QGraphicsItem* addElement(const QString& _ImageSourcePath, QDomElement& _Element);
 	void loadElement(const QString& _ImageSourcePath, QDomElement& _SceneElement);
 	QDomElement createElement(QDomDocument& _Doc);
-	QStringList storePhotoItemImages(const STPhotobookCollectionInfo& _CInfo); 
+	QStringList storePhotoItemImages(const STPhotobookCollectionInfo& _CInfo, bool _OnlyDesignImages = false);
 	qreal topZValue() const;
 	qreal bottomZValue() const;
 	void configureItem(STAbstractGraphicsItem* _Item);

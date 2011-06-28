@@ -121,6 +121,7 @@ public:
 
 public:
 	STPhotoBook(QObject* _Parent = 0);
+	STPhotoBook(const STPhotoBook& _OTher);
 	~STPhotoBook();
 	STPhotoLayoutTemplate randomTemplate(const STPhotoBookTemplate::TTemplateList& _Templates);
 	STPhotoLayoutTemplate candidateTemplate(int _AvaliablePhotos, const STPhotoBookTemplate::TTemplateList& _AllTemplates, bool _FirstPage
@@ -168,8 +169,8 @@ public:
 	QDomDocument createDoc();
 	//!Saves into collection. Using STPhotobookCollectionInfo data.
 	void save(STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
-	void saveAs(const QDir& _Dir, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
-	void saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
+	void saveAs(const QDir& _Dir, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
+	void saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
 	void closePhotoBook();
 	bool autoSaved(const QString& _Name) const;
 	bool autoSaved(const QDir& _Dir) const;

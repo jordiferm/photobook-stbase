@@ -536,7 +536,6 @@ bool CustomSizesPage::validatePage()
 {
 	STPhotobookCollectionInfo PCInfo(field("photobookname").toString()); 
 	QDir PBDir(PCInfo.photoBookPath()); 
-	qDebug(PBDir.absolutePath().toLatin1()); 
 
 	STPhotoBookTemplate PhotoBook; 
 	PhotoBook.setSize(QSizeF(field("pagewidth").toInt(), field("pageheight").toInt())); 
@@ -676,7 +675,8 @@ int ChooseCreationModePage::nextId() const
 void ChooseCreationModePage::setPhotoBookTemplateFileInfo(const QFileInfo& _FileInfo)
 {
 	//Fill predesigns of template.
-	PredesignModel->setRootDir(_FileInfo.dir());
+	STCollectionTemplateInfo TemplateInfo(_FileInfo.dir());
+	PredesignModel->setRootDir(TemplateInfo.predesignRootDir());
 	PredesignModel->load(true);
 	GBUsePredesign->setEnabled(true);
 	if (PredesignModel->rowCount()==0)
@@ -702,7 +702,6 @@ bool ChooseCreationModePage::validatePage()
 			STPhotoBook CurrentPB;
 			CurrentPB.load(predesignDir());
 			PredesignPhotoItems = CurrentPB.numPhotoFrames();
-			qDebug() << "------------------ AutoFill:" << PBAutomatic->isChecked();
 		}
 		catch (STError& _Error)
 		{
@@ -741,9 +740,10 @@ void ChooseCreationModePage::slotPredesignChanged(const QModelIndex& _Index)
 		try
 		{
 			QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+			STPhotobookCollectionInfo PBInfo(PhotoBookDir);
 			CurrPhotoBook.load(PhotoBookDir);
 			TBDescription->setHtml(QString("<h1>%1</h1><p>%2</p><center><img src=""%3""/></center>").arg(CurrPhotoBook.name()).arg(CurrPhotoBook.description()).arg(
-					QString(QUrl::fromLocalFile(PhotoBookDir.absoluteFilePath("modelpreview.jpg")).toEncoded())));
+					QString(QUrl::fromLocalFile(PBInfo.thumbnailFileName()).toEncoded())));
 		}
 		catch(STError& _Error)
 		{
@@ -988,7 +988,6 @@ void SelectDiskFolderPage::setAbsoluteImageCount(int _Value)
 
 void SelectDiskFolderPage::clearSelection()
 {
-	qDebug() << "SelectDiskFolderPage::initializePage()";
 	ImageBoxListView->model()->sourceModel()->clear();
 }
 
@@ -1128,13 +1127,11 @@ int STAlbumWizard::nextId() const
 				CCreationModePage->usePredesign())
 			Res = PBuildOptions->nextId();
 	}
-	else
 	if (Res == Page_CooseCreationMode)
 	{
 		CCreationModePage->setPhotoBookTemplateFileInfo(CTemplatePage->photoBookTemplateFileInfo());
 		SDFolderPage->clearSelection();
 	}
-	else
 	if (Res == Page_SelectDiskFolder)
 	{
 		if (CCreationModePage->usePredesign())
