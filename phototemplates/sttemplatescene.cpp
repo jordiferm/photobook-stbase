@@ -26,6 +26,8 @@
 #include <QDir>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QUrl>
+#include <QTextDocument>
+#include <QTextCursor>
 #include <QDebug>
 
 
@@ -799,10 +801,27 @@ QGraphicsItem* STTemplateScene::addElement(const QString& _ImageSourcePath, QDom
 		GrItem = 0; 
 		if (_Element.tagName().toLower() ==  STGraphicsSimpleTextItem::tagName() )
 		{
-			STGraphicsSimpleTextItem* NItem = new STGraphicsSimpleTextItem;
+/*			STGraphicsSimpleTextItem* NItem = new STGraphicsSimpleTextItem;
 			configureItem(NItem); 
 			CItem = NItem; 
-			GrItem = NItem;
+			GrItem = NItem;*/
+			STGraphicsSimpleTextItem STItem;
+			STItem.loadElement(_Element);
+
+			STGraphicsTextItem* NItem = new STGraphicsTextItem;
+			NItem->document()->setPlainText(STItem.text());
+			//NItem->document()->setCharFormat(STItem.textCharFormat());
+
+			QTextCursor cursor(NItem->document());
+			cursor.select(QTextCursor::Document);
+			cursor.mergeCharFormat(STItem.textCharFormat());
+			configureItem(NItem);
+			NItem->setPos(STItem.pos());
+			NItem->setZValue(_Element.attribute("zvalue").toDouble());
+			addItem(NItem);
+			//CItem = NItem;
+			//GrItem = NItem;
+
 		}
 		else
 		if (_Element.tagName().toLower() ==  STGraphicsClipartItem::tagName() )

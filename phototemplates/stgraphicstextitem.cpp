@@ -20,14 +20,22 @@
 
 #include "stgraphicstextitem.h"
 #include <QFontMetrics> 
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsScene>
+#include <QTextBlockFormat>
+#include <QTextCursor>
+#include <QTextDocument>
+#include <QTextBlock>
+#include <QDebug>
 
 void STGraphicsTextItem::init()
 {
 	QGraphicsItem::setFlag(QGraphicsItem::ItemIsSelectable);
 
-	setTextInteractionFlags(Qt::NoTextInteraction);
+	//setTextInteractionFlags(Qt::NoTextInteraction);
+	setTextInteractionFlags(Qt::TextEditorInteraction);
   	QGraphicsItem::setFlag(QGraphicsItem::ItemIsMovable, true);
-  	QGraphicsItem::setFlag(QGraphicsItem::ItemIsFocusable, false);
+	//QGraphicsItem::setFlag(QGraphicsItem::ItemIsFocusable, false);
 }
 
 STGraphicsTextItem::STGraphicsTextItem(const STPhotoLayoutTemplate::Frame& _Frame, QGraphicsItem* _Parent)
@@ -119,6 +127,26 @@ QDomElement STGraphicsTextItem::createElement(QDomDocument& _Doc)
 	return MElement; 
 }
 
+Qt::Alignment STGraphicsTextItem::alignment() const
+{
+	Qt::Alignment Res;
+	if (document())
+		Res = document()->begin().blockFormat().alignment();
+
+	return Res;
+}
+
+void STGraphicsTextItem::setAlignment(Qt::Alignment alignment)
+{
+	QTextBlockFormat format;
+	format.setAlignment(alignment);
+	QTextCursor cursor = textCursor();
+	cursor.select(QTextCursor::Document);
+	cursor.mergeBlockFormat(format);
+	cursor.clearSelection();
+	setTextCursor(cursor);
+}
+
 QVariant STGraphicsTextItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
 	if (change == ItemPositionHasChanged)
@@ -140,3 +168,15 @@ QVariant STGraphicsTextItem::itemChange(GraphicsItemChange change, const QVarian
 	return QGraphicsItem::itemChange(change, value);
 }
  
+void STGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent* _Event)
+{
+	_Event->accept();
+	scene()->clearSelection();
+
+	setSelected(true);
+	setControlsVisible(isSelected());
+	//if (TouchInterface && MultiSelection)
+	//	_Event->setModifiers(_Event->modifiers() | Qt::ControlModifier);
+	QGraphicsTextItem::mousePressEvent(_Event);
+}
+

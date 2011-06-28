@@ -23,10 +23,13 @@
 #include <QGraphicsScene> 
 #include <QGraphicsView> 
 #include <QToolTip> 
+#include <QDebug>
+#include <QTextDocument>
 
 #include "stcorneritem.h" 
 #include "sttemplatescene.h"
 #include "stgraphicsphotoitem.h" 
+#include "stgraphicstextitem.h"
 
 void STGraphicsItemModifier::applyTransformations()
 {
@@ -154,6 +157,15 @@ void STGraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsIt
 			CItem->setRect(CurrRect);
 			layoutChildren();
 		}
+	}
+	else
+	if (STGraphicsTextItem* CItem = qgraphicsitem_cast<STGraphicsTextItem*>(Item))
+	{
+		QPointF Pos = _Sender->mapToScene(_Pos);
+		int NewTextWidth = Pos.x() - Item->pos().x();
+		CItem->document()->setTextWidth(NewTextWidth);
+		CItem->setTextWidth(NewTextWidth);
+		layoutChildren();
 	}
 	else 
 	{
