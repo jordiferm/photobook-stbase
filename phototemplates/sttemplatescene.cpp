@@ -330,6 +330,7 @@ STPhotoLayoutTemplate STTemplateScene::getPageTemplate() const
 			}
 		}
 	}	
+	Res.setEncrypted(false);
 	return Res; 
 }
 

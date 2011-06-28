@@ -23,14 +23,17 @@
 
 #include <QPixmap>
 #include <QPainter>
+#include <QtConcurrentRun>
 
 
 void STTemplateModel::createThumbnails()
 {
-	TemplateThumbnails.clear(); 
+	TemplateThumbnails.clear();
 	for (int Vfor = 0; Vfor < rowCount(); Vfor++)
 	{
-		TemplateThumbnails.push_back(createSampleThumbnail(indexTemplate(index(Vfor, 0))));
+		QModelIndex CIndex = index(Vfor, 0);
+		TemplateThumbnails.push_back(createSampleThumbnail(indexTemplate(CIndex)));
+		emit dataChanged(CIndex, CIndex);
 	}
 }
 
@@ -43,7 +46,7 @@ QImage STTemplateModel::createSampleThumbnail(const STPhotoLayoutTemplate _Templ
 		STTemplateScene TemplScene; 
 		TemplScene.setAutoAdjustFrames(false);
 		TemplScene.loadPageTemplate(_Template);
-		TemplScene.setDummyImages(DummyImages); 
+		TemplScene.setDummyImages(DummyImages);
 		TemplScene.prepareForPrint();
 		TemplScene.setWarningsVisible(false);
 		
@@ -90,7 +93,14 @@ QVariant STTemplateModel::data(const QModelIndex& _Index, int _Role) const
 			if (_Role == Qt::DecorationRole)
 			{
 				if (TemplateThumbnails.count() > _Index.row()) //Defensive
-					Res = QPixmap::fromImage(TemplateThumbnails[_Index.row()]); 
+				{
+					if (!TemplateThumbnails[_Index.row()].isNull())
+						Res = QPixmap::fromImage(TemplateThumbnails[_Index.row()]);
+					else
+						Res = NoImagePixmap;
+				}
+				else
+					Res = NoImagePixmap;
 			}
 			else
 			if (_Role == Qt::FontRole)
@@ -127,7 +137,7 @@ void STTemplateModel::setTemplateList(const STPhotoLayout::TTemplateList& _Templ
 {
 	Templates = _TemplateList; 
 	qSort(Templates.begin(), Templates.end());
-	createThumbnails();
+	QtConcurrent::run(this, &STTemplateModel::createThumbnails);
 	reset(); 
 }
 

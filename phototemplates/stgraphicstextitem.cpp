@@ -48,7 +48,9 @@ STGraphicsTextItem::STGraphicsTextItem(const STPhotoLayoutTemplate::Frame& _Fram
 	init();
 	setFont(_Frame.font()); 
 	setPos(_Frame.topLeft());
-	rotate(_Frame.rotationAngle());
+	//rotate(_Frame.rotationAngle());
+	Modifier->rotate(_Frame.rotationAngle());
+
 	setHtml(_Frame.text()); 	
 	//setText(_Frame.text()); 	
 

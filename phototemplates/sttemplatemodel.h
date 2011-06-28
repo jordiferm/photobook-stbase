@@ -22,6 +22,7 @@
 #define STTEMPLATEMODEL_H
 
 #include <QAbstractListModel>
+#include <QPixmap>
 #include "stphotolayout.h"
 #include "stphototemplatesexport.h"
 
@@ -34,6 +35,7 @@ class ST_PHOTOTEMPLATES_EXPORT STTemplateModel : public QAbstractListModel
 {
 private:
 	QSize ThumbnailMaxSize;
+	QPixmap NoImagePixmap;
 	STPhotoLayout::TTemplateList Templates;
 	QList<QImage>	TemplateThumbnails; 
 	QList<QImage> DummyImages; 
@@ -58,6 +60,7 @@ public:
 	void addTemplateList(const STPhotoLayout::TTemplateList& _TemplateList);
 	STPhotoLayout::TTemplateList templateList() const { return Templates; }
 	void setDummyImages(const QList<QImage>& _ImageList) { DummyImages = _ImageList; }
+	void setNoImagePixmap(const QPixmap& _Pixmap) { NoImagePixmap = _Pixmap; }
 };
 
 #endif
