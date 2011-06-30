@@ -80,9 +80,9 @@ public:
 	void replaceTemplate(const STPhotoLayoutTemplate& _Template);
 	void setImageToSelectedItems(const QPixmap& _ThumbNail, const QString& _ImageFileName);
 	void setDummyImages(const QList<QImage>& _ImageList);
-	void setBackgroundImage(const QPixmap& _ThumbNail, const QString& _ImageFileName, bool _Encrypted);
+	void setBackgroundImage(const QImage& _ThumbNail, const QString& _ImageFileName, bool _Encrypted);
 	bool hasBackgroundImage() const;
-	QPixmap getThumbnail(const QString& _ImageFileName, bool _Encrypted, bool _CreateIfNotExist);
+	QImage getThumbnail(const QString& _ImageFileName, bool _Encrypted, bool _CreateIfNotExist);
 	void setSuperImposeImage(const QString& _ImageFileName, bool _Encrypted);
 	void setBgBrush(const QBrush& _Brush);
 	QBrush bgBrush() const;
@@ -92,6 +92,7 @@ public:
 	void loadHiResImages(QProgressBar* _Progress = 0);
 	void unloadImage(STGraphicsPhotoItem* _Item);
 	void unloadImages();
+	void clearImages();
 	void updateImage(STGraphicsPhotoItem* _Item);
 	void updateImages();
 	void setEmptyFramesVisible(bool _Value);

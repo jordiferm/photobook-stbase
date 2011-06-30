@@ -23,6 +23,7 @@
 
 #include <QAbstractListModel>
 #include <QPixmap>
+#include <QFuture>
 #include "stphotolayout.h"
 #include "stphototemplatesexport.h"
 
@@ -39,7 +40,10 @@ private:
 	STPhotoLayout::TTemplateList Templates;
 	QList<QImage>	TemplateThumbnails; 
 	QList<QImage> DummyImages; 
+	QFuture<void> CreateThumbsFuture;
+	bool CreateThumbsCanceled;
 
+	void cancelPendingOps();
 	void createThumbnails();
 	QImage createSampleThumbnail(const STPhotoLayoutTemplate _Template) const;
 

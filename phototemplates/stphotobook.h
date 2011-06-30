@@ -184,6 +184,7 @@ public:
 	bool containsImage(const QString& _ImageMD5Sum) const;
 	int numImageMatches(const QString& _ImageMD5Sum) const;
 	int numPhotoFrames() const;
+	void clearImages();
 
 	static EnItemType itemType(QGraphicsItem* _Item);
 	static EnSelectionType selectionType(QList<QGraphicsItem *> _SelectedItems);

@@ -166,7 +166,8 @@ public:
 	//! Sets preloaded image.
 	void setImage(const QImage& _Image, const QString& _ImageFileName);
 	void setImage(STDom::DImageDoc& _Image);
-	void setImage(const QPixmap& _ThumbNail, const QString& _ImageFileName);
+	void setThumbnail(const QPixmap& _ThumbNail, const QString& _ImageFileName);
+	void setThumbnail(const QImage& _ThumbNail, const QString& _ImageFileName);
 	void setDoc(STDom::DDoc* _Doc);
 	void loadImage();
 	//! returns true if big image is loaded.

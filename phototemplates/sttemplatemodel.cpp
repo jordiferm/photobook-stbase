@@ -26,17 +26,27 @@
 #include <QtConcurrentRun>
 
 
+void STTemplateModel::cancelPendingOps()
+{
+	CreateThumbsCanceled = true;
+	if (CreateThumbsFuture.isRunning())
+		CreateThumbsFuture.waitForFinished();
+}
+
 void STTemplateModel::createThumbnails()
 {
+	CreateThumbsCanceled = false;
 	TemplateThumbnails.clear();
-	for (int Vfor = 0; Vfor < rowCount(); Vfor++)
+
+	int Vfor = 0;
+	while (!CreateThumbsCanceled && Vfor < rowCount())
 	{
 		QModelIndex CIndex = index(Vfor, 0);
 		TemplateThumbnails.push_back(createSampleThumbnail(indexTemplate(CIndex)));
 		emit dataChanged(CIndex, CIndex);
+		Vfor++;
 	}
 }
-
 
 QImage STTemplateModel::createSampleThumbnail(const STPhotoLayoutTemplate _Template) const
 {
@@ -135,10 +145,11 @@ void STTemplateModel::setLayout(const STPhotoLayout& _Layout)
 
 void STTemplateModel::setTemplateList(const STPhotoLayout::TTemplateList& _TemplateList)
 {
-	Templates = _TemplateList; 
+	cancelPendingOps();
+	Templates = _TemplateList;
 	qSort(Templates.begin(), Templates.end());
-	QtConcurrent::run(this, &STTemplateModel::createThumbnails);
-	reset(); 
+	CreateThumbsFuture = QtConcurrent::run(this, &STTemplateModel::createThumbnails);
+	reset();
 }
 
 void STTemplateModel::setAlbum(const STPhotoBookTemplate& _Album)

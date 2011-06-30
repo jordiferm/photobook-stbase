@@ -52,10 +52,10 @@ STGraphicsTextItem::STGraphicsTextItem(const STPhotoLayoutTemplate::Frame& _Fram
 	Modifier->rotate(_Frame.rotationAngle());
 
 	setHtml(_Frame.text()); 	
-	//setText(_Frame.text()); 	
+	//setText(_Frame.text());
 
 	//To adjust text size to frame size.(Only when we load from template)
-	if (!_Frame.isNull())
+	if (!_Frame.isNull() && _Frame.frameType() == STPhotoLayoutTemplate::Frame::TypeText)
 		Modifier->scale(_Frame.width() / boundingRect().width() , _Frame.height() / boundingRect().height() );
 
 	updateToolTip(); 

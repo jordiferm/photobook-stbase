@@ -328,7 +328,7 @@ void STCandidateCalculator::fillPage(STTemplateScene* _Scene, const STPhotoLayou
 		{
 			if (!_Scene->hasBackgroundImage())
 			{
-				_Scene->setBackgroundImage(CDoc->thumbnail(), CDoc->fileInfo().absoluteFilePath(), false);
+				_Scene->setBackgroundImage(CDoc->thumbnail().toImage(), CDoc->fileInfo().absoluteFilePath(), false);
 				_Scene->setBgBrush(QBrush(Qt::white, Qt::SolidPattern));
 				_Scene->pageItem()->setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
 				_Scene->pageItem()->setOpacity(0.3);

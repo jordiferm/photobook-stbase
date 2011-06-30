@@ -929,6 +929,14 @@ int STPhotoBook::numPhotoFrames() const
 
 }
 
+void STPhotoBook::clearImages()
+{
+	TPagesList::iterator it;
+	for (it = Pages.begin(); it != Pages.end(); ++it)
+	{
+		(*it)->clearImages();
+	}
+}
 
 STPhotoBook::EnItemType STPhotoBook::itemType(QGraphicsItem* _Item)
 {

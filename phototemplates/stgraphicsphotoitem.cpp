@@ -410,7 +410,7 @@ void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 			}
 			// Thumbnail is already rotated.
 			Thumbnail = Thumbnail.transformed(Transform, Qt::SmoothTransformation);
-			setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+			setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
 			if (AutoAdjustFramesToImages)
 			{
 				QSize ImgSize;
@@ -427,7 +427,7 @@ void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 			qDebug("Image Info is Null :( .....");
 	}
 	if (!ImageAssigned)
-		setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+		setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
 
 	update();
 }
@@ -437,17 +437,24 @@ void  STGraphicsPhotoItem::setDoc(STDom::DDoc* _Doc)
 	if (STDom::DImageDoc* CImageDoc = static_cast<STDom::DImageDoc*>(_Doc))
 		setImage(*CImageDoc);
 	else
-		setImage(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
+		setThumbnail(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
 }
 
-void STGraphicsPhotoItem::setImage(const QPixmap& _ThumbNail, const QString& _ImageFileName)
+
+//! Obsolete, provided for compatibility reasons.
+void STGraphicsPhotoItem::setThumbnail(const QPixmap& _ThumbNail, const QString& _ImageFileName)
+{
+	setThumbnail(_ThumbNail.toImage(), _ImageFileName);
+}
+
+void STGraphicsPhotoItem::setThumbnail(const QImage& _ThumbNail, const QString& _ImageFileName)
 {
 	//CurrImage = QImage(_ImageFileName);
 	ImageLoaded = false;
 	Opacity = 1;
 	PanningPoint = QPoint(0, 0);
 	bool ChangingImage = !CurrImage.isNull();
-	CurrImage = _ThumbNail.toImage();
+	CurrImage = _ThumbNail;
 	setImageFileName(_ImageFileName); 
 	setBrush(QBrush(Qt::NoBrush));
 	checkForImageOrientation();
@@ -705,7 +712,7 @@ void STGraphicsPhotoItem::loadElement(QDomElement& _Element)
 		if (ImgFInfo.exists() && ImgFInfo.isFile()) //Is not only a dir and it exists.
 		{
 			CImage.loadThumbnail(ImageFilePath);
-			setImage(QPixmap::fromImage(CImage), ImageFilePath);
+			setThumbnail(CImage, ImageFilePath);
 			if (ImageEncrypted)
 				loadImageSpawn();
 		}
