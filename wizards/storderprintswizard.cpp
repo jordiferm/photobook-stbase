@@ -296,7 +296,8 @@ void OPWAbstractChooseProduct::syncPublisherData()
 			delete FtpTrans; 
 		FtpTrans = new STDom::STFtpOrderTransfer(this);
 
-		FtpTrans->syncRemoteDir(PublisherPath, PXmlS.dbHost(), PXmlS.dbPort(), PXmlS.dbUser(), PXmlS.dbPassword(),  PXmlS.dbDir(), static_cast<QFtp::TransferMode>(PXmlS.dbTransferMode()));
+		//FtpTrans->syncRemoteDir(PublisherPath, PXmlS.dbHost(), PXmlS.dbPort(), PXmlS.dbUser(), PXmlS.dbPassword(),  PXmlS.dbDir(), static_cast<QFtp::TransferMode>(PXmlS.dbTransferMode()));
+		FtpTrans->syncRemoteFile(PublisherPage->publisherInfo().publisherDatabaseFile().fileName(), PublisherPath, PXmlS.dbHost(), PXmlS.dbPort(), PXmlS.dbUser(), PXmlS.dbPassword(),  PXmlS.dbDir(), static_cast<QFtp::TransferMode>(PXmlS.dbTransferMode()));
 		qApp->restoreOverrideCursor();
 	}
 	catch (...)

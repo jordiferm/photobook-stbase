@@ -57,17 +57,20 @@ qreal STTemplateScene::SImposeZValue = 10000;
 /*!
 	\return returns a list of saved filenames.
 */
-QStringList STTemplateScene::storePhotoItemImage(STGraphicsPhotoItem* _CItem, const STPhotobookCollectionInfo& _CInfo)
+QStringList STTemplateScene::storePhotoItemImage(STGraphicsPhotoItem* _CItem, const STPhotobookCollectionInfo& _CInfo, bool _OnlyDesignImages)
 {
 	QStringList Res; 
 	if (!_CItem->imageFileName().trimmed().isEmpty())
 	{
-		QString StoredImageName = _CInfo.imageFilePath(_CItem->imageFileName());
-		Res.push_back(StoredImageName); 
-		if (!QFile::exists(StoredImageName))
-			Assert(QFile::copy(_CItem->imageFileName(), StoredImageName), Error(QString(tr("Error storing image '%1' -> '%2'")).arg(_CItem->imageFileName()).arg(StoredImageName)));
-		_CItem->setImageFileName(StoredImageName); 
-		_CItem->setImageSourcePath(QFileInfo(StoredImageName).absolutePath());
+		if (!_OnlyDesignImages)
+		{
+			QString StoredImageName = _CInfo.imageFilePath(_CItem->imageFileName());
+			Res.push_back(StoredImageName);
+			if (!QFile::exists(StoredImageName))
+				Assert(QFile::copy(_CItem->imageFileName(), StoredImageName), Error(QString(tr("Error storing image '%1' -> '%2'")).arg(_CItem->imageFileName()).arg(StoredImageName)));
+			_CItem->setImageFileName(StoredImageName);
+			_CItem->setImageSourcePath(QFileInfo(StoredImageName).absolutePath());
+		}
 
 		//Store mask image if it does not exist.
 		if (_CItem->hasAlphaChannel())
@@ -1192,8 +1195,7 @@ QStringList STTemplateScene::storePhotoItemImages(const STPhotobookCollectionInf
 		{
 			if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(*it))
 			{
-				if (!_OnlyDesignImages)
-					StoredFiles += storePhotoItemImage(CItem, _CInfo);
+				StoredFiles += storePhotoItemImage(CItem, _CInfo, _OnlyDesignImages);
 			}
 			else 
 			if (STGraphicsClipartItem* CItem = qgraphicsitem_cast<STGraphicsClipartItem*>(*it))

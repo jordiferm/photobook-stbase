@@ -167,6 +167,8 @@ public:
 	void createRootPath(); 
 	STPhotobookCollectionInfo info() const { return PBInfo; }
 	QDomDocument createDoc();
+	//!Saves only xml file.
+	void saveXmlFile(const QString& _XmlFileName);
 	//!Saves into collection. Using STPhotobookCollectionInfo data.
 	void save(STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
 	void saveAs(const QDir& _Dir, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);

@@ -70,7 +70,7 @@ private:
 	bool HasChanges;
 	QSizeF RenderBaseSize;
 	
-	QStringList storePhotoItemImage(STGraphicsPhotoItem* _Item, const STPhotobookCollectionInfo& _CInfo);
+	QStringList storePhotoItemImage(STGraphicsPhotoItem* _Item, const STPhotobookCollectionInfo& _CInfo, bool _OnlyDesignImages = false);
 	QString storeClipartItemFile(STGraphicsClipartItem* _CItem, const STPhotobookCollectionInfo& _CInfo);
 	
 public:
