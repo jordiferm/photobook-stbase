@@ -214,12 +214,16 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 				PhotoItem->setAspectRatioMode(Template.aspectRatioMode()); 
 				PhotoItem->setAutoAdjustFramesToImages(AutoAdjustFrames);
 				PhotoItem->setIgnoreExifRotation(IgnoreExifRotation);
+				//It must be set before mask
+				PhotoItem->setFrameImage(QDir(Template.templateFilePath()).absoluteFilePath(it->frameFileName()));
+
 				QImage MaskImage = it->maskImage(QDir(Template.templateFilePath())); 
 				if (!MaskImage.isNull())
 					PhotoItem->setAlphaChannel(MaskImage);
-				QImage FrameImage = it->frameImage(QDir(Template.templateFilePath()));
-				if (!FrameImage.isNull())
-					PhotoItem->setFrameImage(FrameImage);
+				//QImage FrameImage = it->frameImage(QDir(Template.templateFilePath()));
+				//if (!FrameImage.isNull())
+				//	PhotoItem->setFrameImage(FrameImage);
+
 				PhotoItem->setZValue(it->zValue()); 
 				configureItem(PhotoItem); 
 				if (it->borderSize() > 0)
@@ -271,11 +275,11 @@ STPhotoLayoutTemplate STTemplateScene::getPageTemplate() const
 				CFrame.setBorderColor(CPhotoItem->pen().color()); 
 				CFrame.setBorderSize(CPhotoItem->pen().width());
 				CFrame.setZValue(CPhotoItem->zValue()); 
-				if (CPhotoItem->hasAlphaChannel())
-					CFrame.setMask(CPhotoItem->alphaChannelFileName(), CPhotoItem->alphaChannel()); 
 				if (CPhotoItem->hasFrameImage())
 					CFrame.setFrame(CPhotoItem->frameImageFileName(), CPhotoItem->frameImage());
-				Res.addFrame(CFrame); 
+				if (CPhotoItem->hasAlphaChannel())
+					CFrame.setMask(CPhotoItem->alphaChannelFileName(), CPhotoItem->alphaChannel());
+				Res.addFrame(CFrame);
 			}
 			else 
 			{

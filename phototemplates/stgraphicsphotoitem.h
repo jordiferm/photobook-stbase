@@ -84,6 +84,7 @@ private:
 	QImage PaintedImage;
 	QImage MaskImage;
 	QImage FrameImage;
+	QString FrameImageFile;
 	QRect LastMaxResRect;
 	QString CurrImageFileName;
 	STGraphicsPhotoItemLoadThread* MLoadThread;
@@ -144,12 +145,15 @@ public:
 	QImage alphaChannel() const { return MaskImage; }
 	QString alphaChannelFileName() const;
 	void setAlphaChannel(const QImage& _AlphaChannel);
+	void setNoAlplaChannel();
 
 	// --- Frame image ---
 	bool hasFrameImage() const { return !FrameImage.isNull(); }
 	QImage frameImage() const { return FrameImage; }
+	QString frameImageFile() const { return FrameImageFile; }
 	QString frameImageFileName() const;
-	void setFrameImage(const QImage& _FrameImage);
+	static QFileInfo frameMaskFile(const QString& _FrameImage);
+	void setFrameImage(const QString& _FrameImage);
 
 	//! OnScreen Image
 	QImage paintedImage() const { return PaintedImage; }

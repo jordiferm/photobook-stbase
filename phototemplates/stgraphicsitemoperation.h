@@ -91,7 +91,7 @@ class STGraphicsPhotoItem;
 class ST_PHOTOTEMPLATES_EXPORT STSetFrameGIO : public STGraphicsItemOperation
 {
 	QString FrameImageFile;
-	QImage LastFrameImage;
+	QString LastFrameImageFile;
 
 public:
 	STSetFrameGIO(STGraphicsPhotoItem* _Item, const QString& _FrameImageFile, QUndoCommand* _Parent = 0);
