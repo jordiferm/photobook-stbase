@@ -290,7 +290,8 @@ STPhotoLayout::TTemplateList STPhotoBook::getPageTemplates() const
 	TPagesList::const_iterator it;
 	for (it = Pages.begin(); it != Pages.end(); ++it)
 	{
-		Res.push_back((*it)->getPageTemplate());
+		STPhotoLayoutTemplate CTemplate = (*it)->getPageTemplate();
+		Res.push_back(CTemplate);
 	}
 	return Res;
 }

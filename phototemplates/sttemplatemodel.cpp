@@ -24,7 +24,96 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QtConcurrentRun>
+#include <QApplication>
 
+
+const QEvent::Type LayoutThumbnailLoadedEvent::LayoutThumbnailLoadedEventType = static_cast<QEvent::Type>(QEvent::User + 10);
+
+
+void LayoutThumbnailLoadedEvent::wakeUp()
+{
+	WaitCondition->wakeAll();
+}
+
+
+//_____________________________________________________________________________
+//
+// Class LoadLayoutThumbnailThread
+//_____________________________________________________________________________
+
+LoadLayoutThumbnailThread::LoadLayoutThumbnailThread(QObject* _Parent) : QThread(_Parent), IsRunning(false)
+{}
+
+void LoadLayoutThumbnailThread::loadDocThumbnail(STPhotoLayoutTemplate _Template, int _Index)
+{
+	TDocAndIndex DocAndIndex(_Template, _Index);
+	Mutex.lock();
+	if (!ImagesToLoadList.contains(DocAndIndex))
+		ImagesToLoadList.push_back(DocAndIndex);
+	Mutex.unlock();
+	if (!isRunning())
+		start();
+}
+
+void LoadLayoutThumbnailThread::stop()
+{
+	if (IsRunning)
+	{
+		IsRunning = false;
+		wait();
+	}
+}
+
+void LoadLayoutThumbnailThread::removeDocThumbnailLoad(STPhotoLayoutTemplate _Template)
+{
+	Mutex.lock();
+	//Look for it
+	bool Found = false;
+	int CurrentIndex = 0;
+	while (!Found && CurrentIndex < ImagesToLoadList.count())
+	{
+		Found = ImagesToLoadList[CurrentIndex].first == _Template;
+		if (!Found)
+			CurrentIndex++;
+	}
+	if (Found)
+		ImagesToLoadList.removeAt(CurrentIndex);
+	Mutex.unlock();
+}
+
+void LoadLayoutThumbnailThread::clear()
+{
+	Mutex.lock();
+	ImagesToLoadList.clear();
+	Mutex.unlock();
+}
+
+void LoadLayoutThumbnailThread::run()
+{
+	bool IsRunning = true;
+	bool Empty = false;
+	while ( !Empty > 0 && IsRunning)
+	{
+		Mutex.lock();
+		Empty = ImagesToLoadList.size() == 0;
+		Mutex.unlock();
+		if (!Empty)
+		{
+			Mutex.lock();
+			TDocAndIndex DocAndIndex = ImagesToLoadList.first();
+			ImagesToLoadList.pop_front();
+			LayoutThumbnailLoadedEvent* NewEvent = new LayoutThumbnailLoadedEvent(DocAndIndex.first, DocAndIndex.second, &WaitCondition);
+			QApplication::postEvent(parent(),NewEvent);
+			WaitCondition.wait(&Mutex, 200);
+			Mutex.unlock();
+		}
+	}
+}
+
+//_____________________________________________________________________________
+//
+// Class STTemplateModel
+//_____________________________________________________________________________
 
 void STTemplateModel::cancelPendingOps()
 {
@@ -36,14 +125,21 @@ void STTemplateModel::cancelPendingOps()
 void STTemplateModel::createThumbnails()
 {
 	CreateThumbsCanceled = false;
-	TemplateThumbnails.clear();
+	//TemplateThumbnails.clear();
 
 	int Vfor = 0;
 	while (!CreateThumbsCanceled && Vfor < rowCount())
 	{
 		QModelIndex CIndex = index(Vfor, 0);
-		TemplateThumbnails.push_back(createSampleThumbnail(indexTemplate(CIndex)));
-		emit dataChanged(CIndex, CIndex);
+
+		STPhotoLayoutTemplate CurrentTemplate = indexTemplate(CIndex);
+		//TemplateThumbnails.insert(Vfor, createSampleThumbnail(CurrentTemplate));
+
+		if (!CurrentTemplate.hasClipartFrames())
+		{
+			TemplateThumbnails[Vfor] = createSampleThumbnail(indexTemplate(CIndex));
+			emit dataChanged(CIndex, CIndex);
+		}
 		Vfor++;
 	}
 }
@@ -79,6 +175,7 @@ QImage STTemplateModel::createSampleThumbnail(const STPhotoLayoutTemplate _Templ
 STTemplateModel::STTemplateModel(QObject* _Parent) : QAbstractListModel(_Parent)
 {
 	ThumbnailMaxSize = QSize(152,102);
+	MLoadThread = new LoadLayoutThumbnailThread(this);
 }
 
 int STTemplateModel::rowCount(const QModelIndex& /*_Parent*/) const
@@ -107,9 +204,13 @@ QVariant STTemplateModel::data(const QModelIndex& _Index, int _Role) const
 					if (!TemplateThumbnails[_Index.row()].isNull())
 						Res = QPixmap::fromImage(TemplateThumbnails[_Index.row()]);
 					else
-						Res = NoImagePixmap;
+					{
+						STPhotoLayoutTemplate CurrTemplate = indexTemplate(_Index);
+						if (CurrTemplate.hasClipartFrames())
+							MLoadThread->loadDocThumbnail(CurrTemplate, _Index.row());
+					}
 				}
-				else
+				if (Res.isNull())
 					Res = NoImagePixmap;
 			}
 			else
@@ -148,7 +249,14 @@ void STTemplateModel::setTemplateList(const STPhotoLayout::TTemplateList& _Templ
 	cancelPendingOps();
 	Templates = _TemplateList;
 	qSort(Templates.begin(), Templates.end());
+
+	TemplateThumbnails.clear();
+	for(int Vfor = 0; Vfor < rowCount(); Vfor++)
+	{
+		TemplateThumbnails.push_back(QImage());
+	}
 	CreateThumbsFuture = QtConcurrent::run(this, &STTemplateModel::createThumbnails);
+	//STTemplateModel::createThumbnails();
 	reset();
 }
 
@@ -177,8 +285,8 @@ bool STTemplateModel::removeRows(int _Row, int _Count, const QModelIndex& _Paren
 	beginRemoveRows(_Parent, _Row, _Row + _Count - 1);
  	for (int Vfor = 0; Vfor < _Count; Vfor++)
 	{
- 		Templates.removeAt(_Row + Vfor);
-		TemplateThumbnails.removeAt(_Row + Vfor); 
+		TemplateThumbnails.removeAt(_Row + Vfor);
+		Templates.removeAt(_Row + Vfor);
 	}
 	endRemoveRows();
 	return true;
@@ -187,8 +295,8 @@ bool STTemplateModel::removeRows(int _Row, int _Count, const QModelIndex& _Paren
 void STTemplateModel::addTemplate(const STPhotoLayoutTemplate& _Template)
 {
 	beginInsertRows(QModelIndex(), Templates.size(), Templates.size()); 
-		Templates.push_back(_Template); 
-		TemplateThumbnails.push_back(createSampleThumbnail(_Template)); 
+		TemplateThumbnails.insert(Templates.size(), createSampleThumbnail(_Template));
+		Templates.insert(Templates.size(), _Template);
 	endInsertRows(); 
 }
 
@@ -199,4 +307,22 @@ void STTemplateModel::addTemplateList(const STPhotoLayout::TTemplateList& _Templ
 	{
 		addTemplate(*it); 
 	}
+}
+
+bool STTemplateModel::event(QEvent* _Event)
+{
+
+	if (_Event->type() == LayoutThumbnailLoadedEvent::LayoutThumbnailLoadedEventType)
+	{
+		LayoutThumbnailLoadedEvent* CEvent = static_cast<LayoutThumbnailLoadedEvent*>(_Event);
+/*		QModelIndex ChandedIndex = CEvent->index();
+		CEvent->doc().cacheThumbnail(CEvent->thumbnail());
+		CEvent->wakeUp();*/
+		QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+		TemplateThumbnails[CEvent->index()] = createSampleThumbnail(CEvent->templateLayout());
+		CEvent->wakeUp();
+		emit dataChanged(index(CEvent->index(), 0), index(CEvent->index(), 0));
+		QApplication::restoreOverrideCursor();
+	}
+	return QAbstractListModel::event(_Event);
 }

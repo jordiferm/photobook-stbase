@@ -196,16 +196,16 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 			case STPhotoLayoutTemplate::Frame::TypeClipart : 
 			{
 				STGraphicsClipartItem* STItem = new STGraphicsClipartItem(QDir(Template.templateFilePath()).absoluteFilePath(it->clipartFileName()));
-				STItem->setZValue(it->zValue()); 
-				configureItem(STItem); 
+				STItem->setZValue(it->zValue());
+				configureItem(STItem);
 				if (it->width() > 0)
-					STItem->scaleToWidth(it->width()); 
+					STItem->scaleToWidth(it->width());
 				else
 					if (it->height() > 0)
 						STItem->scaleToHeight(it->height());
 				STItem->setPos(it->topLeft());
 				//addItemOnTop(STItem);
-				addItem(STItem); 
+				addItem(STItem);
 			}	
 			break; 
 			default :
@@ -260,7 +260,7 @@ STPhotoLayoutTemplate STTemplateScene::getPageTemplate() const
 		Res.setSize(PageItem->boundingRect().size());
 		Res.setBackgroundColor(PageItem->brush().color()); 
 		if (!PageItem->imageFileName().isEmpty())
-			Res.setBackgroundImageFile(PageItem->imageFileName()); 
+			Res.setBackgroundImageFile(PageItem->imageFileName());
 	}
 	QList<QGraphicsItem *> AllItems = items();
 	QList<QGraphicsItem *>::iterator it;

@@ -524,12 +524,20 @@ QFileInfo STGraphicsPhotoItem::frameMaskFile(const QString& _FrameImage)
 	return QFileInfo(FIFileInfo.dir().absoluteFilePath(FIFileInfo.baseName() + ".mask"));
 }
 
+
+//Sets frame and related mask determined by frameMaskFile
 void STGraphicsPhotoItem::setFrameImage(const QString& _FrameImage)
 {
 	if (!_FrameImage.isNull())
 	{
+		if (!QFile::exists(_FrameImage))
+			return;
+
 		FrameImageFile = _FrameImage;
 		FrameImage = QImage(_FrameImage);
+
+		if (FrameImage.isNull())
+			return;
 
 		QRectF BRect = boundingRect();
 		QMatrix Matrix;
