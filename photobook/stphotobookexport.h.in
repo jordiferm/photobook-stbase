@@ -1,0 +1,15 @@
+#ifndef _STPHOTOBOOKLIBEXPORT_H
+#define _STPHOTOBOOKLIBEXPORT_H
+
+#if defined(WIN32) 
+	#if defined(st_photobook_EXPORTS)
+		#define ST_PHOTOBOOK_EXPORT __declspec(dllexport)
+	#else
+			#define ST_PHOTOBOOK_EXPORT __declspec(dllimport)
+	#endif 
+#else
+	#define ST_PHOTOBOOK_EXPORT
+#endif
+
+#endif // !_STPHOTOBOOKEXPORT_H
+
