@@ -25,7 +25,7 @@
 #include "stphotobookexport.h"
 #include "templatescene.h"
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT SceneMimeData : public QMimeData
 {

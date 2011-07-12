@@ -29,7 +29,7 @@
 Item class for pages.
 
 */
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT GraphicsPageItem : public GraphicsPhotoItem
 {

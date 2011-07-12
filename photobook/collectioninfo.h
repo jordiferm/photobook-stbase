@@ -31,7 +31,7 @@
 class STImage;
 class QSize;
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT CollectionInfo
 {
@@ -52,6 +52,10 @@ public:
 	QString thumbnailFileName() const; 
 	QString xmlFileName() const;
 	QString xmlAutoSaveFileName() const;
+	QString xmlLayoutsFileName() const;
+	QString xmlCoversFileName() const;
+	QString xmlUnderCoverFileName() const;
+	QString xmlMetaInfoFileName() const;
 	QString trayImagesFileName() const;
 
 

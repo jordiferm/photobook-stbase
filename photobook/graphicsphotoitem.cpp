@@ -18,7 +18,7 @@
 **
 ****************************************************************************/
 
-#include "Graphicsphotoitem.h"
+#include "graphicsphotoitem.h"
 
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
@@ -58,9 +58,9 @@
 //#include "kphoto.h"
 //#include "ophotocollection.h" // For OPhotoCollectionImage.
 
-#include "Graphicsitemmodifier.h"
+#include "graphicsitemmodifier.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 // _________________________________________________________________________*/
 //

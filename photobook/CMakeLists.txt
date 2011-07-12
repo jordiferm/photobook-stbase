@@ -67,6 +67,7 @@ SET(prj_SRCS
 	candidatecalculator.cpp
 	document.cpp
 	pagelist.cpp
+	metainfowidget.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -96,6 +97,7 @@ SET(prj_MOC_HDRS
 	candidatecalculator.h
 	document.h
 	pagelist.h
+	metainfowidget.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

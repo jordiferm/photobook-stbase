@@ -32,7 +32,7 @@
 #include "graphicsphotoitem.h"
 #include "graphicstextitem.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 void GraphicsItemModifier::applyTransformations()
 {

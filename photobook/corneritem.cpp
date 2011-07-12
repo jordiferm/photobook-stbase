@@ -27,7 +27,7 @@
 
 #include "graphicsitemmodifier.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 CornerItem::CornerItem(Qt::Corner corner, int _OpMask, GraphicsItemModifier* _Modifier)
     : QGraphicsItem(_Modifier->item())

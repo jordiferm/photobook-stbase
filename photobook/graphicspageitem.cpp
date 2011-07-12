@@ -24,7 +24,7 @@
 
 #include <QStyleOptionGraphicsItem>
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 void GraphicsPageItem::init()
 {

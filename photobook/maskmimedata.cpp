@@ -20,7 +20,7 @@
 
 #include "maskmimedata.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 MaskMimeData::MaskMimeData()
 {
 }

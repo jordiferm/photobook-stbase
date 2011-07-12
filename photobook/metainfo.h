@@ -27,7 +27,7 @@
 #include "templateinfo.h"
 
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 
 class ST_PHOTOBOOK_EXPORT MetaInfo
@@ -37,7 +37,7 @@ public:
 	typedef QList<QRectF> TMarginRectList;
 
 private:
-	QString DesignName, Name, Description, ImagePath;
+	QString DesignName, Name, Description, ImagePath, SourceImagesPath;
 	QSizeF Size, PrintPageSize;
 	int Version, Dpis, ModPages, MaxPages, MinPages;
 	RenderSettings::EnPrintPreProcessType PrintPreprocessType;
@@ -50,6 +50,7 @@ private:
 
 public:
     MetaInfo();
+	void setDefaults();
 	void save(const QString& _XmlFilePath);
 	void load(const QString& _XmlFilePath);
 
@@ -75,6 +76,9 @@ public:
 	void setTemplateType(TemplateInfo::EnTemplateType _Value) { TemplateType = _Value; }
 	TemplateInfo::EnTemplateType templateType() const { return TemplateType; }
 
+	void setSourceImagesPath(const QString& _Value) { SourceImagesPath = _Value; }
+	QString sourceImagesPath() const { return SourceImagesPath; }
+
 
 	//------- Render info ----------
 	void setPrintPageSize(const QSizeF& _Value) { PrintPageSize = _Value; }
@@ -96,6 +100,7 @@ public:
 
 	//------- Constraints info ----------
 	void setModPages(int _Value) { ModPages = _Value; }
+	//! The number of pages mod modPages() must be 0.
 	int modPages() const { return ModPages; }
 
 	void setMaxPages(int _Value) { MaxPages = _Value; }

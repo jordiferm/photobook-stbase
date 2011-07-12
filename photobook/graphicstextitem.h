@@ -29,7 +29,7 @@
 Class to create graphics text items.
 
 */
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT GraphicsTextItem : public QGraphicsTextItem, public AbstractGraphicsItem
 {

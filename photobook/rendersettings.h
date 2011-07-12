@@ -22,7 +22,7 @@
 #include <QString>
 
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 
 class ST_PHOTOBOOK_EXPORT RenderSettings

@@ -22,7 +22,7 @@
 #define ICHANGESCONTROL_H
 #include "stphotobookexport.h"
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT IChangesControl
 {

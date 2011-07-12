@@ -32,7 +32,7 @@
 #include "stimage.h" 
 #include "collectioninfo.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 // ____________________________________________________________________________
 //

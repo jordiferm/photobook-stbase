@@ -28,7 +28,7 @@ namespace STDom
 }
 class QProgressBar;
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class Document;
 class TemplateScene;

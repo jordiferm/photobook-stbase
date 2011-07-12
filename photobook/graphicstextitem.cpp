@@ -31,7 +31,7 @@
 
 #include "graphicsitemmodifier.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 void GraphicsTextItem::init()
 {

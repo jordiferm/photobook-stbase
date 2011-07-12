@@ -30,7 +30,7 @@
 
 #include "sapplication.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 QStringList TemplatePaths::PathList;
 

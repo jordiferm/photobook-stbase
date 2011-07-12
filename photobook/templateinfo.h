@@ -27,7 +27,7 @@
 #include "stphotobookexport.h"
 #include "designinfo.h"
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 
 class ST_PHOTOBOOK_EXPORT TemplateInfo

@@ -18,7 +18,7 @@
 
 #include "rendersettings.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 RenderSettings::RenderSettings(const QString& _RenderFormat) :
 	RenderFormat(_RenderFormat), CoverRenderFormat(_RenderFormat), ForPrint(true), PrintFirstAtLast(true)

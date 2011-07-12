@@ -22,7 +22,7 @@
 #include "sapplication.h"
 #include <QDir> 
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 QString CollectionInfo::DefaultRootPathName = SApplication::dbFilesPath() + "/photobooks";
 		
@@ -49,12 +49,32 @@ QString CollectionInfo::thumbnailFileName() const
 
 QString CollectionInfo::xmlFileName() const
 {
-	return photoBookPath() + "/photobook.xml";
+	return photoBookPath() + "/pages.xml";
 }
 
 QString CollectionInfo::xmlAutoSaveFileName() const
 {
 	return photoBookPath() + "/autosave.xml";
+}
+
+QString CollectionInfo::xmlLayoutsFileName() const
+{
+	return photoBookPath() + "/layouts.xml";
+}
+
+QString CollectionInfo::xmlCoversFileName() const
+{
+	return photoBookPath() + "/covers.xml";
+}
+
+QString CollectionInfo::xmlUnderCoverFileName() const
+{
+	return photoBookPath() + "/undercovers.xml";
+}
+
+QString CollectionInfo::xmlMetaInfoFileName() const
+{
+	return photoBookPath() + "/metainfo.xml";
 }
 
 QString CollectionInfo::trayImagesFileName() const

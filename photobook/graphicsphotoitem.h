@@ -40,7 +40,7 @@
 class QGraphicsSceneMouseEvent;
 class QAction;
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 
 class GraphicsPhotoItem;

@@ -29,7 +29,7 @@
 /**
 	Event to inform an intem update.
 */
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT UpdateItemEvent : public QEvent
 {

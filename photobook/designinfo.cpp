@@ -18,7 +18,7 @@
 
 #include "designinfo.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 DesignInfo::DesignInfo(const QString& _Name) : Name(_Name)
 {

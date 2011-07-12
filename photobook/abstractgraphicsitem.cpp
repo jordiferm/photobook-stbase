@@ -34,7 +34,7 @@
 #include "graphicsitemmodifier.h"
 #include "corneritem.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 int AbstractGraphicsItem::GridValue = 5;
 bool AbstractGraphicsItem::SnapToGrid = true;

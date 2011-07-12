@@ -20,7 +20,7 @@
 
 #include "buildoptions.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 void BuildOptions::clear()
 {

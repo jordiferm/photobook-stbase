@@ -40,7 +40,7 @@ class QPixmap;
 class QProgressBar;
 class QDomDocument;
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 
 class GraphicsPhotoItem;
@@ -71,7 +71,7 @@ private:
 	bool HasChanges;
 	QSizeF RenderBaseSize;
 	
-	QStringList storePhotoItemImage(GraphicsPhotoItem* _CItem, const STPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages = false);
+	QStringList storePhotoItemImage(GraphicsPhotoItem* _CItem, const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages = false);
 	QString storeClipartItemFile(GraphicsClipartItem* _CItem, const CollectionInfo& _CInfo);
 	
 public:

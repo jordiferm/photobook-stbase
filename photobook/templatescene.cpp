@@ -16,7 +16,7 @@
 **
 ****************************************************************************/
 
-#include "TemplateScene.h"
+#include "templatescene.h"
 #include <QColor> 
 #include <QPixmap>
 #include <QProgressBar> 
@@ -46,14 +46,14 @@
 #include "scenemimedata.h"
 #include "ddoc.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 qreal TemplateScene::PageZValue = -1000000;
 
 /*!
 	\return returns a list of saved filenames.
 */
-QStringList TemplateScene::storePhotoItemImage(GraphicsPhotoItem* _CItem, const STPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages)
+QStringList TemplateScene::storePhotoItemImage(GraphicsPhotoItem* _CItem, const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages)
 {
 	QStringList Res; 
 	if (!_CItem->imageFileName().trimmed().isEmpty())
@@ -1188,7 +1188,7 @@ void TemplateScene::slotImageListDropped(const QList<QUrl>& _Urls)
 }
 
 //Related non member functions.
-bool STPhotoBook::operator<(int _Value, const TemplateScene& _Other)
+bool SPhotoBook::operator<(int _Value, const TemplateScene& _Other)
 {
 	return _Other > _Value;
 }

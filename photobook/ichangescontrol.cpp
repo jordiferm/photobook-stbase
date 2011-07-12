@@ -19,7 +19,7 @@
 ****************************************************************************/
 
 #include "ichangescontrol.h"
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 IChangesControl::IChangesControl()
 {

@@ -20,7 +20,7 @@
 
 #include "framemimedata.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 FrameMimeData::FrameMimeData()
 {

@@ -24,7 +24,7 @@
 
 #include "designinfo.h"
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 
 /**

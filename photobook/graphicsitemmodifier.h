@@ -31,7 +31,7 @@ class QGraphicsItem;
 class QRect; 
 class QGraphicsSceneMouseEvent; 
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class GraphicsItemModifier : public IChangesControl
 {

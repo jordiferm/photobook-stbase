@@ -29,7 +29,7 @@ Class to create items for clipart.
 
 	@author
 */
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT GraphicsClipartItem : public QGraphicsSvgItem, public AbstractGraphicsItem
 {

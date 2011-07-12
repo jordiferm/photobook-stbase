@@ -27,7 +27,7 @@
 
 #include "graphicsitemmodifier.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 void GraphicsClipartItem::init()
 {
 	QGraphicsItem::setFlag(QGraphicsItem::ItemIsSelectable);

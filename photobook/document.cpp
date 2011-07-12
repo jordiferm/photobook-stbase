@@ -43,26 +43,30 @@
 
 #define ITEM_AVERAGE_MARGIN 2
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 TemplateScene* Document::createPage()
 {
 	TemplateScene* Scene = new TemplateScene(this);
-	Scene->setAutoAdjustFrames(AutoAdjustFrames);
-	Scene->setIgnoreExifRotation(IgnoreExifRotation);
-	connect(Scene, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
-	connect(Scene, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));
-	connect(Scene, SIGNAL(itemContextMenu(QGraphicsItem*, const QPoint&)), this, SLOT(slotSceneItemContextMenu(QGraphicsItem*, const QPoint&)));
-	connect(Scene, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&))); 
-	connect(Scene, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&))); 
-	connect(Scene, SIGNAL(templateDropped(TemplateScene*,TemplateScene*)), this, SIGNAL(templateDropped(TemplateScene*,TemplateScene*)));
-	connect(Scene, SIGNAL(clipartDropped(QString, QPointF)), this, SIGNAL(clipartDropped(QString, QPointF)));
-	connect(Scene, SIGNAL(clicked()), this, SIGNAL(sceneClicked()));
+	configurePage(Scene);
+	return Scene; 
+}
+
+void Document::configurePage(TemplateScene* _Page)
+{
+	_Page->setAutoAdjustFrames(AutoAdjustFrames);
+	_Page->setIgnoreExifRotation(IgnoreExifRotation);
+	connect(_Page, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
+	connect(_Page, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));
+	connect(_Page, SIGNAL(itemContextMenu(QGraphicsItem*, const QPoint&)), this, SLOT(slotSceneItemContextMenu(QGraphicsItem*, const QPoint&)));
+	connect(_Page, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
+	connect(_Page, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&)));
+	connect(_Page, SIGNAL(templateDropped(TemplateScene*,TemplateScene*)), this, SIGNAL(templateDropped(TemplateScene*,TemplateScene*)));
+	connect(_Page, SIGNAL(clipartDropped(QString, QPointF)), this, SIGNAL(clipartDropped(QString, QPointF)));
+	connect(_Page, SIGNAL(clicked()), this, SIGNAL(sceneClicked()));
 
 	//FIXME: changed no és prou bon indicador.
-	connect(Scene, SIGNAL(changed( const QList< QRectF >& )), this, SLOT(someSceneChanged()));
-	
-	return Scene; 
+	connect(_Page, SIGNAL(changed( const QList< QRectF >& )), this, SLOT(someSceneChanged()));
 }
 
 TemplateScene* Document::createPage(TemplateScene* _Template, QList<GraphicsPhotoItem*>& _PhotoItems)
@@ -423,45 +427,7 @@ void Document::createRootPath()
 	Assert(AlbumRootDir.mkpath(PBInfo.photoBookPath()), Error(QString(tr("Error creating path %1")).arg(PBInfo.photoBookPath())));
 }
 
-QDomDocument Document::createDoc()
-{
-	QDomDocument Doc("starphob");
-	QDomElement Root = Doc.createElement("photobook");
-	Doc.appendChild(Root);
-	Root.setAttribute("version", "1.0.0");
-	Root.setAttribute("description", Description);
-	Root.setAttribute("sourceimagespath", SourceImagesPath);
 
-	PageList::iterator it;
-	for (it = Pages.begin(); it != Pages.end(); ++it)
-	{
-		Root.appendChild((*it)->createElement(Doc));
-	}
-	return Doc;
-}
-
-void Document::saveXmlFile(const QString& _XmlFileName)
-{
-	QFile PBFile(_XmlFileName);
-	Assert(PBFile.open(QFile::WriteOnly | QFile::Truncate), Error(QString(tr("Could not open file %1")).arg(PBFile.fileName())));
-
-	QDomDocument Doc = createDoc();
-	if (EncryptionKey.isEmpty())
-	{
-		QTextStream Out(&PBFile);
-		//Out.setCodec(QTextCodec::codecForName("ISO-8859-1"));
-		Out.setCodec(QTextCodec::codecForName("UTF-8"));
-		Out << Doc.toString();
-	}
-	else
-	{
-		QDataStream Out(&PBFile);
-		QByteArray InputData(Doc.toString().toUtf8());
-		QByteArray OutputData = STUtils::encode(InputData, EncryptionKey);
-		Out << OutputData;
-		//Out.writeBytes(OutputData, OutputData.length());
-	}
-}
 
 void Document::save(STProgressIndicator* _Progress , bool _AutoSave)
 {
@@ -481,74 +447,53 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 	PBInfo.setRootPathName(_RootPath.absolutePath()); 
 	QDir PBDir(PBInfo.photoBookPath()); 
 	Assert(PBDir.mkpath(PBDir.absolutePath()), Error(QString(tr("Error creating Photo Book Path %1")).arg(PBDir.absolutePath()))); 
-	
-		
-	if (_Progress)
+
+	MetInfo.save(PBInfo.xmlMetaInfoFileName());
+
+	if (_AutoSave)
+		Pages.saveXml(PBInfo.xmlAutoSaveFileName());
+	else
 	{
-		if (_AutoSave)
-			_Progress->setRange(0, 1);
-		else
-			_Progress->setRange(0, Pages.size() - 1);
-		_Progress->start(tr("Saving Model..."));
-		_Progress->setValue(0);
-	}
-	
-	QString StoreImagesError;
-	if (!_AutoSave)
-	{
-		PageList::iterator it;
-		//Store first Page as a thumbnail.
+		if (!_OnlyDesignImages)
+		{
+			QStringList StoredFiles = Pages.saveResources(PBInfo, false, _Progress);
+
+			// Delete unused images and unused mask images.
+			QDir PBooKDir(PBInfo.photoBookPath());
+			QStringList PBookFiles = PBooKDir.entryList(QDir::Files);
+			QStringList::iterator sit;
+			for (sit = PBookFiles.begin(); sit != PBookFiles.end(); ++sit)
+			{
+				QString CurrAbsPathFile = PBInfo.photoBookPath() + "/" + (*sit);
+				if (!StoredFiles.contains(CurrAbsPathFile) &&
+					(CurrAbsPathFile != PBInfo.trayImagesFileName()) )
+				{
+					QFile DelFile(CurrAbsPathFile);
+					//TODO Put Log here !!!
+					if (!DelFile.remove())
+						qWarning(QString("Error removing file %1").arg(CurrAbsPathFile).toLatin1());
+				}
+			}
+		}
+
+		Pages.saveXml(PBInfo.xmlFileName());
+
+		Layouts.saveResources(PBInfo, true, _Progress);
+		Layouts.saveXml(PBInfo.xmlLayoutsFileName());
+
+		Covers.saveResources(PBInfo, true, _Progress);
+		Covers.saveXml(PBInfo.xmlCoversFileName());
+
+		UnderCovers.saveResources(PBInfo, true, _Progress);
+		UnderCovers.saveXml(PBInfo.xmlUnderCoverFileName());
+
+		//Save Thumbnail
 		if (Pages.size() > 0)
 		{
 			QImage ResImg = getPageThumbnail(0, QSize(150, 100));
 			Assert(ResImg.save(PBInfo.thumbnailFileName()), Error(QString(tr("Error saving photo book thumbnail at: %1")).arg(PBInfo.thumbnailFileName())));
 		}
-		QStringList StoredFiles;
-		for (it = Pages.begin(); it != Pages.end(); ++it)
-		{
-			try
-			{
-				StoredFiles += (*it)->storePhotoItemImages(PBInfo, _OnlyDesignImages);
-			}
-			catch(STError& _Error)
-			{
-				StoreImagesError += _Error.description() + "\n";
-			}
-			if (_Progress)
-				_Progress->incValue();
-		}
-		// Delete unused images and unused mask images. (Guardar a una llista les que s'utilitzen i borrar les demés ?)
-		QDir PBooKDir(PBInfo.photoBookPath());
-		QStringList PBookFiles = PBooKDir.entryList(QDir::Files);
-		QStringList::iterator sit;
-		for (sit = PBookFiles.begin(); sit != PBookFiles.end(); ++sit)
-		{
-			//!!!! TODO: Oju aqui !
-			QString CurrAbsPathFile = PBInfo.photoBookPath() + "/" + (*sit);
-			if (!StoredFiles.contains(CurrAbsPathFile) &&
-				(CurrAbsPathFile != PBInfo.thumbnailFileName()) && (CurrAbsPathFile != PBInfo.xmlFileName()) &&
-				(CurrAbsPathFile != PBInfo.trayImagesFileName()) )
-			{
-				QFile DelFile(CurrAbsPathFile);
-				//TODO Put Log here !!!
-				if (!DelFile.remove())
-					qWarning(QString("Error removing file %1").arg(CurrAbsPathFile).toLatin1());
-			}
-		}
 	}
-
-	QString XmlFileName;
-	if (_AutoSave)
-		XmlFileName = PBInfo.xmlAutoSaveFileName();
-	else
-		XmlFileName = PBInfo.xmlFileName();
-
-	saveXmlFile(XmlFileName);
-
-	if (_Progress)
-		_Progress->stop();
-
-	Assert(StoreImagesError.isNull(), Error(QString(tr("There was errors storing images: %1")).arg(StoreImagesError)));
 }
 
 void Document::closePhotoBook()
@@ -591,85 +536,25 @@ void Document::load(const QDir& _Dir, QProgressBar* _ProgressBar, bool _AutoSave
 void Document::load(const QDir& _RootPath, const QString& _Name, QProgressBar* _ProgressBar, bool _AutoSaved)
 {
 	closePhotoBook();
-	CollectionInfo MInfo(_Name, _RootPath.absolutePath());
-	bool Res = false;
-	QDomDocument Doc("starphob");
-	QFile File;
-	if (_AutoSaved)
-		File.setFileName(MInfo.xmlAutoSaveFileName());
-	else
-		File.setFileName(MInfo.xmlFileName());
-
-	QFileInfo XmlFInfo(File);
-	Assert(File.open(QIODevice::ReadOnly), Error(QString(tr("Loading Photo Book from file %1")).arg(File.fileName())));
-	{
-		if (EncryptionKey.isEmpty())
-		{
-			QTextStream StrIn(&File);
-			StrIn.setCodec(QTextCodec::codecForName("UTF-8"));
-			Res = Doc.setContent(StrIn.readAll());
-			File.close();
-		}
-		else
-		{
-			QDataStream DataIn(&File);
-			QByteArray BArray;
-			DataIn >> BArray;
-			QByteArray DecodedData = STUtils::decode(BArray, EncryptionKey);
-			Res = Doc.setContent(QString::fromUtf8(DecodedData));
-//			qDebug() << File.bytesAvailable();
-//			QByteArray BArray(File.bytesAvailable(), 0);
-//			DataIn.readRawData(BArray.data(), BArray.size());
-//			QByteArray DecodedData = STUtils::decode(BArray, EncryptionKey);
-//			Res = Doc.setContent(QString(DecodedData));
-		}
-	}
-	QDomElement RootEl = Doc.documentElement();
-	if (_ProgressBar)
-	{
-		_ProgressBar->setRange(0, RootEl.childNodes().count());
-		_ProgressBar->setValue(0); 
-		QApplication::processEvents();
-	}
 	setName(_Name);
-	setDescription(RootEl.attribute("description", ""));
-	setSourceImagesPath(RootEl.attribute("sourceimagespath", ""));
-	QDomNode CNode = RootEl.firstChild();
-	while(!CNode.isNull())
-	{
-		if (_ProgressBar)
-		{
-			_ProgressBar->setValue(_ProgressBar->value() + 1); 
-			QApplication::processEvents();
-		}
-		QDomElement CEl = CNode.toElement(); // try to convert the node to an element.
-		if(!CEl.isNull())
-		{
-			if (CEl.tagName().toLower() == "scene" )
-			{
-				TemplateScene* NewPage = createPage();
-				NewPage->loadElement(XmlFInfo.absolutePath(), CEl);
-				Pages.push_back(NewPage);
-			}
-		}
-		CNode = CNode.nextSibling();
-	}
-}
 
-QString Document::getTemplateFilePath(const QDir& _Dir)
-{
-	CollectionInfo MInfo(_Dir);
-	bool Res = false;
-	QDomDocument Doc("starphob");
-	QFile File(MInfo.xmlFileName());
-	QFileInfo XmlFInfo(File);
-	Assert(File.open(QIODevice::ReadOnly), Error(QString(tr("Loading Photo Book from file %1")).arg(File.fileName())));
-	QTextStream StrIn(&File);
-	StrIn.setCodec(QTextCodec::codecForName("UTF-8"));
-	Res = Doc.setContent(StrIn.readAll());
-	File.close();
-	QDomElement RootEl = Doc.documentElement();
-	return RootEl.attribute("templatefilepath", "");
+	CollectionInfo MInfo(_Name, _RootPath.absolutePath());
+	MetInfo.load(MInfo.xmlMetaInfoFileName());
+
+	if (_AutoSaved)
+		Pages.loadXml(MInfo.xmlAutoSaveFileName(), this, EncryptionKey, _ProgressBar);
+	else
+		Pages.loadXml(MInfo.xmlFileName(), this, EncryptionKey, _ProgressBar);
+
+	PageList::iterator it  = Pages.begin();
+	while (it != Pages.end())
+	{
+		configurePage(*it);
+		++it;
+	}
+	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, EncryptionKey, _ProgressBar);
+	Covers.loadXml(MInfo.xmlCoversFileName(), this, EncryptionKey, _ProgressBar);
+	UnderCovers.loadXml(MInfo.xmlUnderCoverFileName(), this, EncryptionKey, _ProgressBar);
 }
 
 bool Document::containsImage(const QString& _ImageMD5Sum) const

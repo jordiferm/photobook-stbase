@@ -21,7 +21,7 @@
 #include <QTextStream>
 #include <QFont>
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 void GraphicsMonthItem::init()
 {

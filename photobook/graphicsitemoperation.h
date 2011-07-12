@@ -40,7 +40,7 @@ class QGraphicsItem;
 class QAbstractGraphicsShapeItem;
 class STImage;
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT GraphicsItemOperation : public QUndoCommand
 {

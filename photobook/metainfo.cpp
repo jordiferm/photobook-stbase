@@ -21,7 +21,7 @@
 #include <QFile>
 #include <QTextCodec>
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 {
@@ -33,6 +33,34 @@ QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 
 MetaInfo::MetaInfo()
 {
+	setDefaults();
+}
+
+void MetaInfo::setDefaults()
+{
+	DesignName = "noname";
+	Name = "noname";
+	Description = "";
+	ImagePath = "";
+	SourceImagesPath = "";
+	Size = QSizeF(210, 297);
+	PrintPageSize = Size;
+	Version=1;
+	Dpis=200;
+	ModPages=0;
+	MaxPages=100;
+	MinPages=1;
+	PrintPreprocessType = RenderSettings::TypeNone;
+	TemplateType = TemplateInfo::TypePhotoBook;
+	MultiPhoto = false;
+	AutogenerateLayouts = true;
+	PreferMinPages = true;
+	Atomic = true;
+	Cyphered = false;
+	CutPagesOnPrint = false;
+	PageMarginRects.clear();
+	CoverMarginRects.clear();
+	NumOptimalImagesPerPage = 3;
 }
 
 void MetaInfo::save(const QString& _XmlFilePath)

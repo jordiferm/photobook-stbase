@@ -32,7 +32,7 @@
 #include "graphicspageitem.h"
 #include "document.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 int CandidateCalculator::numLandscapeDocs(int _FromIndex, int _ToIndex)
 {

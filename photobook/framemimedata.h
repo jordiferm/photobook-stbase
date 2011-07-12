@@ -23,7 +23,7 @@
 
 #include <QMimeData>
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class FrameMimeData : public QMimeData
 {

@@ -21,16 +21,25 @@
 #include <QList>
 #include "templatescene.h"
 #include "stphotobookexport.h"
+#include "sterror.h"
 
 class STProgressIndicator;
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT PageList : public QList<TemplateScene*>
 {
 public:
+	ST_DECLARE_ERRORCLASS();
+
+private:
+	QDomDocument createDoc();
+
+public:
 	explicit PageList();
-	void save(const QString& _AbsoluteFileName, bool _SaveResources, bool _OnlyDesignImages, STProgressIndicator* _ProgressBar = 0);
-	void load(const QString& _AbsoluteFileName, STProgressIndicator* _ProgressBar = 0);
+	void saveXml(const QString& _XmlFileName, const QString& _EncryptionKey = "");
+	//Return a list of stored files.
+	QStringList saveResources(const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages = false, STProgressIndicator* _Progress = 0);
+	void loadXml(const QString& _AbsoluteFileName, QObject* _PagesParent, const QString& _EncryptionKey = "", QProgressBar* _ProgressBar = 0);
 	void removeTextPages();
 	//! Texts items with %Title% pattern.
 	void setTitleText(const QString& _String);

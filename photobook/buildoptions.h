@@ -26,7 +26,7 @@
 #include <QString>
 #include <QDate>
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT BuildOptions
 {

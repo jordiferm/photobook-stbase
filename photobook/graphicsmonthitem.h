@@ -32,7 +32,7 @@ Glass to generate calendar months graphic items.
 	@author
 */
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT GraphicsMonthItem : public GraphicsTextItem
 {

@@ -16,29 +16,32 @@
 **
 ****************************************************************************/
 
-#ifndef TEMPLATEINFOLIST_H
-#define TEMPLATEINFOLIST_H
-
-#include <QList>
-#include <QFileInfoList>
+#ifndef METAINFOWIDGET_H
+#define METAINFOWIDGET_H
 #include "stphotobookexport.h"
-#include "templateinfo.h"
 
+#include <QWidget>
 
+class QToolBar;
 namespace SPhotoBook
 {
 
-class ST_PHOTOBOOK_EXPORT TemplateInfoList : public QList<TemplateInfo>
+class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 {
-public:
-    TemplateInfoList();
-	void load(bool _Sync);
-	void sync();
-	bool isPublic();
-	QFileInfoList globalResources(DesignInfo::EnResourceType _Type);
-	TemplateInfoList subList(TemplateInfo::EnTemplateType _Type);
-};
+    Q_OBJECT
 
+	QToolBar* ToolBar;
+
+	void createActions();
+
+public:
+    explicit MetaInfoWidget(QWidget *parent = 0);
+
+signals:
+
+public slots:
+
+};
 }
 
-#endif // TEMPLATEINFOLIST_H
+#endif // METAINFOWIDGET_H

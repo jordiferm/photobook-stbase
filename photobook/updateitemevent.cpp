@@ -20,6 +20,6 @@
 
 #include "updateitemevent.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 const QEvent::Type UpdateItemEvent::UpdateItemEventType = static_cast<QEvent::Type>(QEvent::User + 2);
 

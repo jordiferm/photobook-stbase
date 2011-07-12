@@ -30,7 +30,7 @@
 /**
 	@author
 */
-namespace STPhotoBook
+namespace SPhotoBook
 {
 class GraphicsItemModifier;
 class CornerItem : public QGraphicsItem

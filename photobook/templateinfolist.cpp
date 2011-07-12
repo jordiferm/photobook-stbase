@@ -18,7 +18,7 @@
 
 #include "templateinfolist.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 TemplateInfoList::TemplateInfoList()
 {

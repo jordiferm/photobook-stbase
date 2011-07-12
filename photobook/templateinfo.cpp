@@ -19,7 +19,7 @@
 #include "templateinfo.h"
 #include <QDir>
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 TemplateInfo::TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, EnTemplateType _Type) :
 		BasePath(_BasePath), Name(_Name), Size(_Size), Type(_Type)

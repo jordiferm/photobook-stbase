@@ -18,9 +18,9 @@
 **
 ****************************************************************************/
 
-#include "SceneMimeData.h"
+#include "scenemimedata.h"
 
-using namespace STPhotoBook;
+using namespace SPhotoBook;
 
 SceneMimeData::SceneMimeData()
 {

@@ -45,7 +45,7 @@ class QGraphicsItem;
 class STErrorStack; 
 class SProcessStatusWidget;
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 
 class TemplateScene;
@@ -92,6 +92,7 @@ private:
 	MetaInfo MetInfo;
 
 	TemplateScene* createPage();
+	void configurePage(TemplateScene* _Page);
 	TemplateScene* createPage(TemplateScene* _Template, QList<GraphicsPhotoItem*>& _PhotoItems);
 	TemplateScene* createPage(TemplateScene* _Template);
 	void clearAllSceneChanges();
@@ -111,8 +112,6 @@ public:
 	void setMetaInfo(const MetaInfo& _MetaInfo) { MetInfo = _MetaInfo; }
 	MetaInfo metaInfo() const { return MetInfo; }
 
-	void setSourceImagesPath(const QString& _Value) { SourceImagesPath = _Value; }
-	QString sourceImagesPath() const { return SourceImagesPath; } 
 	void clear(); 
 	bool isEmpty() const;
 	void insertPage(TemplateScene* _Page, int _Index);
@@ -136,13 +135,12 @@ public:
 	QList<QImage> prepareForPrint(const QImage& _AlbumPageImage, const QSizeF& _SceneSize);
 	void setName(const QString& _Name) { PBInfo.setPhotoBookName(_Name); }
 	QString name() const { return PBInfo.photoBookName(); }
-	void setDescription(const QString& _Description) { Description = _Description; } 
-	QString description() const { return Description; }
+
+	void setDescription(const QString& _Description) { MetInfo.setDescription(_Description); }
+
 	void createRootPath(); 
 	CollectionInfo info() const { return PBInfo; }
-	QDomDocument createDoc();
-	//!Saves only xml file.
-	void saveXmlFile(const QString& _XmlFileName);
+
 	//!Saves into collection. Using DocumentCollectionInfo data.
 	void save(STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
 	void saveAs(const QDir& _Dir, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
@@ -153,9 +151,12 @@ public:
 	void load(const QString& _Name, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
 	void load(const QDir& _Dir, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
 	void load(const QDir& _RootPath, const QString& _Name, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
-	static QString getTemplateFilePath(const QDir& _Dir);
 
 	PageList pages() const { return Pages; }
+	PageList layouts() const { return Layouts; }
+	PageList covers() const { return Covers; }
+	PageList underCovers() const { return UnderCovers; }
+
 	//! \return true is photobook currently contains image with MD5Sum _ImageMD5Sum.
 	bool containsImage(const QString& _ImageMD5Sum) const;
 	int numImageMatches(const QString& _ImageMD5Sum) const;

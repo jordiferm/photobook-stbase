@@ -36,7 +36,7 @@ class QGraphicsSceneMouseEvent;
 class QGraphicsSceneHoverEvent; 
 class QGraphicsWidget; 
 
-namespace STPhotoBook
+namespace SPhotoBook
 {
 
 class GraphicsItemModifier;
