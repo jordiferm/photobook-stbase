@@ -30,21 +30,6 @@
 #include "stphotobookbuildoptions.h"
 
 
-class QTextEdit; 
-class QLineEdit;
-class PhotoBookNamePage : public QWizardPage
-{
-Q_OBJECT
-	QTextEdit* TEDescription; 
-	QLineEdit* LEName;
-	
-public:
-	PhotoBookNamePage(QWidget* _Parent = 0);
-	int nextId() const;
-	void initializePage();
-	bool validatePage();
-};
-
 class QRadioButton; 
 class ChooseTemplateModePage : public QWizardPage
 {
@@ -64,6 +49,7 @@ class QComboBox;
 class QTimer;
 class QLabel;
 class QActionGroup;
+class QToolBar;
 class ChooseTemplatePage : public QWizardPage
 {
 Q_OBJECT
@@ -90,6 +76,10 @@ Q_OBJECT
 	QActionGroup* TypeActions;
 	QFrame* BottomFrame;
 	QLabel* NoTemplatesLabel;
+	bool HasPreselection;
+	STPhotoLayout::EnLayoutType PreselectedType;
+	QToolBar* TBType;
+
 
 	void setCurrentState(EnState _State);
 
@@ -103,6 +93,7 @@ public:
 	bool validatePage();
 	bool isComplete() const; 
 	bool typeSelected();
+	void setTemplateType(STPhotoLayout::EnLayoutType _Type);
 	QFileInfo photoBookTemplateFileInfo() const { return TemplateFileInfo; }
 
 private slots:
@@ -144,13 +135,32 @@ public:
 
 
 class QRadioButton; 
+class STPhotoBookCollectionModel;
+class QxtGroupBox;
+class QTextBrowser;
+class QxtPushButton;
 class ChooseCreationModePage : public QWizardPage
 {
 Q_OBJECT
-	QRadioButton* RBAutomaticFill;
+	QxtPushButton* PBAutomatic;
+	STPhotoBookCollectionModel* PredesignModel;
+	QxtGroupBox* GBUsePredesign;
+	QListView* LVPredesigns;
+	QTextBrowser* TBDescription;
+	int PredesignPhotoItems;
+
 public:
 	ChooseCreationModePage(QWidget* _Parent = 0);
 	int nextId() const;
+	void setPhotoBookTemplateFileInfo(const QFileInfo& _FileInfo);
+	bool validatePage();
+	bool autoBuildModeSelected() const;
+	bool usePredesign() const;
+	int predesignPhotoItems() const { return PredesignPhotoItems; }
+	QDir predesignDir() const;
+private slots:
+	void slotPredesignChanged(const QModelIndex& _Index);
+
 };
 
 
@@ -165,6 +175,7 @@ class BuildOptionsPage : public QWizardPage
 	QGroupBox* GBCalendar;
 	QSpinBox* SBNumPages;
 	STPhotoLayout::EnLayoutType LayoutType;
+	bool AutoBuildMode;
 
 
 public:
@@ -175,6 +186,8 @@ public:
 	void setBuildOptions(const STPhotoBookBuildOptions& _Options);
 	STPhotoBookBuildOptions getBuildOptions() const;
 	void setTemplate(const STPhotoBookTemplate& _Template, STPhotoLayout::EnLayoutType _Type);
+	void setAutoBuildMode(bool _Value);
+	void setUsePredesign(bool _Value);
 };
 
 
@@ -185,12 +198,14 @@ Q_OBJECT
 
 	SPImageBoxListView* ImageBoxListView;
 	QLabel* InfoLabel;
-	int PagesToFill, OptimalImagesPerPage;
+	int PagesToFill, OptimalImagesPerPage, AbsoluteImageCount;
 	void updateInfo();
 
 public:
 	SelectDiskFolderPage(QWidget* _Parent = 0);
 	void setTemplate(const STPhotoBookTemplate& _Template, const STPhotoBookBuildOptions& _Options);
+	void setAbsoluteImageCount(int _Value);
+	void clearSelection();
 	int nextId() const;
 	bool isComplete() const;
 	STDom::DDocModel* selectedImages() const;
@@ -216,7 +231,7 @@ class ST_WIZARDS_EXPORT STAlbumWizard : public QWizard
 	Q_OBJECT
 
 public:	
-	enum { Page_PhotoBookName, Page_ChooseTemplateMode, Page_CustomSizes, Page_ChooseTemplate, Page_CooseCreationMode,
+	enum { Page_ChooseTemplateMode, Page_CustomSizes, Page_ChooseTemplate, Page_CooseCreationMode,
 			Page_BuildOptions, Page_SelectDiskFolder, Page_End };
 		
 private: 		
@@ -224,6 +239,7 @@ private:
 	CustomSizesPage* CCustomSizesPage;
 	SelectDiskFolderPage* SDFolderPage;
 	BuildOptionsPage* PBuildOptions;
+	ChooseCreationModePage* CCreationModePage;
 	bool CustomSizesEnabled; 
 	STPhotoBookTemplate PhotoBookTemplate;
 
@@ -241,24 +257,13 @@ public:
 	bool customSizesEnabled() const { return CustomSizesEnabled; }
 	STDom::DDocModel* selectedImages() const;
 	STPhotoBookBuildOptions buildOptions() const;
+	bool usePredesign() const;
+	QDir predesignDir() const;
+	void setTemplateType(STPhotoLayout::EnLayoutType _Type);
+
 private slots:
 	void slotLoadTemplate();
 };
 
-
-class ST_WIZARDS_EXPORT STAlbumMiniWizard : public QWizard
-{
-
-	Q_OBJECT
-
-public:	
-	enum { Page_PhotoBookName, Page_End };
-		
-private: 		
-	
-public:
-	STAlbumMiniWizard(QWidget* parent = 0, Qt::WindowFlags flags = 0);
-	int nextId() const;
-};
 
 #endif

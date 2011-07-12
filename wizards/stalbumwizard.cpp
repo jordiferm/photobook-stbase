@@ -37,10 +37,19 @@
 #include <QActionGroup>
 #include <QFormLayout>
 #include <QDateTimeEdit>
+#include <QTextBrowser>
 
 //Template info
 #include <QtWebKit/QWebView>
 #include <QApplication>
+
+//GUI Other
+#include "qxtgroupbox.h"
+#include "qxtpushbutton.h"
+
+//Models
+#include "stphotobookcollectionmodel.h"
+#include "stphotobook.h"
 
 //Image Selection
 #include "spimageslistview.h"
@@ -58,67 +67,6 @@
 #include "strecentfiles.h"
 #include "sterror.h"
 
-
-//_____________________________________________________________________________
-//
-// class PhotoBookNamePage
-//_____________________________________________________________________________
-
-PhotoBookNamePage::PhotoBookNamePage(QWidget* _Parent) : QWizardPage(_Parent)
-{
-	setTitle(tr("<h1>PhotoBook properties</h1>"));
-	setSubTitle(tr("Please, enter the new <em>Photo Book</em> name. You will use this name later to identify the <em>Photo Book</em> in the collection. You can also set a description related to it."));
-	QVBoxLayout* MLayout = new QVBoxLayout(this);
-	MLayout->addWidget(new QLabel(tr("<h3>New Photo Book Name: </h3>"), this));
-	LEName = new QLineEdit(this); 
-	MLayout->addWidget(LEName);
-	registerField("photobookname*", LEName);
-	MLayout->addWidget(new QLabel(tr("Description: "), this));
-	TEDescription = new QTextEdit(this); 
-	MLayout->addWidget(TEDescription);
-	registerField("photobookdescription", TEDescription, "plainText", SIGNAL(textChanged()));
-	MLayout->addItem(new QSpacerItem(10,10, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding));
-}
-
-int PhotoBookNamePage::nextId() const
-{
-	return STAlbumWizard::Page_ChooseTemplateMode;
-}
-
-void PhotoBookNamePage::initializePage()
-{
-	LEName->setText(tr("NewPhotoBook")); 
-	TEDescription->setPlainText(""); 
-}
-
-bool PhotoBookNamePage::validatePage()
-{
-	bool Res = false; 
-	STPhotobookCollectionInfo PCInfo(field("photobookname").toString()); 
-	QDir PBDir(PCInfo.photoBookPath()); 
-	if (PBDir.exists())
-	{
-		if (SMessageBox::question(this, tr("New PhotoBook Wizard"), QString(tr("The PhotoBook with name %1 already exists in the collection."
-				  "  Do you want to overwrite it ?")).arg(field("photobookname").toString())) == QMessageBox::Yes)
-		{
-			//Deletes the existing album:
-			if (!STUtils::rmDir(PBDir))
-			{
-				SMessageBox::critical(this, tr("New PhotoBook Wizard"), QString(tr("The directory: %1 could not be deleted.")).arg(PBDir.absolutePath()));
-			}
-			else 
-			{
-				STRecentFiles::removeFile(PBDir.absolutePath());
-				Res = true; 
-			}
-		}
-	}
-	else 
-		Res = true; 
-	
-	return Res; 
-}
-		
 
 //_____________________________________________________________________________
 //
@@ -172,7 +120,7 @@ void ChooseTemplatePage::setCurrentState(ChooseTemplatePage::EnState _State)
 	if (BottomFrame->isVisible())
 	{
 		NoInfoFrame->setVisible(_State != StateShowWebInfo);
-		WebView->setVisible(!NoInfoFrame->isVisible());
+		//WebView->setVisible(!NoInfoFrame->isVisible());
 	}
 	InetgetTimer->stop();
 
@@ -195,7 +143,7 @@ void ChooseTemplatePage::setCurrentState(ChooseTemplatePage::EnState _State)
 }
 
 
-ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent)
+ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent), HasPreselection(false)
 {
 	setTitle(tr("<h1>Template selection</h1>"));
 	setSubTitle(tr("The <em>Photo Book</em> template defines the photobook features like size, number of pages, layouts, etc... </br> Use the following list to choose the template that you want for your <em>Photo Book</em>"));
@@ -203,7 +151,7 @@ ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent)
 	QHBoxLayout* TopLayout = new QHBoxLayout;
 	MLayout->addLayout(TopLayout);
 
-	QToolBar* TBType = new QToolBar(this);
+	TBType = new QToolBar(this);
 	TopLayout->addWidget(TBType);
 	TBType->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 	TBType->setIconSize(QSize(48, 48));
@@ -241,7 +189,10 @@ ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent)
 	LabSize->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 	TopLayout->addWidget(LabSize);
 	CBSize = new QComboBox(this);
+	CBSize->setMinimumWidth(250);
 	TopLayout->addWidget(CBSize);
+
+	TopLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
 
 	BottomFrame = new QFrame(this);
 	MLayout->addWidget(BottomFrame);
@@ -267,22 +218,24 @@ ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent)
 	NoTemplatesLabel->setWordWrap(true);
 	MLayout->addWidget(NoTemplatesLabel);
 
-	QVBoxLayout* RightLayout = new QVBoxLayout;
+	QGridLayout* RightLayout = new QGridLayout;
 	BottomLayout->addLayout(RightLayout);
-	RightLayout->addWidget(new QLabel(tr("Information:"), this));
+	RightLayout->addWidget(new QLabel(tr("Information:"), this), 0, 0);
 
 	WebView = new QWebView(this);
-	RightLayout->addWidget(WebView);
+	RightLayout->addWidget(WebView, 1, 0);
 	//WebView->load(QUrl("http://sites.google.com/site/orometemplates/km_magazinea4"));
 	connect(WebView, SIGNAL(loadStarted()), this, SLOT(slotWebLoadStarted()));
 	connect(WebView, SIGNAL(loadFinished(bool)), this, SLOT(slotWebLoadFinished(bool)));
-	WebView->setMinimumWidth(460);
-	WebView->setMinimumHeight(500);
+	//WebView->setMinimumWidth(460);
+	//WebView->setMinimumHeight(500);
+	WebView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+
 
 	NoInfoFrame = new QFrame(this);
-	NoInfoFrame->setMinimumHeight(WebView->minimumHeight());
-	NoInfoFrame->setMinimumWidth(WebView->minimumWidth());
-	RightLayout->addWidget(NoInfoFrame);
+	NoInfoFrame->setMinimumHeight(460);
+	NoInfoFrame->setMinimumWidth(500);
+	RightLayout->addWidget(NoInfoFrame, 1, 0);
 
 	QVBoxLayout* NoInfoFrameLayout = new QVBoxLayout(NoInfoFrame);
 	NoInfoLabel = new QLabel(NoInfoFrame);
@@ -297,6 +250,7 @@ ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent)
 	connect(InetgetTimer, SIGNAL(timeout()), this, SLOT(inetgetBlinkTimeout()));
 
 	setCurrentState(StateNoInfo);
+
 }
 
 int ChooseTemplatePage::nextId() const
@@ -327,8 +281,13 @@ void ChooseTemplatePage::initializePage()
 STPhotoLayout::EnLayoutType ChooseTemplatePage::currentType() const
 {
 	STPhotoLayout::EnLayoutType Res;
-	if (TypeActions->checkedAction())
-		Res = static_cast<STPhotoLayout::EnLayoutType>(TypeActions->checkedAction()->data().toInt());
+	if (HasPreselection)
+		Res = PreselectedType;
+	else
+	{
+		if (TypeActions->checkedAction())
+			Res = static_cast<STPhotoLayout::EnLayoutType>(TypeActions->checkedAction()->data().toInt());
+	}
 	return Res;
 }
 
@@ -355,13 +314,20 @@ bool ChooseTemplatePage::isComplete() const
 
 bool ChooseTemplatePage::typeSelected()
 {
-	return TypeActions->checkedAction() != 0;
+	return TypeActions->checkedAction() != 0 || HasPreselection;
+}
+
+void ChooseTemplatePage::setTemplateType(STPhotoLayout::EnLayoutType _Type)
+{
+	PreselectedType = _Type;
+	HasPreselection = true;
+	TBType->setVisible(false);
+	reloadTemplates();
 }
 
 void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 {
 	WebView->stop();
-	setCurrentState(StateGettingInfo);
 
 	//Load available sizes.
 	CBSize->clear();
@@ -376,7 +342,8 @@ void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 
 	//Get info url from model and display it.
 	QUrl InfoUrl = Model->photoLayoutInfoUrl(_Index);
-	QString DebugUrl = InfoUrl.toString();
+	WebView->setHtml("");
+	setCurrentState(StateGettingInfo);
 	WebView->load(InfoUrl);
 }
 
@@ -448,7 +415,11 @@ CustomSizesPage::CustomSizesPage(QWidget* _Parent) : QWizardPage(_Parent)
 	setSubTitle(tr("<p>Please specify the new <em>Photo Book</em> sizes and features</p>"));
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
 	
-	
+	MLayout->addWidget(new QLabel(tr("<h3>New Photo Book Name: </h3>"), this));
+	QLineEdit* LEName = new QLineEdit(this);
+	MLayout->addWidget(LEName);
+	registerField("photobookname*", LEName);
+
 	QGroupBox* GBCover = new QGroupBox(tr("Cover"), this); 
 	MLayout->addWidget(GBCover); 
 	QHBoxLayout* GBCoverLayout = new QHBoxLayout(GBCover); 
@@ -565,7 +536,6 @@ bool CustomSizesPage::validatePage()
 {
 	STPhotobookCollectionInfo PCInfo(field("photobookname").toString()); 
 	QDir PBDir(PCInfo.photoBookPath()); 
-	qDebug(PBDir.absolutePath().toLatin1()); 
 
 	STPhotoBookTemplate PhotoBook; 
 	PhotoBook.setSize(QSizeF(field("pagewidth").toInt(), field("pageheight").toInt())); 
@@ -636,45 +606,160 @@ int CustomSizesPage::nextId() const
 // class ChooseCreationModePage
 //_____________________________________________________________________________
 
-ChooseCreationModePage::ChooseCreationModePage(QWidget* _Parent) : QWizardPage(_Parent)
+ChooseCreationModePage::ChooseCreationModePage(QWidget* _Parent) : QWizardPage(_Parent), PredesignPhotoItems(0)
 {
 	setTitle(tr("<h1>Creation mode selection</h1>"));
-	setSubTitle(tr("<p>How do you want to create your <em>Photo Book</em>?</p> You have 2 options:"));
+	setSubTitle(tr("How do you want to create your <em>Photo Book</em>?:"));
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
 	
-	QFont RBFont = font(); 
-	RBFont.setBold(true); 
-	RBFont.setPointSize(12); 
-	RBAutomaticFill = new QRadioButton(tr("Automatic picture fill"), this); 
-	RBAutomaticFill->setFont(RBFont); 
-	RBAutomaticFill->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred); 
-	MLayout->addWidget(RBAutomaticFill); 
-	RBAutomaticFill->setChecked(true); 			
-	MLayout->addWidget(new QLabel(tr("<b>Automatically</b> fills your book with selected source media. <br/> <em> Note:Once the book is created you can modify everything you want.</em>"), this)); 
 
-	QRadioButton* RBManualFill = new QRadioButton(tr("Manual picture fill"), this); 
-	RBManualFill->setFont(RBFont); 
-	MLayout->addWidget(RBManualFill); 
-	MLayout->addWidget(new QLabel(tr("Lets the picture filling up to you."), this)); 
+	QGridLayout* TopLayout = new QGridLayout;
+	MLayout->addLayout(TopLayout);
 
+	QButtonGroup* BGCreationMode = new QButtonGroup(this);
+	PBAutomatic = new QxtPushButton(tr("<table><tr>"
+									   "<td><h1>Automatic picture fill</h1><p>"
+									   "<b>Automatically</b> fills your book with selected source media. <br/> <em> Note:Once the book is created you can modify everything you want.</em></td>"
+									   "<td><center><img src=:/st/wizards/automatic.png /></center></p></td></tr></table>"), this);
+	PBAutomatic->setCheckable(true);
+	PBAutomatic->setTextFormat(Qt::RichText);
+	PBAutomatic->setObjectName("OptionPushButton");
+	TopLayout->addWidget(PBAutomatic, 0, 0);
+	BGCreationMode->addButton(PBAutomatic);
+
+	QxtPushButton* PBManual = new QxtPushButton(tr("<table><tr>"
+												   "<td><h1>Manual picture fill</h1><p>"
+												   "Lets the picture filling up to you.</td>"
+												   "<td><center><img src=:/st/wizards/manual.png /></center></p></td></tr></table>"), this);
+	PBManual->setCheckable(true);
+	PBManual->setTextFormat(Qt::RichText);
+	PBManual->setObjectName("OptionPushButton");
+	TopLayout->addWidget(PBManual, 0, 1);
+	BGCreationMode->addButton(PBManual);
+
+
+
+	GBUsePredesign = new QxtGroupBox(tr("Use a predesign"), this);
+	MLayout->addWidget(GBUsePredesign);
+	GBUsePredesign->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+
+	QHBoxLayout* GBLayout = new QHBoxLayout(GBUsePredesign);
+
+	LVPredesigns = new QListView(GBUsePredesign);
+	LVPredesigns->setIconSize(QSize(32, 32));
+	LVPredesigns->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+
+	GBLayout->addWidget(LVPredesigns);
+
+	PredesignModel = new STPhotoBookCollectionModel(this);
+	PredesignModel->setThumbnailSize(LVPredesigns->iconSize());
+	LVPredesigns->setModel(PredesignModel);
+	connect(LVPredesigns->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(slotPredesignChanged(QModelIndex)));
+
+	TBDescription = new QTextBrowser(this);
+	GBLayout->addWidget(TBDescription);
+	TBDescription->setHtml("<h1>This is a sample description</h1><p>Here comes the description for each selected item. It depends upon a description that user enters while predesign creation.</p><img src=./automatic.png/>");
+
+	PBAutomatic->setChecked(true);
 }
 
 
 int ChooseCreationModePage::nextId() const
 {
-	if (RBAutomaticFill->isChecked())
-		return STAlbumWizard::Page_BuildOptions;
-	else 
-		return STAlbumWizard::Page_End;
+//	if (RBAutomaticFill->isChecked())
+	return STAlbumWizard::Page_BuildOptions;
+//	else
+//		return STAlbumWizard::Page_End;
 }
 
+void ChooseCreationModePage::setPhotoBookTemplateFileInfo(const QFileInfo& _FileInfo)
+{
+	//Fill predesigns of template.
+	STCollectionTemplateInfo TemplateInfo(_FileInfo.dir());
+	PredesignModel->setRootDir(TemplateInfo.predesignRootDir());
+	PredesignModel->load(true);
+	GBUsePredesign->setEnabled(true);
+	if (PredesignModel->rowCount()==0)
+	{
+		GBUsePredesign->setChecked(false);
+		GBUsePredesign->setEnabled(false);
+	}
+	else
+	{
+		LVPredesigns->setCurrentIndex(PredesignModel->index(0, 0));
+		GBUsePredesign->setChecked(true);
+	}
+
+}
+
+bool ChooseCreationModePage::validatePage()
+{
+	PredesignPhotoItems = 0;
+	if (usePredesign())
+	{
+		try
+		{
+			STPhotoBook CurrentPB;
+			CurrentPB.load(predesignDir());
+			PredesignPhotoItems = CurrentPB.numPhotoFrames();
+		}
+		catch (STError& _Error)
+		{
+			SMessageBox::critical(this, tr("Error loading predesign"), _Error.description());
+		}
+	}
+	return true;
+}
+
+bool ChooseCreationModePage::autoBuildModeSelected() const
+{
+	return PBAutomatic->isChecked();
+}
+
+bool ChooseCreationModePage::usePredesign() const
+{
+	return GBUsePredesign->isChecked();
+}
+
+QDir ChooseCreationModePage::predesignDir() const
+{
+	QDir Res;
+	if (usePredesign())
+		Res = QDir(PredesignModel->photoBookPath(LVPredesigns->currentIndex()));
+
+	return Res;
+}
+
+void ChooseCreationModePage::slotPredesignChanged(const QModelIndex& _Index)
+{
+	if (_Index.isValid()) //Defensive
+	{
+		//Lets load the photobook
+		QDir PhotoBookDir(PredesignModel->photoBookPath(_Index));
+		STPhotoBook CurrPhotoBook;
+		try
+		{
+			QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+			STPhotobookCollectionInfo PBInfo(PhotoBookDir);
+			CurrPhotoBook.load(PhotoBookDir);
+			TBDescription->setHtml(QString("<h1>%1</h1><p>%2</p><center><img src=""%3""/></center>").arg(CurrPhotoBook.name()).arg(CurrPhotoBook.description()).arg(
+					QString(QUrl::fromLocalFile(PBInfo.thumbnailFileName()).toEncoded())));
+		}
+		catch(STError& _Error)
+		{
+			SMessageBox::critical(this, tr("Error loading predesign"), _Error.description());
+		}
+		QApplication::restoreOverrideCursor();
+
+	}
+}
 
 //_____________________________________________________________________________
 //
 // class BuildOptionsPage
 //_____________________________________________________________________________
 
-BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
+BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent), AutoBuildMode(false)
 {
 	setTitle(tr("<h1>Build options</h1>"));
 	setSubTitle(tr("<p>Please, configure your <em>Photo Book</em>?</p> automatic options:"));
@@ -740,8 +825,12 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent)
 
 int BuildOptionsPage::nextId() const
 {
-	return STAlbumWizard::Page_SelectDiskFolder;
-
+	int Res;
+	if (AutoBuildMode)
+		Res = STAlbumWizard::Page_SelectDiskFolder;
+	else
+		Res = STAlbumWizard::Page_End;
+	return Res;
 }
 
 void BuildOptionsPage::initializePage()
@@ -798,6 +887,18 @@ void BuildOptionsPage::setTemplate(const STPhotoBookTemplate& _Template, STPhoto
 
 }
 
+void BuildOptionsPage::setAutoBuildMode(bool _Value)
+{
+	AutoBuildMode = _Value;
+	GBGeneral->setVisible(_Value);
+}
+
+void BuildOptionsPage::setUsePredesign(bool _Value)
+{
+	if (GBPhotoBook->isVisible())
+		GBPhotoBook->setVisible(!_Value);
+}
+
 
 //_____________________________________________________________________________
 //
@@ -810,7 +911,11 @@ void SelectDiskFolderPage::updateInfo()
 	//ImageBoxListView->model()->rowCount()
 	QString FontColor="#000000";
 	int SelectedImages = ImageBoxListView->model()->rowCount();
-	int OptimalImageNum = OptimalImagesPerPage * PagesToFill;
+	int OptimalImageNum = 0;
+	if (AbsoluteImageCount)
+		OptimalImageNum = AbsoluteImageCount;
+	else
+		OptimalImageNum = OptimalImagesPerPage * PagesToFill;
 	if ( SelectedImages < OptimalImageNum)
 		FontColor="#FF0000";
 	InfoLabel->setText(tr("Optimal image number: <span style=\"font-size:20px;\"><font color=\%1><b>%2</b></font></span>, Images per page: <span style=\"font-size:20px;\"><font  color=\%1><b>%3</b></font></span>").arg(
@@ -818,7 +923,7 @@ void SelectDiskFolderPage::updateInfo()
 
 }
 
-SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Parent), PagesToFill(0), OptimalImagesPerPage(0)
+SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Parent), PagesToFill(0), OptimalImagesPerPage(0), AbsoluteImageCount(0)
 {
 	setTitle(tr("<h1>Image selection</h1>"));
 	setSubTitle(tr("<p>Please choose your PhotoBook images. Drag&Drop them to the list at the bottom.</p>"));
@@ -871,10 +976,20 @@ void SelectDiskFolderPage::setTemplate(const STPhotoBookTemplate& _Template, con
 {
 	PagesToFill = _Options.pagesToFill();
 	OptimalImagesPerPage = _Template.numOptimalImagesPerPage();
+	AbsoluteImageCount = 0;
 	updateInfo();
 }
 
+void SelectDiskFolderPage::setAbsoluteImageCount(int _Value)
+{
+	AbsoluteImageCount = _Value;
+	updateInfo();
+}
 
+void SelectDiskFolderPage::clearSelection()
+{
+	ImageBoxListView->model()->sourceModel()->clear();
+}
 
 int SelectDiskFolderPage::nextId() const
 {
@@ -929,21 +1044,24 @@ AlbumWizardEndPage::AlbumWizardEndPage(QWidget* _Parent) : QWizardPage(_Parent)
 
 STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags), CustomSizesEnabled(false)
 {
-	setPage(Page_PhotoBookName, new PhotoBookNamePage(this)); 
-	setPage(Page_ChooseTemplateMode, new ChooseTemplateModePage(this)); 
+	setPage(Page_ChooseTemplateMode, new ChooseTemplateModePage(this));
 	CCustomSizesPage = new CustomSizesPage(this);
 	setPage(Page_CustomSizes, CCustomSizesPage); 
 	CTemplatePage = new ChooseTemplatePage(this);
 	setPage(Page_ChooseTemplate, CTemplatePage);
-	setPage(Page_CooseCreationMode, new ChooseCreationModePage(this));
+	CCreationModePage = new ChooseCreationModePage(this);
+	setPage(Page_CooseCreationMode, CCreationModePage);
 	PBuildOptions = new BuildOptionsPage(this);
 	setPage(Page_BuildOptions, PBuildOptions);
 	SDFolderPage = new SelectDiskFolderPage(this);
 	setPage(Page_SelectDiskFolder, SDFolderPage);
 	setPage(Page_End, new AlbumWizardEndPage(this)); 
 	
-	setStartId(Page_PhotoBookName);
-	
+	if (CustomSizesEnabled)
+		setStartId(Page_ChooseTemplateMode);
+	else
+		setStartId(Page_ChooseTemplate);
+
 #ifndef Q_WS_MAC
 	setWizardStyle(ModernStyle);
 #endif
@@ -975,7 +1093,7 @@ QFileInfo STAlbumWizard::photoBookTemplateFileInfo() const
 
 bool STAlbumWizard::autoFillSelected() const
 {
-	return hasVisitedPage(Page_SelectDiskFolder);
+	return CCreationModePage->autoBuildModeSelected();
 }
 	
 //! DEPRECARED !!!
@@ -998,16 +1116,28 @@ int STAlbumWizard::nextId() const
 	int Res = QWizard::nextId();
 	if (!CustomSizesEnabled && Res == Page_ChooseTemplateMode)
 		Res = Page_ChooseTemplate;
+
 	if (Res ==  Page_BuildOptions)
 	{
 		STPhotoLayout::EnLayoutType TemplType = CTemplatePage->currentType();
 		PBuildOptions->setTemplate(PhotoBookTemplate, TemplType);
-		if (TemplType != STPhotoLayout::TypeCalendar && TemplType != STPhotoLayout::TypePhotoBook)
+		PBuildOptions->setAutoBuildMode(CCreationModePage->autoBuildModeSelected());
+		PBuildOptions->setUsePredesign(CCreationModePage->usePredesign());
+		if (TemplType != STPhotoLayout::TypeCalendar && TemplType != STPhotoLayout::TypePhotoBook ||
+				CCreationModePage->usePredesign())
 			Res = PBuildOptions->nextId();
+	}
+	if (Res == Page_CooseCreationMode)
+	{
+		CCreationModePage->setPhotoBookTemplateFileInfo(CTemplatePage->photoBookTemplateFileInfo());
+		SDFolderPage->clearSelection();
 	}
 	if (Res == Page_SelectDiskFolder)
 	{
-		SDFolderPage->setTemplate(PhotoBookTemplate, PBuildOptions->getBuildOptions());
+		if (CCreationModePage->usePredesign())
+			SDFolderPage->setAbsoluteImageCount(CCreationModePage->predesignPhotoItems());
+		else
+			SDFolderPage->setTemplate(PhotoBookTemplate, PBuildOptions->getBuildOptions());
 	}
 
 	return Res; 
@@ -1028,6 +1158,21 @@ STPhotoBookBuildOptions STAlbumWizard::buildOptions() const
 	return PBuildOptions->getBuildOptions();
 }
 
+bool STAlbumWizard::usePredesign() const
+{
+	return CCreationModePage->usePredesign();
+}
+
+QDir STAlbumWizard::predesignDir() const
+{
+	return CCreationModePage->predesignDir();
+}
+
+void STAlbumWizard::setTemplateType(STPhotoLayout::EnLayoutType _Type)
+{
+	CTemplatePage->setTemplateType(_Type);
+}
+
 void STAlbumWizard::slotLoadTemplate()
 {
 	try
@@ -1041,31 +1186,4 @@ void STAlbumWizard::slotLoadTemplate()
 }
 
 
-//_____________________________________________________________________________
-//
-// class STAlbumMiniWizard
-//_____________________________________________________________________________
-
-STAlbumMiniWizard::STAlbumMiniWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags)
-{
-	setPage(Page_PhotoBookName, new PhotoBookNamePage(this)); 
-	setPage(Page_End, new AlbumWizardEndPage(this)); 
-	
-	setStartId(Page_PhotoBookName);
-	
-#ifndef Q_WS_MAC
-	setWizardStyle(ModernStyle);
-#endif
-	setPixmap(QWizard::LogoPixmap, QPixmap(":/st/wizards/albumwizard.png"));
-	setWindowTitle(QObject::tr("PhotoBook Wizard"));
-}
-
-
-int STAlbumMiniWizard::nextId() const
-{
-	int Res = QWizard::nextId();
-	if (Res == STAlbumWizard::Page_ChooseTemplateMode)
-		Res = Page_End;
-	return Res; 
-}
 

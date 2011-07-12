@@ -201,6 +201,7 @@ public:
 	STPhotoLayoutTemplate(const QString& _Locale = "");
 	void makePathsRelative(const QDir& _RootDir);
 	void storeCliparts(const QDir& _ClipartSharedDir, const QDir& _StorageDir);
+	void storeBackgrounds(const QDir& _StorageDir);
 	void storeMasks(const QDir& _StorageDir);
 	void storeFrames(const QDir& _StorageDir);
 	QDomElement createElement(QDomDocument& _Doc);
@@ -276,6 +277,7 @@ public:
 	QString backgroundImageAbsoluteFilePath() const;
 	//! Path de la imatge de background.
 	QString backgroundImageFilePath() const;
+	QString backgroundImageFile() const { return BackgroundImageFile; }
 	void setBackgroundImageFile(const QString& _FileName);
 	int key() const { return Key; }
 	void setKey(int _Value) { Key = _Value; }
@@ -309,6 +311,7 @@ public:
 	QImage thumbnailImage() const;
 	bool hasSameFrames(const STPhotoLayoutTemplate& _Other) const;
 	bool hasTextFrames() const;
+	bool hasClipartFrames() const;
 	int titleFrameIndex() const;
 
 	Qt::AspectRatioMode aspectRatioMode() const { return AspectRatioMode; }
@@ -316,6 +319,8 @@ public:
 
 	bool resourcesOnDisk() const;
 	void downloadResources(const STDom::STXmlPublisherSettings& _PublisherSettings, STFtpStatusWidget* _StatusWidget);
+
+	void generateKey();
 };
 
 bool operator<(int _Value, const STPhotoLayoutTemplate& _Other);

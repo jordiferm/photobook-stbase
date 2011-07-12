@@ -31,6 +31,7 @@
 #include <QGraphicsWidget> 
 #include <QFontMetrics>
 #include <QImage>
+#include <QDir>
 #include <QDebug>
 
 //Drag And Drop
@@ -45,6 +46,10 @@
 #include <QAction> 
 #include <QGraphicsProxyWidget> 
 
+//Others
+#include <QGraphicsColorizeEffect>
+#include <QGraphicsBlurEffect>
+
 #include "stupdateitemevent.h"
 #include "stimage.h"
 #include "imageTools.h" 
@@ -53,6 +58,7 @@
 //#include "ophotocollection.h" // For OPhotoCollectionImage.
 
 #include "stgraphicsitemmodifier.h"
+
 
 // _________________________________________________________________________*/
 //
@@ -205,6 +211,7 @@ void STGraphicsPhotoItem::layoutControlWidget()
 
 void STGraphicsPhotoItem::init()
 {
+	FrameImageFile = "";
 	PanAct = 0; 
 	AspectRatioMode = Qt::KeepAspectRatioByExpanding; 
 	ShadowDepth = 0;
@@ -217,6 +224,7 @@ void STGraphicsPhotoItem::init()
 	setShowNoImageMessage(true);
 	ImageEncrypted = false;
 	IgnoreExifRotation = false;
+	OrientationChanged = false;
 
 	QColor EmptyFrameColor("#FFD95C"); 
 	EmptyFrameColor.setAlpha(150);
@@ -241,6 +249,12 @@ void STGraphicsPhotoItem::init()
 	setAcceptDrops(true); 
 	RestoreZValue = false;
 	setAutoAdjustFramesToImages(true);
+
+	QGraphicsColorizeEffect* ColEffect = new QGraphicsColorizeEffect(this);
+	QGraphicsBlurEffect* BlurEffect = new QGraphicsBlurEffect(this);
+	ColEffect->setColor(Qt::red);
+	//setGraphicsEffect(ColEffect);
+	//setGraphicsEffect(BlurEffect);
 }
 
 void STGraphicsPhotoItem::checkForImageOrientation()
@@ -299,7 +313,10 @@ STGraphicsPhotoItem::~STGraphicsPhotoItem()
 void STGraphicsPhotoItem::adjustRectToImage()
 {
 	if (!PaintedImage.isNull())
+	{
+		OrientationChanged = false;
 		adjustRectToImage(PaintedImage.size());
+	}
 }
 
 void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
@@ -311,7 +328,7 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 	if (ImageRatio > 1) //=> Width > height => Adjust rect height
 	{
 		double NewHeight = FrameRect.width() / ImageRatio;
-		if (NewHeight < FrameRect.height())
+		if (NewHeight < FrameRect.height() && !OrientationChanged)
 		{
 			AdjustedRect.setHeight(NewHeight);
 			AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
@@ -326,7 +343,7 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 	else
 	{
 		double NewWidth = FrameRect.height() * ImageRatio;
-		if (NewWidth < FrameRect.width())
+		if (NewWidth < FrameRect.width() && !OrientationChanged)
 		{
 			AdjustedRect.setWidth(NewWidth);
 			AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
@@ -338,8 +355,14 @@ void STGraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 		}
 	}
 
+	if ((FrameRect.width() > FrameRect.height() && AdjustedRect.width() <= AdjustedRect.height())
+		|| (FrameRect.width() <= FrameRect.height() && AdjustedRect.width() > AdjustedRect.height()))
+		OrientationChanged = !OrientationChanged;
+
 	setRect(AdjustedRect);
+
 	setSelected(false);
+	modified();
 }
 
 void STGraphicsPhotoItem::setAutoAdjustFramesToImages(bool _Value)
@@ -389,7 +412,7 @@ void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 			}
 			// Thumbnail is already rotated.
 			Thumbnail = Thumbnail.transformed(Transform, Qt::SmoothTransformation);
-			setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+			setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
 			if (AutoAdjustFramesToImages)
 			{
 				QSize ImgSize;
@@ -406,7 +429,7 @@ void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 			qDebug("Image Info is Null :( .....");
 	}
 	if (!ImageAssigned)
-		setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+		setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
 
 	update();
 }
@@ -416,17 +439,24 @@ void  STGraphicsPhotoItem::setDoc(STDom::DDoc* _Doc)
 	if (STDom::DImageDoc* CImageDoc = static_cast<STDom::DImageDoc*>(_Doc))
 		setImage(*CImageDoc);
 	else
-		setImage(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
+		setThumbnail(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
 }
 
-void STGraphicsPhotoItem::setImage(const QPixmap& _ThumbNail, const QString& _ImageFileName)
+
+//! Obsolete, provided for compatibility reasons.
+void STGraphicsPhotoItem::setThumbnail(const QPixmap& _ThumbNail, const QString& _ImageFileName)
+{
+	setThumbnail(_ThumbNail.toImage(), _ImageFileName);
+}
+
+void STGraphicsPhotoItem::setThumbnail(const QImage& _ThumbNail, const QString& _ImageFileName)
 {
 	//CurrImage = QImage(_ImageFileName);
 	ImageLoaded = false;
 	Opacity = 1;
 	PanningPoint = QPoint(0, 0);
 	bool ChangingImage = !CurrImage.isNull();
-	CurrImage = _ThumbNail.toImage();
+	CurrImage = _ThumbNail;
 	setImageFileName(_ImageFileName); 
 	setBrush(QBrush(Qt::NoBrush));
 	checkForImageOrientation();
@@ -480,11 +510,62 @@ void STGraphicsPhotoItem::setAlphaChannel(const QImage& _AlphaChannel)
 	setBrush(CurrBrush);
 
 	update();
+	modified();
 }
 
-void STGraphicsPhotoItem::setFrameImage(const QImage& _FrameImage)
+void STGraphicsPhotoItem::setNoAlplaChannel()
 {
-	FrameImage = _FrameImage;
+	setAlphaChannel(QImage());
+}
+
+QFileInfo STGraphicsPhotoItem::frameMaskFile(const QString& _FrameImage)
+{
+	QFileInfo FIFileInfo(_FrameImage);
+	return QFileInfo(FIFileInfo.dir().absoluteFilePath(FIFileInfo.baseName() + ".mask"));
+}
+
+
+//Sets frame and related mask determined by frameMaskFile
+void STGraphicsPhotoItem::setFrameImage(const QString& _FrameImage)
+{
+	if (!_FrameImage.isNull())
+	{
+		if (!QFile::exists(_FrameImage))
+			return;
+
+		FrameImageFile = _FrameImage;
+		FrameImage = QImage(_FrameImage);
+
+		if (FrameImage.isNull())
+			return;
+
+		QRectF BRect = boundingRect();
+		QMatrix Matrix;
+		if ((BRect.width() > BRect.height() && FrameImage.width() < FrameImage.height())
+			|| (BRect.width() < BRect.height() && FrameImage.width() > FrameImage.height()))
+		{
+			Matrix.rotate(90);
+			FrameImage = FrameImage.transformed(Matrix);
+		}
+
+		QFileInfo FrameMaskFile = frameMaskFile(_FrameImage);
+		if (FrameMaskFile.exists())
+			setAlphaChannel(QImage(FrameMaskFile.absoluteFilePath()).transformed(Matrix));
+		else
+			setNoAlplaChannel();
+	}
+	else
+		setNoAlplaChannel();
+
+/*	FrameImage.setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskOutColor));
+
+	QImage Alpha = _FrameImage.alphaChannel();
+	//Alpha.invertPixels(QImage::InvertRgba);
+	Alpha.invertPixels();
+	setAlphaChannel(Alpha);
+	//setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskOutColor));
+	//FrameImage.setAlphaChannel(MaskImage);
+	//setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskInColor));*/
 	update();
 }
 
@@ -578,12 +659,14 @@ void STGraphicsPhotoItem::rotateImage(qreal _Degrees)
 	ImageMatrix.rotate(_Degrees);
 	ImageModified = true;
 	update();
+	modified();
 }
 
 void STGraphicsPhotoItem::scaleImage(qreal _Scale)
 {
 	CurrScale *= _Scale;
 	setImageScale(CurrScale);
+	modified();
 }
 
 void STGraphicsPhotoItem::setImageScale(qreal _Scale)
@@ -592,6 +675,7 @@ void STGraphicsPhotoItem::setImageScale(qreal _Scale)
 	ImageModified = true;
 
 	update();
+	modified();
 }
 
 qreal STGraphicsPhotoItem::imageScale()
@@ -618,7 +702,7 @@ void STGraphicsPhotoItem::setImageFileName(const QString& _ImageFileName)
 	CurrImageFileName = _ImageFileName; 
 	if (!_ImageFileName.isEmpty())
 	ImageMD5Sum = STImage::hashString(_ImageFileName); 	
-	
+	modified();
 }
 
 void STGraphicsPhotoItem::setImageSourcePath(const QString& _ImagesSourcePath)
@@ -680,7 +764,7 @@ void STGraphicsPhotoItem::loadElement(QDomElement& _Element)
 		if (ImgFInfo.exists() && ImgFInfo.isFile()) //Is not only a dir and it exists.
 		{
 			CImage.loadThumbnail(ImageFilePath);
-			setImage(QPixmap::fromImage(CImage), ImageFilePath);
+			setThumbnail(CImage, ImageFilePath);
 			if (ImageEncrypted)
 				loadImageSpawn();
 		}
@@ -693,20 +777,23 @@ void STGraphicsPhotoItem::loadElement(QDomElement& _Element)
 	PanningPoint.setX(_Element.attribute("panningx", "0").toDouble());
 	PanningPoint.setY(_Element.attribute("panningy", "0").toDouble());
 	
-	//Mask Image.
-	QString MaskSrc = _Element.attribute("mask_src", "");
-	if (!MaskSrc.isEmpty())
-	{
-		MaskSrc = ImagesSourcePath + "/" + MaskSrc; 
-		setAlphaChannel(QImage(MaskSrc)); 
-	}
-
 	QString FrameSrc = _Element.attribute("frame_src", "");
 	if (!FrameSrc.isEmpty())
 	{
 		FrameSrc = ImagesSourcePath + "/" + FrameSrc;
-		setFrameImage(QImage(FrameSrc));
+		setFrameImage(FrameSrc);
 	}
+
+	//Mask Image must be loaded before Frame because setFrameImage removes mask.
+	QString MaskSrc = _Element.attribute("mask_src", "");
+	if (!MaskSrc.isEmpty())
+	{
+		MaskSrc = ImagesSourcePath + "/" + MaskSrc;
+		setAlphaChannel(QImage(MaskSrc));
+	}
+
+	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
+
 	updateToolTip(); 
 	layoutControlWidget();
 }
@@ -761,6 +848,9 @@ QDomElement STGraphicsPhotoItem::createElement(QDomDocument& _Doc)
 	MElement.appendChild(PenEl); 
 
 	MElement.appendChild(STAbstractGraphicsItem::createTransformElement(this, _Doc));
+	//Effects
+	STAbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
+
 	return MElement; 
 }
 
@@ -768,12 +858,14 @@ void STGraphicsPhotoItem::setOpacity(qreal _Value)
 {
 	Opacity = _Value; 
 	update(); 
+	modified();
 }
 
 void STGraphicsPhotoItem::setShadowDepth(qreal _Value)
 {
 	ShadowDepth = _Value;
 	update(); 
+	modified();
 }
 
 bool STGraphicsPhotoItem::encryptedByFileName(const QString& _FilePath)
@@ -1170,28 +1262,33 @@ void STGraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 	else
 	if (const STFrameMimeData* FrameMimeData = qobject_cast<const STFrameMimeData*>(_Event->mimeData()))
 	{
-		setFrameImage(QImage(FrameMimeData->frameFilePath()));
+		setFrameImage(FrameMimeData->frameFilePath());
 	}
 	else
 	{
 		if (_Event->mimeData()->hasUrls())
 		{
-			QList<QUrl> Urls = _Event->mimeData()->urls();
-
-			QUrl FirstUrl = _Event->mimeData()->urls().first();
-			if (!FirstUrl.isEmpty() && FirstUrl.isValid())
+			if (_Event->mimeData()->urls().size() > 1)
+				emit imageListDropped(_Event->mimeData()->urls());
+			else
 			{
-				QString LocalPath = FirstUrl.toString();
-				//Only local file uris are supported.
-				QString ImagePath = FirstUrl.toLocalFile();
-				if (!ImagePath.isEmpty())
+				QList<QUrl> Urls = _Event->mimeData()->urls();
+
+				QUrl FirstUrl = _Event->mimeData()->urls().first();
+				if (!FirstUrl.isEmpty() && FirstUrl.isValid())
 				{
-					STDom::DImageDoc Image(ImagePath);
-					setImage(Image);
-					if (encryptedByFileName(ImagePath))
-						setImageEncrypted(true);
-					loadImageSpawn();
-					emit imageDropped(ImagePath, ImageMD5Sum);
+					QString LocalPath = FirstUrl.toString();
+					//Only local file uris are supported.
+					QString ImagePath = FirstUrl.toLocalFile();
+					if (!ImagePath.isEmpty())
+					{
+						STDom::DImageDoc Image(ImagePath);
+						setImage(Image);
+						if (encryptedByFileName(ImagePath))
+							setImageEncrypted(true);
+						loadImageSpawn();
+						emit imageDropped(ImagePath, ImageMD5Sum);
+					}
 				}
 			}
 		}
@@ -1202,6 +1299,13 @@ void STGraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 
 void STGraphicsPhotoItem::panImage(const QPointF& _PanningPoint)
 {
+	if (hasImage())
+	{
+		double DifX = (PanningPoint.x() * 10) - (_PanningPoint.x() * 10);
+		double DifY = (PanningPoint.y() * 10) - (_PanningPoint.y() * 10);
+		if (abs(DifX) > 1 || abs(DifY) > 1)
+			modified();
+	}
 	PanningPoint = _PanningPoint;
 	update();
 }

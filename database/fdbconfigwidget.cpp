@@ -27,6 +27,7 @@
 #include <QFileDialog> 
 #include <QPushButton> 
 #include <QCoreApplication> 
+#include <QLineEdit>
 #include "fsqldatabasesettings.h"
 #include "smappablecombobox.h"
 #include "fileselectlineedit.h"
@@ -65,7 +66,11 @@ FSingleDBConfigWidget::FSingleDBConfigWidget(FSqlDatabaseSettings& _Settings, QD
 	MLayout->addWidget(createEditor(Model->index(_Settings.keyFullName("username"))), MLayout->rowCount() - 1, 1);
 	
 	MLayout->addWidget(createHeaderLabel(Model->index(_Settings.keyFullName("passwd"))), MLayout->rowCount(), 0);
-	MLayout->addWidget(createEditor(Model->index(_Settings.keyFullName("passwd"))), MLayout->rowCount() - 1, 1);
+	QLineEdit* LEPassword = new QLineEdit(this);
+	LEPassword->setEchoMode(QLineEdit::Password);
+	_Mapper->addMapping(LEPassword, Model->index(_Settings.keyFullName("passwd")).column());
+	MLayout->addWidget(LEPassword, MLayout->rowCount() -1 , 1);
+	MLayout->addWidget(LEPassword, MLayout->rowCount() - 1, 1);
 	
 	MLayout->addWidget(createHeaderLabel(Model->index(_Settings.keyFullName("host"))), MLayout->rowCount(), 0);
 	MLayout->addWidget(createEditor(Model->index(_Settings.keyFullName("host"))), MLayout->rowCount() - 1, 1);

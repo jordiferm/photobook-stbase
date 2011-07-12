@@ -30,6 +30,11 @@ SPOromeImagesListView::SPOromeImagesListView(QWidget* _Parent ) : SPImagesListVi
 	connect(ClearAction, SIGNAL(triggered()), this, SLOT(clearImages()));
 	toolBar()->addAction(ClearAction);
 
+	QAction* AutoFillAction = new QAction(QIcon(":/st/oromel/autofill.png"), tr("AutoFill"), this);
+	connect(AutoFillAction, SIGNAL(triggered()), this, SIGNAL(autoFillImages()));
+	toolBar()->addAction(AutoFillAction);
+
+
 	QAction* ExportAction = new QAction(QIcon(":/st/oromel/export.png"), tr("Export"), this);
 	connect(ExportAction, SIGNAL(triggered()), this, SIGNAL(exportImages()));
 	toolBar()->addAction(ExportAction);

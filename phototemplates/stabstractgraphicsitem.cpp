@@ -28,6 +28,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView> 
 #include <QGraphicsWidget> 
+#include <QGraphicsDropShadowEffect>
+#include <QDebug>
 
 #include "stgraphicsitemmodifier.h" 
 #include "stcorneritem.h" 
@@ -35,7 +37,7 @@
 int STAbstractGraphicsItem::GridValue = 5; 
 bool STAbstractGraphicsItem::SnapToGrid = true; 
 
-STAbstractGraphicsItem::STAbstractGraphicsItem(QGraphicsItem* _Item) : ResizeAllowed(true), MControlGWidget(0), ControlsEnabled(true)
+STAbstractGraphicsItem::STAbstractGraphicsItem(QGraphicsItem* _Item) : ResizeAllowed(true), MControlGWidget(0), ControlsEnabled(true), Modified(false)
 {
 	Modifier = new STGraphicsItemModifier(_Item); 
 }
@@ -123,6 +125,41 @@ QDomElement STAbstractGraphicsItem::createTransformElement(const QGraphicsItem* 
 	return TransElement; 
 }
 
+void STAbstractGraphicsItem::appendEffectElements(QDomElement& _Parent, const QGraphicsItem* _Item, QDomDocument& _Doc)
+{
+	if (QGraphicsDropShadowEffect* NewEffect = qobject_cast<QGraphicsDropShadowEffect*>(_Item->graphicsEffect()))
+	{
+		QDomElement ShadowElement = _Doc.createElement("shadow");
+		ShadowElement.setAttribute("xoffset", NewEffect->xOffset());
+		ShadowElement.setAttribute("yoffset", NewEffect->yOffset());
+		ShadowElement.setAttribute("blurradius", NewEffect->blurRadius());
+		ShadowElement.setAttribute("color", NewEffect->color().name());
+		_Parent.appendChild(ShadowElement);
+	}
+}
+
+void STAbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, QDomElement& _Element)
+{
+	QDomNode CNode = _Element.firstChild();
+	while(!CNode.isNull())
+	{
+		QDomElement CEl = CNode.toElement(); // try to convert the node to an element.
+		if(!CEl.isNull())
+		{
+			if (CEl.tagName().toLower() == "shadow")
+			{
+				QGraphicsDropShadowEffect* NewEffect = new QGraphicsDropShadowEffect;
+				NewEffect->setXOffset(CEl.attribute("xoffset", "0").toDouble());
+				NewEffect->setYOffset(CEl.attribute("yoffset", "0").toDouble());
+				NewEffect->setBlurRadius(CEl.attribute("blurradius", "0").toDouble());
+				NewEffect->setColor(CEl.attribute("color", "#000000"));
+				_Item->setGraphicsEffect(NewEffect);
+			}
+		}
+		CNode = CNode.nextSibling();
+	}
+}
+
 QTransform STAbstractGraphicsItem::loadTransformElement(QDomElement& _Element)
 {
 	QTransform Res;
@@ -132,7 +169,6 @@ QTransform STAbstractGraphicsItem::loadTransformElement(QDomElement& _Element)
 		QDomElement CEl = CNode.toElement(); // try to convert the node to an element.
 		if(!CEl.isNull())
 		{
-			STAbstractGraphicsItem* CItem;
 			if (CEl.tagName().toLower() == "transform")
 			{
 				Res.setMatrix(CEl.attribute("m11", "0").toDouble(), 
@@ -252,6 +288,18 @@ void STAbstractGraphicsItem::updateToolTip(const QRectF& _Rect)
 {
 	Modifier->updateToolTip(_Rect); 
 }
+
+void STAbstractGraphicsItem::modified()
+{
+	Modifier->modified();
+}
+
+void STAbstractGraphicsItem::clearChanges()
+{
+	Modifier->clearChanges();
+}
+
+
 
 
 /*void STAbstractGraphicsItem::updateToolTip(QGraphicsItem* _Item)

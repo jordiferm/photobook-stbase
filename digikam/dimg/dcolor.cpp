@@ -83,7 +83,7 @@ QColor DColor::getQColor() const
         return eightBit.getQColor();
     }
 
-    return (QColor::QColor(m_red, m_green, m_blue));
+    return (QColor(m_red, m_green, m_blue));
 }
 
 void DColor::convertToSixteenBit()

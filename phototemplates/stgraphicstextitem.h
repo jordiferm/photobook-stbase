@@ -50,8 +50,12 @@ public:
 	void loadElement(QDomElement& _Element);
 	QDomElement createElement(QDomDocument& _Doc);
 	static QString tagName() { return "textitem"; }	
+	Qt::Alignment alignment() const;
+	void setAlignment(Qt::Alignment alignment);
+
 protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+	void mousePressEvent(QGraphicsSceneMouseEvent* _Event);
 };
 
 #endif

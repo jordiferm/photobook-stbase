@@ -31,6 +31,7 @@ public:
 	SPOromeImagesListView(QWidget* _Parent = 0);
 signals:
 	void exportImages();
+	void autoFillImages();
 	void createIndexImages();
 };
 

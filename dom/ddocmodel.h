@@ -130,12 +130,15 @@ public:
 	void setDocs(const QFileInfoList& _Images);
 	QFileInfoList docs() const;
 	QModelIndex addDoc(DDoc* _Doc);
+	QModelIndex addDoc(const QFileInfo& _Doc);
+	void removeDoc(const QModelIndex& _Index);
 	void setNoImagePixmap(const QPixmap& _Pixmap) { NoImagePixmap = _Pixmap; }
 	void insertDoc(const QModelIndex& _Index, DDoc* _Doc);
 	DDoc* doc(const QModelIndex& _Index) const;
 	void setMD5Sum(const QModelIndex& _Index, const QString& _MD5Sum);
 	void setDoc(const QModelIndex& _Index, DDoc* _Doc);
-	QModelIndex docIndex(const DDoc* _Doc);
+	QModelIndex docIndex(const DDoc* _Doc) const;
+	QModelIndex docIndex(const QFileInfo& _File) const;
 
 	//Drag & Drop.
 	Qt::DropActions supportedDropActions() const;

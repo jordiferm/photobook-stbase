@@ -39,10 +39,10 @@ void STGraphicsClipartItem::init()
 
 
 
-STGraphicsClipartItem::STGraphicsClipartItem(const QString& _FileName, QGraphicsItem* _Parent) 
+STGraphicsClipartItem::STGraphicsClipartItem(const QString& _FileName, QGraphicsItem* _Parent)
  : QGraphicsSvgItem(_FileName, _Parent), FileName(_FileName), STAbstractGraphicsItem(this)
 {
-	init(); 
+	init();
 }
 
 STGraphicsClipartItem::STGraphicsClipartItem(QGraphicsItem* _Parent) 
@@ -58,7 +58,8 @@ void STGraphicsClipartItem::loadElement(QDomElement& _Element)
 	Opacity = _Element.attribute("opacity", "1").toDouble();
 	//renderer()->load(ImageSourcePath + "/" + _Element.attribute("src", ""));
 	setTransform(STAbstractGraphicsItem::loadTransformElement(_Element)); 
-	STAbstractGraphicsItem::updateToolTip();  
+	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
+	STAbstractGraphicsItem::updateToolTip();
 }
 
 QDomElement STGraphicsClipartItem::createElement(QDomDocument& _Doc)
@@ -70,37 +71,42 @@ QDomElement STGraphicsClipartItem::createElement(QDomDocument& _Doc)
 	QFileInfo FNInfo(FileName); 
 	MElement.setAttribute("src", FNInfo.fileName()); 
 	MElement.appendChild(STAbstractGraphicsItem::createTransformElement(this, _Doc));
+	//Effects
+	STAbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
 
 	return MElement; 	
 }
 
 void STGraphicsClipartItem::setOpacity(qreal _Value)
 {
-	Opacity = _Value; 
+	Opacity = _Value;
 	qDebug("Set Opacity %f", _Value);
 	update(); 
+	modified();
 }
 
 
 void STGraphicsClipartItem::scaleToHeight(qreal _Height)
 {
-	QRectF BRect = boundingRect(); 
+	QRectF BRect = boundingRect();
 	qreal SY = _Height / BRect.height(); 
 	Modifier->scale(SY, SY); 
+	modified();
 }
 
 void STGraphicsClipartItem::scaleToWidth(qreal _Width)
 {
-	QRectF BRect =  transform().mapRect(boundingRect()); 
+	QRectF BRect =  transform().mapRect(boundingRect());
 	qreal SX = _Width / BRect.width(); 
 	Modifier->scale(SX, SX); 
+	modified();
 }
 
 
 void STGraphicsClipartItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* _Widget)
 {
 	_P->setOpacity(Opacity);
-	QGraphicsSvgItem::paint(_P, _Option, _Widget); 	
+	QGraphicsSvgItem::paint(_P, _Option, _Widget);
 }
 
 
@@ -110,6 +116,9 @@ QVariant STGraphicsClipartItem::itemChange(GraphicsItemChange change, const QVar
 		setControlsVisible(isSelected());
 	else
 	if (change == ItemPositionHasChanged)
+	{
 		STAbstractGraphicsItem::updateToolTip(); 
-	return QGraphicsItem::itemChange(change, value);	
+		modified();
+	}
+	return QGraphicsItem::itemChange(change, value);
 }

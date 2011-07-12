@@ -163,7 +163,7 @@ void PrintJobPrinter::printNonAtomic(QPrinter& _Printer, STDom::DDocPrintList& _
   \note With printJob we have to pass the images already cropped. If we have a printJob with 2 different formats of the same image and perhaps different crops of it we need to
   copy this image using PrintJob copy method. This is because PrintJob assumes tha images are the part of the image that user wants to print.
   */
-STDom::PrintJob PrintJobPrinter::storeImages(const STDom::PrintJob& _Job, const QDir& _DestDir, QProgressBar* _ProgBar)
+STDom::PrintJob PrintJobPrinter::storeImages(const STDom::PrintJob& _Job, const QDir& _DestDir, QProgressBar* _ProgBar, bool _Encode)
 {
 	STDom::PrintJob Res;
 
@@ -201,12 +201,22 @@ STDom::PrintJob PrintJobPrinter::storeImages(const STDom::PrintJob& _Job, const 
 			else
 				StoreImage = CImage;
 
-			QString ImageFileName = StoreImage.hashString() + "." + it->completeSuffix();
 			//To preserve printSize
 			StoreImage.setDotsPerMeterX(CImage.dotsPerMeterX());
 			StoreImage.setDotsPerMeterY(CImage.dotsPerMeterY());
 
+			QString ImageFileName;
+			if (_Encode)
+			{
+				StoreImage.blowFishEncode(PUBLISHER_KEY);
+				ImageFileName = StoreImage.hashString() + ".PNG";
+			}
+			else
+				ImageFileName = StoreImage.hashString() + "." + it->completeSuffix();
+
+
 			QString DestFilePath = _DestDir.absoluteFilePath(ImageFileName);
+
 			if (!StoreImage.save( DestFilePath, 0, 100))
 				ErrorStack.push(Error(QString(QObject::tr("Error storing image %1")).arg(DestFilePath)));
 
@@ -390,6 +400,15 @@ void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order
 					ErrorStack);
 	}
 
+}
+
+void PrintJobPrinter::storeEncoded(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, const QDir& _DestinationDir, QProgressBar* _ProgBar)
+{
+	STDom::PrintJob StoredJob = storeImages(_Job, _DestinationDir, _ProgBar, true);
+	StoredJob.addOrderPrints(_Order);
+	_Order.clearPrintPath(); //To make paths relative to order dir
+	_Order.saveXml(_DestinationDir.absoluteFilePath(XmlOrderInfo::orderXmlFileName()));
+	ErrorStack += _Order.errorStack();
 }
 
 void PrintJobPrinter::clearErrorStack()

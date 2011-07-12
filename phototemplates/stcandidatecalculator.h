@@ -56,6 +56,7 @@ public:
 	int totalPhotos() const { return TotalPhotos; }
 	int calcMargin(int _ItemAverage, int _PagesToFill) const { return qMin(_ItemAverage, _PagesToFill -1); }
 	void setFillBackgrounds(bool _Value) { FillBackgrounds = _Value; }
+	void markAsUsed(const STPhotoLayoutTemplate& _Template);
 };
 
 #endif // STCANDIDATECALCULATOR_H
