@@ -47,6 +47,26 @@ SET(prj_SRCS
 	templateinfolist.cpp
 	rendersettings.cpp
 	metainfo.cpp
+	collectioninfo.cpp
+	ichangescontrol.cpp
+	templatescene.cpp
+	corneritem.cpp
+	maskmimedata.cpp
+	framemimedata.cpp
+	scenemimedata.cpp
+	abstractgraphicsitem.cpp
+	graphicsclipartitem.cpp
+	graphicsphotoitem.cpp
+	graphicsitemmodifier.cpp
+	graphicsitemoperation.cpp
+	graphicsmonthitem.cpp
+	graphicspageitem.cpp
+	graphicstextitem.cpp
+	updateitemevent.cpp
+	buildoptions.cpp
+	candidatecalculator.cpp
+	document.cpp
+	pagelist.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -56,6 +76,26 @@ SET(prj_MOC_HDRS
 	templateinfolist.h
 	rendersettings.h
 	metainfo.h
+	collectioninfo.h
+	ichangescontrol.h
+	templatescene.h
+	corneritem.h
+	maskmimedata.h
+	framemimedata.h
+	scenemimedata.h
+	abstractgraphicsitem.h
+	graphicsclipartitem.h
+	graphicsphotoitem.h
+	graphicsitemmodifier.h
+	graphicsitemoperation.h
+	graphicsmonthitem.h
+	graphicspageitem.h
+	graphicstextitem.h
+	updateitemevent.h
+	buildoptions.h
+	candidatecalculator.h
+	document.h
+	pagelist.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

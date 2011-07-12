@@ -20,6 +20,8 @@
 #define METAINFO_H
 #include "stphotobookexport.h"
 #include <QDomElement>
+#include <QList>
+#include <QRectF>
 #include "sterror.h"
 #include "rendersettings.h"
 #include "templateinfo.h"
@@ -32,6 +34,7 @@ class ST_PHOTOBOOK_EXPORT MetaInfo
 {
 public:
 	ST_DECLARE_ERRORCLASS();
+	typedef QList<QRectF> TMarginRectList;
 
 private:
 	QString DesignName, Name, Description, ImagePath;
@@ -39,7 +42,9 @@ private:
 	int Version, Dpis, ModPages, MaxPages, MinPages;
 	RenderSettings::EnPrintPreProcessType PrintPreprocessType;
 	TemplateInfo::EnTemplateType TemplateType;
-	bool MultiPhoto, AutogenerateLayouts, PreferMinPages, Atomic, Cyphered;
+	bool MultiPhoto, AutogenerateLayouts, PreferMinPages, Atomic, Cyphered, CutPagesOnPrint;
+	TMarginRectList PageMarginRects, CoverMarginRects;
+	int NumOptimalImagesPerPage;
 
 	QDomElement createGlobalInfo(QDomDocument& _Doc) const;
 
@@ -77,12 +82,16 @@ public:
 
 	void setDpis(int _Value) { Dpis = _Value; }
 	int dpis() const { return Dpis; }
+	int dpM() const;
 
 	void setPrintPreprocessType(RenderSettings::EnPrintPreProcessType _Value) { PrintPreprocessType = _Value; }
 	RenderSettings::EnPrintPreProcessType printPreprocessType() const { return PrintPreprocessType; }
 
 	void setCyphered(bool _Value) { Cyphered = _Value; }
 	bool cyphered() const { return Cyphered; }
+
+	void setCutPagesOnPrint(bool _Value) { CutPagesOnPrint = _Value; }
+	bool cutPagesOnPrint() const { return CutPagesOnPrint; }
 
 
 	//------- Constraints info ----------
@@ -106,6 +115,15 @@ public:
 
 	void setAtomic(bool _Value) { Atomic = _Value; }
 	bool atomic() const { return Atomic; }
+
+	void setPageMarginRects(const TMarginRectList& _Value) { PageMarginRects = _Value; }
+	TMarginRectList pageMarginRects() const { return PageMarginRects; }
+
+	void setCoverMarginRects(const TMarginRectList& _Value) { CoverMarginRects = _Value; }
+	TMarginRectList coverMarginRects() const { return CoverMarginRects; }
+
+	int numOptimalImagesPerPage() const { return NumOptimalImagesPerPage; }
+	void setNumOptimalImagesPerPage(int _Value) { NumOptimalImagesPerPage = _Value; }
 };
 
 }

@@ -59,3 +59,11 @@ void MetaInfo::load(const QString& _XmlFilePath)
 {
 
 }
+
+
+//!Dots per meter;
+int MetaInfo::dpM() const
+{
+	return Dpis / 0.0254;
+}
+

@@ -52,13 +52,14 @@ public:
 	QString coverRenderFormat() const { return CoverRenderFormat; }
 
 	void setForPrint(bool _Value) { ForPrint = _Value; }
-	bool forPrint() { return ForPrint; }
+	bool forPrint() const { return ForPrint; }
 
 	void setPrintFirstAtLast(bool _Value) { PrintFirstAtLast = _Value; }
-	bool printFirstAtLatst() const { return PrintFirstAtLast;}
+	bool printFirstAtLast() const { return PrintFirstAtLast;}
 
 	EnPrintPreProcessType printPreprocessType() const { return PrintPreprocessType; }
 	void setPrintPreprocessType(EnPrintPreProcessType _Value) { PrintPreprocessType = _Value; }
+
 };
 
 }
