@@ -17,9 +17,20 @@
 ****************************************************************************/
 
 #include "templateinfo.h"
+#include "templatepaths.h"
 #include <QDir>
 
 using namespace SPhotoBook;
+
+TemplateInfo::TemplateInfo() :
+		BasePath(""), Name(""), Type(TypePhotoBook)
+{
+}
+
+TemplateInfo::TemplateInfo(const QString& _Name, const QSizeF& _Size, EnTemplateType _Type) :
+		BasePath(TemplatePaths::defaultTemplatesPath()), Name(_Name), Size(_Size), Type(_Type)
+{
+}
 
 TemplateInfo::TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, EnTemplateType _Type) :
 		BasePath(_BasePath), Name(_Name), Size(_Size), Type(_Type)

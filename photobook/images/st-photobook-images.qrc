@@ -1,5 +1,12 @@
 <RCC>
-    <qresource prefix="/photobook" >
+    <qresource prefix="/photobook">
         <file>hourglass.png</file>
+        <file>behavior.png</file>
+        <file>general.png</file>
+        <file>render.png</file>
+        <file>defaults.png</file>
+        <file>help.png</file>
+        <file>load.png</file>
+        <file>save.png</file>
     </qresource>
 </RCC>

@@ -68,6 +68,8 @@ SET(prj_SRCS
 	document.cpp
 	pagelist.cpp
 	metainfowidget.cpp
+	documentpageview.cpp
+	documentviewwidget.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -98,6 +100,8 @@ SET(prj_MOC_HDRS
 	document.h
 	pagelist.h
 	metainfowidget.h
+	documentpageview.h
+	documentviewwidget.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

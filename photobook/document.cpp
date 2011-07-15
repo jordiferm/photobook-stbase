@@ -297,6 +297,8 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		TemplateScene* CurrTemplate;
 		if (NPages == 0 && Covers.size() > 0) //First Page
 			CurrTemplate = CCalculator.getCandidate(Covers, MetInfo.maxPages() - NPages, MetInfo.numOptimalImagesPerPage());
+		else
+			CurrTemplate = CCalculator.getCandidate(Layouts, MetInfo.maxPages() - NPages, MetInfo.numOptimalImagesPerPage());
 		insertPage(createPage(CurrTemplate), NPages);
 		CCalculator.markAsUsed(CurrTemplate);
 		NPages++;

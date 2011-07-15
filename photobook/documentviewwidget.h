@@ -18,11 +18,11 @@
 **
 ****************************************************************************/
 
-#ifndef STSTAlbumWidget_H
-#define STSTAlbumWidget_H
+#ifndef STDocumentViewWidget_H
+#define STDocumentViewWidget_H
 
 #include <QWidget>
-#include "stphototemplatesexport.h"
+#include "stphotobookexport.h"
 
 /**
 PhotoBook Multiple Page Viewer.
@@ -31,30 +31,32 @@ PhotoBook Multiple Page Viewer.
 */
 class QStackedLayout;
 class QToolButton;
-class STAlbumPageGraphicsView;
-class STPhotoBookTemplate;
 class STClickableLabel;
 class QGraphicsItem;
-class STGraphicsSimpleTextItem;
-class STGraphicsPhotoItem;
 class QGraphicsScene;
-class STTemplateScene;
-class STGraphicsPageItem; 
-class STPhotoBook;
-class ST_PHOTOTEMPLATES_EXPORT STAlbumWidget : public QWidget
+
+namespace SPhotoBook
+{
+class Document;
+class TemplateScene;
+class DocumentPageView;
+class GraphicsPhotoItem;
+class GraphicsPageItem;
+class ST_PHOTOBOOK_EXPORT DocumentViewWidget : public QWidget
 {
 
 Q_OBJECT
 	QStackedLayout* StkLayout;
-	const STPhotoBook* PhotoBook;
+	const Document* PBDocument;
 	QToolButton* createActionButton(QWidget* _Parent, const QString& _IconFile, const QString& _Text = "");
-	void adjustViewToScene(STAlbumPageGraphicsView* _View, QGraphicsScene* _Scene);
+	void adjustViewToScene(DocumentPageView* _View, QGraphicsScene* _Scene);
 
 public:
 
-	STAlbumWidget(QWidget* _Parent = 0);
+	DocumentViewWidget(QWidget* _Parent = 0);
 	void clear();
-	void setPhotoBook(const STPhotoBook* _PhotoBook);
+	void setPBDocument(const SPhotoBook::Document* _PBDocument);
+
 	int sceneIndex(QGraphicsScene* _Scene);
 	void setCurrentPage(int _PageIndex);
 	//! Returns true if current page is the cover.
@@ -62,13 +64,12 @@ public:
 	//! \return Number of model pages
 	int numPages() const;
 	int currentPageIndex();
-	STAlbumPageGraphicsView* currentPage() const;
-	STTemplateScene* currentScene() const; 
+	DocumentPageView* currentPage() const;
+	TemplateScene* currentScene() const;
 	//! Returns focus item of current page or first selected item if there is no focus item.
 	QGraphicsItem* currentItem() const;
-	STGraphicsPhotoItem* currentPhotoItem() const;
-	STGraphicsSimpleTextItem* currentTextItem() const;
-	STGraphicsPageItem* currentPageItem() const;
+	GraphicsPhotoItem* currentPhotoItem() const;
+	GraphicsPageItem* currentPageItem() const;
 	QString currentPageInfo();
 	QString pageBoundariesInfo();
 	QString templateInfo();
@@ -85,5 +86,5 @@ signals:
 	void pageChanged(int _FromPage, int _ToPage);
 	void photoBookInfoChanged();
 };
-
+}
 #endif

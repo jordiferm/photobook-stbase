@@ -18,26 +18,25 @@
 **
 ****************************************************************************/
 
-#include "stalbumwidget.h"
+#include "documentviewwidget.h"
 #include <QLabel>
 #include <QLayout>
 #include <QStackedLayout>
 #include <QApplication>
 #include <QToolButton> 
 #include <QPaintEvent> 
+#include <QUrl>
 
-#include "stalbumpagegraphicsview.h"
+#include "documentpageview.h"
 #include "stclickablelabel.h"
+#include "graphicsphotoitem.h"
+#include "graphicspageitem.h"
 
-#include "sttemplatescene.h"
-#include "stgraphicsphotoitem.h"
-#include "stgraphicssimpletextitem.h"
-#include "stgraphicspageitem.h"
-#include "stgraphicstextitem.h"
-#include "stphotobook.h"
+#include "document.h"
 
+using namespace SPhotoBook;
 
-QToolButton* STAlbumWidget::createActionButton(QWidget* _Parent, const QString& _IconFile, const QString& _Text)
+QToolButton* DocumentViewWidget::createActionButton(QWidget* _Parent, const QString& _IconFile, const QString& _Text)
 {
 	QToolButton* ButRes = new QToolButton(_Parent); 
 	ButRes->setIcon(QIcon(_IconFile));
@@ -49,16 +48,16 @@ QToolButton* STAlbumWidget::createActionButton(QWidget* _Parent, const QString& 
 }
 
 
-void STAlbumWidget::adjustViewToScene(STAlbumPageGraphicsView* _View, QGraphicsScene* _Scene)
+void DocumentViewWidget::adjustViewToScene(DocumentPageView* _View, QGraphicsScene* _Scene)
 {
-	//TODO: Mirar qu� collons passa !
+	//TODO: See what a hell is going on here !
 	QRectF FitRect = _Scene->sceneRect(); 
 	//FitRect.setSize(QSizeF(FitRect.width() / 22, FitRect.height() / 22));
 	_View->fitInView( FitRect, Qt::KeepAspectRatio);
 }
 
-STAlbumWidget::STAlbumWidget(QWidget* _Parent)
- : QWidget(_Parent), PhotoBook(0) /*CurrentPhotoW(0),*/ /*CurrentPageW(0),*/
+DocumentViewWidget::DocumentViewWidget(QWidget* _Parent)
+ : QWidget(_Parent), PBDocument(0) /*CurrentPhotoW(0),*/ /*CurrentPageW(0),*/
 {
 	//setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
 	QVBoxLayout* MainLayout = new QVBoxLayout(this);
@@ -75,10 +74,10 @@ STAlbumWidget::STAlbumWidget(QWidget* _Parent)
 }
 
 
-void STAlbumWidget::clear()
+void DocumentViewWidget::clear()
 {
-	QList<STAlbumPageGraphicsView*> PageList = findChildren<STAlbumPageGraphicsView*>();
-	QList<STAlbumPageGraphicsView*>::iterator it;
+	QList<DocumentPageView*> PageList = findChildren<DocumentPageView*>();
+	QList<DocumentPageView*>::iterator it;
 
 	for (it = PageList.begin(); it != PageList.end(); ++it)
 	{
@@ -87,40 +86,41 @@ void STAlbumWidget::clear()
 	}
 }
 
-void STAlbumWidget::setPhotoBook(const STPhotoBook* _PhotoBook)
+
+void DocumentViewWidget::setPBDocument(const Document* _PBDocument)
 {
-	PhotoBook = _PhotoBook;
+	PBDocument = _PBDocument;
 	clear();
-	STPhotoBook::TPagesList	Pages = _PhotoBook->pages(); 
-	STPhotoBook::TPagesList::iterator it; 
+	PageList Pages = _PBDocument->pages();
+	PageList::iterator it;
 	for (it = Pages.begin(); it != Pages.end(); ++it)
 	{
-		STAlbumPageGraphicsView* NAlbumPage = new STAlbumPageGraphicsView(*it, this);
+		DocumentPageView* NAlbumPage = new DocumentPageView(*it, this);
 		if (it == Pages.begin())
-			NAlbumPage->setMarginRects( _PhotoBook->coverMarginRects());
-		else 
+			NAlbumPage->setMarginRects( _PBDocument->metaInfo().coverMarginRects());
+		else
 		{
-			NAlbumPage->setMarginRects( _PhotoBook->pageMarginRects());
-			NAlbumPage->setDrawTwoPagesEffect(_PhotoBook->photoBookTemplate().numPages() > 1);
+			NAlbumPage->setMarginRects(_PBDocument->metaInfo().coverMarginRects());
+			//NAlbumPage->setDrawTwoPagesEffect(_PBDocument->PBDocumentTemplate().numPages() > 1);
 		}
-		//adjustViewToScene(NAlbumPage, *it);		
 		StkLayout->addWidget(NAlbumPage);
 	}
 	firstPage();
 	emit photoBookInfoChanged();
 }
 
+
 /*!
   \return _Scene index or -1 if _Scene isn't here.
  */
-int STAlbumWidget::sceneIndex(QGraphicsScene* _Scene)
+int DocumentViewWidget::sceneIndex(QGraphicsScene* _Scene)
 {
 	int Res = -1;
 	int CurrentIndex = 0;
 	bool Found = false;
 	while (CurrentIndex < StkLayout->count() && !Found)
 	{
-		Found = qobject_cast<STAlbumPageGraphicsView*>(StkLayout->widget(CurrentIndex))->scene() == _Scene;
+		Found = qobject_cast<DocumentPageView*>(StkLayout->widget(CurrentIndex))->scene() == _Scene;
 		if (!Found)
 			CurrentIndex ++;
 	}
@@ -129,7 +129,7 @@ int STAlbumWidget::sceneIndex(QGraphicsScene* _Scene)
 	return Res;
 }
 
-void STAlbumWidget::setCurrentPage(int _PageIndex)
+void DocumentViewWidget::setCurrentPage(int _PageIndex)
 {
 	int OldPageIndex = StkLayout->currentIndex(); 
 	StkLayout->setCurrentIndex(_PageIndex);
@@ -137,7 +137,7 @@ void STAlbumWidget::setCurrentPage(int _PageIndex)
 	if (currentScene())
 	{
 		if (currentScene()->modifyAllFrames())
-			currentScene()->selectAllByType(STGraphicsPhotoItem::Type);
+			currentScene()->selectAllByType(GraphicsPhotoItem::Type);
 		else
 		{
 			if (currentScene()->hasEmptyPhotoItems())
@@ -149,84 +149,77 @@ void STAlbumWidget::setCurrentPage(int _PageIndex)
 }
 
 
-bool STAlbumWidget::showingCover() const
+bool DocumentViewWidget::showingCover() const
 {
 	return StkLayout->currentIndex() == 0;
 }
 
-int STAlbumWidget::numPages() const
+int DocumentViewWidget::numPages() const
 {
 	return StkLayout->count();
 }
 
-int STAlbumWidget::currentPageIndex()
+int DocumentViewWidget::currentPageIndex()
 {
 	return StkLayout->currentIndex();
 }
 
 
 //! \returns The Current page or null if no page is showed.
-STAlbumPageGraphicsView* STAlbumWidget::currentPage() const
+DocumentPageView* DocumentViewWidget::currentPage() const
 {
-	STAlbumPageGraphicsView* Res = 0;
+	DocumentPageView* Res = 0;
 	int CIndex = StkLayout->currentIndex();
 	if (CIndex >= 0 && CIndex < StkLayout->count() )	
-		Res = qobject_cast<STAlbumPageGraphicsView*>(StkLayout->widget(CIndex));
+		Res = qobject_cast<DocumentPageView*>(StkLayout->widget(CIndex));
 	return Res;
 }
 
-STTemplateScene* STAlbumWidget::currentScene() const 
+TemplateScene* DocumentViewWidget::currentScene() const
 {
-	STTemplateScene* Res = 0; 
-	STAlbumPageGraphicsView* CPage = currentPage();
+	TemplateScene* Res = 0;
+	DocumentPageView* CPage = currentPage();
 	if (CPage) //Defensive
-		Res = qobject_cast<STTemplateScene*>(CPage->scene());
+		Res = qobject_cast<TemplateScene*>(CPage->scene());
 	return Res;
 }
 
-QGraphicsItem* STAlbumWidget::currentItem() const
+QGraphicsItem* DocumentViewWidget::currentItem() const
 {
 	QGraphicsItem* Res = 0; 
-	if (STTemplateScene* CScene = currentScene())
+	if (TemplateScene* CScene = currentScene())
 		Res = CScene->currentItem();
 	return Res;
 }
 
-//! Returns STGraphicsPhotoItem if currentItem is STGraphicsPhotoItem otherwise returns false.
-STGraphicsPhotoItem* STAlbumWidget::currentPhotoItem() const
+//! Returns GraphicsPhotoItem if currentItem is GraphicsPhotoItem otherwise returns false.
+GraphicsPhotoItem* DocumentViewWidget::currentPhotoItem() const
 {
-	STGraphicsPhotoItem* Res = 0;
+	GraphicsPhotoItem* Res = 0;
 	QGraphicsItem* CItem = currentItem();
 	if (CItem)
 	{
-		Res = qgraphicsitem_cast<STGraphicsPhotoItem*>(CItem);
+		Res = qgraphicsitem_cast<GraphicsPhotoItem*>(CItem);
 		if (!Res)
-			Res = qgraphicsitem_cast<STGraphicsPageItem*>(CItem);
+			Res = qgraphicsitem_cast<GraphicsPageItem*>(CItem);
 	}
 	return Res;
 }
 
-STGraphicsSimpleTextItem* STAlbumWidget::currentTextItem() const
+GraphicsPageItem* DocumentViewWidget::currentPageItem() const
 {
-	STGraphicsSimpleTextItem* Res = 0;
-	QGraphicsItem* CItem = currentItem();
-	if (CItem)
-		Res = qgraphicsitem_cast<STGraphicsSimpleTextItem*>(CItem);
-	return Res;
-}
-
-STGraphicsPageItem* STAlbumWidget::currentPageItem() const
-{
-	STGraphicsPageItem* Res = 0; 
-	if (STTemplateScene* Scene = currentScene())
+	GraphicsPageItem* Res = 0;
+	if (TemplateScene* Scene = currentScene())
 		Res = Scene->pageItem();
 	return Res;
 }
 
-QString STAlbumWidget::currentPageInfo()
+QString DocumentViewWidget::currentPageInfo()
 {
 	QString Res;
-	if (PhotoBook->photoBookTemplate().hasFirstPages())
+	if (!PBDocument)
+		return Res;
+	if (!PBDocument->covers().isEmpty())
 	{
 		if ( showingCover() )
 			Res = tr("Model cover");
@@ -238,21 +231,21 @@ QString STAlbumWidget::currentPageInfo()
 	return Res;
 }
 
-QString STAlbumWidget::pageBoundariesInfo()
+QString DocumentViewWidget::pageBoundariesInfo()
 {
-	return tr("From %1 to %2 Pages").arg(PhotoBook->minPages()).arg(PhotoBook->maxPages());
+	return tr("From %1 to %2 Pages").arg(PBDocument->metaInfo().minPages()).arg(PBDocument->metaInfo().maxPages());
 }
 
-QString STAlbumWidget::templateInfo()
+QString DocumentViewWidget::templateInfo()
 {
 	QString Res;
-	if (PhotoBook)
-		Res = QString("<a href=\"%1\">%2</a>").arg(PhotoBook->photoBookTemplate().infoUrl()).arg(PhotoBook->photoBookTemplate().description());
+	if (PBDocument)
+		Res = QString("<a href=\"%1\">%2</a>").arg(PBDocument->templateInfo().infoUrl().toString()).arg(PBDocument->templateInfo().name());
 	return Res;
 }
 
 
-void STAlbumWidget::firstPage()
+void DocumentViewWidget::firstPage()
 {
 	if (StkLayout->count() > 0)  //Defensiva
 	{
@@ -260,7 +253,7 @@ void STAlbumWidget::firstPage()
 	}
 }
 
-void STAlbumWidget::nextPage()
+void DocumentViewWidget::nextPage()
 {
 	int CIndex = StkLayout->currentIndex();
 	if ( CIndex <  StkLayout->count() - 1)
@@ -270,14 +263,14 @@ void STAlbumWidget::nextPage()
 }
 
 
-void STAlbumWidget::previousPage()
+void DocumentViewWidget::previousPage()
 {
 	int CIndex = StkLayout->currentIndex();
 	if (CIndex > 0)	
 		setCurrentPage(CIndex - 1);
 }
 
-void STAlbumWidget::lastPage()
+void DocumentViewWidget::lastPage()
 {
 	if (StkLayout->count() > 0)  //Defensiva
 	{
@@ -285,16 +278,16 @@ void STAlbumWidget::lastPage()
 	}
 }
 
-void STAlbumWidget::showPage(int _Page)
+void DocumentViewWidget::showPage(int _Page)
 {
 	if (_Page >=0 && _Page < StkLayout->count())
 		setCurrentPage(_Page);
 }
 
 
-void STAlbumWidget::selectCurrentPageBackground()
+void DocumentViewWidget::selectCurrentPageBackground()
 {
-	if (STTemplateScene* CScene = currentScene())
+	if (TemplateScene* CScene = currentScene())
 	{
 		CScene->clearSelection();
 		CScene->pageItem()->setSelected(true); 

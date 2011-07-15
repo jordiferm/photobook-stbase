@@ -68,7 +68,7 @@ public:
 	QString imagePath() const { return ImagePath; }
 
 	void setSize(const QSizeF& _Value) { Size = _Value; }
-	QSizeF size() { return Size; }
+	QSizeF size() const { return Size; }
 
 	void setVersion(int _Value) { Version = _Value; }
 	int version() const { return Version; }
@@ -79,10 +79,13 @@ public:
 	void setSourceImagesPath(const QString& _Value) { SourceImagesPath = _Value; }
 	QString sourceImagesPath() const { return SourceImagesPath; }
 
+	void setCyphered(bool _Value) { Cyphered = _Value; }
+	bool cyphered() const { return Cyphered; }
+
 
 	//------- Render info ----------
 	void setPrintPageSize(const QSizeF& _Value) { PrintPageSize = _Value; }
-	QSizeF printPageSize() { return PrintPageSize; }
+	QSizeF printPageSize() const { return PrintPageSize; }
 
 	void setDpis(int _Value) { Dpis = _Value; }
 	int dpis() const { return Dpis; }
@@ -91,14 +94,11 @@ public:
 	void setPrintPreprocessType(RenderSettings::EnPrintPreProcessType _Value) { PrintPreprocessType = _Value; }
 	RenderSettings::EnPrintPreProcessType printPreprocessType() const { return PrintPreprocessType; }
 
-	void setCyphered(bool _Value) { Cyphered = _Value; }
-	bool cyphered() const { return Cyphered; }
-
 	void setCutPagesOnPrint(bool _Value) { CutPagesOnPrint = _Value; }
 	bool cutPagesOnPrint() const { return CutPagesOnPrint; }
 
 
-	//------- Constraints info ----------
+	//------- Behavior info ----------
 	void setModPages(int _Value) { ModPages = _Value; }
 	//! The number of pages mod modPages() must be 0.
 	int modPages() const { return ModPages; }

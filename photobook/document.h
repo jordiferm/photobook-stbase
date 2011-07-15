@@ -32,6 +32,7 @@
 #include "rendersettings.h"
 #include "pagelist.h"
 #include "metainfo.h"
+#include "templateinfo.h"
 
 /**
 Class that stores data of a PhotoBook.
@@ -90,6 +91,7 @@ private:
 	bool AutoFillBackgrounds;
 	int PagesToFill;
 	MetaInfo MetInfo;
+	TemplateInfo TInfo;
 
 	TemplateScene* createPage();
 	void configurePage(TemplateScene* _Page);
@@ -109,8 +111,12 @@ public:
 	~Document();
 	TemplateScene* randomTemplate(const PageList& _Templates);
 
+	//Info structs
 	void setMetaInfo(const MetaInfo& _MetaInfo) { MetInfo = _MetaInfo; }
 	MetaInfo metaInfo() const { return MetInfo; }
+	void setTemplateInfo(const TemplateInfo& _Value) { TInfo = _Value; }
+	TemplateInfo templateInfo() const { return TInfo; }
+
 
 	void clear(); 
 	bool isEmpty() const;

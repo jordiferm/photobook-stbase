@@ -52,7 +52,10 @@ private:
 
 
 public:
+	TemplateInfo();
+	TemplateInfo(const QString& _Name, const QSizeF& _Size, EnTemplateType );
 	TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, EnTemplateType );
+	bool isNull() { return Name.isEmpty(); }
 	void setName(const QString& _Value) { Name = _Value;  }
 	QString name() const { return Name; }
 	void setSize(const QSizeF& _Size) { Size = _Size; }

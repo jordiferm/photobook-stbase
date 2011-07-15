@@ -18,11 +18,16 @@
 
 #ifndef METAINFOWIDGET_H
 #define METAINFOWIDGET_H
-#include "stphotobookexport.h"
-
 #include <QWidget>
+#include "stphotobookexport.h"
+#include "metainfo.h"
 
 class QToolBar;
+class FPixmapSelector;
+class QwwRichTextEdit;
+class QComboBox;
+class QSpinBox;
+class QCheckBox;
 namespace SPhotoBook
 {
 
@@ -32,10 +37,42 @@ class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 
 	QToolBar* ToolBar;
 
+	//General
+	QComboBox* CBName;
+	QComboBox* CBDesignName;
+	FPixmapSelector* ISImage;
+	QwwRichTextEdit* TEDescription;
+	QComboBox* CBType;
+	QSpinBox* SBWidth;
+	QSpinBox* SBHeight;
+	QSpinBox* SBVersion;
+	QCheckBox* CBCyphered;
+
+	//Render
+	QSpinBox* SBPPageWidth;
+	QSpinBox* SBPPageHeight;
+	QSpinBox* SBDpis;
+	QComboBox* CBPreProcType;
+	QCheckBox* CBCutPages;
+
+	//Behavior
+	QSpinBox* SBModPages;
+	QSpinBox* SBMaxPages;
+	QSpinBox* SBMinPages;
+	QCheckBox* CBMultiPhoto;
+	QCheckBox* CBPreferMinImages;
+	QCheckBox* CBAtomic;
+	QSpinBox* SBOptImagesPerPage;
+
 	void createActions();
+	QWidget* createGeneralWidget();
+	QWidget* createRenderWidget();
+	QWidget* createBehaviorWidget();
 
 public:
     explicit MetaInfoWidget(QWidget *parent = 0);
+	void setMetaInfo(const MetaInfo& _MetaInfo);
+	MetaInfo metaInfo() const;
 
 signals:
 
