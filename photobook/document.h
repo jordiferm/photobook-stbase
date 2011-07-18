@@ -160,6 +160,7 @@ public:
 
 	PageList pages() const { return Pages; }
 	PageList layouts() const { return Layouts; }
+	void setLayouts(const PageList& _Layouts) { Layouts = _Layouts; }
 	PageList covers() const { return Covers; }
 	PageList underCovers() const { return UnderCovers; }
 

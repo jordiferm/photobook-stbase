@@ -44,11 +44,12 @@ public:
 //	void setText(const QString& _Text);
 	int type() const { return Type; }	
 	void setMovable(bool );
-	void loadElement(QDomElement& _Element);
-	QDomElement createElement(QDomDocument& _Doc);
+	void loadElement(const QDomElement& _Element);
+	QDomElement createElement(QDomDocument& _Doc) const;
 	static QString tagName() { return "textitem"; }	
 	Qt::Alignment alignment() const;
 	void setAlignment(Qt::Alignment alignment);
+	virtual AbstractGraphicsItem* clone() const;
 
 protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value);

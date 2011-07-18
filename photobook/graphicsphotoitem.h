@@ -194,8 +194,9 @@ public:
 	void setImageMode(EnImageResMode _ImageMode) { ImageMode = _ImageMode; }
 	//! Path to find images when calls to loadElement()
 	void setImageSourcePath(const QString& _ImagesSourcePath);
-	void loadElement(QDomElement& _Element);
-	QDomElement createElement(QDomDocument& _Doc);
+	QString imageSourcePath() const { return ImagesSourcePath;}
+	void loadElement(const QDomElement& _Element);
+	QDomElement createElement(QDomDocument& _Doc) const;
 	void setOpacity(qreal _Value); 
 	qreal opacity() const { return Opacity; }
 	QString imageMD5Sum() const { return ImageMD5Sum; }
@@ -222,6 +223,9 @@ public:
 	void setRectPos(const QPointF& _Pos);
 	void setRectPos(qreal _X, qreal _Y);
 	static void setLowResWarning(const QString& _WarningImage, int _MinDpis);
+
+	virtual AbstractGraphicsItem* clone() const;
+
 
 protected:
 	void paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* );

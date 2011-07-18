@@ -63,6 +63,7 @@ class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 	QCheckBox* CBPreferMinImages;
 	QCheckBox* CBAtomic;
 	QSpinBox* SBOptImagesPerPage;
+	QCheckBox* CBAutoGenerate;
 
 	void createActions();
 	QWidget* createGeneralWidget();

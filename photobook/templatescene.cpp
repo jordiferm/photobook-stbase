@@ -110,22 +110,46 @@ QString TemplateScene::storeClipartItemFile(GraphicsClipartItem* _CItem, const C
 }
 
 
-
-TemplateScene::TemplateScene(QObject* _Parent)
- : QGraphicsScene(_Parent), PageItem(0), ItemsMovable(false), ItemsResizable(true), ModifyAllFrames(false),
-	RenderBaseSize(0, 0), AutoAdjustFrames(true), IgnoreExifRotation(false), HasChanges(false)
+void TemplateScene::init()
 {
 	setBackgroundBrush(QColor("#DFE1BD"));
 	connect(this, SIGNAL(imageDropped(QString,QString)), this, SLOT(slotCheckModifyAll(QString)));
 	connect(this, SIGNAL(imageListDropped(QList<QUrl>)), this, SLOT(slotImageListDropped(QList<QUrl>)));
+	PageItem = 0;
+	ItemsMovable = false;
+	ItemsResizable = true;
+	ModifyAllFrames = false;
+	RenderBaseSize = QSize(0, 0);
+	AutoAdjustFrames = true;
+	IgnoreExifRotation = false;
+	HasChanges = false;
+
 }
 
+TemplateScene::TemplateScene(QObject* _Parent)
+ : QGraphicsScene(_Parent)
+{
+	init();
+}
 
+TemplateScene::TemplateScene(const QSizeF& _PageSize, QObject* _Parent)
+ : QGraphicsScene(_Parent)
+{
+	init();
+	GraphicsPageItem* NewPageItem = new GraphicsPageItem(QRectF(0, 0, _PageSize.width(), _PageSize.height()));
+	setPageItem(NewPageItem);
+}
 
 
 void TemplateScene::copy(TemplateScene* _Other)
 {
-
+	//Make sure photoitems are inserted to PhotoItems list.
+	//Use clone method in each item ? from virtual in AbstractGraphicsItem ?
+	QDomDocument Doc;
+	if (PageItem)
+		loadElement(PageItem->imageSourcePath(), _Other->createElement(Doc));
+	else
+		loadElement("", _Other->createElement(Doc));
 }
 
 /*!
@@ -274,6 +298,7 @@ QBrush TemplateScene::bgBrush() const
 void TemplateScene::clear()
 {
 	PageItem = 0;
+	PhotoItems.clear();
 	#if QT_VERSION >= 0x040400
 		QGraphicsScene::clear(); 
 	#else 
@@ -287,9 +312,10 @@ void TemplateScene::clear()
 	#endif   
 }
 
+//TODO: Make it O(1)
 QList<GraphicsPhotoItem *> TemplateScene::photoItems() const
 {
-	QList<GraphicsPhotoItem *> Res;
+/*	QList<GraphicsPhotoItem *> Res;
 	QList<QGraphicsItem *> AllItems = items();
 	QList<QGraphicsItem *>::iterator it;
 	for (it = AllItems.begin(); it != AllItems.end(); ++it)
@@ -298,7 +324,8 @@ QList<GraphicsPhotoItem *> TemplateScene::photoItems() const
 			Res.push_back(CPhotoItem);
 	}	
 	
-	return Res;
+	return Res;*/
+	return PhotoItems;
 }
 
 QList<GraphicsMonthItem*> TemplateScene::monthItems() const
@@ -508,7 +535,7 @@ void TemplateScene::addPhotoItem(GraphicsPhotoItem* _PhotoItem)
 	connect(_PhotoItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
 	connect(_PhotoItem, SIGNAL(imageListDropped(QList<QUrl>)), this, SIGNAL(imageListDropped(QList<QUrl>)));
 	connect(_PhotoItem, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&)));
-
+	PhotoItems.push_back(_PhotoItem);
 	QGraphicsScene::addItem(_PhotoItem);
 	modified();
 }
@@ -543,7 +570,7 @@ QGraphicsItem* TemplateScene::addClipartItem(const QString& _FileName)
 	return NewItem;
 }
 
-QGraphicsItem* TemplateScene::addTextFrame(const QString& _Html)
+GraphicsTextItem* TemplateScene::addTextFrame(const QString& _Html)
 {
 	GraphicsTextItem* NewFrame = new GraphicsTextItem;
 	NewFrame->setHtml(_Html);
@@ -555,6 +582,37 @@ QGraphicsItem* TemplateScene::addTextFrame(const QString& _Html)
 	NewFrame->adjustSize();
 	modified();
 	return NewFrame;
+}
+
+void TemplateScene::addSubTittleTextFrame(int _FrameIndex)
+{
+	if (PhotoItems.size() > _FrameIndex)
+	{
+		GraphicsPhotoItem* CItem = PhotoItems[_FrameIndex];
+
+		GraphicsTextItem* NewText = addTextFrame("TEXT TEXT TEXT TEXT");
+		NewText->setAlignment(Qt::AlignCenter);
+		QRectF CItemRect = CItem->boundingRect();
+		double TextFrameMarginY = 2;
+		double TextFrameMarginX = 15;
+		NewText->setPos(CItemRect.x() + TextFrameMarginX, CItemRect.y() + CItemRect.height() + TextFrameMarginY);
+	}
+/*	double TextFrameHeight = 15;
+	double TextFrameMarginX = 15;
+	double TextFrameMarginY = 2;
+	Frame& CFrame = FrameList[_FrameIndex];
+	CFrame.setHeight(CFrame.height() - TextFrameHeight);
+
+	Frame NewFrame(QRectF(CFrame.x() + TextFrameMarginX, CFrame.y() + CFrame.height() + TextFrameMarginY, CFrame.width() - TextFrameMarginX * 2, TextFrameHeight - TextFrameMarginY * 2));
+	NewFrame.setFrameType(STPhotoLayoutTemplate::Frame::TypeText);
+	QString Text;
+	for (int Vfor = 0; Vfor < static_cast<int>(NewFrame.width() / 20); Vfor++)
+	{
+		Text = Text + QObject::tr("TEXT ");
+	}
+	NewFrame.setText(Text);
+	NewFrame.setFont(QFont("Arial",16));
+	addFrame(NewFrame);*/
 }
 
 GraphicsMonthItem* TemplateScene::createMonthTextFrameItem()
@@ -624,7 +682,7 @@ QGraphicsItem* TemplateScene::addElement(const QString& _ImageSourcePath, QDomEl
 	return GrItem; 
 }
 
-void TemplateScene::loadElement(const QString& _ImageSourcePath, QDomElement& _SceneElement)
+void TemplateScene::loadElement(const QString& _ImageSourcePath, const QDomElement& _SceneElement)
 {
 	deletePageItem(); 
 	
@@ -673,9 +731,10 @@ QDomElement TemplateScene::createElement(QDomDocument& _Doc)
 	SceneEl.setAttribute("baseheight", RenderBaseSize.height());
 
 	//PageItem
-	SceneEl.appendChild(PageItem->createElement(_Doc));
+	if (PageItem) //Defensive
+		SceneEl.appendChild(PageItem->createElement(_Doc));
 
-	//All the items 	
+	//All the items
 	QList<QGraphicsItem *> Items = items(); 
 	QList<QGraphicsItem *>::iterator it; 
 	for (it = Items.begin(); it != Items.end(); ++it)
@@ -728,7 +787,10 @@ void TemplateScene::configureItem(AbstractGraphicsItem* _Item)
 void TemplateScene::addItemOnTop(QGraphicsItem* _Item)
 {
 	_Item->setZValue(topZValue());
-	addItem(_Item);
+	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(_Item))
+		addPhotoItem(CItem);
+	else
+		addItem(_Item);
 	modified();
 }
 
@@ -787,6 +849,39 @@ void TemplateScene::selectAllByType(int _Type)
 	}
 }
 
+
+void TemplateScene::splitXFrame(int _FrameIndex)
+{
+	QList<GraphicsPhotoItem *> PhotoItems = photoItems();
+	if (PhotoItems.size() > _FrameIndex)
+	{
+		GraphicsPhotoItem* CItem = PhotoItems[_FrameIndex];
+		QRectF ItemRect = CItem->rect();
+		CItem->setRect(ItemRect.x(), ItemRect.y(), ItemRect.width() / 2, ItemRect.height());
+
+		GraphicsPhotoItem* NewItem = new GraphicsPhotoItem;
+		NewItem->setRect(ItemRect.x() + ItemRect.width(), ItemRect.y(), ItemRect.width() / 2, ItemRect.height());
+		addPhotoItem(NewItem);
+	}
+}
+
+void TemplateScene::splitYFrame(int _FrameIndex)
+{
+	QList<GraphicsPhotoItem *> PhotoItems = photoItems();
+	if (PhotoItems.size() > _FrameIndex)
+	{
+		GraphicsPhotoItem* CItem = PhotoItems[_FrameIndex];
+		QRectF ItemRect = CItem->rect();
+		CItem->setRect(ItemRect.x(), ItemRect.y(), ItemRect.width(), ItemRect.height() / 2);
+
+		GraphicsPhotoItem* NewItem = new GraphicsPhotoItem;
+		NewItem->setRect(ItemRect.x() + ItemRect.width(), ItemRect.y(), ItemRect.width(), ItemRect.height() / 2);
+		addPhotoItem(NewItem);
+	}
+}
+
+
+
 QList<QGraphicsItem *> TemplateScene::selectedItemsOfType(int _Type)
 {
 	QList<QGraphicsItem *> Res; 
@@ -838,6 +933,7 @@ bool TemplateScene::hasEmptyPhotoItems() const
 	return Found; 
 }
 
+//! return num of visible photoitems.
 int TemplateScene::numPhotoItems() const
 {
 	int Res = 0;
@@ -893,6 +989,48 @@ int TemplateScene::numLandscapeFrames() const
 	{
 		if ((*it)->boundingRect().width() > (*it)->boundingRect().height())
 			Res++;
+	}
+	return Res;
+}
+
+bool TemplateScene::hasSameFrames(TemplateScene* _Other)
+{
+	bool Diferent = _Other->numPhotoItems() != numPhotoItems();
+	QList<GraphicsPhotoItem*> PhotoItems = photoItems();
+	QList<GraphicsPhotoItem*>::iterator it = PhotoItems.begin();
+	while (!Diferent && it != PhotoItems.end())
+	{
+		//Look for a frame line *it
+		bool Found = false;
+		QList<GraphicsPhotoItem*> OtherPhotoItems = _Other->photoItems();
+		QList<GraphicsPhotoItem*>::iterator otherit = OtherPhotoItems.begin();
+		while (!Found && otherit != OtherPhotoItems.end())
+		{
+			Found = (*otherit)->boundingRect() == (*it)->boundingRect();
+			++otherit;
+		}
+		Diferent = !Found;
+		++it;
+	}
+	return !Diferent;
+}
+
+int TemplateScene::biggestFrameIndex()
+{
+	int Res = -1;
+	double CurrentArea = 0;
+	int ItemIndex = 0;
+	QList<GraphicsPhotoItem*> PhotoItems = photoItems();
+	while (ItemIndex < PhotoItems.size())
+	{
+		QRectF CurrBRect = PhotoItems[ItemIndex]->boundingRect();
+		if (CurrBRect.width() * CurrBRect.height() > CurrentArea)
+		{
+			CurrentArea = CurrBRect.width() * CurrBRect.height();
+			Res = ItemIndex;
+		}
+
+		++ItemIndex;
 	}
 	return Res;
 }

@@ -50,8 +50,8 @@ private:
 public:
 	GraphicsClipartItem(const QString & fileName, QGraphicsItem * parent = 0);
 	GraphicsClipartItem(QGraphicsItem * parent = 0);
-	void loadElement(QDomElement& _Element);
-	QDomElement createElement(QDomDocument& _Doc);
+	void loadElement(const QDomElement& _Element);
+	QDomElement createElement(QDomDocument& _Doc) const;
 	int type() const { return Type; }
 	void setFileName(const QString& _FileName) { FileName = _FileName; }
 	static QString tagName() { return "clipartitem"; }	
@@ -60,6 +60,7 @@ public:
 	qreal opacity() const { return Opacity; }
 	void scaleToHeight(qreal _Height);
 	void scaleToWidth(qreal _Width);
+	virtual AbstractGraphicsItem* clone() const;
 
 protected:
 	void paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* _Widget = 0);	

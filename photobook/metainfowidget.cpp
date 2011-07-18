@@ -174,6 +174,9 @@ QWidget* MetaInfoWidget::createBehaviorWidget()
 	SBOptImagesPerPage->setRange(0, 9999);
 	FormLayout->addRow(tr("Optimal images per page"), SBOptImagesPerPage);
 
+	CBAutoGenerate = new QCheckBox(this);
+	FormLayout->addRow(tr("Auto generate layouts"), CBAutoGenerate);
+
 	return Widget;
 
 }
@@ -233,6 +236,8 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	CBPreferMinImages->setCheckable(_MetaInfo.preferMinPages());
 	CBAtomic->setCheckable(_MetaInfo.atomic());
 	SBOptImagesPerPage->setValue(_MetaInfo.numOptimalImagesPerPage());
+	CBAutoGenerate->setChecked(_MetaInfo.autogenerateLayouts());
+
 }
 
 MetaInfo MetaInfoWidget::metaInfo() const
@@ -262,4 +267,7 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	Res.setPreferMinPages(CBPreferMinImages->isChecked());
 	Res.setAtomic(CBAtomic->isChecked());
 	Res.setNumOptimalImagesPerPage(SBOptImagesPerPage->value());
+	Res.setAutogenerateLayouts(CBAutoGenerate->isChecked());
+
+	return Res;
 }

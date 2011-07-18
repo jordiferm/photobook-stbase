@@ -70,6 +70,7 @@ SET(prj_SRCS
 	metainfowidget.cpp
 	documentpageview.cpp
 	documentviewwidget.cpp
+	templategenerator.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -102,6 +103,7 @@ SET(prj_MOC_HDRS
 	metainfowidget.h
 	documentpageview.h
 	documentviewwidget.h
+	templategenerator.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

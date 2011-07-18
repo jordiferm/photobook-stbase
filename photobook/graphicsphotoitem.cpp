@@ -702,7 +702,7 @@ void GraphicsPhotoItem::setImageSourcePath(const QString& _ImagesSourcePath)
 	ImagesSourcePath = _ImagesSourcePath;
 }
 
-void GraphicsPhotoItem::loadElement(QDomElement& _Element)
+void GraphicsPhotoItem::loadElement(const QDomElement& _Element)
 {
 	QDomNode CNode = _Element.firstChild();
 	while(!CNode.isNull())
@@ -790,7 +790,7 @@ void GraphicsPhotoItem::loadElement(QDomElement& _Element)
 	layoutControlWidget();
 }
 
-QDomElement GraphicsPhotoItem::createElement(QDomDocument& _Doc)
+QDomElement GraphicsPhotoItem::createElement(QDomDocument& _Doc) const
 {
 	QDomElement MElement = _Doc.createElement(tagName());
 	if (!imageFileName().isEmpty())
@@ -893,6 +893,30 @@ void GraphicsPhotoItem::setLowResWarning(const QString& _WarningImage, int _MinD
 {
 	LowResWarningImage = _WarningImage;
 	LowResMinDpis = _MinDpis;
+}
+
+
+AbstractGraphicsItem* GraphicsPhotoItem::clone() const
+{
+	GraphicsPhotoItem* Res = new GraphicsPhotoItem;
+
+	if (!FrameImageFile.isEmpty())
+		Res->setFrameImage(FrameImageFile);
+	if (!CurrImageFileName.isEmpty())
+		Res->setImageFileName(CurrImageFileName);
+
+	Res->setScale(CurrScale);
+
+	Res->ImagesSourcePath = ImagesSourcePath;
+	Res->Opacity = Opacity;
+
+	Res->AspectRatioMode = AspectRatioMode;
+	Res->MultiSelection = MultiSelection;
+	Res->ImageEncrypted = ImageEncrypted;
+	Res->AutoAdjustFramesToImages;
+	Res->IgnoreExifRotation;
+
+	return Res;
 }
 
 

@@ -66,7 +66,7 @@ void GraphicsTextItem::setMovable(bool _Movable)
 }
 
 
-void GraphicsTextItem::loadElement(QDomElement& _Element)
+void GraphicsTextItem::loadElement(const QDomElement& _Element)
 {
 	setPos(_Element.attribute("x", "0").toDouble(), 
 			_Element.attribute("y", "0").toDouble());
@@ -89,7 +89,7 @@ void GraphicsTextItem::loadElement(QDomElement& _Element)
 	AbstractGraphicsItem::updateToolTip();
 }
 
-QDomElement GraphicsTextItem::createElement(QDomDocument& _Doc)
+QDomElement GraphicsTextItem::createElement(QDomDocument& _Doc) const
 {
 	QDomElement MElement = _Doc.createElement(tagName());
 	MElement.setAttribute("x", pos().x()); 
@@ -128,6 +128,16 @@ void GraphicsTextItem::setAlignment(Qt::Alignment alignment)
 	cursor.clearSelection();
 	setTextCursor(cursor);
 }
+
+AbstractGraphicsItem* GraphicsTextItem::clone() const
+{
+	GraphicsTextItem* Res = new GraphicsTextItem;
+
+	QDomDocument Doc;
+	Res->loadElement(createElement(Doc));
+	return Res;
+}
+
 
 QVariant GraphicsTextItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {

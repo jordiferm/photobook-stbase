@@ -52,7 +52,7 @@ GraphicsClipartItem::GraphicsClipartItem(QGraphicsItem* _Parent)
 	init(); 
 }
 
-void GraphicsClipartItem::loadElement(QDomElement& _Element)
+void GraphicsClipartItem::loadElement(const QDomElement& _Element)
 {
 	setPos(_Element.attribute("x", "0").toDouble(), 
 			_Element.attribute("y", "0").toDouble());
@@ -63,7 +63,7 @@ void GraphicsClipartItem::loadElement(QDomElement& _Element)
 	AbstractGraphicsItem::updateToolTip();
 }
 
-QDomElement GraphicsClipartItem::createElement(QDomDocument& _Doc)
+QDomElement GraphicsClipartItem::createElement(QDomDocument& _Doc) const
 {
 	QDomElement MElement = _Doc.createElement(tagName());
 	MElement.setAttribute("x", pos().x()); 
@@ -101,6 +101,14 @@ void GraphicsClipartItem::scaleToWidth(qreal _Width)
 	qreal SX = _Width / BRect.width(); 
 	Modifier->scale(SX, SX); 
 	modified();
+}
+
+AbstractGraphicsItem* GraphicsClipartItem::clone() const
+{
+	GraphicsClipartItem* Res = new GraphicsClipartItem;
+	QDomDocument Doc;
+	Res->loadElement(createElement(Doc));
+	return Res;
 }
 
 

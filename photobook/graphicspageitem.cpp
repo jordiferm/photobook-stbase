@@ -70,7 +70,7 @@ void GraphicsPageItem::setResizeAllowed(bool _Value)
 { //Does nothing  
 } 
 
-QDomElement GraphicsPageItem::createElement(QDomDocument& _Doc)
+QDomElement GraphicsPageItem::createElement(QDomDocument& _Doc) const
 {
 	QDomElement  Res = GraphicsPhotoItem::createElement(_Doc);
 	Res.setTagName(tagName()); 

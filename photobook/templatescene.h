@@ -51,6 +51,7 @@ class GraphicsClipartItem;
 class GraphicsSuperImposeItem;
 class AbstractGraphicsItem;
 class GraphicsMonthItem;
+class GraphicsTextItem;
 
 class ST_PHOTOBOOK_EXPORT TemplateScene : public QGraphicsScene, public IChangesControl
 {
@@ -70,12 +71,15 @@ private:
 	bool IgnoreExifRotation;
 	bool HasChanges;
 	QSizeF RenderBaseSize;
+	QList<GraphicsPhotoItem *> PhotoItems;
 	
 	QStringList storePhotoItemImage(GraphicsPhotoItem* _CItem, const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages = false);
 	QString storeClipartItemFile(GraphicsClipartItem* _CItem, const CollectionInfo& _CInfo);
-	
+	void init();
+
 public:
 	TemplateScene(QObject* _Parent = 0);
+	TemplateScene(const QSizeF& _PageSize, QObject* _Parent);
 	void copy(TemplateScene* _Other);
 	void replaceTemplate(const TemplateScene* _Other);
 	void setImageToSelectedItems(const QPixmap& _ThumbNail, const QString& _ImageFileName);
@@ -90,7 +94,6 @@ public:
 
 	QList<GraphicsPhotoItem *> photoItems() const;
 	QList<GraphicsMonthItem *> monthItems() const;
-
 
 	void loadHiResImages(GraphicsPhotoItem* _Item);
 	void loadHiResImages(QProgressBar* _Progress = 0);
@@ -108,14 +111,15 @@ public:
 	void setPageItem(GraphicsPageItem* _PageItem);
 	void deletePageItem();
 	QGraphicsItem* addClipartItem(const QString& _FileName);
-	QGraphicsItem* addTextFrame(const QString& _Html);
+	GraphicsTextItem* addTextFrame(const QString& _Html);
+	void addSubTittleTextFrame(int _FrameIndex);
 	GraphicsMonthItem* createMonthTextFrameItem();
 	//void performSelectedItemsOp(STGraphicsItemOperation* _Operation);
 	void setItemsResizable(bool _Resizable);
 	void setItemsMovable(bool _Movable);
 	//! Adds the element to scene.
 	QGraphicsItem* addElement(const QString& _ImageSourcePath, QDomElement& _Element);
-	void loadElement(const QString& _ImageSourcePath, QDomElement& _SceneElement);
+	void loadElement(const QString& _ImageSourcePath, const QDomElement& _SceneElement);
 	QDomElement createElement(QDomDocument& _Doc);
 	QStringList storePhotoItemImages(const CollectionInfo& _CInfo, bool _OnlyDesignImages = false);
 	qreal topZValue() const;
@@ -124,10 +128,17 @@ public:
 	//! Adds an items and sets topZValue + 1 to it.
 	void addItemOnTop(QGraphicsItem* _Item);
 	QGraphicsItem* currentItem() const;
+
+
+	//--- Selection
 	void selectNone();
 	void selectAll();
 	void setAllControlsVisible(bool _Value);
 	void selectAllByType(int _Type);
+
+	//--- Autocreation
+	void splitXFrame(int _FrameIndex);
+	void splitYFrame(int _FrameIndex);
 
 	//--- Statistics
 	//! \return Items of type _Type that are selected.
@@ -139,6 +150,8 @@ public:
 	int numMonthItems() const;
 	int numEmptyPhotoItems() const;
 	int numLandscapeFrames() const;
+	bool hasSameFrames(TemplateScene* _Other);
+	int biggestFrameIndex();
 
 	//-- Operators
 	bool operator<(const TemplateScene& _Other) const;

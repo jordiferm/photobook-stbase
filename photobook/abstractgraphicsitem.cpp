@@ -140,7 +140,7 @@ void AbstractGraphicsItem::appendEffectElements(QDomElement& _Parent, const QGra
 	}
 }
 
-void AbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, QDomElement& _Element)
+void AbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, const QDomElement& _Element)
 {
 	QDomNode CNode = _Element.firstChild();
 	while(!CNode.isNull())
@@ -162,7 +162,7 @@ void AbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, QDomElement&
 	}
 }
 
-QTransform AbstractGraphicsItem::loadTransformElement(QDomElement& _Element)
+QTransform AbstractGraphicsItem::loadTransformElement(const QDomElement& _Element)
 {
 	QTransform Res;
 	QDomNode CNode = _Element.firstChild();

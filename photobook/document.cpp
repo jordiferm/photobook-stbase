@@ -47,7 +47,7 @@ using namespace SPhotoBook;
 
 TemplateScene* Document::createPage()
 {
-	TemplateScene* Scene = new TemplateScene(this);
+	TemplateScene* Scene = new TemplateScene(TInfo.size(), this);
 	configurePage(Scene);
 	return Scene; 
 }

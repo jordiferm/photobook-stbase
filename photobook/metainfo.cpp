@@ -53,7 +53,7 @@ void MetaInfo::setDefaults()
 	PrintPreprocessType = RenderSettings::TypeNone;
 	TemplateType = TemplateInfo::TypePhotoBook;
 	MultiPhoto = false;
-	AutogenerateLayouts = true;
+	AutogenerateLayouts = false;
 	PreferMinPages = true;
 	Atomic = true;
 	Cyphered = false;

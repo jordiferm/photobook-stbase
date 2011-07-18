@@ -68,8 +68,8 @@ public:
 	AbstractGraphicsItem(QGraphicsItem* _Item);
 	virtual ~AbstractGraphicsItem();
 	void createStandardCorners();
-	virtual QDomElement createElement(QDomDocument& _Doc) = 0;
-	virtual void loadElement(QDomElement& _Element) = 0;
+	virtual QDomElement createElement(QDomDocument& _Doc) const = 0;
+	virtual void loadElement(const QDomElement& _Element) = 0;
 	bool resizeAllowed() const;
 
 	//Controls
@@ -81,13 +81,15 @@ public:
 	virtual void setResizeAllowed(bool _Value) { ResizeAllowed = _Value; } 
 	static QDomElement createTransformElement(const QGraphicsItem* _Item, QDomDocument& _Doc);
 	static void appendEffectElements(QDomElement& _Parent, const QGraphicsItem* _Item, QDomDocument& _Doc);
-	void loadEffectElements(QGraphicsItem* _Item, QDomElement& _Element);
-	static QTransform loadTransformElement(QDomElement& _Element);
+	void loadEffectElements(QGraphicsItem* _Item, const QDomElement& _Element);
+	static QTransform loadTransformElement(const QDomElement& _Element);
 	static void setGridValue(int _Value) { GridValue = _Value; }
 	static int gridValue() { return GridValue; }
 	static void setSnapToGrid(bool _Value) { SnapToGrid = _Value; }
 	static bool snapToGrid() { return SnapToGrid; }
 	static qreal snapToGridValue(qreal _Value);
+
+	virtual AbstractGraphicsItem* clone() const = 0;
 
 protected:
 	virtual QSizeF mouseIntersecsThreshold(QGraphicsItem* _Item);

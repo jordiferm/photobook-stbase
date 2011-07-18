@@ -48,7 +48,7 @@ public:
 	int type() const { return Type; }	
 	void loadElement(QDomElement& _Element);
 	void setResizeAllowed(bool _Value);
-	QDomElement createElement(QDomDocument& _Doc);
+	QDomElement createElement(QDomDocument& _Doc) const;
 	static QString tagName() { return "pageitem"; }	
 	
 };
