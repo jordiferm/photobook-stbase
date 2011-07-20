@@ -106,8 +106,10 @@ int GraphicsPhotoItem::LowResImageDPIs = 72;
 QString GraphicsPhotoItem::LowResWarningImage(":/phototemplates/dialog-warning.png");
 int GraphicsPhotoItem::LowResMinDpis = 100;
 bool GraphicsPhotoItem::TouchInterface = false;
-
-
+bool GraphicsPhotoItem::ThresholdMoving = true;
+bool GraphicsPhotoItem::OldThresholdMoving;
+bool GraphicsPhotoItem::OldSnapToGrid;
+bool GraphicsPhotoItem::DefaultNoImageMessage = false;
 
 QSize GraphicsPhotoItem::imageWindowDpis(const QSizeF& _ItemRectInmm, const QSize& _ImageClipSize, const QSize& _PaintedImageSize, const QSize& _OriginalImageSize)
 {
@@ -223,12 +225,13 @@ void GraphicsPhotoItem::init()
 	PanningEnabled = false; 
 	ImageLoaded = false; 
 	WarningVisible = true;
-	setShowNoImageMessage(true);
+	setShowNoImageMessage(DefaultNoImageMessage);
 	ImageEncrypted = false;
 	IgnoreExifRotation = false;
 	OrientationChanged = false;
 
-	QColor EmptyFrameColor("#FFD95C"); 
+	//QColor EmptyFrameColor("#FFD95C");
+	QColor EmptyFrameColor("#BBBBBB");
 	EmptyFrameColor.setAlpha(150);
 	//EmptyFrameColor.setAlpha(0);
 	setBrush(QBrush(EmptyFrameColor, Qt::SolidPattern));
@@ -860,10 +863,32 @@ void GraphicsPhotoItem::setShadowDepth(qreal _Value)
 	modified();
 }
 
+void GraphicsPhotoItem::shrink(double _Amount)
+{
+	QRectF CurrRect = rect();
+	setRect(CurrRect.x() + _Amount, CurrRect.y() + _Amount, CurrRect.width() - _Amount * 2, CurrRect.height() - _Amount * 2);
+}
+
 bool GraphicsPhotoItem::encryptedByFileName(const QString& _FilePath)
 {
 	return QFileInfo(_FilePath).baseName().endsWith("_cyph");
 }
+
+
+void GraphicsPhotoItem::disableMoveConstraints()
+{
+	OldSnapToGrid = snapToGrid();
+	setSnapToGrid(false);
+	OldThresholdMoving = thresholdMoving();
+	setThresholdMoving(false);
+}
+
+void GraphicsPhotoItem::restoreMoveConstraints()
+{
+	setSnapToGrid(OldSnapToGrid);
+	setThresholdMoving(OldThresholdMoving);
+}
+
 
 QRectF GraphicsPhotoItem::boundingRect() const
 {
@@ -1235,7 +1260,7 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 // 		}
 	}
 	else
-	if (change == ItemPositionChange /*&& scene()*/) 
+	if (change == ItemPositionChange)
 	{
 		// value is the new position.
 		QPointF newPos = value.toPointF();
@@ -1249,12 +1274,15 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 		}
 		else 
 		{
-			//We only move if the initial movement is greater than Threshold
-			QSizeF Threshold(10, 10); 
-			if ((qAbs(newPos.x() - pos().x()) < Threshold.width()) && (qAbs(newPos.y() - pos().y()) < Threshold.height()) && !Moving)
-				return pos();
-			else 
-				Moving = true;
+			if (ThresholdMoving)
+			{
+				//We only move if the initial movement is greater than Threshold
+				QSizeF Threshold(10, 10);
+				if ((qAbs(newPos.x() - pos().x()) < Threshold.width()) && (qAbs(newPos.y() - pos().y()) < Threshold.height()) && !Moving)
+					return pos();
+				else
+					Moving = true;
+			}
 		}
 		
 //          if (!rect.contains(newPos)) {

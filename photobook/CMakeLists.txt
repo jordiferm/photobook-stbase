@@ -71,6 +71,7 @@ SET(prj_SRCS
 	documentpageview.cpp
 	documentviewwidget.cpp
 	templategenerator.cpp
+	pagethumbnailmodel.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -104,6 +105,7 @@ SET(prj_MOC_HDRS
 	documentpageview.h
 	documentviewwidget.h
 	templategenerator.h
+	pagethumbnailmodel.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

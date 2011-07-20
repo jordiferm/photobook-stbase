@@ -259,6 +259,7 @@ void Document::autoBuild(QProgressBar* _Progress)
 void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 {
 	clear();
+	bool ThereIsTemplates = Covers.size() > 0 || Layouts.size() > 0 || UnderCovers.size() > 0;
 	CandidateCalculator CCalculator(*this, _PhotoModel);
 
 	if (_Progress)
@@ -268,7 +269,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 	if (PagToFill == 0)
 		PagToFill = MetInfo.minPages();
 
-	while (CCalculator.photosAvailable() && Layouts.size() > 0 && NPages < PagToFill &&
+	while (CCalculator.photosAvailable() && ThereIsTemplates && NPages < PagToFill &&
 		   ((MetInfo.preferMinPages() && NPages < MetInfo.minPages()) || !MetInfo.preferMinPages()))
 	{
 		//Agafem un template qualsevol
@@ -291,16 +292,22 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		_Progress->setValue(CCalculator.totalPhotos());
 
 	//There's no images and still pages to fill.
-	while (NPages < MetInfo.minPages())
+	while (NPages < MetInfo.minPages() && ThereIsTemplates)
 	{
 		//Agafem un template qualsevol
-		TemplateScene* CurrTemplate;
+		TemplateScene* CurrTemplate = 0;
+		PageList PList;
 		if (NPages == 0 && Covers.size() > 0) //First Page
-			CurrTemplate = CCalculator.getCandidate(Covers, MetInfo.maxPages() - NPages, MetInfo.numOptimalImagesPerPage());
+			PList = Covers;
 		else
-			CurrTemplate = CCalculator.getCandidate(Layouts, MetInfo.maxPages() - NPages, MetInfo.numOptimalImagesPerPage());
-		insertPage(createPage(CurrTemplate), NPages);
-		CCalculator.markAsUsed(CurrTemplate);
+			PList = Layouts;
+
+		CurrTemplate = CCalculator.getEmptyCandidate(Layouts, MetInfo.numOptimalImagesPerPage(), ITEM_AVERAGE_MARGIN);
+		if (CurrTemplate) //Defensive
+		{
+			insertPage(createPage(CurrTemplate), NPages);
+			CCalculator.markAsUsed(CurrTemplate);
+		}
 		NPages++;
 	}
 }

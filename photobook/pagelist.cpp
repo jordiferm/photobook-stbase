@@ -172,3 +172,25 @@ void PageList::setTitleText(const QString& _String)
 
 }
 
+bool PageList::containsTemplate(TemplateScene* _Template) const
+{
+	bool Found = false;
+	const_iterator it = begin();
+	while (!Found && it != end())
+	{
+		Found = *(*it) == *_Template;
+		++it;
+	}
+	return Found;
+}
+
+
+bool SPhotoBook::PageListItemLessThan(TemplateScene* _Scene1, TemplateScene* _Scene2)
+{
+	return *(_Scene1) < *(_Scene2);
+}
+
+void PageList::sort()
+{
+	qSort(begin(), end(), SPhotoBook::PageListItemLessThan);
+}

@@ -137,6 +137,7 @@ public:
 	void selectAllByType(int _Type);
 
 	//--- Autocreation
+	void shrinkFramesBy(double _Amount);
 	void splitXFrame(int _FrameIndex);
 	void splitYFrame(int _FrameIndex);
 
@@ -150,10 +151,11 @@ public:
 	int numMonthItems() const;
 	int numEmptyPhotoItems() const;
 	int numLandscapeFrames() const;
-	bool hasSameFrames(TemplateScene* _Other);
+	bool hasSameFrames(const TemplateScene* _Other) const;
 	int biggestFrameIndex();
 
 	//-- Operators
+	bool operator==(const TemplateScene& _Other) const;
 	bool operator<(const TemplateScene& _Other) const;
 	bool operator>(const TemplateScene& _Other) const;
 	bool operator<(int _Value) const;
@@ -201,6 +203,7 @@ signals:
 };
 
 bool operator<(int _Value, const TemplateScene& _Other);
+
 }
 
 #endif

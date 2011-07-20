@@ -20,6 +20,7 @@
 
 #include "templategenerator.h"
 #include <QRectF>
+#include <QDebug>
 #include "graphicsphotoitem.h"
 #include "templatescene.h"
 #include "graphicspageitem.h"
@@ -55,14 +56,14 @@ void TemplateGenerator::addCombinations(TemplateScene* _Template, PageList& _Tem
 {
 	//For each frame
 	QList<GraphicsPhotoItem *> PhotoItems = _Template->photoItems();
-
 	for (int Vfor = 0; Vfor < PhotoItems.size(); Vfor++)
 	{
 		//Split X
 		TemplateScene* NewTemplate = new TemplateScene(_Parent);
 		NewTemplate->copy(_Template);
 		NewTemplate->splitXFrame(Vfor);
-		if (niceTemplate(NewTemplate))
+		//NewTemplate->shrinkFramesBy(3);
+		if (niceTemplate(NewTemplate) && !containsTemplate(_TemplateList, NewTemplate))
 			_TemplateList.push_back(NewTemplate);
 		if (NewTemplate->photoItems().size() < AllCombinationThreshold)
 			addCombinations(NewTemplate, _TemplateList, _Parent);
@@ -74,7 +75,8 @@ void TemplateGenerator::addCombinations(TemplateScene* _Template, PageList& _Tem
 		TemplateScene* NewTemplate = new TemplateScene(_Parent);
 		NewTemplate->copy(_Template);
 		NewTemplate->splitYFrame(Vfor);
-		if (niceTemplate(NewTemplate))
+		//NewTemplate->shrinkFramesBy(3);
+		if (niceTemplate(NewTemplate) && !containsTemplate(_TemplateList, NewTemplate))
 			_TemplateList.push_back(NewTemplate);
 		if (NewTemplate->photoItems().size() < AllCombinationThreshold)
 			addCombinations(NewTemplate, _TemplateList, _Parent);
@@ -95,13 +97,14 @@ bool TemplateGenerator::containsTemplate(const PageList& _Templates, TemplateSce
 	return Res;
 }
 
-// Adds to _Templates new templates with numPhotoFrames +1 for _Frames with numPhotoframes = _Depth by splitting its biggest photoFrame.
+// Adds to _Templates new _NumTemplates templates with numPhotoframes +1 for _Frames with numPhotoframes = _Depth by splitting its biggest photoFrame.
 void TemplateGenerator::incTemplatesImageDepth(int _Depth, int _NumTemplates, PageList& _Templates)
 {
 	int TemplatesToAdd = _NumTemplates;
 
-	qSort(_Templates.begin(), _Templates.end());
+	_Templates.sort();
 	PageList::iterator it = _Templates.end();
+	PageList NewTemplates;
 	it --;
 	while (TemplatesToAdd > 0 && it != _Templates.begin())
 	{
@@ -120,19 +123,32 @@ void TemplateGenerator::incTemplatesImageDepth(int _Depth, int _NumTemplates, Pa
 					NewTemplate->splitXFrame(BiggestFrameIndex);
 				if (!containsTemplate(_Templates, NewTemplate))
 				{
-					_Templates.push_back(NewTemplate);
+					NewTemplates.push_back(NewTemplate);
 					TemplatesToAdd--;
 				}
 			}
 		}
 		--it;
 	}
+	_Templates += NewTemplates;
+}
+
+
+TemplateGenerator::TemplateGenerator(const QSizeF& _TemplateSize )
+	: TemplateSize(_TemplateSize)
+{
+	MaxImagesPerPage = 10;
+	AllCombinationThreshold = 4;//Combination tree depth
+	MinFrameSize = QSize(50, 50);
+	MinAspectRatio = 0.4;
+	MaxNumImagesForTextFrame = 4;
 }
 
 void TemplateGenerator::addTextFrames(PageList& _Templates)
 {
-	qSort(_Templates.begin(), _Templates.end());
+	_Templates.sort();
 	PageList::iterator it = _Templates.begin();
+	PageList NewTemplates;
 	bool Finished = false;
 	while (!Finished && it != _Templates.end())
 	{
@@ -147,21 +163,12 @@ void TemplateGenerator::addTextFrames(PageList& _Templates)
 			{
 				//Add a text Frame
 				NewTemplate->addSubTittleTextFrame(BiggestFrameIndex);
-				_Templates.push_back(NewTemplate);
+				NewTemplates.push_back(NewTemplate);
 			}
 		}
 		++it;
 	}
-}
-
-TemplateGenerator::TemplateGenerator(const QSizeF& _TemplateSize, bool _UseTextFrames )
-	: TemplateSize(_TemplateSize), UseTextFrames(_UseTextFrames)
-{
-	MaxImagesPerPage = 10;
-	AllCombinationThreshold = 6;//Combination tree depth
-	MinFrameSize = QSize(50, 50);
-	MinAspectRatio = 0.4;
-	MaxNumImagesForTextFrame = 4;
+	_Templates += NewTemplates;
 }
 
 TemplateScene* TemplateGenerator::createBaseTemplate(QObject* _Parent)
@@ -173,7 +180,7 @@ TemplateScene* TemplateGenerator::createBaseTemplate(QObject* _Parent)
 	return OneFrameTemplate;
 }
 
-PageList TemplateGenerator::generate(QObject* _Parent)
+PageList TemplateGenerator::generate(QObject* _Parent, double _Margin)
 {
 	PageList Res;
 
@@ -183,6 +190,7 @@ PageList TemplateGenerator::generate(QObject* _Parent)
 
 	addCombinations(OneFrameTemplate, Res, _Parent);
 
+	//! TODO Revise this !
 	int NumManyImagesTemplates = 5;
 	//Add Templates with high number of images.
 	for (int Vfor = AllCombinationThreshold + 1; Vfor <= MaxImagesPerPage; Vfor++)
@@ -190,20 +198,17 @@ PageList TemplateGenerator::generate(QObject* _Parent)
 		incTemplatesImageDepth(Vfor, NumManyImagesTemplates, Res);
 	}
 
-	//Add Texts
-	if (UseTextFrames)
+	//Add Margins
+	if (_Margin >= 0)
 	{
-		addTextFrames(Res);
+		PageList::iterator it;
+		for (it = Res.begin(); it != Res.end(); ++it)
+		{
+			(*it)->shrinkFramesBy(_Margin);
+		}
 	}
 
-	//Generate keys for each template
-	/*STPhotoBookTemplate::TTemplateList::iterator it;
-	for (it = Res.begin(); it != Res.end(); ++it)
-	{
-		it->generateKey();
-	}*/
-
-	//qSort(Res.begin(), Res.end());
+	Res.sort();
 	return Res;
 }
 

@@ -81,6 +81,11 @@ private:
 	static QString LowResWarningImage;
 	static int LowResMinDpis;
 	static bool TouchInterface;
+	static bool OldSnapToGrid;
+	static bool ThresholdMoving;
+	static bool OldThresholdMoving;
+	static bool DefaultNoImageMessage;
+
 	STImage CurrImage;
 	QImage PaintedImage;
 	QImage MaskImage;
@@ -205,18 +210,26 @@ public:
 	qreal shadowDepth() const { return ShadowDepth; }
 	void setWarningVisible(bool _Value) { WarningVisible = _Value; }
 	void setShowNoImageMessage(bool _Value) { ShowNoImageMessage = _Value; }
+	static void setDefaultShowNoImageMessage(bool _Value) { DefaultNoImageMessage = _Value; }
+
 	void setMultiSelection(bool _Value) { MultiSelection = _Value; }
 	bool multiSelection() const { return MultiSelection; }
 	void setImageEncrypted(bool _Value) { ImageEncrypted = _Value; }
 	bool imageEncrypted() const { return ImageEncrypted; }
 
+	void shrink(double _Amount);
+
 	static void setTouchInterface(bool _Value) { TouchInterface = _Value; }
+	static bool thresholdMoving() { return ThresholdMoving; }
+	static void setThresholdMoving(bool _Value) { ThresholdMoving = _Value; }
 	static QString tagName() { return "photoitem"; }
 	static void setMaxLowResImageSize(const QSize& _Size) { MaxLowResImageSize = _Size; }
 	static void setSelectedBrush(const QBrush& _Brush) { SelectedBrush = _Brush; } 
 	static void setLowResImageDPIs(int _Dpis) { LowResImageDPIs = _Dpis; }
 	static int lowResImageDPIs() { return LowResImageDPIs; }
 	static bool encryptedByFileName(const QString& _FilePath);
+	static void disableMoveConstraints();
+	static void restoreMoveConstraints();
 
 	QRectF boundingRect() const;
 	QPointF rectPos() const;

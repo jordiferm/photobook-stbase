@@ -43,7 +43,11 @@ public:
 	void removeTextPages();
 	//! Texts items with %Title% pattern.
 	void setTitleText(const QString& _String);
+	bool containsTemplate(TemplateScene* _Template) const;
+	void sort();
 };
+
+bool PageListItemLessThan(TemplateScene* _Scene1, TemplateScene* _Scene2);
 
 }
 #endif // PAGELIST_H

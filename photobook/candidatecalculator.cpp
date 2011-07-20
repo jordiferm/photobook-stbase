@@ -228,30 +228,91 @@ PageList::const_iterator CandidateCalculator::upperBound(PageList::const_iterato
 }
 
 
+PageList CandidateCalculator::unusedTemplates(const PageList& _Templates)
+{
+	PageList Res;
+	//Remove used templates from Candidates.
+	if (!UsedTemplates.isEmpty())
+	{
+		PageList UnusedCandidates;
+		PageList::const_iterator it;
+		for (it = _Templates.begin(); it != _Templates.end(); ++it)
+		{
+			if (!UsedTemplates.containsTemplate(*it))
+			{
+				UnusedCandidates.push_back(*it);
+			}
+		}
+		if (!UnusedCandidates.isEmpty())
+			Res = UnusedCandidates;
+	}
+	else
+		Res = _Templates;
+	return Res;
+}
+
+TemplateScene* CandidateCalculator::randomUnused(const PageList& _Templates)
+{
+	PageList Candidates = unusedTemplates(_Templates);
+	TemplateScene* Res = 0;
+	if (Candidates.count() > 0)
+	{
+		Res = Candidates[STUtils::random(0, Candidates.count())];
+	}
+	return Res;
+}
+
+PageList CandidateCalculator::candidatesByNumImages(const PageList& _Templates, int _ImagesPerPage, int _AvgMargin)
+{
+	PageList Candidates;
+	PageList::const_iterator lBoundIt;
+	PageList::const_iterator it;
+	//Search a template between per page average +- _AvgMargin
+	//qDebug() << "AvaliablePhotos" << AvaliablePhotos << " _PagesToFill:" << _PagesToFill << " Avg:" << Avg << "_AvgMargin" << _AvgMargin;
+	lBoundIt = lowerBound(_Templates.begin(), _Templates.end(), _ImagesPerPage - _AvgMargin);
+	PageList::const_iterator UBoundIt = upperBound(_Templates.begin(), _Templates.end(), _ImagesPerPage + _AvgMargin + 1);
+
+	for (it = lBoundIt; it != UBoundIt; ++it)
+	{
+		Candidates.push_back(*it);
+	}
+
+	return Candidates;
+}
+
+/*!
+  Candidates without seeing images.
+*/
+TemplateScene* CandidateCalculator::getEmptyCandidate(const PageList& _Templates, int _ImagesPerPage, int _AvgMargin)
+{
+	TemplateScene* Res = 0;
+	PageList Candidates = candidatesByNumImages(_Templates, _ImagesPerPage, _AvgMargin);
+
+	if (Candidates.isEmpty())
+		Candidates = _Templates;
+
+	Res = randomUnused(Candidates);
+	if (!Res)
+	{ // Noi, no hi ha candidats => Poden sobrar frames.
+		//Bafem el mes petit que no sigui primera pagina.
+		if (!_Templates.isEmpty())
+			Res = *(_Templates.begin());
+	}
+	return Res;
+}
 
 TemplateScene* CandidateCalculator::getCandidate(const PageList& _Templates, int _PagesToFill, int _AvgMargin)
 {
 	int AvaliablePhotos = TotalPhotos - InsertedPhotos;
 	PageList Candidates;
-	PageList::const_iterator lBoundIt;
-	PageList::const_iterator it;
-	//Search a template between per page average +- _AvgMargin
 	if (_PagesToFill > 0)
-	{
-		int Avg = AvaliablePhotos / _PagesToFill;
-		//qDebug() << "AvaliablePhotos" << AvaliablePhotos << " _PagesToFill:" << _PagesToFill << " Avg:" << Avg << "_AvgMargin" << _AvgMargin;
-		lBoundIt = lowerBound(_Templates.begin(), _Templates.end(), Avg - _AvgMargin);
-		PageList::const_iterator UBoundIt = upperBound(_Templates.begin(), _Templates.end(), Avg + _AvgMargin + 1);
+		Candidates = candidatesByNumImages(_Templates, AvaliablePhotos / _PagesToFill, _AvgMargin);
 
-		for (it = lBoundIt; it != UBoundIt; ++it)
-		{
-			Candidates.push_back(*it);
-		}
-	}
-
-	//If not find a template with less than _AvaliablePhotos.
+	//If not, look for a template with less than _AvaliablePhotos.
 	if (Candidates.isEmpty())
 	{
+		PageList::const_iterator lBoundIt;
+		PageList::const_iterator it;
 		lBoundIt = lowerBound(_Templates.begin(), _Templates.end(), AvaliablePhotos);
 		//qDebug("Candidates of: %d", _AvaliablePhotos);
 
@@ -272,25 +333,8 @@ TemplateScene* CandidateCalculator::getCandidate(const PageList& _Templates, int
 	if (!BestCandidates.isEmpty())
 		Candidates = BestCandidates;
 
-	//Remove used templates from Candidates.
-	if (!UsedTemplates.isEmpty())
-	{
-		PageList UnusedCandidates;
-		for (it = Candidates.begin(); it != Candidates.end(); ++it)
-		{
-			if (!UsedTemplates.contains(*it))
-				UnusedCandidates.push_back(*it);
-		}
-		if (!UnusedCandidates.isEmpty())
-			Candidates = UnusedCandidates;
-	}
-
-	TemplateScene* Res;
-	if (Candidates.count() > 0)
-	{
-		Res = Candidates[STUtils::random(0, Candidates.count())];
-	}
-	else
+	TemplateScene* Res = randomUnused(Candidates);
+	if (!Res)
 	{ // Noi, no hi ha candidats => Poden sobrar frames.
 		//Bafem el mes petit que no sigui primera pagina.
 		if (!_Templates.isEmpty())

@@ -137,6 +137,9 @@ TemplateScene::TemplateScene(const QSizeF& _PageSize, QObject* _Parent)
 {
 	init();
 	GraphicsPageItem* NewPageItem = new GraphicsPageItem(QRectF(0, 0, _PageSize.width(), _PageSize.height()));
+	NewPageItem->setZValue(PageZValue);
+	configureItem(NewPageItem);
+	addItem(NewPageItem);
 	setPageItem(NewPageItem);
 }
 
@@ -849,6 +852,16 @@ void TemplateScene::selectAllByType(int _Type)
 	}
 }
 
+void TemplateScene::shrinkFramesBy(double _Amount)
+{
+	QList<GraphicsPhotoItem *> PhotoItems = photoItems();
+	QList<GraphicsPhotoItem *>::iterator it;
+	for (it = PhotoItems.begin(); it != PhotoItems.end(); ++it)
+	{
+		(*it)->shrink(_Amount);
+	}
+
+}
 
 void TemplateScene::splitXFrame(int _FrameIndex)
 {
@@ -860,7 +873,7 @@ void TemplateScene::splitXFrame(int _FrameIndex)
 		CItem->setRect(ItemRect.x(), ItemRect.y(), ItemRect.width() / 2, ItemRect.height());
 
 		GraphicsPhotoItem* NewItem = new GraphicsPhotoItem;
-		NewItem->setRect(ItemRect.x() + ItemRect.width(), ItemRect.y(), ItemRect.width() / 2, ItemRect.height());
+		NewItem->setRect(ItemRect.x() + ItemRect.width() / 2, ItemRect.y(), ItemRect.width() / 2, ItemRect.height());
 		addPhotoItem(NewItem);
 	}
 }
@@ -875,7 +888,7 @@ void TemplateScene::splitYFrame(int _FrameIndex)
 		CItem->setRect(ItemRect.x(), ItemRect.y(), ItemRect.width(), ItemRect.height() / 2);
 
 		GraphicsPhotoItem* NewItem = new GraphicsPhotoItem;
-		NewItem->setRect(ItemRect.x() + ItemRect.width(), ItemRect.y(), ItemRect.width(), ItemRect.height() / 2);
+		NewItem->setRect(ItemRect.x(), ItemRect.y() + ItemRect.height() / 2, ItemRect.width(), ItemRect.height() / 2);
 		addPhotoItem(NewItem);
 	}
 }
@@ -993,7 +1006,7 @@ int TemplateScene::numLandscapeFrames() const
 	return Res;
 }
 
-bool TemplateScene::hasSameFrames(TemplateScene* _Other)
+bool TemplateScene::hasSameFrames(const TemplateScene* _Other) const
 {
 	bool Diferent = _Other->numPhotoItems() != numPhotoItems();
 	QList<GraphicsPhotoItem*> PhotoItems = photoItems();
@@ -1006,7 +1019,12 @@ bool TemplateScene::hasSameFrames(TemplateScene* _Other)
 		QList<GraphicsPhotoItem*>::iterator otherit = OtherPhotoItems.begin();
 		while (!Found && otherit != OtherPhotoItems.end())
 		{
-			Found = (*otherit)->boundingRect() == (*it)->boundingRect();
+			QRectF Rect = (*it)->rect();
+			QRectF OtherRect =  (*otherit)->rect();
+			Found =  (qAbs(Rect.x() - OtherRect.x()) < 1) &&
+					 (qAbs(Rect.y() - OtherRect.y()) < 1) &&
+					 (qAbs(Rect.width() - OtherRect.width()) < 1) &&
+					 (qAbs(Rect.height() - OtherRect.height()) < 1);
 			++otherit;
 		}
 		Diferent = !Found;
@@ -1020,10 +1038,10 @@ int TemplateScene::biggestFrameIndex()
 	int Res = -1;
 	double CurrentArea = 0;
 	int ItemIndex = 0;
-	QList<GraphicsPhotoItem*> PhotoItems = photoItems();
-	while (ItemIndex < PhotoItems.size())
+	QList<GraphicsPhotoItem*> ItemList = photoItems();
+	while (ItemIndex < ItemList.size())
 	{
-		QRectF CurrBRect = PhotoItems[ItemIndex]->boundingRect();
+		QRectF CurrBRect = ItemList[ItemIndex]->boundingRect();
 		if (CurrBRect.width() * CurrBRect.height() > CurrentArea)
 		{
 			CurrentArea = CurrBRect.width() * CurrBRect.height();
@@ -1033,6 +1051,11 @@ int TemplateScene::biggestFrameIndex()
 		++ItemIndex;
 	}
 	return Res;
+}
+
+bool TemplateScene::operator==(const TemplateScene& _Other) const
+{
+	return hasSameFrames(&_Other);
 }
 
 bool TemplateScene::operator<(const TemplateScene& _Other) const
@@ -1330,3 +1353,4 @@ bool SPhotoBook::operator<(int _Value, const TemplateScene& _Other)
 {
 	return _Other > _Value;
 }
+

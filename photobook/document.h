@@ -159,6 +159,7 @@ public:
 	void load(const QDir& _RootPath, const QString& _Name, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
 
 	PageList pages() const { return Pages; }
+	void setPages(const PageList& _Pages) { Pages = _Pages; }
 	PageList layouts() const { return Layouts; }
 	void setLayouts(const PageList& _Layouts) { Layouts = _Layouts; }
 	PageList covers() const { return Covers; }

@@ -30,7 +30,6 @@ namespace SPhotoBook
 class TemplateScene;
 class TemplateGenerator
 {
-	bool UseTextFrames;
 	int MaxImagesPerPage;
 	int MaxNumImagesForTextFrame; //Max Number of images for a template with Text Frames.
 	int AllCombinationThreshold;
@@ -45,14 +44,12 @@ class TemplateGenerator
 	void addCombinations(TemplateScene* _Template, PageList& _TemplateList, QObject* _Parent);
 	void incTemplatesImageDepth(int _Depth, int _NumTemplates, PageList& _Templates);
 	bool containsTemplate(const PageList& _Templates, TemplateScene* _Template );
-	void addTextFrames(PageList& _Templates);
 
 
 public:
-	TemplateGenerator(const QSizeF& _TemplateSize, bool _UseTextFrames = true );
+	TemplateGenerator(const QSizeF& _TemplateSize);
 
-	void setUseTextFrames(bool _Value) { UseTextFrames = _Value; }
-	bool useTextFrames() const { return UseTextFrames; }
+	void addTextFrames(PageList& _Templates);
 	void setMinFrameSize(const QSizeF& _Value) { MinFrameSize = _Value; }
 	QSizeF minFrameSize() const { return MinFrameSize; }
 	void setMaxImagesPerPage(int _Value) { MaxImagesPerPage = _Value; }
@@ -61,7 +58,7 @@ public:
 	double minAspectRatio() const { return MinAspectRatio; }
 
 	TemplateScene* createBaseTemplate(QObject* _Parent);
-	PageList generate(QObject* _Parent);
+	PageList generate(QObject* _Parent, double _Margin = 3);
 };
 }
 
