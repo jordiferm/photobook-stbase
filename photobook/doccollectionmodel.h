@@ -7,55 +7,51 @@
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
-** this file.
+** this file.  
 **
 ** Starblitz reserves all rights not expressly granted herein.
-**
+** 
 ** Strablitz (c) 2008
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
-#ifndef PAGETHUMBNAILMODEL_H
-#define PAGETHUMBNAILMODEL_H
+#ifndef DOCCOLLECTIONMODEL_H
+#define DOCCOLLECTIONMODEL_H
 
 #include <QAbstractListModel>
-#include <QSize> 
-#include <QList> 
-#include <QImage>
+#include <QDir> 
+#include <QFileInfoList> 
+#include <QSize>
 #include "stphotobookexport.h"
-#include "pagelist.h"
 
 /**
-Model that generates Document page thumbnails.
-
-	@author
+	@author 
 */
 namespace SPhotoBook
 {
-class TemplateScene;
-class PageList;
-class ST_PHOTOBOOK_EXPORT PageThumbnailModel : public QAbstractListModel
+
+class ST_PHOTOBOOK_EXPORT DocCollectionModel : public QAbstractListModel
 {
-Q_OBJECT
-	QSize ThumbnailMaxSize;
-	QList<QImage> Thumbnails; 
-	PageList Pages;
-	QImage getThumbnail(TemplateScene* _Scene);
-	
+	QDir PBDir; 
+	QFileInfoList PBFInfoList; 
+	QSize ThumbnailSize;
+	void loadDir(const QDir& _PBDir, bool _Recursive);
+
+
 public:
-	PageThumbnailModel(QObject* _Parent = 0);
+	DocCollectionModel(QObject* _Parent = 0, bool _Load = true);
 	int rowCount(const QModelIndex & parent = QModelIndex() ) const;
 	QVariant data(const QModelIndex & index, int role = Qt::DisplayRole ) const;
-	void setPages(const PageList& _Pages);
-	TemplateScene* page(const QModelIndex& _Index) const;
-	PageList pages() const { return Pages; }
-	void setThumbnailMaxSize(QSize _Value);
-	QSize thumbnailMaxSize() const;
-	void updateThumbnail(const PageList& _Pages, int _Index);
-	bool removeRows(int _Row, int _Count, const QModelIndex& _Parent);
-	void addPage(TemplateScene* _Page);
+	void setRootDir(const QDir& _Dir) { PBDir = _Dir; }
+	QDir rootDir() const { return PBDir; }
+	void setFiles(const QStringList& _Files);
+	void load(bool _Recursive = false);
+	QString photoBookPath(const QModelIndex& _Index) const;
+	void setThumbnailSize(const QSize& _Size) { ThumbnailSize = _Size; }
+	static bool areTherePhotoBooks();
+
 };
 }
 #endif

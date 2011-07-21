@@ -20,7 +20,6 @@
 #include "pagethumbnailmodel.h"
 #include <QPainter> 
 
-#include "pagelist.h"
 #include "templatescene.h"
 
 using namespace SPhotoBook;
@@ -83,6 +82,18 @@ void PageThumbnailModel::setPages(const PageList& _Pages)
 	reset();
 }
 
+TemplateScene* PageThumbnailModel::page(const QModelIndex& _Index) const
+{
+	TemplateScene* Res = 0;
+	if (_Index.isValid() && Pages.size() > _Index.row())
+	{
+		Res = Pages[_Index.row()];
+	}
+	return Res;
+}
+
+
+
 void PageThumbnailModel::setThumbnailMaxSize(QSize _Value)
 {
 	ThumbnailMaxSize = _Value; 
@@ -100,4 +111,24 @@ void PageThumbnailModel::updateThumbnail(const PageList& _Pages, int _Index)
 		Thumbnails[_Index] = getThumbnail(_Pages[_Index]);
 	emit dataChanged(index(_Index, 0), index(_Index, 0));
 
+}
+
+bool PageThumbnailModel::removeRows(int _Row, int _Count, const QModelIndex& _Parent)
+{
+	beginRemoveRows(_Parent, _Row, _Row + _Count - 1);
+	for (int Vfor = 0; Vfor < _Count; Vfor++)
+	{
+		Thumbnails.removeAt(_Row + Vfor);
+		Pages.removeAt(_Row + Vfor);
+	}
+	endRemoveRows();
+	return true;
+}
+
+void PageThumbnailModel::addPage(TemplateScene* _Page)
+{
+	beginInsertRows(QModelIndex(), Thumbnails.size(), Thumbnails.size());
+		Thumbnails.insert(Thumbnails.size(), getThumbnail(_Page));
+		Pages.insert(Pages.size(), _Page);
+	endInsertRows();
 }

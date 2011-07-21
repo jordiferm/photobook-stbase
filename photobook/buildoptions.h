@@ -39,7 +39,7 @@ class ST_PHOTOBOOK_EXPORT BuildOptions
 
 public:
 	BuildOptions();
-	void setDefaults(TemplateInfo::EnTemplateType _Type, int _MinPages = 1);
+	void setDefaults(MetaInfo::EnTemplateType _Type, int _MinPages = 1);
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 	bool ignoreExifRotation() const { return IgnoreExifRotation; }
 	void setAutoadjustFrames(bool _Value) { AutoadjustFrames = _Value; }

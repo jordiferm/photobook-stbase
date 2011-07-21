@@ -16,30 +16,31 @@
 **
 ****************************************************************************/
 
-#ifndef TEMPLATEINFOLIST_H
-#define TEMPLATEINFOLIST_H
+#ifndef DESIGNINFOMODEL_H
+#define DESIGNINFOMODEL_H
 
-#include <QList>
-#include <QFileInfoList>
+#include <QAbstractListModel>
 #include "stphotobookexport.h"
-#include "templateinfo.h"
-
+#include "designinfolist.h"
 
 namespace SPhotoBook
 {
-
-class ST_PHOTOBOOK_EXPORT TemplateInfoList : public QList<TemplateInfo>
+class ST_PHOTOBOOK_EXPORT DesignInfoModel : public QAbstractListModel
 {
+    Q_OBJECT
+	DesignInfoList DIList;
+
 public:
-    TemplateInfoList();
-	void load(bool _Sync);
-	void sync();
-	bool isPublic();
-	QFileInfoList globalResources(DesignInfo::EnResourceType _Type);
-	TemplateInfoList subList(MetaInfo::EnTemplateType _Type);
-	TemplateInfoList sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type);
+    explicit DesignInfoModel(QObject *parent = 0);
+	int rowCount(const QModelIndex& _Parent = QModelIndex()) const;
+	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
+	DesignInfo designInfo(const QModelIndex& _Index) const;
+	void setDesignInfoList(const DesignInfoList& _List);
+
+signals:
+
+public slots:
+
 };
-
 }
-
-#endif // TEMPLATEINFOLIST_H
+#endif // DESIGNINFOMODEL_H

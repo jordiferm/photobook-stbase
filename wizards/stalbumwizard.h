@@ -25,21 +25,18 @@
 
 #include "stwizardsexport.h"
 #include "ddoc.h"
-#include "stphotolayout.h"
 #include "ddocmodel.h"
-#include "stphotobookbuildoptions.h"
+#include "buildoptions.h"
 
-
-class QRadioButton; 
-class ChooseTemplateModePage : public QWizardPage
+namespace SPhotoBook
 {
-Q_OBJECT
-	QRadioButton* RBCustomSizes;
-
-public:
-	ChooseTemplateModePage(QWidget* _Parent = 0);
-	int nextId() const;
-};
+	class MetaInfo;
+	class TemplateInfoList;
+	class TemplateInfoModel;
+	class DesignInfo;
+	class DesignInfoModel;
+	class ImageBoxListView;
+}
 
 class STCollectionTemplateModel;
 class QListView; 
@@ -55,14 +52,13 @@ class ChooseTemplatePage : public QWizardPage
 Q_OBJECT
 	enum EnState
 	{
-		StateNoTypeSelected,
 		StateShowWebInfo,
 		StateNoInfo,
 		StateGettingInfo,
 		StateTemplatesEmpty
 	};
 
-	STCollectionTemplateModel* Model;
+	SPhotoBook::TemplateInfoModel* Model;
 	QListView* View;
 	QFileInfo TemplateFileInfo;
 	QWebView* WebView;
@@ -77,8 +73,7 @@ Q_OBJECT
 	QFrame* BottomFrame;
 	QLabel* NoTemplatesLabel;
 	bool HasPreselection;
-	STPhotoLayout::EnLayoutType PreselectedType;
-	QToolBar* TBType;
+	SPhotoBook::MetaInfo::EnTemplateType  PreselectedType;
 
 
 	void setCurrentState(EnState _State);
@@ -88,19 +83,16 @@ public:
 	int nextId() const;
 	void selectFirstIndex();
 	void initializePage();
-	STDom::DDocFormat currentSize() const;
-	STPhotoLayout::EnLayoutType currentType() const;
+	SPhotoBook::TemplateInfo selectedTemplateInfo() const;
 	bool validatePage();
 	bool isComplete() const; 
-	bool typeSelected();
-	void setTemplateType(STPhotoLayout::EnLayoutType _Type);
-	QFileInfo photoBookTemplateFileInfo() const { return TemplateFileInfo; }
+	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList );
+
 
 private slots:
 	void slotTemplateIndexClicked(const QModelIndex& );
 	void slotWebLoadStarted();
 	void slotWebLoadFinished(bool _Error);
-	void reloadTemplates();
 	void inetgetBlinkTimeout();
 signals:
 	void templateSelected();
@@ -143,21 +135,19 @@ class ChooseCreationModePage : public QWizardPage
 {
 Q_OBJECT
 	QxtPushButton* PBAutomatic;
-	STPhotoBookCollectionModel* PredesignModel;
-	QxtGroupBox* GBUsePredesign;
-	QListView* LVPredesigns;
+	SPhotoBook::DesignInfoModel* DesignModel;
+	QListView* LVDesigns;
 	QTextBrowser* TBDescription;
 	int PredesignPhotoItems;
 
 public:
 	ChooseCreationModePage(QWidget* _Parent = 0);
 	int nextId() const;
-	void setPhotoBookTemplateFileInfo(const QFileInfo& _FileInfo);
+	void setTemplateInfo(const SPhotoBook::TemplateInfo& _TemplateInfo);
 	bool validatePage();
 	bool autoBuildModeSelected() const;
-	bool usePredesign() const;
-	int predesignPhotoItems() const { return PredesignPhotoItems; }
-	QDir predesignDir() const;
+	SPhotoBook::DesignInfo designInfo() const;
+
 private slots:
 	void slotPredesignChanged(const QModelIndex& _Index);
 
@@ -174,7 +164,7 @@ class BuildOptionsPage : public QWizardPage
 	QGroupBox* GBPhotoBook;
 	QGroupBox* GBCalendar;
 	QSpinBox* SBNumPages;
-	STPhotoLayout::EnLayoutType LayoutType;
+	SPhotoBook::MetaInfo::EnTemplateType  LayoutType;
 	bool AutoBuildMode;
 
 
@@ -183,28 +173,26 @@ public:
 	int nextId() const;
 	virtual void initializePage ();
 	virtual bool isComplete() const;
-	void setBuildOptions(const STPhotoBookBuildOptions& _Options);
-	STPhotoBookBuildOptions getBuildOptions() const;
-	void setTemplate(const STPhotoBookTemplate& _Template, STPhotoLayout::EnLayoutType _Type);
+	void setBuildOptions(const SPhotoBook::BuildOptions& _Options);
+	SPhotoBook::BuildOptions getBuildOptions() const;
+	void setTemplateMetaInfo(const SPhotoBook::MetaInfo& _MInfo);
 	void setAutoBuildMode(bool _Value);
 	void setUsePredesign(bool _Value);
 };
 
 
-class SPImageBoxListView;
 class SelectDiskFolderPage : public QWizardPage
 {
 Q_OBJECT
 
-	SPImageBoxListView* ImageBoxListView;
+	SPhotoBook::ImageBoxListView* IBListView;
 	QLabel* InfoLabel;
 	int PagesToFill, OptimalImagesPerPage, AbsoluteImageCount;
 	void updateInfo();
 
 public:
 	SelectDiskFolderPage(QWidget* _Parent = 0);
-	void setTemplate(const STPhotoBookTemplate& _Template, const STPhotoBookBuildOptions& _Options);
-	void setAbsoluteImageCount(int _Value);
+	void setMetaInfo(const SPhotoBook::MetaInfo& _Info, const SPhotoBook::BuildOptions& _Options);
 	void clearSelection();
 	int nextId() const;
 	bool isComplete() const;
@@ -231,38 +219,25 @@ class ST_WIZARDS_EXPORT STAlbumWizard : public QWizard
 	Q_OBJECT
 
 public:	
-	enum { Page_ChooseTemplateMode, Page_CustomSizes, Page_ChooseTemplate, Page_CooseCreationMode,
+	enum { Page_ChooseTemplate, Page_ChooseCreationMode,
 			Page_BuildOptions, Page_SelectDiskFolder, Page_End };
 		
 private: 		
 	ChooseTemplatePage* CTemplatePage; 
-	CustomSizesPage* CCustomSizesPage;
 	SelectDiskFolderPage* SDFolderPage;
 	BuildOptionsPage* PBuildOptions;
 	ChooseCreationModePage* CCreationModePage;
-	bool CustomSizesEnabled; 
-	STPhotoBookTemplate PhotoBookTemplate;
 
 public:
 	STAlbumWizard(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 	~STAlbumWizard();
-	QFileInfo photoBookTemplateFileInfo() const;
+	SPhotoBook::DesignInfo designInfo() const;
+	SPhotoBook::TemplateInfo templateInfo() const;
 	bool autoFillSelected() const; 
-	//! returns true if we get images from collection.
-	bool imagesFromCollection() const; 
-	quint64 collectionFolderKey() const;
 	int nextId() const;
-	STPhotoLayout::EnLayoutType templateType() const;
-	void setCustomSizesEnabled(bool _Enabled) { CustomSizesEnabled = _Enabled; }
-	bool customSizesEnabled() const { return CustomSizesEnabled; }
 	STDom::DDocModel* selectedImages() const;
-	STPhotoBookBuildOptions buildOptions() const;
-	bool usePredesign() const;
-	QDir predesignDir() const;
-	void setTemplateType(STPhotoLayout::EnLayoutType _Type);
-
-private slots:
-	void slotLoadTemplate();
+	SPhotoBook::BuildOptions buildOptions() const;
+	void setTemplateType(const SPhotoBook::TemplateInfoList& _TemplateList);
 };
 
 

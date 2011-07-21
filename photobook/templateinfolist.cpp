@@ -44,8 +44,29 @@ QFileInfoList TemplateInfoList::globalResources(DesignInfo::EnResourceType _Type
 
 }
 
-TemplateInfoList TemplateInfoList::subList(TemplateInfo::EnTemplateType _Type)
+TemplateInfoList TemplateInfoList::subList(MetaInfo::EnTemplateType _Type)
 {
+	TemplateInfoList Res;
+	TemplateInfoList::iterator it;
+	for (it = begin(); it != end(); ++it)
+	{
+		if (it->type() == _Type)
+			Res.push_back(*it);
+	}
+	return Res;
+}
 
+
+TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type)
+{
+	TemplateInfoList Res;
+	TemplateInfoList SameTypeList = subList(_Type);
+	TemplateInfoList::iterator it;
+	for (it = SameTypeList.begin(); it != SameTypeList.end(); ++it)
+	{
+		if (it->name() == _TemplateName)
+			Res.push_back(*it);
+	}
+	return Res;
 }
 

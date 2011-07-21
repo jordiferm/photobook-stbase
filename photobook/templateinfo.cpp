@@ -23,16 +23,16 @@
 using namespace SPhotoBook;
 
 TemplateInfo::TemplateInfo() :
-		BasePath(""), Name(""), Type(TypePhotoBook)
+		BasePath(""), Name(""), Type(MetaInfo::TypePhotoBook)
 {
 }
 
-TemplateInfo::TemplateInfo(const QString& _Name, const QSizeF& _Size, EnTemplateType _Type) :
+TemplateInfo::TemplateInfo(const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType _Type) :
 		BasePath(TemplatePaths::defaultTemplatesPath()), Name(_Name), Size(_Size), Type(_Type)
 {
 }
 
-TemplateInfo::TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, EnTemplateType _Type) :
+TemplateInfo::TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType _Type) :
 		BasePath(_BasePath), Name(_Name), Size(_Size), Type(_Type)
 {
 }
@@ -50,7 +50,7 @@ QString TemplateInfo::absolutePath(const DesignInfo& _Design)
 	return BaseDir.absoluteFilePath(_Design.name());
 }
 
-TemplateInfo::TDesignList TemplateInfo::designs() const
+DesignInfoList TemplateInfo::designs() const
 {
 	return Designs;
 }

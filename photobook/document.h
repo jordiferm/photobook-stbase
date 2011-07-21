@@ -80,7 +80,7 @@ public:
 	};
 	
 private:
-	PageList Pages, Layouts, Covers, UnderCovers;
+	PageList Pages, Layouts, Covers, BackCovers;
 	CollectionInfo PBInfo;
 	QString Description; 
 	QString SourceImagesPath; 
@@ -163,7 +163,7 @@ public:
 	PageList layouts() const { return Layouts; }
 	void setLayouts(const PageList& _Layouts) { Layouts = _Layouts; }
 	PageList covers() const { return Covers; }
-	PageList underCovers() const { return UnderCovers; }
+	PageList backCovers() const { return BackCovers; }
 
 	//! \return true is photobook currently contains image with MD5Sum _ImageMD5Sum.
 	bool containsImage(const QString& _ImageMD5Sum) const;

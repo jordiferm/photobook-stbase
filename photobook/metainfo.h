@@ -24,7 +24,6 @@
 #include <QRectF>
 #include "sterror.h"
 #include "rendersettings.h"
-#include "templateinfo.h"
 
 
 namespace SPhotoBook
@@ -36,12 +35,21 @@ public:
 	ST_DECLARE_ERRORCLASS();
 	typedef QList<QRectF> TMarginRectList;
 
+	enum EnTemplateType
+	{
+		TypePhotoBook,
+		TypeCalendar,
+		TypeCard,
+		TypeIdPhoto,
+		TypeMultiPhoto
+	};
+
 private:
 	QString DesignName, Name, Description, ImagePath, SourceImagesPath;
 	QSizeF Size, PrintPageSize;
 	int Version, Dpis, ModPages, MaxPages, MinPages;
 	RenderSettings::EnPrintPreProcessType PrintPreprocessType;
-	TemplateInfo::EnTemplateType TemplateType;
+	EnTemplateType TemplateType;
 	bool MultiPhoto, AutogenerateLayouts, PreferMinPages, Atomic, Cyphered, CutPagesOnPrint;
 	TMarginRectList PageMarginRects, CoverMarginRects;
 	int NumOptimalImagesPerPage;
@@ -73,8 +81,8 @@ public:
 	void setVersion(int _Value) { Version = _Value; }
 	int version() const { return Version; }
 
-	void setTemplateType(TemplateInfo::EnTemplateType _Value) { TemplateType = _Value; }
-	TemplateInfo::EnTemplateType templateType() const { return TemplateType; }
+	void setTemplateType(EnTemplateType _Value) { TemplateType = _Value; }
+	EnTemplateType templateType() const { return TemplateType; }
 
 	void setSourceImagesPath(const QString& _Value) { SourceImagesPath = _Value; }
 	QString sourceImagesPath() const { return SourceImagesPath; }

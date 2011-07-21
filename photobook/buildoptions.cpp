@@ -40,26 +40,26 @@ BuildOptions::BuildOptions()
 	clear();
 }
 
-void BuildOptions::setDefaults(TemplateInfo::EnTemplateType _Type, int _MinPages)
+void BuildOptions::setDefaults(MetaInfo::EnTemplateType _Type, int _MinPages)
 {
 	clear();
 	PagesToFill = _MinPages;
 	switch (_Type)
 	{
-		case TemplateInfo::TypeMultiPhoto :
+		case MetaInfo::TypeMultiPhoto :
 			PagesToFill = 9999;
-		case TemplateInfo::TypeIdPhoto :
+		case MetaInfo::TypeIdPhoto :
 			IgnoreExifRotation = true;
 			AutoadjustFrames = false;
 		break;
-		case TemplateInfo::TypeCard :
+		case MetaInfo::TypeCard :
 			AutoadjustFrames = false;
 			UseTexts = true;
 		break;
-		case TemplateInfo::TypePhotoBook :
+		case MetaInfo::TypePhotoBook :
 			AutoadjustFrames = true;
 		break;
-		case TemplateInfo::TypeCalendar :
+		case MetaInfo::TypeCalendar :
 			AutoadjustFrames = true;
 			UseTexts = true;
 		break;

@@ -25,44 +25,36 @@
 #include <QUrl>
 
 #include "stphotobookexport.h"
+#include "designinfolist.h"
 #include "designinfo.h"
+#include "metainfo.h"
 
 namespace SPhotoBook
 {
 
 class ST_PHOTOBOOK_EXPORT TemplateInfo
 {
-public:
-	enum EnTemplateType
-	{
-		TypePhotoBook,
-		TypeCalendar,
-		TypeCard,
-		TypeIdPhoto,
-		TypeMultiPhoto
-	};
-
-	typedef QList<DesignInfo> TDesignList;
-
 private:
 	QString Name, BasePath;
 	QSizeF Size;
-	EnTemplateType Type;
-	TDesignList Designs;
+	MetaInfo::EnTemplateType Type;
+	DesignInfoList Designs;
 
 
 public:
 	TemplateInfo();
-	TemplateInfo(const QString& _Name, const QSizeF& _Size, EnTemplateType );
-	TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, EnTemplateType );
+	TemplateInfo(const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType );
+	TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType );
 	bool isNull() { return Name.isEmpty(); }
 	void setName(const QString& _Value) { Name = _Value;  }
 	QString name() const { return Name; }
 	void setSize(const QSizeF& _Size) { Size = _Size; }
 	QSizeF size() const { return Size; }
+	void setType(MetaInfo::EnTemplateType _Type) { Type = _Type; }
+	MetaInfo::EnTemplateType type() const { return Type; }
 	QString absolutePath() const;
 	QString absolutePath(const DesignInfo& _Path);
-	TDesignList designs() const;
+	DesignInfoList designs() const;
 	void addDesign(const DesignInfo& _Design);
 	QUrl infoUrl() const;
 };

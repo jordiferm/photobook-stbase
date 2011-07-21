@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2010 Starblitz. All rights reserved.
+** Copyright (C) 2006-2008 Starblitz. All rights reserved.
 **
 ** This file is part of Starblitz Foto Suite.
 **
@@ -11,28 +11,31 @@
 **
 ** Starblitz reserves all rights not expressly granted herein.
 ** 
-** Strablitz (c) 2010
+** Strablitz (c) 2008
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
 
-#ifndef SPOROMEIMAGESLISTVIEW_H
-#define SPOROMEIMAGESLISTVIEW_H
-#include "imageslistviewbase.h"
-#include "storomelexport.h"
+#ifndef TEMPLATESCENEMIMEDATA_H
+#define TEMPLATESCENEMIMEDATA_H
 
-class ST_OROMEL_EXPORT SPOromeImagesListView : public SPhotoBook::ImagesListViewBase
+#include <QMimeData>
+#include "stphotobookexport.h"
+#include "templatescene.h"
+
+namespace SPhotoBook
+{
+class ST_PHOTOBOOK_EXPORT TemplateSceneMimeData : public QMimeData
 {
 	Q_OBJECT
+	TemplateScene* TScene;
 
 public:
-	SPOromeImagesListView(QWidget* _Parent = 0);
-signals:
-	void exportImages();
-	void autoFillImages();
-	void createIndexImages();
+	TemplateSceneMimeData();
+	void setTemplate(TemplateScene* _TScene) { TScene = _TScene; }
+	TemplateScene* getTemplateScene() const { return TScene; }
 };
-
-#endif // SPOROMEIMAGESLISTVIEW_H
+}
+#endif // STTEMPLATEMIMEDATA_H

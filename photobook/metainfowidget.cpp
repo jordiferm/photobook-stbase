@@ -85,11 +85,11 @@ QWidget* MetaInfoWidget::createGeneralWidget()
 	TopLayout->addLayout(RightFormLayout);
 
 	CBType = new QComboBox(this);
-	CBType->addItem(tr("PhotoBook"), TemplateInfo::TypePhotoBook);
-	CBType->addItem(tr("Calendar"), TemplateInfo::TypeCalendar);
-	CBType->addItem(tr("Card"), TemplateInfo::TypeCard);
-	CBType->addItem(tr("IdPhoto"), TemplateInfo::TypeIdPhoto);
-	CBType->addItem(tr("MultiPhoto"), TemplateInfo::TypeMultiPhoto);
+	CBType->addItem(tr("PhotoBook"), MetaInfo::TypePhotoBook);
+	CBType->addItem(tr("Calendar"), MetaInfo::TypeCalendar);
+	CBType->addItem(tr("Card"), MetaInfo::TypeCard);
+	CBType->addItem(tr("IdPhoto"), MetaInfo::TypeIdPhoto);
+	CBType->addItem(tr("MultiPhoto"), MetaInfo::TypeMultiPhoto);
 	RightFormLayout->addRow(tr("Type"), CBType);
 
 
@@ -248,7 +248,7 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	Res.setDesignName(CBDesignName->currentText());
 	Res.setImagePath(ISImage->pixmapFileName());
 	Res.setDescription(TEDescription->toHtml());
-	Res.setTemplateType(static_cast<TemplateInfo::EnTemplateType>(CBType->itemData(CBType->currentIndex()).toInt()));
+	Res.setTemplateType(static_cast<MetaInfo::EnTemplateType>(CBType->itemData(CBType->currentIndex()).toInt()));
 	Res.setSize(QSizeF(SBWidth->value(), SBHeight->value()));
 	Res.setVersion(SBVersion->value());
 	Res.setCyphered(CBCyphered->isChecked());

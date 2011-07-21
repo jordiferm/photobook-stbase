@@ -259,7 +259,7 @@ void Document::autoBuild(QProgressBar* _Progress)
 void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 {
 	clear();
-	bool ThereIsTemplates = Covers.size() > 0 || Layouts.size() > 0 || UnderCovers.size() > 0;
+	bool ThereIsTemplates = Covers.size() > 0 || Layouts.size() > 0 || BackCovers.size() > 0;
 	CandidateCalculator CCalculator(*this, _PhotoModel);
 
 	if (_Progress)
@@ -493,8 +493,8 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		Covers.saveResources(PBInfo, true, _Progress);
 		Covers.saveXml(PBInfo.xmlCoversFileName());
 
-		UnderCovers.saveResources(PBInfo, true, _Progress);
-		UnderCovers.saveXml(PBInfo.xmlUnderCoverFileName());
+		BackCovers.saveResources(PBInfo, true, _Progress);
+		BackCovers.saveXml(PBInfo.xmlBackCoverFileName());
 
 		//Save Thumbnail
 		if (Pages.size() > 0)
@@ -563,7 +563,7 @@ void Document::load(const QDir& _RootPath, const QString& _Name, QProgressBar* _
 	}
 	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, EncryptionKey, _ProgressBar);
 	Covers.loadXml(MInfo.xmlCoversFileName(), this, EncryptionKey, _ProgressBar);
-	UnderCovers.loadXml(MInfo.xmlUnderCoverFileName(), this, EncryptionKey, _ProgressBar);
+	BackCovers.loadXml(MInfo.xmlBackCoverFileName(), this, EncryptionKey, _ProgressBar);
 }
 
 bool Document::containsImage(const QString& _ImageMD5Sum) const

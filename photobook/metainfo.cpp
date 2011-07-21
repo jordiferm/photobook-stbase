@@ -51,7 +51,7 @@ void MetaInfo::setDefaults()
 	MaxPages=100;
 	MinPages=1;
 	PrintPreprocessType = RenderSettings::TypeNone;
-	TemplateType = TemplateInfo::TypePhotoBook;
+	TemplateType = TypePhotoBook;
 	MultiPhoto = false;
 	AutogenerateLayouts = false;
 	PreferMinPages = true;

@@ -21,11 +21,10 @@
 
 #include <QString>
 #include "stphotobookexport.h"
-
+#include "metainfo.h"
 
 namespace SPhotoBook
 {
-
 class ST_PHOTOBOOK_EXPORT DesignInfo
 {
 public:
@@ -41,9 +40,10 @@ public:
 private:
 	QString Name, Description, ImageFile;
 	int Version;
+	MetaInfo MInfo;
 
 public:
-	DesignInfo(const QString& _Name);
+	DesignInfo(const QString& _Name = "");
 	void setName(const QString& _Value) { Name = _Value; }
 	QString name() const { return Name; }
 	void setDescription(const QString& _Value) { Description = _Value; }
@@ -52,6 +52,8 @@ public:
 	QString imageFile() const { return ImageFile; }
 	void setVersion(int _Version)  { Version = _Version; }
 	int version() const { return Version; }
+	void setMetaInfo(const MetaInfo& _MInfo) { MInfo = _MInfo; }
+	MetaInfo metaInfo() { return MInfo; }
 };
 
 }

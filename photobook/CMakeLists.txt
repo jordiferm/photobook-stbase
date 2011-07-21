@@ -72,6 +72,16 @@ SET(prj_SRCS
 	documentviewwidget.cpp
 	templategenerator.cpp
 	pagethumbnailmodel.cpp
+	checkedproxymodel.cpp
+	doccheckedproxymodel.cpp
+	imageslistviewbase.cpp
+	doccollectionmodel.cpp
+	imageslistview.cpp
+	imageboxlistview.cpp
+	templateinfomodel.cpp
+	designinfolist.cpp
+	designinfomodel.cpp
+	templatescenemimedata.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -106,6 +116,16 @@ SET(prj_MOC_HDRS
 	documentviewwidget.h
 	templategenerator.h
 	pagethumbnailmodel.h
+	checkedproxymodel.h
+	doccheckedproxymodel.h
+	imageslistviewbase.h
+	doccollectionmodel.h
+	imageslistview.h
+	imageboxlistview.h
+	templateinfomodel.h
+	designinfolist.h
+	designinfomodel.h
+	templatescenemimedata.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

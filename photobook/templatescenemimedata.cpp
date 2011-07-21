@@ -18,35 +18,13 @@
 **
 ****************************************************************************/
 
-#ifndef SPTOOLBARLISTVIEW_H
-#define SPTOOLBARLISTVIEW_H
+#include "templatescenemimedata.h"
 
-#include <QWidget>
-#include "stphototemplatesexport.h"
+using namespace SPhotoBook;
 
-class QToolBar;
-class STThumbnailView;
-class QAbstractItemModel;
-class QLabel;
-class ST_PHOTOTEMPLATES_EXPORT SPToolbarListView : public QWidget
+TemplateSceneMimeData::TemplateSceneMimeData()
 {
-	Q_OBJECT
+}
 
-	QToolBar* ToolBar;
-	STThumbnailView* ListView;
-	QLabel* ItemCounterLabel;
-	QString ItemCounterName;
 
-public:
-	SPToolbarListView(Qt::Orientation _Orientation, QWidget* _Parent = 0, bool _ToolBarOnTop = true);
-	virtual void setModel(QAbstractItemModel* _Model);
-	QToolBar* toolBar() { return ToolBar; }
-	STThumbnailView* listView();
-	void activateItemCounter(const QString& _ItemName);
 
-private slots:
-	void updateItemCounter();
-
-};
-
-#endif // SPTOOLBARLISTVIEW_H

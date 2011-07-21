@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2010 Starblitz. All rights reserved.
+** Copyright (C) 2006-2008 Starblitz. All rights reserved.
 **
 ** This file is part of Starblitz Foto Suite.
 **
@@ -11,28 +11,34 @@
 **
 ** Starblitz reserves all rights not expressly granted herein.
 ** 
-** Strablitz (c) 2010
+** Strablitz (c) 2008
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
 
-#ifndef SPOROMEIMAGESLISTVIEW_H
-#define SPOROMEIMAGESLISTVIEW_H
-#include "imageslistviewbase.h"
-#include "storomelexport.h"
+#ifndef IMAGEBOXLISTVIEW_H
+#define IMAGEBOXLISTVIEW_H
+#include "sptoolbarlistview.h"
+#include "stphotobookexport.h"
 
-class ST_OROMEL_EXPORT SPOromeImagesListView : public SPhotoBook::ImagesListViewBase
+namespace SPhotoBook
 {
-	Q_OBJECT
+class DocCheckedProxyModel;
+class ST_PHOTOBOOK_EXPORT ImageBoxListView : public SPToolbarListView
+{
+Q_OBJECT
+
+	DocCheckedProxyModel* ImageProxyModel;
 
 public:
-	SPOromeImagesListView(QWidget* _Parent = 0);
-signals:
-	void exportImages();
-	void autoFillImages();
-	void createIndexImages();
-};
+	ImageBoxListView(QWidget* _Parent = 0);
+	DocCheckedProxyModel* model() const { return ImageProxyModel; }
 
-#endif // SPOROMEIMAGESLISTVIEW_H
+private slots:
+	void slotRemoveSelectedImages();
+
+};
+}
+#endif // ImageBoxListView_H

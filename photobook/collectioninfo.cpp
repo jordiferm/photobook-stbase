@@ -67,9 +67,9 @@ QString CollectionInfo::xmlCoversFileName() const
 	return photoBookPath() + "/covers.xml";
 }
 
-QString CollectionInfo::xmlUnderCoverFileName() const
+QString CollectionInfo::xmlBackCoverFileName() const
 {
-	return photoBookPath() + "/undercovers.xml";
+	return photoBookPath() + "/backcovers.xml";
 }
 
 QString CollectionInfo::xmlMetaInfoFileName() const

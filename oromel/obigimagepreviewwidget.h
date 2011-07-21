@@ -32,15 +32,19 @@ class QDir;
 class QLabel;
 class QModelIndex;
 class QFileInfo;
-class STCheckedProxyModel;
 class STThumbnailView;
 class QToolButton;
+
+namespace SPhotoBook
+{
+	class CheckedProxyModel;
+}
 class OBigImagePreviewWidget : public QWidget
 {
 	Q_OBJECT
 
 	STDom::DDocModel* DocModel;
-	STCheckedProxyModel* CheckedDocModel;
+	SPhotoBook::CheckedProxyModel* CheckedDocModel;
 	QLabel* ImageLabel;
 	STThumbnailView* LVImages;
 	QToolButton* TBInclude;

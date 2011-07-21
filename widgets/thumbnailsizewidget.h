@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2010 Starblitz. All rights reserved.
+** Copyright (C) 2006-2008 Starblitz. All rights reserved.
 **
 ** This file is part of Starblitz Foto Suite.
 **
@@ -11,28 +11,32 @@
 **
 ** Starblitz reserves all rights not expressly granted herein.
 ** 
-** Strablitz (c) 2010
+** Strablitz (c) 2008
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
 
-#ifndef SPOROMEIMAGESLISTVIEW_H
-#define SPOROMEIMAGESLISTVIEW_H
-#include "imageslistviewbase.h"
-#include "storomelexport.h"
+#ifndef THUMBNAILSIZEWIDGET_H
+#define THUMBNAILSIZEWIDGET_H
+#include "stwidgetsexport.h"
 
-class ST_OROMEL_EXPORT SPOromeImagesListView : public SPhotoBook::ImagesListViewBase
+#include <QWidget>
+
+class QSlider;
+class ST_WIDGETS_EXPORT ThumbnailSizeWidget : public QWidget
 {
 	Q_OBJECT
 
+	QSlider* Slider;
+
 public:
-	SPOromeImagesListView(QWidget* _Parent = 0);
+	ThumbnailSizeWidget(QWidget* _Parent = 0);
+	void setValue(int _Value);
+
 signals:
-	void exportImages();
-	void autoFillImages();
-	void createIndexImages();
+	void valueChanged(int);
 };
 
-#endif // SPOROMEIMAGESLISTVIEW_H
+#endif // SPTHUMBNAILSIZEWIDGET_H

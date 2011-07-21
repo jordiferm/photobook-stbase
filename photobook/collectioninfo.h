@@ -54,7 +54,7 @@ public:
 	QString xmlAutoSaveFileName() const;
 	QString xmlLayoutsFileName() const;
 	QString xmlCoversFileName() const;
-	QString xmlUnderCoverFileName() const;
+	QString xmlBackCoverFileName() const;
 	QString xmlMetaInfoFileName() const;
 	QString trayImagesFileName() const;
 
