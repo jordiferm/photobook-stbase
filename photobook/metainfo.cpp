@@ -88,6 +88,16 @@ void MetaInfo::load(const QString& _XmlFilePath)
 
 }
 
+QUrl MetaInfo::infoUrl() const
+{
+	return infoUrl(name());
+}
+
+QUrl MetaInfo::infoUrl(const QString& _Name)
+{
+	return QUrl(QString("%1/%2").arg(TEMPLATEINFO_URLBASE).arg(_Name));
+}
+
 
 //!Dots per meter;
 int MetaInfo::dpM() const

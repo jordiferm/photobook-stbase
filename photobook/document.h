@@ -33,6 +33,7 @@
 #include "pagelist.h"
 #include "metainfo.h"
 #include "templateinfo.h"
+#include "resourcelist.h"
 
 /**
 Class that stores data of a PhotoBook.
@@ -81,6 +82,7 @@ public:
 	
 private:
 	PageList Pages, Layouts, Covers, BackCovers;
+	ResourceList Resources;
 	CollectionInfo PBInfo;
 	QString Description; 
 	QString SourceImagesPath; 
@@ -114,8 +116,6 @@ public:
 	//Info structs
 	void setMetaInfo(const MetaInfo& _MetaInfo) { MetInfo = _MetaInfo; }
 	MetaInfo metaInfo() const { return MetInfo; }
-	void setTemplateInfo(const TemplateInfo& _Value) { TInfo = _Value; }
-	TemplateInfo templateInfo() const { return TInfo; }
 
 
 	void clear(); 
@@ -164,6 +164,7 @@ public:
 	void setLayouts(const PageList& _Layouts) { Layouts = _Layouts; }
 	PageList covers() const { return Covers; }
 	PageList backCovers() const { return BackCovers; }
+	ResourceList resources() const { return Resources; }
 
 	//! \return true is photobook currently contains image with MD5Sum _ImageMD5Sum.
 	bool containsImage(const QString& _ImageMD5Sum) const;

@@ -32,7 +32,7 @@ class ST_PHOTOBOOK_EXPORT TemplateInfoList : public QList<TemplateInfo>
 {
 public:
     TemplateInfoList();
-	void load(bool _Sync);
+	void load(bool _Sync = false);
 	void sync();
 	bool isPublic();
 	QFileInfoList globalResources(DesignInfo::EnResourceType _Type);

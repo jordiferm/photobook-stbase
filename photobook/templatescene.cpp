@@ -40,7 +40,8 @@
 
 #include "collectioninfo.h"
 #include "stimage.h"
-#include "stutils.h" 
+#include "stutils.h"
+#include "resource.h"
 
 //Drag and Drop
 #include "scenemimedata.h"
@@ -808,6 +809,31 @@ QGraphicsItem* TemplateScene::currentItem() const
 		Res = focusItem();
 
 	return Res; 
+}
+
+void TemplateScene::applyResouce(const SPhotoBook::Resource& _Resource)
+{
+	switch (_Resource.type())
+	{
+		case Resource::TypeBackground :
+			//TODO Encrypted Resources
+			setBackgroundImage(QImage(), _Resource.fileInfo().absoluteFilePath(), _Resource.isEncrypted());
+		break;
+		case Resource::TypeClipart :
+			addClipartItem(_Resource.fileInfo().absoluteFilePath());
+		break;
+		case Resource::TypeFrame :
+		case Resource::TypeFrameMask :
+		{
+			QGraphicsItem* CItem = currentItem();
+			if (CItem)
+			{
+				if (GraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<GraphicsPhotoItem*>(CItem))
+					CPhotoItem->setResource(_Resource);
+			}
+		}
+		break;
+	}
 }
 
 void TemplateScene::selectNone()

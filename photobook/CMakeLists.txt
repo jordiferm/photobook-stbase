@@ -51,8 +51,6 @@ SET(prj_SRCS
 	ichangescontrol.cpp
 	templatescene.cpp
 	corneritem.cpp
-	maskmimedata.cpp
-	framemimedata.cpp
 	scenemimedata.cpp
 	abstractgraphicsitem.cpp
 	graphicsclipartitem.cpp
@@ -82,6 +80,10 @@ SET(prj_SRCS
 	designinfolist.cpp
 	designinfomodel.cpp
 	templatescenemimedata.cpp
+	resource.cpp
+	resourcelist.cpp
+	resourcemodel.cpp
+	resourcemimedata.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -95,8 +97,6 @@ SET(prj_MOC_HDRS
 	ichangescontrol.h
 	templatescene.h
 	corneritem.h
-	maskmimedata.h
-	framemimedata.h
 	scenemimedata.h
 	abstractgraphicsitem.h
 	graphicsclipartitem.h
@@ -126,6 +126,10 @@ SET(prj_MOC_HDRS
 	designinfolist.h
 	designinfomodel.h
 	templatescenemimedata.h
+	resource.h
+	resourcelist.h
+	resourcemodel.h
+	resourcemimedata.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

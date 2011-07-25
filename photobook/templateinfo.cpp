@@ -60,8 +60,3 @@ void TemplateInfo::addDesign(const DesignInfo& _Design)
 	Designs.push_back(_Design);
 }
 
-QUrl TemplateInfo::infoUrl() const
-{
-	return QUrl(QString("%1/%2").arg(TEMPLATEINFO_URLBASE).arg(name()));
-}
-

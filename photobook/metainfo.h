@@ -22,6 +22,7 @@
 #include <QDomElement>
 #include <QList>
 #include <QRectF>
+#include <QUrl>
 #include "sterror.h"
 #include "rendersettings.h"
 
@@ -90,6 +91,8 @@ public:
 	void setCyphered(bool _Value) { Cyphered = _Value; }
 	bool cyphered() const { return Cyphered; }
 
+	QUrl infoUrl() const;
+	static QUrl infoUrl(const QString& _Name);
 
 	//------- Render info ----------
 	void setPrintPageSize(const QSizeF& _Value) { PrintPageSize = _Value; }
@@ -137,6 +140,7 @@ public:
 
 	int numOptimalImagesPerPage() const { return NumOptimalImagesPerPage; }
 	void setNumOptimalImagesPerPage(int _Value) { NumOptimalImagesPerPage = _Value; }
+
 };
 
 }

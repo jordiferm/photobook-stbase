@@ -240,7 +240,7 @@ QString DocumentViewWidget::templateInfo()
 {
 	QString Res;
 	if (PBDocument)
-		Res = QString("<a href=\"%1\">%2</a>").arg(PBDocument->templateInfo().infoUrl().toString()).arg(PBDocument->templateInfo().name());
+		Res = QString("<a href=\"%1\">%2</a>").arg(PBDocument->metaInfo().infoUrl().toString()).arg(PBDocument->metaInfo().name());
 	return Res;
 }
 

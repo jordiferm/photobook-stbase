@@ -52,6 +52,7 @@ class GraphicsSuperImposeItem;
 class AbstractGraphicsItem;
 class GraphicsMonthItem;
 class GraphicsTextItem;
+class Resource;
 
 class ST_PHOTOBOOK_EXPORT TemplateScene : public QGraphicsScene, public IChangesControl
 {
@@ -128,6 +129,7 @@ public:
 	//! Adds an items and sets topZValue + 1 to it.
 	void addItemOnTop(QGraphicsItem* _Item);
 	QGraphicsItem* currentItem() const;
+	void applyResouce(const Resource& _Resource);
 
 
 	//--- Selection

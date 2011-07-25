@@ -47,7 +47,7 @@ using namespace SPhotoBook;
 
 TemplateScene* Document::createPage()
 {
-	TemplateScene* Scene = new TemplateScene(TInfo.size(), this);
+	TemplateScene* Scene = new TemplateScene(MetInfo.size(), this);
 	configurePage(Scene);
 	return Scene; 
 }
@@ -136,7 +136,7 @@ void Document::setBuildOptions(const BuildOptions& _Options)
 
 
 
-Document::Document(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true), IgnoreExifRotation(false), AutoFillBackgrounds(false), PagesToFill(0)
+Document::Document(QObject* _Parent) : QObject(_Parent),  HasChanges(false), AutoAdjustFrames(true), IgnoreExifRotation(false), AutoFillBackgrounds(false), PagesToFill(0)
 {
 }
 
@@ -145,7 +145,6 @@ Document::Document(const Document& _Other)
 	Pages = _Other.Pages;
 	PBInfo = _Other.PBInfo;
 	Description = _Other.Description;
-	SourceImagesPath = _Other.SourceImagesPath;
 	EncryptionKey = _Other.EncryptionKey;
 	HasChanges = _Other.HasChanges;
 	AutoAdjustFrames = _Other.AutoAdjustFrames;
@@ -496,6 +495,8 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		BackCovers.saveResources(PBInfo, true, _Progress);
 		BackCovers.saveXml(PBInfo.xmlBackCoverFileName());
 
+		Resources.save(PBDir);
+
 		//Save Thumbnail
 		if (Pages.size() > 0)
 		{
@@ -564,6 +565,7 @@ void Document::load(const QDir& _RootPath, const QString& _Name, QProgressBar* _
 	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, EncryptionKey, _ProgressBar);
 	Covers.loadXml(MInfo.xmlCoversFileName(), this, EncryptionKey, _ProgressBar);
 	BackCovers.loadXml(MInfo.xmlBackCoverFileName(), this, EncryptionKey, _ProgressBar);
+	Resources.load(QDir(MInfo.photoBookPath()));
 }
 
 bool Document::containsImage(const QString& _ImageMD5Sum) const

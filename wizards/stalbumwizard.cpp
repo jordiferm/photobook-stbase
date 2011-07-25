@@ -243,7 +243,7 @@ void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 	}
 
 	//Get info url from model and display it.
-	QUrl InfoUrl = Model->templateInfo(_Index).infoUrl();
+	QUrl InfoUrl = SPhotoBook::MetaInfo::infoUrl(Model->templateInfo(_Index).name());
 	WebView->setHtml("");
 	setCurrentState(StateGettingInfo);
 	WebView->load(InfoUrl);
@@ -754,7 +754,7 @@ SPhotoBook::BuildOptions STAlbumWizard::buildOptions() const
 	return PBuildOptions->getBuildOptions();
 }
 
-void STAlbumWizard::setTemplateType(const SPhotoBook::TemplateInfoList& _TemplateList)
+void STAlbumWizard::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList)
 {
 	CTemplatePage->setTemplateList(_TemplateList);
 }

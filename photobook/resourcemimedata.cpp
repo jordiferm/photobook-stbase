@@ -18,10 +18,10 @@
 **
 ****************************************************************************/
 
-#include "framemimedata.h"
+#include "resourcemimedata.h"
 
 using namespace SPhotoBook;
 
-FrameMimeData::FrameMimeData()
+ResourceMimeData::ResourceMimeData()
 {
 }

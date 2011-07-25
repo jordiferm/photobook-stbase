@@ -23,7 +23,6 @@
 
 //See http://en.wikipedia.org/wiki/MIME_type
 #define TEMPLATE_MIMETYPE "application/vnd.starblitz.starphob.template"
-#define MASK_MIMETYPE "application/vnd.starblitz.starphob.mask"
-#define FRAME_MIMETYPE "application/vnd.starblitz.starphob.frame"
+//#define RESOURCE_MIMETYPE "application/vnd.starblitz.starphob.resource"
 
 #endif // STPBMIMETYPES_H

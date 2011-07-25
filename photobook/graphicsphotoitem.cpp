@@ -38,8 +38,7 @@
 //Drag And Drop
 #include <QMimeData> 
 #include <QUrl>
-#include "maskmimedata.h"
-#include "framemimedata.h"
+#include "resourcemimedata.h"
 
 
 //Controls 
@@ -516,20 +515,21 @@ void GraphicsPhotoItem::setNoAlplaChannel()
 QFileInfo GraphicsPhotoItem::frameMaskFile(const QString& _FrameImage)
 {
 	QFileInfo FIFileInfo(_FrameImage);
-	return QFileInfo(FIFileInfo.dir().absoluteFilePath(FIFileInfo.baseName() + ".mask"));
+	Resource FMaskRes(FIFileInfo.dir(), FIFileInfo.baseName(), Resource::TypeFrameMask);
+	return FMaskRes.fileInfo();
 }
 
 
-//Sets frame and related mask determined by frameMaskFile
-void GraphicsPhotoItem::setFrameImage(const QString& _FrameImage)
+void GraphicsPhotoItem::setFrameResource(const Resource& _Resource)
 {
-	if (!_FrameImage.isNull())
+	if (!_Resource.isNull())
 	{
-		if (!QFile::exists(_FrameImage))
+		QString FrameFilePath = _Resource.fileInfo().absoluteFilePath();
+		if (!QFile::exists(FrameFilePath))
 			return;
 
-		FrameImageFile = _FrameImage;
-		FrameImage = QImage(_FrameImage);
+		FrameImageFile = FrameFilePath;
+		FrameImage = QImage(FrameFilePath);
 
 		if (FrameImage.isNull())
 			return;
@@ -543,7 +543,7 @@ void GraphicsPhotoItem::setFrameImage(const QString& _FrameImage)
 			FrameImage = FrameImage.transformed(Matrix);
 		}
 
-		QFileInfo FrameMaskFile = frameMaskFile(_FrameImage);
+		QFileInfo FrameMaskFile = frameMaskFile(FrameFilePath);
 		if (FrameMaskFile.exists())
 			setAlphaChannel(QImage(FrameMaskFile.absoluteFilePath()).transformed(Matrix));
 		else
@@ -552,16 +552,15 @@ void GraphicsPhotoItem::setFrameImage(const QString& _FrameImage)
 	else
 		setNoAlplaChannel();
 
-/*	FrameImage.setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskOutColor));
-
-	QImage Alpha = _FrameImage.alphaChannel();
-	//Alpha.invertPixels(QImage::InvertRgba);
-	Alpha.invertPixels();
-	setAlphaChannel(Alpha);
-	//setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskOutColor));
-	//FrameImage.setAlphaChannel(MaskImage);
-	//setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskInColor));*/
 	update();
+
+}
+
+
+//Sets frame and related mask determined by frameMaskFile
+void GraphicsPhotoItem::setFrameImage(const QString& _FrameImage)
+{
+	setFrameResource(Resource(QFileInfo(_FrameImage)));
 }
 
 QImage GraphicsPhotoItem::originalPaintedImage()
@@ -944,6 +943,18 @@ AbstractGraphicsItem* GraphicsPhotoItem::clone() const
 	return Res;
 }
 
+void GraphicsPhotoItem::setResource(const Resource& _Resource)
+{
+	if (_Resource.type() == Resource::TypeFrameMask)
+	{
+		setAlphaChannel(QImage(_Resource.fileInfo().absoluteFilePath()));
+	}
+	else
+	if (_Resource.type() == Resource::TypeFrame)
+	{
+		setFrameResource(_Resource);
+	}
+}
 
 void GraphicsPhotoItem::setRectPos(qreal _X, qreal _Y)
 {
@@ -1299,14 +1310,9 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 // Drag and Drop
 void GraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 {
-	if (const MaskMimeData* MMimeData = qobject_cast<const MaskMimeData*>(_Event->mimeData()))
+	if (const ResourceMimeData* MMimeData = qobject_cast<const ResourceMimeData*>(_Event->mimeData()))
 	{
-		setAlphaChannel(QImage(MMimeData->maskFilePath()));
-	}
-	else
-	if (const FrameMimeData* FMimeData = qobject_cast<const FrameMimeData*>(_Event->mimeData()))
-	{
-		setFrameImage(FMimeData->frameFilePath());
+		setResource(MMimeData->resource());
 	}
 	else
 	{

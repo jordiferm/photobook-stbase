@@ -237,7 +237,7 @@ public:
 	int nextId() const;
 	STDom::DDocModel* selectedImages() const;
 	SPhotoBook::BuildOptions buildOptions() const;
-	void setTemplateType(const SPhotoBook::TemplateInfoList& _TemplateList);
+	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList);
 };
 
 

@@ -18,9 +18,25 @@
 **
 ****************************************************************************/
 
-#include "maskmimedata.h"
+#ifndef RESOURCEMIMEDATA_H
+#define RESOURCEMIMEDATA_H
 
-using namespace SPhotoBook;
-MaskMimeData::MaskMimeData()
+#include <QMimeData>
+#include "stphotobookexport.h"
+#include "resource.h"
+
+
+namespace SPhotoBook
 {
+class ST_PHOTOBOOK_EXPORT ResourceMimeData : public QMimeData
+{
+	Q_OBJECT
+	Resource MRes;
+
+public:
+	ResourceMimeData();
+	Resource resource() const { return MRes; }
+	void setResource(const Resource& _Value) { MRes = _Value; }
+};
 }
+#endif // STMASKMIMEDATA_H

@@ -56,7 +56,6 @@ public:
 	QString absolutePath(const DesignInfo& _Path);
 	DesignInfoList designs() const;
 	void addDesign(const DesignInfo& _Design);
-	QUrl infoUrl() const;
 };
 
 }

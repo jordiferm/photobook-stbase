@@ -44,6 +44,7 @@ namespace SPhotoBook
 {
 
 class GraphicsPhotoItem;
+class Resource;
 
 class ST_PHOTOBOOK_EXPORT GraphicsPhotoItemLoadThread : public QThread
 {
@@ -158,6 +159,7 @@ public:
 	QString frameImageFile() const { return FrameImageFile; }
 	QString frameImageFileName() const;
 	static QFileInfo frameMaskFile(const QString& _FrameImage);
+	void setFrameResource(const Resource& _Resource);
 	void setFrameImage(const QString& _FrameImage);
 
 	//! OnScreen Image
@@ -238,6 +240,7 @@ public:
 	static void setLowResWarning(const QString& _WarningImage, int _MinDpis);
 
 	virtual AbstractGraphicsItem* clone() const;
+	void setResource(const Resource& _Resource);
 
 
 protected:
