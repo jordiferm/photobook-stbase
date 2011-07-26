@@ -67,30 +67,9 @@ QString TemplatePaths::defaultTemplatesPath()
 	return SApplication::userSharedPath() + "/templates/default";
 }
 
-QString TemplatePaths::defaultTemplateResourcesPath(DesignInfo::EnResourceType _Type)
+QString TemplatePaths::resourcesSubDir(const QDir& _TemplateDir)
 {
-	QString SubDirName;
-	switch (_Type)
-	{
-		case DesignInfo::Masks :
-			SubDirName = "masks";
-		break;
-		case DesignInfo::Frames :
-			SubDirName = "frames";
-		break;
-		case DesignInfo::Clipart :
-			SubDirName = "clipart";
-		break;
-		case DesignInfo::Backgrounds :
-			SubDirName = "backgrounds";
-		break;
-		case DesignInfo::Fonts :
-			SubDirName = "fonts";
-		break;
-	}
-
-	QDir BaseDir(defaultTemplatesPath());
-	return BaseDir.absoluteFilePath(SubDirName);
+	return _TemplateDir.absoluteFilePath("resources");
 }
 
 

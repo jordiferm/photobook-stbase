@@ -100,34 +100,7 @@ signals:
 };
 
 
-/**
-Wizard to specify album sizes.
-
-	@author 
-*/
-class QSpinBox; 
-class QLabel; 
-class CustomSizesPage : public QWizardPage 
-{
-Q_OBJECT
-	
-	QFileInfo TemplateFileInfo; 
-
-	QSpinBox* newSizeSpinBox(QWidget* _Parent, const QString& _FieldName);
-	QLabel* newLabel(const QString& _Text, QWidget* _Parent);
-
-public:
-	CustomSizesPage(QWidget* _Parent = 0);
-	void initializePage();
-	bool isComplete () const;
-	bool validatePage();
-	int nextId() const;
-	QFileInfo photoBookTemplateFileInfo() const { return TemplateFileInfo; }
-};
-
-
 class QRadioButton; 
-class STPhotoBookCollectionModel;
 class QxtGroupBox;
 class QTextBrowser;
 class QxtPushButton;

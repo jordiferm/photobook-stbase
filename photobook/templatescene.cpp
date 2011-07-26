@@ -28,7 +28,7 @@
 #include <QTextCursor>
 #include <QDebug>
 
-
+//-- Graphics
 #include "updateitemevent.h"
 #include "graphicsphotoitem.h"
 #include "graphicspageitem.h"
@@ -38,14 +38,20 @@
 #include "graphicsmonthitem.h"
 #include "graphicsitemoperation.h"
 
+//-- Resources
+#include "resource.h"
+#include "resourcemimedata.h"
+
+//-- Drag and Drop
+#include "templatescenemimedata.h"
+
+//-- Documents
+#include "ddoc.h"
+
+//-- Miscelanea
 #include "collectioninfo.h"
 #include "stimage.h"
 #include "stutils.h"
-#include "resource.h"
-
-//Drag and Drop
-#include "scenemimedata.h"
-#include "ddoc.h"
 
 using namespace SPhotoBook;
 
@@ -570,6 +576,7 @@ QGraphicsItem* TemplateScene::addClipartItem(const QString& _FileName)
 	//NewItem->scaleToWidth(75); 
 	NewItem->scaleToHeight(75); 
 	addItemOnTop(NewItem);	
+
 	modified();
 	return NewItem;
 }
@@ -811,7 +818,7 @@ QGraphicsItem* TemplateScene::currentItem() const
 	return Res; 
 }
 
-void TemplateScene::applyResouce(const SPhotoBook::Resource& _Resource)
+void TemplateScene::applyResource(const SPhotoBook::Resource& _Resource)
 {
 	switch (_Resource.type())
 	{
@@ -1260,34 +1267,45 @@ void TemplateScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* _ContextMen
 void TemplateScene::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 {
 	bool Propagate = true;
-	const SceneMimeData* MimeData = qobject_cast<const SceneMimeData*>(_Event->mimeData());
-	if (MimeData)
+	;
+	if (const SPhotoBook::TemplateSceneMimeData* SMData = qobject_cast<const SPhotoBook::TemplateSceneMimeData*>(_Event->mimeData()))
 	{
-		emit templateDropped(this, MimeData->getScene());
+		emit templateDropped(this, SMData->getTemplateScene());
 		Propagate = false;
-		//replaceTemplate(MimeData->getTemplate());
+	}
+	else
+	if (const SPhotoBook::ResourceMimeData* MData = qobject_cast<const SPhotoBook::ResourceMimeData*>(_Event->mimeData()))
+	{
+		Propagate = false;
+		applyResource(MData->resource());
 	}
 	else
 	if (_Event->mimeData()->hasUrls())
 	{
 		QList<QUrl> Urls = _Event->mimeData()->urls();
 
-		QUrl FirstUrl = _Event->mimeData()->urls().first();
-		if (!FirstUrl.isEmpty() && FirstUrl.isValid())
+		QList<QUrl>::iterator it = Urls.begin();
+		while (it != Urls.end())
 		{
-			QString LocalPath = FirstUrl.toString();
-			//Only local file uris are supported.
-			QString FilePath = FirstUrl.toLocalFile();
-			if (!FilePath.isEmpty())
+			QUrl CUrl = *it;
+			if (!CUrl.isEmpty() && CUrl.isValid())
 			{
-				QFileInfo FilePathInfo(FilePath);
-				if (FilePathInfo.completeSuffix().toLower().contains("svg"))
+				//Only local file uris are supported.
+				QString FilePath = CUrl.toLocalFile();
+				if (!FilePath.isEmpty())
 				{
-					emit clipartDropped(FilePath, _Event->scenePos());
-					Propagate = false;
+					QFileInfo FilePathInfo(FilePath);
+					if (SPhotoBook::Resource::isResource(FilePathInfo))
+					{
+						SPhotoBook::Resource CRes(FilePathInfo);
+						applyResource(CRes);
+						Propagate = false;
+					}
 				}
 			}
+			++it;
 		}
+
 	}
 	if (Propagate)
 		QGraphicsScene::dropEvent(_Event);

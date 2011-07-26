@@ -41,6 +41,7 @@ private:
 	QString Name;
 	EnResourceType Type;
 	QDir Dir;
+	QFileInfo FInfo;
 
 public:
 	Resource(const QFileInfo& _FileInfo);

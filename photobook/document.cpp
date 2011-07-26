@@ -61,8 +61,7 @@ void Document::configurePage(TemplateScene* _Page)
 	connect(_Page, SIGNAL(itemContextMenu(QGraphicsItem*, const QPoint&)), this, SLOT(slotSceneItemContextMenu(QGraphicsItem*, const QPoint&)));
 	connect(_Page, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
 	connect(_Page, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&)));
-	connect(_Page, SIGNAL(templateDropped(TemplateScene*,TemplateScene*)), this, SIGNAL(templateDropped(TemplateScene*,TemplateScene*)));
-	connect(_Page, SIGNAL(clipartDropped(QString, QPointF)), this, SIGNAL(clipartDropped(QString, QPointF)));
+	connect(_Page, SIGNAL(templateDropped(SPhotoBook::TemplateScene*,SPhotoBook::TemplateScene*)), this, SIGNAL(templateDropped(SPhotoBook::TemplateScene*,SPhotoBook::TemplateScene*)));
 	connect(_Page, SIGNAL(clicked()), this, SIGNAL(sceneClicked()));
 
 	//FIXME: changed no és prou bon indicador.

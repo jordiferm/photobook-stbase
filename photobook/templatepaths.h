@@ -24,6 +24,7 @@
 
 #include "designinfo.h"
 
+class QDir;
 namespace SPhotoBook
 {
 
@@ -42,7 +43,7 @@ public:
 	static void addPath(const QString& _Path); 	
 	static void addPaths(const QStringList& _Paths);
 	static QString defaultTemplatesPath(); 
-	static QString defaultTemplateResourcesPath(DesignInfo::EnResourceType _DirType);
+	static QString resourcesSubDir(const QDir& _TemplateDir);
 	static QStringList pathList();
 	static QString defaultExtraTemplatesPath();
 	static QString remoteTemplateRelativePath(const QString& _LocalTemplatePath);

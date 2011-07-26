@@ -24,7 +24,7 @@
 using namespace SPhotoBook;
 
 ResourceModel::ResourceModel(QObject *parent) :
-    QAbstractListModel(parent)
+	QAbstractListModel(parent), HasNullItem(false)
 {
 }
 
@@ -115,6 +115,15 @@ QMimeData* ResourceModel::mimeData(const QModelIndexList &indexes) const
 		}
 	}
 	return MimeData;
+}
+
+Qt::ItemFlags ResourceModel::flags(const QModelIndex & index) const
+{
+	Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index) ;
+	if (index.isValid())
+		return Qt::ItemIsDragEnabled | defaultFlags;
+	else
+		return defaultFlags;
 }
 
 QStringList ResourceModel::mimeTypes() const

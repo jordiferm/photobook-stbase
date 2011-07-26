@@ -31,17 +31,19 @@ Resource::Resource(const QFileInfo& _FileInfo)
 		Name = FileName.right(FileName.length() - ( FileName.indexOf("_") + 1));
 		Type = fileResourceType(FileName);
 		Dir = _FileInfo.dir();
+		FInfo = _FileInfo;
 	}
 }
 
 
 Resource::Resource(const QDir& _Dir, const QString& _Name , EnResourceType _Type ) : Name(_Name), Type(_Type), Dir(_Dir)
 {
+	FInfo = QFileInfo(Dir.absoluteFilePath(QString("%1_%2.%3").arg(filePrefix(Type)).arg(Name).arg(fileExtension(Type))));;
 }
 
 QFileInfo Resource::fileInfo() const
 {
-	return QFileInfo(Dir.absoluteFilePath(QString("%1_%2.%3").arg(filePrefix(Type)).arg(Name).arg(fileExtension(Type))));
+	return FInfo;
 }
 
 QStringList Resource::fileFilter(EnResourceType _Type)
@@ -129,6 +131,7 @@ bool Resource::isResource(const QFileInfo& _FileInfo)
 	while (!Found && Cnt <= TypeFont)
 	{
 		Found = FileName.startsWith(filePrefix(static_cast<EnResourceType>(Cnt)) + "_");
+		Found = Found && _FileInfo.suffix().toUpper() == fileExtension(static_cast<EnResourceType>(Cnt));
 		Cnt++;
 	}
 	return Found;

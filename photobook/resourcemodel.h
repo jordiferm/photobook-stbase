@@ -42,6 +42,7 @@ public:
 	bool removeRows(int _Row, int _Count, const QModelIndex& _Parent);
 	QVariant headerData ( int /*section*/, Qt::Orientation /*orientation*/, int /*role*/ ) const;
 	QMimeData* mimeData(const QModelIndexList &indexes) const;
+	Qt::ItemFlags flags(const QModelIndex & index) const;
 	QStringList mimeTypes() const;
 	void addResource(const QFileInfo& _FileInfo);
 	void setResourceList(const ResourceList& _List);

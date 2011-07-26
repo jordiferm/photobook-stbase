@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QSvgRenderer>
 #include <QPainter>
+#include <QDebug>
 
 using namespace SPhotoBook;
 
@@ -40,6 +41,7 @@ ResourceList ResourceList::subList(Resource::EnResourceType _Type) const
 
 		++it;
 	}
+	return Res;
 }
 
 void ResourceList::load(const QDir& _Dir)
@@ -89,7 +91,7 @@ Resource ResourceList::resource(Resource::EnResourceType _Type, const QString& _
 
 QString ResourceList::thumbnailAbsoluteFileName(const Resource& _Resource) const
 {
-	return _Resource.fileInfo().absoluteFilePath() + ".thumb";
+	return _Resource.fileInfo().filePath() + ".thumb";
 }
 
 
@@ -101,6 +103,7 @@ QImage ResourceList::getThumbNail(const Resource& _Resource) const
 		//Let's generate a resource thumbnail
 		if (_Resource.type() == Resource::TypeClipart)
 		{
+			qDebug()<< "----------------------------- Rendering clipart ";
 			QSvgRenderer Renderer;
 			if (Renderer.load(_Resource.fileInfo().absoluteFilePath()))
 			{
@@ -109,7 +112,7 @@ QImage ResourceList::getThumbNail(const Resource& _Resource) const
 				QPainter Painter(&Img);
 				Painter.fillRect(0, 0, Img.width(), Img.height(), QBrush(Qt::white));
 				Renderer.render(&Painter, QRectF(0, 0, Img.width(), Img.height()));
-				if (!Img.save(ThumbFileName))
+				if (!Img.save(ThumbFileName, "JPG"))
 					qWarning(QString("Error saving thumbnail file %1").arg(ThumbFileName).toLatin1());
 			}
 			else

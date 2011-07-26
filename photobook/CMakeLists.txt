@@ -51,7 +51,6 @@ SET(prj_SRCS
 	ichangescontrol.cpp
 	templatescene.cpp
 	corneritem.cpp
-	scenemimedata.cpp
 	abstractgraphicsitem.cpp
 	graphicsclipartitem.cpp
 	graphicsphotoitem.cpp
@@ -70,6 +69,7 @@ SET(prj_SRCS
 	documentviewwidget.cpp
 	templategenerator.cpp
 	pagethumbnailmodel.cpp
+	pagethumbnailproxymodel.cpp
 	checkedproxymodel.cpp
 	doccheckedproxymodel.cpp
 	imageslistviewbase.cpp
@@ -97,7 +97,6 @@ SET(prj_MOC_HDRS
 	ichangescontrol.h
 	templatescene.h
 	corneritem.h
-	scenemimedata.h
 	abstractgraphicsitem.h
 	graphicsclipartitem.h
 	graphicsphotoitem.h
@@ -116,6 +115,7 @@ SET(prj_MOC_HDRS
 	documentviewwidget.h
 	templategenerator.h
 	pagethumbnailmodel.h
+	pagethumbnailproxymodel.h
 	checkedproxymodel.h
 	doccheckedproxymodel.h
 	imageslistviewbase.h

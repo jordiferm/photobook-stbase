@@ -93,7 +93,6 @@ private:
 	bool AutoFillBackgrounds;
 	int PagesToFill;
 	MetaInfo MetInfo;
-	TemplateInfo TInfo;
 
 	TemplateScene* createPage();
 	void configurePage(TemplateScene* _Page);
@@ -218,8 +217,7 @@ signals:
 	void imageRemoved(const QString& _FileName, const QString& _MD5Sum);
 	//! Emited when a new page is inserted.
 	void newPageCreated();
-	void templateDropped(TemplateScene* _Scene, TemplateScene* _Template);
-	void clipartDropped(const QString& _FileName, const QPointF _Point);
+	void templateDropped(SPhotoBook::TemplateScene* _Scene, SPhotoBook::TemplateScene* _Template);
 	void sceneClicked();
 };
 }

@@ -40,7 +40,7 @@ void PageThumbnailProxyModel::clearFilter()
 	invalidateFilter();
 }
 
-void PageThumbnailProxyModel::setTemplateFilter(const PageThumbnailProxyModel::TemplateFilter& _Filter)
+void PageThumbnailProxyModel::setPageFilter(const PageFilter& _Filter)
 {
 	Filter = _Filter;
 	invalidateFilter();
@@ -55,7 +55,7 @@ bool PageThumbnailProxyModel::filterAcceptsRow ( int _SourceRow, const QModelInd
 		TemplateScene* Template = SourceModel->page(SourceModel->index(_SourceRow, 0, _SourceParent));
 		int NumPhotoItems = Template->numPhotoItems();
 
-		Res = NumPhotoItems <= Filter.maxNumFrames() && NumPhotoItems >= Filter.minNumFrames() && !Template.isFirstPage();
+		Res = NumPhotoItems <= Filter.maxNumFrames() && NumPhotoItems >= Filter.minNumFrames();
 	}
 
 	return Res;

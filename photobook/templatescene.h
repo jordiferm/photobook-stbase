@@ -129,7 +129,7 @@ public:
 	//! Adds an items and sets topZValue + 1 to it.
 	void addItemOnTop(QGraphicsItem* _Item);
 	QGraphicsItem* currentItem() const;
-	void applyResouce(const Resource& _Resource);
+	void applyResource(const Resource& _Resource);
 
 
 	//--- Selection
@@ -200,8 +200,7 @@ signals:
 	void imageDropped(const QString& _FileName, const QString& _MD5Sum); 
 	void imageListDropped(const QList<QUrl>& _Urls);
 	void imageRemoved(const QString& _FileName, const QString& _MD5Sum);
-	void templateDropped(TemplateScene* _Scene, const TemplateScene& _Template);
-	void clipartDropped(const QString& _FileName, const QPointF _Pos);
+	void templateDropped(SPhotoBook::TemplateScene* _Scene, SPhotoBook::TemplateScene* _Template);
 };
 
 bool operator<(int _Value, const TemplateScene& _Other);
