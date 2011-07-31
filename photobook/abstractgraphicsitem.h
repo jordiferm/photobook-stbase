@@ -68,8 +68,11 @@ public:
 	AbstractGraphicsItem(QGraphicsItem* _Item);
 	virtual ~AbstractGraphicsItem();
 	void createStandardCorners();
-	virtual QDomElement createElement(QDomDocument& _Doc) const = 0;
-	virtual void loadElement(const QDomElement& _Element) = 0;
+
+	//! If _LoadDir is empty (default) all paths are handled as absolute, else all paths are relative to _StoreDir.
+	virtual QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "") const = 0;
+	//! If Storedir is empty (default) all paths are stored absolute, else path are stored relative to _LoadDir.
+	virtual void loadElement(const QDomElement& _Element, const QString& _LoadDir = "") = 0;
 	bool resizeAllowed() const;
 
 	//Controls

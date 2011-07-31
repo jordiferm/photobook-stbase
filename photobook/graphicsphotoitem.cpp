@@ -124,9 +124,7 @@ QSize GraphicsPhotoItem::imageWindowDpis(const QSizeF& _ItemRectInmm, const QSiz
 
 		Res = Format.dpis(BigClipRect);
 	}
-
 	return Res;
-
 }
 
 void GraphicsPhotoItem::createPaintedImage(const Qt::TransformationMode&  _CTransformMode, const QRect& _MaxResRect)
@@ -154,70 +152,10 @@ void GraphicsPhotoItem::updateCursor()
 		setCursor(Qt::SizeAllCursor);
 }
 
-void GraphicsPhotoItem::createControls()
-{
-	/*QToolBar* TBControls = new QToolBar; 
-	TBControls->setObjectName("SceneItemToolBar"); 
-
-	PanAct = new QAction(QIcon(":/phototemplates/thumbtack_red_unplug_64.png"), tr("Pan"), this); 
-	connect(PanAct, SIGNAL(toggled( bool )), this, SLOT(setPanningEnabled(bool))); 
-	PanAct->setCheckable(true); 
-	TBControls->addAction(PanAct);
-
-
-	QAction* ZoomInAct = new QAction(QIcon(":/phototemplates/viewmag+.png"), tr("Zoom+"), this); 
-	connect(ZoomInAct, SIGNAL(triggered( bool )), this, SLOT(slotZoomImageIn())); 
-	TBControls->addAction(ZoomInAct);
-
-	QAction* ZoomOutAct = new QAction(QIcon(":/phototemplates/viewmag-.png"), tr("Zoom-"), this); 
-	connect(ZoomOutAct, SIGNAL(triggered( bool )), this, SLOT(slotZoomImageOut())); 
-	TBControls->addAction(ZoomOutAct);
-
-	QAction* RotateAct = new QAction(QIcon(":/phototemplates/rotate_ccw.png"), tr("Rotate"), this); 
-	connect(RotateAct, SIGNAL(triggered( bool )), this, SLOT(slotRotateImage())); 
-	TBControls->addAction(RotateAct);
-
-	QAction* FitAct = new QAction(QIcon(":/phototemplates/fittoframe.png"), tr("Fit"), this); 
-	connect(FitAct, SIGNAL(triggered( bool )), this, SLOT(slotFitImage())); 
-	TBControls->addAction(FitAct);
-
-
-	QGraphicsProxyWidget* proxy = new QGraphicsProxyWidget(this); 
-	proxy->setWidget(TBControls); 
-	proxy->setVisible(false);
-	double Scale = (100 + 46 - 20) / proxy->geometry().width();
-	proxy->scale( Scale, Scale);
-//	proxy->setPos(rectPos());
-//	proxy->setVisible(false);
-//	if (proxy->geometry().width() > rect().width() * 2)
-//	{
-//		double Scale1 = (rect().height() / 6) / proxy->geometry().height();
-//		double Scale2 = (rect().width() * 1.5) / proxy->geometry().width();
-//		double Scale = qMax(Scale1, Scale2);
-//		proxy->scale( Scale, Scale);
-//	}
-
-	setControlsWidget(proxy);
-	layoutControlWidget();*/
-}
-
-
-void GraphicsPhotoItem::layoutControlWidget()
-{
-	if (MControlGWidget) //Defensive
-	{
-		QPointF MyPos = rectPos() - pos();
-		MyPos.setY(MyPos.y() - (MControlGWidget->geometry().height() - 10));
-		MControlGWidget->setPos(MyPos);
-	}
-}
-
 void GraphicsPhotoItem::init()
 {
-	FrameImageFile = "";
 	PanAct = 0; 
 	AspectRatioMode = Qt::KeepAspectRatioByExpanding; 
-	ShadowDepth = 0;
 	CurrScale = 1.0;
 	Opacity = 1.0; 
 	ImageModified = false; 
@@ -230,7 +168,7 @@ void GraphicsPhotoItem::init()
 	OrientationChanged = false;
 
 	//QColor EmptyFrameColor("#FFD95C");
-	QColor EmptyFrameColor("#BBBBBB");
+	EmptyFrameColor = QColor("#BBBBBB");
 	EmptyFrameColor.setAlpha(150);
 	//EmptyFrameColor.setAlpha(0);
 	setBrush(QBrush(EmptyFrameColor, Qt::SolidPattern));
@@ -261,6 +199,20 @@ void GraphicsPhotoItem::init()
 	//setGraphicsEffect(BlurEffect);
 }
 
+QPointF GraphicsPhotoItem::insideSceneRect(const QPointF& _Point)
+{
+
+	QPointF Res = _Point;
+	QRectF rect = scene()->sceneRect();
+	if (!rect.contains(Res))
+	{
+		// Keep the item inside the scene rect.
+		Res.setX(qMin(rect.right(), qMax(Res.x(), rect.left())));
+		Res.setY(qMin(rect.bottom(), qMax(Res.y(), rect.top())));
+	}
+	return Res;
+}
+
 void GraphicsPhotoItem::checkForImageOrientation()
 {
 	if (!AutoAdjustFramesToImages)
@@ -272,28 +224,12 @@ void GraphicsPhotoItem::checkForImageOrientation()
 	}
 }
 
-QPointF GraphicsPhotoItem::insideSceneRect(const QPointF& _Point)
-{
-
-	QPointF Res = _Point; 
-	QRectF rect = scene()->sceneRect();
-	if (!rect.contains(Res)) 
-	{
-		// Keep the item inside the scene rect.
-		Res.setX(qMin(rect.right(), qMax(Res.x(), rect.left())));
-		Res.setY(qMin(rect.bottom(), qMax(Res.y(), rect.top())));
-	}
-	return Res; 
-}
-
-
 
 GraphicsPhotoItem::GraphicsPhotoItem(QGraphicsItem* _Parent) : QGraphicsRectItem(_Parent), AbstractGraphicsItem(this)
 {
 	init();
 	updateToolTip();
 	createStandardCorners();
-	createControls(); 
 	setControlsVisible(false);
 }
 
@@ -304,68 +240,141 @@ GraphicsPhotoItem::~GraphicsPhotoItem()
 	delete MLoadThread;
 }
 
-void GraphicsPhotoItem::adjustRectToImage()
+AbstractGraphicsItem* GraphicsPhotoItem::clone() const
 {
-	if (!PaintedImage.isNull())
+	GraphicsPhotoItem* Res = new GraphicsPhotoItem;
+	QDomDocument Doc;
+	Res->loadElement(createElement(Doc));
+	return Res;
+}
+
+QStringList GraphicsPhotoItem::saveResources(const QDir& _StoreDir, bool _SaveImageRes)
+{
+	qDebug() << "------ QStringList GraphicsPhotoItem::saveResources(const QDir& _StoreDir, bool _SaveImageRes)";
+	QStringList Res;
+	if (!ImageResource.isNull() && _SaveImageRes)
+		Res << ImageResource.save(_StoreDir);
+	if (!FrameResource.isNull())
+		Res << FrameResource.save(_StoreDir); //This will save frameMask also
+	else
+		if (!MaskResource.isNull())
+			Res << MaskResource.save(_StoreDir);
+	return Res;
+}
+
+
+void GraphicsPhotoItem::setResource(const Resource& _Resource)
+{
+	if (_Resource.type() == Resource::TypeFrameMask)
 	{
-		OrientationChanged = false;
-		adjustRectToImage(PaintedImage.size());
+		setAlphaChannel(_Resource);
+	}
+	else
+	if (_Resource.type() == Resource::TypeFrame)
+	{
+		setFrameResource(_Resource);
 	}
 }
 
-void GraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
+void GraphicsPhotoItem::setAlphaChannel(const Resource& _Resource, const QImage& _AlphaChannel)
 {
-	//Adjust itemRect to Image.
-	double ImageRatio = static_cast<double>(_ImageSize.width()) / static_cast<double>(_ImageSize.height());
-	QRectF FrameRect = rect();
-	QRectF AdjustedRect = FrameRect;
-	if (ImageRatio > 1) //=> Width > height => Adjust rect height
-	{
-		double NewHeight = FrameRect.width() / ImageRatio;
-		if (NewHeight < FrameRect.height() && !OrientationChanged)
-		{
-			AdjustedRect.setHeight(NewHeight);
-			AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
-		}
-		else
-		{
-			AdjustedRect.setWidth(FrameRect.height() * ImageRatio);
-			AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
-		}
-
-	}
+	if (!_Resource.isNull())
+		MaskImage = _AlphaChannel;
 	else
-	{
-		double NewWidth = FrameRect.height() * ImageRatio;
-		if (NewWidth < FrameRect.width() && !OrientationChanged)
-		{
-			AdjustedRect.setWidth(NewWidth);
-			AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
-		}
-		else
-		{
-			AdjustedRect.setHeight(FrameRect.width() / ImageRatio);
-			AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
-		}
-	}
+		MaskImage = QImage();
 
-	if ((FrameRect.width() > FrameRect.height() && AdjustedRect.width() <= AdjustedRect.height())
-		|| (FrameRect.width() <= FrameRect.height() && AdjustedRect.width() > AdjustedRect.height()))
-		OrientationChanged = !OrientationChanged;
+	MaskResource = _Resource;
 
-	setRect(AdjustedRect);
+	QBrush CurrBrush = brush();
+	QColor EFColor = EmptyFrameColor;
+	if (MaskImage.isNull())
+		EFColor.setAlpha(150);
+	else
+		EFColor.setAlpha(0);
+	CurrBrush.setColor(EFColor);
+	setBrush(CurrBrush);
 
-	setSelected(false);
+	update();
 	modified();
 }
 
-void GraphicsPhotoItem::setAutoAdjustFramesToImages(bool _Value)
+void GraphicsPhotoItem::setAlphaChannel(const Resource& _Resource)
 {
-	AutoAdjustFramesToImages = _Value;
-	if (_Value)
-		setAspectRatioMode(Qt::KeepAspectRatio);
-	//else
-	//	setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
+	setAlphaChannel(_Resource, QImage(_Resource.fileInfo().absoluteFilePath()));
+}
+
+void GraphicsPhotoItem::setFrameResource(const Resource& _Resource)
+{
+	FrameResource = _Resource;
+	if (!_Resource.isNull())
+	{
+		QString FrameFilePath = _Resource.fileInfo().absoluteFilePath();
+		if (!QFile::exists(FrameFilePath))
+			return;
+
+		FrameImage = QImage(FrameFilePath);
+
+		if (FrameImage.isNull())
+			return;
+
+		QRectF BRect = boundingRect();
+		QMatrix Matrix;
+		if ((BRect.width() > BRect.height() && FrameImage.width() < FrameImage.height())
+			|| (BRect.width() < BRect.height() && FrameImage.width() > FrameImage.height()))
+		{
+			Matrix.rotate(90);
+			FrameImage = FrameImage.transformed(Matrix);
+		}
+
+		QFileInfo FrameMaskFile = Resource::frameMaskFile(_Resource);
+		if (FrameMaskFile.exists())
+			setAlphaChannel(Resource(FrameMaskFile), QImage(FrameMaskFile.absoluteFilePath()).transformed(Matrix));
+		else
+			setAlphaChannel(Resource());//No Alpha Channel
+	}
+	else
+		setAlphaChannel(Resource());
+
+	update();
+}
+
+QImage GraphicsPhotoItem::originalPaintedImage()
+{
+	createPaintedImage(Qt::SmoothTransformation, LastMaxResRect);
+	return PaintedImage;
+}
+
+void GraphicsPhotoItem::updatePaintedImage(const QImage& _Image)
+{
+	PaintedImage = _Image;
+	update();
+}
+
+void GraphicsPhotoItem::setImage(const QImage& _Image, const QString& _ImageFileName)
+{
+	ImageLoaded = true;
+	if (!CurrImage.isNull())
+		ImageModified = true;
+	setImageFileName(_ImageFileName);
+	CurrImage = _Image;
+	LastMaxResRect = QRect();
+	checkForImageOrientation();
+	update();
+	updateCursor();
+}
+
+void GraphicsPhotoItem::setImageFileName(const QString& _ImageFileName)
+{
+	if (!ImageResource.isNull() && !ImageMD5Sum.isEmpty())
+		emit imageRemoved(ImageResource.fileInfo().absoluteFilePath(), ImageMD5Sum);
+	if (_ImageFileName.isEmpty())
+		ImageResource = Resource();
+	else
+	{
+		ImageResource = Resource(QFileInfo(_ImageFileName), Resource::TypeImage);
+		ImageMD5Sum = STImage::hashString(_ImageFileName);
+	}
+	modified();
 }
 
 void GraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
@@ -428,21 +437,13 @@ void GraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 	update();
 }
 
-void  GraphicsPhotoItem::setDoc(STDom::DDoc* _Doc)
-{
-	if (STDom::DImageDoc* CImageDoc = static_cast<STDom::DImageDoc*>(_Doc))
-		setImage(*CImageDoc);
-	else
-		setThumbnail(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
-}
-
-
 //! Obsolete, provided for compatibility reasons.
 void GraphicsPhotoItem::setThumbnail(const QPixmap& _ThumbNail, const QString& _ImageFileName)
 {
 	setThumbnail(_ThumbNail.toImage(), _ImageFileName);
 }
 
+//@Revision Mark
 void GraphicsPhotoItem::setThumbnail(const QImage& _ThumbNail, const QString& _ImageFileName)
 {
 	//CurrImage = QImage(_ImageFileName);
@@ -451,7 +452,7 @@ void GraphicsPhotoItem::setThumbnail(const QImage& _ThumbNail, const QString& _I
 	PanningPoint = QPoint(0, 0);
 	bool ChangingImage = !CurrImage.isNull();
 	CurrImage = _ThumbNail;
-	setImageFileName(_ImageFileName); 
+	setImageFileName(_ImageFileName);
 	setBrush(QBrush(Qt::NoBrush));
 	checkForImageOrientation();
 
@@ -467,135 +468,21 @@ void GraphicsPhotoItem::setThumbnail(const QImage& _ThumbNail, const QString& _I
 	updateCursor();
 }
 
-
-QString GraphicsPhotoItem::alphaChannelFileName() const
+void  GraphicsPhotoItem::setDoc(STDom::DDoc* _Doc)
 {
-	QString Res = ""; 
-	if (hasAlphaChannel())
-	{
-		STImage SMImage = MaskImage; 
-		Res = "mask_" + SMImage.hashString() + ".png"; 
-	}
-	return Res; 
-}
-
-QString GraphicsPhotoItem::frameImageFileName() const
-{
-	QString Res = "";
-	if (hasFrameImage())
-	{
-		STImage SFImage = FrameImage;
-		Res = "frame_" + SFImage.hashString() + ".png";
-	}
-	return Res;
-}
-
-void GraphicsPhotoItem::setAlphaChannel(const QImage& _AlphaChannel)
-{
-	MaskImage = _AlphaChannel; 
-
-	QBrush CurrBrush = brush(); 
-	QColor EmptyFrameColor = brush().color();
-	if (MaskImage.isNull())
-		EmptyFrameColor.setAlpha(150);
+	if (STDom::DImageDoc* CImageDoc = static_cast<STDom::DImageDoc*>(_Doc))
+		setImage(*CImageDoc);
 	else
-		EmptyFrameColor.setAlpha(0);
-	CurrBrush.setColor(EmptyFrameColor); 
-	setBrush(CurrBrush);
-
-	update();
-	modified();
-}
-
-void GraphicsPhotoItem::setNoAlplaChannel()
-{
-	setAlphaChannel(QImage());
-}
-
-QFileInfo GraphicsPhotoItem::frameMaskFile(const QString& _FrameImage)
-{
-	QFileInfo FIFileInfo(_FrameImage);
-	Resource FMaskRes(FIFileInfo.dir(), FIFileInfo.baseName(), Resource::TypeFrameMask);
-	return FMaskRes.fileInfo();
-}
-
-
-void GraphicsPhotoItem::setFrameResource(const Resource& _Resource)
-{
-	if (!_Resource.isNull())
-	{
-		QString FrameFilePath = _Resource.fileInfo().absoluteFilePath();
-		if (!QFile::exists(FrameFilePath))
-			return;
-
-		FrameImageFile = FrameFilePath;
-		FrameImage = QImage(FrameFilePath);
-
-		if (FrameImage.isNull())
-			return;
-
-		QRectF BRect = boundingRect();
-		QMatrix Matrix;
-		if ((BRect.width() > BRect.height() && FrameImage.width() < FrameImage.height())
-			|| (BRect.width() < BRect.height() && FrameImage.width() > FrameImage.height()))
-		{
-			Matrix.rotate(90);
-			FrameImage = FrameImage.transformed(Matrix);
-		}
-
-		QFileInfo FrameMaskFile = frameMaskFile(FrameFilePath);
-		if (FrameMaskFile.exists())
-			setAlphaChannel(QImage(FrameMaskFile.absoluteFilePath()).transformed(Matrix));
-		else
-			setNoAlplaChannel();
-	}
-	else
-		setNoAlplaChannel();
-
-	update();
-
-}
-
-
-//Sets frame and related mask determined by frameMaskFile
-void GraphicsPhotoItem::setFrameImage(const QString& _FrameImage)
-{
-	setFrameResource(Resource(QFileInfo(_FrameImage)));
-}
-
-QImage GraphicsPhotoItem::originalPaintedImage()
-{
-	createPaintedImage(Qt::SmoothTransformation, LastMaxResRect);
-	return PaintedImage;
-}
-
-
-void GraphicsPhotoItem::updatePaintedImage(const QImage& _Image)
-{
-	PaintedImage = _Image;
-	update();
-}
-
-void GraphicsPhotoItem::setImage(const QImage& _Image, const QString& _ImageFileName)
-{
-	ImageLoaded = true;
-	if (!CurrImage.isNull())
-		ImageModified = true;
-	setImageFileName(_ImageFileName); 
-	CurrImage = _Image; 
-	LastMaxResRect = QRect();
-	checkForImageOrientation();
-	update();
-	updateCursor();
+		setThumbnail(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
 }
 
 void GraphicsPhotoItem::loadImage()
 {
-	if (!CurrImageFileName.isEmpty())
+	if (!ImageResource.isNull())
 	{
 		//!FIXME What happens if load fails ???
 
-		CurrImage = STImage(CurrImageFileName);
+		CurrImage = STImage(ImageResource.fileInfo().absoluteFilePath());
 		if (ImageEncrypted)
 			CurrImage.blowFishDecode();
 
@@ -603,7 +490,7 @@ void GraphicsPhotoItem::loadImage()
 		//!TODO put the 800 in settings.
 		if (ImageMode == LowResImageMode && !CurrImage.isNull())
 			CurrImage =	CurrImage.scaledToWidth(qMin(CurrImage.width(), qMin(800, mmToPixels(rect().width(), LowResImageDPIs))));
-		
+
 		LastMaxResRect = QRect();
 		ImageLoaded = true;
 		checkForImageOrientation();
@@ -617,7 +504,7 @@ void GraphicsPhotoItem::loadImage()
 void GraphicsPhotoItem::loadImageSpawn()
 {
 	STDom::DDocFormat PhotoFormat(rect().size());
-	QSize PixelSize = PhotoFormat.pixelSize(LowResImageDPIs); 
+	QSize PixelSize = PhotoFormat.pixelSize(LowResImageDPIs);
 	if ((PixelSize.width() > MaxLowResImageSize.width() || PixelSize.height() > MaxLowResImageSize.height()) || ImageMode == HiResImageMode || CurrImage.isNull())
 	{
 		if (!imageLoaded() && !MLoadThread->isRunning())
@@ -642,10 +529,65 @@ void GraphicsPhotoItem::unloadImage()
 
 void GraphicsPhotoItem::clearImage()
 {
-	unloadImage(); 
-	CurrImageFileName = ""; 
-	ImageMD5Sum = ""; 
+	unloadImage();
+	ImageResource = Resource();
+	ImageMD5Sum = "";
 	setBrush(QBrush(EmptyFrameColor, Qt::SolidPattern));
+}
+
+void GraphicsPhotoItem::adjustRectToImage()
+{
+	if (!PaintedImage.isNull())
+	{
+		OrientationChanged = false;
+		adjustRectToImage(PaintedImage.size());
+	}
+}
+
+void GraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
+{
+	//Adjust itemRect to Image.
+	double ImageRatio = static_cast<double>(_ImageSize.width()) / static_cast<double>(_ImageSize.height());
+	QRectF FrameRect = rect();
+	QRectF AdjustedRect = FrameRect;
+	if (ImageRatio > 1) //=> Width > height => Adjust rect height
+	{
+		double NewHeight = FrameRect.width() / ImageRatio;
+		if (NewHeight < FrameRect.height() && !OrientationChanged)
+		{
+			AdjustedRect.setHeight(NewHeight);
+			AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
+		}
+		else
+		{
+			AdjustedRect.setWidth(FrameRect.height() * ImageRatio);
+			AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
+		}
+
+	}
+	else
+	{
+		double NewWidth = FrameRect.height() * ImageRatio;
+		if (NewWidth < FrameRect.width() && !OrientationChanged)
+		{
+			AdjustedRect.setWidth(NewWidth);
+			AdjustedRect.moveLeft(FrameRect.x() + ((FrameRect.width() - AdjustedRect.width()) / 2));
+		}
+		else
+		{
+			AdjustedRect.setHeight(FrameRect.width() / ImageRatio);
+			AdjustedRect.moveTop(FrameRect.y() + ((FrameRect.height() - AdjustedRect.height()) / 2));
+		}
+	}
+
+	if ((FrameRect.width() > FrameRect.height() && AdjustedRect.width() <= AdjustedRect.height())
+		|| (FrameRect.width() <= FrameRect.height() && AdjustedRect.width() > AdjustedRect.height()))
+		OrientationChanged = !OrientationChanged;
+
+	setRect(AdjustedRect);
+
+	setSelected(false);
+	modified();
 }
 
 void GraphicsPhotoItem::rotateImage(qreal _Degrees)
@@ -665,7 +607,7 @@ void GraphicsPhotoItem::scaleImage(qreal _Scale)
 
 void GraphicsPhotoItem::setImageScale(qreal _Scale)
 {
-	CurrScale = _Scale; 
+	CurrScale = _Scale;
 	ImageModified = true;
 
 	update();
@@ -674,37 +616,36 @@ void GraphicsPhotoItem::setImageScale(qreal _Scale)
 
 qreal GraphicsPhotoItem::imageScale()
 {
-	return CurrScale; 
+	return CurrScale;
 }
 
 qreal GraphicsPhotoItem::fitInImageScale()
 {
-	qreal Res = 1; 
+	qreal Res = 1;
 	//We calculate it by the largest side of image
 	if (PaintedImage.width() > PaintedImage.height())
-		Res = (static_cast<qreal>(LastMaxResRect.width()) ) / (static_cast<qreal>(PaintedImage.width()) / CurrScale); 
-	else 
-		Res = static_cast<qreal>(LastMaxResRect.height()) / (static_cast<qreal>(PaintedImage.height()) / CurrScale); 
-	
-	return Res; 
+		Res = (static_cast<qreal>(LastMaxResRect.width()) ) / (static_cast<qreal>(PaintedImage.width()) / CurrScale);
+	else
+		Res = static_cast<qreal>(LastMaxResRect.height()) / (static_cast<qreal>(PaintedImage.height()) / CurrScale);
+
+	return Res;
 }
 
-void GraphicsPhotoItem::setImageFileName(const QString& _ImageFileName)
+void GraphicsPhotoItem::shrink(double _Amount)
 {
-	if (!CurrImageFileName.isEmpty() && !ImageMD5Sum.isEmpty())
-		emit imageRemoved(CurrImageFileName, ImageMD5Sum);
-	CurrImageFileName = _ImageFileName; 
-	if (!_ImageFileName.isEmpty())
-	ImageMD5Sum = STImage::hashString(_ImageFileName); 	
+	QRectF CurrRect = rect();
+	setRect(CurrRect.x() + _Amount, CurrRect.y() + _Amount, CurrRect.width() - _Amount * 2, CurrRect.height() - _Amount * 2);
+}
+
+void GraphicsPhotoItem::setOpacity(qreal _Value)
+{
+	Opacity = _Value;
+	update();
 	modified();
 }
 
-void GraphicsPhotoItem::setImageSourcePath(const QString& _ImagesSourcePath)
-{
-	ImagesSourcePath = _ImagesSourcePath;
-}
 
-void GraphicsPhotoItem::loadElement(const QDomElement& _Element)
+void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& _LoadDir)
 {
 	QDomNode CNode = _Element.firstChild();
 	while(!CNode.isNull())
@@ -716,163 +657,133 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element)
 			if (CEl.tagName().toLower() ==  "rect" )
 			{
 				QRect MRect(CEl.attribute("x", "0").toDouble(),
-								CEl.attribute("y", "0").toDouble(), 
-								CEl.attribute("width", "0").toDouble(), 
+								CEl.attribute("y", "0").toDouble(),
+								CEl.attribute("width", "0").toDouble(),
 								CEl.attribute("height", "0").toDouble());
 				setRect(MRect);
 			}
-			else 
+			else
 			if (CEl.tagName().toLower() ==  "pen" )
 			{
-				QPen Pen = pen(); 
+				QPen Pen = pen();
 				Pen.setColor(CEl.attribute("color", "#000000"));
 				Pen.setStyle(static_cast<Qt::PenStyle>(CEl.attribute("style", "0").toInt()));
 				Pen.setWidth(CEl.attribute("width", "0").toInt());
 				Pen.setJoinStyle(static_cast<Qt::PenJoinStyle>(CEl.attribute("joinstyle", "0").toInt()));
 				setPen(Pen);
 			}
-			else 
+			else
 			if (CEl.tagName().toLower() ==  "matrix" )
 			{
 				ImageMatrix.setMatrix(
-								CEl.attribute("m11", "0").toDouble(), 
-								CEl.attribute("m12", "0").toDouble(), 
-								CEl.attribute("m21", "0").toDouble(), 
-								CEl.attribute("m22", "0").toDouble(), 
-								CEl.attribute("dx", "0").toDouble(), 
+								CEl.attribute("m11", "0").toDouble(),
+								CEl.attribute("m12", "0").toDouble(),
+								CEl.attribute("m21", "0").toDouble(),
+								CEl.attribute("m22", "0").toDouble(),
+								CEl.attribute("dx", "0").toDouble(),
 								CEl.attribute("dy", "0").toDouble());
 			}
 		}
 		CNode = CNode.nextSibling();
-	}	
+	}
 	setImageEncrypted(_Element.attribute("encrypted", "false").toLower() == "true");
 	STImage CImage;
 	QString ImageFilePath = _Element.attribute("src");
+
 	if (!ImageFilePath.isEmpty())
 	{
-		if (!ImageFilePath.contains("/") && !ImageFilePath.contains("\\"))
-			ImageFilePath = ImagesSourcePath + "/" + ImageFilePath;
-
-
-		QFileInfo ImgFInfo(ImageFilePath);
+		QFileInfo ImgFInfo = Resource::fileInfoFromXmlSrc(ImageFilePath, _LoadDir);
 		if (ImgFInfo.exists() && ImgFInfo.isFile()) //Is not only a dir and it exists.
 		{
-			CImage.loadThumbnail(ImageFilePath);
-			setThumbnail(CImage, ImageFilePath);
+			CImage.loadThumbnail(ImgFInfo.absoluteFilePath());
+			setThumbnail(CImage, ImgFInfo.absoluteFilePath());
 			if (ImageEncrypted)
 				loadImageSpawn();
 		}
 	}
+	else
+		ImageResource = Resource();
+
 	setTransform(AbstractGraphicsItem::loadTransformElement(_Element));
 	setPos(_Element.attribute("x", "0").toDouble(), _Element.attribute("y", "0").toDouble());
-	CurrScale = _Element.attribute("scale", "1.0").toDouble(); 
-	ShadowDepth = _Element.attribute("shadowdepth", "0").toDouble(); 
-	Opacity = _Element.attribute("opacity", "1.0").toDouble(); 
+	CurrScale = _Element.attribute("scale", "1.0").toDouble();
+	Opacity = _Element.attribute("opacity", "1.0").toDouble();
 	PanningPoint.setX(_Element.attribute("panningx", "0").toDouble());
 	PanningPoint.setY(_Element.attribute("panningy", "0").toDouble());
-	
-	QString FrameSrc = _Element.attribute("frame_src", "");
-	if (!FrameSrc.isEmpty())
-	{
-		FrameSrc = ImagesSourcePath + "/" + FrameSrc;
-		setFrameImage(FrameSrc);
-	}
 
-	//Mask Image must be loaded before Frame because setFrameImage removes mask.
-	QString MaskSrc = _Element.attribute("mask_src", "");
-	if (!MaskSrc.isEmpty())
-	{
-		MaskSrc = ImagesSourcePath + "/" + MaskSrc;
-		setAlphaChannel(QImage(MaskSrc));
-	}
+	//Load Frame and masks
+	setFrameResource(Resource::resourceFromXmlSrc(_Element.attribute("frame_src", ""), _LoadDir));
+
+	if (FrameResource.isNull()) //Frame and mask are exclusives
+		setAlphaChannel(Resource::Resource::resourceFromXmlSrc(_Element.attribute("mask_src", ""), _LoadDir));
 
 	AbstractGraphicsItem::loadEffectElements(this,  _Element);
 
-	updateToolTip(); 
-	layoutControlWidget();
+	updateToolTip();
 }
 
-QDomElement GraphicsPhotoItem::createElement(QDomDocument& _Doc) const
+QDomElement GraphicsPhotoItem::createElement(QDomDocument& _Doc, const QString& _StoreDir) const
 {
 	QDomElement MElement = _Doc.createElement(tagName());
-	if (!imageFileName().isEmpty())
-	{
-		QFileInfo ImageFile(imageFileName());
-		if (ImageFile.absoluteFilePath().contains(ImagesSourcePath))
-			MElement.setAttribute("src", ImageFile.fileName());
-		else
-		{
-			MElement.setAttribute("src", ImageFile.absoluteFilePath());
-		}
-	}
-	if (hasAlphaChannel())
-		MElement.setAttribute("mask_src", alphaChannelFileName()); 
-	if (hasFrameImage())
-		MElement.setAttribute("frame_src", frameImageFileName());
+	if (!ImageResource.isNull())
+		MElement.setAttribute("src", Resource::fileInfoToXmlSrc(ImageResource.fileInfo(), _StoreDir));
 
-	MElement.setAttribute("shadowdepth", ShadowDepth); 
-	MElement.setAttribute("scale", CurrScale); 
-	MElement.setAttribute("x", x()); 
-	MElement.setAttribute("y", y()); 
-	MElement.setAttribute("panningx", PanningPoint.x()); 
+	if (!FrameResource.isNull())
+		MElement.setAttribute("frame_src", Resource::fileInfoToXmlSrc(FrameResource.fileInfo(), _StoreDir));
+	else
+		if (!MaskResource.isNull())
+			MElement.setAttribute("mask_src", Resource::fileInfoToXmlSrc(MaskResource.fileInfo(), _StoreDir));
+
+	MElement.setAttribute("scale", CurrScale);
+	MElement.setAttribute("x", x());
+	MElement.setAttribute("y", y());
+	MElement.setAttribute("panningx", PanningPoint.x());
 	MElement.setAttribute("panningy", PanningPoint.y());
 	MElement.setAttribute("encrypted", ImageEncrypted ? "true" : "false");
-	MElement.setAttribute("opacity", Opacity); 
-	QDomElement RectEl = _Doc.createElement("rect"); 
-	RectEl.setAttribute("x", rect().x()); 
-	RectEl.setAttribute("y", rect().y()); 
-	RectEl.setAttribute("width", rect().width()); 
-	RectEl.setAttribute("height", rect().height()); 
-	MElement.appendChild(RectEl); 
-	
-	QDomElement MatrixEl = _Doc.createElement("matrix"); 
-	MatrixEl.setAttribute("m11", ImageMatrix.m11()); 
-	MatrixEl.setAttribute("m12", ImageMatrix.m12()); 
-	MatrixEl.setAttribute("m21", ImageMatrix.m21()); 
-	MatrixEl.setAttribute("m22", ImageMatrix.m22()); 
-	MatrixEl.setAttribute("dx", ImageMatrix.dx()); 
-	MatrixEl.setAttribute("dy", ImageMatrix.dy()); 
-	MElement.appendChild(MatrixEl); 
-	
-	QDomElement PenEl = _Doc.createElement("pen"); 
-	PenEl.setAttribute("color", pen().color().name()); 
-	PenEl.setAttribute("style", pen().style()); 
-	PenEl.setAttribute("width", pen().width()); 
-	PenEl.setAttribute("joinstyle", pen().joinStyle()); 
-	MElement.appendChild(PenEl); 
+	MElement.setAttribute("opacity", Opacity);
+	QDomElement RectEl = _Doc.createElement("rect");
+	RectEl.setAttribute("x", rect().x());
+	RectEl.setAttribute("y", rect().y());
+	RectEl.setAttribute("width", rect().width());
+	RectEl.setAttribute("height", rect().height());
+	MElement.appendChild(RectEl);
+
+	QDomElement MatrixEl = _Doc.createElement("matrix");
+	MatrixEl.setAttribute("m11", ImageMatrix.m11());
+	MatrixEl.setAttribute("m12", ImageMatrix.m12());
+	MatrixEl.setAttribute("m21", ImageMatrix.m21());
+	MatrixEl.setAttribute("m22", ImageMatrix.m22());
+	MatrixEl.setAttribute("dx", ImageMatrix.dx());
+	MatrixEl.setAttribute("dy", ImageMatrix.dy());
+	MElement.appendChild(MatrixEl);
+
+	QDomElement PenEl = _Doc.createElement("pen");
+	PenEl.setAttribute("color", pen().color().name());
+	PenEl.setAttribute("style", pen().style());
+	PenEl.setAttribute("width", pen().width());
+	PenEl.setAttribute("joinstyle", pen().joinStyle());
+	MElement.appendChild(PenEl);
 
 	MElement.appendChild(AbstractGraphicsItem::createTransformElement(this, _Doc));
 	//Effects
 	AbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
 
-	return MElement; 
+	return MElement;
 }
 
-void GraphicsPhotoItem::setOpacity(qreal _Value)
+void GraphicsPhotoItem::setAutoAdjustFramesToImages(bool _Value)
 {
-	Opacity = _Value; 
-	update(); 
-	modified();
-}
-
-void GraphicsPhotoItem::setShadowDepth(qreal _Value)
-{
-	ShadowDepth = _Value;
-	update(); 
-	modified();
-}
-
-void GraphicsPhotoItem::shrink(double _Amount)
-{
-	QRectF CurrRect = rect();
-	setRect(CurrRect.x() + _Amount, CurrRect.y() + _Amount, CurrRect.width() - _Amount * 2, CurrRect.height() - _Amount * 2);
+	AutoAdjustFramesToImages = _Value;
+	if (_Value)
+		setAspectRatioMode(Qt::KeepAspectRatio);
+	//else
+	//	setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
 }
 
 bool GraphicsPhotoItem::encryptedByFileName(const QString& _FilePath)
 {
 	return QFileInfo(_FilePath).baseName().endsWith("_cyph");
 }
-
 
 void GraphicsPhotoItem::disableMoveConstraints()
 {
@@ -888,16 +799,13 @@ void GraphicsPhotoItem::restoreMoveConstraints()
 	setThresholdMoving(OldThresholdMoving);
 }
 
-
-QRectF GraphicsPhotoItem::boundingRect() const
+void GraphicsPhotoItem::setLowResWarning(const QString& _WarningImage, int _MinDpis)
 {
-	QRectF Res = QGraphicsRectItem::boundingRect(); 
-	Res.setWidth( Res.width() + ShadowDepth ); 
-	Res.setHeight( Res.height() + ShadowDepth ); 
-	return Res;
+	LowResWarningImage = _WarningImage;
+	LowResMinDpis = _MinDpis;
 }
 
-/*! 
+/*!
 	\return position of item rect in page coordinates.
 */
 
@@ -913,81 +821,18 @@ void GraphicsPhotoItem::setRectPos(const QPointF& _Pos)
 	setPos(_Pos);
 }
 
-void GraphicsPhotoItem::setLowResWarning(const QString& _WarningImage, int _MinDpis)
-{
-	LowResWarningImage = _WarningImage;
-	LowResMinDpis = _MinDpis;
-}
-
-
-AbstractGraphicsItem* GraphicsPhotoItem::clone() const
-{
-	GraphicsPhotoItem* Res = new GraphicsPhotoItem;
-
-	if (!FrameImageFile.isEmpty())
-		Res->setFrameImage(FrameImageFile);
-	if (!CurrImageFileName.isEmpty())
-		Res->setImageFileName(CurrImageFileName);
-
-	Res->setScale(CurrScale);
-
-	Res->ImagesSourcePath = ImagesSourcePath;
-	Res->Opacity = Opacity;
-
-	Res->AspectRatioMode = AspectRatioMode;
-	Res->MultiSelection = MultiSelection;
-	Res->ImageEncrypted = ImageEncrypted;
-	Res->AutoAdjustFramesToImages;
-	Res->IgnoreExifRotation;
-
-	return Res;
-}
-
-void GraphicsPhotoItem::setResource(const Resource& _Resource)
-{
-	if (_Resource.type() == Resource::TypeFrameMask)
-	{
-		setAlphaChannel(QImage(_Resource.fileInfo().absoluteFilePath()));
-	}
-	else
-	if (_Resource.type() == Resource::TypeFrame)
-	{
-		setFrameResource(_Resource);
-	}
-}
-
 void GraphicsPhotoItem::setRectPos(qreal _X, qreal _Y)
 {
-	setRectPos(QPointF(_X, _Y)); 
+	setRectPos(QPointF(_X, _Y));
 }
-
 
 void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* )
 {
 
 	_P->setClipRect(_Option->exposedRect);
-	if (ShadowDepth == 0)
-		QGraphicsRectItem::paint(_P, _Option); //To draw borders and empty frames...
+	QGraphicsRectItem::paint(_P, _Option); //To draw borders and empty frames...
 
 	_P->setOpacity(Opacity);
-	if (ShadowDepth != 0)
-	{
-		QRectF ShadowRect = boundingRect(); 
-		ShadowRect.setLeft(ShadowRect.left() + ShadowDepth); 
-		ShadowRect.setTop(ShadowRect.top() + ShadowDepth); 
-		ShadowRect.setWidth(ShadowRect.width() - ShadowDepth); 
-		ShadowRect.setHeight(ShadowRect.height() - ShadowDepth); 
-		_P->setPen(QPen(Qt::NoPen)); 
-		for (int Vfor = 1; Vfor < 6; Vfor ++)
-		{
-			ShadowRect.setWidth(ShadowRect.width() - 0.4); 
-			ShadowRect.setHeight(ShadowRect.height() - 0.4); 
-			ShadowRect.setLeft(ShadowRect.left() + 0.2); 
-			ShadowRect.setTop(ShadowRect.top() + 0.2); 
-			_P->setBrush(QBrush(QColor(0, 0, 0, 20 * Vfor)));
-			_P->drawRoundRect(ShadowRect, 2, 2);
-		}
-	}
 
 	if (ImageMode == HiResImageMode)
 		waitForImageLoaded();
@@ -995,14 +840,13 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 	if (!CurrImage.isNull())
 	{
 		QRectF ItemRect = rect();
-		ItemRect.setWidth(ItemRect.width() - ShadowDepth);
-		ItemRect.setHeight(ItemRect.height() - ShadowDepth);
-		//Real size rect to fit in. 
+
+		//Real size rect to fit in.
 		QMatrix OMatrix = _Option->matrix;
 		//QMatrix OMatrix = QMatrix(); //_Option->matrix;
 		//OMatrix.scale(LevelOfDetailFromTransform(_P->worldTransform()), LevelOfDetailFromTransform(_P->worldTransform()) );
 		if (Modifier->rotation(Qt::ZAxis) != 0)
-			OMatrix.rotate( -Modifier->rotation(Qt::ZAxis)); 
+			OMatrix.rotate( -Modifier->rotation(Qt::ZAxis));
 		QRect MaxResRect = OMatrix.mapRect(ItemRect).toRect();
 
 		//qDebug("_Option->exposedRect: %f, %f, %f, %f", _Option->exposedRect.x(), _Option->exposedRect.y(), _Option->exposedRect.width(), _Option->exposedRect.height());
@@ -1024,14 +868,14 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 		qreal PosImageX = qMax(qMin(-PanningPoint.x() * LevelOfDetail, static_cast<qreal>(PaintedImage.width() - MaxResRect.width())), 0.0);
 		qreal PosImageY = qMax(qMin(-PanningPoint.y() * LevelOfDetail, static_cast<qreal>(PaintedImage.height() - MaxResRect.height())), 0.0);
 		QRectF ClipRect(PosImageX , PosImageY, MaxResRect.width(), MaxResRect.height() );
-		
+
 		if (PaintedImage.width() < MaxResRect.width())
 		{
 			qreal ImageWidth = PaintedImage.width() *  (1 / LevelOfDetail);
 			PanningPoint.setX(qMin(qMax(PanningPoint.x(), 0.0), ItemRect.width() - ImageWidth));
 			ItemRect.moveCenter(QPoint(ItemRect.center().x() + PanningPoint.x(), ItemRect.center().y()));
 		}
-		else 
+		else
 		{//Image scaling could left a panningpoint with a bad scale factor. Lets fit it in the limits.
 			if (-PanningPoint.x() * LevelOfDetail > static_cast<qreal>(PaintedImage.width() - MaxResRect.width()))
 				PanningPoint.setX(- (PaintedImage.width() - MaxResRect.width()) / LevelOfDetail);
@@ -1043,7 +887,7 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 			PanningPoint.setY(qMin(qMax(PanningPoint.y(), 0.0), ItemRect.height() - ImageHeight));
 			ItemRect.moveCenter(QPoint(ItemRect.center().x(), ItemRect.center().y() + PanningPoint.y()));
 		}
-		else 
+		else
 		{//Image scaling could left a panningpoint with a bad scale factor. Lets fit it in the limits.
 			if (-PanningPoint.y() * LevelOfDetail > static_cast<qreal>(PaintedImage.height() - MaxResRect.height()))
 				PanningPoint.setY(- (PaintedImage.height() - MaxResRect.height()) / LevelOfDetail);
@@ -1095,9 +939,15 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 	{
 		if (hasAlphaChannel())
 		{
-			QColor EmptyFrameColor = brush().color();
-			EmptyFrameColor.setAlpha(150);
-			_P->fillRect(rect(), QBrush(EmptyFrameColor));
+			QColor EFColor = EmptyFrameColor;
+			QImage Img(rect().size().toSize(), QImage::Format_ARGB32_Premultiplied);
+			//QImage Img(rect().size().toSize(), QImage::Format_ARGB32);
+			Img.fill(EFColor.rgb());
+			if (!MaskImage.isNull())
+				Img.setAlphaChannel(MaskImage.scaled(Img.size()));
+			_P->drawImage(rect(), Img);
+
+			//_P->fillRect(rect(), QBrush(EmptyFrameColor));
 		}
 		if (ShowNoImageMessage)
 		{
@@ -1105,13 +955,18 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 			_P->setPen(QPen(Qt::black));
 			_P->drawText(rect(), Qt::AlignCenter | Qt::TextWordWrap, tr("Drop images here"));
 		}
+		if (!FrameImage.isNull())
+		{
+			_P->drawImage(rect(), FrameImage);
+		}
+
 	}
 
 	#ifdef DEMO_MODE
-	//If Demo 
+	//If Demo
 	if (!CurrImage.isNull())
 	{
-		QString DemoString = "-- DEMO MODE --"; 
+		QString DemoString = "-- DEMO MODE --";
 		_P->save();
 		QPen Pen;
 		_P->setFont(QFont("Arial Black", 10));
@@ -1144,16 +999,16 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 	if (ImageMode == HiResImageMode)
 		unloadImage();
 
-//  	else 
+//  	else
 //  	{
 //  		_P->fillRect(rect(), QBrush(QColor(255,255,255))); //The item paint already do it.
 //  	}
 
 	if (isSelected())
 	{
-		QRectF ItemRect = rect(); 
+		QRectF ItemRect = rect();
 		int SelMarkWidth = 15;
-		
+
 		_P->save();
 		_P->setOpacity(1);
 
@@ -1164,7 +1019,7 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 		Pen.setStyle(Qt::SolidLine);
 		Pen.setWidth(8);
 		_P->setPen(Pen);
-		QVector<QLine> Lines; 
+		QVector<QLine> Lines;
 		Lines.push_back(QLine(ItemRect.x(), ItemRect.y(), ItemRect.x() + SelMarkWidth, ItemRect.y()));
 		Lines.push_back(QLine(ItemRect.x(), ItemRect.y(), ItemRect.x(), ItemRect.y() + SelMarkWidth));
 		Lines.push_back(QLine(ItemRect.topRight().x(), ItemRect.y(), ItemRect.topRight().x() - SelMarkWidth, ItemRect.y()));
@@ -1173,11 +1028,11 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 		Lines.push_back(QLine(ItemRect.bottomLeft().x(), ItemRect.bottomLeft().y(), ItemRect.bottomLeft().x(), ItemRect.bottomLeft().y() - SelMarkWidth));
 		Lines.push_back(QLine(ItemRect.bottomRight().x(), ItemRect.bottomRight().y(), ItemRect.bottomRight().x() - SelMarkWidth, ItemRect.bottomRight().y()));
 		Lines.push_back(QLine(ItemRect.bottomRight().x(), ItemRect.bottomRight().y(), ItemRect.bottomRight().x(), ItemRect.bottomRight().y() - SelMarkWidth));
-		_P->drawLines(Lines); 
+		_P->drawLines(Lines);
 
 		_P->restore();
 	}
-	
+
 }
 
 void GraphicsPhotoItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * _Event )
@@ -1195,8 +1050,8 @@ void GraphicsPhotoItem::mousePressEvent(QGraphicsSceneMouseEvent* _Event)
 		_Event->accept();
 		InitPanningPoint = PanningPoint;
 	}
-	MouseDownPosInt = getMouseIntersects(_Event->pos(), rect()); 
-		
+	MouseDownPosInt = getMouseIntersects(_Event->pos(), rect());
+
 	if (TouchInterface && MultiSelection)
 		_Event->setModifiers(_Event->modifiers() | Qt::ControlModifier);
 	QGraphicsRectItem::mousePressEvent(_Event);
@@ -1204,38 +1059,38 @@ void GraphicsPhotoItem::mousePressEvent(QGraphicsSceneMouseEvent* _Event)
 
 void GraphicsPhotoItem::mouseMoveEvent(QGraphicsSceneMouseEvent* _Event)
 {
- 	if (PanningEnabled)
+	if (PanningEnabled)
 	{
 		panImage(InitPanningPoint + (_Event->pos() - _Event->buttonDownPos(Qt::LeftButton)));
-		emit mousePanning(PanningPoint); 
+		emit mousePanning(PanningPoint);
 	}
 // 	if (MouseDownPosInt != MouseOnNoEdge && ResizeAllowed)
 // 	{
 // 		QRectF CurrRect = rect();
 // 		if (MouseDownPosInt & MouseOnLeftEdge)
-// 			CurrRect.setLeft(snapToGridValue(_Event->pos().x())); 
-// 		else 
+// 			CurrRect.setLeft(snapToGridValue(_Event->pos().x()));
+// 		else
 // 			if (MouseDownPosInt & MouseOnRightEdge)
 // 				CurrRect.setRight(snapToGridValue(_Event->pos().x()));
 // 		if (MouseDownPosInt & MouseOnTopEdge)
-// 			CurrRect.setTop(snapToGridValue(_Event->pos().y())); 
-// 		else 
+// 			CurrRect.setTop(snapToGridValue(_Event->pos().y()));
+// 		else
 // 			if (MouseDownPosInt & MouseOnBottomEdge)
 // 				CurrRect.setBottom(snapToGridValue(_Event->pos().y()));
-// 		
+//
 // 		if (CurrRect != rect())
 // 		{
 // 			setRect(CurrRect);
 // 			updateToolTip();
 // 		}
 // 	}
-	
+
 	if (MouseDownPosInt == MouseOnNoEdge || PanningEnabled)
 		QGraphicsRectItem::mouseMoveEvent(_Event);
-		
+
 // 	if (_Event->pos().x() > CurrRect.x() - 10 && _Event->pos().x() < CurrRect.x() + 10)
 // 		setCursor(Qt::SizeHorCursor);
-// 	else 
+// 	else
 // 		unsetCursor();
 	//if (_Event->pos() )
 }
@@ -1245,28 +1100,28 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 {
 	if (change == ItemPositionHasChanged)
 		updateToolTip();
-	else 
+	else
 	if (change == QGraphicsItem::ItemSelectedHasChanged)
 	{
 		setControlsVisible(isSelected());
 //TODO: No retorna sol al valor anterior !.
 // 		if (isSelected() )
 // 		{
-// 			qreal NZValue = zValue(); 
+// 			qreal NZValue = zValue();
 // 			if (controlCollided(NZValue))
 // 			{
-// 				OldZValue = zValue(); 
-// 				RestoreZValue = true; 
+// 				OldZValue = zValue();
+// 				RestoreZValue = true;
 // 				setZValue(NZValue);
 // 			}
 // 		}
-// 		else 
+// 		else
 // 		{
 // 			if (RestoreZValue)
 // 			{
-// 				qDebug("Hola !!!!!!!!!!!!!"); 
+// 				qDebug("Hola !!!!!!!!!!!!!");
 // 				RestoreZValue = false;
-// 				setZValue(OldZValue); 
+// 				setZValue(OldZValue);
 // 			}
 // 		}
 	}
@@ -1275,15 +1130,15 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 	{
 		// value is the new position.
 		QPointF newPos = value.toPointF();
-		//return insideSceneRect(newPos); 
+		//return insideSceneRect(newPos);
 		//QRectF rect = scene()->sceneRect();
 		if (SnapToGrid)
 		{
 			newPos.setX(snapToGridValue(newPos.x()));
 			newPos.setY(snapToGridValue(newPos.y()));
-			return newPos; 
+			return newPos;
 		}
-		else 
+		else
 		{
 			if (ThresholdMoving)
 			{
@@ -1295,7 +1150,7 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 					Moving = true;
 			}
 		}
-		
+
 //          if (!rect.contains(newPos)) {
 //              // Keep the item inside the scene rect.
 //              newPos.setX(qMin(rect.right(), qMax(newPos.x(), rect.left())));
@@ -1305,7 +1160,6 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 	}
 	return QGraphicsItem::itemChange(change, value);
 }
-
 
 // Drag and Drop
 void GraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
@@ -1346,7 +1200,6 @@ void GraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 	_Event->accept();
 }
 
-
 void GraphicsPhotoItem::panImage(const QPointF& _PanningPoint)
 {
 	if (hasImage())
@@ -1367,14 +1220,14 @@ void GraphicsPhotoItem::setPanningEnabled(bool _Enabled)
 	{
 		setFlag(QGraphicsItem::ItemIsMovable, !_Enabled);
 		PanningEnabled = _Enabled;
-		updateCursor();		
+		updateCursor();
 	}
 	if (PanAct)
 	{
 		PanAct->setChecked(_Enabled);
 		if (_Enabled)
 			PanAct->setIcon(QIcon(":/phototemplates/thumbtack_red_plug_64.png"));
-		else 
+		else
 			PanAct->setIcon(QIcon(":/phototemplates/thumbtack_red_unplug_64.png"));
 	}
 }
@@ -1392,7 +1245,7 @@ void GraphicsPhotoItem::slotZoomImageOut()
 
 void GraphicsPhotoItem::slotRotateImage()
 {
-	rotateImage(); 
+	rotateImage();
 }
 
 void GraphicsPhotoItem::slotFitImage()

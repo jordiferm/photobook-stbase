@@ -82,7 +82,7 @@ public:
 	TemplateScene(QObject* _Parent = 0);
 	TemplateScene(const QSizeF& _PageSize, QObject* _Parent);
 	void copy(TemplateScene* _Other);
-	void replaceTemplate(const TemplateScene* _Other);
+	void replaceTemplate(TemplateScene* _Other);
 	void setImageToSelectedItems(const QPixmap& _ThumbNail, const QString& _ImageFileName);
 	void setDummyImages(const QList<QImage>& _ImageList);
 	void setBackgroundImage(const QImage& _ThumbNail, const QString& _ImageFileName, bool _Encrypted);
@@ -119,9 +119,9 @@ public:
 	void setItemsResizable(bool _Resizable);
 	void setItemsMovable(bool _Movable);
 	//! Adds the element to scene.
-	QGraphicsItem* addElement(const QString& _ImageSourcePath, QDomElement& _Element);
-	void loadElement(const QString& _ImageSourcePath, const QDomElement& _SceneElement);
-	QDomElement createElement(QDomDocument& _Doc);
+	QGraphicsItem* addElement(QDomElement& _Element, const QString& _LoadDir = "");
+	void loadElement(const QDomElement& _SceneElement, const QString& _LoadDir = "");
+	QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "");
 	QStringList storePhotoItemImages(const CollectionInfo& _CInfo, bool _OnlyDesignImages = false);
 	qreal topZValue() const;
 	qreal bottomZValue() const;

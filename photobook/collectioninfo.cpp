@@ -83,6 +83,7 @@ QString CollectionInfo::trayImagesFileName() const
 }
 
 //! returns the hash name for _SourceFileName including the path. 
+//!!! DEPRECATED (See Resource)
 QString CollectionInfo::imageFilePath(const QString& _SourceFileName) const
 {
 	return  photoBookPath() + "/" + STImage::hashFileName(_SourceFileName); 
@@ -91,9 +92,4 @@ QString CollectionInfo::imageFilePath(const QString& _SourceFileName) const
 QString CollectionInfo::imageFilePath(const STImage& _Image, const QString& _Format) const
 {
 	return photoBookPath() + "/" + _Image.hashString() + "." + _Format; 
-}
-
-QString CollectionInfo::bookmarkTemplatesFile(const QSize& _Size)
-{
-	return 	DefaultRootPathName + QString("/templateBookmark_%1_%2.kpspltml").arg(_Size.width()).arg(_Size.height());
 }

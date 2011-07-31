@@ -28,6 +28,7 @@
 #include <QTextBlock>
 #include <QDomText>
 #include <QDebug>
+#include <QAbstractTextDocumentLayout>
 
 #include "graphicsitemmodifier.h"
 
@@ -50,7 +51,11 @@ GraphicsTextItem::GraphicsTextItem(QGraphicsItem* _Parent)
 	AbstractGraphicsItem::updateToolTip();
 	createStandardCorners();
 	setControlsVisible(false);
+	if (document())
+		connect(document()->documentLayout(), SIGNAL(documentSizeChanged(QSizeF)), this, SLOT(slotDocumentLayoutChanged()));
+
 }
+
 
 void GraphicsTextItem::setMovable(bool _Movable)
 {
@@ -66,7 +71,7 @@ void GraphicsTextItem::setMovable(bool _Movable)
 }
 
 
-void GraphicsTextItem::loadElement(const QDomElement& _Element)
+void GraphicsTextItem::loadElement(const QDomElement& _Element, const QString& _LoadDir)
 {
 	setPos(_Element.attribute("x", "0").toDouble(), 
 			_Element.attribute("y", "0").toDouble());
@@ -89,7 +94,7 @@ void GraphicsTextItem::loadElement(const QDomElement& _Element)
 	AbstractGraphicsItem::updateToolTip();
 }
 
-QDomElement GraphicsTextItem::createElement(QDomDocument& _Doc) const
+QDomElement GraphicsTextItem::createElement(QDomDocument& _Doc, const QString& _StoreDir) const
 {
 	QDomElement MElement = _Doc.createElement(tagName());
 	MElement.setAttribute("x", pos().x()); 
@@ -172,3 +177,15 @@ void GraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent* _Event)
 	QGraphicsTextItem::mousePressEvent(_Event);
 }
 
+void GraphicsTextItem::slotDocumentLayoutChanged()
+{
+	if (textWidth() == -1)
+	{
+		if (document() && scene()) //Defensive
+		{
+			if (pos().x() + document()->size().width() > scene()->width())
+				setTextWidth(scene()->width() - pos().x());
+		}
+	}
+	Modifier->layoutChildren();
+}

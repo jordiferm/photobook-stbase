@@ -70,18 +70,18 @@ void GraphicsPageItem::setResizeAllowed(bool _Value)
 { //Does nothing  
 } 
 
-QDomElement GraphicsPageItem::createElement(QDomDocument& _Doc) const
+QDomElement GraphicsPageItem::createElement(QDomDocument& _Doc, const QString& _StoreDir) const
 {
-	QDomElement  Res = GraphicsPhotoItem::createElement(_Doc);
+	QDomElement  Res = GraphicsPhotoItem::createElement(_Doc, _StoreDir);
 	Res.setTagName(tagName()); 
 	Res.setAttribute("bgcolor", brush().color().name());
 	
 	return Res; 
 }
 
-void GraphicsPageItem::loadElement(QDomElement& _Element)
+void GraphicsPageItem::loadElement(QDomElement& _Element, const QString& _LoadDir)
 {
-	GraphicsPhotoItem::loadElement(_Element);
+	GraphicsPhotoItem::loadElement(_Element, _LoadDir);
 	setBrush(QBrush(QColor(_Element.attribute("bgcolor", "#FFFFFF"))));
 	setToolTip("");
 }

@@ -52,13 +52,13 @@ AbstractGraphicsItem::~AbstractGraphicsItem()
 void AbstractGraphicsItem::createStandardCorners()
 {
 	CornerItem* Corner = new CornerItem(Qt::BottomLeftCorner, CornerItem::Rotate , Modifier);
-	Corner->setPixmapName(":/phototemplates/object-rotate-right.png");
+	Corner->setPixmapName(":/photobook/object-rotate-right.png");
 
 	Corner = new CornerItem(Qt::BottomRightCorner, CornerItem::Scale, Modifier);
-	Corner->setPixmapName(":/phototemplates/transform-scale.png");
+	Corner->setPixmapName(":/photobook/transform-scale.png");
 
 	Corner = new CornerItem(Qt::TopLeftCorner, CornerItem::Move, Modifier);
-	Corner->setPixmapName(":/phototemplates/transform-move.png");
+	Corner->setPixmapName(":/photobook/transform-move.png");
 
 	Modifier->layoutChildren();
 }

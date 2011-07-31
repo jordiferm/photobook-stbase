@@ -33,6 +33,8 @@ namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT GraphicsTextItem : public QGraphicsTextItem, public AbstractGraphicsItem
 {
+	Q_OBJECT
+
 public:	
 	enum { Type = UserType + 3 };
 	
@@ -42,10 +44,10 @@ private:
 public:
 	GraphicsTextItem(QGraphicsItem * parent = 0);
 //	void setText(const QString& _Text);
-	int type() const { return Type; }	
+	int type() const { return Type; }
 	void setMovable(bool );
-	void loadElement(const QDomElement& _Element);
-	QDomElement createElement(QDomDocument& _Doc) const;
+	void loadElement(const QDomElement& _Element, const QString& _LoadDir = "");
+	QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "") const;
 	static QString tagName() { return "textitem"; }	
 	Qt::Alignment alignment() const;
 	void setAlignment(Qt::Alignment alignment);
@@ -54,6 +56,8 @@ public:
 protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 	void mousePressEvent(QGraphicsSceneMouseEvent* _Event);
+private slots:
+	void slotDocumentLayoutChanged();
 };
 }
 #endif

@@ -21,8 +21,10 @@
 #define GRAPHICSCLIPARTITEM_H
 
 #include <QGraphicsSvgItem>
+#include <QRectF>
 #include "abstractgraphicsitem.h"
 #include "stphotobookexport.h"
+#include "resource.h"
 
 /**
 Class to create items for clipart.
@@ -42,20 +44,23 @@ public:
 	enum { Type = 1046 };
 
 private:
-	QString FileName; 
+	Resource ClipartResource;
 	qreal Opacity; 
-	
+	QSvgRenderer* OldRenderer;
+
 	void init(); 	
 
 public:
-	GraphicsClipartItem(const QString & fileName, QGraphicsItem * parent = 0);
+	GraphicsClipartItem(const Resource& _Resource, QGraphicsItem * parent = 0);
 	GraphicsClipartItem(QGraphicsItem * parent = 0);
-	void loadElement(const QDomElement& _Element);
-	QDomElement createElement(QDomDocument& _Doc) const;
+	void loadElement(const QDomElement& _Element, const QString& _LoadDir = "");
+	QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "") const;
 	int type() const { return Type; }
-	void setFileName(const QString& _FileName) { FileName = _FileName; }
-	static QString tagName() { return "clipartitem"; }	
-	QString fileName() const { return FileName; }
+
+	void setClipartResource(const Resource& _Resource);
+	QStringList saveResources(const QDir& _StoreDir);
+
+	static QString tagName() { return "clipartitem"; }
 	void setOpacity(qreal _Value);
 	qreal opacity() const { return Opacity; }
 	void scaleToHeight(qreal _Height);

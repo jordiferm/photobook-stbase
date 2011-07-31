@@ -24,6 +24,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QStyleOptionGraphicsItem>
 #include <QPainter>
+#include <QDebug>
+#include <QTransform>
 
 #include "graphicsitemmodifier.h"
 
@@ -36,12 +38,13 @@ void GraphicsClipartItem::init()
 	AbstractGraphicsItem::updateToolTip();
 	createStandardCorners();
 	setControlsVisible(false);
+	OldRenderer = 0;
 }
 
 
 
-GraphicsClipartItem::GraphicsClipartItem(const QString& _FileName, QGraphicsItem* _Parent)
- : QGraphicsSvgItem(_FileName, _Parent), FileName(_FileName), AbstractGraphicsItem(this)
+GraphicsClipartItem::GraphicsClipartItem(const Resource& _Resource, QGraphicsItem* _Parent)
+ : QGraphicsSvgItem(_Resource.fileInfo().absoluteFilePath(), _Parent), ClipartResource(_Resource), AbstractGraphicsItem(this)
 {
 	init();
 }
@@ -52,31 +55,55 @@ GraphicsClipartItem::GraphicsClipartItem(QGraphicsItem* _Parent)
 	init(); 
 }
 
-void GraphicsClipartItem::loadElement(const QDomElement& _Element)
+void GraphicsClipartItem::loadElement(const QDomElement& _Element, const QString& _LoadDir)
 {
 	setPos(_Element.attribute("x", "0").toDouble(), 
 			_Element.attribute("y", "0").toDouble());
 	Opacity = _Element.attribute("opacity", "1").toDouble();
+
+	setClipartResource(Resource::resourceFromXmlSrc(_Element.attribute("src", ""), _LoadDir));
 	//renderer()->load(ImageSourcePath + "/" + _Element.attribute("src", ""));
 	setTransform(AbstractGraphicsItem::loadTransformElement(_Element));
 	AbstractGraphicsItem::loadEffectElements(this,  _Element);
 	AbstractGraphicsItem::updateToolTip();
 }
 
-QDomElement GraphicsClipartItem::createElement(QDomDocument& _Doc) const
+QDomElement GraphicsClipartItem::createElement(QDomDocument& _Doc, const QString& _StoreDir) const
 {
 	QDomElement MElement = _Doc.createElement(tagName());
 	MElement.setAttribute("x", pos().x()); 
 	MElement.setAttribute("y", pos().y()); 
 	MElement.setAttribute("opacity", Opacity); 
-	QFileInfo FNInfo(FileName); 
-	MElement.setAttribute("src", FNInfo.fileName()); 
+	MElement.setAttribute("src",  Resource::fileInfoToXmlSrc(ClipartResource.fileInfo(), _StoreDir));
 	MElement.appendChild(AbstractGraphicsItem::createTransformElement(this, _Doc));
 	//Effects
 	AbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
 
 	return MElement; 	
 }
+
+void GraphicsClipartItem::setClipartResource(const Resource& _Resource)
+{
+	ClipartResource = _Resource;
+	//Tricky to update geometry !
+	QSvgRenderer *renderer = new QSvgRenderer(_Resource.fileInfo().absoluteFilePath());
+	setSharedRenderer(renderer);
+	if (OldRenderer)
+		delete OldRenderer;
+	OldRenderer = renderer;
+
+	//renderer()->load(_Resource.fileInfo().absoluteFilePath());
+	//MBoundingRect.setSize(QRectF(QPointF(0, 0), renderer()->defaultSize()).size());
+}
+
+QStringList GraphicsClipartItem::saveResources(const QDir& _StoreDir)
+{
+	QStringList Res;
+	if (!ClipartResource.isNull())
+		Res << ClipartResource.save(_StoreDir);
+	return Res;
+}
+
 
 void GraphicsClipartItem::setOpacity(qreal _Value)
 {
@@ -131,3 +158,4 @@ QVariant GraphicsClipartItem::itemChange(GraphicsItemChange change, const QVaria
 	}
 	return QGraphicsItem::itemChange(change, value);
 }
+

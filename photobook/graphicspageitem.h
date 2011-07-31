@@ -46,9 +46,9 @@ public:
 	GraphicsPageItem(const QRectF & rect, QGraphicsItem * parent = 0);
 	GraphicsPageItem(QGraphicsItem * parent = 0);
 	int type() const { return Type; }	
-	void loadElement(QDomElement& _Element);
+	void loadElement(QDomElement& _Element, const QString& _LoadDir = "");
+	QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "") const;
 	void setResizeAllowed(bool _Value);
-	QDomElement createElement(QDomDocument& _Doc) const;
 	static QString tagName() { return "pageitem"; }	
 	
 };

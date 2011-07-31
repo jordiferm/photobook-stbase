@@ -166,14 +166,17 @@ void GraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsItem
 	{
 		QPointF Pos = _Sender->mapToScene(_Pos);
 
+
 		qreal Height  = Item->boundingRect().height();
 		qreal Diag = QLineF(Pos, Item->pos()).length();
-		qreal NewWidth = sqrt((Diag * Diag) - (Height * Height));
-
-		//int NewTextWidth =  Pos.y() - Item->pos().y();
-		CItem->document()->setTextWidth(NewWidth);
-		CItem->setTextWidth(NewWidth);
-		layoutChildren();
+		if (Diag > Height)
+		{
+			qreal NewWidth = sqrt((Diag * Diag) - (Height * Height));
+			//int NewTextWidth =  Pos.y() - Item->pos().y();
+			//CItem->document()->setTextWidth(NewWidth);
+			CItem->setTextWidth(NewWidth);
+			layoutChildren();
+		}
 	}
 	else 
 	{

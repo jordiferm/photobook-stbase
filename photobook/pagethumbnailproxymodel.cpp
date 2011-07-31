@@ -17,6 +17,8 @@
 ****************************************************************************/
 
 #include "pagethumbnailproxymodel.h"
+#include <QDebug>
+
 #include "pagethumbnailmodel.h"
 #include "templatescenemimedata.h"
 #include "photobookmimetypes.h"
@@ -82,7 +84,7 @@ QStringList PageThumbnailProxyModel::mimeTypes() const
 
 QMimeData* PageThumbnailProxyModel::mimeData(const QModelIndexList &indexes) const
 {
-	TemplateSceneMimeData* mimeData = new TemplateSceneMimeData();
+	TemplateSceneMimeData* mimeData = 0;
 	if (SourceModel)
 	{
 		QModelIndex Index = indexes.at(0);
@@ -90,7 +92,14 @@ QMimeData* PageThumbnailProxyModel::mimeData(const QModelIndexList &indexes) con
 		{
 			QModelIndex SourceIndex = mapToSource(Index);
 			if (SourceIndex.isValid())
-				mimeData->setTemplate(SourceModel->page(SourceIndex));
+			{
+				TemplateScene* CPage = SourceModel->page(SourceIndex);
+				if (CPage) //Defensive
+				{
+					mimeData = new TemplateSceneMimeData();
+					mimeData->setTemplate(CPage);
+				}
+			}
 		}
 	}
 	return mimeData;

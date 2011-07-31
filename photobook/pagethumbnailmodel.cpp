@@ -19,6 +19,7 @@
 ****************************************************************************/
 #include "pagethumbnailmodel.h"
 #include <QPainter> 
+#include <QDebug>
 
 #include "templatescene.h"
 
@@ -74,10 +75,12 @@ QVariant PageThumbnailModel::data(const QModelIndex& _Index, int _Role) const
 void PageThumbnailModel::setPages(const PageList& _Pages)
 {
 	Thumbnails.clear();
+	Pages.clear();
 	PageList::const_iterator it;
 	for (it = _Pages.begin(); it != _Pages.end(); ++it)
 	{
 		Thumbnails.push_back(getThumbnail(*it));
+		Pages.push_back(*it);
 	}
 	reset();
 }
@@ -92,8 +95,6 @@ TemplateScene* PageThumbnailModel::page(const QModelIndex& _Index) const
 	return Res;
 }
 
-
-
 void PageThumbnailModel::setThumbnailMaxSize(QSize _Value)
 {
 	ThumbnailMaxSize = _Value; 
@@ -103,7 +104,6 @@ QSize PageThumbnailModel::thumbnailMaxSize() const
 {
 	return ThumbnailMaxSize; 
 }
-
 
 void PageThumbnailModel::updateThumbnail(const PageList& _Pages, int _Index)
 {
@@ -118,8 +118,8 @@ bool PageThumbnailModel::removeRows(int _Row, int _Count, const QModelIndex& _Pa
 	beginRemoveRows(_Parent, _Row, _Row + _Count - 1);
 	for (int Vfor = 0; Vfor < _Count; Vfor++)
 	{
-		Thumbnails.removeAt(_Row + Vfor);
-		Pages.removeAt(_Row + Vfor);
+		Thumbnails.removeAt(_Row);
+		Pages.removeAt(_Row);
 	}
 	endRemoveRows();
 	return true;
@@ -128,7 +128,9 @@ bool PageThumbnailModel::removeRows(int _Row, int _Count, const QModelIndex& _Pa
 void PageThumbnailModel::addPage(TemplateScene* _Page)
 {
 	beginInsertRows(QModelIndex(), Thumbnails.size(), Thumbnails.size());
-		Thumbnails.insert(Thumbnails.size(), getThumbnail(_Page));
-		Pages.insert(Pages.size(), _Page);
+		Thumbnails.push_back(getThumbnail(_Page));
+		Pages.push_back(_Page);
+		//Thumbnails.insert(Thumbnails.size(), getThumbnail(_Page));
+		//Pages.insert(Pages.size(), _Page);
 	endInsertRows();
 }

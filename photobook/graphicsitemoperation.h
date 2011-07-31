@@ -30,6 +30,7 @@
 #include "stphotobookexport.h"
 #include "sterror.h" 
 #include "collectioninfo.h"
+#include "resource.h"
 
 /**
 Abstract class for Graphics item operations.
@@ -79,7 +80,7 @@ class GraphicsPhotoItem;
 class ST_PHOTOBOOK_EXPORT STSetMaskGIO : public GraphicsItemOperation
 {
 	QString MaskImageFile;
-	QImage LastMaskImage; 
+	Resource LastMaskResource;
 	
 public:
 	STSetMaskGIO(GraphicsPhotoItem* _Item, const QString& _MaskImageFile, QUndoCommand* _Parent = 0);
@@ -96,7 +97,7 @@ class GraphicsPhotoItem;
 class ST_PHOTOBOOK_EXPORT STSetFrameGIO : public GraphicsItemOperation
 {
 	QString FrameImageFile;
-	QString LastFrameImageFile;
+	Resource LastFrameResource;
 
 public:
 	STSetFrameGIO(GraphicsPhotoItem* _Item, const QString& _FrameImageFile, QUndoCommand* _Parent = 0);
@@ -105,22 +106,6 @@ public:
 	GraphicsItemOperation* clone(QGraphicsItem* _NewItem);
 };
 
-/**
-Sets shadow for image frame.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
-*/
-class GraphicsPhotoItem;
-class ST_PHOTOBOOK_EXPORT STSetItemShadowGIO : public GraphicsItemOperation
-{
-	qreal ShadowDepth;
-	qreal LastShadowDepth; 
-	
-public:
-	STSetItemShadowGIO(GraphicsPhotoItem* _Item, qreal _ShadowDepth, QUndoCommand* _Parent = 0);
-	virtual void redo();
-	virtual void undo();
-	GraphicsItemOperation* clone(QGraphicsItem* _NewItem);
-};
 
 /**
 Sets QGraphicsEffect for QGraphicsItem.
@@ -454,7 +439,7 @@ class GraphicsPhotoItem;
 class ST_PHOTOBOOK_EXPORT STSetImageGIO : public GraphicsItemOperation
 {
 	QString ImageFileName;
-	QString LastImageFileName; 
+	Resource LastImageResource;
 	QImage Image; 
 	
 

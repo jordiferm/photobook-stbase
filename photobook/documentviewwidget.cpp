@@ -86,25 +86,29 @@ void DocumentViewWidget::clear()
 	}
 }
 
-
-void DocumentViewWidget::setPBDocument(const Document* _PBDocument)
+void DocumentViewWidget::reloadPages()
 {
-	PBDocument = _PBDocument;
 	clear();
-	PageList Pages = _PBDocument->pages();
+	PageList Pages = PBDocument->pages();
 	PageList::iterator it;
 	for (it = Pages.begin(); it != Pages.end(); ++it)
 	{
 		DocumentPageView* NAlbumPage = new DocumentPageView(*it, this);
 		if (it == Pages.begin())
-			NAlbumPage->setMarginRects( _PBDocument->metaInfo().coverMarginRects());
+			NAlbumPage->setMarginRects(PBDocument->metaInfo().coverMarginRects());
 		else
 		{
-			NAlbumPage->setMarginRects(_PBDocument->metaInfo().coverMarginRects());
+			NAlbumPage->setMarginRects(PBDocument->metaInfo().coverMarginRects());
 			//NAlbumPage->setDrawTwoPagesEffect(_PBDocument->PBDocumentTemplate().numPages() > 1);
 		}
 		StkLayout->addWidget(NAlbumPage);
 	}
+}
+
+void DocumentViewWidget::setPBDocument(const Document* _PBDocument)
+{
+	PBDocument = _PBDocument;
+	reloadPages();
 	firstPage();
 	emit photoBookInfoChanged();
 }

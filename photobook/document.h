@@ -162,7 +162,9 @@ public:
 	PageList layouts() const { return Layouts; }
 	void setLayouts(const PageList& _Layouts) { Layouts = _Layouts; }
 	PageList covers() const { return Covers; }
+	void setCovers(const PageList& _Covers) { Covers = _Covers; }
 	PageList backCovers() const { return BackCovers; }
+	void setBackCovers(const PageList& _BackCovers) { BackCovers = _BackCovers; }
 	ResourceList resources() const { return Resources; }
 
 	//! \return true is photobook currently contains image with MD5Sum _ImageMD5Sum.

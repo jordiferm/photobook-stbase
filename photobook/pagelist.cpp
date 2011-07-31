@@ -29,7 +29,7 @@
 
 using namespace SPhotoBook;
 
-QDomDocument PageList::createDoc()
+QDomDocument PageList::createDoc(const QDir& _StoreDir)
 {
 	QDomDocument Doc("starphob");
 	QDomElement Root = Doc.createElement("photobook");
@@ -39,7 +39,7 @@ QDomDocument PageList::createDoc()
 	PageList::iterator it;
 	for (it = begin(); it != end(); ++it)
 	{
-		Root.appendChild((*it)->createElement(Doc));
+		Root.appendChild((*it)->createElement(Doc, _StoreDir.absolutePath()));
 	}
 	return Doc;
 }
@@ -53,7 +53,7 @@ void PageList::saveXml(const QString& _XmlFileName, const QString& _EncryptionKe
 	QFile PBFile(_XmlFileName);
 	Assert(PBFile.open(QFile::WriteOnly | QFile::Truncate), Error(QString(QObject::tr("Could not open file %1")).arg(PBFile.fileName())));
 
-	QDomDocument Doc = createDoc();
+	QDomDocument Doc = createDoc(QFileInfo(_XmlFileName).dir());
 	if (_EncryptionKey.isEmpty())
 	{
 		QTextStream Out(&PBFile);
@@ -153,7 +153,7 @@ void PageList::loadXml(const QString& _AbsoluteFileName, QObject* _PagesParent, 
 			if (CEl.tagName().toLower() == "scene" )
 			{
 				TemplateScene* NewPage = new TemplateScene(_PagesParent);
-				NewPage->loadElement(XmlFInfo.absolutePath(), CEl);
+				NewPage->loadElement(CEl, XmlFInfo.absolutePath());
 				push_back(NewPage);
 			}
 		}

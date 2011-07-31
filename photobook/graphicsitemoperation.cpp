@@ -94,15 +94,15 @@ void STSetMaskGIO::redo()
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
 	{
-		LastMaskImage = CItem->alphaChannel(); 
-		CItem->setAlphaChannel(QImage(MaskImageFile)); 
+		LastMaskResource = CItem->maskResource();
+		CItem->setAlphaChannel(Resource(MaskImageFile, Resource::TypeMask));
 	}
 }
 
 void STSetMaskGIO::undo()
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
-		CItem->setAlphaChannel(LastMaskImage); 
+		CItem->setAlphaChannel(LastMaskResource);
 }
 
 
@@ -133,15 +133,15 @@ void STSetFrameGIO::redo()
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
 	{
-		LastFrameImageFile = CItem->frameImageFile();
-		CItem->setFrameImage(FrameImageFile);
+		LastFrameResource = CItem->frameResource();
+		CItem->setFrameResource(Resource(FrameImageFile, Resource::TypeFrame));
 	}
 }
 
 void STSetFrameGIO::undo()
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
-		CItem->setFrameImage(LastFrameImageFile);
+		CItem->setFrameResource(LastFrameResource);
 }
 
 
@@ -159,44 +159,6 @@ GraphicsItemOperation* STSetFrameGIO::clone(QGraphicsItem* _NewItem)
 }
 
 
-// ____________________________________________________________________________
-//
-// Class STSetItemShadowGIO
-// ____________________________________________________________________________
-
-STSetItemShadowGIO::STSetItemShadowGIO(GraphicsPhotoItem* _Item, qreal _ShadowDepth, QUndoCommand* _Parent)
-	: GraphicsItemOperation(_Item, QObject::tr("Change Shadow"), _Parent), ShadowDepth(_ShadowDepth)
-{
-} 
-
-void STSetItemShadowGIO::redo()
-{
-	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
-	{
-		LastShadowDepth = CItem->shadowDepth(); 
-		CItem->setShadowDepth(ShadowDepth); 
-	}
-}
-
-void STSetItemShadowGIO::undo()
-{
-	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
-		CItem->setShadowDepth(LastShadowDepth); 
-}
-
-
-GraphicsItemOperation* STSetItemShadowGIO::clone(QGraphicsItem* _NewItem)
-{
-	GraphicsItemOperation* Res = 0;
-	GraphicsPhotoItem* CItem = 0;
-	//For all supported types.
-	CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(_NewItem);
-	
-	if (CItem)
-		Res = new STSetItemShadowGIO(CItem, ShadowDepth);
-	
-	return Res;
-}
 
 // ____________________________________________________________________________
 //
@@ -979,7 +941,7 @@ void STSetImageGIO::redo()
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
 	{
-		LastImageFileName = CItem->imageFileName();
+		LastImageResource = CItem->imageResource();
 		if (Image.isNull())
 			Image.load(ImageFileName);
 
@@ -992,7 +954,7 @@ void STSetImageGIO::undo()
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
 	{
-		CItem->setImage(QImage(LastImageFileName), LastImageFileName); 
+		CItem->setImage(QImage(LastImageResource.fileInfo().absoluteFilePath()), LastImageResource.fileInfo().absoluteFilePath());
 	}
 }
 
@@ -1013,7 +975,7 @@ STSetImageGIO::STSetImageGIO(GraphicsPhotoItem* _Item, QUndoCommand* _Parent)
 STImageFilterGIO::STImageFilterGIO(GraphicsPhotoItem* _Item, const CollectionInfo& _PBInfo, TFilterType _FilterType, QUndoCommand* _Parent)
 	: STSetImageGIO(_Item, _Parent ), PBInfo(_PBInfo), FilterType(_FilterType)
 {
-	QString ImageFileName = _Item->imageFileName();
+	QString ImageFileName = _Item->imageResource().fileInfo().absoluteFilePath();
 	if (!ImageFileName.isEmpty()) //Defensive
 	{
 		STImage Img;

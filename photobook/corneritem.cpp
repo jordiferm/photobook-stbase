@@ -43,7 +43,14 @@ CornerItem::CornerItem(Qt::Corner corner, int _OpMask, GraphicsItemModifier* _Mo
 void CornerItem::relayout(const QRect & rect)
 {
     // change side, if needed
-    int side = 1 + (int)sqrt((float)qMin(rect.width(), rect.height()));
+	QTransform InvTrans = parentItem()->transform().inverted();
+	QRect BaseRect;
+	QRect ItemMappedRect = parentItem()->transform().mapRect(rect);
+	if (ItemMappedRect.width() < 30 || ItemMappedRect.height() < 30)
+		BaseRect = QRect(0, 0, 4, 4); //Small corners.
+	else
+		BaseRect = QRect(0, 0, 6, 6);
+	int side =  InvTrans.mapRect(BaseRect).width();//* m_modifier->item()->scale();//1 + (int)sqrt((float)qMin(rect.width(), rect.height()));
     if (side != m_side) {
         prepareGeometryChange();
         m_side = side;
@@ -60,7 +67,7 @@ void CornerItem::relayout(const QRect & rect)
 
 QRectF CornerItem::boundingRect() const
 {
-    return QRectF(-m_side, -m_side, 2*m_side, 2*m_side);
+	return QRectF(-m_side, -m_side, 2*m_side, 2*m_side);
 }
 
 void CornerItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event)
@@ -196,7 +203,7 @@ void CornerItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * opti
 //         return;
 
 //    QColor color = RenderOpts::hiColor;
-	QColor color = Qt::red; 
+	QColor color = Qt::red;
     if (option->state & QStyle::State_MouseOver) {
         if (m_operation != Off)
             color.setAlpha(250);

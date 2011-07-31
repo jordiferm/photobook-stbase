@@ -8,5 +8,8 @@
         <file>help.png</file>
         <file>load.png</file>
         <file>save.png</file>
+        <file>object-rotate-right.png</file>
+        <file>transform-move.png</file>
+        <file>transform-scale.png</file>
     </qresource>
 </RCC>

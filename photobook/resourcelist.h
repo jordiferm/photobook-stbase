@@ -49,6 +49,7 @@ public:
 	QImage getThumbNail(const Resource& _Resource) const;
 	QSize thumbnailMaxSize() const { return ThumbnailMaxSize; }
 	void push_backResource(const QFileInfo& _ResourceFile);
+	void addNonExist(const ResourceList& _RecToAdd);
 };
 }
 #endif // RESOURCELIST_H

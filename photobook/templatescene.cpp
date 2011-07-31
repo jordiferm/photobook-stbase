@@ -57,66 +57,6 @@ using namespace SPhotoBook;
 
 qreal TemplateScene::PageZValue = -1000000;
 
-/*!
-	\return returns a list of saved filenames.
-*/
-QStringList TemplateScene::storePhotoItemImage(GraphicsPhotoItem* _CItem, const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages)
-{
-	QStringList Res; 
-	if (!_CItem->imageFileName().trimmed().isEmpty())
-	{
-		if (!_OnlyDesignImages)
-		{
-			QString StoredImageName = _CInfo.imageFilePath(_CItem->imageFileName());
-			Res.push_back(StoredImageName);
-			if (!QFile::exists(StoredImageName))
-				Assert(QFile::copy(_CItem->imageFileName(), StoredImageName), Error(QString(tr("Error storing image '%1' -> '%2'")).arg(_CItem->imageFileName()).arg(StoredImageName)));
-			_CItem->setImageFileName(StoredImageName);
-			_CItem->setImageSourcePath(QFileInfo(StoredImageName).absolutePath());
-		}
-
-		//Store mask image if it does not exist.
-		if (_CItem->hasAlphaChannel())
-		{
-			QString MaskImageFileName = _CInfo.photoBookPath() + "/" + _CItem->alphaChannelFileName(); 
-			QImage MaskImage = _CItem->alphaChannel(); 
-			//qDebug(QString("Saving Mask %1").arg(MaskImageFileName).toLatin1());
-			Res.push_back(MaskImageFileName); 
-			if (!QFile::exists(MaskImageFileName))
-				Assert(MaskImage.save(MaskImageFileName), 
-					Error(QString(tr("Error storing mask image '%1'")).arg(MaskImageFileName)));
-		}
-		if (_CItem->hasFrameImage())
-		{
-			QString FrameImageFileName = _CInfo.photoBookPath() + "/" + _CItem->frameImageFileName();
-			QImage FrameImage = _CItem->frameImage();
-			Res.push_back(FrameImageFileName);
-			if (!QFile::exists(FrameImageFileName))
-				Assert(FrameImage.save(FrameImageFileName),
-					Error(QString(tr("Error storing frame image '%1'")).arg(FrameImageFileName)));
-		}
-	}
-	return Res; 
-}
-
-/*!
-	\return saved filename
-*/
-QString TemplateScene::storeClipartItemFile(GraphicsClipartItem* _CItem, const CollectionInfo& _CInfo)
-{
-	QString Res; 
-	if (!_CItem->fileName().trimmed().isEmpty())
-	{
-		QString StoredImageName = _CInfo.imageFilePath(_CItem->fileName());
-		Res = StoredImageName; 
-		if (!QFile::exists(StoredImageName))
-			Assert(QFile::copy(_CItem->fileName(), StoredImageName), Error(QString(tr("Error storing image '%1' -> '%2'")).arg(_CItem->fileName()).arg(StoredImageName)));
-		_CItem->setFileName(StoredImageName); 
-	}
-	return Res; 
-}
-
-
 void TemplateScene::init()
 {
 	setBackgroundBrush(QColor("#DFE1BD"));
@@ -156,43 +96,39 @@ void TemplateScene::copy(TemplateScene* _Other)
 	//Make sure photoitems are inserted to PhotoItems list.
 	//Use clone method in each item ? from virtual in AbstractGraphicsItem ?
 	QDomDocument Doc;
-	if (PageItem)
-		loadElement(PageItem->imageSourcePath(), _Other->createElement(Doc));
-	else
-		loadElement("", _Other->createElement(Doc));
+/*	QString DestImageSourcePath;
+	if (_Other->pageItem())
+		DestImageSourcePath = _Other->pageItem()->imageSourcePath();*/
+
+	loadElement(_Other->createElement(Doc));
 }
 
 /*!
 	Replaces the template and reuses current photoItems.	
 */
-void TemplateScene::replaceTemplate(const TemplateScene* _Scene)
+void TemplateScene::replaceTemplate(TemplateScene* _Scene)
 {
-/*	QFileInfoList OldIndexList;
+	QFileInfoList OldIndexList;
 	QList<GraphicsPhotoItem*> OldPhotoItems = photoItems();
 	QList<GraphicsPhotoItem*>::iterator it;
 	for (it = OldPhotoItems.begin(); it != OldPhotoItems.end(); ++it)
 	{
 		if ((*it)->hasImage() && (*it)->isVisible())
-			OldIndexList.push_back(QFileInfo((*it)->imageFileName()));
+			OldIndexList.push_back((*it)->imageResource().fileInfo());
 	}
-	loadPageTemplate(_Template); 
+
+	clear();
+	copy(_Scene);
 
 	QList<GraphicsPhotoItem*> PhotoItems = photoItems();
 	int CntCurrPhoto = 0;
-	//while (InsertedPhotos < TotalPhotos && CntCurrPhoto < PhWidgets.count())
 	while (CntCurrPhoto < PhotoItems.count())
 	{
 		GraphicsPhotoItem* CurrPhotoItem = PhotoItems.at(CntCurrPhoto);
-		//!!!!! No podem treballar amb indexs perque el model canvia !!!!!!
 		if (OldIndexList.size() > CntCurrPhoto)
 		{
-			STImage Img;
-
 			STDom::DImageDoc CImageDoc(OldIndexList[CntCurrPhoto].absoluteFilePath());
-			//Img.loadThumbnail(OldIndexList[CntCurrPhoto].absoluteFilePath());
-			//CurrPhotoItem->setImage(QPixmap::fromImage(Img), OldIndexList[CntCurrPhoto].absoluteFilePath());
 			CurrPhotoItem->setImage(CImageDoc);
-			
 			CurrPhotoItem->loadImageSpawn();
 		}
 		else
@@ -204,11 +140,10 @@ void TemplateScene::replaceTemplate(const TemplateScene* _Scene)
 				CurrPhotoItem->loadImageSpawn();
 			}
 		}
-//			CurrPhotoItem->setIndex(static_cast<KPhotoListModel*>(OldIndexList[CntCurrPhoto].model()), OldIndexList[CntCurrPhoto]);
 		
 		CntCurrPhoto++;
 	}
-	modified();*/
+	modified();
 }
 
 
@@ -354,7 +289,7 @@ QList<GraphicsMonthItem*> TemplateScene::monthItems() const
 
 void TemplateScene::loadHiResImages(GraphicsPhotoItem* _Item)
 {
-	if (!_Item->imageFileName().isEmpty()) ///!!!!!!!!!!!!!!!!!!!!!! No hauria pas de produir-se amb els templates de calendaris...
+	if (_Item->hasImage()) ///!!!!!!!!!!!!!!!!!!!!!! No hauria pas de produir-se amb els templates de calendaris...
 	{
 		_Item->setImageMode(GraphicsPhotoItem::HiResImageMode);
 		_Item->unloadImage();
@@ -490,6 +425,21 @@ void TemplateScene::prepareForPrint()
 
 void TemplateScene::addRandomPhotoFrame()
 {
+	QRectF NewTemplateRect;
+	if (PhotoItems.size() > 0)
+	{
+		int Index = qrand() % PhotoItems.size();
+		GraphicsPhotoItem* SelItem = PhotoItems[Index];
+		NewTemplateRect = SelItem->rect();
+	}
+	else
+		NewTemplateRect = QRectF(0, 0, 46, 35);
+
+	GraphicsPhotoItem* PhotoItem = new GraphicsPhotoItem;
+	PhotoItem->setZValue(topZValue() + 1);
+	PhotoItem->setRect(NewTemplateRect);
+	addPhotoItem(PhotoItem);
+
 	//TODO: Update it !
 /*	STPhotoLayoutTemplate::TFrameList FrameList = Template.frames();
 
@@ -571,10 +521,10 @@ void TemplateScene::deletePageItem()
 
 QGraphicsItem* TemplateScene::addClipartItem(const QString& _FileName)
 {
-	GraphicsClipartItem* NewItem = new GraphicsClipartItem(_FileName);
+	GraphicsClipartItem* NewItem = new GraphicsClipartItem(Resource(_FileName, Resource::TypeClipart));
 	configureItem(NewItem); 
 	//NewItem->scaleToWidth(75); 
-	NewItem->scaleToHeight(75); 
+	NewItem->scaleToHeight(75);
 	addItemOnTop(NewItem);	
 
 	modified();
@@ -590,7 +540,8 @@ GraphicsTextItem* TemplateScene::addTextFrame(const QString& _Html)
 	NewFrame->setMovable(true); //The text items are always movable.
 	configureItem(NewFrame); 
 	addItemOnTop(NewFrame);	
-	NewFrame->adjustSize();
+	//NewFrame->adjustSize();
+	//NewFrame->setTextWidth(-1);
 	modified();
 	return NewFrame;
 }
@@ -636,15 +587,15 @@ GraphicsMonthItem* TemplateScene::createMonthTextFrameItem()
 	return NewItem;
 }
 
-QGraphicsItem* TemplateScene::addElement(const QString& _ImageSourcePath, QDomElement& _Element)
+//@Revision Mark
+QGraphicsItem* TemplateScene::addElement(QDomElement& _Element, const QString& _LoadDir)
 {
 	AbstractGraphicsItem* CItem;
 	QGraphicsItem* GrItem = 0;
 	if (_Element.tagName().toLower() ==  GraphicsPhotoItem::tagName())
 	{
 		GraphicsPhotoItem* NPItem = new GraphicsPhotoItem;
-		NPItem->setImageSourcePath(_ImageSourcePath);
-		NPItem->loadElement(_Element);
+		NPItem->loadElement(_Element, _LoadDir);
 		NPItem->setZValue(_Element.attribute("zvalue").toDouble());
 		addPhotoItem(NPItem );
 		GrItem = NPItem;  
@@ -655,24 +606,10 @@ QGraphicsItem* TemplateScene::addElement(const QString& _ImageSourcePath, QDomEl
 		GrItem = 0; 
 		if (_Element.tagName().toLower() ==  GraphicsClipartItem::tagName() )
 		{
-			//FIXME _ImageSourcePath + "/" + _Element.attribute("src")-> El load de la imatge hauria d'estar a l'item.
-			QString ClipartFileName = _ImageSourcePath + "/" + _Element.attribute("src"); 
-			
-			if (QFile::exists(ClipartFileName))
-			{
-				QFileInfo FInfo(ClipartFileName); 
-				if (FInfo.isFile())
-				{
-					GraphicsClipartItem* NItem = new GraphicsClipartItem(ClipartFileName);
-					configureItem(NItem); 
-					CItem = NItem; 
-					GrItem = NItem;
-				}
-				else 
-					qWarning(QString("Clipart filename is not a file: %1 ").arg(ClipartFileName).toLatin1()); 
-			}
-			else 
-				qWarning(QString("Clipart filename Not Found: %1 ").arg(ClipartFileName).toLatin1()); 
+			GraphicsClipartItem* NItem = new GraphicsClipartItem;
+			configureItem(NItem);
+			CItem = NItem;
+			GrItem = NItem;
 		}
 		else
 		if (_Element.tagName().toLower() ==  GraphicsTextItem::tagName())
@@ -685,7 +622,7 @@ QGraphicsItem* TemplateScene::addElement(const QString& _ImageSourcePath, QDomEl
 		
 		if (CItem && GrItem)
 		{
-			CItem->loadElement(_Element);
+			CItem->loadElement(_Element, _LoadDir);
 			GrItem->setZValue(_Element.attribute("zvalue").toDouble());
 			addItem(GrItem); 
 		}
@@ -693,10 +630,10 @@ QGraphicsItem* TemplateScene::addElement(const QString& _ImageSourcePath, QDomEl
 	return GrItem; 
 }
 
-void TemplateScene::loadElement(const QString& _ImageSourcePath, const QDomElement& _SceneElement)
+void TemplateScene::loadElement(const QDomElement& _SceneElement, const QString& _LoadDir)
 {
-	deletePageItem(); 
-	
+	deletePageItem();
+
 	ModifyAllFrames = _SceneElement.attribute("modifyallframes", "0").toLower() == "1";
 	RenderBaseSize.setWidth(_SceneElement.attribute("basewidth","0").toDouble());
 	RenderBaseSize.setHeight(_SceneElement.attribute("baseheight","0").toDouble());
@@ -711,8 +648,7 @@ void TemplateScene::loadElement(const QString& _ImageSourcePath, const QDomEleme
 			if (CEl.tagName().toLower() ==  GraphicsPageItem::tagName() )
 			{
 				GraphicsPageItem* NewPageItem = new GraphicsPageItem;
-				NewPageItem->setImageSourcePath(_ImageSourcePath);
-				NewPageItem->loadElement(CEl); 
+				NewPageItem->loadElement(CEl, _LoadDir);
 				NewPageItem->setZValue(PageZValue);
 				configureItem(NewPageItem); 
 				addItem(NewPageItem);
@@ -728,13 +664,13 @@ void TemplateScene::loadElement(const QString& _ImageSourcePath, const QDomEleme
 	{
 		QDomElement CEl = CNode.toElement(); // try to convert the node to an element.
 		if(!CEl.isNull())
-			addElement(_ImageSourcePath, CEl);
+			addElement(CEl, _LoadDir);
 		 
 		CNode = CNode.nextSibling();
 	}	
 }
 
-QDomElement TemplateScene::createElement(QDomDocument& _Doc)
+QDomElement TemplateScene::createElement(QDomDocument& _Doc, const QString& _StoreDir)
 {
 	QDomElement SceneEl = _Doc.createElement("scene");
 	SceneEl.setAttribute("modifyallframes", ModifyAllFrames);
@@ -743,7 +679,7 @@ QDomElement TemplateScene::createElement(QDomDocument& _Doc)
 
 	//PageItem
 	if (PageItem) //Defensive
-		SceneEl.appendChild(PageItem->createElement(_Doc));
+		SceneEl.appendChild(PageItem->createElement(_Doc, _StoreDir));
 
 	//All the items
 	QList<QGraphicsItem *> Items = items(); 
@@ -755,7 +691,7 @@ QDomElement TemplateScene::createElement(QDomDocument& _Doc)
 			AbstractGraphicsItem* CItem = dynamic_cast<AbstractGraphicsItem*>(*it);
 			if (CItem && CItem != PageItem)//FIXME it crash for non STAbstractGraphicsItems !!!.
 			{
-				QDomElement NewEl = CItem->createElement(_Doc);
+				QDomElement NewEl = CItem->createElement(_Doc, _StoreDir);
 				NewEl.setAttribute("zvalue",(*it)->zValue());
 					SceneEl.appendChild(NewEl); 
 			}
@@ -829,7 +765,7 @@ void TemplateScene::applyResource(const SPhotoBook::Resource& _Resource)
 		case Resource::TypeClipart :
 			addClipartItem(_Resource.fileInfo().absoluteFilePath());
 		break;
-		case Resource::TypeFrame :
+/*		case Resource::TypeFrame :
 		case Resource::TypeFrameMask :
 		{
 			QGraphicsItem* CItem = currentItem();
@@ -838,7 +774,7 @@ void TemplateScene::applyResource(const SPhotoBook::Resource& _Resource)
 				if (GraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<GraphicsPhotoItem*>(CItem))
 					CPhotoItem->setResource(_Resource);
 			}
-		}
+		}*/
 		break;
 	}
 }
@@ -1166,7 +1102,7 @@ QStringList TemplateScene::storePhotoItemImages(const CollectionInfo& _CInfo, bo
 {
 	QStringList StoredFiles; 
 	if (PageItem)
-		StoredFiles += storePhotoItemImage(PageItem, _CInfo); 
+		StoredFiles +=  PageItem->saveResources(_CInfo.photoBookPath());//storePhotoItemImage(PageItem, _CInfo);
 
 	QList<QGraphicsItem *> Items = items();
 	QList<QGraphicsItem *>::iterator it; 
@@ -1175,12 +1111,10 @@ QStringList TemplateScene::storePhotoItemImages(const CollectionInfo& _CInfo, bo
 		if ((*it)->isVisible())	
 		{
 			if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
-			{
-				StoredFiles += storePhotoItemImage(CItem, _CInfo, _OnlyDesignImages);
-			}
+				StoredFiles += CItem->saveResources(_CInfo.photoBookPath(), !_OnlyDesignImages);
 			else 
 			if (GraphicsClipartItem* CItem = qgraphicsitem_cast<GraphicsClipartItem*>(*it))
-				StoredFiles += storeClipartItemFile(CItem, _CInfo); 
+				StoredFiles += CItem->saveResources(_CInfo.photoBookPath());
 		}
 	}
 	return StoredFiles; 
@@ -1276,8 +1210,11 @@ void TemplateScene::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 	else
 	if (const SPhotoBook::ResourceMimeData* MData = qobject_cast<const SPhotoBook::ResourceMimeData*>(_Event->mimeData()))
 	{
-		Propagate = false;
-		applyResource(MData->resource());
+		if (MData->resource().type() == Resource::TypeClipart || MData->resource().type() == Resource::TypeBackground)
+		{
+			Propagate = false;
+			applyResource(MData->resource());
+		}
 	}
 	else
 	if (_Event->mimeData()->hasUrls())

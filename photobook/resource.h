@@ -22,19 +22,23 @@
 #include <QString>
 #include <QFileInfo>
 #include <QDir>
+#include "sterror.h"
 
 namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT Resource
 {
 public:
+	ST_DECLARE_ERRORCLASS();
 	enum EnResourceType
 	{
 		TypeBackground = 0,
 		TypeClipart,
 		TypeFrame,
 		TypeFrameMask,
-		TypeFont
+		TypeFont,
+		TypeMask,
+		TypeImage
 	};
 
 private:
@@ -45,6 +49,7 @@ private:
 
 public:
 	Resource(const QFileInfo& _FileInfo);
+	Resource(const QFileInfo& _FileInfo, EnResourceType _Type );
 	Resource(const QDir& _Dir = QDir(), const QString& _Name = "", EnResourceType _Type = TypeBackground);
 	void setName(const QString& _Name) { Name = _Name; }
 	QString name() const { return Name; }
@@ -53,14 +58,25 @@ public:
 	QDir dir() const { return Dir; }
 	bool isEncrypted() const { return false; }
 
+	//! Returns the files saved
+	QStringList save(const QFileInfo& _DestFileInfo);
+	QStringList save(const QDir& _StoreDir);
+
 	QFileInfo fileInfo() const;
 
 	bool isNull() const { return Name.isEmpty(); }
+
+	bool operator==(const Resource& _Other ) const;
+	bool operator!=(const Resource& _Other ) const;
+
 	static QStringList fileFilter(EnResourceType _Type);
 	static QString filePrefix(EnResourceType _Type);
-	static QString fileExtension(EnResourceType _Type);
 	EnResourceType fileResourceType(const QString& _FileName);
 	static bool isResource(const QFileInfo& _FileInfo);
+	static QFileInfo frameMaskFile(const Resource& _FrameResource);
+	static Resource resourceFromXmlSrc(const QString& _XmlSrc, const QString& _LoadDir);
+	static QFileInfo fileInfoFromXmlSrc(const QString& _XmlSrc, const QString& _LoadDir);
+	static QString fileInfoToXmlSrc(const QFileInfo& _FileInfo, const QString& _SaveDir);
 };
 }
 #endif // RESOURCE_H

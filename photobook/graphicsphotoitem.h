@@ -33,6 +33,7 @@
 #include "stphotobookexport.h"
 #include "stimage.h"
 #include "dimagedoc.h"
+#include "resource.h"
 
 /**
 	Thread for load GraphicsPhotoItem images in background.
@@ -66,7 +67,7 @@ public slots:
 /**
 	GraphicsItem that represents a frame with an image.
 */
-class ST_PHOTOBOOK_EXPORT GraphicsPhotoItem : public QObject, public QGraphicsRectItem, public AbstractGraphicsItem
+class ST_PHOTOBOOK_EXPORT  GraphicsPhotoItem : public QObject, public QGraphicsRectItem, public AbstractGraphicsItem
 {
 	Q_OBJECT 
 
@@ -87,13 +88,19 @@ private:
 	static bool OldThresholdMoving;
 	static bool DefaultNoImageMessage;
 
+	//-- Loaded Resources
 	STImage CurrImage;
 	QImage PaintedImage;
 	QImage MaskImage;
 	QImage FrameImage;
-	QString FrameImageFile;
+
+	//-- Resources
+	Resource FrameResource;
+	Resource ImageResource;
+	Resource MaskResource;
+
+	//-- Internal
 	QRect LastMaxResRect;
-	QString CurrImageFileName;
 	GraphicsPhotoItemLoadThread* MLoadThread;
 	QMatrix ImageMatrix;
 	qreal CurrScale;
@@ -108,7 +115,6 @@ private:
 	static QSize MaxLowResImageSize;
 	static QBrush SelectedBrush;
 	static int LowResImageDPIs; 
-	qreal ShadowDepth;
 	bool Moving; 
 	bool RestoreZValue; 
 	qreal OldZValue; 
@@ -126,16 +132,12 @@ private:
 protected:	
 	bool ImageLoaded;
 	bool PanningEnabled;
-	void setCurrImageFileName(const QString& _ImageFileName);
-	virtual void updateCursor();
 	QSize imageWindowDpis(const QSizeF& _ItemRectInmm, const QSize& _ImageClipSize, const QSize& _PaintedImageSize, const QSize& _OriginalImageSize);
 	void createPaintedImage(const Qt::TransformationMode&  _CTransformMode, const QRect& _MaxResRect);
 	void updateToolTip();
-	
-private:	
-	void createControls();
-	void layoutControlWidget();
+	virtual void updateCursor();
 
+private:	
 	void init();
 	QPointF insideSceneRect(const QPointF& _Point);
 	void checkForImageOrientation(); 
@@ -143,39 +145,34 @@ private:
 public:
 	GraphicsPhotoItem(QGraphicsItem* _Parent = 0);
 	~GraphicsPhotoItem();
-	void setAspectRatioMode(Qt::AspectRatioMode _Value) { AspectRatioMode = _Value; }
-	Qt::AspectRatioMode aspectRatioMode() const { return AspectRatioMode; }
+	AbstractGraphicsItem* clone() const;
+	int type() const { return Type; }
+
+	// --- Resources
+	QStringList saveResources(const QDir& _StoreDir, bool _SaveImageRes = true);
+	void setResource(const Resource& _Resource);
 
 	// --- Alpha channel ---
-	bool hasAlphaChannel() const { return !MaskImage.isNull(); }
-	QImage alphaChannel() const { return MaskImage; }
-	QString alphaChannelFileName() const;
-	void setAlphaChannel(const QImage& _AlphaChannel);
-	void setNoAlplaChannel();
+	void setAlphaChannel(const Resource& _Resource, const QImage& _AlphaChannel); //Preloaded
+	bool hasAlphaChannel() const { return !MaskResource.isNull(); }
+	void setAlphaChannel(const Resource& _AlphaChannel);
+	Resource maskResource() const { return MaskResource; }
 
 	// --- Frame image ---
-	bool hasFrameImage() const { return !FrameImage.isNull(); }
-	QImage frameImage() const { return FrameImage; }
-	QString frameImageFile() const { return FrameImageFile; }
-	QString frameImageFileName() const;
-	static QFileInfo frameMaskFile(const QString& _FrameImage);
+	bool hasFrameImage() const { return !FrameResource.isNull(); }
 	void setFrameResource(const Resource& _Resource);
-	void setFrameImage(const QString& _FrameImage);
+	Resource frameResource() const { return FrameResource; }
 
+	//-- Image
 	//! OnScreen Image
 	QImage paintedImage() const { return PaintedImage; }
 	//! On Screen Image generated from CurrentImage.
 	QImage originalPaintedImage();
 	void updatePaintedImage(const QImage& _Image);
-
-	//Auto adjusting
-	void adjustRectToImage();
-	void adjustRectToImage(const QSize& _ImageSize);
-	void setAutoAdjustFramesToImages(bool _Value);
-	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
-
 	//! Sets preloaded image.
 	void setImage(const QImage& _Image, const QString& _ImageFileName);
+	//! Sets only the filename without memory and thumbnail images changes.
+	void setImageFileName(const QString& _ImageFileName);
 	void setImage(STDom::DImageDoc& _Image);
 	void setThumbnail(const QPixmap& _ThumbNail, const QString& _ImageFileName);
 	void setThumbnail(const QImage& _ThumbNail, const QString& _ImageFileName);
@@ -188,43 +185,48 @@ public:
 	void unloadImage();
 	//! Unsets the item image file.
 	void clearImage();
-	int type() const { return Type; }
+	QString imageMD5Sum() const { return ImageMD5Sum; }
+	bool hasImage() const { return !ImageResource.isNull(); }
+	void setImageMode(EnImageResMode _ImageMode) { ImageMode = _ImageMode; }
+	Resource imageResource() const { return ImageResource; }
+
+
+	//-- Manipulation
+	void adjustRectToImage();
+	void adjustRectToImage(const QSize& _ImageSize);
 	//! Rotates image in counterclockwise degrees.
 	void rotateImage(qreal _Degrees = -90);
 	void scaleImage(qreal _Scale);
 	void setImageScale(qreal _Scale);
 	qreal imageScale();
 	qreal fitInImageScale();
-	//! Sets only the filename without memory and thumbnail images changes.
-	void setImageFileName(const QString& _Value);
-	QString imageFileName() const { return CurrImageFileName; }
-	void setImageMode(EnImageResMode _ImageMode) { ImageMode = _ImageMode; }
-	//! Path to find images when calls to loadElement()
-	void setImageSourcePath(const QString& _ImagesSourcePath);
-	QString imageSourcePath() const { return ImagesSourcePath;}
-	void loadElement(const QDomElement& _Element);
-	QDomElement createElement(QDomDocument& _Doc) const;
-	void setOpacity(qreal _Value); 
+	void shrink(double _Amount);
+	void setOpacity(qreal _Value);
 	qreal opacity() const { return Opacity; }
-	QString imageMD5Sum() const { return ImageMD5Sum; }
-	bool hasImage() const { return !CurrImageFileName.isEmpty(); }
-	void setShadowDepth( qreal _Value);
-	qreal shadowDepth() const { return ShadowDepth; }
+
+	//-- Xml
+	//! If _LoadDir is empty (default) all paths are handled as absolute, else all paths are relative to _LoadDir.
+	void loadElement(const QDomElement& _Element, const QString& _LoadDir = "");
+	//! If Storedir is empty (default) all paths are stored absolute, else path are stored relative to _StoreDir.
+	QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "") const;
+	static QString tagName() { return "photoitem"; }
+
+
+	//-- Configuration
+	void setAutoAdjustFramesToImages(bool _Value);
+	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
+	void setAspectRatioMode(Qt::AspectRatioMode _Value) { AspectRatioMode = _Value; }
+	Qt::AspectRatioMode aspectRatioMode() const { return AspectRatioMode; }
 	void setWarningVisible(bool _Value) { WarningVisible = _Value; }
 	void setShowNoImageMessage(bool _Value) { ShowNoImageMessage = _Value; }
 	static void setDefaultShowNoImageMessage(bool _Value) { DefaultNoImageMessage = _Value; }
-
 	void setMultiSelection(bool _Value) { MultiSelection = _Value; }
 	bool multiSelection() const { return MultiSelection; }
 	void setImageEncrypted(bool _Value) { ImageEncrypted = _Value; }
 	bool imageEncrypted() const { return ImageEncrypted; }
-
-	void shrink(double _Amount);
-
 	static void setTouchInterface(bool _Value) { TouchInterface = _Value; }
 	static bool thresholdMoving() { return ThresholdMoving; }
 	static void setThresholdMoving(bool _Value) { ThresholdMoving = _Value; }
-	static QString tagName() { return "photoitem"; }
 	static void setMaxLowResImageSize(const QSize& _Size) { MaxLowResImageSize = _Size; }
 	static void setSelectedBrush(const QBrush& _Brush) { SelectedBrush = _Brush; } 
 	static void setLowResImageDPIs(int _Dpis) { LowResImageDPIs = _Dpis; }
@@ -232,16 +234,12 @@ public:
 	static bool encryptedByFileName(const QString& _FilePath);
 	static void disableMoveConstraints();
 	static void restoreMoveConstraints();
+	static void setLowResWarning(const QString& _WarningImage, int _MinDpis);
 
-	QRectF boundingRect() const;
+	//-- Information
 	QPointF rectPos() const;
 	void setRectPos(const QPointF& _Pos);
 	void setRectPos(qreal _X, qreal _Y);
-	static void setLowResWarning(const QString& _WarningImage, int _MinDpis);
-
-	virtual AbstractGraphicsItem* clone() const;
-	void setResource(const Resource& _Resource);
-
 
 protected:
 	void paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* );

@@ -32,7 +32,7 @@ public:
 	ST_DECLARE_ERRORCLASS();
 
 private:
-	QDomDocument createDoc();
+	QDomDocument createDoc(const QDir& _StoreDir);
 
 public:
 	explicit PageList();

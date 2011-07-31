@@ -64,13 +64,14 @@ void ResourceList::save(const QDir& _Dir)
 	ResourceList::iterator it;
 	for (it = begin(); it != end(); ++it)
 	{
-		QFile SourceFile(it->fileInfo().absoluteFilePath());
+		it->save(_Dir);
+/*		QFile SourceFile(it->fileInfo().absoluteFilePath());
 		if (SourceFile.exists())
 		{
 			QString DestFileName = _Dir.absoluteFilePath(it->fileInfo().fileName());
 			if (!QFile::exists(DestFileName))
 				Assert(SourceFile.copy(DestFileName), Error(QObject::tr("Error saving resource file: %1 -> %2").arg(SourceFile.fileName()).arg(DestFileName)));
-		}
+		}*/
 	}
 }
 
@@ -146,5 +147,25 @@ void ResourceList::push_backResource(const QFileInfo& _ResourceFile)
 				push_back(NewRes);
 			}
 		}
+	}
+}
+
+void ResourceList::addNonExist(const ResourceList& _RecToAdd)
+{
+	ResourceList::const_iterator it = _RecToAdd.begin();
+	while (it != _RecToAdd.end())
+	{
+		//Check if we contains *it
+		ResourceList::const_iterator fit = begin();
+		bool Found = false;
+		while (!Found && fit != end())
+		{
+			Found = (*fit == *it);
+			++fit;
+		}
+		if (!Found)
+			push_back(*it);
+
+		++it;
 	}
 }

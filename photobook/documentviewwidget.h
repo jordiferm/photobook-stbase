@@ -55,6 +55,7 @@ public:
 
 	DocumentViewWidget(QWidget* _Parent = 0);
 	void clear();
+	void reloadPages();
 	void setPBDocument(const SPhotoBook::Document* _PBDocument);
 
 	int sceneIndex(QGraphicsScene* _Scene);

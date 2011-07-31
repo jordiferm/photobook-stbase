@@ -22,7 +22,7 @@
 
 using namespace SPhotoBook;
 
-TemplateSceneMimeData::TemplateSceneMimeData()
+TemplateSceneMimeData::TemplateSceneMimeData() : TScene(0)
 {
 }
 
