@@ -20,6 +20,7 @@
 
 #include "fsqltreetableproxymodel.h"
 #include <QSqlTableModel>
+#include <QSqlRecord>
 
 
 int FSqlTreeTableProxyModel::childRow(const QVariant& _ChildId)
@@ -27,10 +28,6 @@ int FSqlTreeTableProxyModel::childRow(const QVariant& _ChildId)
 
 }
 
-QModelIndex parentIndex(const QVariant& _ChildId)
-{
-	//Recursive ?
-}
 
 FSqlTreeTableProxyModel::FSqlTreeTableProxyModel(int _KeyColumn, int _ParentKeyColumn, QObject *parent) :
 	QAbstractProxyModel(parent), KeyColumn(_KeyColumn), ParentKeyColumn(_ParentKeyColumn)
@@ -44,20 +41,35 @@ void FSqlTreeTableProxyModel::setSourceModel(QSqlTableModel* _SourceModel)
 
 virtual QModelIndex	FSqlTreeTableProxyModel::mapFromSource ( const QModelIndex & _SourceIndex) const
 {
-	QVariant RowId = SourceModel->data(_SourceIndex);
-	return  index(childRow(RowId), _SourceIndex.row(), parentIndex(RowId));
+	return  index(childRow(_SourceIndex.row()), _SourceIndex.column());
 }
 
-virtual QModelIndex	FSqlTreeTableProxyModel::mapToSource ( const QModelIndex & proxyIndex ) const
+virtual QModelIndex	FSqlTreeTableProxyModel::mapToSource ( const QModelIndex & _ProxyIndex) const
 {
+	if (!_ProxyIndex.isValid() || !SourceModel)
+		return QModelIndex();
 
+	QModelIndex Res;
+	QModelIndexList IndexList = SourceModel->match(SourceModel->index(0, KeyColumn), Qt::EditRole, _ProxyIndex.internalId(), 1, Qt::MatchExactly);
+	if (IndexList.size() > 0)
+		Res = IndexList.first();
+
+	return Res;
 }
 
 QModelIndex FSqlTreeTableProxyModel::parent(const QModelIndex& _Child) const
 {
-	return _Child.parent();
+	if (!_Child.isValid() || !SourceModel)
+		return QModelIndex();
+
+	return createIndex()
 }
 
 int FSqlTreeTableProxyModel::rowCount(const QModelIndex &parent) const
+{
+	return
+}
+
+QModelIndex	FSqlTreeTableProxyModel::index ( int row, int column, const QModelIndex& _Parent)
 {
 }
