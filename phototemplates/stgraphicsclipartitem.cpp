@@ -39,10 +39,10 @@ void STGraphicsClipartItem::init()
 
 
 
-STGraphicsClipartItem::STGraphicsClipartItem(const QString& _FileName, QGraphicsItem* _Parent) 
+STGraphicsClipartItem::STGraphicsClipartItem(const QString& _FileName, QGraphicsItem* _Parent)
  : QGraphicsSvgItem(_FileName, _Parent), FileName(_FileName), STAbstractGraphicsItem(this)
 {
-	init(); 
+	init();
 }
 
 STGraphicsClipartItem::STGraphicsClipartItem(QGraphicsItem* _Parent) 
@@ -79,7 +79,7 @@ QDomElement STGraphicsClipartItem::createElement(QDomDocument& _Doc)
 
 void STGraphicsClipartItem::setOpacity(qreal _Value)
 {
-	Opacity = _Value; 
+	Opacity = _Value;
 	qDebug("Set Opacity %f", _Value);
 	update(); 
 	modified();
@@ -88,7 +88,7 @@ void STGraphicsClipartItem::setOpacity(qreal _Value)
 
 void STGraphicsClipartItem::scaleToHeight(qreal _Height)
 {
-	QRectF BRect = boundingRect(); 
+	QRectF BRect = boundingRect();
 	qreal SY = _Height / BRect.height(); 
 	Modifier->scale(SY, SY); 
 	modified();
@@ -96,7 +96,7 @@ void STGraphicsClipartItem::scaleToHeight(qreal _Height)
 
 void STGraphicsClipartItem::scaleToWidth(qreal _Width)
 {
-	QRectF BRect =  transform().mapRect(boundingRect()); 
+	QRectF BRect =  transform().mapRect(boundingRect());
 	qreal SX = _Width / BRect.width(); 
 	Modifier->scale(SX, SX); 
 	modified();
@@ -106,7 +106,7 @@ void STGraphicsClipartItem::scaleToWidth(qreal _Width)
 void STGraphicsClipartItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* _Widget)
 {
 	_P->setOpacity(Opacity);
-	QGraphicsSvgItem::paint(_P, _Option, _Widget); 	
+	QGraphicsSvgItem::paint(_P, _Option, _Widget);
 }
 
 
@@ -120,5 +120,5 @@ QVariant STGraphicsClipartItem::itemChange(GraphicsItemChange change, const QVar
 		STAbstractGraphicsItem::updateToolTip(); 
 		modified();
 	}
-	return QGraphicsItem::itemChange(change, value);	
+	return QGraphicsItem::itemChange(change, value);
 }

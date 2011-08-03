@@ -159,6 +159,7 @@ public:
 	virtual int nextId() const;
 	virtual void initializePage() = 0;
 	virtual bool isComplete() const = 0;
+	virtual void showError(const STError& _Error) = 0;
 	STDom::STXmlPublisherSettings publisherSettings() const { return SavedPubSettings; }
 };
 
@@ -181,6 +182,7 @@ public:
 	QSize sizeHint() const;
 	virtual void initializePage();
 	virtual bool isComplete() const;
+	virtual void showError(const STError& _Error);
 };
 
 
@@ -192,6 +194,7 @@ public:
 
 class QComboBox;
 class QSpinBox;
+class QFrame;
 class OPWChooseAtomicProduct : public OPWAbstractChooseProduct
 {
 Q_OBJECT
@@ -199,12 +202,15 @@ Q_OBJECT
 private:	
 	QComboBox* CBoxModel;
 	QSpinBox* SBoxNCopies;
+	bool HasError;
+	QFrame* MainFrame;
 
 public:
 	OPWChooseAtomicProduct(OPWChoosePublisher* _PublisherPage,  QWidget* _Parent = 0);
 	virtual int nextId() const;
 	virtual void initializePage();
 	virtual bool isComplete() const;
+	virtual void showError(const STError& _Error);
 
 private slots: 
 	void updateSelectedProduct();

@@ -31,6 +31,7 @@
 #include <QGraphicsWidget> 
 #include <QFontMetrics>
 #include <QImage>
+#include <QDir>
 #include <QDebug>
 
 //Drag And Drop
@@ -210,6 +211,7 @@ void STGraphicsPhotoItem::layoutControlWidget()
 
 void STGraphicsPhotoItem::init()
 {
+	FrameImageFile = "";
 	PanAct = 0; 
 	AspectRatioMode = Qt::KeepAspectRatioByExpanding; 
 	ShadowDepth = 0;
@@ -410,7 +412,7 @@ void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 			}
 			// Thumbnail is already rotated.
 			Thumbnail = Thumbnail.transformed(Transform, Qt::SmoothTransformation);
-			setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+			setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
 			if (AutoAdjustFramesToImages)
 			{
 				QSize ImgSize;
@@ -427,7 +429,7 @@ void STGraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 			qDebug("Image Info is Null :( .....");
 	}
 	if (!ImageAssigned)
-		setImage(Thumbnail, _Image.fileInfo().absoluteFilePath());
+		setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
 
 	update();
 }
@@ -437,17 +439,24 @@ void  STGraphicsPhotoItem::setDoc(STDom::DDoc* _Doc)
 	if (STDom::DImageDoc* CImageDoc = static_cast<STDom::DImageDoc*>(_Doc))
 		setImage(*CImageDoc);
 	else
-		setImage(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
+		setThumbnail(_Doc->thumbnail(), _Doc->fileInfo().absoluteFilePath());
 }
 
-void STGraphicsPhotoItem::setImage(const QPixmap& _ThumbNail, const QString& _ImageFileName)
+
+//! Obsolete, provided for compatibility reasons.
+void STGraphicsPhotoItem::setThumbnail(const QPixmap& _ThumbNail, const QString& _ImageFileName)
+{
+	setThumbnail(_ThumbNail.toImage(), _ImageFileName);
+}
+
+void STGraphicsPhotoItem::setThumbnail(const QImage& _ThumbNail, const QString& _ImageFileName)
 {
 	//CurrImage = QImage(_ImageFileName);
 	ImageLoaded = false;
 	Opacity = 1;
 	PanningPoint = QPoint(0, 0);
 	bool ChangingImage = !CurrImage.isNull();
-	CurrImage = _ThumbNail.toImage();
+	CurrImage = _ThumbNail;
 	setImageFileName(_ImageFileName); 
 	setBrush(QBrush(Qt::NoBrush));
 	checkForImageOrientation();
@@ -504,9 +513,59 @@ void STGraphicsPhotoItem::setAlphaChannel(const QImage& _AlphaChannel)
 	modified();
 }
 
-void STGraphicsPhotoItem::setFrameImage(const QImage& _FrameImage)
+void STGraphicsPhotoItem::setNoAlplaChannel()
 {
-	FrameImage = _FrameImage;
+	setAlphaChannel(QImage());
+}
+
+QFileInfo STGraphicsPhotoItem::frameMaskFile(const QString& _FrameImage)
+{
+	QFileInfo FIFileInfo(_FrameImage);
+	return QFileInfo(FIFileInfo.dir().absoluteFilePath(FIFileInfo.baseName() + ".mask"));
+}
+
+
+//Sets frame and related mask determined by frameMaskFile
+void STGraphicsPhotoItem::setFrameImage(const QString& _FrameImage)
+{
+	if (!_FrameImage.isNull())
+	{
+		if (!QFile::exists(_FrameImage))
+			return;
+
+		FrameImageFile = _FrameImage;
+		FrameImage = QImage(_FrameImage);
+
+		if (FrameImage.isNull())
+			return;
+
+		QRectF BRect = boundingRect();
+		QMatrix Matrix;
+		if ((BRect.width() > BRect.height() && FrameImage.width() < FrameImage.height())
+			|| (BRect.width() < BRect.height() && FrameImage.width() > FrameImage.height()))
+		{
+			Matrix.rotate(90);
+			FrameImage = FrameImage.transformed(Matrix);
+		}
+
+		QFileInfo FrameMaskFile = frameMaskFile(_FrameImage);
+		if (FrameMaskFile.exists())
+			setAlphaChannel(QImage(FrameMaskFile.absoluteFilePath()).transformed(Matrix));
+		else
+			setNoAlplaChannel();
+	}
+	else
+		setNoAlplaChannel();
+
+/*	FrameImage.setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskOutColor));
+
+	QImage Alpha = _FrameImage.alphaChannel();
+	//Alpha.invertPixels(QImage::InvertRgba);
+	Alpha.invertPixels();
+	setAlphaChannel(Alpha);
+	//setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskOutColor));
+	//FrameImage.setAlphaChannel(MaskImage);
+	//setAlphaChannel(_FrameImage.createMaskFromColor(QColor(0,0,0).rgb(), Qt::MaskInColor));*/
 	update();
 }
 
@@ -705,7 +764,7 @@ void STGraphicsPhotoItem::loadElement(QDomElement& _Element)
 		if (ImgFInfo.exists() && ImgFInfo.isFile()) //Is not only a dir and it exists.
 		{
 			CImage.loadThumbnail(ImageFilePath);
-			setImage(QPixmap::fromImage(CImage), ImageFilePath);
+			setThumbnail(CImage, ImageFilePath);
 			if (ImageEncrypted)
 				loadImageSpawn();
 		}
@@ -718,19 +777,19 @@ void STGraphicsPhotoItem::loadElement(QDomElement& _Element)
 	PanningPoint.setX(_Element.attribute("panningx", "0").toDouble());
 	PanningPoint.setY(_Element.attribute("panningy", "0").toDouble());
 	
-	//Mask Image.
-	QString MaskSrc = _Element.attribute("mask_src", "");
-	if (!MaskSrc.isEmpty())
-	{
-		MaskSrc = ImagesSourcePath + "/" + MaskSrc; 
-		setAlphaChannel(QImage(MaskSrc)); 
-	}
-
 	QString FrameSrc = _Element.attribute("frame_src", "");
 	if (!FrameSrc.isEmpty())
 	{
 		FrameSrc = ImagesSourcePath + "/" + FrameSrc;
-		setFrameImage(QImage(FrameSrc));
+		setFrameImage(FrameSrc);
+	}
+
+	//Mask Image must be loaded before Frame because setFrameImage removes mask.
+	QString MaskSrc = _Element.attribute("mask_src", "");
+	if (!MaskSrc.isEmpty())
+	{
+		MaskSrc = ImagesSourcePath + "/" + MaskSrc;
+		setAlphaChannel(QImage(MaskSrc));
 	}
 
 	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
@@ -1203,7 +1262,7 @@ void STGraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 	else
 	if (const STFrameMimeData* FrameMimeData = qobject_cast<const STFrameMimeData*>(_Event->mimeData()))
 	{
-		setFrameImage(QImage(FrameMimeData->frameFilePath()));
+		setFrameImage(FrameMimeData->frameFilePath());
 	}
 	else
 	{

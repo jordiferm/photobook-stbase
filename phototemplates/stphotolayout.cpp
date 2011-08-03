@@ -388,6 +388,18 @@ bool STPhotoLayoutTemplate::hasTextFrames() const
 	return Res;
 }
 
+bool STPhotoLayoutTemplate::hasClipartFrames() const
+{
+	bool Res = false;
+	int Cnt = 0;
+	while (!Res && Cnt < FrameList.size())
+	{
+		Res = FrameList[Cnt].frameType() == STPhotoLayoutTemplate::Frame::TypeClipart;
+		Cnt++;
+	}
+	return Res;
+}
+
 // -1 if it has not title frames.
 int STPhotoLayoutTemplate::titleFrameIndex() const
 {
@@ -511,8 +523,8 @@ void STPhotoLayoutTemplate::makePathsRelative(const QDir& _RootDir)
 	}
 	if (!backgroundImageFilePath().isEmpty())
 	{
-		//qDebug(QString("setBackgroundImageFile-Relative %1 -> %2").arg(backgroundImageFilePath()).arg(_RootDir.relativeFilePath(backgroundImageFilePath())).toLatin1() );  
-		setBackgroundImageFile(_RootDir.relativeFilePath(backgroundImageFilePath()));
+		//qDebug(QString("setBackgroundImageFile-Relative %1 -> %2").arg(BackgroundImageFile).arg(_RootDir.relativeFilePath(BackgroundImageFile)).toLatin1() );
+		setBackgroundImageFile(_RootDir.relativeFilePath(BackgroundImageFile));
 	}
 	if (! superImposeImageFilePath().isEmpty())
 	{
@@ -534,6 +546,16 @@ void STPhotoLayoutTemplate::storeCliparts(const QDir& _ClipartSharedDir, const Q
 		{
 			QString ClipFileName = it->clipartFileName();
 			if (QDir::isRelativePath(ClipFileName))
+				ClipFileName = _ClipartSharedDir.filePath(ClipFileName);
+			QFileInfo ClipFInfo(ClipFileName);
+			QString DestFileName = _StorageDir.absoluteFilePath(ClipFInfo.fileName());
+			if (!QFile::exists(DestFileName))
+				Assert(QFile::copy(ClipFInfo.absoluteFilePath(), DestFileName),
+					Error(QObject::tr("Error copying clipart file from %1 to %2").arg(ClipFInfo.absoluteFilePath()).arg(DestFileName)));
+			it->setClipartFileName(DestFileName);
+
+/*			QString ClipFileName = it->clipartFileName();
+			if (QDir::isRelativePath(ClipFileName))
 				ClipFileName = _ClipartSharedDir.filePath(ClipFileName); 
 			QFileInfo ClipFInfo(ClipFileName);
 			if (!ClipFInfo.dir().absolutePath().contains(_ClipartSharedDir.absolutePath()))
@@ -543,10 +565,25 @@ void STPhotoLayoutTemplate::storeCliparts(const QDir& _ClipartSharedDir, const Q
 					Assert(QFile::copy(ClipFInfo.absoluteFilePath(), DestFileName), 
 						Error(QObject::tr("Error copying clipart file from %1 to %2").arg(ClipFInfo.absoluteFilePath()).arg(DestFileName)));
 				it->setClipartFileName(_StorageDir.relativeFilePath(DestFileName));
-			}
+			}*/
 		}
 	}
 }
+
+
+void STPhotoLayoutTemplate::storeBackgrounds(const QDir& _StorageDir)
+{
+	if (!backgroundImageFile().isEmpty())
+	{
+		QFileInfo BGFileInfo(backgroundImageFilePath());
+		QString DestBGFile = _StorageDir.absoluteFilePath(BGFileInfo.fileName());
+		if (!QFile::exists(DestBGFile))
+		Assert(QFile::copy(BGFileInfo.absoluteFilePath(), DestBGFile),
+			Error(QObject::tr("Error copying clipart file from %1 to %2").arg(BGFileInfo.absoluteFilePath()).arg(DestBGFile)));
+		setBackgroundImageFile(DestBGFile);
+	}
+}
+
 
 void STPhotoLayoutTemplate::storeMasks(const QDir& _StorageDir)
 {
@@ -602,9 +639,9 @@ QDomElement STPhotoLayoutTemplate::createElement(QDomDocument& _Doc)
 	{
 		QDomElement BGImageElement = _Doc.createElement("backgroundimage"); 
 		
-		BGImageElement.setAttribute("src_all", backgroundImageFilePath()); 
+		BGImageElement.setAttribute("src_all", backgroundImageFile());
 		if (!CurrLocale.isEmpty())
-			BGImageElement.setAttribute("src_" + CurrLocale, backgroundImageFilePath()); 
+			BGImageElement.setAttribute("src_" + CurrLocale, backgroundImageFile());
 		MElement.appendChild(BGImageElement); 
 	}
 	if ( ! superImposeImageFilePath().isEmpty())
@@ -1154,7 +1191,13 @@ QString STPhotoLayoutTemplate::backgroundImageFilePath() const
 {
 	QString Res;
 	if (!BackgroundImageFile.isEmpty())
-		Res = TemplateFilePath + "/" + BackgroundImageFile;
+	{
+		QFileInfo BGFInfo(BackgroundImageFile);
+		if (BGFInfo.isRelative())
+			Res = TemplateFilePath + "/" + BackgroundImageFile;
+		else
+			Res = BackgroundImageFile;
+	}
 	return Res;
 }
 
@@ -1714,6 +1757,7 @@ void STPhotoBookTemplate::save(const QString& _TemplateFileName)
 		it->storeMasks(maskDirPath());
 		it->storeFrames(frameDirPath());
 		it->storeCliparts(clipartDirPath(), TLFileInfo.dir());
+		//TODO: Store backgrounds
 		it->makePathsRelative(TLFileInfo.dir()); 
 		AlbumEl.appendChild(it->createElement(Doc)); 
 	}	
@@ -1935,6 +1979,7 @@ void STPhotoLayout::saveTemplateList(const QString& _XmlTemplateFile, const QStr
 		it->storeMasks(TLFileInfo.dir().absolutePath());
 		it->storeFrames(TLFileInfo.dir().absolutePath());
 		it->storeCliparts(TLFileInfo.dir(), TLFileInfo.dir());
+		it->storeBackgrounds(TLFileInfo.dir().absolutePath());
 		it->makePathsRelative(TLFileInfo.dir()); 
 		TListElement.appendChild(it->createElement(Doc)); 
 	}	

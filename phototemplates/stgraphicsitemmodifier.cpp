@@ -25,6 +25,7 @@
 #include <QToolTip> 
 #include <QDebug>
 #include <QTextDocument>
+#include <math.h>
 
 #include "stcorneritem.h" 
 #include "sttemplatescene.h"
@@ -162,9 +163,14 @@ void STGraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsIt
 	if (STGraphicsTextItem* CItem = qgraphicsitem_cast<STGraphicsTextItem*>(Item))
 	{
 		QPointF Pos = _Sender->mapToScene(_Pos);
-		int NewTextWidth = Pos.x() - Item->pos().x();
-		CItem->document()->setTextWidth(NewTextWidth);
-		CItem->setTextWidth(NewTextWidth);
+
+		qreal Height  = Item->boundingRect().height();
+		qreal Diag = QLineF(Pos, Item->pos()).length();
+		qreal NewWidth = sqrt((Diag * Diag) - (Height * Height));
+
+		//int NewTextWidth =  Pos.y() - Item->pos().y();
+		CItem->document()->setTextWidth(NewWidth);
+		CItem->setTextWidth(NewWidth);
 		layoutChildren();
 	}
 	else 

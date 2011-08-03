@@ -290,7 +290,8 @@ STPhotoLayout::TTemplateList STPhotoBook::getPageTemplates() const
 	TPagesList::const_iterator it;
 	for (it = Pages.begin(); it != Pages.end(); ++it)
 	{
-		Res.push_back((*it)->getPageTemplate());
+		STPhotoLayoutTemplate CTemplate = (*it)->getPageTemplate();
+		Res.push_back(CTemplate);
 	}
 	return Res;
 }
@@ -667,6 +668,29 @@ QDomDocument STPhotoBook::createDoc()
 	return Doc;
 }
 
+void STPhotoBook::saveXmlFile(const QString& _XmlFileName)
+{
+	QFile PBFile(_XmlFileName);
+	Assert(PBFile.open(QFile::WriteOnly | QFile::Truncate), Error(QString(tr("Could not open file %1")).arg(PBFile.fileName())));
+
+	QDomDocument Doc = createDoc();
+	if (EncryptionKey.isEmpty())
+	{
+		QTextStream Out(&PBFile);
+		//Out.setCodec(QTextCodec::codecForName("ISO-8859-1"));
+		Out.setCodec(QTextCodec::codecForName("UTF-8"));
+		Out << Doc.toString();
+	}
+	else
+	{
+		QDataStream Out(&PBFile);
+		QByteArray InputData(Doc.toString().toUtf8());
+		QByteArray OutputData = STUtils::encode(InputData, EncryptionKey);
+		Out << OutputData;
+		//Out.writeBytes(OutputData, OutputData.length());
+	}
+}
+
 void STPhotoBook::save(STProgressIndicator* _Progress , bool _AutoSave)
 {
 	saveAs(QDir(PBInfo.defaultRootPathName()), PBInfo.photoBookName(), _Progress, _AutoSave);
@@ -686,12 +710,6 @@ void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgress
 	QDir PBDir(PBInfo.photoBookPath()); 
 	Assert(PBDir.mkpath(PBDir.absolutePath()), Error(QString(tr("Error creating Photo Book Path %1")).arg(PBDir.absolutePath()))); 
 	
-	QFile PBFile;
-	if (_AutoSave)
-		PBFile.setFileName(PBInfo.xmlAutoSaveFileName());
-	else
-		PBFile.setFileName(PBInfo.xmlFileName());
-	Assert(PBFile.open(QFile::WriteOnly | QFile::Truncate), Error(QString(tr("Could not open file %1")).arg(PBFile.fileName())));
 		
 	if (_Progress)
 	{
@@ -745,23 +763,14 @@ void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgress
 			}
 		}
 	}
-	QString OutputStr;
-	QDomDocument Doc = createDoc();
-	if (EncryptionKey.isEmpty())
-	{
-		QTextStream Out(&PBFile);
-		//Out.setCodec(QTextCodec::codecForName("ISO-8859-1"));
-		Out.setCodec(QTextCodec::codecForName("UTF-8"));
-		Out << Doc.toString();
-	}
+
+	QString XmlFileName;
+	if (_AutoSave)
+		XmlFileName = PBInfo.xmlAutoSaveFileName();
 	else
-	{
-		QDataStream Out(&PBFile);
-		QByteArray InputData(Doc.toString().toUtf8());
-		QByteArray OutputData = STUtils::encode(InputData, EncryptionKey);
-		Out << OutputData;
-		//Out.writeBytes(OutputData, OutputData.length());
-	}
+		XmlFileName = PBInfo.xmlFileName();
+
+	saveXmlFile(XmlFileName);
 
 	if (_Progress)
 		_Progress->stop();
@@ -929,6 +938,14 @@ int STPhotoBook::numPhotoFrames() const
 
 }
 
+void STPhotoBook::clearImages()
+{
+	TPagesList::iterator it;
+	for (it = Pages.begin(); it != Pages.end(); ++it)
+	{
+		(*it)->clearImages();
+	}
+}
 
 STPhotoBook::EnItemType STPhotoBook::itemType(QGraphicsItem* _Item)
 {

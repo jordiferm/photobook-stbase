@@ -296,7 +296,8 @@ void OPWAbstractChooseProduct::syncPublisherData()
 			delete FtpTrans; 
 		FtpTrans = new STDom::STFtpOrderTransfer(this);
 
-		FtpTrans->syncRemoteDir(PublisherPath, PXmlS.dbHost(), PXmlS.dbPort(), PXmlS.dbUser(), PXmlS.dbPassword(),  PXmlS.dbDir(), static_cast<QFtp::TransferMode>(PXmlS.dbTransferMode()));
+		//FtpTrans->syncRemoteDir(PublisherPath, PXmlS.dbHost(), PXmlS.dbPort(), PXmlS.dbUser(), PXmlS.dbPassword(),  PXmlS.dbDir(), static_cast<QFtp::TransferMode>(PXmlS.dbTransferMode()));
+		FtpTrans->syncRemoteFile(PublisherPage->publisherInfo().publisherDatabaseFile().fileName(), PublisherPath, PXmlS.dbHost(), PXmlS.dbPort(), PXmlS.dbUser(), PXmlS.dbPassword(),  PXmlS.dbDir(), static_cast<QFtp::TransferMode>(PXmlS.dbTransferMode()));
 		qApp->restoreOverrideCursor();
 	}
 	catch (...)
@@ -394,17 +395,17 @@ void OPWChooseDigiprintProduct::initializePage()
 	{
 		SMessageBox::critical(this, tr("Error in sync process"), _Error.description());
 	}
-	try
-	{
+	//try
+	//{
 		getPublisherData();
 		PhotoSelW->setProductsModel(PModel);
 		//WProducts->setModel(PModel);
-	}
-	catch (STError& _Error)
-	{
-		SMessageBox::critical(this, tr("Error getting publisher data"), _Error.description());	
-		wizard()->close();
-	}
+	//}
+	//catch (STError& _Error)
+	//{
+	//	SMessageBox::critical(this, tr("Error getting publisher data"), _Error.description());
+	//	wizard()->close();
+	//}
 }
 
 bool OPWChooseDigiprintProduct::isComplete() const
@@ -416,29 +417,45 @@ bool OPWChooseDigiprintProduct::isComplete() const
 }
 
 
+void OPWChooseDigiprintProduct::showError(const STError& _Error)
+{
+	PhotoSelW->setVisible(false);
+
+	setTitle(tr("<h1>The process could not continue due to an error</h1>"));
+	setSubTitle(QString("<center><img src=\":/st/error.png\"/></center><p>%1</p>").arg(_Error.description()));
+
+}
+
+
 //_____________________________________________________________________________
 //
 // class OPWChooseAtomicProduct
 //_____________________________________________________________________________
 
 OPWChooseAtomicProduct::OPWChooseAtomicProduct(OPWChoosePublisher* _PublisherPage, QWidget* _Parent) :
-	OPWAbstractChooseProduct(_PublisherPage, _Parent)
+	OPWAbstractChooseProduct(_PublisherPage, _Parent), HasError(false)
 {
 	setTitle(tr("<h1>PhotoBook selection</h1>"));
 	//TODO Fetch and show html from a remote URL stored in database.
 	setSubTitle(tr("Please select a photobook from the list bellow. And the number of photobook copies."));
-	QGridLayout* MLayout = new QGridLayout(this); 
+	QVBoxLayout* MLayout = new QVBoxLayout(this);
+	MLayout->setMargin(0);
+	MLayout->setSpacing(0);
+	MainFrame = new QFrame(this);
+	MLayout->addWidget(MainFrame);
+
+	QGridLayout* FrameLayout = new QGridLayout(MainFrame);
 	
-	MLayout->addWidget(new QLabel(tr("Number of copies:"), this), MLayout->rowCount(), 0); 
+	FrameLayout->addWidget(new QLabel(tr("Number of copies:"), this), FrameLayout->rowCount(), 0);
 	SBoxNCopies = new QSpinBox(this); 
 	connect(SBoxNCopies, SIGNAL(valueChanged( int )), this, SLOT(updateSelectedProduct())); 
 	SBoxNCopies->setRange(1, 10); 
-	MLayout->addWidget(SBoxNCopies,  MLayout->rowCount() -1, 1); 
+	FrameLayout->addWidget(SBoxNCopies,  FrameLayout->rowCount() -1, 1);
 	
-	MLayout->addWidget(new QLabel(tr("Modelo:"), this), MLayout->rowCount(), 0); 
+	FrameLayout->addWidget(new QLabel(tr("Modelo:"), this), FrameLayout->rowCount(), 0);
 	CBoxModel = new QComboBox(this); 
 	connect(CBoxModel, SIGNAL(currentIndexChanged( int )), this, SLOT(updateSelectedProduct())); 
-	MLayout->addWidget(CBoxModel,  MLayout->rowCount() -1, 1); 
+	FrameLayout->addWidget(CBoxModel,  FrameLayout->rowCount() -1, 1);
 }
 
 int OPWChooseAtomicProduct::nextId() const
@@ -448,6 +465,7 @@ int OPWChooseAtomicProduct::nextId() const
 
 void OPWChooseAtomicProduct::initializePage()
 {
+	HasError = false;
 	try
 	{
 		//MProxyModel->clearProductCopies();
@@ -457,21 +475,13 @@ void OPWChooseAtomicProduct::initializePage()
 	{
 		SMessageBox::critical(this, tr("Error in sync process"), _Error.description());
 	}
-	try
-	{
-		getPublisherData();
-		CBoxModel->setModel(PModel);
-	}
-	catch (STError& _Error)
-	{
-		SMessageBox::critical(this, tr("Error getting publisher data"), _Error.description());	
-		wizard()->close();
-	}
+	getPublisherData();
+	CBoxModel->setModel(PModel);
 }
 
 bool OPWChooseAtomicProduct::isComplete() const
 {
-	return true; 
+	return !HasError;
 }
 
 void OPWChooseAtomicProduct::updateSelectedProduct()
@@ -485,6 +495,16 @@ void OPWChooseAtomicProduct::updateSelectedProduct()
 		PJModel->clearProductCopies();
 		PJModel->incProductCopiesAll(SBoxNCopies->value(), CurrProduct);
 	}
+}
+
+void OPWChooseAtomicProduct::showError(const STError& _Error)
+{
+	//PhotoSelW->setVisible(false);
+	MainFrame->setVisible(false);
+	HasError = true;
+	setTitle(tr("<h1>The process could not continue due to an error</h1>"));
+	setSubTitle(QString("<center><img src=\":/st/error.png\"/>%1</center>").arg(_Error.description()));
+
 }
 
 
@@ -929,29 +949,34 @@ QString STOrderPrintsWizard::sendedOrderRef() const
 
 void STOrderPrintsWizard::initializePage(int _Id)
 {
-	try
+	switch (_Id)
 	{
-		switch (_Id)
-		{	
-			case Page_ChooseProduct:
-				if (ImagesToSend.isEmpty()) 
+		case Page_ChooseProduct:
+		{
+			try
+			{
+				if (ImagesToSend.isEmpty())
 					emit getImagesToSend(ImagesToSend, 0);
 				ProductPage->initialize(ImagesToSend);
-				
-			break;
-			case Page_ConfirmOrder : 
-			{
-				ConfirmOrderPage->initialize(ProductPage->printJob(), PublisherPage->publisherInfo());
-				ConfirmOrderPage->calcBill(ProductPage->printJob(), SMethPage->currentShippingMethod());
+				QWizard::initializePage(_Id);
 			}
-			break; 
+			catch(const STError& _Error)
+			{
+				ProductPage->showError(_Error);
+			}
 		}
+		break;
+		case Page_ConfirmOrder :
+		{
+			ConfirmOrderPage->initialize(ProductPage->printJob(), PublisherPage->publisherInfo());
+			ConfirmOrderPage->calcBill(ProductPage->printJob(), SMethPage->currentShippingMethod());
+			QWizard::initializePage(_Id);
+		}
+		break;
+		default :
+			QWizard::initializePage(_Id);
+		break;
 	}
-	catch(const STError& _Error)
-	{	
-		SMessageBox::critical(this, tr("Error getting publisher data"), _Error.description());	
-	}
-	QWizard::initializePage(_Id); 
 }
 
 int STOrderPrintsWizard::nextId() const

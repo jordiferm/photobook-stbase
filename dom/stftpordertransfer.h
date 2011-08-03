@@ -66,6 +66,7 @@ public:
 	void getDir(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode);
 	QList<QUrlInfo> getFilesList(const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
 	void syncRemoteDir(const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
+	void syncRemoteFile(const QString& _FileName, const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
 	void transferOrder(const QString& _OrderId);
 	~STFtpOrderTransfer();
 	//!Aborts current command command and all pending commands.

@@ -132,15 +132,15 @@ void STSetFrameGIO::redo()
 {
 	if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Item))
 	{
-		LastFrameImage = CItem->frameImage();
-		CItem->setFrameImage(QImage(FrameImageFile));
+		LastFrameImageFile = CItem->frameImageFile();
+		CItem->setFrameImage(FrameImageFile);
 	}
 }
 
 void STSetFrameGIO::undo()
 {
 	if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(Item))
-		CItem->setFrameImage(LastFrameImage);
+		CItem->setFrameImage(LastFrameImageFile);
 }
 
 

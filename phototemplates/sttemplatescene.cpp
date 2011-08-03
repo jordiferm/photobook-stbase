@@ -57,17 +57,20 @@ qreal STTemplateScene::SImposeZValue = 10000;
 /*!
 	\return returns a list of saved filenames.
 */
-QStringList STTemplateScene::storePhotoItemImage(STGraphicsPhotoItem* _CItem, const STPhotobookCollectionInfo& _CInfo)
+QStringList STTemplateScene::storePhotoItemImage(STGraphicsPhotoItem* _CItem, const STPhotobookCollectionInfo& _CInfo, bool _OnlyDesignImages)
 {
 	QStringList Res; 
 	if (!_CItem->imageFileName().trimmed().isEmpty())
 	{
-		QString StoredImageName = _CInfo.imageFilePath(_CItem->imageFileName());
-		Res.push_back(StoredImageName); 
-		if (!QFile::exists(StoredImageName))
-			Assert(QFile::copy(_CItem->imageFileName(), StoredImageName), Error(QString(tr("Error storing image '%1' -> '%2'")).arg(_CItem->imageFileName()).arg(StoredImageName)));
-		_CItem->setImageFileName(StoredImageName); 
-		_CItem->setImageSourcePath(QFileInfo(StoredImageName).absolutePath());
+		if (!_OnlyDesignImages)
+		{
+			QString StoredImageName = _CInfo.imageFilePath(_CItem->imageFileName());
+			Res.push_back(StoredImageName);
+			if (!QFile::exists(StoredImageName))
+				Assert(QFile::copy(_CItem->imageFileName(), StoredImageName), Error(QString(tr("Error storing image '%1' -> '%2'")).arg(_CItem->imageFileName()).arg(StoredImageName)));
+			_CItem->setImageFileName(StoredImageName);
+			_CItem->setImageSourcePath(QFileInfo(StoredImageName).absolutePath());
+		}
 
 		//Store mask image if it does not exist.
 		if (_CItem->hasAlphaChannel())
@@ -193,16 +196,16 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 			case STPhotoLayoutTemplate::Frame::TypeClipart : 
 			{
 				STGraphicsClipartItem* STItem = new STGraphicsClipartItem(QDir(Template.templateFilePath()).absoluteFilePath(it->clipartFileName()));
-				STItem->setZValue(it->zValue()); 
-				configureItem(STItem); 
+				STItem->setZValue(it->zValue());
+				configureItem(STItem);
 				if (it->width() > 0)
-					STItem->scaleToWidth(it->width()); 
+					STItem->scaleToWidth(it->width());
 				else
 					if (it->height() > 0)
 						STItem->scaleToHeight(it->height());
 				STItem->setPos(it->topLeft());
 				//addItemOnTop(STItem);
-				addItem(STItem); 
+				addItem(STItem);
 			}	
 			break; 
 			default :
@@ -211,12 +214,16 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 				PhotoItem->setAspectRatioMode(Template.aspectRatioMode()); 
 				PhotoItem->setAutoAdjustFramesToImages(AutoAdjustFrames);
 				PhotoItem->setIgnoreExifRotation(IgnoreExifRotation);
+				//It must be set before mask
+				PhotoItem->setFrameImage(QDir(Template.templateFilePath()).absoluteFilePath(it->frameFileName()));
+
 				QImage MaskImage = it->maskImage(QDir(Template.templateFilePath())); 
 				if (!MaskImage.isNull())
 					PhotoItem->setAlphaChannel(MaskImage);
-				QImage FrameImage = it->frameImage(QDir(Template.templateFilePath()));
-				if (!FrameImage.isNull())
-					PhotoItem->setFrameImage(FrameImage);
+				//QImage FrameImage = it->frameImage(QDir(Template.templateFilePath()));
+				//if (!FrameImage.isNull())
+				//	PhotoItem->setFrameImage(FrameImage);
+
 				PhotoItem->setZValue(it->zValue()); 
 				configureItem(PhotoItem); 
 				if (it->borderSize() > 0)
@@ -238,7 +245,7 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 	QString BGImgFile = _Template.backgroundImageAbsoluteFilePath();
 	if (!BGImgFile.isEmpty())
 	{
-		QPixmap ThumbnailPix = getThumbnail(BGImgFile, Template.encrypted(), true);
+		QImage ThumbnailPix = getThumbnail(BGImgFile, Template.encrypted(), true);
 		setBackgroundImage(ThumbnailPix, BGImgFile, Template.encrypted());
 	}
 	modified();
@@ -253,7 +260,7 @@ STPhotoLayoutTemplate STTemplateScene::getPageTemplate() const
 		Res.setSize(PageItem->boundingRect().size());
 		Res.setBackgroundColor(PageItem->brush().color()); 
 		if (!PageItem->imageFileName().isEmpty())
-			Res.setBackgroundImageFile(PageItem->imageFileName()); 
+			Res.setBackgroundImageFile(PageItem->imageFileName());
 	}
 	QList<QGraphicsItem *> AllItems = items();
 	QList<QGraphicsItem *>::iterator it;
@@ -268,11 +275,11 @@ STPhotoLayoutTemplate STTemplateScene::getPageTemplate() const
 				CFrame.setBorderColor(CPhotoItem->pen().color()); 
 				CFrame.setBorderSize(CPhotoItem->pen().width());
 				CFrame.setZValue(CPhotoItem->zValue()); 
-				if (CPhotoItem->hasAlphaChannel())
-					CFrame.setMask(CPhotoItem->alphaChannelFileName(), CPhotoItem->alphaChannel()); 
 				if (CPhotoItem->hasFrameImage())
 					CFrame.setFrame(CPhotoItem->frameImageFileName(), CPhotoItem->frameImage());
-				Res.addFrame(CFrame); 
+				if (CPhotoItem->hasAlphaChannel())
+					CFrame.setMask(CPhotoItem->alphaChannelFileName(), CPhotoItem->alphaChannel());
+				Res.addFrame(CFrame);
 			}
 			else 
 			{
@@ -345,7 +352,7 @@ void STTemplateScene::replaceTemplate(const STPhotoLayoutTemplate& _Template)
 	QList<STGraphicsPhotoItem*>::iterator it;
 	for (it = OldPhotoItems.begin(); it != OldPhotoItems.end(); ++it)
 	{
-		if ((*it)->hasImage())
+		if ((*it)->hasImage() && (*it)->isVisible())
 			OldIndexList.push_back(QFileInfo((*it)->imageFileName()));
 	}
 	loadPageTemplate(_Template); 
@@ -396,7 +403,7 @@ void STTemplateScene::setImageToSelectedItems(const QPixmap& _ThumbNail, const Q
 			CPhotoItem = qgraphicsitem_cast<STGraphicsPageItem*>(*it); 
 		if (CPhotoItem)
 		{
-			CPhotoItem->setImage(_ThumbNail, _ImageFileName);
+			CPhotoItem->setThumbnail(_ThumbNail, _ImageFileName);
 			CPhotoItem->loadImageSpawn();
 			CPhotoItem->update();			
 		}
@@ -423,9 +430,9 @@ void STTemplateScene::setDummyImages(const QList<QImage>& _ImageList)
 	}
 }
 
-void STTemplateScene::setBackgroundImage(const QPixmap& _ThumbNail, const QString& _ImageFileName, bool _Encrypted)
+void STTemplateScene::setBackgroundImage(const QImage& _ThumbNail, const QString& _ImageFileName, bool _Encrypted)
 {
-	PageItem->setImage(_ThumbNail, _ImageFileName);
+	PageItem->setThumbnail(_ThumbNail, _ImageFileName);
 	PageItem->setImageEncrypted(_Encrypted);
 	PageItem->loadImageSpawn();
 	PageItem->update();
@@ -436,11 +443,11 @@ bool STTemplateScene::hasBackgroundImage() const
 	return PageItem->hasImage();
 }
 
-QPixmap STTemplateScene::getThumbnail(const QString& _ImageFileName, bool _Encrypted, bool _CreateIfNotExist)
+QImage STTemplateScene::getThumbnail(const QString& _ImageFileName, bool _Encrypted, bool _CreateIfNotExist)
 {
 	QSize ThumbnailSize(600, 400);
 	QString ThumbnailFileName = STPhotoLayoutTemplate::thumbnailImage(_ImageFileName);
-	QPixmap ThumbnailPix(ThumbnailFileName);
+	QImage ThumbnailPix(ThumbnailFileName);
 
 	if (ThumbnailPix.isNull())
 	{
@@ -448,10 +455,10 @@ QPixmap STTemplateScene::getThumbnail(const QString& _ImageFileName, bool _Encry
 		{
 			STImage ThumbnailImage = STImage(_ImageFileName);
 			ThumbnailImage.blowFishDecode();
-			ThumbnailPix = QPixmap::fromImage(ThumbnailImage).scaled(ThumbnailSize, Qt::KeepAspectRatio);
+			ThumbnailPix = ThumbnailImage.scaled(ThumbnailSize, Qt::KeepAspectRatio);
 		}
 		else
-			ThumbnailPix = QPixmap(_ImageFileName).scaled(ThumbnailSize, Qt::KeepAspectRatio);
+			ThumbnailPix = QImage(_ImageFileName).scaled(ThumbnailSize, Qt::KeepAspectRatio);
 
 		if (_CreateIfNotExist)
 			ThumbnailPix.save(ThumbnailFileName, "PNG");
@@ -462,7 +469,7 @@ QPixmap STTemplateScene::getThumbnail(const QString& _ImageFileName, bool _Encry
 
 void STTemplateScene::setSuperImposeImage(const QString& _ImageFileName, bool _Encrypted)
 {
-	QPixmap ThumbnailPix = getThumbnail(_ImageFileName, _Encrypted, true);
+	QImage ThumbnailPix = getThumbnail(_ImageFileName, _Encrypted, true);
 	if (!SImposeItem)
 	{
 
@@ -473,7 +480,7 @@ void STTemplateScene::setSuperImposeImage(const QString& _ImageFileName, bool _E
 	}
 	SImposeItem->setZValue(SImposeZValue);
 	SImposeItem->setImageEncrypted(_Encrypted);
-	SImposeItem->setImage(ThumbnailPix, _ImageFileName);
+	SImposeItem->setThumbnail(ThumbnailPix, _ImageFileName);
 	//SImposeItem->loadImageSpawn();
 	//SImposeItem->update();
 }
@@ -588,6 +595,17 @@ void STTemplateScene::unloadImages()
 		unloadImage(*it);
 	}
 }
+
+void STTemplateScene::clearImages()
+{
+	QList<STGraphicsPhotoItem *> PhotoItems = photoItems();
+	QList<STGraphicsPhotoItem *>::iterator it;
+	for (it = PhotoItems.begin(); it != PhotoItems.end(); ++it)
+	{
+		(*it)->clearImage();
+	}
+}
+
 
 void STTemplateScene::updateImage(STGraphicsPhotoItem* _Item)
 {
@@ -1181,8 +1199,7 @@ QStringList STTemplateScene::storePhotoItemImages(const STPhotobookCollectionInf
 		{
 			if (STGraphicsPhotoItem* CItem = qgraphicsitem_cast<STGraphicsPhotoItem*>(*it))
 			{
-				if (!_OnlyDesignImages)
-					StoredFiles += storePhotoItemImage(CItem, _CInfo);
+				StoredFiles += storePhotoItemImage(CItem, _CInfo, _OnlyDesignImages);
 			}
 			else 
 			if (STGraphicsClipartItem* CItem = qgraphicsitem_cast<STGraphicsClipartItem*>(*it))
