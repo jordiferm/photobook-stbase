@@ -49,13 +49,14 @@ public:
 	void setPhotoBookName(const QString& _Name) { PhotoBookName = _Name; }
 	QString photoBookName() const { return PhotoBookName; } 
 	QString photoBookPath() const { return rootPathName() + "/" + photoBookName(); }
-	QString thumbnailFileName() const; 
+	QString thumbnailFileName() const;
 	QString xmlFileName() const;
 	QString xmlAutoSaveFileName() const;
 	QString xmlLayoutsFileName() const;
 	QString xmlCoversFileName() const;
 	QString xmlBackCoverFileName() const;
 	QString xmlMetaInfoFileName() const;
+	static QString xmlMetaInfoFileNameFromPath(const QDir& _BasePath);
 	QString trayImagesFileName() const;
 
 

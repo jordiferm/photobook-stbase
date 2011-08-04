@@ -333,7 +333,10 @@ void GraphicsPhotoItem::setFrameResource(const Resource& _Resource)
 			setAlphaChannel(Resource());//No Alpha Channel
 	}
 	else
+	{
 		setAlphaChannel(Resource());
+		FrameImage = QImage();
+	}
 
 	update();
 }

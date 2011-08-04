@@ -27,6 +27,7 @@
 #include <QSpinBox>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QDebug>
 #include "qwwrichtextedit.h"
 #include "fpixmapselector.h"
 #include "templateinfo.h"
@@ -164,8 +165,8 @@ QWidget* MetaInfoWidget::createBehaviorWidget()
 	CBMultiPhoto = new QCheckBox(this);
 	FormLayout->addRow(tr("MultiPhoto selection"), CBMultiPhoto);
 
-	CBPreferMinImages = new QCheckBox(this);
-	FormLayout->addRow(tr("Prefer min images"), CBPreferMinImages);
+	CBPreferMinPages = new QCheckBox(this);
+	FormLayout->addRow(tr("Prefer min pages"), CBPreferMinPages);
 
 	CBAtomic = new QCheckBox(this);
 	FormLayout->addRow(tr("Is Atomic"), CBAtomic);
@@ -210,7 +211,9 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	CBDesignName->lineEdit()->setText(_MetaInfo.designName());
 	ISImage->setPixmapFileName(_MetaInfo.imagePath());
 	TEDescription->setText(_MetaInfo.description());
-	if (int Index = CBType->findData(_MetaInfo.templateType()) != -1)
+	qDebug() << "Template Type" << _MetaInfo.templateType();
+	int Index = CBType->findData(_MetaInfo.templateType());
+	if ( Index != -1)
 		CBType->setCurrentIndex(Index);
 
 	SBWidth->setValue(_MetaInfo.size().width());
@@ -233,8 +236,8 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	SBMaxPages->setValue(_MetaInfo.maxPages());
 	SBMinPages->setValue(_MetaInfo.minPages());
 	CBMultiPhoto->setChecked(_MetaInfo.multiPhoto());
-	CBPreferMinImages->setCheckable(_MetaInfo.preferMinPages());
-	CBAtomic->setCheckable(_MetaInfo.atomic());
+	CBPreferMinPages->setChecked(_MetaInfo.preferMinPages());
+	CBAtomic->setChecked(_MetaInfo.atomic());
 	SBOptImagesPerPage->setValue(_MetaInfo.numOptimalImagesPerPage());
 	CBAutoGenerate->setChecked(_MetaInfo.autogenerateLayouts());
 
@@ -264,7 +267,7 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	Res.setMaxPages(SBMaxPages->value());
 	Res.setMinPages(SBMinPages->value());
 	Res.setMultiPhoto(CBMultiPhoto->isChecked());
-	Res.setPreferMinPages(CBPreferMinImages->isChecked());
+	Res.setPreferMinPages(CBPreferMinPages->isChecked());
 	Res.setAtomic(CBAtomic->isChecked());
 	Res.setNumOptimalImagesPerPage(SBOptImagesPerPage->value());
 	Res.setAutogenerateLayouts(CBAutoGenerate->isChecked());

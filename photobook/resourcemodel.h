@@ -33,6 +33,7 @@ class ST_PHOTOBOOK_EXPORT ResourceModel : public QAbstractListModel
 
 	ResourceList RList;
 	QImage NullItemThumbnail;
+	Resource NullItem;
 	bool HasNullItem;
 
 public:
@@ -47,7 +48,7 @@ public:
 	void addResource(const QFileInfo& _FileInfo);
 	void setResourceList(const ResourceList& _List);
 	ResourceList resourceList() const { return RList; }
-	void setHasNullItem(const QImage& _NullItemThumbnail);
+	void setHasNullItem(const QImage& _NullItemThumbnail, const Resource& _NullItem);
 	Resource resource(const QModelIndex& _Index) const;
 
 signals:

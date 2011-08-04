@@ -32,7 +32,6 @@
 #include "rendersettings.h"
 #include "pagelist.h"
 #include "metainfo.h"
-#include "templateinfo.h"
 #include "resourcelist.h"
 
 /**
@@ -88,10 +87,7 @@ private:
 	QString SourceImagesPath; 
 	QString EncryptionKey;
 	bool HasChanges; 
-	bool AutoAdjustFrames;
-	bool IgnoreExifRotation;
-	bool AutoFillBackgrounds;
-	int PagesToFill;
+	BuildOptions BOptions;
 	MetaInfo MetInfo;
 
 	TemplateScene* createPage();
@@ -101,7 +97,6 @@ private:
 	void clearAllSceneChanges();
 	bool anySceneHasChanges() const;
 	void setHasChanges(bool _Value);
-	void setBuildOptions(const BuildOptions& _Options);
 
 public:
 	ST_DECLARE_ERRORCLASS();
@@ -112,51 +107,16 @@ public:
 	~Document();
 	TemplateScene* randomTemplate(const PageList& _Templates);
 
-	//Info structs
-	void setMetaInfo(const MetaInfo& _MetaInfo) { MetInfo = _MetaInfo; }
-	MetaInfo metaInfo() const { return MetInfo; }
-
-
-	void clear(); 
-	bool isEmpty() const;
-	void insertPage(TemplateScene* _Page, int _Index);
-	void insertRandomPage(int _Index);
-	//!Updates the page(_Index) images.
-	void updatePage(int _Index);
-	void removePage(int _Index); 
-	void setPagesToFill(int _Value) { PagesToFill = _Value; }
-	int pagesToFill() const { return PagesToFill; }
-
-	void buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress);
-	void autoBuild(QProgressBar* _Progress);
-	void autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
-	void autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
-
-	QSize renderSize(TemplateScene* _Scene) const;
-	QImage renderPage(int _Page, QProgressBar* _LoadImagesPrgBar = 0);
-	void renderPage(TemplateScene* _PageScene , QProgressBar* _LoadImagesPrgBar, QPainter* _Painter);
-	void renderPageToPdf(int _Page, QProgressBar* _LoadImagesPrgBar, const QString& _PdfFileName);
-	//! return images prepared for print according to current template printPageWidth.
-	QList<QImage> prepareForPrint(const QImage& _AlbumPageImage, const QSizeF& _SceneSize);
+	//-- Info and pages
 	void setName(const QString& _Name) { PBInfo.setPhotoBookName(_Name); }
 	QString name() const { return PBInfo.photoBookName(); }
-
 	void setDescription(const QString& _Description) { MetInfo.setDescription(_Description); }
-
-	void createRootPath(); 
+	void createRootPath();
 	CollectionInfo info() const { return PBInfo; }
-
-	//!Saves into collection. Using DocumentCollectionInfo data.
-	void save(STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
-	void saveAs(const QDir& _Dir, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
-	void saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
-	void closePhotoBook();
-	bool autoSaved(const QString& _Name) const;
-	bool autoSaved(const QDir& _Dir) const;
-	void load(const QString& _Name, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
-	void load(const QDir& _Dir, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
-	void load(const QDir& _RootPath, const QString& _Name, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
-
+	void setMetaInfo(const MetaInfo& _MetaInfo) { MetInfo = _MetaInfo; }
+	MetaInfo metaInfo() const { return MetInfo; }
+	void setBuildOptions(const BuildOptions& _Options);
+	BuildOptions buildOptions() const { return BOptions; }
 	PageList pages() const { return Pages; }
 	void setPages(const PageList& _Pages) { Pages = _Pages; }
 	PageList layouts() const { return Layouts; }
@@ -167,12 +127,47 @@ public:
 	void setBackCovers(const PageList& _BackCovers) { BackCovers = _BackCovers; }
 	ResourceList resources() const { return Resources; }
 
+	//-- Generation and manipulation
+	void clear(); 
+	bool isEmpty() const;
+	void insertPage(TemplateScene* _Page, int _Index);
+	void insertRandomPage(int _Index);
+	void updatePage(int _Index);//!Updates the page(_Index) images.
+	void removePage(int _Index); 
+	void buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress);
+	void autoBuild(QProgressBar* _Progress);
+	void autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
+	void autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
+	void clearImages();
+	void movePage(int _Source, int _Destination);
+
+	//-- Rendering
+	QSize renderSize(TemplateScene* _Scene) const;
+	QImage renderPage(int _Page, QProgressBar* _LoadImagesPrgBar = 0);
+	void renderPage(TemplateScene* _PageScene , QProgressBar* _LoadImagesPrgBar, QPainter* _Painter);
+	void renderPageToPdf(int _Page, QProgressBar* _LoadImagesPrgBar, const QString& _PdfFileName);
+	//! return images prepared for print according to current template printPageWidth.
+	QList<QImage> prepareForPrint(const QImage& _AlbumPageImage, const QSizeF& _SceneSize);
+
+	//-- Input and output
+	//!Saves into collection. Using DocumentCollectionInfo data.
+	void save(STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
+	void saveAs(const QDir& _Dir, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
+	void saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
+	void closePhotoBook();
+	bool autoSaved(const QString& _Name) const;
+	bool autoSaved(const QDir& _Dir) const;
+	void load(const QString& _Name, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
+	void load(const QDir& _Dir, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
+	void loadDesign(const QDir& _DesignDir, QProgressBar* _ProgressBar = 0);
+	void load(const QDir& _RootPath, const QString& _Name, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
+	QFileInfoList exportImages(const QString& _ExportDir, const RenderSettings& _RSettings, STErrorStack& _Errors, SProcessStatusWidget* _StatusWidget);
+
+	//-- Statistics
 	//! \return true is photobook currently contains image with MD5Sum _ImageMD5Sum.
 	bool containsImage(const QString& _ImageMD5Sum) const;
 	int numImageMatches(const QString& _ImageMD5Sum) const;
 	int numPhotoFrames() const;
-	void clearImages();
-
 	static EnItemType itemType(QGraphicsItem* _Item);
 	static EnSelectionType selectionType(QList<QGraphicsItem *> _SelectedItems);
 	//! \returns true if all the items in _SelectedItems has the same type.
@@ -182,27 +177,17 @@ public:
 	void modified() { setHasChanges(true); }
 	//! \returns true if this photobook contains any photoitem with no image assigned.
 	bool hasEmptyPhotoItems() const; 
-	void movePage(int _Source, int _Destination); 
 	bool suitableTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason);
 	bool isExportedAsBooklet(const RenderSettings& _RSettings) const;
 	int numRenderedPages(bool _Booklet);
-	QFileInfoList exportImages(const QString& _ExportDir, const RenderSettings& _RSettings, STErrorStack& _Errors, SProcessStatusWidget* _StatusWidget);
 	QImage getPageThumbnail(int _Index, const QSize& _MaxSize);
 	QImage getLastPageThumbnail(const QSize& _MaxSize);
 	bool isPhotoBookCorrect(QString& _ErrorMessage, bool _CheckToOrder = true);
-	//Encryption
+
+	//-- Encryption
 	void setEncryptionKey(const QString& );
 	//! Means no encryption
 	void clearEncryptionKey();
-
-	//Autobuild configuration
-	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
-	bool autoAdjustFrames() const { return AutoAdjustFrames; }
-	void setAutoFillBackgrounds(bool _Value) { AutoFillBackgrounds = _Value; }
-	bool autoFillBackgrounds() const { return AutoFillBackgrounds; }
-	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
-	bool ignoreExifRotation() const { return IgnoreExifRotation; }
-
 	
 private slots: 
 	void slotSceneSelectionChange(); 

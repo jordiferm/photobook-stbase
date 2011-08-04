@@ -239,7 +239,7 @@ void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 	{
 		SPhotoBook::TemplateInfo CTemplateInfo = Model->templateInfo(*it);
 		QSizeF CSize = CTemplateInfo.size();
-		CBSize->addItem(QString("%1x%2 mm").arg(CSize.width(), CSize.height()), it->row());
+		CBSize->addItem(QString("%1x%2 mm").arg(CSize.width()).arg(CSize.height()), it->row());
 	}
 
 	//Get info url from model and display it.
@@ -345,6 +345,7 @@ int ChooseCreationModePage::nextId() const
 void ChooseCreationModePage::setTemplateInfo(const SPhotoBook::TemplateInfo& _TemplateInfo)
 {
 	//Fill predesigns of template.
+	qDebug() << "--- Designs size: " << _TemplateInfo.designs().size();
 	DesignModel->setDesignInfoList(_TemplateInfo.designs());
 	if (DesignModel->rowCount() > 0)
 	{

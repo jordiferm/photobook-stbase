@@ -53,7 +53,7 @@ public:
 	void setVersion(int _Version)  { Version = _Version; }
 	int version() const { return Version; }
 	void setMetaInfo(const MetaInfo& _MInfo) { MInfo = _MInfo; }
-	MetaInfo metaInfo() { return MInfo; }
+	MetaInfo metaInfo() const { return MInfo; }
 };
 
 }

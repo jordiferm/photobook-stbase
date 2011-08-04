@@ -60,5 +60,6 @@ DesignInfo DesignInfoModel::designInfo(const QModelIndex& _Index) const
 void DesignInfoModel::setDesignInfoList(const DesignInfoList& _List)
 {
 	DIList = _List;
+	reset();
 }
 

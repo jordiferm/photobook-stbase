@@ -54,8 +54,8 @@ TemplateScene* Document::createPage()
 
 void Document::configurePage(TemplateScene* _Page)
 {
-	_Page->setAutoAdjustFrames(AutoAdjustFrames);
-	_Page->setIgnoreExifRotation(IgnoreExifRotation);
+	_Page->setAutoAdjustFrames(BOptions.autoadjustFrames());
+	_Page->setIgnoreExifRotation(BOptions.ignoreExifRotation());
 	connect(_Page, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
 	connect(_Page, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));
 	connect(_Page, SIGNAL(itemContextMenu(QGraphicsItem*, const QPoint&)), this, SLOT(slotSceneItemContextMenu(QGraphicsItem*, const QPoint&)));
@@ -64,7 +64,6 @@ void Document::configurePage(TemplateScene* _Page)
 	connect(_Page, SIGNAL(templateDropped(SPhotoBook::TemplateScene*,SPhotoBook::TemplateScene*)), this, SIGNAL(templateDropped(SPhotoBook::TemplateScene*,SPhotoBook::TemplateScene*)));
 	connect(_Page, SIGNAL(clicked()), this, SIGNAL(sceneClicked()));
 
-	//FIXME: changed no és prou bon indicador.
 	connect(_Page, SIGNAL(changed( const QList< QRectF >& )), this, SLOT(someSceneChanged()));
 }
 
@@ -121,21 +120,10 @@ void Document::setHasChanges(bool _Value)
 	}
 }
 
-void Document::setBuildOptions(const BuildOptions& _Options)
-{
-	setIgnoreExifRotation(_Options.ignoreExifRotation());
-	setAutoFillBackgrounds(_Options.autoFillBackgrounds());
-	setPagesToFill(_Options.pagesToFill());
-	setAutoAdjustFrames(_Options.autoadjustFrames());
-	if (!_Options.useTexts())
-		Pages.removeTextPages();
-	if (!_Options.title().isEmpty())
-		Covers.setTitleText(_Options.title());
-}
 
 
 
-Document::Document(QObject* _Parent) : QObject(_Parent),  HasChanges(false), AutoAdjustFrames(true), IgnoreExifRotation(false), AutoFillBackgrounds(false), PagesToFill(0)
+Document::Document(QObject* _Parent) : QObject(_Parent),  HasChanges(false)
 {
 }
 
@@ -146,10 +134,7 @@ Document::Document(const Document& _Other)
 	Description = _Other.Description;
 	EncryptionKey = _Other.EncryptionKey;
 	HasChanges = _Other.HasChanges;
-	AutoAdjustFrames = _Other.AutoAdjustFrames;
-	IgnoreExifRotation = _Other.IgnoreExifRotation;
-	AutoFillBackgrounds = _Other.AutoFillBackgrounds;
-	PagesToFill = _Other.PagesToFill;
+	BOptions = _Other.BOptions;
 }
 
 
@@ -169,6 +154,25 @@ TemplateScene* Document::randomTemplate(const PageList& _Templates)
 		Res = _Templates[NTemplate];
 	}		
 	return Res;
+}
+
+void Document::createRootPath()
+{
+	QDir AlbumRootDir(PBInfo.photoBookPath());
+	Assert(AlbumRootDir.mkpath(PBInfo.photoBookPath()), Error(QString(tr("Error creating path %1")).arg(PBInfo.photoBookPath())));
+}
+
+void Document::setBuildOptions(const BuildOptions& _Options)
+{
+	BOptions = _Options;
+/*	setIgnoreExifRotation(_Options.ignoreExifRotation());
+	setAutoFillBackgrounds(_Options.autoFillBackgrounds());
+	setPagesToFill(_Options.pagesToFill());
+	setAutoAdjustFrames(_Options.autoadjustFrames());
+	if (!_Options.useTexts())
+		Pages.removeTextPages();
+	if (!_Options.title().isEmpty())
+		Covers.setTitleText(_Options.title());*/
 }
 
 /*! After clear() call isEmpty() returns true
@@ -263,7 +267,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 	if (_Progress)
 		_Progress->setRange(0, CCalculator.totalPhotos());
 	int NPages = 0;
-	int PagToFill = qMin(PagesToFill, MetInfo.maxPages());
+	int PagToFill = qMin(BOptions.pagesToFill(), MetInfo.maxPages());
 	if (PagToFill == 0)
 		PagToFill = MetInfo.minPages();
 
@@ -325,6 +329,24 @@ void Document::autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 	}
 	if (_Progress)
 		_Progress->setValue(CCalculator.totalPhotos());
+}
+
+void Document::clearImages()
+{
+	PageList::iterator it;
+	for (it = Pages.begin(); it != Pages.end(); ++it)
+	{
+		(*it)->clearImages();
+	}
+}
+
+void Document::movePage(int _Source, int _Destination)
+{
+	if (_Source >= 0 && _Source < Pages.size() && _Destination >= 0 && _Destination < Pages.size())
+	{
+		Pages.move(_Source, _Destination);
+		modified();
+	}
 }
 
 QSize Document::renderSize(TemplateScene* _Scene) const
@@ -428,14 +450,6 @@ QList<QImage> Document::prepareForPrint(const QImage& _AlbumPageImage, const QSi
 	return Res;
 }
 
-void Document::createRootPath()
-{
-	QDir AlbumRootDir(PBInfo.photoBookPath()); 
-	Assert(AlbumRootDir.mkpath(PBInfo.photoBookPath()), Error(QString(tr("Error creating path %1")).arg(PBInfo.photoBookPath())));
-}
-
-
-
 void Document::save(STProgressIndicator* _Progress , bool _AutoSave)
 {
 	saveAs(QDir(PBInfo.defaultRootPathName()), PBInfo.photoBookName(), _Progress, _AutoSave);
@@ -454,8 +468,6 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 	PBInfo.setRootPathName(_RootPath.absolutePath()); 
 	QDir PBDir(PBInfo.photoBookPath()); 
 	Assert(PBDir.mkpath(PBDir.absolutePath()), Error(QString(tr("Error creating Photo Book Path %1")).arg(PBDir.absolutePath()))); 
-
-	MetInfo.save(PBInfo.xmlMetaInfoFileName());
 
 	if (_AutoSave)
 		Pages.saveXml(PBInfo.xmlAutoSaveFileName());
@@ -481,9 +493,10 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 						qWarning(QString("Error removing file %1").arg(CurrAbsPathFile).toLatin1());
 				}
 			}
+			Pages.saveXml(PBInfo.xmlFileName());
 		}
 
-		Pages.saveXml(PBInfo.xmlFileName());
+		MetInfo.save(PBInfo.xmlMetaInfoFileName());
 
 		Layouts.saveResources(PBInfo, true, _Progress);
 		Layouts.saveXml(PBInfo.xmlLayoutsFileName());
@@ -541,6 +554,15 @@ void Document::load(const QDir& _Dir, QProgressBar* _ProgressBar, bool _AutoSave
 	load(QDir(MInfo.rootPathName()), MInfo.photoBookName(), _ProgressBar, _AutoSaved);
 }
 
+void Document::loadDesign(const QDir& _DesignDir, QProgressBar* _ProgressBar)
+{
+	CollectionInfo MInfo(_DesignDir);
+	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, EncryptionKey, _ProgressBar);
+	Covers.loadXml(MInfo.xmlCoversFileName(), this, EncryptionKey, _ProgressBar);
+	BackCovers.loadXml(MInfo.xmlBackCoverFileName(), this, EncryptionKey, _ProgressBar);
+	Resources.load(QDir(MInfo.photoBookPath()));
+}
+
 /*! Loads the photoBook and also the template */
 void Document::load(const QDir& _RootPath, const QString& _Name, QProgressBar* _ProgressBar, bool _AutoSaved)
 {
@@ -561,10 +583,168 @@ void Document::load(const QDir& _RootPath, const QString& _Name, QProgressBar* _
 		configurePage(*it);
 		++it;
 	}
-	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, EncryptionKey, _ProgressBar);
-	Covers.loadXml(MInfo.xmlCoversFileName(), this, EncryptionKey, _ProgressBar);
-	BackCovers.loadXml(MInfo.xmlBackCoverFileName(), this, EncryptionKey, _ProgressBar);
-	Resources.load(QDir(MInfo.photoBookPath()));
+	loadDesign(MInfo.photoBookPath());
+}
+
+QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSettings& _RSettings,
+	STErrorStack& _ErrorStack, SProcessStatusWidget* _StatusWidget)
+{
+	QFileInfoList Res;
+	//bool Booklet = (_RSettings.PrintPreprocessType == STPhotoBookRenderSettings::TypeBooklet || Template.preprocessType() == STPhotoBookTemplate::TypeBooklet);
+	bool Booklet = isExportedAsBooklet(_RSettings);
+	bool PrintFirstAtLast = (_RSettings.printFirstAtLast() || MetInfo.printPreprocessType() == RenderSettings::TypeBooklet);
+	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+	if (_StatusWidget)
+	{
+		_StatusWidget->setWindowTitle(tr("Rendering, please wait..."));
+		_StatusWidget->showProgressBar(tr("Rendering in progress..."), pages().size());
+		_StatusWidget->incrementProgress();
+		_StatusWidget->show();
+		QApplication::processEvents();
+	}
+	QStringList PageFiles;
+	QString Format;
+	for (int Vfor = 0; Vfor < pages().size(); Vfor++)
+	{
+		try
+		{
+			if (Vfor == 0)
+				Format = _RSettings.coverRenderFormat();
+			else
+				 Format = _RSettings.renderFormat();
+
+			if (Format == "PDF" && _RSettings.forPrint()) //No Pdf for printing.
+				Format = "JPG";
+
+			int PageOrder = Vfor;
+			if (( PrintFirstAtLast || Booklet ) && PageOrder == 0)
+				PageOrder = pages().size();
+
+			QString PageName;
+			if (_RSettings.printPreprocessType() == RenderSettings::TypeNone)
+				PageName = "page";
+			else
+				PageName = "tmppage";
+
+			if (Format != "PDF")
+			{
+				QList<QImage> PageImages = prepareForPrint(renderPage(Vfor), Pages[Vfor]->sceneRect().size());
+				QList<QImage>::iterator it;
+				int CntPage = 0;
+				for (it = PageImages.begin(); it != PageImages.end(); ++it)
+				{
+					int	HalfPageOrder = PageOrder;
+					if (CntPage > 0)
+						HalfPageOrder = Vfor;
+
+					QString CurrImageFileName = _ExportDir + "/" + QString(PageName + "_%1").arg(
+						QString::number(((HalfPageOrder) * PageImages.size()) + CntPage++), 4, '0') + "." + Format;
+					StackAssert(it->save(CurrImageFileName), Error(tr("There was problems storing the following files: %1").arg(CurrImageFileName)), _ErrorStack);
+					PageFiles.push_back(CurrImageFileName);
+					Res.push_back(QFileInfo(CurrImageFileName));
+				}
+			}
+			else
+			{
+				QString CurrImageFileName = _ExportDir + "/" + QString("page_%1.pdf").arg(QString::number(PageOrder), 4, '0');
+				renderPageToPdf(Vfor, 0, CurrImageFileName);
+				Res.push_back(QFileInfo(CurrImageFileName));
+			}
+		}
+		catch (STError& _Error)
+		{
+			QApplication::restoreOverrideCursor();
+			_ErrorStack.push_back(_Error);
+		}
+		if (_StatusWidget)
+		{
+			_StatusWidget->incrementProgress();
+			QApplication::processEvents();
+		}
+	}
+
+	//Post Processing
+	if (Booklet)
+	{
+		Res.clear();
+		if (_StatusWidget)
+		{
+			_StatusWidget->setWindowTitle(tr("Post processing, please wait..."));
+			_StatusWidget->showProgressBar(tr("Post processing in progress..."), PageFiles.size());
+			_StatusWidget->incrementProgress();
+			_StatusWidget->show();
+			QApplication::processEvents();
+		}
+
+		QString Format = _RSettings.renderFormat();
+
+		if (Format == "PDF" && _RSettings.forPrint()) //No Pdf for printing.
+			Format = "JPG";
+
+		for (int Vfor = 0; Vfor < PageFiles.size() / 2; Vfor++)
+		{
+			QString LPageFile, RPageFile;
+			if (Vfor == 0)
+			{
+				LPageFile = PageFiles[Vfor];
+				RPageFile = PageFiles[Vfor + 1];
+			}
+			else
+			{
+				if (Vfor % 2 == 0)
+				{
+					LPageFile = PageFiles[PageFiles.size() - Vfor];
+					RPageFile = PageFiles[Vfor + 1];
+				}
+				else
+				{
+					LPageFile = PageFiles[Vfor + 1];
+					RPageFile = PageFiles[PageFiles.size() - Vfor];
+				}
+			}
+			QImage LPage, RPage;
+			if (!LPage.load(LPageFile))
+				_ErrorStack.push_back(Error(tr("Error in print preprocess. Error loading file: %1").arg(LPageFile)));
+			if (!QFile::remove(LPageFile))
+				_ErrorStack.push_back(Error(tr("Error in print preprocess. Error removing file: %1").arg(LPageFile)));
+
+			if (_StatusWidget)
+			{
+				_StatusWidget->incrementProgress();
+				QApplication::processEvents();
+			}
+
+			if (!RPage.load(RPageFile))
+				_ErrorStack.push_back(QString(tr("Error in print preprocess. Error loading file: %1").arg(RPageFile)));
+			if (!QFile::remove(RPageFile))
+				_ErrorStack.push_back(QString(tr("Error in print preprocess. Error removing file: %1").arg(RPageFile)));
+			QImage BookletPage(LPage.width() + RPage.width(), qMax(LPage.height(), RPage.height()), QImage::Format_RGB32);
+			QPainter Painter(&BookletPage);
+			Painter.drawImage(QPoint(0, 0), LPage);
+			Painter.drawImage(QPoint(LPage.width(), 0), RPage);
+			Painter.end();
+
+			QString CurrImageFileName = _ExportDir + "/" + QString("page_%1").arg(
+				QString::number(Vfor), 4, '0') + "." + Format;
+
+			if (!BookletPage.save(CurrImageFileName))
+				_ErrorStack.push_back(QString(tr("There was problems storing the following files: %1").arg(CurrImageFileName)));
+			else
+				Res.push_back(CurrImageFileName);
+
+			if (_StatusWidget)
+			{
+				_StatusWidget->incrementProgress();
+				QApplication::processEvents();
+			}
+		}
+	}
+
+	if (_StatusWidget)
+		_StatusWidget->hide();
+
+	QApplication::restoreOverrideCursor();
+	return Res;
 }
 
 bool Document::containsImage(const QString& _ImageMD5Sum) const
@@ -603,15 +783,6 @@ int Document::numPhotoFrames() const
 	}
 	return Res;
 
-}
-
-void Document::clearImages()
-{
-	PageList::iterator it;
-	for (it = Pages.begin(); it != Pages.end(); ++it)
-	{
-		(*it)->clearImages();
-	}
 }
 
 Document::EnItemType Document::itemType(QGraphicsItem* _Item)
@@ -707,15 +878,6 @@ bool Document::hasEmptyPhotoItems() const
 	return Found; 
 }
 
-void Document::movePage(int _Source, int _Destination)
-{
-	if (_Source >= 0 && _Source < Pages.size() && _Destination >= 0 && _Destination < Pages.size())
-	{
-		Pages.move(_Source, _Destination); 
-		modified();
-	}
-}
-
 /*!
 	\return True if template _Template is suitable for page with index _PageIndex.
 */
@@ -770,166 +932,6 @@ int Document::numRenderedPages(bool _Booklet)
 	return Res;
 }
 
-QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSettings& _RSettings,
-	STErrorStack& _ErrorStack, SProcessStatusWidget* _StatusWidget)
-{
-	QFileInfoList Res;
-	//bool Booklet = (_RSettings.PrintPreprocessType == STPhotoBookRenderSettings::TypeBooklet || Template.preprocessType() == STPhotoBookTemplate::TypeBooklet);
-	bool Booklet = isExportedAsBooklet(_RSettings);
-	bool PrintFirstAtLast = (_RSettings.printFirstAtLast() || MetInfo.printPreprocessType() == RenderSettings::TypeBooklet);
-	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-	if (_StatusWidget)
-	{
-		_StatusWidget->setWindowTitle(tr("Rendering, please wait..."));
-		_StatusWidget->showProgressBar(tr("Rendering in progress..."), pages().size());
-		_StatusWidget->incrementProgress();
-		_StatusWidget->show();
-		QApplication::processEvents(); 
-	}
-	QStringList PageFiles; 
-	QString Format;
-	for (int Vfor = 0; Vfor < pages().size(); Vfor++)
-	{
-		try
-		{
-			if (Vfor == 0)
-				Format = _RSettings.coverRenderFormat();
-			else 
-				 Format = _RSettings.renderFormat();
-
-			if (Format == "PDF" && _RSettings.forPrint()) //No Pdf for printing.
-				Format = "JPG"; 
-
-			int PageOrder = Vfor; 
-			if (( PrintFirstAtLast || Booklet ) && PageOrder == 0)
-				PageOrder = pages().size(); 
-
-			QString PageName;
-			if (_RSettings.printPreprocessType() == RenderSettings::TypeNone)
-				PageName = "page"; 
-			else
-				PageName = "tmppage";
-
-			if (Format != "PDF")
-			{
-				QList<QImage> PageImages = prepareForPrint(renderPage(Vfor), Pages[Vfor]->sceneRect().size());
-				QList<QImage>::iterator it; 
-				int CntPage = 0; 
-				for (it = PageImages.begin(); it != PageImages.end(); ++it)
-				{
-					int	HalfPageOrder = PageOrder;
-					if (CntPage > 0)
-						HalfPageOrder = Vfor; 
-
-					QString CurrImageFileName = _ExportDir + "/" + QString(PageName + "_%1").arg(
-						QString::number(((HalfPageOrder) * PageImages.size()) + CntPage++), 4, '0') + "." + Format; 
-					StackAssert(it->save(CurrImageFileName), Error(tr("There was problems storing the following files: %1").arg(CurrImageFileName)), _ErrorStack);
-					PageFiles.push_back(CurrImageFileName); 
-					Res.push_back(QFileInfo(CurrImageFileName));
-				}
-			}
-			else 
-			{
-				QString CurrImageFileName = _ExportDir + "/" + QString("page_%1.pdf").arg(QString::number(PageOrder), 4, '0'); 
-				renderPageToPdf(Vfor, 0, CurrImageFileName); 
-				Res.push_back(QFileInfo(CurrImageFileName));
-			}
-		}
-		catch (STError& _Error)
-		{
-			QApplication::restoreOverrideCursor();
-			_ErrorStack.push_back(_Error); 
-		}
-		if (_StatusWidget)
-		{
-			_StatusWidget->incrementProgress();
-			QApplication::processEvents(); 
-		}
-	}
-
-	//Post Processing
-	if (Booklet)
-	{
-		Res.clear();
-		if (_StatusWidget)
-		{
-			_StatusWidget->setWindowTitle(tr("Post processing, please wait..."));
-			_StatusWidget->showProgressBar(tr("Post processing in progress..."), PageFiles.size());
-			_StatusWidget->incrementProgress();
-			_StatusWidget->show();
-			QApplication::processEvents(); 
-		}
-
-		QString Format = _RSettings.renderFormat();
-
-		if (Format == "PDF" && _RSettings.forPrint()) //No Pdf for printing.
-			Format = "JPG"; 
-
-		for (int Vfor = 0; Vfor < PageFiles.size() / 2; Vfor++)
-		{
-			QString LPageFile, RPageFile;
-			if (Vfor == 0)
-			{
-				LPageFile = PageFiles[Vfor];
-				RPageFile = PageFiles[Vfor + 1];
-			}
-			else 
-			{
-				if (Vfor % 2 == 0)
-				{
-					LPageFile = PageFiles[PageFiles.size() - Vfor];
-					RPageFile = PageFiles[Vfor + 1];
-				}
-				else 
-				{
-					LPageFile = PageFiles[Vfor + 1];
-					RPageFile = PageFiles[PageFiles.size() - Vfor];
-				}
-			}
-			QImage LPage, RPage; 
-			if (!LPage.load(LPageFile))
-				_ErrorStack.push_back(Error(tr("Error in print preprocess. Error loading file: %1").arg(LPageFile))); 
-			if (!QFile::remove(LPageFile))
-				_ErrorStack.push_back(Error(tr("Error in print preprocess. Error removing file: %1").arg(LPageFile))); 
-
-			if (_StatusWidget)
-			{
-				_StatusWidget->incrementProgress();
-				QApplication::processEvents(); 
-			}
-
-			if (!RPage.load(RPageFile))
-				_ErrorStack.push_back(QString(tr("Error in print preprocess. Error loading file: %1").arg(RPageFile)));
-			if (!QFile::remove(RPageFile))
-				_ErrorStack.push_back(QString(tr("Error in print preprocess. Error removing file: %1").arg(RPageFile))); 
-			QImage BookletPage(LPage.width() + RPage.width(), qMax(LPage.height(), RPage.height()), QImage::Format_RGB32);
-			QPainter Painter(&BookletPage); 
-			Painter.drawImage(QPoint(0, 0), LPage); 
-			Painter.drawImage(QPoint(LPage.width(), 0), RPage); 
-			Painter.end(); 
-
-			QString CurrImageFileName = _ExportDir + "/" + QString("page_%1").arg(
-				QString::number(Vfor), 4, '0') + "." + Format; 
-
-			if (!BookletPage.save(CurrImageFileName))
-				_ErrorStack.push_back(QString(tr("There was problems storing the following files: %1").arg(CurrImageFileName))); 
-			else
-				Res.push_back(CurrImageFileName);
-
-			if (_StatusWidget)
-			{
-				_StatusWidget->incrementProgress();
-				QApplication::processEvents(); 
-			}
-		}
-	}
-
-	if (_StatusWidget)
-		_StatusWidget->hide();
-
-	QApplication::restoreOverrideCursor();
-	return Res; 
-}
 
 QImage Document::getPageThumbnail(int _Index, const QSize& _MaxSize)
 {

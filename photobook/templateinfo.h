@@ -43,8 +43,9 @@ private:
 
 public:
 	TemplateInfo();
+	TemplateInfo(const MetaInfo& _MetaInfo);
 	TemplateInfo(const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType );
-	TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType );
+	TemplateInfo(const QString& _BasePath, const QString& _Name, const QString& _SizeName, MetaInfo::EnTemplateType );
 	bool isNull() { return Name.isEmpty(); }
 	void setName(const QString& _Value) { Name = _Value;  }
 	QString name() const { return Name; }
@@ -53,7 +54,7 @@ public:
 	void setType(MetaInfo::EnTemplateType _Type) { Type = _Type; }
 	MetaInfo::EnTemplateType type() const { return Type; }
 	QString absolutePath() const;
-	QString absolutePath(const DesignInfo& _Path);
+	QString absolutePath(const DesignInfo& _Path) const;
 	DesignInfoList designs() const;
 	void addDesign(const DesignInfo& _Design);
 };

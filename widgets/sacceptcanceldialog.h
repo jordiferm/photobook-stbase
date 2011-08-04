@@ -23,7 +23,7 @@
 
 class SAcceptCancelDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	explicit SAcceptCancelDialog(QWidget* _MainWidget, const QString& _Title = "", QWidget* _Parent = 0);
 

@@ -74,7 +74,12 @@ QString CollectionInfo::xmlBackCoverFileName() const
 
 QString CollectionInfo::xmlMetaInfoFileName() const
 {
-	return photoBookPath() + "/metainfo.xml";
+	return xmlMetaInfoFileNameFromPath(QDir(photoBookPath()));
+}
+
+QString CollectionInfo::xmlMetaInfoFileNameFromPath(const QDir& _BasePath)
+{
+	return (_BasePath.absoluteFilePath("metainfo.xml"));
 }
 
 QString CollectionInfo::trayImagesFileName() const

@@ -147,8 +147,9 @@ void ResourceModel::setResourceList(const ResourceList& _List)
 	reset();
 }
 
-void ResourceModel::setHasNullItem(const QImage& _NullItemThumbnail)
+void ResourceModel::setHasNullItem(const QImage& _NullItemThumbnail, const Resource& _NullItem)
 {
+	NullItem = _NullItem;
 	HasNullItem = true;
 	NullItemThumbnail = _NullItemThumbnail;
 }
@@ -160,6 +161,8 @@ Resource ResourceModel::resource(const QModelIndex& _Index) const
 	{
 		if (_Index.isValid() && _Index.row() > 0 && _Index.row() <= RList.size())
 			Res = RList[_Index.row() -1];
+		else
+			Res = NullItem;
 	}
 	else
 	{

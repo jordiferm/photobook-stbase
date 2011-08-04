@@ -56,6 +56,7 @@ private:
 	int NumOptimalImagesPerPage;
 
 	QDomElement createGlobalInfo(QDomDocument& _Doc) const;
+	void loadGlobalInfo(const QDomElement& _Element);
 
 public:
     MetaInfo();

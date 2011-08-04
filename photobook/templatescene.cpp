@@ -765,7 +765,7 @@ void TemplateScene::applyResource(const SPhotoBook::Resource& _Resource)
 		case Resource::TypeClipart :
 			addClipartItem(_Resource.fileInfo().absoluteFilePath());
 		break;
-/*		case Resource::TypeFrame :
+		case Resource::TypeFrame :
 		case Resource::TypeFrameMask :
 		{
 			QGraphicsItem* CItem = currentItem();
@@ -774,7 +774,7 @@ void TemplateScene::applyResource(const SPhotoBook::Resource& _Resource)
 				if (GraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<GraphicsPhotoItem*>(CItem))
 					CPhotoItem->setResource(_Resource);
 			}
-		}*/
+		}
 		break;
 	}
 }

@@ -27,14 +27,25 @@ TemplateInfo::TemplateInfo() :
 {
 }
 
+TemplateInfo::TemplateInfo(const MetaInfo& _MetaInfo) :
+	BasePath(TemplatePaths::defaultTemplatesPath()), Name(_MetaInfo.name()), Size(_MetaInfo.size()), Type(_MetaInfo.templateType())
+{
+
+}
+
+
 TemplateInfo::TemplateInfo(const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType _Type) :
 		BasePath(TemplatePaths::defaultTemplatesPath()), Name(_Name), Size(_Size), Type(_Type)
 {
 }
 
-TemplateInfo::TemplateInfo(const QString& _BasePath, const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType _Type) :
-		BasePath(_BasePath), Name(_Name), Size(_Size), Type(_Type)
+TemplateInfo::TemplateInfo(const QString& _BasePath, const QString& _Name, const QString& _SizeName, MetaInfo::EnTemplateType _Type) :
+		BasePath(_BasePath), Name(_Name), Type(_Type)
 {
+	QString StrWidth = _SizeName.left(_SizeName.indexOf("x"));
+	Size.setWidth(StrWidth.toInt());
+	QString SizeName = _SizeName;
+	Size.setHeight(SizeName.remove(StrWidth + "x").toInt());
 }
 
 QString TemplateInfo::absolutePath() const
@@ -44,7 +55,7 @@ QString TemplateInfo::absolutePath() const
 	return BaseDir.absoluteFilePath(Name + QString("/%1x%2").arg(IntSize.width()).arg(IntSize.height()));
 }
 
-QString TemplateInfo::absolutePath(const DesignInfo& _Design)
+QString TemplateInfo::absolutePath(const DesignInfo& _Design) const
 {
 	QDir BaseDir(absolutePath());
 	return BaseDir.absoluteFilePath(_Design.name());
