@@ -20,10 +20,10 @@
 
 #ifndef SPOROMEIMAGESLISTVIEW_H
 #define SPOROMEIMAGESLISTVIEW_H
-#include "spimageslistviewbase.h"
+#include "imageslistviewbase.h"
 #include "storomelexport.h"
 
-class ST_OROMEL_EXPORT SPOromeImagesListView : public SPImagesListViewBase
+class ST_OROMEL_EXPORT SPOromeImagesListView : public SPhotoBook::ImagesListViewBase
 {
 	Q_OBJECT
 

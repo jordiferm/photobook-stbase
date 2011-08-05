@@ -71,6 +71,13 @@ QPixmap FPixmapSelector::pixmap() const
 	return MPixmap;
 }
 
+
+void FPixmapSelector::setPixmapFileName(const QString& _FileName)
+{
+	setPixmap(QPixmap(_FileName));
+	PixmapFileName = _FileName;
+}
+
 void FPixmapSelector::selectImage()
 {
 	QString FileName = QFileDialog::getOpenFileName(this, tr("Open File"),
@@ -78,7 +85,7 @@ void FPixmapSelector::selectImage()
                                                  tr("Images (*.png *.xpm *.jpg)"));
 	if (!FileName.isEmpty())
 	{
-		setPixmap(QPixmap(FileName));
+		setPixmapFileName(FileName);
 		setFocus(); //I think that windows handles focuspolicy in a diferent way.
 	}
 }

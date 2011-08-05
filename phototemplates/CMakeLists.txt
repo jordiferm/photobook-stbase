@@ -79,7 +79,6 @@ SET(prj_SRCS
 	sttemplatemimedata.cpp
 	stmaskmimedata.cpp
 	stframemimedata.cpp
-	sptoolbarlistview.cpp
 	spimageslistview.cpp
 	spimageslistviewbase.cpp
 	spimageboxlistview.cpp
@@ -133,7 +132,6 @@ SET(prj_MOC_HDRS
 	sttemplatemimedata.h
 	stmaskmimedata.h
 	stframemimedata.h
-	sptoolbarlistview.h
 	spimageslistview.h
 	spimageslistviewbase.h
 	spimageboxlistview.h
