@@ -24,6 +24,7 @@ INCLUDE(${st_imagelib_SOURCE_DIR}/stmodinclude.cmake)
 
 SET(QT_USE_QTSQL TRUE) #kphoscos
 SET(QT_USE_QTXML TRUE) #phototemplates
+SET(QT_USE_QTWEBKIT TRUE)
 SET(QT_USE_QT3SUPPORT TRUE) #digikam (canvas.h).
 
 INCLUDE(${QT_USE_FILE})
