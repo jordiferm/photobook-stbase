@@ -39,7 +39,7 @@ public:
 	virtual QModelIndex	mapToSource ( const QModelIndex & proxyIndex ) const;
 	QModelIndex parent(const QModelIndex &child) const;
 	int rowCount(const QModelIndex &parent) const;
-
+	virtual QModelIndex	index ( int row, int column, const QModelIndex & parent = QModelIndex());
 signals:
 
 public slots:
