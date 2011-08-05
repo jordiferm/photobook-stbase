@@ -115,6 +115,7 @@ private:
 	bool AutoAdjustFramesToImages;
 	bool IgnoreExifRotation;
 	bool OrientationChanged;
+	STPhotoLayoutTemplate::IdGuideLines MyIdGuidelines;
 	
 protected:	
 	bool ImageLoaded;
@@ -137,6 +138,9 @@ public:
 	STGraphicsPhotoItem(const STPhotoLayoutTemplate::Frame& _Frame, QGraphicsItem * parent = 0);
 	STGraphicsPhotoItem(QGraphicsItem* _Parent = 0);
 	~STGraphicsPhotoItem();
+
+	void setGuideLines(const STPhotoLayoutTemplate::IdGuideLines& _GuideLines ) { MyIdGuidelines = _GuideLines; }
+
 	void setAspectRatioMode(Qt::AspectRatioMode _Value) { AspectRatioMode = _Value; }
 	Qt::AspectRatioMode aspectRatioMode() const { return AspectRatioMode; }
 

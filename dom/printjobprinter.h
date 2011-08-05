@@ -58,6 +58,7 @@ private:
 	TProductToStoreList ProductToStoreList;
 	QString DefaultSpool;
 	QFileInfo PublisherXmlFile;
+	static QString EncodeKey;
 
 	void printProductPrints(QPrinter& _Printer, STDom::DDocPrintList& _ProdPrints, const STDom::DDocProduct& _Product,
 							const QString& _JobName, QProgressBar* _ProgBar);
@@ -90,6 +91,9 @@ public:
 	PrintJob print(const PrintJob& _Job, const QString& _JobName = "noname", QProgressBar* _ProgBar = 0);
 	//! If _FitImagestoFormat is false PrintJobPrinter don't modify images, else it uses FitMode, dpis and format to generate new images.
 	void store(const PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat = true, QProgressBar* _ProgBar = 0);
+	static void setEncodeKey(const QString& _Value) { EncodeKey = _Value; }
+	static QString encodeKey() { return EncodeKey; }
+
 	void storeEncoded(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, const QDir& _DestinationDir, QProgressBar* _ProgBar = 0);
 
 	//Error handling

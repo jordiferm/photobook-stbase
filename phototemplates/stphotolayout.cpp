@@ -817,6 +817,13 @@ void STPhotoLayoutTemplate::load(QDomNode& _Node, QSizeF& _Size, int _Dpi)
 		if (CurrFrameElement.tagName() == "dsiimage")
 			setLocaleImageFile(CurrLocale, CurrFrameElement, DSIImageFile);
 
+		if (CurrFrameElement.tagName() == "idguidelines")
+		{
+			MIdGuideLines.setMargin(CurrFrameElement.attribute("margin_top", "0").toInt(), CurrFrameElement.attribute("margin_bottom", "0").toInt());
+			MIdGuideLines.setFaceMargin(CurrFrameElement.attribute("face_margin", "0").toInt());
+			MIdGuideLines.setEyePos(CurrFrameElement.attribute("eyepos_top", "0").toInt(), CurrFrameElement.attribute("eyepos_bottom", "0").toInt());
+		}
+
 		if (CurrFrameElement.tagName() == "thumbnailimage")
 			setLocaleImageFile(CurrLocale, CurrFrameElement, ThumbnailImageFile);
 	}

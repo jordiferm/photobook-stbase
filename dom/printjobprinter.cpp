@@ -37,6 +37,7 @@
 
 using namespace STDom;
 
+QString PrintJobPrinter::EncodeKey = "DefaultKey!";
 
 void PrintJobPrinter::printProductPrints(QPrinter& _Printer, STDom::DDocPrintList& _ProdPrints, const STDom::DDocProduct& _Product,
 										 const QString& _JobName, QProgressBar* _ProgBar)
@@ -208,7 +209,7 @@ STDom::PrintJob PrintJobPrinter::storeImages(const STDom::PrintJob& _Job, const 
 			QString ImageFileName;
 			if (_Encode)
 			{
-				StoreImage.blowFishEncode(PUBLISHER_KEY);
+				StoreImage.blowFishEncode(EncodeKey);
 				ImageFileName = StoreImage.hashString() + ".PNG";
 			}
 			else
