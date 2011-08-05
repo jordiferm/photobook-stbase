@@ -22,6 +22,7 @@
 
 #include <QAction>
 #include <QString>
+#include <QDialog>
 #include "stwidgetsexport.h"
 #include "siconfactory.h"
 
@@ -42,8 +43,8 @@ class ST_WIDGETS_EXPORT FAction : public QAction
 public:
 	enum EnActionId
 	{
-	    FAcceptActionId,
-	    FCancelActionId,
+		FAcceptActionId = QDialog::Accepted,
+		FCancelActionId = QDialog::Rejected,
 	    FEditActionId,
 	    FEditAddActionId,
 	    FEditDeleteActionId,

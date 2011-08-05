@@ -162,6 +162,7 @@ public:
 	QSize dpis(const QSize& _PixelSize);
 	//! Pixel Size depending on _Dpis.
 	QSize pixelSize(int _Dpis) const;
+	static QSize pixelSize(const QSizeF& _Size, int _Dpi);
 	void setPixelSize(const QSize _PixelSize, int _Dpis);
 	QString toString() const;
 	static double mmToInch(double _Mm);

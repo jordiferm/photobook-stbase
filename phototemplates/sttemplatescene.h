@@ -25,9 +25,12 @@
 #include <QFont>
 #include <QList> 
 #include <QImage> 
+#include <QUrl>
+#include <QFileInfoList>
 #include "stphotolayout.h"
 #include "sterror.h"
 #include "stphototemplatesexport.h"
+#include "ichangescontrol.h"
 
 /**
 	QGraphicsScene to represent templates.
@@ -45,7 +48,7 @@ class STGraphicsClipartItem;
 class STGraphicsSuperImposeItem; 
 class STAbstractGraphicsItem;
 class STGraphicsMonthItem;
-class ST_PHOTOTEMPLATES_EXPORT STTemplateScene : public QGraphicsScene
+class ST_PHOTOTEMPLATES_EXPORT STTemplateScene : public QGraphicsScene, public IChangesControl
 {
 Q_OBJECT
 		
@@ -64,9 +67,10 @@ private:
 	bool ModifyAllFrames;
 	bool AutoAdjustFrames;
 	bool IgnoreExifRotation;
+	bool HasChanges;
 	QSizeF RenderBaseSize;
 	
-	QStringList storePhotoItemImage(STGraphicsPhotoItem* _Item, const STPhotobookCollectionInfo& _CInfo);
+	QStringList storePhotoItemImage(STGraphicsPhotoItem* _Item, const STPhotobookCollectionInfo& _CInfo, bool _OnlyDesignImages = false);
 	QString storeClipartItemFile(STGraphicsClipartItem* _CItem, const STPhotobookCollectionInfo& _CInfo);
 	
 public:
@@ -76,9 +80,9 @@ public:
 	void replaceTemplate(const STPhotoLayoutTemplate& _Template);
 	void setImageToSelectedItems(const QPixmap& _ThumbNail, const QString& _ImageFileName);
 	void setDummyImages(const QList<QImage>& _ImageList);
-	void setBackgroundImage(const QPixmap& _ThumbNail, const QString& _ImageFileName, bool _Encrypted);
+	void setBackgroundImage(const QImage& _ThumbNail, const QString& _ImageFileName, bool _Encrypted);
 	bool hasBackgroundImage() const;
-	QPixmap getThumbnail(const QString& _ImageFileName, bool _Encrypted, bool _CreateIfNotExist);
+	QImage getThumbnail(const QString& _ImageFileName, bool _Encrypted, bool _CreateIfNotExist);
 	void setSuperImposeImage(const QString& _ImageFileName, bool _Encrypted);
 	void setBgBrush(const QBrush& _Brush);
 	QBrush bgBrush() const;
@@ -88,6 +92,7 @@ public:
 	void loadHiResImages(QProgressBar* _Progress = 0);
 	void unloadImage(STGraphicsPhotoItem* _Item);
 	void unloadImages();
+	void clearImages();
 	void updateImage(STGraphicsPhotoItem* _Item);
 	void updateImages();
 	void setEmptyFramesVisible(bool _Value);
@@ -109,7 +114,7 @@ public:
 	QGraphicsItem* addElement(const QString& _ImageSourcePath, QDomElement& _Element);
 	void loadElement(const QString& _ImageSourcePath, QDomElement& _SceneElement);
 	QDomElement createElement(QDomDocument& _Doc);
-	QStringList storePhotoItemImages(const STPhotobookCollectionInfo& _CInfo); 
+	QStringList storePhotoItemImages(const STPhotobookCollectionInfo& _CInfo, bool _OnlyDesignImages = false);
 	qreal topZValue() const;
 	qreal bottomZValue() const;
 	void configureItem(STAbstractGraphicsItem* _Item);
@@ -125,6 +130,8 @@ public:
 	//! \return true is photobook currently contains image with MD5Sum _ImageMD5Sum.
 	bool containsImage(const QString& _ImageMD5Sum); 
 	bool hasEmptyPhotoItems() const; 
+	int numPhotoItems() const ;
+	int numEmptyPhotoItems() const;
 	void selectFirstEmptyPhotoItem();
 	STPhotoLayoutTemplate currentTemplate() const { return Template; }
 	QSizeF renderBaseSize() const { return RenderBaseSize; }
@@ -133,6 +140,11 @@ public:
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 	bool ignoreExifRotation() const { return IgnoreExifRotation; }
+	//IChangesControl
+	void modified();
+	void clearChanges();
+	bool hasChanges() const { return HasChanges; }
+	void autoFillImages(const QFileInfoList& _Images);
 
 protected:
 	bool event(QEvent* _Event);
@@ -145,12 +157,15 @@ private slots:
 	void panSelectedPhotoItems(const QPointF&);
 	void slotCheckModifyAll(const QString& _ImagePath);
 
+	void slotImageListDropped(const QList<QUrl>& _Urls);
+
 signals:
 	void doubleClicked();
 	void clicked();
 	void itemContextMenu(QGraphicsItem* _Item, const QPoint&);
 	void imageDropped(const QString& _FileName, const QString& _MD5Sum); 
-	void imageRemoved(const QString& _FileName, const QString& _MD5Sum); 
+	void imageListDropped(const QList<QUrl>& _Urls);
+	void imageRemoved(const QString& _FileName, const QString& _MD5Sum);
 	void templateDropped(STTemplateScene* _Scene, const STPhotoLayoutTemplate& _Template);
 	void clipartDropped(const QString& _FileName, const QPointF _Pos);
 };

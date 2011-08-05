@@ -78,6 +78,7 @@ public:
   		RitchTextItemType,
 		PhotoItemType, 
 		PageItemType, 
+		ClipartItemType,
 		UnknownItemType
 	};
 
@@ -110,6 +111,8 @@ private:
 	STTemplateScene* createPage();
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template, QList<STGraphicsPhotoItem*>& _PhotoItems);
 	STTemplateScene* createPage(STPhotoLayoutTemplate _Template);
+	void clearAllSceneChanges();
+	bool anySceneHasChanges() const;
 	void setHasChanges(bool _Value);
 	void setBuildOptions(const STPhotoBookBuildOptions& _Options);
 
@@ -118,6 +121,7 @@ public:
 
 public:
 	STPhotoBook(QObject* _Parent = 0);
+	STPhotoBook(const STPhotoBook& _OTher);
 	~STPhotoBook();
 	STPhotoLayoutTemplate randomTemplate(const STPhotoBookTemplate::TTemplateList& _Templates);
 	STPhotoLayoutTemplate candidateTemplate(int _AvaliablePhotos, const STPhotoBookTemplate::TTemplateList& _AllTemplates, bool _FirstPage
@@ -127,6 +131,8 @@ public:
 	STPhotoBookTemplate::TMarginRectList coverMarginRects() const { return Template.coverMarginRects(); }
 
 	STPhotoBookTemplate photoBookTemplate() const { return Template; }
+	//Generates a template for each photobook page.
+	STPhotoLayout::TTemplateList getPageTemplates() const;
 	//! Sets only the template file path, does not load the template. To do it use setTemplate()
 	void setTemplateFilePath(const QString& _FilePath) { TemplateFilePath = _FilePath; }
 	QString templateFilePath() const { return TemplateFilePath; }
@@ -141,9 +147,13 @@ public:
 	void removePage(int _Index); 
 	void setPagesToFill(int _Value) { PagesToFill = _Value; }
 	int pagesToFill() const { return PagesToFill; }
+
 	void addMinimumPages();
 	void buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress);
+	void autoBuild(QProgressBar* _Progress);
 	void autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
+	void autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
+
 	QSize renderSize(STTemplateScene* _Scene) const;
 	QImage renderPage(int _Page, QProgressBar* _LoadImagesPrgBar = 0);
 	void renderPage(STTemplateScene* _PageScene , QProgressBar* _LoadImagesPrgBar, QPainter* _Painter);
@@ -157,10 +167,12 @@ public:
 	void createRootPath(); 
 	STPhotobookCollectionInfo info() const { return PBInfo; }
 	QDomDocument createDoc();
+	//!Saves only xml file.
+	void saveXmlFile(const QString& _XmlFileName);
 	//!Saves into collection. Using STPhotobookCollectionInfo data.
 	void save(STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
-	void saveAs(const QDir& _Dir, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
-	void saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false);
+	void saveAs(const QDir& _Dir, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
+	void saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _ProgressBar = 0, bool _AutoSave = false, bool _OnlyDesignImages = false);
 	void closePhotoBook();
 	bool autoSaved(const QString& _Name) const;
 	bool autoSaved(const QDir& _Dir) const;
@@ -168,16 +180,21 @@ public:
 	void load(const QDir& _Dir, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
 	void load(const QDir& _RootPath, const QString& _Name, QProgressBar* _ProgressBar = 0, bool _AutoSaved = false);
 	static QString getTemplateFilePath(const QDir& _Dir);
+
 	TPagesList pages() const { return Pages; }
 	//! \return true is photobook currently contains image with MD5Sum _ImageMD5Sum.
 	bool containsImage(const QString& _ImageMD5Sum) const;
 	int numImageMatches(const QString& _ImageMD5Sum) const;
+	int numPhotoFrames() const;
+	void clearImages();
+
 	static EnItemType itemType(QGraphicsItem* _Item);
 	static EnSelectionType selectionType(QList<QGraphicsItem *> _SelectedItems);
 	//! \returns true if all the items in _SelectedItems has the same type.
 	static bool isSingleTypeSelection(QList<QGraphicsItem*> _SelectedItems);
 	bool hasChanges() const { return HasChanges; }
 	void cleanHasChanges() { setHasChanges(false); }
+	void modified() { setHasChanges(true); }
 	int maxPages() const; 
 	int minPages() const; 
 	//! \returns true if this photobook contains any photoitem with no image assigned.

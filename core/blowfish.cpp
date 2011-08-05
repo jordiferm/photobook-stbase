@@ -131,7 +131,8 @@ DWORD CBlowFish::GetOutputLength (DWORD lInputLong)
 
 	lVal = lInputLong % 8 ;	// find out if uneven number of bytes at the end
 	if (lVal != 0)
-		return lInputLong + 8 - lVal ;
+		//return lInputLong + 8 - lVal ; (Changed by jordif@starbtliz-k.com)
+		return lInputLong - lVal ;
 	else
 		return lInputLong ;
 }

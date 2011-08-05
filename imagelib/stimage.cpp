@@ -23,6 +23,7 @@
 #include <QFile> 
 #include <QCryptographicHash>
 #include <QFileInfo> 
+#include <QDebug>
 
 #include <QPainter> //Print method.
 #include <QPrinter> 
@@ -212,9 +213,12 @@ void STImage::blowFishEncode(const QString& _Key)
 	#else
 		int DestSize = BFish.GetOutputLength(bytesPerLine()*height());
 	#endif
-	//STImage ResImage(size(), format());
+
+#if QT_VERSION >= 0x040700 //TODO! I don't know what a hell is going on here !
+		DestSize = BFish.GetOutputLength(byteCount()-1);
+#endif
+
 	BFish.Encode(bits(), bits(), DestSize);
-	//return ResImage;
 }
 
 void STImage::blowFishDecode(const QString& _Key)
@@ -228,9 +232,12 @@ void STImage::blowFishDecode(const QString& _Key)
 	#else
 		int DestSize = BFish.GetOutputLength(bytesPerLine()*height());
 	#endif
-	//STImage ResImage(size(), format());
+
+#if QT_VERSION >= 0x040700 //TODO! I don't know what a hell is going on here !
+		DestSize = BFish.GetOutputLength(byteCount()-1);
+#endif
+
 	BFish.Decode(bits(), bits(), DestSize);
-	//return ResImage;
 }
 
 STImage STImage::sigmoidalContrast(const unsigned int _Sharpen, const double _Contrast, const double _MidPoint)

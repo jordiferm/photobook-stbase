@@ -40,7 +40,7 @@ class STGraphicsPhotoItem;
 class QGraphicsScene;
 class STTemplateScene;
 class STGraphicsPageItem; 
-class STPhotoBook; 
+class STPhotoBook;
 class ST_PHOTOTEMPLATES_EXPORT STAlbumWidget : public QWidget
 {
 

@@ -117,68 +117,12 @@ public:
 
 
 /**
-	Special comboBox with 3 buttons for Add, remove, reset actions.
-
-	@author Shadow
-*/
-
-
-class QComboBox;
-class QSpinBox; 
-class QAbstractItemModel; 
-class QToolButton;
-class OPWSingleProdChooseWidget : public QWidget 
-{
-	QComboBox* MCBox;
-	QToolButton* AddButton;
-	QToolButton* RemoveButton;
-	QToolButton* ResetButton;
-
-Q_OBJECT
-public:
-	OPWSingleProdChooseWidget(QWidget* _Parent = 0); 
-	void setModel(QAbstractItemModel* _Model); 
-	void setProductIndex(int _Index);
-	int productIndex() const; 
-
-private slots:
-	void buttonClicked(); 
-
-signals:
-	void incProduct(int _Index, int _Quantity); 
-	void resetProduct(int _Index); 
-};
-
-/**
-	Widget with n comboBoxes and buttons to choose digital print copies.
-
-	@author Shadow
-*/
-
-class OPWProdChooseWidget : public QWidget 
-{
-
-Q_OBJECT
-public:
-	OPWProdChooseWidget(int _NumRows = 3, QWidget* _Parent = 0); 
-	void setModel(QAbstractItemModel* _Model); 
-	int firstProdIndex() const; 
-
-signals:
-	void incProduct(int, int);
-	void resetProduct(int); 
-};
-
-
-/**
 	Abstract class to choose products.
 
 	@author Shadow
 */
 
 
-class OPhotoCollectionImageModel;
-class STProductPrintsProxyModel;
 namespace STDom
 {
 	class STFtpOrderTransfer;
@@ -194,10 +138,10 @@ public:
 
 	
 protected:
-	OPWChoosePublisher* PublisherPage; 
 	QAbstractItemModel* PModel;
-	OPhotoCollectionImageModel* ImageModel;
-	STDom::PrintJobModel* MProxyModel;
+	STDom::PrintJobModel* PJModel;
+	STDom::DDocModel* DocModel;
+	OPWChoosePublisher* PublisherPage;
 	STDom::STFtpOrderTransfer* FtpTrans;
 	STDom::STXmlPublisherSettings SavedPubSettings;
 	STDom::PublisherDatabase::EnProductType ProductType;
@@ -211,10 +155,11 @@ public:
 	void setProductType(STDom::PublisherDatabase::EnProductType _ProdType) { ProductType = _ProdType; }
 	void setTemplateRef(const QString& _TemplateRef) { TemplateRef = _TemplateRef; }
 	void initialize(const QFileInfoList& Images);
-	STProductPrintsProxyModel* prodPrintsModel() const;
+	STDom::PrintJob printJob() const;
 	virtual int nextId() const;
 	virtual void initializePage() = 0;
 	virtual bool isComplete() const = 0;
+	virtual void showError(const STError& _Error) = 0;
 	STDom::STXmlPublisherSettings publisherSettings() const { return SavedPubSettings; }
 };
 
@@ -230,18 +175,14 @@ class OPWChooseDigiprintProduct : public OPWAbstractChooseProduct
 Q_OBJECT
 
 private:
-	OPWProdChooseWidget* WProducts;
-	QListView* LView;
-	
+	TPPhotoSelWidget* PhotoSelW;
+
 public:
 	OPWChooseDigiprintProduct(OPWChoosePublisher* _PublisherPage,  QWidget* _Parent = 0);
 	QSize sizeHint() const;
 	virtual void initializePage();
 	virtual bool isComplete() const;
-
-private slots: 
-	void resetSelectedProduct(int _Index);
-	void incSelectedProduct(int _Index, int _Quantity); 
+	virtual void showError(const STError& _Error);
 };
 
 
@@ -251,6 +192,9 @@ private slots:
 	@author Shadow
 */
 
+class QComboBox;
+class QSpinBox;
+class QFrame;
 class OPWChooseAtomicProduct : public OPWAbstractChooseProduct
 {
 Q_OBJECT
@@ -258,56 +202,18 @@ Q_OBJECT
 private:	
 	QComboBox* CBoxModel;
 	QSpinBox* SBoxNCopies;
+	bool HasError;
+	QFrame* MainFrame;
 
 public:
 	OPWChooseAtomicProduct(OPWChoosePublisher* _PublisherPage,  QWidget* _Parent = 0);
 	virtual int nextId() const;
 	virtual void initializePage();
 	virtual bool isComplete() const;
+	virtual void showError(const STError& _Error);
 
 private slots: 
 	void updateSelectedProduct();
-};
-
-/**
-	Page to choose crop mode.
-
-	@author Shadow
-*/
-
-class OPWChooseCropModePage : public ChooseCropModePage
-{
-Q_OBJECT 
-public: 
-	enum EnCropMode
-	{
-		ModeUserSelectCrop,
-		ModeWhiteMargin,
-		ModeWhiteMarginCentered,
-		ModeNoModify
-	};
-
-private:
-	QRadioButton* RBNoModify;
-
-public:
-	OPWChooseCropModePage(QWidget* _Parent = 0);
-	int nextId() const;
-	EnCropMode cropMode(); 
-};
-
-/**
-	Page to select image crops.
-
-	@author Shadow
-*/
-
-
-class OPWSelectCropsPage : public QWizardPage
-{
-public:
-	OPWSelectCropsPage(QWidget* _Parent = 0) : QWizardPage(_Parent) {}
-	int nextId() const;
 };
 
 /**
@@ -332,35 +238,28 @@ public:
 	QSqlRecord currentShippingMethod() const;
 };
 
+
 /**
-	Page to choose pay method.
+	Page to choose send mode.
 
 	@author Shadow
 */
 
-class QSqlTableModel;
-class QLabel;
-class OPWChoosePayMethod : public STOWizardPage
+class OPWChooseSendMode : public STOWizardPage
 {
 Q_OBJECT
-public:
-	ST_DECLARE_ERRORCLASS();
-
-private:
-	QLabel* BillLabel; 
-	QRadioButton* RBCOnDel;
-	QRadioButton* RBCredCard;
-	QRadioButton* RBPayPal;
-	OPWChoosePublisher* PublisherPage;
+	QRadioButton* RBInteSent;
+	QRadioButton* RBLocalStore;
+	bool AllowInetSend;
 
 public:
-	OPWChoosePayMethod(OPWChoosePublisher* _PublisherPage, QWidget* _Parent = 0);
+	OPWChooseSendMode(QWidget* _Parent = 0);
+	void setAllowInetSend(bool _Value);
 	void initializePage();
-	bool isComplete () const;
+	bool inetSend() const;
 	bool forgetMe();
 	int nextId() const;
 };
-
 
 /**
 	Wizard to order prints, photobooks and gifts.
@@ -376,20 +275,18 @@ Q_OBJECT
 
 private:
 	QFileInfoList ImagesToSend; 
-	OPWSelectCropsPage* SelCropPage;
 	OPWAbstractChooseProduct* ProductPage;
-	OPWChoosePayMethod* SPayMPage; 
 	OPWChooseShippingMethod* SMethPage;
 	OPWChoosePublisher* PublisherPage;
 	OPWConfirmOrder* ConfirmOrderPage; 
-	OPWChooseCropModePage* SelCropModePage;
+	OPWChooseSendMode* SendModePage;
 	QPushButton* ButConfirmAndSend;
 	int NumImages;
 	bool AtomicOrder;
 	static int DPIS; 
 	
 public:	
-	enum { Page_Welcome, Page_UserData, Page_ChoosePublisher, Page_ChooseProduct, Page_ChooseCropMode, Page_SelectCrops, Page_ChooseShipMethod, Page_ChoosePayMethod, Page_ConfirmOrder};
+	enum { Page_Welcome, Page_UserData, Page_ChoosePublisher, Page_ChooseProduct, Page_ChooseShipMethod, Page_ChooseSendMode, Page_ConfirmOrder};
 
 	static const QString PublisherDBConnectionName; 
 	int nonForgetId(int _FromId) const;
@@ -407,6 +304,8 @@ public:
 	static int dpis() { return DPIS; }
 	void initializePage(int _Id);
 	int nextId () const;
+	void setAllowInetSend(bool _Value);
+	bool inetSend() const;
 	STDom::STXmlPublisherSettings publisherSettings() const;
 	
 signals:
@@ -423,6 +322,7 @@ signals:
 class XmlOrderDealer;
 class SProcessStatusWidget;
 class QTextEdit;
+class QLabel;
 class OPWConfirmOrder: public STOWizardPage
 {
 Q_OBJECT
@@ -433,22 +333,22 @@ public:
 private:
 	QLabel* BillLabel; 
 	SProcessStatusWidget* StatusWidg;
-	OPWSelectCropsPage* CropsPage; 
-	STProductPrintsProxyModel* ProdPrModel;
 	QFileInfo PublisherXmlFile;
 	QString LastOrderRef;
-	OPWChooseCropModePage::EnCropMode CropMode;
 	QTextEdit* SenderOrderTE;
+	STDom::PrintJob PrintJob;
+	bool SendViaInternet;
 
 public:
-	OPWConfirmOrder(OPWSelectCropsPage* _CropsPage, QWidget* _Parent = 0);
-	void calcBill(STProductPrintsProxyModel* _ProdPrModel, const QSqlRecord& _ShippingMethod); 
-	void initialize(STProductPrintsProxyModel* _ProdPrModel, const STDom::STCollectionPublisherInfo& _PubInfo, OPWChooseCropModePage::EnCropMode _CropMode);
+	OPWConfirmOrder(QWidget* _Parent = 0);
+	void calcBill(const STDom::PrintJob& _Job, const QSqlRecord& _ShippingMethod);
+	void initialize(const STDom::PrintJob& _Job, const STDom::STCollectionPublisherInfo& _PubInfo);
 	bool validatePayment();
+	void sendViaInternet(bool _Value);
 	QString newOrderRef();
 	STDom::XmlOrderDealer sender();
 	STDom::XmlOrderDealer customer();
-	bool storeImages();
+	void storeImages();
 	bool validatePage();
 	QString lastOrderRef() const { return LastOrderRef; }
 	

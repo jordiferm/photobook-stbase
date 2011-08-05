@@ -28,6 +28,8 @@
 
 class QVBoxLayout;
 class QToolBar;
+class OBigImagePreviewWidget;
+class QScrollArea;
 class ST_OROMEL_EXPORT STFolderImageView : public QWidget
 {
 Q_OBJECT
@@ -38,9 +40,12 @@ Q_OBJECT
 	QDir CurrentDir;
 	QToolBar* TBTopActions;
 	bool CurrentDirIsNull;
+	OBigImagePreviewWidget* IPWidget;
+	QScrollArea* ScrArea;
 
 public:
 	STFolderImageView(QWidget *parent = 0);
+	void showBigImagePreview(bool _Show);
 	void setStoredDir();
 	void setSaveDir();
 	void storeCurrentDir();
@@ -57,10 +62,14 @@ public:
 signals:
 	void openDir(const QDir& _Dir);
 	void editImage(const QString& _ImageFileName);
+	void addImage(const QFileInfo& _Image);
+	void removeImage(const QFileInfo& _Image);
 
 public slots:	
 	void setDir(const QDir& _Dir);
 	void slotCDUpAction();
+	void slotShowBigPreview(const QDir& _Dir);
+	void slotHideBigPreview();
 };
 
 #endif // STFOLDERIMAGEVIEW_H

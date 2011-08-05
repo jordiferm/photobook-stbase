@@ -50,5 +50,7 @@
         <file>install.png</file>
         <file>uninstall.png</file>
         <file>update.png</file>
+        <file>back.png</file>
+        <file>autofill.png</file>
     </qresource>
 </RCC>

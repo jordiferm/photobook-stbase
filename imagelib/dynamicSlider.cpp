@@ -45,7 +45,7 @@ void DynamicSlider::setZeroString( QString val )
 void DynamicSlider::setPrefix( QString val )
 {
   prefix1 = val;
-  prefix2 = QString( NULL );
+  prefix2 = QString("");
   updateTooltipLabel();
 }
 //==========================================
@@ -59,7 +59,7 @@ void DynamicSlider::setPrefixes( QString v1, QString v2 )
 void DynamicSlider::setSuffix( QString val )
 {
   suffix1 = val;
-  suffix2 = QString( NULL );
+  suffix2 = QString("");
   updateTooltipLabel();
 }
 //==========================================

@@ -23,11 +23,14 @@
 #include <QGraphicsScene> 
 #include <QGraphicsView> 
 #include <QToolTip> 
+#include <QDebug>
+#include <QTextDocument>
+#include <math.h>
 
 #include "stcorneritem.h" 
-
-//Tests 
+#include "sttemplatescene.h"
 #include "stgraphicsphotoitem.h" 
+#include "stgraphicstextitem.h"
 
 void STGraphicsItemModifier::applyTransformations()
 {
@@ -101,6 +104,7 @@ void STGraphicsItemModifier::scale(double _Sx, double _Sy)
 	CScaleX = _Sx;
 	CScaleY = _Sy;
 	applyTransformations();
+	modified();
 }
 
 void STGraphicsItemModifier::setPos(const QPointF& _Pos, QGraphicsItem* _Sender)
@@ -128,7 +132,7 @@ void STGraphicsItemModifier::setPos(const QPointF& _Pos, QGraphicsItem* _Sender)
 	{
 		Item->setPos(_Sender->mapToScene(_Pos));
 	}
-
+	modified();
 	updateToolTip();
 }
 
@@ -155,6 +159,20 @@ void STGraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsIt
 			layoutChildren();
 		}
 	}
+	else
+	if (STGraphicsTextItem* CItem = qgraphicsitem_cast<STGraphicsTextItem*>(Item))
+	{
+		QPointF Pos = _Sender->mapToScene(_Pos);
+
+		qreal Height  = Item->boundingRect().height();
+		qreal Diag = QLineF(Pos, Item->pos()).length();
+		qreal NewWidth = sqrt((Diag * Diag) - (Height * Height));
+
+		//int NewTextWidth =  Pos.y() - Item->pos().y();
+		CItem->document()->setTextWidth(NewWidth);
+		CItem->setTextWidth(NewWidth);
+		layoutChildren();
+	}
 	else 
 	{
 		//if (MouseDownPosInt != MouseOnNoEdge && ResizeAllowed)
@@ -172,6 +190,7 @@ void STGraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsIt
 	}
 
 	updateToolTip(); 
+	modified();
 }
 
 
@@ -203,6 +222,7 @@ void STGraphicsItemModifier::resizeContents(const QRect & rect, bool keepRatio)
 	//layoutChildren();
 	
 //    GFX_CHANGED();
+	modified();
 }
 
 void STGraphicsItemModifier::layoutChildren()
@@ -221,6 +241,7 @@ void STGraphicsItemModifier::rotate(double _Angle)
 {
 	m_zRotationAngle = _Angle; 
 	applyTransformations(); 
+	modified();
 }
 
 void STGraphicsItemModifier::setRotation(double angle, Qt::Axis axis)
@@ -231,6 +252,7 @@ void STGraphicsItemModifier::setRotation(double angle, Qt::Axis axis)
         case Qt::ZAxis: if (m_zRotationAngle == angle) return; m_zRotationAngle = angle; break;
     }
     applyTransformations();
+	modified();
 }
 
 double STGraphicsItemModifier::rotation(Qt::Axis axis) const
@@ -253,4 +275,20 @@ void STGraphicsItemModifier::setChildrenVisible(bool _Value)
 		(*it)->setVisible(_Value); 
 	}
 
+}
+
+void STGraphicsItemModifier::modified()
+{
+	if (STTemplateScene* Scene = qobject_cast<STTemplateScene*>(item()->scene()))
+	{
+		Scene->modified();
+	}
+}
+
+void STGraphicsItemModifier::clearChanges()
+{
+	if (STTemplateScene* Scene = qobject_cast<STTemplateScene*>(item()->scene()))
+	{
+		Scene->clearChanges();
+	}
 }

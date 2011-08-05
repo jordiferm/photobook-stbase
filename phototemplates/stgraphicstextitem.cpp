@@ -20,14 +20,24 @@
 
 #include "stgraphicstextitem.h"
 #include <QFontMetrics> 
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsScene>
+#include <QTextBlockFormat>
+#include <QTextCursor>
+#include <QTextDocument>
+#include <QTextBlock>
+#include <QDebug>
+
+#include "stgraphicsitemmodifier.h"
 
 void STGraphicsTextItem::init()
 {
 	QGraphicsItem::setFlag(QGraphicsItem::ItemIsSelectable);
 
-	setTextInteractionFlags(Qt::NoTextInteraction);
+	//setTextInteractionFlags(Qt::NoTextInteraction);
+	setTextInteractionFlags(Qt::TextEditorInteraction);
   	QGraphicsItem::setFlag(QGraphicsItem::ItemIsMovable, true);
-  	QGraphicsItem::setFlag(QGraphicsItem::ItemIsFocusable, false);
+	//QGraphicsItem::setFlag(QGraphicsItem::ItemIsFocusable, false);
 }
 
 STGraphicsTextItem::STGraphicsTextItem(const STPhotoLayoutTemplate::Frame& _Frame, QGraphicsItem* _Parent)
@@ -38,9 +48,16 @@ STGraphicsTextItem::STGraphicsTextItem(const STPhotoLayoutTemplate::Frame& _Fram
 	init();
 	setFont(_Frame.font()); 
 	setPos(_Frame.topLeft());
-	rotate(_Frame.rotationAngle());
+	//rotate(_Frame.rotationAngle());
+	Modifier->rotate(_Frame.rotationAngle());
+
 	setHtml(_Frame.text()); 	
-	//setText(_Frame.text()); 	
+	//setText(_Frame.text());
+
+	//To adjust text size to frame size.(Only when we load from template)
+	if (!_Frame.isNull() && _Frame.frameType() == STPhotoLayoutTemplate::Frame::TypeText)
+		Modifier->scale(_Frame.width() / boundingRect().width() , _Frame.height() / boundingRect().height() );
+
 	updateToolTip(); 
 	createStandardCorners();
 	setControlsVisible(false);
@@ -99,7 +116,20 @@ void STGraphicsTextItem::loadElement(QDomElement& _Element)
 			_Element.attribute("y", "0").toDouble());
 	setHtml(_Element.text());
 	setTextWidth(_Element.attribute("textwidth", "-1").toDouble());
+
+	//--- Char Format
+	QString OutlineCol = _Element.attribute("outlinecolor", "");
+	if (!OutlineCol.isEmpty())
+	{
+		QTextCharFormat Format;
+		Format.setTextOutline(QColor(OutlineCol));
+		QTextCursor Cursor = textCursor();
+		Cursor.select(QTextCursor::Document);
+		Cursor.mergeCharFormat(Format);
+	}
+
 	setTransform(STAbstractGraphicsItem::loadTransformElement(_Element)); 
+	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
 	STAbstractGraphicsItem::updateToolTip(); 
 }
 
@@ -109,11 +139,38 @@ QDomElement STGraphicsTextItem::createElement(QDomDocument& _Doc)
 	MElement.setAttribute("x", pos().x()); 
 	MElement.setAttribute("y", pos().y()); 
 	MElement.setAttribute("textwidth", textWidth());
+
+	//--- Char Format
+	if (textCursor().charFormat().textOutline() != Qt::NoPen)
+		MElement.setAttribute("outlinecolor", textCursor().charFormat().textOutline().color().name());
+
 	QDomText CText = _Doc.createTextNode(toHtml());
 	MElement.appendChild(CText);
 	MElement.appendChild(STAbstractGraphicsItem::createTransformElement(this, _Doc));
+	//Effects
+	STAbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
 
 	return MElement; 
+}
+
+Qt::Alignment STGraphicsTextItem::alignment() const
+{
+	Qt::Alignment Res;
+	if (document())
+		Res = document()->begin().blockFormat().alignment();
+
+	return Res;
+}
+
+void STGraphicsTextItem::setAlignment(Qt::Alignment alignment)
+{
+	QTextBlockFormat format;
+	format.setAlignment(alignment);
+	QTextCursor cursor = textCursor();
+	cursor.select(QTextCursor::Document);
+	cursor.mergeBlockFormat(format);
+	cursor.clearSelection();
+	setTextCursor(cursor);
 }
 
 QVariant STGraphicsTextItem::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -132,7 +189,20 @@ QVariant STGraphicsTextItem::itemChange(GraphicsItemChange change, const QVarian
 			newPos.setY(snapToGridValue(newPos.y()));
 			return newPos; 
 		}
+		modified();
 	}
 	return QGraphicsItem::itemChange(change, value);
 }
  
+void STGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent* _Event)
+{
+	_Event->accept();
+	scene()->clearSelection();
+
+	setSelected(true);
+	setControlsVisible(isSelected());
+	//if (TouchInterface && MultiSelection)
+	//	_Event->setModifiers(_Event->modifiers() | Qt::ControlModifier);
+	QGraphicsTextItem::mousePressEvent(_Event);
+}
+

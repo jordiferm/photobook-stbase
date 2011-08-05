@@ -26,6 +26,7 @@
 #include <QBrush> 
 #include <QPen> 
 #include <QTextCharFormat>
+#include <QGraphicsEffect>
 #include "stphototemplatesexport.h"
 #include "sterror.h" 
 #include "stphotobookcollectioninfo.h"
@@ -90,7 +91,7 @@ class STGraphicsPhotoItem;
 class ST_PHOTOTEMPLATES_EXPORT STSetFrameGIO : public STGraphicsItemOperation
 {
 	QString FrameImageFile;
-	QImage LastFrameImage;
+	QString LastFrameImageFile;
 
 public:
 	STSetFrameGIO(STGraphicsPhotoItem* _Item, const QString& _FrameImageFile, QUndoCommand* _Parent = 0);
@@ -111,6 +112,22 @@ class ST_PHOTOTEMPLATES_EXPORT STSetItemShadowGIO : public STGraphicsItemOperati
 	
 public:
 	STSetItemShadowGIO(STGraphicsPhotoItem* _Item, qreal _ShadowDepth, QUndoCommand* _Parent = 0);
+	virtual void redo();
+	virtual void undo();
+	STGraphicsItemOperation* clone(QGraphicsItem* _NewItem);
+};
+
+/**
+Sets QGraphicsEffect for QGraphicsItem.
+	@author Jordi Fernandez <shadow@starblitz-k.com>
+*/
+class ST_PHOTOTEMPLATES_EXPORT STSetItemGraphicsEffectGIO : public STGraphicsItemOperation
+{
+	QGraphicsEffect* NewEffect;
+	QGraphicsEffect* OldEffect;
+
+public:
+	STSetItemGraphicsEffectGIO(QGraphicsItem* _Item, QGraphicsEffect* _Effect, QUndoCommand* _Parent = 0);
 	virtual void redo();
 	virtual void undo();
 	STGraphicsItemOperation* clone(QGraphicsItem* _NewItem);
@@ -146,6 +163,24 @@ public:
 	virtual void undo();
 	STGraphicsItemOperation* clone(QGraphicsItem* _NewItem);
 };
+
+
+/**
+Adjust frame to image size.
+	@author Jordi Fernandez <shadow@starblitz-k.com>
+*/
+class ST_PHOTOTEMPLATES_EXPORT STFitInFrameGIO : public STGraphicsItemOperation
+{
+	QRectF OldRect;
+	qreal OldScale;
+
+public:
+	STFitInFrameGIO(STGraphicsPhotoItem* _Item, QUndoCommand* _Parent = 0);
+	virtual void redo();
+	virtual void undo();
+	STGraphicsItemOperation* clone(QGraphicsItem* _NewItem);
+};
+
 
 /**
 Changes the text for simpleTextItem.

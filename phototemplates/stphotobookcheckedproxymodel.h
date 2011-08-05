@@ -50,6 +50,8 @@ public:
 	void setPhotoBook(const STPhotoBook* _PhotoBook);
 	void setSourceModel(STDom::DDocModel* _SourceModel);
 	STDom::DDocModel* sourceModel() const;
+	QFileInfoList uncheckedImages() const;
+
 	void updateMD5SumImageMatches(const QString& _MD5Sum, bool _Added);
 	//! emits imageDropped and calc md5 for each drop.
 	void setReportDropsMd5(bool _Value) { ReportDropsMd5 = _Value; }

@@ -44,7 +44,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
-#include <QLabel>color_picker_grey
+#include <QLabel>
 #include <QPainter>
 #include <QPixmap>
 #include <QPushButton>

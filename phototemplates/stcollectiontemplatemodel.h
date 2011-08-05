@@ -58,7 +58,7 @@ private:
 
 public:	
 	STCollectionTemplateInfo(); //Null template info
-	STCollectionTemplateInfo(QDir& _TemplateDir); 
+	STCollectionTemplateInfo(const QDir& _TemplateDir);
 	void setIcon(const QIcon& _Icon) { Icon = _Icon; }
 	QIcon icon() const {return Icon; } 
 	void setDescription(const QString& _Description) { Description = _Description; }
@@ -66,6 +66,8 @@ public:
 	STLocaleString localeDescription() const { return LocaleDescription; }
 	void setTemplateXml( const QFileInfo& _TemplateXmlFile ) { TemplateXmlFile = _TemplateXmlFile; }
 	QFileInfo templateXmlFile(const STDom::DDocFormat& _Format) const;
+	QDir predesignDir(const QString& _PredesignName) const;
+	QDir predesignRootDir() { return BaseDir; }
 	//! \return true if there is no template.kpstml files in some path sizes.
 	bool isEmpty() const;
 	QUrl remoteInfo() const { return RemoteInfo; }

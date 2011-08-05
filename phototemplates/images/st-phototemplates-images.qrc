@@ -26,5 +26,6 @@
         <file>transform-move.png</file>
         <file>dialog-warning.png</file>
         <file>hourglass.png</file>
+        <file>preview.png</file>
     </qresource>
 </RCC>

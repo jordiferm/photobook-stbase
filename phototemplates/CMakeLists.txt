@@ -79,7 +79,6 @@ SET(prj_SRCS
 	sttemplatemimedata.cpp
 	stmaskmimedata.cpp
 	stframemimedata.cpp
-	sptoolbarlistview.cpp
 	spimageslistview.cpp
 	spimageslistviewbase.cpp
 	spimageboxlistview.cpp
@@ -91,6 +90,7 @@ SET(prj_SRCS
 	stphotobookcollectionmodel.cpp
 	stphotolayouttemplategenerator.cpp
 	stphotobookbuildoptions.cpp
+	ichangescontrol.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -132,7 +132,6 @@ SET(prj_MOC_HDRS
 	sttemplatemimedata.h
 	stmaskmimedata.h
 	stframemimedata.h
-	sptoolbarlistview.h
 	spimageslistview.h
 	spimageslistviewbase.h
 	spimageboxlistview.h
@@ -144,6 +143,7 @@ SET(prj_MOC_HDRS
 	stphotobookcollectionmodel.h
 	stphotolayouttemplategenerator.h
 	stphotobookbuildoptions.h
+	ichangescontrol.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

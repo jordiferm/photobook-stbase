@@ -54,7 +54,6 @@ SPToolbarListView::SPToolbarListView(Qt::Orientation _Orientation,  QWidget* _Pa
 	ListView->setSelectionBehavior(QAbstractItemView::SelectRows);
 //	ListView->setResizeMode(QListView::Adjust);
 //	ListView->setMinimumHeight(100);
-
 	if (_Orientation == Qt::Horizontal)
 	{
 		ToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
