@@ -16,12 +16,13 @@
 #include <QColor>
 #include <QString>
 #include "wwglobal.h"
+#include "stwidgetsexport.h"
 
 /**
  *  @internal
  *
  */
-class Q_WW_EXPORT ColorModel : public QStandardItemModel {
+class ST_WIDGETS_EXPORT ColorModel : public QStandardItemModel {
 public:
     ColorModel(QObject *parent=0);
     QModelIndex contains(const QColor &c);

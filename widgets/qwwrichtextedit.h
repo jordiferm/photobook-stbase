@@ -7,6 +7,7 @@
 #include "wwglobal.h"
 #include <QFlags>
 #include <QWidgetAction>
+#include "stwidgetsexport.h"
 
 class QFontComboBox;
 class QToolBar;
@@ -16,7 +17,7 @@ class QwwColorButton;
 #endif
 
 /* dorobic flagi */
-class Q_WW_EXPORT QwwRichTextEdit : public QTextEdit {
+class ST_WIDGETS_EXPORT QwwRichTextEdit : public QTextEdit {
   Q_OBJECT
   Q_FLAGS(Options);
   Q_PROPERTY(Options options READ options WRITE setOptions)

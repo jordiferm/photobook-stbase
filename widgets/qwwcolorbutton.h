@@ -17,10 +17,11 @@
 #include <QPushButton>
 #include <QModelIndex>
 #include "wwglobal.h"
+#include "stwidgetsexport.h"
 
 
 class QwwColorButtonPrivate;
-class Q_WW_EXPORT QwwColorButton : public QPushButton, public QwwPrivatable {
+class ST_WIDGETS_EXPORT QwwColorButton : public QPushButton, public QwwPrivatable {
     Q_OBJECT
     Q_PROPERTY(QStringList colors READ colors WRITE setColors)
     Q_PROPERTY(QColor currentColor READ currentColor WRITE setCurrentColor)
