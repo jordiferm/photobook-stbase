@@ -102,6 +102,36 @@ QStringList Resource::fileFilter(EnResourceType _Type)
 	return Filter;
 }
 
+QString Resource::suffixFilter(EnResourceType _Type)
+{
+	QString Res;
+	switch (_Type)
+	{
+		case TypeBackground :
+			Res = QObject::tr("Images (*.png *.xpm *.jpg)");
+		break;
+		case TypeClipart :
+			Res = QObject::tr("Clipart (*.svg)");
+		break;
+		case TypeFrame :
+			Res = QObject::tr("Frames (*.png)");
+		break;
+		case TypeMask :
+			Res = QObject::tr("Masks (*.png)");
+		break;
+		case TypeFrameMask :
+			Res = QObject::tr("Frame Mask (framemask_*.png)");
+		break;
+		case TypeFont :
+			Res = QObject::tr("True Type Font (*.ttf)");
+		break;
+		case TypeImage :
+			Res = QObject::tr("Images (*.png *.xpm *.jpg)");
+		break;
+	}
+	return Res;
+}
+
 QString Resource::filePrefix(EnResourceType _Type)
 {
 	QString Res;

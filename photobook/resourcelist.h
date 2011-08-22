@@ -43,12 +43,11 @@ public:
 	ResourceList subList(Resource::EnResourceType _Type) const;
 	QDir loadDir() const { return LoadedDir; }
 	void load(const QDir& _Dir);
-	void save(const QDir& _Dir);
+	QStringList save(const QDir& _Dir);
 	Resource resource(Resource::EnResourceType _Type, const QString& _Name) const;
 	QString thumbnailAbsoluteFileName(const Resource& _Resource) const;
 	QImage getThumbNail(const Resource& _Resource) const;
 	QSize thumbnailMaxSize() const { return ThumbnailMaxSize; }
-	void push_backResource(const QFileInfo& _ResourceFile);
 	void addNonExist(const ResourceList& _RecToAdd);
 };
 }

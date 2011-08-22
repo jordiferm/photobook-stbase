@@ -165,15 +165,18 @@ void Document::createRootPath()
 void Document::setBuildOptions(const BuildOptions& _Options)
 {
 	BOptions = _Options;
-/*	setIgnoreExifRotation(_Options.ignoreExifRotation());
-	setAutoFillBackgrounds(_Options.autoFillBackgrounds());
-	setPagesToFill(_Options.pagesToFill());
-	setAutoAdjustFrames(_Options.autoadjustFrames());
-	if (!_Options.useTexts())
-		Pages.removeTextPages();
-	if (!_Options.title().isEmpty())
-		Covers.setTitleText(_Options.title());*/
 }
+
+void Document::addResource(const Resource& _Resource)
+{
+	Resources.push_back(_Resource);
+}
+
+void Document::remoteResource(const Resource& _Resource)
+{
+
+}
+
 
 /*! After clear() call isEmpty() returns true
 */
@@ -473,27 +476,30 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		Pages.saveXml(PBInfo.xmlAutoSaveFileName());
 	else
 	{
+		QStringList StoredFiles;
 		if (!_OnlyDesignImages)
 		{
-			QStringList StoredFiles = Pages.saveResources(PBInfo, false, _Progress);
-
-			// Delete unused images and unused mask images.
-			QDir PBooKDir(PBInfo.photoBookPath());
-			QStringList PBookFiles = PBooKDir.entryList(QDir::Files);
-			QStringList::iterator sit;
-			for (sit = PBookFiles.begin(); sit != PBookFiles.end(); ++sit)
-			{
-				QString CurrAbsPathFile = PBInfo.photoBookPath() + "/" + (*sit);
-				if (!StoredFiles.contains(CurrAbsPathFile) &&
-					(CurrAbsPathFile != PBInfo.trayImagesFileName()) )
-				{
-					QFile DelFile(CurrAbsPathFile);
-					//TODO Put Log here !!!
-					if (!DelFile.remove())
-						qWarning(QString("Error removing file %1").arg(CurrAbsPathFile).toLatin1());
-				}
-			}
+			StoredFiles = Pages.saveResources(PBInfo, false, _Progress);
 			Pages.saveXml(PBInfo.xmlFileName());
+		}
+
+		StoredFiles << Resources.save(PBDir);
+
+		// Delete unused images and unused mask images.
+		QDir PBooKDir(PBInfo.photoBookPath());
+		QStringList PBookFiles = PBooKDir.entryList(QDir::Files);
+		QStringList::iterator sit;
+		for (sit = PBookFiles.begin(); sit != PBookFiles.end(); ++sit)
+		{
+			QString CurrAbsPathFile = PBInfo.photoBookPath() + "/" + (*sit);
+			if (!StoredFiles.contains(CurrAbsPathFile) &&
+				(CurrAbsPathFile != PBInfo.trayImagesFileName()) )
+			{
+				QFile DelFile(CurrAbsPathFile);
+				//TODO Put Log here !!!
+				if (!DelFile.remove())
+					qWarning(QString("Error removing file %1").arg(CurrAbsPathFile).toLatin1());
+			}
 		}
 
 		MetInfo.save(PBInfo.xmlMetaInfoFileName());
@@ -507,7 +513,6 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		BackCovers.saveResources(PBInfo, true, _Progress);
 		BackCovers.saveXml(PBInfo.xmlBackCoverFileName());
 
-		Resources.save(PBDir);
 
 		//Save Thumbnail
 		if (Pages.size() > 0)

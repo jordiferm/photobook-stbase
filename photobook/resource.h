@@ -70,6 +70,7 @@ public:
 	bool operator!=(const Resource& _Other ) const;
 
 	static QStringList fileFilter(EnResourceType _Type);
+	static QString suffixFilter(EnResourceType _Type);
 	static QString filePrefix(EnResourceType _Type);
 	EnResourceType fileResourceType(const QString& _FileName);
 	static bool isResource(const QFileInfo& _FileInfo);

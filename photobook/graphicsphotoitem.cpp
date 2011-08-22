@@ -250,7 +250,6 @@ AbstractGraphicsItem* GraphicsPhotoItem::clone() const
 
 QStringList GraphicsPhotoItem::saveResources(const QDir& _StoreDir, bool _SaveImageRes)
 {
-	qDebug() << "------ QStringList GraphicsPhotoItem::saveResources(const QDir& _StoreDir, bool _SaveImageRes)";
 	QStringList Res;
 	if (!ImageResource.isNull() && _SaveImageRes)
 		Res << ImageResource.save(_StoreDir);

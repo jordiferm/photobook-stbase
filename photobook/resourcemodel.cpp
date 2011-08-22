@@ -134,11 +134,16 @@ QStringList ResourceModel::mimeTypes() const
 	return types;
 }
 
-void ResourceModel::addResource(const QFileInfo& _FileInfo)
+void ResourceModel::addResource(const Resource& _Resource)
 {
 	beginInsertRows(QModelIndex(), RList.size(), RList.size() + 1);
-	RList.push_backResource(_FileInfo);
+	RList.push_back(_Resource);
 	endInsertRows();
+}
+
+void ResourceModel::removeResource(const Resource& _Resource)
+{
+	beginRemoveRows();
 }
 
 void ResourceModel::setResourceList(const ResourceList& _List)

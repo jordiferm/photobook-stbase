@@ -59,12 +59,13 @@ void ResourceList::load(const QDir& _Dir)
 	LoadedDir = _Dir;
 }
 
-void ResourceList::save(const QDir& _Dir)
+QStringList ResourceList::save(const QDir& _Dir)
 {
+	QStringList Res;
 	ResourceList::iterator it;
 	for (it = begin(); it != end(); ++it)
 	{
-		it->save(_Dir);
+		Res << it->save(_Dir);
 /*		QFile SourceFile(it->fileInfo().absoluteFilePath());
 		if (SourceFile.exists())
 		{
@@ -73,6 +74,7 @@ void ResourceList::save(const QDir& _Dir)
 				Assert(SourceFile.copy(DestFileName), Error(QObject::tr("Error saving resource file: %1 -> %2").arg(SourceFile.fileName()).arg(DestFileName)));
 		}*/
 	}
+	return Res;
 }
 
 Resource ResourceList::resource(Resource::EnResourceType _Type, const QString& _Name) const
@@ -132,23 +134,6 @@ QImage ResourceList::getThumbNail(const Resource& _Resource) const
 	return ColPixmap.scaledToWidth(ThumbnailMaxSize.width());
 }
 
-void ResourceList::push_backResource(const QFileInfo& _ResourceFile)
-{
-	QFile SourceFile(_ResourceFile.absoluteFilePath());
-	if (SourceFile.exists())
-	{
-		if (Resource::isResource(_ResourceFile))
-		{
-			Resource NewRes(_ResourceFile);
-			QString DestFileName = NewRes.fileInfo().absoluteFilePath();
-			if (!QFile::exists(DestFileName))
-			{
-				Assert(SourceFile.copy(DestFileName), Error(QObject::tr("Error saving resource file: %1 -> %2").arg(SourceFile.fileName()).arg(DestFileName)));
-				push_back(NewRes);
-			}
-		}
-	}
-}
 
 void ResourceList::addNonExist(const ResourceList& _RecToAdd)
 {

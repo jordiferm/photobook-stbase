@@ -126,6 +126,8 @@ public:
 	PageList backCovers() const { return BackCovers; }
 	void setBackCovers(const PageList& _BackCovers) { BackCovers = _BackCovers; }
 	ResourceList resources() const { return Resources; }
+	void addResource(const Resource& _Resource);
+	void remoteResource(const Resource& _Resource);
 
 	//-- Generation and manipulation
 	void clear(); 
