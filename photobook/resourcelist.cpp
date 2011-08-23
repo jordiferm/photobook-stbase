@@ -46,6 +46,7 @@ ResourceList ResourceList::subList(Resource::EnResourceType _Type) const
 
 void ResourceList::load(const QDir& _Dir)
 {
+	qDebug() << "Loading resources from: " << _Dir;
 	QFileInfoList PhotoFiles = _Dir.entryInfoList(QDir::Files, QDir::Time & QDir::Reversed);
 	QFileInfoList::iterator it = PhotoFiles.begin();
 

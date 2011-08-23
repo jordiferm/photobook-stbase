@@ -47,6 +47,8 @@ private:
 	QDir Dir;
 	QFileInfo FInfo;
 
+	void init(const QFileInfo& _FileInfo, EnResourceType _Type );
+
 public:
 	Resource(const QFileInfo& _FileInfo);
 	Resource(const QFileInfo& _FileInfo, EnResourceType _Type );

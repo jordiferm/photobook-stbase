@@ -143,7 +143,13 @@ void ResourceModel::addResource(const Resource& _Resource)
 
 void ResourceModel::removeResource(const Resource& _Resource)
 {
-	beginRemoveRows();
+	int Index = RList.indexOf(_Resource);
+	if (Index >= 0)
+	{
+		beginRemoveRows(QModelIndex(), Index, Index + 1);
+		RList.removeAt(Index);
+		endRemoveRows();
+	}
 }
 
 void ResourceModel::setResourceList(const ResourceList& _List)

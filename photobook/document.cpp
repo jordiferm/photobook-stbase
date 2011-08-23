@@ -480,7 +480,6 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		if (!_OnlyDesignImages)
 		{
 			StoredFiles = Pages.saveResources(PBInfo, false, _Progress);
-			Pages.saveXml(PBInfo.xmlFileName());
 		}
 
 		StoredFiles << Resources.save(PBDir);
@@ -501,6 +500,8 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 					qWarning(QString("Error removing file %1").arg(CurrAbsPathFile).toLatin1());
 			}
 		}
+
+		Pages.saveXml(PBInfo.xmlFileName());
 
 		MetInfo.save(PBInfo.xmlMetaInfoFileName());
 

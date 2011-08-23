@@ -25,31 +25,35 @@
 
 using namespace SPhotoBook;
 
+void Resource::init(const QFileInfo& _FileInfo, EnResourceType _Type )
+{
+	Name = _FileInfo.baseName().right(_FileInfo.baseName().length() - ( _FileInfo.baseName().indexOf("_") + 1));
+	FInfo = _FileInfo;
+	Dir = _FileInfo.dir();
+	Type = _Type;
+}
 
 Resource::Resource(const QFileInfo& _FileInfo)
 {
 	if (isResource(_FileInfo))
 	{
-		QString FileName = _FileInfo.fileName();
-		Name = FileName.right(FileName.length() - ( FileName.indexOf("_") + 1));
-		Type = fileResourceType(FileName);
-		Dir = _FileInfo.dir();
-		FInfo = _FileInfo;
+		Type = fileResourceType(_FileInfo.fileName());
+		init(_FileInfo, Type);
 	}
 }
 
 //Resource file with no standard filename
 Resource::Resource(const QFileInfo& _FileInfo, EnResourceType _Type )
 {
-	Name = _FileInfo.baseName();
-	FInfo = _FileInfo;
-	Dir = _FileInfo.dir();
-	Type = _Type;
+	init(_FileInfo, _Type);
 }
 
-Resource::Resource(const QDir& _Dir, const QString& _Name , EnResourceType _Type ) : Name(_Name), Type(_Type), Dir(_Dir)
+Resource::Resource(const QDir& _Dir, const QString& _NameAndSuffix , EnResourceType _Type )
 {
-	FInfo = QFileInfo(Dir.absoluteFilePath(QString("%1_%2").arg(filePrefix(Type)).arg(Name)));;
+	if (!_NameAndSuffix.isEmpty())
+	{
+		init(QFileInfo(_Dir.absoluteFilePath(QString("%1_%2").arg(filePrefix(_Type)).arg(_NameAndSuffix))), _Type);
+	}
 }
 
 
@@ -207,7 +211,7 @@ bool Resource::isResource(const QFileInfo& _FileInfo)
 
 QFileInfo Resource::frameMaskFile(const Resource& _FrameResource)
 {
-	return Resource(_FrameResource.fileInfo().dir(), _FrameResource.name(),TypeFrameMask ).fileInfo();
+	return Resource(_FrameResource.fileInfo().dir(), _FrameResource.name() + "." + _FrameResource.fileInfo().suffix(), TypeFrameMask ).fileInfo();
 }
 
 Resource Resource::resourceFromXmlSrc(const QString& _XmlSrc, const QString& _LoadDir)

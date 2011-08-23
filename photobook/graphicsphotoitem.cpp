@@ -264,7 +264,7 @@ QStringList GraphicsPhotoItem::saveResources(const QDir& _StoreDir, bool _SaveIm
 
 void GraphicsPhotoItem::setResource(const Resource& _Resource)
 {
-	if (_Resource.type() == Resource::TypeFrameMask)
+	if (_Resource.type() == Resource::TypeMask)
 	{
 		setAlphaChannel(_Resource);
 	}
@@ -326,6 +326,8 @@ void GraphicsPhotoItem::setFrameResource(const Resource& _Resource)
 		}
 
 		QFileInfo FrameMaskFile = Resource::frameMaskFile(_Resource);
+		qDebug() << "Resource finfo:" << _Resource.fileInfo().absoluteFilePath();
+		qDebug() << "----- FrameMaskFile: " << FrameMaskFile.absoluteFilePath();
 		if (FrameMaskFile.exists())
 			setAlphaChannel(Resource(FrameMaskFile), QImage(FrameMaskFile.absoluteFilePath()).transformed(Matrix));
 		else
