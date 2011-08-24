@@ -54,6 +54,8 @@ Resource::Resource(const QDir& _Dir, const QString& _NameAndSuffix , EnResourceT
 	{
 		init(QFileInfo(_Dir.absoluteFilePath(QString("%1_%2").arg(filePrefix(_Type)).arg(_NameAndSuffix))), _Type);
 	}
+	else
+		Type = _Type; //Null resource of a specified type.
 }
 
 
@@ -76,8 +78,12 @@ QStringList Resource::save(const QDir& _StoreDir)
 
 	if (type() == TypeFrame) //Save FrameMask with the same hash
 	{
-		Resource FrameMaskResource(dir(), Name, TypeFrameMask );
-		Res << FrameMaskResource.save(Resource(_StoreDir, HashName, TypeFrameMask).fileInfo());
+		QFileInfo FrameMaskFinfo = frameMaskFile(*this);
+		if (FrameMaskFinfo.exists())
+		{
+			Resource FrameMaskResource(FrameMaskFinfo);
+			Res << FrameMaskResource.save(Resource(_StoreDir, HashName, TypeFrameMask).fileInfo());
+		}
 	}
 
 	Res << save(DestFileInfo);

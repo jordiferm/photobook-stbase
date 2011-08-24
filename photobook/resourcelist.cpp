@@ -46,7 +46,7 @@ ResourceList ResourceList::subList(Resource::EnResourceType _Type) const
 
 void ResourceList::load(const QDir& _Dir)
 {
-	qDebug() << "Loading resources from: " << _Dir;
+	clear();
 	QFileInfoList PhotoFiles = _Dir.entryInfoList(QDir::Files, QDir::Time & QDir::Reversed);
 	QFileInfoList::iterator it = PhotoFiles.begin();
 
@@ -107,7 +107,6 @@ QImage ResourceList::getThumbNail(const Resource& _Resource) const
 		//Let's generate a resource thumbnail
 		if (_Resource.type() == Resource::TypeClipart)
 		{
-			qDebug()<< "----------------------------- Rendering clipart ";
 			QSvgRenderer Renderer;
 			if (Renderer.load(_Resource.fileInfo().absoluteFilePath()))
 			{
@@ -123,7 +122,7 @@ QImage ResourceList::getThumbNail(const Resource& _Resource) const
 				qWarning(QString("Error creating thumbnail for file %1").arg(ThumbFileName).toLatin1());
 
 		}
-		else if (_Resource.type() == Resource::TypeBackground || _Resource.type() == Resource::TypeFrame)
+		else if (_Resource.type() == Resource::TypeBackground || _Resource.type() == Resource::TypeFrame || _Resource.type() == Resource::TypeMask)
 		{
 			QImage Img(_Resource.fileInfo().absoluteFilePath());
 			Img = Img.scaled(ThumbnailMaxSize);

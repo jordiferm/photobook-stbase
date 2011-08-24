@@ -119,6 +119,8 @@ void TemplateScene::replaceTemplate(TemplateScene* _Scene)
 
 	clear();
 	copy(_Scene);
+	if (PageItem->hasImage())
+		PageItem->loadImageSpawn();
 
 	QList<GraphicsPhotoItem*> PhotoItems = photoItems();
 	int CntCurrPhoto = 0;

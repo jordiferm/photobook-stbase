@@ -172,9 +172,11 @@ void Document::addResource(const Resource& _Resource)
 	Resources.push_back(_Resource);
 }
 
-void Document::remoteResource(const Resource& _Resource)
+void Document::removeResource(const Resource& _Resource)
 {
-
+	int Index = Resources.indexOf(_Resource);
+	if (Index >= 0)
+		Resources.takeAt(Index);
 }
 
 
@@ -481,8 +483,9 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		{
 			StoredFiles = Pages.saveResources(PBInfo, false, _Progress);
 		}
-
-		StoredFiles << Resources.save(PBDir);
+		StoredFiles += Layouts.saveResources(PBInfo, true, _Progress);
+		StoredFiles += Covers.saveResources(PBInfo, true, _Progress);
+		StoredFiles += BackCovers.saveResources(PBInfo, true, _Progress);
 
 		// Delete unused images and unused mask images.
 		QDir PBooKDir(PBInfo.photoBookPath());
@@ -502,18 +505,13 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		}
 
 		Pages.saveXml(PBInfo.xmlFileName());
-
 		MetInfo.save(PBInfo.xmlMetaInfoFileName());
-
-		Layouts.saveResources(PBInfo, true, _Progress);
 		Layouts.saveXml(PBInfo.xmlLayoutsFileName());
-
-		Covers.saveResources(PBInfo, true, _Progress);
 		Covers.saveXml(PBInfo.xmlCoversFileName());
-
-		BackCovers.saveResources(PBInfo, true, _Progress);
 		BackCovers.saveXml(PBInfo.xmlBackCoverFileName());
 
+		//Resources manually added and loaded from design
+		//Resources.save(PBDir); //We only save used resources.
 
 		//Save Thumbnail
 		if (Pages.size() > 0)

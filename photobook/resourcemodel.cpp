@@ -54,7 +54,7 @@ QVariant ResourceModel::data(const QModelIndex& _Index, int _Role) const
 			else
 			{
 				Resource CurrResource = resource(_Index);
-				if (_Role == Qt::DisplayRole)
+				if (_Role == Qt::ToolTipRole)
 				{
 					Res = CurrResource.name();
 				}

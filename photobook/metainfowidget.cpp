@@ -211,7 +211,6 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	CBDesignName->lineEdit()->setText(_MetaInfo.designName());
 	ISImage->setPixmapFileName(_MetaInfo.imagePath());
 	TEDescription->setText(_MetaInfo.description());
-	qDebug() << "Template Type" << _MetaInfo.templateType();
 	int Index = CBType->findData(_MetaInfo.templateType());
 	if ( Index != -1)
 		CBType->setCurrentIndex(Index);

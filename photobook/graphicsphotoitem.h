@@ -91,8 +91,8 @@ private:
 	//-- Loaded Resources
 	STImage CurrImage;
 	QImage PaintedImage;
-	QImage MaskImage;
-	QImage FrameImage;
+	//QImage MaskImage;
+	//QImage FrameImage;
 
 	//-- Resources
 	Resource FrameResource;
@@ -242,6 +242,9 @@ public:
 	void setRectPos(qreal _X, qreal _Y);
 
 protected:
+	QImage loadMaskImage(const QFileInfo& _MaskImage, const QSize& _Size);
+	int cachedWidth(int _Width) const;
+	void drawFrameResource(const SPhotoBook::Resource& _Resource, QPainter* _P, const QRectF& _Rect, const QRect& _MaxResRect);
 	void paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* );
 	void mouseReleaseEvent( QGraphicsSceneMouseEvent * event );
 	void mousePressEvent(QGraphicsSceneMouseEvent* _Event);
