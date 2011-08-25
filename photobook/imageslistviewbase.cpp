@@ -36,7 +36,7 @@ using namespace SPhotoBook;
 ImagesListViewBase::ImagesListViewBase(QWidget* _Parent, bool _ToolBarOnTop) :
 		SPToolbarListView(Qt::Horizontal, _Parent, _ToolBarOnTop)
 {
-	SelectAllAction = new QAction(QIcon(":/phototemplates/rating.png"), tr("Select All (Ctrl+A)"), this);
+	SelectAllAction = new QAction(QIcon(":/photobook/rating.png"), tr("Select All (Ctrl+A)"), this);
 	connect(SelectAllAction , SIGNAL(triggered()), this, SLOT(slotSelectAll()));
 	toolBar()->addAction(SelectAllAction);
 	SelectAllAction->setVisible(false);
@@ -54,8 +54,8 @@ ImagesListViewBase::ImagesListViewBase(QWidget* _Parent, bool _ToolBarOnTop) :
 	listView()->setItemDelegate(PDelegate);
 
 	ImageModel = new STDom::DDocModel(this);
-	ImageModel->setNoImagePixmap(QPixmap(":/phototemplates/hourglass.png"));
-	ImageProxyModel = new DocCheckedProxyModel(this, QImage(":/phototemplates/checked.png"));
+	ImageModel->setNoImagePixmap(QPixmap(":/photobook/hourglass.png"));
+	ImageProxyModel = new DocCheckedProxyModel(this, QImage(":/photobook/checked.png"));
 	ImageProxyModel->setSourceModel(ImageModel);
 	ImageProxyModel->setThumbnailSize(QSize(100, 100));
 	setModel(ImageProxyModel);

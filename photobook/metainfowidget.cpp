@@ -134,11 +134,11 @@ QWidget* MetaInfoWidget::createRenderWidget()
 
 	CBPreProcType = new QComboBox(this);
 	CBPreProcType->addItem(tr("None"), RenderSettings::TypeNone);
-	CBPreProcType->addItem(tr("BookLet"), RenderSettings::TypeBooklet);
-	FormLayout->addRow(tr("Print Preprocess type"), CBPreProcType);
+	CBPreProcType->addItem(tr("Horizontal BookLet"), RenderSettings::TypeHBooklet);
+	CBPreProcType->addItem(tr("Vertical BookLet"), RenderSettings::TypeVBooklet);
+	CBPreProcType->addItem(tr("Multiply"), RenderSettings::TypeMultiply);
 
-	CBCutPages = new QCheckBox(this);
-	FormLayout->addRow(tr("Cut pages on print"), CBCutPages);
+	FormLayout->addRow(tr("Print Preprocess type"), CBPreProcType);
 
 	return Widget;
 }
@@ -226,9 +226,9 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	SBPPageHeight->setValue(_MetaInfo.printPageSize().height());
 	SBDpis->setValue(_MetaInfo.dpis());
 
-	if (int Index = CBPreProcType->findData(_MetaInfo.printPreprocessType()) != -1)
+	Index = CBPreProcType->findData(_MetaInfo.printPreprocessType());
+	if ( Index != -1)
 		CBPreProcType->setCurrentIndex(Index);
-	CBCutPages->setChecked(_MetaInfo.cutPagesOnPrint());
 
 	//Behavior
 	SBModPages->setValue(_MetaInfo.modPages());
@@ -258,8 +258,7 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	//Render
 	Res.setPrintPageSize(QSizeF(SBPPageWidth->value(), SBPPageHeight->value()));
 	Res.setDpis(SBDpis->value());
-	Res.setPrintPreprocessType(static_cast<RenderSettings::EnPrintPreProcessType>(CBPreProcType->itemData(CBType->currentIndex()).toInt()));
-	Res.setCutPagesOnPrint(CBCutPages->isChecked());
+	Res.setPrintPreprocessType(static_cast<RenderSettings::EnPrintPreProcessType>(CBPreProcType->itemData(CBPreProcType->currentIndex()).toInt()));
 
 	//Behavior
 	Res.setModPages(SBModPages->value());

@@ -102,7 +102,7 @@ QBrush GraphicsPhotoItem::SelectedBrush(QColor(255,255,255, 150), Qt::Dense6Patt
 
 QSize GraphicsPhotoItem::MaxLowResImageSize(100, 100);
 int GraphicsPhotoItem::LowResImageDPIs = 72;
-QString GraphicsPhotoItem::LowResWarningImage(":/phototemplates/dialog-warning.png");
+QString GraphicsPhotoItem::LowResWarningImage(":/photobook/dialog-warning.png");
 int GraphicsPhotoItem::LowResMinDpis = 100;
 bool GraphicsPhotoItem::TouchInterface = false;
 bool GraphicsPhotoItem::ThresholdMoving = true;
@@ -842,9 +842,10 @@ QPointF GraphicsPhotoItem::rectPos() const
 
 void GraphicsPhotoItem::setRectPos(const QPointF& _Pos)
 {
-	QRectF newItemRect = QRectF(QPoint(0, 0), rect().size());
-	setRect(newItemRect);
-	setPos(_Pos);
+	setRect(QRectF(_Pos, rect().size()));
+	//QRectF newItemRect = QRectF(QPoint(0, 0), rect().size());
+	//setRect(newItemRect);
+	//setPos(_Pos);
 }
 
 void GraphicsPhotoItem::setRectPos(qreal _X, qreal _Y)
@@ -879,12 +880,8 @@ void GraphicsPhotoItem::drawFrameResource(const SPhotoBook::Resource& _Resource,
 		else
 			FrameImage = Pixmap.toImage();
 
-
-		/*QFileInfo FrameMaskFile = Resource::frameMaskFile(_Resource);
-		if (FrameMaskFile.exists())
-			setAlphaChannel(Resource(FrameMaskFile), QImage(FrameMaskFile.absoluteFilePath()).transformed(Matrix));
-		else
-			setAlphaChannel(Resource());//No Alpha Channel*/
+		//! PERFORMANCE_HOTPOINT
+		//FIXME: Do the rotation before insert it to cache
 		FrameImage = FrameImage.scaled(QSize(_MaxResRect.width() * CurrScale, _MaxResRect.height() * CurrScale), AspectRatioMode, Qt::SmoothTransformation);
 		if ((_MaxResRect.width() > _MaxResRect.height() && FrameImage.width() < FrameImage.height())
 		 || (_MaxResRect.width() < _MaxResRect.height() && FrameImage.width() > FrameImage.height()))
@@ -930,6 +927,8 @@ QImage GraphicsPhotoItem::loadMaskImage(const QFileInfo& _MaskImage, const QSize
 	else
 		MaskImage = Pixmap.toImage();
 
+	//! PERFORMANCE_HOTPOINT
+	//FIXME: Do the rotation before insert it to cache
 	if ((_Size.width() > _Size.height() && MaskImage.width() < MaskImage.height())
 		|| (_Size.width() < _Size.height() && MaskImage.width() > MaskImage.height()))
 	{
@@ -1350,9 +1349,9 @@ void GraphicsPhotoItem::setPanningEnabled(bool _Enabled)
 	{
 		PanAct->setChecked(_Enabled);
 		if (_Enabled)
-			PanAct->setIcon(QIcon(":/phototemplates/thumbtack_red_plug_64.png"));
+			PanAct->setIcon(QIcon(":/photobook/thumbtack_red_plug_64.png"));
 		else
-			PanAct->setIcon(QIcon(":/phototemplates/thumbtack_red_unplug_64.png"));
+			PanAct->setIcon(QIcon(":/photobook/thumbtack_red_unplug_64.png"));
 	}
 }
 

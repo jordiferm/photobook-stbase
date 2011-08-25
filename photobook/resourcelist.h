@@ -48,6 +48,7 @@ public:
 	QString thumbnailAbsoluteFileName(const Resource& _Resource) const;
 	QImage getThumbNail(const Resource& _Resource) const;
 	QSize thumbnailMaxSize() const { return ThumbnailMaxSize; }
+	void calcHashCodes();
 	void addNonExist(const ResourceList& _RecToAdd);
 };
 }

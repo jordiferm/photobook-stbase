@@ -56,6 +56,7 @@ void Document::configurePage(TemplateScene* _Page)
 {
 	_Page->setAutoAdjustFrames(BOptions.autoadjustFrames());
 	_Page->setIgnoreExifRotation(BOptions.ignoreExifRotation());
+	_Page->setModifyAllFrames(MetInfo.multiPhoto());
 	connect(_Page, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
 	connect(_Page, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));
 	connect(_Page, SIGNAL(itemContextMenu(QGraphicsItem*, const QPoint&)), this, SLOT(slotSceneItemContextMenu(QGraphicsItem*, const QPoint&)));
@@ -309,7 +310,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		else
 			PList = Layouts;
 
-		CurrTemplate = CCalculator.getEmptyCandidate(Layouts, MetInfo.numOptimalImagesPerPage(), ITEM_AVERAGE_MARGIN);
+		CurrTemplate = CCalculator.getEmptyCandidate(PList, MetInfo.numOptimalImagesPerPage(), ITEM_AVERAGE_MARGIN);
 		if (CurrTemplate) //Defensive
 		{
 			insertPage(createPage(CurrTemplate), NPages);
@@ -354,9 +355,31 @@ void Document::movePage(int _Source, int _Destination)
 	}
 }
 
-QSize Document::renderSize(TemplateScene* _Scene) const
+void Document::resizePage(int _Page, const QSizeF& _NewSize)
 {
-	QSize Res(0,0);
+	Assert(_Page >= 0 && _Page < Pages.size(), Error("Document::renderPage Range Checking Error"));
+	TemplateScene* PageScene = Pages[_Page];
+	PageScene->resize(_NewSize);
+}
+
+void Document::resizeAll(const QSizeF& _NewSize)
+{
+	Pages.resize(_NewSize);
+	Layouts.resize(_NewSize);
+	Covers.resize(_NewSize);
+	BackCovers.resize(_NewSize);
+}
+
+QSize Document::renderPageSize() const
+{
+	QSize Res = STDom::DDocFormat::pixelSize(MetInfo.printPageSize(), MetInfo.dpis());
+	if (MetInfo.printPreprocessType() == RenderSettings::TypeHBooklet)
+		Res.setWidth(Res.width() / 2);
+	else
+	if (MetInfo.printPreprocessType() == RenderSettings::TypeVBooklet)
+		Res.setHeight(Res.height() / 2);
+	return Res;
+	/*QSize Res(0,0);
 	QSize PageSize = STDom::DDocFormat::pixelSize(_Scene->sceneRect().size(), MetInfo.dpis());
 	if (!_Scene->renderBaseSize().isEmpty())
 	{
@@ -368,7 +391,7 @@ QSize Document::renderSize(TemplateScene* _Scene) const
 	}
 	else
 		Res = PageSize;
-	return Res;
+	return Res;*/
 }
 
 //! _Page goes from 0 to numPages - 1.
@@ -376,11 +399,20 @@ QImage Document::renderPage(int _Page, QProgressBar* _LoadImagesPrgBar)
 {
 	Assert(_Page >= 0 && _Page < Pages.size(), Error("Document::renderPage Range Checking Error"));
 	TemplateScene* PageScene = Pages[_Page];
-	QSize PageSize = renderSize(PageScene);
-	QImage ResImg(PageSize, QImage::Format_RGB32);
+
+	QSize PageSize = renderPageSize();
+	QSize TemplateSize = STDom::DDocFormat::pixelSize(PageScene->sceneRect().size(), MetInfo.dpis());
+	QSize RenderSize;
+	if (PageSize.width() > TemplateSize.width() && PageSize.height() > TemplateSize.height())
+		RenderSize = PageSize;
+	else
+		RenderSize = TemplateSize;
+
+	QImage ResImg(RenderSize, QImage::Format_RGB32);
 	ResImg.setDotsPerMeterX(MetInfo.dpM());
 	ResImg.setDotsPerMeterY(MetInfo.dpM());
 	QPainter Painter(&ResImg);
+	Painter.fillRect(ResImg.rect(), Qt::white);
 	renderPage(PageScene, _LoadImagesPrgBar, &Painter); 
 	return ResImg;
 }
@@ -391,20 +423,23 @@ void Document::renderPage(TemplateScene* _PageScene , QProgressBar* _LoadImagesP
 	_PageScene->setEmptyFramesVisible(false);
 	_PageScene->prepareForPrint();
 	_PageScene->loadHiResImages(_LoadImagesPrgBar); 
-	QSize PageSize = STDom::DDocFormat::pixelSize(_PageScene->sceneRect().size(), MetInfo.dpis());
-	QSize RenderSize = renderSize(_PageScene);
-	if (PageSize != RenderSize)
+	QSize TemplateSize = STDom::DDocFormat::pixelSize(_PageScene->sceneRect().size(), MetInfo.dpis());
+	QSize PageSize = renderPageSize();
+	if (PageSize.width() >= TemplateSize.width() && PageSize.height() >= TemplateSize.height())
 	{
-		if (RenderSize.isValid() && RenderSize.width() >=  PageSize.width() && RenderSize.height() >= PageSize.height() )
+		if (MetInfo.printPreprocessType() == RenderSettings::TypeMultiply)
 		{
-			STImage TmpImg(PageSize, QImage::Format_RGB32);
+			STImage TmpImg(TemplateSize, QImage::Format_RGB32);
 			QPainter ImgPainter(&TmpImg);
-			_PageScene->render(&ImgPainter, QRect(QPoint(0,0), PageSize));
-			TmpImg.multiplyImage(RenderSize, _Painter);
+			_PageScene->render(&ImgPainter, QRect(QPoint(0,0), TemplateSize));
+			TmpImg.multiplyImage(PageSize, _Painter);
 		}
+		else //Center to page
+			_PageScene->render(_Painter, QRect(QPoint((PageSize.width() - TemplateSize.width()) / 2,
+													  (PageSize.height() - TemplateSize.height()) / 2), TemplateSize));
 	}
 	else
-		_PageScene->render(_Painter, QRect(QPoint(0,0), RenderSize));
+		_PageScene->render(_Painter, QRect(QPoint(0,0), TemplateSize));
 
 	_PageScene->unloadImages();
 	_PageScene->setEmptyFramesVisible(true);
@@ -428,9 +463,28 @@ void Document::renderPageToPdf(int _Page, QProgressBar* _LoadImagesPrgBar, const
 	Painter.end(); 
 }
 
-QList<QImage> Document::prepareForPrint(const QImage& _AlbumPageImage, const QSizeF& _SceneSize)
+QList<QImage> Document::prepareForPrint(const QImage& _AlbumPageImage)
 {
-	QList<QImage> Res; 
+	QList<QImage> Res;
+	QSizeF PageSize = renderPageSize();
+	if (_AlbumPageImage.size().width() > PageSize.width() || _AlbumPageImage.size().height() > PageSize.height())
+	{
+		int NPages = (_AlbumPageImage.size().width() * _AlbumPageImage.size().height()) /
+					(PageSize.width() * PageSize.height());
+		int NumRows = _AlbumPageImage.size().height() / PageSize.height();
+		for (int Vfor = 0 ;Vfor < NPages; Vfor++)
+		{
+			int CurrRow = Vfor % NumRows;
+			int CurrCol = Vfor / NumRows;
+			Res.push_back(_AlbumPageImage.copy(CurrCol * PageSize.width(), CurrRow * PageSize.height(),
+											   PageSize.width(), PageSize.height()));
+		}
+	}
+	else
+		Res.push_back(_AlbumPageImage);
+
+	return Res;
+/*	QList<QImage> Res;
 	if (MetInfo.cutPagesOnPrint())
 	{
 		int PPageWidthWidth = MetInfo.printPageSize().width();
@@ -452,7 +506,7 @@ QList<QImage> Document::prepareForPrint(const QImage& _AlbumPageImage, const QSi
 	}
 	else 
 		Res.push_back(_AlbumPageImage); 
-	return Res;
+	return Res;*/
 }
 
 void Document::save(STProgressIndicator* _Progress , bool _AutoSave)
@@ -595,8 +649,8 @@ QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSett
 {
 	QFileInfoList Res;
 	//bool Booklet = (_RSettings.PrintPreprocessType == STPhotoBookRenderSettings::TypeBooklet || Template.preprocessType() == STPhotoBookTemplate::TypeBooklet);
-	bool Booklet = isExportedAsBooklet(_RSettings);
-	bool PrintFirstAtLast = (_RSettings.printFirstAtLast() || MetInfo.printPreprocessType() == RenderSettings::TypeBooklet);
+	bool Booklet = isExportedAsBooklet();
+	bool PrintFirstAtLast = (_RSettings.printFirstAtLast() || Booklet);
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 	if (_StatusWidget)
 	{
@@ -625,14 +679,15 @@ QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSett
 				PageOrder = pages().size();
 
 			QString PageName;
-			if (_RSettings.printPreprocessType() == RenderSettings::TypeNone)
+			if (MetInfo.printPreprocessType() == RenderSettings::TypeNone || MetInfo.printPreprocessType() == RenderSettings::TypeMultiply)
 				PageName = "page";
 			else
 				PageName = "tmppage";
 
 			if (Format != "PDF")
 			{
-				QList<QImage> PageImages = prepareForPrint(renderPage(Vfor), Pages[Vfor]->sceneRect().size());
+				QList<QImage> PageImages = prepareForPrint(renderPage(Vfor));
+				qDebug() << "PageImages.size:" << PageImages.size();
 				QList<QImage>::iterator it;
 				int CntPage = 0;
 				for (it = PageImages.begin(); it != PageImages.end(); ++it)
@@ -722,11 +777,23 @@ QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSett
 				_ErrorStack.push_back(QString(tr("Error in print preprocess. Error loading file: %1").arg(RPageFile)));
 			if (!QFile::remove(RPageFile))
 				_ErrorStack.push_back(QString(tr("Error in print preprocess. Error removing file: %1").arg(RPageFile)));
-			QImage BookletPage(LPage.width() + RPage.width(), qMax(LPage.height(), RPage.height()), QImage::Format_RGB32);
-			QPainter Painter(&BookletPage);
-			Painter.drawImage(QPoint(0, 0), LPage);
-			Painter.drawImage(QPoint(LPage.width(), 0), RPage);
-			Painter.end();
+			QImage BookletPage;
+			if (MetInfo.printPreprocessType() == RenderSettings::TypeHBooklet)
+			{
+				BookletPage = QImage(LPage.width() + RPage.width(), qMax(LPage.height(), RPage.height()), QImage::Format_RGB32);
+				QPainter Painter(&BookletPage);
+				Painter.drawImage(QPoint(0, 0), LPage);
+				Painter.drawImage(QPoint(LPage.width(), 0), RPage);
+				Painter.end();
+			}
+			else
+			{
+				BookletPage = QImage(qMax(LPage.width() , RPage.width()), LPage.height() + RPage.height(), QImage::Format_RGB32);
+				QPainter Painter(&BookletPage);
+				Painter.drawImage(QPoint(0, 0), LPage);
+				Painter.drawImage(QPoint(0, LPage.height()), RPage);
+				Painter.end();
+			}
 
 			QString CurrImageFileName = _ExportDir + "/" + QString("page_%1").arg(
 				QString::number(Vfor), 4, '0') + "." + Format;
@@ -910,12 +977,12 @@ bool Document::suitableTemplate(int _PageIndex, TemplateScene* _Template, QStrin
 }
 
 
-bool Document::isExportedAsBooklet(const RenderSettings& _RSettings) const
+bool Document::isExportedAsBooklet() const
 {
-	return  _RSettings.printPreprocessType() == RenderSettings::TypeBooklet || MetInfo.printPreprocessType() == RenderSettings::TypeBooklet;
+	return  MetInfo.printPreprocessType() == RenderSettings::TypeVBooklet || MetInfo.printPreprocessType() == RenderSettings::TypeHBooklet ;
 }
 
-int Document::numRenderedPages(bool _Booklet)
+/*int Document::numRenderedPages(bool _Booklet)
 {
 	int Res = pages().count();
 	if (MetInfo.cutPagesOnPrint() && !_Booklet && MetInfo.printPreprocessType() != RenderSettings::TypeBooklet)
@@ -934,7 +1001,7 @@ int Document::numRenderedPages(bool _Booklet)
 		Res = pages().count() * qMax(SheetsPerPage, 1);
 	}
 	return Res;
-}
+}*/
 
 
 QImage Document::getPageThumbnail(int _Index, const QSize& _MaxSize)

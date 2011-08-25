@@ -71,7 +71,6 @@ private:
 	bool AutoAdjustFrames;
 	bool IgnoreExifRotation;
 	bool HasChanges;
-	QSizeF RenderBaseSize;
 	QList<GraphicsPhotoItem *> PhotoItems;
 	
 	QStringList storePhotoItemImage(GraphicsPhotoItem* _CItem, const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages = false);
@@ -82,6 +81,8 @@ public:
 	TemplateScene(QObject* _Parent = 0);
 	TemplateScene(const QSizeF& _PageSize, QObject* _Parent);
 	void copy(TemplateScene* _Other);
+	static QRectF translatedRectF(const QRectF& _Rect, const QSizeF& _DestSize, const QSizeF& _SourceSize);
+	void resize(const QSizeF& _NewSize);
 	void replaceTemplate(TemplateScene* _Other);
 	void setImageToSelectedItems(const QPixmap& _ThumbNail, const QString& _ImageFileName);
 	void setDummyImages(const QList<QImage>& _ImageList);
@@ -164,8 +165,8 @@ public:
 	bool operator>(int _Value) const;
 
 	void selectFirstEmptyPhotoItem();
-	QSizeF renderBaseSize() const { return RenderBaseSize; }
 	bool modifyAllFrames() const { return ModifyAllFrames; }
+	void setModifyAllFrames(bool _Value) { ModifyAllFrames = _Value; }
 	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }

@@ -43,6 +43,7 @@ public:
 
 private:
 	QString Name;
+	QString HashCode;
 	EnResourceType Type;
 	QDir Dir;
 	QFileInfo FInfo;
@@ -67,6 +68,11 @@ public:
 	QFileInfo fileInfo() const;
 
 	bool isNull() const { return Name.isEmpty(); }
+
+	//Hash codes for comparsion operators
+	void calcHashCode();
+	QString getHashCode() const;
+	QString hashCode() const;
 
 	bool operator==(const Resource& _Other ) const;
 	bool operator!=(const Resource& _Other ) const;

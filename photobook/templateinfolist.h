@@ -38,8 +38,8 @@ public:
 	void sync();
 	bool isPublic();
 	QFileInfoList globalResources(DesignInfo::EnResourceType _Type);
-	TemplateInfoList subList(MetaInfo::EnTemplateType _Type);
-	TemplateInfoList sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type);
+	TemplateInfoList subList(MetaInfo::EnTemplateType _Type) const;
+	TemplateInfoList sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type) const;
 };
 
 }

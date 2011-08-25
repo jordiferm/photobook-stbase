@@ -23,6 +23,7 @@
 #include <QList>
 #include <QRectF>
 #include <QUrl>
+#include <QPixmap>
 #include "sterror.h"
 #include "rendersettings.h"
 
@@ -106,9 +107,6 @@ public:
 	void setPrintPreprocessType(RenderSettings::EnPrintPreProcessType _Value) { PrintPreprocessType = _Value; }
 	RenderSettings::EnPrintPreProcessType printPreprocessType() const { return PrintPreprocessType; }
 
-	void setCutPagesOnPrint(bool _Value) { CutPagesOnPrint = _Value; }
-	bool cutPagesOnPrint() const { return CutPagesOnPrint; }
-
 
 	//------- Behavior info ----------
 	void setModPages(int _Value) { ModPages = _Value; }
@@ -142,6 +140,8 @@ public:
 	int numOptimalImagesPerPage() const { return NumOptimalImagesPerPage; }
 	void setNumOptimalImagesPerPage(int _Value) { NumOptimalImagesPerPage = _Value; }
 
+	//------- Miscelanea ---------
+	static QPixmap typePixmap(EnTemplateType _Type);
 };
 
 }

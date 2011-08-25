@@ -319,6 +319,7 @@ void OPWAbstractChooseProduct::getPublisherData()
 	QString Filter;
 	if (!TemplateRef.isEmpty())
 		Filter = QString("templates_ref='%1'").arg(TemplateRef);
+
 	PModel = PubDatabase.newProductsModel(this, ProductType, Filter);
 
 	STDom::STXmlPublisherSettings PXmlS;

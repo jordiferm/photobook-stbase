@@ -30,5 +30,6 @@
         <file>inetsend.png</file>
         <file>automatic.png</file>
         <file>manual.png</file>
+        <file>defaultdesign.png</file>
     </qresource>
 </RCC>

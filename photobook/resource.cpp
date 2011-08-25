@@ -95,14 +95,34 @@ QFileInfo Resource::fileInfo() const
 	return FInfo;
 }
 
-bool Resource::operator!=(const Resource& _Other ) const
+void Resource::calcHashCode()
 {
-	return !operator==(_Other);
+	HashCode = getHashCode();
+}
+
+QString Resource::getHashCode() const
+{
+	return STImage::hashFileName(FInfo.absoluteFilePath());
+}
+
+QString Resource::hashCode() const
+{
+	QString Res;
+	if (HashCode.isEmpty())
+		Res = getHashCode();
+	else
+		Res = HashCode;
+	return Res;
 }
 
 bool Resource::operator==(const Resource& _Other ) const
 {
-	return STImage::hashFileName(FInfo.absoluteFilePath()) == STImage::hashFileName(_Other.fileInfo().absoluteFilePath());
+	return hashCode() == _Other.hashCode();//You have to previously call to calcHashCode to improve speed.
+}
+
+bool Resource::operator!=(const Resource& _Other ) const
+{
+	return !operator==(_Other);
 }
 
 QStringList Resource::fileFilter(EnResourceType _Type)

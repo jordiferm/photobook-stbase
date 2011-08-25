@@ -134,11 +134,23 @@ QImage ResourceList::getThumbNail(const Resource& _Resource) const
 	return ColPixmap.scaledToWidth(ThumbnailMaxSize.width());
 }
 
+void ResourceList::calcHashCodes()
+{
+	ResourceList::iterator it = begin();
+	while (it != end())
+	{
+		it->calcHashCode();
+		++it;
+	}
+}
 
 void ResourceList::addNonExist(const ResourceList& _RecToAdd)
 {
-	ResourceList::const_iterator it = _RecToAdd.begin();
-	while (it != _RecToAdd.end())
+	ResourceList RecToAdd = _RecToAdd;
+	RecToAdd.calcHashCodes(); //To improve speed.
+	calcHashCodes();
+	ResourceList::const_iterator it = RecToAdd.begin();
+	while (it != RecToAdd.end())
 	{
 		//Check if we contains *it
 		ResourceList::const_iterator fit = begin();

@@ -58,6 +58,7 @@ public:
 	void resizeContents(const QRect & rect, bool keepRatio = false);
 	void layoutChildren();
 	void rotate(double _Angle);
+	double zRotationAngle() const { return m_zRotationAngle; }
 	void setRotation(double angle, Qt::Axis axis);
 	double rotation(Qt::Axis axis) const;
 	void setChildrenVisible(bool _Value); 

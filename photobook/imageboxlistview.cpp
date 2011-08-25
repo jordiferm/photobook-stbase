@@ -34,11 +34,11 @@ using namespace SPhotoBook;
 ImageBoxListView::ImageBoxListView(QWidget* _Parent) : SPToolbarListView(Qt::Horizontal, _Parent)
 {
 
-	QAction* RemoveImagesAction = new QAction(QIcon(":/phototemplates/list-remove.png"), tr("Remove"), this);
+	QAction* RemoveImagesAction = new QAction(QIcon(":/photobook/list-remove.png"), tr("Remove"), this);
 	connect(RemoveImagesAction, SIGNAL(triggered()), this, SLOT(slotRemoveSelectedImages()));
 	toolBar()->addAction(RemoveImagesAction);
 
-	QAction* SelectAllAction = new QAction(QIcon(":/phototemplates/rating.png"), tr("Select All (Ctrl+A)"), this);
+	QAction* SelectAllAction = new QAction(QIcon(":/photobook/rating.png"), tr("Select All (Ctrl+A)"), this);
 	connect(SelectAllAction , SIGNAL(triggered()), listView(), SLOT(selectAll()));
 	toolBar()->addAction(SelectAllAction);
 
@@ -56,8 +56,8 @@ ImageBoxListView::ImageBoxListView(QWidget* _Parent) : SPToolbarListView(Qt::Hor
 
 	//OPhotoCollectionImageModel* ImageModel = new OPhotoCollectionImageModel(this);
 	STDom::DDocModel* ImageModel = new STDom::DDocModel(this);
-	ImageModel->setNoImagePixmap(QPixmap(":/phototemplates/hourglass.png"));
-	ImageProxyModel = new DocCheckedProxyModel(this, QImage(":/phototemplates/checked.png"));
+	ImageModel->setNoImagePixmap(QPixmap(":/photobook/hourglass.png"));
+	ImageProxyModel = new DocCheckedProxyModel(this, QImage(":/photobook/checked.png"));
 	ImageProxyModel->setSourceModel(ImageModel);
 	ImageProxyModel->setThumbnailSize(QSize(100, 100));
 	setModel(ImageProxyModel);

@@ -242,6 +242,7 @@ void GraphicsItemModifier::layoutChildren()
 	}
 }
 
+
 void GraphicsItemModifier::rotate(double _Angle)
 {
 	m_zRotationAngle = _Angle; 

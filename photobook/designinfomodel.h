@@ -20,6 +20,7 @@
 #define DESIGNINFOMODEL_H
 
 #include <QAbstractListModel>
+#include <QImage>
 #include "stphotobookexport.h"
 #include "designinfolist.h"
 
@@ -29,6 +30,7 @@ class ST_PHOTOBOOK_EXPORT DesignInfoModel : public QAbstractListModel
 {
     Q_OBJECT
 	DesignInfoList DIList;
+	QImage ItemIcon;
 
 public:
     explicit DesignInfoModel(QObject *parent = 0);

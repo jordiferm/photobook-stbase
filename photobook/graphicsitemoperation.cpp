@@ -32,6 +32,9 @@
 #include "stimage.h" 
 #include "collectioninfo.h"
 
+//Modifications
+#include "graphicsitemmodifier.h"
+
 using namespace SPhotoBook;
 
 // ____________________________________________________________________________
@@ -431,7 +434,7 @@ void STRotateItemGIO::rotateItem(qreal Angle)
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
 	{
-		QRectF OrigRect = CItem->rect();
+		/*QRectF OrigRect = CItem->rect();
 		QRectF NRect = OrigRect; 
 		NRect.moveCenter(QPointF(0, 0));
 		CItem->setRect(NRect);
@@ -441,8 +444,12 @@ void STRotateItemGIO::rotateItem(qreal Angle)
 		QPointF NewCenter = Mat.map(OrigRect.center());
 		NRect.moveCenter(NewCenter);
 		CItem->setRect(NRect);
+		QTransform TransForm;
+		TransForm = TransForm.rotate(Angle, Qt::ZAxis);
+		CItem->setTransform(TransForm);*/
+		CItem->modifier()->rotate(CItem->modifier()->zRotationAngle() + Angle);
 	}
-	else 
+	else
 	{
 		Item->rotate(Angle);
 	}

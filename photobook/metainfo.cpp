@@ -82,7 +82,6 @@ void MetaInfo::loadGlobalInfo(const QDomElement& _Element)
 	PreferMinPages = _Element.attribute("preferminpages", "1") == "1";
 	Atomic = _Element.attribute("atomic", "1") == "1";
 	Cyphered = _Element.attribute("cyphered", "0") == "1";
-	CutPagesOnPrint = _Element.attribute("cutpagesonprint", "0") == "1";
 	//PageMarginRects.clear();
 	//CoverMarginRects.clear();
 	NumOptimalImagesPerPage = _Element.attribute("numoptimalimagesperpage", "3").toInt();
@@ -114,7 +113,6 @@ void MetaInfo::setDefaults()
 	PreferMinPages = true;
 	Atomic = true;
 	Cyphered = false;
-	CutPagesOnPrint = false;
 	PageMarginRects.clear();
 	CoverMarginRects.clear();
 	NumOptimalImagesPerPage = 3;
@@ -174,10 +172,34 @@ QUrl MetaInfo::infoUrl(const QString& _Name)
 	return QUrl(QString("%1/%2").arg(TEMPLATEINFO_URLBASE).arg(_Name));
 }
 
-
 //!Dots per meter;
 int MetaInfo::dpM() const
 {
 	return Dpis / 0.0254;
 }
+
+QPixmap MetaInfo::typePixmap(EnTemplateType _Type)
+{
+	QPixmap Res;
+	switch (_Type)
+	{
+		case TypePhotoBook :
+			Res = QPixmap(":/photobook/typephotobook.png");
+		break;
+		case TypeCalendar :
+			Res = QPixmap(":/photobook/typecalendar.png");
+		break;
+		case TypeCard :
+			Res = QPixmap(":/photobook/typecard.png");
+		break;
+		case TypeIdPhoto :
+			Res = QPixmap(":/photobook/typephotoid.png");
+		break;
+		case TypeMultiPhoto :
+			Res = QPixmap(":/photobook/typeother.png");
+		break;
+	}
+	return Res;
+}
+
 

@@ -405,7 +405,11 @@ void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order
 
 void PrintJobPrinter::storeEncoded(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, const QDir& _DestinationDir, QProgressBar* _ProgBar)
 {
+#ifdef ENCRYPTED_ORDERS
 	STDom::PrintJob StoredJob = storeImages(_Job, _DestinationDir, _ProgBar, true);
+#else
+	STDom::PrintJob StoredJob = storeImages(_Job, _DestinationDir, _ProgBar, false);
+#endif
 	StoredJob.addOrderPrints(_Order);
 	_Order.clearPrintPath(); //To make paths relative to order dir
 	_Order.saveXml(_DestinationDir.absoluteFilePath(XmlOrderInfo::orderXmlFileName()));

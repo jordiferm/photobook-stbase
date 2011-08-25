@@ -102,7 +102,7 @@ OBigImagePreviewWidget::OBigImagePreviewWidget(QWidget* _Parent) : QWidget(_Pare
 	IconsLayout->addWidget(LVImages);
 
 	DocModel = new STDom::DDocModel(this);
-	CheckedDocModel = new SPhotoBook::CheckedProxyModel(this, QImage(":/phototemplates/checked.png"));
+	CheckedDocModel = new SPhotoBook::CheckedProxyModel(this, QImage(":/photobook/checked.png"));
 	CheckedDocModel->setSourceModel(DocModel);
 	CheckedDocModel->setThumbnailSize(QSize(80, 80));
 	LVImages->setModel(CheckedDocModel);

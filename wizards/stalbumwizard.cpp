@@ -200,16 +200,27 @@ void ChooseTemplatePage::initializePage()
 {
 }
 
+SPhotoBook::TemplateInfo ChooseTemplatePage::templateInfo(const QModelIndex& _Index, const QSizeF& _Size) const
+{
+	SPhotoBook::TemplateInfo Res;
+
+	if (_Index.isValid())
+		Res = Model->templateInfo(_Index, _Size);
+	return Res;
+}
+
 SPhotoBook::TemplateInfo ChooseTemplatePage::selectedTemplateInfo() const
 {
 	SPhotoBook::TemplateInfo Res;
 
-	int ItemRow = CBSize->itemData(CBSize->currentIndex()).toInt();
-	QModelIndex ItemIndex = Model->index(ItemRow, 0);
-	if (ItemIndex.isValid())
-		Res = Model->templateInfo(ItemIndex);
+	if (CBSize->currentIndex() != -1)
+	{
+		QSizeF CurrentSize = CBSize->itemData(CBSize->currentIndex()).toSizeF();
+		Res = templateInfo(View->currentIndex(), CurrentSize);
+	}
 	return Res;
 }
+
 
 bool ChooseTemplatePage::validatePage()
 {
@@ -221,9 +232,9 @@ bool ChooseTemplatePage::isComplete() const
 	return Model->rowCount() > 0 && View->currentIndex().isValid();
 }
 
-void ChooseTemplatePage::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList )
+void ChooseTemplatePage::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type )
 {
-	Model->setTemplateList(_TemplateList);
+	Model->setTemplateList(_TemplateList, _Type);
 	selectFirstIndex();
 }
 
@@ -233,20 +244,21 @@ void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 
 	//Load available sizes.
 	CBSize->clear();
-	QModelIndexList SizesList = Model->sizes(_Index);
-	QModelIndexList::iterator it;
+	QList<QSizeF> SizesList = Model->sizes(_Index);
+	QList<QSizeF>::iterator it;
 	for (it = SizesList.begin(); it != SizesList.end(); ++it)
 	{
-		SPhotoBook::TemplateInfo CTemplateInfo = Model->templateInfo(*it);
-		QSizeF CSize = CTemplateInfo.size();
-		CBSize->addItem(QString("%1x%2 mm").arg(CSize.width()).arg(CSize.height()), it->row());
+		QSizeF CSize = *it;
+		CBSize->addItem(QString("%1x%2 mm").arg(CSize.width()).arg(CSize.height()), CSize);
 	}
-
-	//Get info url from model and display it.
-	QUrl InfoUrl = SPhotoBook::MetaInfo::infoUrl(Model->templateInfo(_Index).name());
-	WebView->setHtml("");
-	setCurrentState(StateGettingInfo);
-	WebView->load(InfoUrl);
+	if (!SizesList.isEmpty())
+	{
+		//Get info url from model and display it.
+		QUrl InfoUrl = SPhotoBook::MetaInfo::infoUrl(Model->templateInfo(_Index, SizesList.first()).name());
+		WebView->setHtml("");
+		setCurrentState(StateGettingInfo);
+		WebView->load(InfoUrl);
+	}
 }
 
 void ChooseTemplatePage::slotWebLoadStarted()
@@ -345,7 +357,6 @@ int ChooseCreationModePage::nextId() const
 void ChooseCreationModePage::setTemplateInfo(const SPhotoBook::TemplateInfo& _TemplateInfo)
 {
 	//Fill predesigns of template.
-	qDebug() << "--- Designs size: " << _TemplateInfo.designs().size();
 	DesignModel->setDesignInfoList(_TemplateInfo.designs());
 	if (DesignModel->rowCount() > 0)
 	{
@@ -384,8 +395,14 @@ void ChooseCreationModePage::slotPredesignChanged(const QModelIndex& _Index)
 	{
 		//Lets load the photobook
 		SPhotoBook::DesignInfo DInfo = designInfo();
+		QFileInfo ImageFInfo(DInfo.imageFile());
+		QString ImageFile;
+		if (ImageFInfo.isFile())
+			ImageFile = QString(QUrl::fromLocalFile(ImageFInfo.absoluteFilePath()).toEncoded());
+		else
+			ImageFile = ":/st/wizards/defaultdesign.png";
 		TBDescription->setHtml(QString("<h1>%1</h1><p>%2</p><center><img src=""%3""/></center>").arg(DInfo.name()).arg(DInfo.description()).arg(
-				QString(QUrl::fromLocalFile(DInfo.imageFile()).toEncoded())));
+				ImageFile));
 	}
 }
 
@@ -755,8 +772,8 @@ SPhotoBook::BuildOptions STAlbumWizard::buildOptions() const
 	return PBuildOptions->getBuildOptions();
 }
 
-void STAlbumWizard::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList)
+void STAlbumWizard::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type)
 {
-	CTemplatePage->setTemplateList(_TemplateList);
+	CTemplatePage->setTemplateList(_TemplateList, _Type);
 }
 

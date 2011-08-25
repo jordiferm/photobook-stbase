@@ -35,12 +35,12 @@
 using namespace SPhotoBook;
 ImagesListView::ImagesListView(QWidget* _Parent) : ImagesListViewBase(_Parent)
 {
-	DesktopAction = new QAction(QIcon(":/phototemplates/desktop.png"), tr("Desktop"), this);
+	DesktopAction = new QAction(QIcon(":/photobook/desktop.png"), tr("Desktop"), this);
 	connect(DesktopAction, SIGNAL(triggered()), this, SLOT(setDesktopPath()));
 	//DesktopAction->setCheckable(true);
 	toolBar()->addAction(DesktopAction);
 
-	DiskAction = new QAction(QIcon(":/phototemplates/drive-harddisk.png"), tr("Disk"), this);
+	DiskAction = new QAction(QIcon(":/photobook/drive-harddisk.png"), tr("Disk"), this);
 	connect(DiskAction, SIGNAL(triggered()), this, SLOT(selectDiskFolder()));
 	DiskAction->setCheckable(true);
 	DiskAction->setVisible(false);
@@ -57,7 +57,7 @@ ImagesListView::ImagesListView(QWidget* _Parent) : ImagesListViewBase(_Parent)
 	ImageSourceActions->setExclusive(true);
 	toolBar()->addActions(ImageSourceActions->actions());
 
-	QAction* SelectFolderAction = new QAction(QIcon(":/phototemplates/folder.png"), tr("Select Folder"), this);
+	QAction* SelectFolderAction = new QAction(QIcon(":/photobook/folder.png"), tr("Select Folder"), this);
 	connect(SelectFolderAction, SIGNAL(triggered()), this, SLOT(selectFolder()));
 	toolBar()->addAction(SelectFolderAction);
 

@@ -23,6 +23,8 @@ using namespace SPhotoBook;
 DesignInfoModel::DesignInfoModel(QObject *parent) :
     QAbstractListModel(parent)
 {
+	ItemIcon.load(":/photobook/design.png");
+	ItemIcon = ItemIcon.scaled(QSize(32, 32));
 }
 
 int DesignInfoModel::rowCount(const QModelIndex& _Parent) const
@@ -40,11 +42,11 @@ QVariant DesignInfoModel::data(const QModelIndex& _Index, int _Role) const
 			 {
 					 Res = DInfo.name();
 			 }
-			 /*else
+			 else
 			 if (_Role == Qt::DecorationRole)
 			 {
-					 Res = TInfo.icon();
-			 }*/
+				Res = QPixmap::fromImage(ItemIcon);
+			 }
 	 }
 	 return Res;
 }

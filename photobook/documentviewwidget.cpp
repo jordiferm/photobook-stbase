@@ -244,7 +244,12 @@ QString DocumentViewWidget::templateInfo()
 {
 	QString Res;
 	if (PBDocument)
-		Res = QString("<a href=\"%1\">%2</a>").arg(PBDocument->metaInfo().infoUrl().toString()).arg(PBDocument->metaInfo().name());
+	{
+		QSizeF DocSize = PBDocument->metaInfo().size();
+		QString TemplateDescription = QString("%1 (%2x%3 mm)").arg(PBDocument->metaInfo().name()).arg(
+					DocSize.width()).arg(DocSize.height());
+		Res = QString("<a href=\"%1\">%2</a>").arg(PBDocument->metaInfo().infoUrl().toString()).arg(TemplateDescription);
+	}
 	return Res;
 }
 

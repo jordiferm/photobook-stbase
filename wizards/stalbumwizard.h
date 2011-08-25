@@ -27,6 +27,7 @@
 #include "ddoc.h"
 #include "ddocmodel.h"
 #include "buildoptions.h"
+#include "metainfo.h"
 
 namespace SPhotoBook
 {
@@ -83,10 +84,11 @@ public:
 	int nextId() const;
 	void selectFirstIndex();
 	void initializePage();
+	SPhotoBook::TemplateInfo templateInfo(const QModelIndex& _Index, const QSizeF& _Size) const;
 	SPhotoBook::TemplateInfo selectedTemplateInfo() const;
 	bool validatePage();
 	bool isComplete() const; 
-	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList );
+	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type);
 
 
 private slots:
@@ -210,7 +212,7 @@ public:
 	int nextId() const;
 	STDom::DDocModel* selectedImages() const;
 	SPhotoBook::BuildOptions buildOptions() const;
-	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList);
+	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type);
 };
 
 

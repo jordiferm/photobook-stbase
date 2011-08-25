@@ -24,6 +24,7 @@
 #include "sterror.h"
 
 class STProgressIndicator;
+class QSizeF;
 namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT PageList : public QList<TemplateScene*>
@@ -45,6 +46,7 @@ public:
 	void setTitleText(const QString& _String);
 	bool containsTemplate(TemplateScene* _Template) const;
 	void sort();
+	void resize(const QSizeF& _NewSize);
 };
 
 bool PageListItemLessThan(TemplateScene* _Scene1, TemplateScene* _Scene2);

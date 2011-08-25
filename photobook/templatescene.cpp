@@ -66,7 +66,6 @@ void TemplateScene::init()
 	ItemsMovable = false;
 	ItemsResizable = true;
 	ModifyAllFrames = false;
-	RenderBaseSize = QSize(0, 0);
 	AutoAdjustFrames = true;
 	IgnoreExifRotation = false;
 	HasChanges = false;
@@ -101,6 +100,55 @@ void TemplateScene::copy(TemplateScene* _Other)
 		DestImageSourcePath = _Other->pageItem()->imageSourcePath();*/
 
 	loadElement(_Other->createElement(Doc));
+}
+
+
+QRectF TemplateScene::translatedRectF(const QRectF& _Rect, const QSizeF& _DestSize, const QSizeF& _SourceSize)
+{
+	qreal XPos = static_cast<int>((_Rect.x() * _DestSize.width()) / _SourceSize.width());
+	qreal Width = static_cast<int>((_Rect.width() * _DestSize.width()) / _SourceSize.width());
+	qreal YPos = static_cast<int>((_Rect.y() * _DestSize.height()) / _SourceSize.height());
+	qreal Height = static_cast<int>((_Rect.height() * _DestSize.height()) / _SourceSize.height());
+	return QRectF(XPos, YPos, Width, Height);
+}
+
+void TemplateScene::resize(const QSizeF& _NewSize)
+{
+	QSizeF CurrentSize = PageItem->rect().size();
+	setSceneRect(translatedRectF(sceneRect(), _NewSize, CurrentSize));
+	PageItem->setRect(translatedRectF(PageItem->rect(), _NewSize, CurrentSize));
+	QList<QGraphicsItem *> Items = items();
+	QList<QGraphicsItem *>::iterator it;
+	for (it = Items.begin(); it != Items.end(); ++it)
+	{
+		if ((*it)->isVisible())
+		{
+			if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
+			{
+				QRectF ItemRect = CItem->boundingRect();
+				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
+				CItem->setRect(TransRect);
+			}
+			else
+			if (GraphicsClipartItem* CItem = qgraphicsitem_cast<GraphicsClipartItem*>(*it))
+			{
+				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
+				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
+				CItem->setPos(TransRect.topLeft());
+				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
+			}
+			else
+			if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
+			{
+				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
+				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
+				CItem->setPos(TransRect.topLeft());
+				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
+			}
+
+			//	CItem-> setRect(translatedRectF(CItem->rect(), _NewSize, CurrentSize));
+		}
+	}
 }
 
 /*!
@@ -510,6 +558,7 @@ void TemplateScene::setPageItem(GraphicsPageItem* _PageItem)
 		connect(_PageItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
 		connect(_PageItem, SIGNAL(imageListDropped(QList<QUrl>)), this, SIGNAL(imageListDropped(QList<QUrl>)));
 		connect(_PageItem, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&)));
+		setSceneRect(PageItem->boundingRect());
 	}
 }
 
@@ -637,8 +686,6 @@ void TemplateScene::loadElement(const QDomElement& _SceneElement, const QString&
 	deletePageItem();
 
 	ModifyAllFrames = _SceneElement.attribute("modifyallframes", "0").toLower() == "1";
-	RenderBaseSize.setWidth(_SceneElement.attribute("basewidth","0").toDouble());
-	RenderBaseSize.setHeight(_SceneElement.attribute("baseheight","0").toDouble());
 
 	//Search first the Page item
 	QDomNode CNode = _SceneElement.firstChild();
@@ -676,8 +723,6 @@ QDomElement TemplateScene::createElement(QDomDocument& _Doc, const QString& _Sto
 {
 	QDomElement SceneEl = _Doc.createElement("scene");
 	SceneEl.setAttribute("modifyallframes", ModifyAllFrames);
-	SceneEl.setAttribute("basewidth", RenderBaseSize.width());
-	SceneEl.setAttribute("baseheight", RenderBaseSize.height());
 
 	//PageItem
 	if (PageItem) //Defensive

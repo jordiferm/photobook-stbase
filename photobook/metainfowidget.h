@@ -53,7 +53,6 @@ class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 	QSpinBox* SBPPageHeight;
 	QSpinBox* SBDpis;
 	QComboBox* CBPreProcType;
-	QCheckBox* CBCutPages;
 
 	//Behavior
 	QSpinBox* SBModPages;
