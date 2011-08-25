@@ -687,7 +687,6 @@ QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSett
 			if (Format != "PDF")
 			{
 				QList<QImage> PageImages = prepareForPrint(renderPage(Vfor));
-				qDebug() << "PageImages.size:" << PageImages.size();
 				QList<QImage>::iterator it;
 				int CntPage = 0;
 				for (it = PageImages.begin(); it != PageImages.end(); ++it)
