@@ -46,9 +46,6 @@
 #include <QAction> 
 #include <QGraphicsProxyWidget> 
 
-//Others
-#include <QGraphicsColorizeEffect>
-#include <QGraphicsBlurEffect>
 
 #include "stupdateitemevent.h"
 #include "stimage.h"
@@ -250,11 +247,6 @@ void STGraphicsPhotoItem::init()
 	RestoreZValue = false;
 	setAutoAdjustFramesToImages(true);
 
-	QGraphicsColorizeEffect* ColEffect = new QGraphicsColorizeEffect(this);
-	QGraphicsBlurEffect* BlurEffect = new QGraphicsBlurEffect(this);
-	ColEffect->setColor(Qt::red);
-	//setGraphicsEffect(ColEffect);
-	//setGraphicsEffect(BlurEffect);
 }
 
 void STGraphicsPhotoItem::checkForImageOrientation()

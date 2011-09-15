@@ -46,9 +46,6 @@
 #include <QAction> 
 #include <QGraphicsProxyWidget> 
 
-//Others
-#include <QGraphicsColorizeEffect>
-#include <QGraphicsBlurEffect>
 
 #include "updateitemevent.h"
 #include "stimage.h"
@@ -192,11 +189,6 @@ void GraphicsPhotoItem::init()
 	RestoreZValue = false;
 	setAutoAdjustFramesToImages(true);
 
-	QGraphicsColorizeEffect* ColEffect = new QGraphicsColorizeEffect(this);
-	QGraphicsBlurEffect* BlurEffect = new QGraphicsBlurEffect(this);
-	ColEffect->setColor(Qt::red);
-	//setGraphicsEffect(ColEffect);
-	//setGraphicsEffect(BlurEffect);
 }
 
 QPointF GraphicsPhotoItem::insideSceneRect(const QPointF& _Point)

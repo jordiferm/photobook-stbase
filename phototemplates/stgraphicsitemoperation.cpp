@@ -197,6 +197,8 @@ STGraphicsItemOperation* STSetItemShadowGIO::clone(QGraphicsItem* _NewItem)
 	return Res;
 }
 
+#if QT_VERSION >= 0x040600
+
 // ____________________________________________________________________________
 //
 // Class STSetItemGraphicsEffectGIO
@@ -224,6 +226,7 @@ STGraphicsItemOperation* STSetItemGraphicsEffectGIO::clone(QGraphicsItem* _NewIt
 	return new STSetItemGraphicsEffectGIO(_NewItem, NewEffect);
 }
 
+#endif
 
 // ____________________________________________________________________________
 //
