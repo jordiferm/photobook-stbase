@@ -23,6 +23,7 @@
 #include <QAbstractListModel>
 #include <QDir> 
 #include <QFileInfoList> 
+#include <QSize>
 #include "stphototemplatesexport.h"
 
 /**
@@ -32,7 +33,9 @@ class ST_PHOTOTEMPLATES_EXPORT STPhotoBookCollectionModel : public QAbstractList
 {
 	QDir PBDir; 
 	QFileInfoList PBFInfoList; 
+	QSize ThumbnailSize;
 	void loadDir(const QDir& _PBDir, bool _Recursive);
+
 
 public:
 	STPhotoBookCollectionModel(QObject* _Parent = 0, bool _Load = true);
@@ -43,6 +46,7 @@ public:
 	void setFiles(const QStringList& _Files);
 	void load(bool _Recursive = false);
 	QString photoBookPath(const QModelIndex& _Index) const;
+	void setThumbnailSize(const QSize& _Size) { ThumbnailSize = _Size; }
 	static bool areTherePhotoBooks();
 
 };

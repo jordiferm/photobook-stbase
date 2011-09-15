@@ -145,7 +145,7 @@ STPhotoLayoutTemplateGenerator::STPhotoLayoutTemplateGenerator(const QSizeF& _Te
 	MaxImagesPerPage = 10;
 	AllCombinationThreshold = 6;//Combination tree depth
 	MinFrameSize = QSize(50, 50);
-	MinAspectRatio = 0.5;
+	MinAspectRatio = 0.4;
 	MaxNumImagesForTextFrame = 4;
 }
 
@@ -173,6 +173,13 @@ STPhotoBookTemplate::TTemplateList STPhotoLayoutTemplateGenerator::generatePhoto
 	if (UseTextFrames)
 	{
 		addTextFrames(Res);
+	}
+
+	//Generate keys for each template
+	STPhotoBookTemplate::TTemplateList::iterator it;
+	for (it = Res.begin(); it != Res.end(); ++it)
+	{
+		it->generateKey();
 	}
 
 	//qSort(Res.begin(), Res.end());

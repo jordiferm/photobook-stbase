@@ -41,7 +41,7 @@ protected:
     friend class Class##Private;
 
 
- Q_WW_EXPORT QString wwFindStandardColorName(const QColor &);
+ST_WIDGETS_EXPORT QString wwFindStandardColorName(const QColor &);
 
 
 

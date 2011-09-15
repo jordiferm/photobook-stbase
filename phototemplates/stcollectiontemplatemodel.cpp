@@ -40,7 +40,7 @@ STCollectionTemplateInfo::STCollectionTemplateInfo()
 {
 }
 
-STCollectionTemplateInfo::STCollectionTemplateInfo(QDir& _TemplateDir)
+STCollectionTemplateInfo::STCollectionTemplateInfo(const QDir& _TemplateDir)
 {
 	bool XmlInfo = false;
 	QDomDocument Doc("starphobinfo");
@@ -109,6 +109,11 @@ QFileInfo STCollectionTemplateInfo::templateXmlFile(const STDom::DDocFormat& _Fo
 		++it;
 	}
 	return Res;
+}
+
+QDir STCollectionTemplateInfo::predesignDir(const QString& _PredesignName) const
+{
+	return QDir(BaseDir.absoluteFilePath(_PredesignName));
 }
 
 bool STCollectionTemplateInfo::isEmpty() const

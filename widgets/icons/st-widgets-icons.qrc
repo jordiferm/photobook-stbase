@@ -58,5 +58,7 @@
         <file>folder.png</file>
         <file>hourglass.png</file>
         <file>smallsearch.png</file>
+        <file>zoom-out-mini.png</file>
+        <file>zoom-in-mini.png</file>
     </qresource>
 </RCC>

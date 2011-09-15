@@ -18,35 +18,25 @@
 **
 ****************************************************************************/
 
-#ifndef SPTOOLBARLISTVIEW_H
-#define SPTOOLBARLISTVIEW_H
+#ifndef RESOURCEMIMEDATA_H
+#define RESOURCEMIMEDATA_H
 
-#include <QWidget>
-#include "stphototemplatesexport.h"
+#include <QMimeData>
+#include "stphotobookexport.h"
+#include "resource.h"
 
-class QToolBar;
-class STThumbnailView;
-class QAbstractItemModel;
-class QLabel;
-class ST_PHOTOTEMPLATES_EXPORT SPToolbarListView : public QWidget
+
+namespace SPhotoBook
+{
+class ST_PHOTOBOOK_EXPORT ResourceMimeData : public QMimeData
 {
 	Q_OBJECT
-
-	QToolBar* ToolBar;
-	STThumbnailView* ListView;
-	QLabel* ItemCounterLabel;
-	QString ItemCounterName;
+	Resource MRes;
 
 public:
-	SPToolbarListView(Qt::Orientation _Orientation, QWidget* _Parent = 0, bool _ToolBarOnTop = true);
-	virtual void setModel(QAbstractItemModel* _Model);
-	QToolBar* toolBar() { return ToolBar; }
-	STThumbnailView* listView();
-	void activateItemCounter(const QString& _ItemName);
-
-private slots:
-	void updateItemCounter();
-
+	ResourceMimeData();
+	Resource resource() const { return MRes; }
+	void setResource(const Resource& _Value) { MRes = _Value; }
 };
-
-#endif // SPTOOLBARLISTVIEW_H
+}
+#endif // STMASKMIMEDATA_H

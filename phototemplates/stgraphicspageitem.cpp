@@ -40,6 +40,7 @@ void STGraphicsPageItem::init()
 	ResizeAllowed = false; 
 	setControlsEnabled(false); 
 	setShowNoImageMessage(false);
+	setAutoAdjustFramesToImages(false);
 }
 
 void STGraphicsPageItem::updateCursor()

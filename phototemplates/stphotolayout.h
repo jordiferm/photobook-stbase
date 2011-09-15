@@ -141,6 +141,25 @@ public:
 		int zValue() const { return ZValue; }
 	};
 
+	class IdGuideLines
+	{
+		int Margin_Top, Margin_Bottom;
+		int Face_Margin;
+		int EyePos_Top, EyePos_Bottom;
+
+	public:
+		IdGuideLines()  { Margin_Top = Margin_Bottom = Face_Margin = EyePos_Top = EyePos_Bottom = 0; }
+		void setMargin(int _Top, int _Bottom) { Margin_Top = _Top; Margin_Bottom = _Bottom; }
+		int margin_Top() const { return Margin_Top; }
+		int margin_Bottom() const { return Margin_Bottom; }
+		void setFaceMargin(int _Value) { Face_Margin = _Value; }
+		int faceMargin() const { return Face_Margin; }
+		void setEyePos(int _Top, int _Bottom) { EyePos_Top = _Top; EyePos_Bottom = _Bottom; }
+		int eyePos_Top() const { return EyePos_Top; }
+		int eyePos_Bottom() const { return EyePos_Bottom; }
+		bool isNull() const { return Margin_Top == 0 && Margin_Bottom ==0 && Face_Margin == 0 && EyePos_Top == 0 && EyePos_Bottom == 0; }
+	};
+
 	enum EnType
 	{
 		TCard, 
@@ -185,6 +204,7 @@ private:
 	bool Encrypted;
 	static int CurrKeyValue;
 	Qt::AspectRatioMode AspectRatioMode;
+	IdGuideLines MIdGuideLines;
 
 	void addPicGrid(const Frame& _ParentFrame, const QDomElement& _Frame);
 	void addFrame(const Frame& _ParentFrame, const QDomElement& _Frame);
@@ -199,8 +219,10 @@ private:
 
 public:
 	STPhotoLayoutTemplate(const QString& _Locale = "");
+	IdGuideLines idGuideLines() const { return MIdGuideLines; }
 	void makePathsRelative(const QDir& _RootDir);
 	void storeCliparts(const QDir& _ClipartSharedDir, const QDir& _StorageDir);
+	void storeBackgrounds(const QDir& _StorageDir);
 	void storeMasks(const QDir& _StorageDir);
 	void storeFrames(const QDir& _StorageDir);
 	QDomElement createElement(QDomDocument& _Doc);
@@ -276,6 +298,7 @@ public:
 	QString backgroundImageAbsoluteFilePath() const;
 	//! Path de la imatge de background.
 	QString backgroundImageFilePath() const;
+	QString backgroundImageFile() const { return BackgroundImageFile; }
 	void setBackgroundImageFile(const QString& _FileName);
 	int key() const { return Key; }
 	void setKey(int _Value) { Key = _Value; }
@@ -309,6 +332,7 @@ public:
 	QImage thumbnailImage() const;
 	bool hasSameFrames(const STPhotoLayoutTemplate& _Other) const;
 	bool hasTextFrames() const;
+	bool hasClipartFrames() const;
 	int titleFrameIndex() const;
 
 	Qt::AspectRatioMode aspectRatioMode() const { return AspectRatioMode; }
@@ -316,6 +340,8 @@ public:
 
 	bool resourcesOnDisk() const;
 	void downloadResources(const STDom::STXmlPublisherSettings& _PublisherSettings, STFtpStatusWidget* _StatusWidget);
+
+	void generateKey();
 };
 
 bool operator<(int _Value, const STPhotoLayoutTemplate& _Other);

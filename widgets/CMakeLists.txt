@@ -82,6 +82,13 @@ SET(prj_SRCS
 	qwwbuttonlineedit.cpp
 	ocheckeddirmodel.cpp
 	fintvalueselector.cpp
+	qxtpushbutton.cpp
+	qwwrichtextedit.cpp
+	qwwcolorbutton.cpp
+	colormodel.cpp
+	sacceptcanceldialog.cpp
+	sptoolbarlistview.cpp
+	thumbnailsizewidget.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -156,6 +163,12 @@ SET(prj_MOC_HDRS
 	qwwbuttonlineedit_p.h
 	ocheckeddirmodel.h
 	fintvalueselector.h
+	qxtpushbutton.h
+	qwwrichtextedit.h
+	colormodel.h
+	sacceptcanceldialog.h
+	sptoolbarlistview.h
+	thumbnailsizewidget.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

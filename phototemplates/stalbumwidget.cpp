@@ -225,7 +225,7 @@ STGraphicsPageItem* STAlbumWidget::currentPageItem() const
 
 QString STAlbumWidget::currentPageInfo()
 {
-	QString Res; 
+	QString Res;
 	if (PhotoBook->photoBookTemplate().hasFirstPages())
 	{
 		if ( showingCover() )

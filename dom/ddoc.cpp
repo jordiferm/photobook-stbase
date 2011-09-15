@@ -240,6 +240,16 @@ QSize DDocFormat::pixelSize(int _Dpis) const
 	return QSize(static_cast<int>(_Dpis * widthInch()), static_cast<int>(_Dpis * heightInch()));
 }
 
+QSize DDocFormat::pixelSize(const QSizeF& _Size, int _Dpi)
+{
+	// Convertim els mm a Inches.
+	float InchWidth = _Size.width() * 0.03937;
+	float InchHeight = _Size.height() * 0.03937;
+	QSize Res(static_cast<int>(InchWidth * _Dpi), static_cast<int>(InchHeight * _Dpi));
+	return Res;
+}
+
+
 /*!
 	\return Set fisical size from PixelSize and _Dpis;
 */

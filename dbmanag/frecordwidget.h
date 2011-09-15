@@ -95,7 +95,7 @@ public:
 	void setPrimeInsertRecord(const QSqlRecord& _Record) { PrimeInsertRecord = _Record; }
 	QSqlRecord currentRecord() const;
 	int currentRow() const;
-	void updateLookups();
+	virtual void updateLookups();
 	virtual void setInserting(bool _Value) { Inserting = _Value; }
 	bool inserting() const { return Inserting; }
 
@@ -103,7 +103,7 @@ public:
 protected: 
 	//! Used to create the widget. This has to be created after primeInsert if the model is empty.
 	virtual void createWidget() = 0;
-	void showEvent(QShowEvent* );
+	virtual void showEvent(QShowEvent* );
 
 public slots: 
 	virtual void clearEditors();

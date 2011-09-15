@@ -71,4 +71,4 @@ public:
 	    unsigned int byte2:8;
 	  } w;
 };
-#endif
+#endif

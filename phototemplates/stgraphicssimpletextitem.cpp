@@ -41,6 +41,7 @@ void STGraphicsSimpleTextItem::init()
 	BorderPen.setStyle(Qt::NoPen);	
 	Opacity = 1; 
 	ManuallyEdited = false;
+
 }
 
 
@@ -173,7 +174,8 @@ void STGraphicsSimpleTextItem::loadElement(QDomElement& _Element)
 		}
 		CNode = CNode.nextSibling();
 	}	
-	updateToolTip(); 
+	STAbstractGraphicsItem::loadEffectElements(this,  _Element);
+	updateToolTip();
 }
 	
 QDomElement STGraphicsSimpleTextItem::createElement(QDomDocument& _Doc)
@@ -232,6 +234,9 @@ QDomElement STGraphicsSimpleTextItem::createElement(QDomDocument& _Doc)
 	
 	
 	MElement.appendChild(STAbstractGraphicsItem::createTransformElement(this, _Doc));
+	//Effects
+	STAbstractGraphicsItem::appendEffectElements(MElement, this, _Doc);
+
 
 	return MElement; 
 }
@@ -304,6 +309,7 @@ QVariant STGraphicsSimpleTextItem::itemChange(GraphicsItemChange change, const Q
 			newPos.setY(snapToGridValue(newPos.y()));
 			//return newPos; 
 		}
+		modified();
 		//FIXME: When items are rotated it does not runs well.
 		/*QRectF rect = scene()->sceneRect();
 		QRectF NewItemRect(sceneBoundingRect()); 

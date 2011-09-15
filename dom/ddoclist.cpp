@@ -122,3 +122,4 @@ int DDocList::indexOf(const DDoc* _Doc) const
 		Res = -1;
 	return Res;
 }
+

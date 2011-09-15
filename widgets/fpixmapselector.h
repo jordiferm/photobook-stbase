@@ -40,11 +40,14 @@ Q_PROPERTY(QPixmap pixmap READ pixmap WRITE setPixmap USER true)
 	QPixmap MPixmap;
 	QToolButton* MTButton;
 	QToolButton* MRemoveButton;
+	QString PixmapFileName;
 			
 public: 
 	FPixmapSelector(QWidget* _Parent = 0);
 	void setPixmap(const QPixmap& _Pixmap);
 	QPixmap pixmap() const;
+	void setPixmapFileName(const QString& _FileName);
+	QString pixmapFileName() const { return PixmapFileName; }
 
 protected slots: 
 	void selectImage();

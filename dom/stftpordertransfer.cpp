@@ -358,6 +358,37 @@ void STFtpOrderTransfer::syncRemoteDir(const QString& _DestDir, const QString& _
 // 	}
 }
 
+void STFtpOrderTransfer::syncRemoteFile(const QString& _FileName, const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode)
+{
+	clearAbortFlag();
+	setTransferMode(_TransferMode);
+	Assert(waitForCommand(connectToHost(_Host, _Port)), Error(tr("Time out Error connecting to host.")));
+	Assert(state() == QFtp::Connected, Error(tr("Could not connect to host: %1 -> %2").arg(_Host).arg(errorString())));
+	waitForCommand(login(_User,_Password));
+	Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
+	waitForCommand(cd(_RemoteSourceDir));
+	Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteSourceDir)));
+	FilesTransfered.clear();
+	Assert(waitForCommand(list()), Error(tr("Time out Error getting files list.")));
+
+
+	QFileInfo DestFileInfo = QFileInfo(QDir(_DestDir).absoluteFilePath(_FileName));
+	qDebug() << FilesTransfered.keys();
+	qDebug() << "Requested file" << _FileName;
+	if (FilesTransfered.contains(_FileName))
+	{
+		qDebug() << "File in dest list";
+		if (FilesTransfered[_FileName].lastModified() > DestFileInfo.lastModified() || !DestFileInfo.exists() || DestFileInfo.size() == 0)
+		{
+			qDebug() << "Downloading file...";
+			QFile File(DestFileInfo.absoluteFilePath());
+			Assert(File.open(QIODevice::WriteOnly | QIODevice::Truncate), Error(QString(tr("Could not open file %1")).arg(DestFileInfo.absoluteFilePath())));
+			Assert(waitForCommand(get(_FileName, &File)), Error(tr("Time out Error getting file %1.").arg(DestFileInfo.fileName())));
+		}
+	}
+	close();
+}
+
 void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 {
 	QDir OrderDir(XmlOrderInfo::defaultOrderPath(_OrderId));

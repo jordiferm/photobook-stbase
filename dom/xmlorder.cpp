@@ -304,7 +304,8 @@ QDomElement XmlOrder::createHeader(QDomDocument& _Doc) const
 void XmlOrder::loadPrints(QDomElement& _HElement)
 {
 	QDomNode CNode = _HElement.firstChild();
-	
+
+	Prints.clear();
 	while(!CNode.isNull())
 	{
 		QDomElement CEl = CNode.toElement(); // try to convert the node to an element.

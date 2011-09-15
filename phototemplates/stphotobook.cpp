@@ -35,6 +35,7 @@
 #include "stgraphicssimpletextitem.h"
 #include "stgraphicspageitem.h"
 #include "stgraphicstextitem.h"
+#include "stgraphicsclipartitem.h"
 #include "sterrorstack.h"
 #include "sprocessstatuswidget.h" 
 #include "stprogressindicator.h"
@@ -81,8 +82,33 @@ STTemplateScene* STPhotoBook::createPage(STPhotoLayoutTemplate _Template)
 	return createPage(_Template, DummyList);
 }
 
+void STPhotoBook::clearAllSceneChanges()
+{
+	TPagesList::iterator it;
+	for (it = Pages.begin(); it != Pages.end(); ++it)
+	{
+		(*it)->clearChanges();
+	}
+}
+
+bool STPhotoBook::anySceneHasChanges() const
+{
+	bool Res = false;
+	TPagesList::const_iterator it = Pages.begin();
+
+	while (!Res && it != Pages.end())
+	{
+		Res = (*it)->hasChanges();
+		++it;
+	}
+
+	return Res;
+}
+
 void STPhotoBook::setHasChanges(bool _Value)
 {
+	if (!_Value)
+		clearAllSceneChanges();
 	if (_Value != HasChanges)
 	{
 		HasChanges = _Value; 
@@ -96,7 +122,6 @@ void STPhotoBook::setBuildOptions(const STPhotoBookBuildOptions& _Options)
 	setAutoFillBackgrounds(_Options.autoFillBackgrounds());
 	setPagesToFill(_Options.pagesToFill());
 	setAutoAdjustFrames(_Options.autoadjustFrames());
-	qDebug() << "_Options.autoadjustFrames()" << _Options.autoadjustFrames();
 	if (!_Options.useTexts())
 		Template.removeTextTemplates();
 	if (!_Options.title().isEmpty())
@@ -108,6 +133,23 @@ void STPhotoBook::setBuildOptions(const STPhotoBookBuildOptions& _Options)
 STPhotoBook::STPhotoBook(QObject* _Parent) : QObject(_Parent),  HasChanges(false), SourceImagesPath(""), AutoAdjustFrames(true), IgnoreExifRotation(false), AutoFillBackgrounds(false), PagesToFill(0)
 {
 }
+
+STPhotoBook::STPhotoBook(const STPhotoBook& _Other)
+{
+	Template = _Other.Template;
+	Pages = _Other.Pages;
+	PBInfo = _Other.PBInfo;
+	Description = _Other.Description;
+	TemplateFilePath = _Other.TemplateFilePath;
+	SourceImagesPath = _Other.SourceImagesPath;
+	EncryptionKey = _Other.EncryptionKey;
+	HasChanges = _Other.HasChanges;
+	AutoAdjustFrames = _Other.AutoAdjustFrames;
+	IgnoreExifRotation = _Other.IgnoreExifRotation;
+	AutoFillBackgrounds = _Other.AutoFillBackgrounds;
+	PagesToFill = _Other.PagesToFill;
+}
+
 
 STPhotoBook::~STPhotoBook()
 {
@@ -242,6 +284,19 @@ void STPhotoBook::setTemplate(STPhotoBookTemplate& _Template, const STPhotoBookB
 }
 
 
+STPhotoLayout::TTemplateList STPhotoBook::getPageTemplates() const
+{
+	STPhotoLayout::TTemplateList Res;
+	TPagesList::const_iterator it;
+	for (it = Pages.begin(); it != Pages.end(); ++it)
+	{
+		STPhotoLayoutTemplate CTemplate = (*it)->getPageTemplate();
+		Res.push_back(CTemplate);
+	}
+	return Res;
+}
+
+
 /*! After clear() call isEmpty() returns true
 */
 void STPhotoBook::clear()
@@ -264,6 +319,7 @@ bool STPhotoBook::isEmpty() const
 void STPhotoBook::insertPage(STTemplateScene* _Page, int _Index)
 {
 	Pages.insert(_Index, _Page);
+	modified();
 }
 
 void STPhotoBook::insertRandomPage(int _Index)
@@ -281,7 +337,8 @@ void STPhotoBook::removePage(int _Index)
 {
 	Assert(_Index >= 0 && _Index < Pages.count(), Error(tr("STPhotoBook::removePage Range Checking Error.")));
 	Pages[_Index]->clear(); 
-	Pages.removeAt(_Index); 
+	Pages.removeAt(_Index);
+	modified();
 }
 
 void STPhotoBook::addMinimumPages()
@@ -420,6 +477,13 @@ void STPhotoBook::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _Fro
 	}
 }
 
+//! Overload procedure provided for convenience
+void STPhotoBook::autoBuild(QProgressBar* _Progress)
+{
+	STDom::DDocModel Model;
+	autoBuild(&Model, _Progress);
+}
+
 void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 {
 	clear();
@@ -442,6 +506,7 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 		STTemplateScene* NewPage = createPage(CurrTemplate);
 		Pages.push_back(NewPage);
 		CCalculator.fillPage(NewPage, CurrTemplate, _Progress);
+		CCalculator.markAsUsed(CurrTemplate);
 		NPages++;
 		emit newPageCreated();
 	}
@@ -452,11 +517,30 @@ void STPhotoBook::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progre
 	while (NPages < Template.minPages())
 	{
 		//Agafem un template qualsevol
-		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages, 1,
+		STPhotoLayoutTemplate CurrTemplate = CCalculator.getCandidate(NPages == 0, Template.maxPages() - NPages, Template.numOptimalImagesPerPage(),
 																	  Template.hasFirstPages());
 		insertPage(createPage(CurrTemplate), NPages);
+		CCalculator.markAsUsed(CurrTemplate);
 		NPages++;
 	}
+}
+
+void STPhotoBook::autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
+{
+	STCandidateCalculator CCalculator(*this, _PhotoModel);
+
+	if (_Progress)
+		_Progress->setRange(0, CCalculator.totalPhotos());
+
+	TPagesList::iterator it = Pages.begin();
+
+	while (CCalculator.photosAvailable() && it != Pages.end())
+	{
+		CCalculator.fillPage(*it, (*it)->getPageTemplate(), _Progress);
+		++it;
+	}
+	if (_Progress)
+		_Progress->setValue(CCalculator.totalPhotos());
 }
 
 QSize STPhotoBook::renderSize(STTemplateScene* _Scene) const
@@ -584,18 +668,41 @@ QDomDocument STPhotoBook::createDoc()
 	return Doc;
 }
 
+void STPhotoBook::saveXmlFile(const QString& _XmlFileName)
+{
+	QFile PBFile(_XmlFileName);
+	Assert(PBFile.open(QFile::WriteOnly | QFile::Truncate), Error(QString(tr("Could not open file %1")).arg(PBFile.fileName())));
+
+	QDomDocument Doc = createDoc();
+	if (EncryptionKey.isEmpty())
+	{
+		QTextStream Out(&PBFile);
+		//Out.setCodec(QTextCodec::codecForName("ISO-8859-1"));
+		Out.setCodec(QTextCodec::codecForName("UTF-8"));
+		Out << Doc.toString();
+	}
+	else
+	{
+		QDataStream Out(&PBFile);
+		QByteArray InputData(Doc.toString().toUtf8());
+		QByteArray OutputData = STUtils::encode(InputData, EncryptionKey);
+		Out << OutputData;
+		//Out.writeBytes(OutputData, OutputData.length());
+	}
+}
+
 void STPhotoBook::save(STProgressIndicator* _Progress , bool _AutoSave)
 {
 	saveAs(QDir(PBInfo.defaultRootPathName()), PBInfo.photoBookName(), _Progress, _AutoSave);
 }
 
-void STPhotoBook::saveAs(const QDir& _Dir, STProgressIndicator* _Progress, bool _AutoSave )
+void STPhotoBook::saveAs(const QDir& _Dir, STProgressIndicator* _Progress, bool _AutoSave, bool _OnlyDesignImages )
 {
 	STPhotobookCollectionInfo MInfo(_Dir); 
-	saveAs(QDir(MInfo.rootPathName()), MInfo.photoBookName(), _Progress, _AutoSave);
+	saveAs(QDir(MInfo.rootPathName()), MInfo.photoBookName(), _Progress, _AutoSave, _OnlyDesignImages);
 }
 
-void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _Progress, bool _AutoSave)
+void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgressIndicator* _Progress, bool _AutoSave, bool _OnlyDesignImages)
 {
 	//STPhotobookCollectionInfo MInfo(_Name, _RootPath.absolutePath()); 
 	PBInfo.setPhotoBookName(_Name); 
@@ -603,12 +710,6 @@ void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgress
 	QDir PBDir(PBInfo.photoBookPath()); 
 	Assert(PBDir.mkpath(PBDir.absolutePath()), Error(QString(tr("Error creating Photo Book Path %1")).arg(PBDir.absolutePath()))); 
 	
-	QFile PBFile;
-	if (_AutoSave)
-		PBFile.setFileName(PBInfo.xmlAutoSaveFileName());
-	else
-		PBFile.setFileName(PBInfo.xmlFileName());
-	Assert(PBFile.open(QFile::WriteOnly | QFile::Truncate), Error(QString(tr("Could not open file %1")).arg(PBFile.fileName())));
 		
 	if (_Progress)
 	{
@@ -635,7 +736,7 @@ void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgress
 		{
 			try
 			{
-				StoredFiles += (*it)->storePhotoItemImages(PBInfo);
+				StoredFiles += (*it)->storePhotoItemImages(PBInfo, _OnlyDesignImages);
 			}
 			catch(STError& _Error)
 			{
@@ -662,23 +763,14 @@ void STPhotoBook::saveAs(const QDir& _RootPath, const QString& _Name, STProgress
 			}
 		}
 	}
-	QString OutputStr;
-	QDomDocument Doc = createDoc();
-	if (EncryptionKey.isEmpty())
-	{
-		QTextStream Out(&PBFile);
-		//Out.setCodec(QTextCodec::codecForName("ISO-8859-1"));
-		Out.setCodec(QTextCodec::codecForName("UTF-8"));
-		Out << Doc.toString();
-	}
+
+	QString XmlFileName;
+	if (_AutoSave)
+		XmlFileName = PBInfo.xmlAutoSaveFileName();
 	else
-	{
-		QDataStream Out(&PBFile);
-		QByteArray InputData(Doc.toString().toUtf8());
-		QByteArray OutputData = STUtils::encode(InputData, EncryptionKey);
-		Out << OutputData;
-		//Out.writeBytes(OutputData, OutputData.length());
-	}
+		XmlFileName = PBInfo.xmlFileName();
+
+	saveXmlFile(XmlFileName);
 
 	if (_Progress)
 		_Progress->stop();
@@ -833,6 +925,27 @@ int STPhotoBook::numImageMatches(const QString& _ImageMD5Sum) const
 	return Res;
 }
 
+int STPhotoBook::numPhotoFrames() const
+{
+	TPagesList::const_iterator it = Pages.begin();
+	int Res = 0;
+	while (it != Pages.end())
+	{
+		Res +=(*it)->numPhotoItems();
+		++it;
+	}
+	return Res;
+
+}
+
+void STPhotoBook::clearImages()
+{
+	TPagesList::iterator it;
+	for (it = Pages.begin(); it != Pages.end(); ++it)
+	{
+		(*it)->clearImages();
+	}
+}
 
 STPhotoBook::EnItemType STPhotoBook::itemType(QGraphicsItem* _Item)
 {
@@ -850,6 +963,9 @@ STPhotoBook::EnItemType STPhotoBook::itemType(QGraphicsItem* _Item)
 		break; 
 		case STGraphicsPageItem::Type:
 			CurrType = PageItemType;
+		break;
+		case STGraphicsClipartItem::Type:
+			CurrType = ClipartItemType;
 		break;
 		default:
 			CurrType = PageItemType;
@@ -944,6 +1060,7 @@ void STPhotoBook::movePage(int _Source, int _Destination)
 	if (_Source >= 0 && _Source < Pages.size() && _Destination >= 0 && _Destination < Pages.size())
 	{
 		Pages.move(_Source, _Destination); 
+		modified();
 	}
 }
 
@@ -1240,6 +1357,8 @@ void STPhotoBook::slotSceneItemContextMenu(QGraphicsItem* _Item, const QPoint& _
 
 void STPhotoBook::someSceneChanged()
 {
-	setHasChanges(true); 
+	//Check if the chages made on scene are important:
+	if (anySceneHasChanges())
+		setHasChanges(true);
 }
 

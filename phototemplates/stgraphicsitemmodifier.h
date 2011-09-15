@@ -22,6 +22,7 @@
 
 #include <Qt> 
 #include <QRect> 
+#include "ichangescontrol.h"
 
 /**
 	@author
@@ -29,7 +30,7 @@
 class QGraphicsItem; 
 class QRect; 
 class QGraphicsSceneMouseEvent; 
-class STGraphicsItemModifier
+class STGraphicsItemModifier : public IChangesControl
 {
 	QGraphicsItem* Item; 
 	double              m_xRotationAngle;
@@ -57,7 +58,9 @@ public:
 	void setRotation(double angle, Qt::Axis axis);
 	double rotation(Qt::Axis axis) const;
 	void setChildrenVisible(bool _Value); 
-
+	//IChangesControl interface
+	void modified();
+	void clearChanges();
 };
 
 #endif

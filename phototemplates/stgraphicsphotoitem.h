@@ -84,6 +84,7 @@ private:
 	QImage PaintedImage;
 	QImage MaskImage;
 	QImage FrameImage;
+	QString FrameImageFile;
 	QRect LastMaxResRect;
 	QString CurrImageFileName;
 	STGraphicsPhotoItemLoadThread* MLoadThread;
@@ -113,6 +114,8 @@ private:
 	bool ImageEncrypted;
 	bool AutoAdjustFramesToImages;
 	bool IgnoreExifRotation;
+	bool OrientationChanged;
+	STPhotoLayoutTemplate::IdGuideLines MyIdGuidelines;
 	
 protected:	
 	bool ImageLoaded;
@@ -135,6 +138,9 @@ public:
 	STGraphicsPhotoItem(const STPhotoLayoutTemplate::Frame& _Frame, QGraphicsItem * parent = 0);
 	STGraphicsPhotoItem(QGraphicsItem* _Parent = 0);
 	~STGraphicsPhotoItem();
+
+	void setGuideLines(const STPhotoLayoutTemplate::IdGuideLines& _GuideLines ) { MyIdGuidelines = _GuideLines; }
+
 	void setAspectRatioMode(Qt::AspectRatioMode _Value) { AspectRatioMode = _Value; }
 	Qt::AspectRatioMode aspectRatioMode() const { return AspectRatioMode; }
 
@@ -143,12 +149,15 @@ public:
 	QImage alphaChannel() const { return MaskImage; }
 	QString alphaChannelFileName() const;
 	void setAlphaChannel(const QImage& _AlphaChannel);
+	void setNoAlplaChannel();
 
 	// --- Frame image ---
 	bool hasFrameImage() const { return !FrameImage.isNull(); }
 	QImage frameImage() const { return FrameImage; }
+	QString frameImageFile() const { return FrameImageFile; }
 	QString frameImageFileName() const;
-	void setFrameImage(const QImage& _FrameImage);
+	static QFileInfo frameMaskFile(const QString& _FrameImage);
+	void setFrameImage(const QString& _FrameImage);
 
 	//! OnScreen Image
 	QImage paintedImage() const { return PaintedImage; }
@@ -165,7 +174,8 @@ public:
 	//! Sets preloaded image.
 	void setImage(const QImage& _Image, const QString& _ImageFileName);
 	void setImage(STDom::DImageDoc& _Image);
-	void setImage(const QPixmap& _ThumbNail, const QString& _ImageFileName);
+	void setThumbnail(const QPixmap& _ThumbNail, const QString& _ImageFileName);
+	void setThumbnail(const QImage& _ThumbNail, const QString& _ImageFileName);
 	void setDoc(STDom::DDoc* _Doc);
 	void loadImage();
 	//! returns true if big image is loaded.
@@ -237,6 +247,7 @@ signals:
 	void mousePanning(const QPointF& _PanningPoint); 
 	void imageDropped(const QString& _FileName, const QString& _MD5Sum); 
 	void imageRemoved(const QString& _FileName, const QString& _MD5Sum); 
+	void imageListDropped(const QList<QUrl>& _Urls);
 };
 
 #endif

@@ -39,7 +39,7 @@ class ST_WIDGETS_EXPORT SMappedWidget : public QWidget
 	QDataWidgetMapper* Mapper;
 	QAbstractItemModel* Model;
 	QMap<int, QLabel*>	SectionLabels;
-	
+
 public:
 	SMappedWidget(QAbstractItemModel* _Model, QDataWidgetMapper* _Mapper, QWidget* _Parent = 0);
 	~SMappedWidget();

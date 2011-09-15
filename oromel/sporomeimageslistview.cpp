@@ -22,13 +22,18 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QToolBar>
-#include "stphotobookcheckedproxymodel.h"
+#include "doccheckedproxymodel.h"
 
-SPOromeImagesListView::SPOromeImagesListView(QWidget* _Parent ) : SPImagesListViewBase(_Parent, false)
+SPOromeImagesListView::SPOromeImagesListView(QWidget* _Parent ) : SPhotoBook::ImagesListViewBase(_Parent, false)
 {
 	QAction* ClearAction = new QAction(QIcon(":/st/oromel/edit_clear_list.png"), tr("Clear"), this);
 	connect(ClearAction, SIGNAL(triggered()), this, SLOT(clearImages()));
 	toolBar()->addAction(ClearAction);
+
+	QAction* AutoFillAction = new QAction(QIcon(":/st/oromel/autofill.png"), tr("AutoFill"), this);
+	connect(AutoFillAction, SIGNAL(triggered()), this, SIGNAL(autoFillImages()));
+	toolBar()->addAction(AutoFillAction);
+
 
 	QAction* ExportAction = new QAction(QIcon(":/st/oromel/export.png"), tr("Export"), this);
 	connect(ExportAction, SIGNAL(triggered()), this, SIGNAL(exportImages()));
