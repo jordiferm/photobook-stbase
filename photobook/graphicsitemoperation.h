@@ -26,7 +26,9 @@
 #include <QBrush> 
 #include <QPen> 
 #include <QTextCharFormat>
+#if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
+#endif
 #include "stphotobookexport.h"
 #include "sterror.h" 
 #include "collectioninfo.h"
@@ -106,6 +108,7 @@ public:
 	GraphicsItemOperation* clone(QGraphicsItem* _NewItem);
 };
 
+#if QT_VERSION >= 0x040600
 
 /**
 Sets QGraphicsEffect for QGraphicsItem.
@@ -123,6 +126,7 @@ public:
 	GraphicsItemOperation* clone(QGraphicsItem* _NewItem);
 };
 
+#endif
 
 /**
 Zoom the image

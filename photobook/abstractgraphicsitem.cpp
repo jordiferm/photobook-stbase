@@ -28,7 +28,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsView> 
 #include <QGraphicsWidget> 
+#if QT_VERSION >= 0x040600
 #include <QGraphicsDropShadowEffect>
+#endif
 #include <QDebug>
 
 #include "graphicsitemmodifier.h"
@@ -129,6 +131,7 @@ QDomElement AbstractGraphicsItem::createTransformElement(const QGraphicsItem* _I
 
 void AbstractGraphicsItem::appendEffectElements(QDomElement& _Parent, const QGraphicsItem* _Item, QDomDocument& _Doc)
 {
+#if QT_VERSION >= 0x040600
 	if (QGraphicsDropShadowEffect* NewEffect = qobject_cast<QGraphicsDropShadowEffect*>(_Item->graphicsEffect()))
 	{
 		QDomElement ShadowElement = _Doc.createElement("shadow");
@@ -138,6 +141,7 @@ void AbstractGraphicsItem::appendEffectElements(QDomElement& _Parent, const QGra
 		ShadowElement.setAttribute("color", NewEffect->color().name());
 		_Parent.appendChild(ShadowElement);
 	}
+#endif
 }
 
 void AbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, const QDomElement& _Element)
@@ -150,12 +154,14 @@ void AbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, const QDomEl
 		{
 			if (CEl.tagName().toLower() == "shadow")
 			{
+#if QT_VERSION >= 0x040600
 				QGraphicsDropShadowEffect* NewEffect = new QGraphicsDropShadowEffect;
 				NewEffect->setXOffset(CEl.attribute("xoffset", "0").toDouble());
 				NewEffect->setYOffset(CEl.attribute("yoffset", "0").toDouble());
 				NewEffect->setBlurRadius(CEl.attribute("blurradius", "0").toDouble());
 				NewEffect->setColor(CEl.attribute("color", "#000000"));
 				_Item->setGraphicsEffect(NewEffect);
+#endif
 			}
 		}
 		CNode = CNode.nextSibling();

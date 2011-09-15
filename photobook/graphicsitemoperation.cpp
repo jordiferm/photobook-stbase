@@ -162,6 +162,7 @@ GraphicsItemOperation* STSetFrameGIO::clone(QGraphicsItem* _NewItem)
 }
 
 
+#if QT_VERSION >= 0x040600
 
 // ____________________________________________________________________________
 //
@@ -190,6 +191,7 @@ GraphicsItemOperation* STSetItemGraphicsEffectGIO::clone(QGraphicsItem* _NewItem
 	return new STSetItemGraphicsEffectGIO(_NewItem, NewEffect);
 }
 
+#endif
 
 // ____________________________________________________________________________
 //
