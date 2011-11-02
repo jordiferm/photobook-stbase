@@ -234,7 +234,7 @@ bool ChooseTemplatePage::isComplete() const
 
 void ChooseTemplatePage::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type )
 {
-	Model->setTemplateList(_TemplateList, _Type);
+	Model->setTemplateList(_TemplateList);
 	selectFirstIndex();
 }
 
@@ -772,6 +772,7 @@ SPhotoBook::BuildOptions STAlbumWizard::buildOptions() const
 	return PBuildOptions->getBuildOptions();
 }
 
+//TODO: Refactor it (Remove _Type, its reiterant.
 void STAlbumWizard::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type)
 {
 	CTemplatePage->setTemplateList(_TemplateList, _Type);

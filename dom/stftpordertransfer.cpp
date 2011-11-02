@@ -389,6 +389,7 @@ void STFtpOrderTransfer::syncRemoteFile(const QString& _FileName, const QString&
 	close();
 }
 
+//TODO: Pass the publisher
 void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 {
 	QDir OrderDir(XmlOrderInfo::defaultOrderPath(_OrderId));

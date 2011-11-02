@@ -42,7 +42,7 @@ public:
 	int rowCount(const QModelIndex& _Parent = QModelIndex()) const;
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
 	TemplateInfo templateInfo(const QModelIndex& _Index, const QSizeF& _Sizes) const;
-	void setTemplateList(const TemplateInfoList& _List, MetaInfo::EnTemplateType _Type);
+	void setTemplateList(const TemplateInfoList& _List);
 	QList<QSizeF> sizes(const QModelIndex& _Index) const;
 
 signals:

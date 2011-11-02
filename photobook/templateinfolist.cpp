@@ -62,7 +62,7 @@ void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name
 	*this += TInfoMap.values();
 }
 
-void TemplateInfoList::load(bool _Sync)
+void TemplateInfoList::load(bool _SyncPublic)
 {
 	//For each path
 	QStringList PathList = TemplatePaths::pathList();
@@ -88,15 +88,20 @@ void TemplateInfoList::load(bool _Sync)
 		}
 		++pit;
 	}
-
-
+	if (_SyncPublic)
+		syncPublic();
 }
 
-void TemplateInfoList::sync()
+//=> Load remotes from publictemplateinfo.db (Change name for loadPublic ?)
+void TemplateInfoList::syncPublic()
 {
+	//Get remote publictemplateinfo.db from publisher ftp
+
+	//Add to current List.
 
 }
 
+//->Put it In DesignInfo
 bool TemplateInfoList::isPublic()
 {
 
@@ -122,10 +127,14 @@ TemplateInfoList TemplateInfoList::subList(MetaInfo::EnTemplateType _Type) const
 
 TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type) const
 {
+	return subList(_Type).sizes(_TemplateName);
+}
+
+TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName) const
+{
 	TemplateInfoList Res;
-	TemplateInfoList SameTypeList = subList(_Type);
 	TemplateInfoList::const_iterator it;
-	for (it = SameTypeList.begin(); it != SameTypeList.end(); ++it)
+	for (it = begin(); it != end(); ++it)
 	{
 		if (it->name() == _TemplateName)
 			Res.push_back(*it);

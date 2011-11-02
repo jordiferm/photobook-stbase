@@ -72,15 +72,14 @@ TemplateInfo TemplateInfoModel::templateInfo(const QModelIndex& _Index, const QS
 }
 
 
-void TemplateInfoModel::setTemplateList(const TemplateInfoList& _List, MetaInfo::EnTemplateType _Type)
+void TemplateInfoModel::setTemplateList(const TemplateInfoList& _List)
 {
 	TemplateNameList.clear();
-	TemplateType = _Type;
 	TemplateList = _List;
 	TemplateInfoList::iterator it;
 	for (it = TemplateList.begin(); it != TemplateList.end(); ++it)
 	{
-		if (!TemplateNameList.contains(it->name()) && it->type() == _Type)
+		if (!TemplateNameList.contains(it->name()))
 			TemplateNameList.push_back(it->name());
 	}
 	reset();
@@ -91,7 +90,7 @@ QList<QSizeF> TemplateInfoModel::sizes(const QModelIndex& _Index) const
 	QList<QSizeF> Res;
 	if (_Index.isValid() && _Index.row() >= 0 && _Index.row() < rowCount())
 	{
-		TemplateInfoList TList = TemplateList.sizes(data(_Index).toString(), TemplateType);
+		TemplateInfoList TList = TemplateList.sizes(data(_Index).toString());
 		TemplateInfoList::const_iterator it;
 		for (it = TList.begin(); it != TList.end(); ++it)
 		{
