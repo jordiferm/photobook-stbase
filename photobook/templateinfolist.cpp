@@ -62,50 +62,7 @@ void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name
 	*this += TInfoMap.values();
 }
 
-void TemplateInfoList::load(bool _SyncPublic)
-{
-	//For each path
-	QStringList PathList = TemplatePaths::pathList();
-	QStringList::iterator pit = PathList.begin();
-	while (pit != PathList.end())
-	{
-		//For each template name
-		QDir BaseDir(*pit);
-		QStringList TNameList = BaseDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-		QStringList::iterator tnit = TNameList.begin();
-		while (tnit != TNameList.end())
-		{
-			//For each size
-			QDir NameDir(BaseDir.absoluteFilePath(*tnit));
-			QStringList TSizeList = NameDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-			QStringList::iterator snit = TSizeList.begin();
-			while (snit != TSizeList.end())
-			{
-				addDesignNames(BaseDir, NameDir.dirName(), QDir(*snit).dirName());
-				++snit;
-			}
-			++tnit;
-		}
-		++pit;
-	}
-	if (_SyncPublic)
-		syncPublic();
-}
 
-//=> Load remotes from publictemplateinfo.db (Change name for loadPublic ?)
-void TemplateInfoList::syncPublic()
-{
-	//Get remote publictemplateinfo.db from publisher ftp
-
-	//Add to current List.
-
-}
-
-//->Put it In DesignInfo
-bool TemplateInfoList::isPublic()
-{
-
-}
 
 QFileInfoList TemplateInfoList::globalResources(DesignInfo::EnResourceType _Type)
 {

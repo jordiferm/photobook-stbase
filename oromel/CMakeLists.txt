@@ -8,10 +8,16 @@ INCLUDE_DIRECTORIES( ${st_imagelib_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_imagelib_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_widgets_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_widgets_BINARY_DIR} )
+INCLUDE_DIRECTORIES( ${st_sindarl_SOURCE_DIR})
+INCLUDE_DIRECTORIES( ${st_sindarl_BINARY_DIR})
 INCLUDE_DIRECTORIES( ${st_dom_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_dom_BINARY_DIR})
 INCLUDE_DIRECTORIES( ${st_photobook_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_photobook_BINARY_DIR})
+INCLUDE_DIRECTORIES( ${st_metadata_SOURCE_DIR}) #RemotePublisherManager
+INCLUDE_DIRECTORIES( ${st_metadata_BINARY_DIR} )#RemotePublisherManager
+INCLUDE_DIRECTORIES( ${st_database_SOURCE_DIR})#RemotePublisherManager
+INCLUDE_DIRECTORIES( ${st_database_BINARY_DIR} )#RemotePublisherManager
 
 INCLUDE(${st_digikam_SOURCE_DIR}/includedirs.cmake)
 
@@ -26,6 +32,7 @@ SET(QT_USE_QTSQL TRUE) #kphoscos
 SET(QT_USE_QTXML TRUE) #phototemplates
 SET(QT_USE_QTWEBKIT TRUE)
 SET(QT_USE_QT3SUPPORT TRUE) #digikam (canvas.h).
+SET(QT_USE_QTNETWORK TRUE)
 
 INCLUDE(${QT_USE_FILE})
 
@@ -56,6 +63,11 @@ SET(prj_SRCS
 	owebinfowidget.cpp
 	sttomwatchdog.cpp
 	obigimagepreviewwidget.cpp
+	starlabmanager.cpp
+	remotepublishermanager.cpp
+	iddesctablemodel.cpp
+	starlababstractmanager.cpp
+	starlablocalmanager.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -73,6 +85,11 @@ SET(prj_MOC_HDRS
 	owebinfowidget.h
 	sttomwatchdog.h
 	obigimagepreviewwidget.h
+	starlabmanager.h
+	remotepublishermanager.h
+	iddesctablemodel.h
+	starlababstractmanager.h
+	starlablocalmanager.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})
@@ -94,5 +111,5 @@ INCLUDE_DIRECTORIES( ${st_oromel_BINARY_DIR} )
 ADD_LIBRARY(st_oromel SHARED ${prj_SRCS} ${prj_MOC_SRCS} ${prj_RCC_SRCS})
 
 SET_TARGET_PROPERTIES(st_oromel PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
-TARGET_LINK_LIBRARIES(st_oromel ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_digikam st_dom st_photobook )
+TARGET_LINK_LIBRARIES(st_oromel ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_digikam st_dom st_photobook st_sindarl)
 INSTALL(TARGETS st_oromel DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})

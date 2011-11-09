@@ -159,6 +159,8 @@ public:
 	QAbstractItemModel* newProductsModelBySize(QObject* _Parent, PublisherDatabase::EnProductType _ProductType, const QSize& _Size) const;
 	void deleteTemplateProductsByType(PublisherDatabase::EnProductType _Type);
 	void deleteTemplateProducts();
+	//returns true if database has some products.
+	bool hasProducts() const;
 };
 } //namespace
 #endif

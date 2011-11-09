@@ -20,6 +20,8 @@
 #include <QTextStream>
 #include <QFile>
 #include <QTextCodec>
+#include <QDir>
+#include "stimage.h"
 
 using namespace SPhotoBook;
 
@@ -118,9 +120,28 @@ void MetaInfo::setDefaults()
 	NumOptimalImagesPerPage = 3;
 }
 
-void MetaInfo::save(const QString& _XmlFilePath)
+void MetaInfo::checkVersion(const QString& _XmlFilePath)
 {
 	QFile TextFile(_XmlFilePath);
+
+	//If file exist try to load it and check for version
+	if (TextFile.exists())
+	{
+		//Save To temp file.
+		QString TempFileName = QDir::temp().absoluteFilePath("pbmetainfotmp.xml");
+		save(TempFileName, false);
+		if (STImage::hashString(TempFileName) != STImage::hashString(_XmlFilePath))
+			setVersion(version() + 1);
+	}
+}
+
+void MetaInfo::save(const QString& _XmlFilePath, bool _CheckVersion)
+{
+	if (_CheckVersion)
+		checkVersion(_XmlFilePath);
+
+	QFile TextFile(_XmlFilePath);
+
 	Assert(TextFile.open(QFile::WriteOnly | QFile::Truncate), STError(QObject::tr("Error saving file: %1").arg(_XmlFilePath)));
 	QTextStream Out(&TextFile);
 
@@ -202,4 +223,26 @@ QPixmap MetaInfo::typePixmap(EnTemplateType _Type)
 	return Res;
 }
 
-
+QString MetaInfo::typeString(EnTemplateType _Type)
+{
+	QString Res;
+	switch (_Type)
+	{
+		case TypePhotoBook :
+			Res = QObject::tr("PhotoBook");
+		break;
+		case TypeCalendar :
+			Res = QObject::tr("Calendar");
+		break;
+		case TypeCard :
+			Res = QObject::tr("Card");
+		break;
+		case TypeIdPhoto :
+			Res = QObject::tr("Id Photo");
+		break;
+		case TypeMultiPhoto :
+			Res = QObject::tr("MultiPhoto");
+		break;
+	}
+	return Res;
+}

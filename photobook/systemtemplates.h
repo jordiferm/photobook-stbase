@@ -7,39 +7,33 @@
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
-** this file.  
+** this file.
 **
 ** SoftTopia reserves all rights not expressly granted herein.
-** 
+**
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
 
-#ifndef TEMPLATEINFOLIST_H
-#define TEMPLATEINFOLIST_H
-
-#include <QList>
-#include <QFileInfoList>
+#ifndef SYSTEMTEMPLATES_H
+#define SYSTEMTEMPLATES_H
 #include "stphotobookexport.h"
-#include "templateinfo.h"
+#include "templateinfolist.h"
 
-
+class QDir;
 namespace SPhotoBook
 {
 
-class ST_PHOTOBOOK_EXPORT TemplateInfoList : public QList<TemplateInfo>
+class TemplateInfo;
+class DesignInfo;
+class ST_PHOTOBOOK_EXPORT SystemTemplates
 {
-
 public:
-    TemplateInfoList();
-	void addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName);
-	QFileInfoList globalResources(DesignInfo::EnResourceType _Type);
-	TemplateInfoList subList(MetaInfo::EnTemplateType _Type) const;
-	TemplateInfoList sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type) const;
-	TemplateInfoList sizes(const QString& _TemplateName) const;
+	static TemplateInfoList load();
+	static void import(const QDir& _SourceDir);
+	static void exportTemplates(const QDir& _DestDir, const TemplateInfo& _Template, const DesignInfo& _Design);
 };
 
 }
-
-#endif // TEMPLATEINFOLIST_H
+#endif // SYSTEMTEMPLATES_H

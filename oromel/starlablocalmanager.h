@@ -1,38 +1,34 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2006-2008 Softtopia. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Softtopia Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Softtopia reserves all rights not expressly granted herein.
 **
-** Strablitz (c) 2008
+** Softtopia (c) 2008
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
 
-#include "publisher.h"
+#ifndef STARLABLOCALMANAGER_H
+#define STARLABLOCALMANAGER_H
 
-namespace STDom
+#include "storomelexport.h"
+#include "starlababstractmanager.h"
+
+
+class ST_OROMEL_EXPORT StarlabLocalManager : public StarlabAbstractManager
 {
+public:
+    StarlabLocalManager();
+};
 
-	Publisher::Publisher()
-	{
-		UserName = PUBLISHER_LOGIN;
-		Password = PUBLISHER_PASSWD;
-	}
-
-	Publisher::Publisher(const QString& _Id, const QString& _Name, const QString& _Url, const QString& _UserName, const QString& _Password)
-		: Id(_Id), Name(_Name), FtpUrl(_Url), UserName(_UserName), Password(_Password)
-	{
-	}
-
-
-}
+#endif // STARLABLOCALMANAGER_H

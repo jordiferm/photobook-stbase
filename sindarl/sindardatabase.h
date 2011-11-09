@@ -23,10 +23,10 @@
 #include "stsindarlexport.h"
 #include <QString>
 #include <QSqlDatabase>
-#include "stphotolayout.h"
 #include "sterror.h"
 #include "publisherdatabase.h"
-#include "stsindarlexport.h"
+#include "templateinfolist.h"
+#include "metainfo.h"
 
 class ST_SINDARL_EXPORT DefaultSindarDatabase : public QSqlDatabase
 {
@@ -55,18 +55,20 @@ public:
 	typedef QList<DefaultSindarDatabase> TDefaultDatabaseList;
 
 private:
-	STDom::PublisherDatabase::EnProductType productTypeFromLayoutType(STPhotoLayout::EnLayoutType _Type);
+	STDom::PublisherDatabase::EnProductType productTypeFromLayoutType(SPhotoBook::MetaInfo::EnTemplateType _Type);
 
 public:
 	SindarDatabase(const QSqlDatabase& _Other = QSqlDatabase::database());
-	int insertProductsForAllTemplates(STPhotoLayout::EnLayoutType _Type);
+	int importTemplateRefs(const SPhotoBook::TemplateInfoList& _Templates);
+	int insertProductsForTemplates(const SPhotoBook::TemplateInfoList& _Templates);
+	/*int insertProductsForAllTemplates(STPhotoLayout::EnLayoutType _Type);
 	//! \return The num products inserted.
 	int insertProductsForAllTemplates();
-	int importTemplateRefs(STPhotoLayout::EnLayoutType _Type);
+	int importTemplateRefs(STPhotoLayout::EnLayoutType _Type);*/
 	void clearTemplatesTable();
 	static QString notemplateRef();
 
-	int importTemplateRefs();
+	//int importTemplateRefs();
 	static SindarDatabase::TDefaultDatabaseList getDefaultDatabases();
 	void importDefaultPublisherProducts(const QSqlDatabase& _SourceDatabase);
 	void importDefaultPublisherProducts(const QFileInfo& _PubliserDbFile);

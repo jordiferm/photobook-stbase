@@ -62,7 +62,8 @@ private:
 public:
     MetaInfo();
 	void setDefaults();
-	void save(const QString& _XmlFilePath);
+	void checkVersion(const QString& _XmlFilePath);
+	void save(const QString& _XmlFilePath, bool _CheckVersion = true);
 	void load(const QString& _XmlFilePath);
 
 	//------- Global info ----------
@@ -142,6 +143,7 @@ public:
 
 	//------- Miscelanea ---------
 	static QPixmap typePixmap(EnTemplateType _Type);
+	static QString typeString(EnTemplateType _Type);
 };
 
 }

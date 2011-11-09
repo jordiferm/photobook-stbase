@@ -84,6 +84,8 @@ SET(prj_SRCS
 	resourcelist.cpp
 	resourcemodel.cpp
 	resourcemimedata.cpp
+	designinfotablemodel.cpp
+	systemtemplates.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -130,6 +132,8 @@ SET(prj_MOC_HDRS
 	resourcelist.h
 	resourcemodel.h
 	resourcemimedata.h
+	designinfotablemodel.h
+	systemtemplates.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})
