@@ -132,7 +132,6 @@ void DesignInfoTableModel::setTemplate(const TemplateInfo& _Template)
 	reset();
 }
 
-
 void DesignInfoTableModel::setDesignInfo(const QModelIndex& _Index, const DesignInfo& _DesignInfo)
 {
 	if (_Index.row() >= 0 && _Index.row() < DIList.size())
@@ -140,5 +139,23 @@ void DesignInfoTableModel::setDesignInfo(const QModelIndex& _Index, const Design
 		DIList[_Index.row()] = _DesignInfo;
 		emit dataChanged(_Index, _Index);
 	}
+}
 
+TemplateInfo  DesignInfoTableModel::templateInfo() const
+{
+	TemplateInfo Res = Template;
+	Res.setDesigns(DIList);
+	return Res;
+}
+
+
+bool DesignInfoTableModel::removeRows(int _Row, int _Count, const QModelIndex& _Parent)
+{
+	beginRemoveRows(_Parent, _Row, _Row + _Count - 1);
+	for (int Vfor = 0; Vfor < _Count; Vfor++)
+	{
+		DIList.removeAt(_Row + Vfor);
+	}
+	endRemoveRows();
+	return true;
 }

@@ -38,6 +38,11 @@ public:
 	TemplateInfoList subList(MetaInfo::EnTemplateType _Type) const;
 	TemplateInfoList sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type) const;
 	TemplateInfoList sizes(const QString& _TemplateName) const;
+	int indexOf(const TemplateInfo& _TemplateInfo);
+	void addTemplateInfo(const TemplateInfo& _TemplateInfo);
+	void addTemplateInfoList(const TemplateInfoList& _TemplateInfoList);
+	void addTemplateInfoList(const QList<TemplateInfo> _List);
+	void updateTemplateInfo(const TemplateInfo& _Source, const TemplateInfo& _Dest);
 };
 
 }

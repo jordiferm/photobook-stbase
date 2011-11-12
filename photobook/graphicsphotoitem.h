@@ -149,7 +149,7 @@ public:
 	int type() const { return Type; }
 
 	// --- Resources
-	QStringList saveResources(const QDir& _StoreDir, bool _SaveImageRes = true);
+	virtual QStringList saveResources(const QDir& _StoreDir, bool _SaveImageRes = true);
 	void setResource(const Resource& _Resource);
 
 	// --- Alpha channel ---
@@ -184,6 +184,7 @@ public:
 	void waitForImageLoaded();
 	void unloadImage();
 	//! Unsets the item image file.
+	void setImageResource(const Resource& _Value) { ImageResource = _Value; }
 	void clearImage();
 	QString imageMD5Sum() const { return ImageMD5Sum; }
 	bool hasImage() const { return !ImageResource.isNull(); }

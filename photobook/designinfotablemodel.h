@@ -56,8 +56,9 @@ public:
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
 	DesignInfo designInfo(const QModelIndex& _Index) const;
 	void setTemplate(const TemplateInfo& _Template);
-	TemplateInfo templateInfo() const { return Template; }
+	TemplateInfo templateInfo() const;
 	void setDesignInfo(const QModelIndex& _Index, const DesignInfo& _DesignInfo);
+	bool removeRows(int _Row, int _Count, const QModelIndex& _Parent);
 
 signals:
 

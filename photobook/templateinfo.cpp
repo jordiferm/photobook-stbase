@@ -71,3 +71,8 @@ void TemplateInfo::addDesign(const DesignInfo& _Design)
 	Designs.push_back(_Design);
 }
 
+
+bool TemplateInfo::operator==(const TemplateInfo& _Other) const
+{
+	return _Other.size() == size() && _Other.name() == name() && _Other.type() == type();
+}

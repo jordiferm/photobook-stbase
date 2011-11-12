@@ -20,6 +20,7 @@
 #define SYSTEMTEMPLATES_H
 #include "stphotobookexport.h"
 #include "templateinfolist.h"
+#include "sterror.h"
 
 class QDir;
 namespace SPhotoBook
@@ -29,10 +30,18 @@ class TemplateInfo;
 class DesignInfo;
 class ST_PHOTOBOOK_EXPORT SystemTemplates
 {
+	ST_DECLARE_ERRORCLASS();
+
 public:
 	static TemplateInfoList load();
-	static void import(const QDir& _SourceDir);
-	static void exportTemplates(const QDir& _DestDir, const TemplateInfo& _Template, const DesignInfo& _Design);
+	static void import(const QDir& _SourceDir, const QString& _NewName = "");
+	static TemplateInfo templateInfo(const QDir& _Sourcedir);
+	static bool existMetaInfo(const QDir& _SourceDir);
+	static MetaInfo templateMetaInfo(const QDir& _Sourcedir);
+	static bool existTemplate(const MetaInfo& _MetaInfo);
+	static void exportTemplateDesign(const QDir& _DestDir, const TemplateInfo& _Template, const DesignInfo& _Design);
+	static void deleteTemplateDesign(const TemplateInfo& _Template, const DesignInfo& _Design);
+	static void deleteTemplateDesign(const MetaInfo& _MetaInfo);
 };
 
 }

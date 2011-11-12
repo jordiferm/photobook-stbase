@@ -75,7 +75,6 @@ QStringList Resource::save(const QDir& _StoreDir)
 	QStringList Res;
 	QString HashName = STImage::hashFileName(FInfo.absoluteFilePath());
 	QFileInfo DestFileInfo = Resource(_StoreDir, HashName, type()).fileInfo();
-
 	if (type() == TypeFrame) //Save FrameMask with the same hash
 	{
 		QFileInfo FrameMaskFinfo = frameMaskFile(*this);

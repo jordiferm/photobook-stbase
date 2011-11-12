@@ -730,10 +730,18 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& 
 	PanningPoint.setY(_Element.attribute("panningy", "0").toDouble());
 
 	//Load Frame and masks
-	setFrameResource(Resource::resourceFromXmlSrc(_Element.attribute("frame_src", ""), _LoadDir));
-
+	QString FrameSrc = _Element.attribute("frame_src", "");
+	if (!FrameSrc.isEmpty())
+		setFrameResource(Resource(Resource::fileInfoFromXmlSrc(FrameSrc, _LoadDir), Resource::TypeFrame));
+	//FIXED (11/11/11): resourceFromXmlSrc could not resolve resource type if file don't starts with resource prefix.
+	//setFrameResource(Resource::resourceFromXmlSrc(_Element.attribute("frame_src", ""), _LoadDir));
 	if (FrameResource.isNull()) //Frame and mask are exclusives
-		setAlphaChannel(Resource::Resource::resourceFromXmlSrc(_Element.attribute("mask_src", ""), _LoadDir));
+	{
+		QString MaskSrc = _Element.attribute("mask_src", "");
+		if (!MaskSrc.isEmpty())
+			setAlphaChannel(Resource(Resource::fileInfoFromXmlSrc(MaskSrc, _LoadDir), Resource::TypeMask));
+		//setAlphaChannel(Resource::Resource::resourceFromXmlSrc(_Element.attribute("mask_src", ""), _LoadDir));
+	}
 
 	AbstractGraphicsItem::loadEffectElements(this,  _Element);
 

@@ -59,7 +59,7 @@ void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name
 
 		++it;
 	}
-	*this += TInfoMap.values();
+	addTemplateInfoList(TInfoMap.values());
 }
 
 
@@ -99,3 +99,58 @@ TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName) const
 	return Res;
 }
 
+
+//! Returns -1 if template does not exist.
+int TemplateInfoList::indexOf(const TemplateInfo& _TemplateInfo)
+{
+	int Res = 0;
+	bool Found = false;
+	int Cnt = 0;
+	while (!Found && Cnt < size())
+	{
+		Found = (value(Cnt) == _TemplateInfo);
+		if (!Found)
+			Cnt++;
+	}
+
+	if (Found)
+		Res = Cnt;
+	else
+		Res = -1;
+	return Res;
+
+}
+
+void TemplateInfoList::addTemplateInfo(const TemplateInfo& _TemplateInfo)
+{
+	int Index = indexOf(_TemplateInfo);
+	if (Index != -1)
+		(*this)[Index] = _TemplateInfo;
+	else
+		push_back(_TemplateInfo);
+}
+
+void TemplateInfoList::addTemplateInfoList(const TemplateInfoList& _TemplateInfoList)
+{
+	TemplateInfoList::const_iterator it;
+	for (it = _TemplateInfoList.begin(); it != _TemplateInfoList.end(); ++it)
+	{
+		addTemplateInfo(*it);
+	}
+}
+
+void TemplateInfoList::addTemplateInfoList(const QList<TemplateInfo> _List)
+{
+	QList<TemplateInfo>::const_iterator it;
+	for (it = _List.begin(); it != _List.end(); ++it)
+	{
+		addTemplateInfo(*it);
+	}
+}
+
+void TemplateInfoList::updateTemplateInfo(const TemplateInfo& _Old, const TemplateInfo& _New)
+{
+	int Index = indexOf(_Old);
+	if (Index != -1)
+		(*this)[Index] = _New;
+}
