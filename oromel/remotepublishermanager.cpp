@@ -100,6 +100,17 @@ STDom::PublisherDatabase RemotePublisherManager::getProducts() const
 	return STDom::PublisherDatabase::addDatabase(PublisherDatabaseFilePath);
 }
 
+
+STDom::PublisherInfo RemotePublisherManager::getPublisherInfo() const
+{
+	STDom::PublisherInfo Res;
+	Res.setDatabase(getProducts());
+	Res.setPublisher(Manager->getPublisher());
+	//TODO: payment type and other stuff ...
+	return Res;
+}
+
+
 void RemotePublisherManager::removeAllProducts()
 {
 	QFileInfo PubDbFile(PublisherDatabaseFilePath);

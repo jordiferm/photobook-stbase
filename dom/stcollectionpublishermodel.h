@@ -28,7 +28,7 @@
 
 namespace STDom
 {
-
+// !!!!!!!!!!!!!! DEPRECATED !!!!!!!!!!!!!!
 //#include "stphotolayout.h"
 
 class ST_DOM_EXPORT STCollectionPublisherInfo

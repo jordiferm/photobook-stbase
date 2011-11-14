@@ -27,6 +27,7 @@
 #include "templateinfolist.h"
 #include "publisherdatabase.h"
 #include "sterror.h"
+#include "publisherinfo.h"
 
 class DefaultSindarDatabase;
 class ST_OROMEL_EXPORT RemotePublisherManager
@@ -46,6 +47,7 @@ public:
 	bool productsDBExist();
 	void addDefaultProducts(DefaultSindarDatabase& _SindarDatabase);
 	STDom::PublisherDatabase getProducts() const;
+	STDom::PublisherInfo getPublisherInfo() const;
 	void removeAllProducts();
 	void updateTemplateProducts(STDom::PublisherDatabase& _ProductsDb, const SPhotoBook::TemplateInfoList& _Templates);
 };

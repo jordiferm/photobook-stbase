@@ -48,6 +48,8 @@ class QTimer;
 class QLabel;
 class QActionGroup;
 class QToolBar;
+class StarlabAbstractManager;
+
 class ChooseTemplatePage : public QWizardPage
 {
 Q_OBJECT
@@ -75,12 +77,13 @@ Q_OBJECT
 	QLabel* NoTemplatesLabel;
 	bool HasPreselection;
 	SPhotoBook::MetaInfo::EnTemplateType  PreselectedType;
+	StarlabAbstractManager* Manager;
 
 
 	void setCurrentState(EnState _State);
 
 public:
-	ChooseTemplatePage(QWidget* _Parent = 0);
+	ChooseTemplatePage(StarlabAbstractManager* _Manager, QWidget* _Parent = 0);
 	int nextId() const;
 	void selectFirstIndex();
 	void initializePage();
@@ -202,9 +205,10 @@ private:
 	SelectDiskFolderPage* SDFolderPage;
 	BuildOptionsPage* PBuildOptions;
 	ChooseCreationModePage* CCreationModePage;
+	StarlabAbstractManager* Manager;
 
 public:
-	STAlbumWizard(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+	STAlbumWizard(StarlabAbstractManager* _Manager, QWidget* parent = 0, Qt::WindowFlags flags = 0);
 	~STAlbumWizard();
 	SPhotoBook::DesignInfo designInfo() const;
 	SPhotoBook::TemplateInfo templateInfo() const;

@@ -38,9 +38,9 @@ public:
 	virtual void updateTemplateHash(const QString& _Hash) {}
 	virtual void syncProducts(const STDom::PublisherDatabase& ) {}
 	virtual void syncTemplates(const SPhotoBook::TemplateInfoList& ) {}
-	virtual IdDescTableModel* getCollectionPoints() const { return 0; }
-	virtual IdDescTableModel* getPaymentTypes() const { return 0; }
-	virtual IdDescTableModel* getShippingMethods() const { return 0; }
+	virtual STDom::IdDescTableModel::TKeyValueList getCollectionPoints() const { return STDom::IdDescTableModel::TKeyValueList(); }
+	virtual STDom::IdDescTableModel::TKeyValueList getPaymentTypes() const { return STDom::IdDescTableModel::TKeyValueList(); }
+	virtual STDom::IdDescTableModel::TKeyValueList getShippingMethods() const { return STDom::IdDescTableModel::TKeyValueList(); }
 	virtual double getShippingMethodAmount(const QVariant& _IdShippingMethod) const { return 0; }
 	virtual QUrl infoUrl(const SPhotoBook::TemplateInfo& _Template) { return QUrl(); }
 	virtual void editTemplateInfo(const SPhotoBook::TemplateInfo& _Template) {}

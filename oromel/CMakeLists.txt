@@ -65,7 +65,6 @@ SET(prj_SRCS
 	obigimagepreviewwidget.cpp
 	starlabmanager.cpp
 	remotepublishermanager.cpp
-	iddesctablemodel.cpp
 	starlababstractmanager.cpp
 	starlablocalmanager.cpp
 )
@@ -87,7 +86,6 @@ SET(prj_MOC_HDRS
 	obigimagepreviewwidget.h
 	starlabmanager.h
 	remotepublishermanager.h
-	iddesctablemodel.h
 	starlababstractmanager.h
 	starlablocalmanager.h
 )

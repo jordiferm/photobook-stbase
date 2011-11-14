@@ -57,7 +57,6 @@ private:
 	TFormatSpoolMap FormatSpoolMap;
 	TProductToStoreList ProductToStoreList;
 	QString DefaultSpool;
-	QFileInfo PublisherXmlFile;
 	static QString EncodeKey;
 
 	void printProductPrints(QPrinter& _Printer, STDom::DDocPrintList& _ProdPrints, const STDom::DDocProduct& _Product,
@@ -100,9 +99,6 @@ public:
 	STErrorStack errorStack() const { return ErrorStack; }
 	void clearErrorStack();
 
-	//Optional Storage
-	//! To save _File when store orders.
-	void storePublisherXmlFile(const QFileInfo& _File) { PublisherXmlFile = _File; }
 };
 
 } //STDom namespace

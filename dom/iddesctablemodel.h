@@ -25,9 +25,12 @@
 #include <QPair>
 #include <QVariant>
 #include <QString>
-#include "storomelexport.h"
+#include "stdomexport.h"
 
-class ST_OROMEL_EXPORT IdDescTableModel : public QAbstractTableModel
+namespace STDom
+{
+
+class ST_DOM_EXPORT IdDescTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -36,12 +39,11 @@ public:
 		ColId = 0,
 		ColDescription = 1
 	};
-
+	typedef QPair<QVariant, QString>  TKeyValue;
+	typedef QList<TKeyValue> TKeyValueList;
 private:
-	typedef QPair<QVariant, QString>  TPair;
-	typedef QList<TPair> TPairList;
 
-	TPairList PairList;
+	TKeyValueList PairList;
 
 public:
 	explicit IdDescTableModel(QObject *parent = 0);
@@ -50,6 +52,7 @@ public:
 	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
 	void addItem(const QVariant& _Id, const QString& _Description);
+	void setValues(const TKeyValueList& _Values);
 	void clear();
 
 signals:
@@ -57,5 +60,6 @@ signals:
 public slots:
 
 };
+}
 
 #endif // IDESCTABLEMODEL_H

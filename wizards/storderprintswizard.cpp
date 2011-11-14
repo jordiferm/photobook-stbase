@@ -48,6 +48,7 @@
 #include "printjobmodel.h"
 #include "tpphotoselwidget.h"
 
+
 //_____________________________________________________________________________
 //
 // class OPWWelcomePage
@@ -217,62 +218,8 @@ bool OPWUserDataPage::forgetMe()
 
 int OPWUserDataPage::nextId() const
 {
-	return STOrderPrintsWizard::Page_ChoosePublisher;
-}
-
-
-//_____________________________________________________________________________
-//
-// class ChooseTemplatePage
-//_____________________________________________________________________________
-
-
-OPWChoosePublisher::OPWChoosePublisher(QWidget* _Parent) : 
-	STOWizardPage(_Parent)
-{
-	setTitle(tr("<h1>Publisher selection</h1>"));
-	setSubTitle(tr("Please select the publisher you want to order your prints from the list bellow."));
-	QVBoxLayout* MLayout = new QVBoxLayout(this); 
-	Model = new STDom::STCollectionPublisherModel(this);
-	MLayout->addWidget(new QLabel(tr("Template list:"), this));
-	View = new QListView(this); 
-	View->setModel(Model);
-	View->setIconSize(QSize(64, 64)); 
-	connect(View, SIGNAL(clicked( const QModelIndex& )), this, SIGNAL(completeChanged())); 
-	MLayout->addWidget(View); 
-}
-
-bool OPWChoosePublisher::forgetMe() 
-{
-	Model->loadPublishers();
-	PublisherInfo = Model->publisherInfo(Model->index(0,0)); 
-	return Model->rowCount() == 1; 	
-}
-
-int OPWChoosePublisher::nextId() const
-{
 	return STOrderPrintsWizard::Page_ChooseProduct;
 }
-
-void OPWChoosePublisher::initializePage()
-{
-	View->selectionModel()->select(Model->index(0, 0), QItemSelectionModel::SelectCurrent);
-	View->setCurrentIndex(Model->index(0, 0)); 
-}
-
-bool OPWChoosePublisher::validatePage()
-{
-	PublisherInfo = Model->publisherInfo(View->currentIndex()); 
-	//TODO: Set the current locale.
-	return true; 
-}
-
-bool OPWChoosePublisher::isComplete() const
-{
-	return View->currentIndex().isValid();
-}
-
-
 
 
 //_____________________________________________________________________________
@@ -280,38 +227,13 @@ bool OPWChoosePublisher::isComplete() const
 // class OPWAbstractChooseProduct
 //_____________________________________________________________________________
 
-void OPWAbstractChooseProduct::syncPublisherData()
-{
-	qApp->setOverrideCursor( QCursor(Qt::WaitCursor));
-
-	try
-	{
-		QFileInfo PublXml = PublisherPage->publisherInfo().publisherXmlFile(); 
-		//Lets sync products database: 
-		QString PublisherPath = PublXml.dir().absolutePath(); 
-		STDom::STXmlPublisherSettings PXmlS;
-		Assert(PXmlS.loadXml(PublXml.absoluteFilePath()), Error(QString(tr("Could not load settings file: %1")).arg(PublXml.absoluteFilePath())));
-		SavedPubSettings = PXmlS;
-		if (FtpTrans)
-			delete FtpTrans; 
-		FtpTrans = new STDom::STFtpOrderTransfer(this);
-
-		//FtpTrans->syncRemoteDir(PublisherPath, PXmlS.dbHost(), PXmlS.dbPort(), PXmlS.dbUser(), PXmlS.dbPassword(),  PXmlS.dbDir(), static_cast<QFtp::TransferMode>(PXmlS.dbTransferMode()));
-		FtpTrans->syncRemoteFile(PublisherPage->publisherInfo().publisherDatabaseFile().fileName(), PublisherPath, PXmlS.dbHost(), PXmlS.dbPort(), PXmlS.dbUser(), PXmlS.dbPassword(),  PXmlS.dbDir(), static_cast<QFtp::TransferMode>(PXmlS.dbTransferMode()));
-		qApp->restoreOverrideCursor();
-	}
-	catch (...)
-	{
-		qApp->restoreOverrideCursor();
-		throw; 
-	}
-}
 
 void OPWAbstractChooseProduct::getPublisherData()
 {
-	QString PubDBFile = PublisherPage->publisherInfo().publisherDatabaseFile().absoluteFilePath(); 
-	STDom::PublisherDatabase PubDatabase = STDom::PublisherDatabase::addDatabase(PubDBFile);
-	Assert(PubDatabase.open(), Error(QString(tr("Could not open publisher database file %1")).arg(PubDBFile)));
+	// QString PubDBFile = PublisherPage->publisherInfo().publisherDatabaseFile().absoluteFilePath();
+	//	STDom::PublisherDatabase PubDatabase = STDom::PublisherDatabase::addDatabase(PubDBFile);
+	STDom::PublisherDatabase PubDatabase = PublisherInfo.publisherDatabase();
+	Assert(PubDatabase.open(), Error(QString(tr("Could not open publisher database file %1")).arg(PubDatabase.connectionName())));
 
 	if (PModel)
 		delete PModel;
@@ -323,13 +245,12 @@ void OPWAbstractChooseProduct::getPublisherData()
 	PModel = PubDatabase.newProductsModel(this, ProductType, Filter);
 
 	STDom::STXmlPublisherSettings PXmlS;
-	Assert(PXmlS.loadXml(PublisherPage->publisherInfo().publisherXmlFile().absoluteFilePath()), Error(QString(tr("Could not load settings file: %1")).arg(PublisherPage->publisherInfo().publisherXmlFile().absoluteFilePath())));
 	Assert(PModel->rowCount() > 0, Error(tr("This publisher could not provide this product. Please contact him at <a href=\"mailto:%1\">%1</a>").arg(
 			PXmlS.email())));
 }
 
-OPWAbstractChooseProduct::OPWAbstractChooseProduct(OPWChoosePublisher* _PublisherPage, QWidget* _Parent) : 
-		STOWizardPage(_Parent), PublisherPage(_PublisherPage), PModel(0), FtpTrans(0), ProductType(STDom::PublisherDatabase::AllProducts),
+OPWAbstractChooseProduct::OPWAbstractChooseProduct(const STDom::PublisherInfo& _PublisherInfo, QWidget* _Parent) :
+		STOWizardPage(_Parent), PublisherInfo(_PublisherInfo), PModel(0), ProductType(STDom::PublisherDatabase::AllProducts),
 		TemplateRef("")
 {
 	PJModel = new STDom::PrintJobModel(this);
@@ -363,8 +284,8 @@ STDom::PrintJob OPWAbstractChooseProduct::printJob() const
 //_____________________________________________________________________________
 
 
-OPWChooseDigiprintProduct::OPWChooseDigiprintProduct(OPWChoosePublisher* _PublisherPage, QWidget* _Parent) : 
-	OPWAbstractChooseProduct(_PublisherPage, _Parent), PhotoSelW(0)
+OPWChooseDigiprintProduct::OPWChooseDigiprintProduct(const STDom::PublisherInfo& _PublisherInfo, QWidget* _Parent) :
+	OPWAbstractChooseProduct(_PublisherInfo, _Parent), PhotoSelW(0)
 {
 	setTitle(tr("<h1>Image selection page</h1>"));
 	setSubTitle(tr("Here you can select and edit printed images."));
@@ -390,7 +311,6 @@ void OPWChooseDigiprintProduct::initializePage()
 	try
 	{
 		PJModel->clearProductCopies();
-		syncPublisherData();
 	}
 	catch (STError& _Error)
 	{
@@ -433,8 +353,8 @@ void OPWChooseDigiprintProduct::showError(const STError& _Error)
 // class OPWChooseAtomicProduct
 //_____________________________________________________________________________
 
-OPWChooseAtomicProduct::OPWChooseAtomicProduct(OPWChoosePublisher* _PublisherPage, QWidget* _Parent) :
-	OPWAbstractChooseProduct(_PublisherPage, _Parent), HasError(false)
+OPWChooseAtomicProduct::OPWChooseAtomicProduct(const STDom::PublisherInfo& _PublisherInfo, QWidget* _Parent) :
+	OPWAbstractChooseProduct(_PublisherInfo, _Parent), HasError(false)
 {
 	setTitle(tr("<h1>PhotoBook selection</h1>"));
 	//TODO Fetch and show html from a remote URL stored in database.
@@ -466,16 +386,6 @@ int OPWChooseAtomicProduct::nextId() const
 
 void OPWChooseAtomicProduct::initializePage()
 {
-	HasError = false;
-	try
-	{
-		//MProxyModel->clearProductCopies();
-		syncPublisherData();
-	}
-	catch (STError& _Error)
-	{
-		SMessageBox::critical(this, tr("Error in sync process"), _Error.description());
-	}
 	getPublisherData();
 	CBoxModel->setModel(PModel);
 }
@@ -620,7 +530,7 @@ int OPWChooseSendMode::nextId() const
 // class STOrderPrintsWizard
 //_____________________________________________________________________________
 
-OPWConfirmOrder::OPWConfirmOrder(QWidget* _Parent) : STOWizardPage(_Parent), SendViaInternet(false)
+OPWConfirmOrder::OPWConfirmOrder(const STDom::PublisherInfo& _PublisherInfo, QWidget* _Parent) : PublisherInfo(_PublisherInfo), STOWizardPage(_Parent), SendViaInternet(false)
 {
 	setTitle(tr("<h1>Please confirm your order</h1>"));
 	//TODO Fetch and show html from a remote URL stored in database.
@@ -681,12 +591,11 @@ void OPWConfirmOrder::calcBill(const STDom::PrintJob& _Job, const QSqlRecord& _S
 	BillLabel->setText(Bill.ritchText());
 }
 
-void OPWConfirmOrder::initialize(const STDom::PrintJob& _Job, const STDom::STCollectionPublisherInfo& _PubInfo)
+void OPWConfirmOrder::initialize(const STDom::PrintJob& _Job)
 {
 	SenderOrderTE->clear();
 	StatusWidg->setVisible(false);
 	PrintJob = _Job;
-	PublisherXmlFile = _PubInfo.publisherXmlFile(); 
 }
 
 void OPWConfirmOrder::sendViaInternet(bool _Value)
@@ -744,7 +653,6 @@ STDom::XmlOrderDealer OPWConfirmOrder::customer()
 void OPWConfirmOrder::storeImages()
 {
 	STDom::PrintJobPrinter Printer;
-	Printer.storePublisherXmlFile(PublisherXmlFile);
 	Printer.setDpis(STOrderPrintsWizard::dpis());
 
 	QString OrderRef = newOrderRef();
@@ -758,11 +666,10 @@ void OPWConfirmOrder::storeImages()
 	XmlOrder.setCustomer(customer());
 
 	//Publisher info
-	STDom::STXmlPublisherSettings PXmlSettings;
-	PXmlSettings.loadXml(PublisherXmlFile.absoluteFilePath());
-	STDom::XmlOrderDealer Publisher(PXmlSettings.id(), PXmlSettings.name());
-	Publisher.setEmail(PXmlSettings.email());
-	XmlOrder.setPublisher(Publisher);
+	STDom::Publisher Publisher = PublisherInfo.publisher();
+	STDom::XmlOrderDealer PublisherDealer( Publisher.id(), Publisher.name());
+	PublisherDealer.setEmail(Publisher.email());
+	XmlOrder.setPublisher(PublisherDealer);
 
 	StatusWidg->setVisible(true);
 	StatusWidg->showProgressBar(tr("Storing images..."), 100);
@@ -881,19 +788,17 @@ int STOrderPrintsWizard::nonForgetId(int _FromId) const
 	return BaseNextId;
 }
 
-STOrderPrintsWizard::STOrderPrintsWizard(bool _AtomicOrder, QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags),
+STOrderPrintsWizard::STOrderPrintsWizard(bool _AtomicOrder, const STDom::PublisherInfo& _PublisherInfo, QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags),
 							AtomicOrder(_AtomicOrder), NumImages(0)
 {
 	setPage(Page_Welcome, new OPWWelcomePage(this));
 	setPage(Page_UserData, new OPWUserDataPage(this));
 
-	PublisherPage = new OPWChoosePublisher(this); 
 	if (_AtomicOrder)
-		ProductPage = new OPWChooseAtomicProduct(PublisherPage, this);
+		ProductPage = new OPWChooseAtomicProduct(_PublisherInfo, this);
 	else
-		ProductPage = new OPWChooseDigiprintProduct(PublisherPage, this);
+		ProductPage = new OPWChooseDigiprintProduct(_PublisherInfo, this);
 
-	setPage(Page_ChoosePublisher, PublisherPage); 
 	setPage(Page_ChooseProduct, ProductPage);
 
 	SMethPage = new OPWChooseShippingMethod(this);
@@ -902,7 +807,7 @@ STOrderPrintsWizard::STOrderPrintsWizard(bool _AtomicOrder, QWidget* parent, Qt:
 	SendModePage = new OPWChooseSendMode(this);
 	setPage(Page_ChooseSendMode, SendModePage);
 
-	ConfirmOrderPage = new OPWConfirmOrder(this);
+	ConfirmOrderPage = new OPWConfirmOrder(_PublisherInfo, this);
 	setPage(Page_ConfirmOrder, ConfirmOrderPage);
 	
 
@@ -969,7 +874,7 @@ void STOrderPrintsWizard::initializePage(int _Id)
 		break;
 		case Page_ConfirmOrder :
 		{
-			ConfirmOrderPage->initialize(ProductPage->printJob(), PublisherPage->publisherInfo());
+			ConfirmOrderPage->initialize(ProductPage->printJob());
 			ConfirmOrderPage->calcBill(ProductPage->printJob(), SMethPage->currentShippingMethod());
 			QWizard::initializePage(_Id);
 		}
@@ -999,8 +904,4 @@ bool STOrderPrintsWizard::inetSend() const
 }
 
 
-STDom::STXmlPublisherSettings STOrderPrintsWizard::publisherSettings() const
-{
-	return ProductPage->publisherSettings();
-}
 

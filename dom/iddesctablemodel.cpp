@@ -19,6 +19,7 @@
 ****************************************************************************/
 #include "iddesctablemodel.h"
 
+using namespace STDom;
 IdDescTableModel::IdDescTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
@@ -58,7 +59,7 @@ QVariant IdDescTableModel::data(const QModelIndex& _Index, int _Role) const
 	QVariant Res;
 	 if (_Index.isValid() && _Index.row() < rowCount())
 	 {
-			 TPair Pair = PairList[_Index.row()];
+			 TKeyValue Pair = PairList[_Index.row()];
 			 if (_Role == Qt::DisplayRole)
 			 {
 				 switch (_Index.column())
@@ -78,9 +79,16 @@ QVariant IdDescTableModel::data(const QModelIndex& _Index, int _Role) const
 
 void IdDescTableModel::addItem(const QVariant& _Id, const QString& _Description)
 {
-	PairList.push_back(TPair(_Id, _Description));
-
+	PairList.push_back(TKeyValue(_Id, _Description));
+	reset();
 }
+
+void IdDescTableModel::setValues(const IdDescTableModel::TKeyValueList& _Values)
+{
+	PairList = _Values;
+	reset();
+}
+
 
 void IdDescTableModel::clear()
 {

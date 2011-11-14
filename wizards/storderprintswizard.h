@@ -34,6 +34,7 @@
 #include "publisherdatabase.h"
 #include "stcollectionpublishermodel.h"
 #include "xmlorder.h"
+#include "publisherinfo.h"
 
 
 /**
@@ -89,32 +90,6 @@ public:
 	int nextId() const;
 };
 
-/**
-	Page to choose publisher.
-
-	@author Shadow
-*/
-
-class QListView; 
-class STDom::STCollectionPublisherModel;
-class OPWChoosePublisher : public STOWizardPage
-{
-Q_OBJECT
-
-	QListView* View; 
-	STDom::STCollectionPublisherModel* Model;
-	STDom::STCollectionPublisherInfo  PublisherInfo;
-
-public:
-	OPWChoosePublisher(QWidget* _Parent = 0);
-	void initializePage();
-	bool validatePage();
-	bool isComplete() const;
-	bool forgetMe();
-	int nextId() const;
-	STDom::STCollectionPublisherInfo publisherInfo() const { return PublisherInfo; }
-};
-
 
 /**
 	Abstract class to choose products.
@@ -141,17 +116,14 @@ protected:
 	QAbstractItemModel* PModel;
 	STDom::PrintJobModel* PJModel;
 	STDom::DDocModel* DocModel;
-	OPWChoosePublisher* PublisherPage;
-	STDom::STFtpOrderTransfer* FtpTrans;
-	STDom::STXmlPublisherSettings SavedPubSettings;
 	STDom::PublisherDatabase::EnProductType ProductType;
 	QString TemplateRef;
+	STDom::PublisherInfo PublisherInfo;
 	
-	void syncPublisherData();
 	void getPublisherData();
 
 public:
-	OPWAbstractChooseProduct(OPWChoosePublisher* _PublisherPage,  QWidget* _Parent = 0);
+	OPWAbstractChooseProduct(const STDom::PublisherInfo& _PubInfo,  QWidget* _Parent = 0);
 	void setProductType(STDom::PublisherDatabase::EnProductType _ProdType) { ProductType = _ProdType; }
 	void setTemplateRef(const QString& _TemplateRef) { TemplateRef = _TemplateRef; }
 	void initialize(const QFileInfoList& Images);
@@ -160,7 +132,6 @@ public:
 	virtual void initializePage() = 0;
 	virtual bool isComplete() const = 0;
 	virtual void showError(const STError& _Error) = 0;
-	STDom::STXmlPublisherSettings publisherSettings() const { return SavedPubSettings; }
 };
 
 
@@ -178,7 +149,7 @@ private:
 	TPPhotoSelWidget* PhotoSelW;
 
 public:
-	OPWChooseDigiprintProduct(OPWChoosePublisher* _PublisherPage,  QWidget* _Parent = 0);
+	OPWChooseDigiprintProduct(const STDom::PublisherInfo& _PubInfo, QWidget* _Parent = 0);
 	QSize sizeHint() const;
 	virtual void initializePage();
 	virtual bool isComplete() const;
@@ -206,7 +177,7 @@ private:
 	QFrame* MainFrame;
 
 public:
-	OPWChooseAtomicProduct(OPWChoosePublisher* _PublisherPage,  QWidget* _Parent = 0);
+	OPWChooseAtomicProduct(const STDom::PublisherInfo& _PublisherInfo,  QWidget* _Parent = 0);
 	virtual int nextId() const;
 	virtual void initializePage();
 	virtual bool isComplete() const;
@@ -277,7 +248,6 @@ private:
 	QFileInfoList ImagesToSend; 
 	OPWAbstractChooseProduct* ProductPage;
 	OPWChooseShippingMethod* SMethPage;
-	OPWChoosePublisher* PublisherPage;
 	OPWConfirmOrder* ConfirmOrderPage; 
 	OPWChooseSendMode* SendModePage;
 	QPushButton* ButConfirmAndSend;
@@ -286,13 +256,13 @@ private:
 	static int DPIS; 
 	
 public:	
-	enum { Page_Welcome, Page_UserData, Page_ChoosePublisher, Page_ChooseProduct, Page_ChooseShipMethod, Page_ChooseSendMode, Page_ConfirmOrder};
+	enum { Page_Welcome, Page_UserData, Page_ChooseProduct, Page_ChooseShipMethod, Page_ChooseSendMode, Page_ConfirmOrder};
 
 	static const QString PublisherDBConnectionName; 
 	int nonForgetId(int _FromId) const;
 
 public:	
-	STOrderPrintsWizard(bool _AtomicOrder, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+	STOrderPrintsWizard(bool _AtomicOrder, const STDom::PublisherInfo& _PublisherInfo , QWidget* parent = 0, Qt::WindowFlags flags = 0);
 	void setProductType(STDom::PublisherDatabase::EnProductType _ProdType);
 	void setTemplateRef(const QString& _TemplateRef);
 	void setImages(const QFileInfoList& _Images); 
@@ -306,7 +276,6 @@ public:
 	int nextId () const;
 	void setAllowInetSend(bool _Value);
 	bool inetSend() const;
-	STDom::STXmlPublisherSettings publisherSettings() const;
 	
 signals:
 	void getImagesToSend(QFileInfoList& ImagesToSend, SProcessStatusWidget* _StatusWidget);
@@ -333,16 +302,16 @@ public:
 private:
 	QLabel* BillLabel; 
 	SProcessStatusWidget* StatusWidg;
-	QFileInfo PublisherXmlFile;
 	QString LastOrderRef;
 	QTextEdit* SenderOrderTE;
 	STDom::PrintJob PrintJob;
 	bool SendViaInternet;
+	STDom::PublisherInfo PublisherInfo;
 
 public:
-	OPWConfirmOrder(QWidget* _Parent = 0);
+	OPWConfirmOrder(const STDom::PublisherInfo& _PublisherInfo, QWidget* _Parent = 0);
 	void calcBill(const STDom::PrintJob& _Job, const QSqlRecord& _ShippingMethod);
-	void initialize(const STDom::PrintJob& _Job, const STDom::STCollectionPublisherInfo& _PubInfo);
+	void initialize(const STDom::PrintJob& _Job);
 	bool validatePayment();
 	void sendViaInternet(bool _Value);
 	QString newOrderRef();

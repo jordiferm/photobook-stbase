@@ -67,6 +67,7 @@
 #include "disksourceselectionwidget.h" 
 #include "strecentfiles.h"
 #include "sterror.h"
+#include "starlababstractmanager.h"
 
 //_____________________________________________________________________________
 //
@@ -104,7 +105,7 @@ void ChooseTemplatePage::setCurrentState(ChooseTemplatePage::EnState _State)
 }
 
 
-ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent), HasPreselection(false)
+ChooseTemplatePage::ChooseTemplatePage(StarlabAbstractManager* _Manager, QWidget* _Parent) : QWizardPage(_Parent), HasPreselection(false), Manager(_Manager)
 {
 	setTitle(tr("<h1>Template selection</h1>"));
 	setSubTitle(tr("The <em>Photo Book</em> template defines the photobook features like size, number of pages, layouts, etc... </br> Use the following list to choose the template that you want for your <em>Photo Book</em>"));
@@ -254,7 +255,7 @@ void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 	if (!SizesList.isEmpty())
 	{
 		//Get info url from model and display it.
-		QUrl InfoUrl = SPhotoBook::MetaInfo::infoUrl(Model->templateInfo(_Index, SizesList.first()).name());
+		QUrl InfoUrl = Manager->infoUrl(Model->templateInfo(_Index, SizesList.first()));
 		WebView->setHtml("");
 		setCurrentState(StateGettingInfo);
 		WebView->load(InfoUrl);
@@ -688,9 +689,9 @@ AlbumWizardEndPage::AlbumWizardEndPage(QWidget* _Parent) : QWizardPage(_Parent)
 // class STAlbumWizard
 //_____________________________________________________________________________
 
-STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags)
+STAlbumWizard::STAlbumWizard(StarlabAbstractManager* _Manager, QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags), Manager(_Manager)
 {
-	CTemplatePage = new ChooseTemplatePage(this);
+	CTemplatePage = new ChooseTemplatePage(_Manager, this);
 	setPage(Page_ChooseTemplate, CTemplatePage);
 	CCreationModePage = new ChooseCreationModePage(this);
 	setPage(Page_ChooseCreationMode, CCreationModePage);
