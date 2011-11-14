@@ -22,6 +22,7 @@
 #define PUBLISHER_H
 
 #include <QString>
+#include "stdomexport.h"
 
 namespace STDom
 {
@@ -29,7 +30,7 @@ namespace STDom
 /**
 	@author Shadow
 */
-class Publisher
+class ST_DOM_EXPORT Publisher
 {
 
 	QString Id, Name, Email, Web, LogoHtml;
