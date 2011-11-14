@@ -22,13 +22,14 @@
 
 
 #include "starlababstractmanager.h"
+#include "storomelexport.h"
 #include "publisher.h"
 #include "templateinfolist.h"
 #include "publisherdatabase.h"
 #include "sterror.h"
 
 class DefaultSindarDatabase;
-class RemotePublisherManager
+class ST_OROMEL_EXPORT RemotePublisherManager
 {
 public:
 	ST_DECLARE_ERRORCLASS();

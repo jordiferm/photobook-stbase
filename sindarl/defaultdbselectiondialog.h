@@ -22,10 +22,11 @@
 #define PUBDATABASECREATIONDIALOG_H
 
 #include <QDialog>
+#include "stsindarlexport.h"
 #include "sindardatabase.h"
 
 class QLabel;
-class DefaultDbSelectionDialog : public QDialog
+class ST_SINDARL_EXPORT DefaultDbSelectionDialog : public QDialog
 {
 Q_OBJECT
 
