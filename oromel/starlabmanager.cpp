@@ -53,7 +53,7 @@ bool StarlabManager::waitForReply(QNetworkReply* _Reply, int _TimeOutSecs)
 
 QUrl StarlabManager::templateInfoUrl(const SPhotoBook::TemplateInfo& _Template, const QString& _Path)
 {
-	QUrl Res(StarlabUrl);
+        QUrl Res(StarlabUrl);
 	Res.setPath(Res.path() + QString("/%1").arg(_Path));
 	typedef QPair<QString, QString> TQItem;
 	QList< TQItem> QueryItems;
@@ -68,8 +68,8 @@ StarlabManager::StarlabManager(const QString& _StarlabUri, const QString& _Publi
 {
 	StarlabUrl.setUrl(_StarlabUri);
 	QString PubPath = _PublisherPath;
-	PubPath.remove("/");
-	StarlabUrl.setPath(PubPath);
+        PubPath.remove("/");
+        StarlabUrl.setPath(PubPath);
 	Manager = new QNetworkAccessManager(this);
 	connect(Manager, SIGNAL(finished(QNetworkReply*)),
 			 this, SLOT(slotReplyFinished(QNetworkReply*)));
