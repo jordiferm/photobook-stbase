@@ -77,7 +77,7 @@ QVariant IdDescTableModel::data(const QModelIndex& _Index, int _Role) const
 	 return Res;
 }
 
-void IdDescTableModel::addItem(const QVariant& _Id, const QString& _Description)
+void IdDescTableModel::addItem(const QString& _Id, const QString& _Description)
 {
 	PairList.push_back(TKeyValue(_Id, _Description));
 	reset();
@@ -93,4 +93,15 @@ void IdDescTableModel::setValues(const IdDescTableModel::TKeyValueList& _Values)
 void IdDescTableModel::clear()
 {
 	PairList.clear();
+}
+
+IdDescTableModel::TKey IdDescTableModel::key(const QModelIndex& _Index)
+{
+	IdDescTableModel::TKey Res;
+	if (_Index.isValid() && _Index.row() >= 0 && _Index.row() < rowCount())
+	{
+		Res = PairList.value(_Index.row()).first;
+	}
+
+	return Res;
 }

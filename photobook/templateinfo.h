@@ -28,6 +28,7 @@
 #include "designinfolist.h"
 #include "designinfo.h"
 #include "metainfo.h"
+#include "publisherdatabase.h"
 
 namespace SPhotoBook
 {
@@ -42,7 +43,7 @@ private:
 
 
 public:
-	TemplateInfo();
+	TemplateInfo(const QString& _Name = "", MetaInfo::EnTemplateType _Type = MetaInfo::TypePhotoBook);
 	TemplateInfo(const MetaInfo& _MetaInfo);
 	TemplateInfo(const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType );
 	TemplateInfo(const QString& _BasePath, const QString& _Name, const QString& _SizeName, MetaInfo::EnTemplateType );
@@ -61,6 +62,7 @@ public:
 	DesignInfoList& designsRef() { return Designs; }
 	void setDesigns(const DesignInfoList& _Designs) { Designs = _Designs; }
 	bool operator==(const TemplateInfo& _Other) const;
+	STDom::PublisherDatabase::EnProductType pubDatabaseProductType() const;
 };
 
 }

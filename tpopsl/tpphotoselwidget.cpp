@@ -329,7 +329,8 @@ void TPPhotoSelWidget::calcBill()
 	{
 		STDom::PublisherDatabase PublDB;
 		//QString StrBill = PublDB.billRitchText(static_cast<STProductPrintsProxyModel*>(LVImages->model()), ShippingMethod, ImagesPerSheet);
-		QString StrBill = PublDB.billRitchText(Model->printJob(), ShippingMethod, ImagesPerSheet);
+
+		QString StrBill = PublDB.billRitchText(Model->printJob(), STDom::PublisherBill::PublisherShippingMethod(), ImagesPerSheet);
 		ReceiptLabel->setText(StrBill);
 		PEditor->setReceiptText(StrBill); 
 	}

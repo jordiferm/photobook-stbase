@@ -188,11 +188,11 @@ QString STXmlPublisherSettings::password() const
 STXmlPublisherSettings STXmlPublisherSettings::getDefaultSettings()
 {
 	STXmlPublisherSettings PXmlS;
-	STCollectionPublisherModel* Model = new STCollectionPublisherModel;
+	STCollectionPublisherModelDep* Model = new STCollectionPublisherModelDep;
 	Model->loadPublishers();
 	if (Model->rowCount() > 0)
 	{
-		STCollectionPublisherInfo PublisherInfo = Model->publisherInfo(Model->index(0,0));
+		STCollectionPublisherInfoDep PublisherInfo = Model->publisherInfo(Model->index(0,0));
 		delete Model;
 
 		QFileInfo PublXml = PublisherInfo.publisherXmlFile();

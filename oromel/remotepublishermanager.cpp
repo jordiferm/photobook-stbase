@@ -25,6 +25,7 @@
 #include "stftpordertransfer.h"
 #include "sindardatabase.h"
 #include "fsqldatabasemanager.h"
+#include "starlabtable.h"
 
 RemotePublisherManager::RemotePublisherManager(StarlabAbstractManager* _Manager, const QString& _PublisherDatabaseFilePath) :
 	Manager(_Manager), PublisherDatabaseFilePath(_PublisherDatabaseFilePath)
@@ -49,7 +50,7 @@ SPhotoBook::TemplateInfoList RemotePublisherManager::getTemplates()
 	return Res;
 }
 
-void RemotePublisherManager::pullProducts(bool _PreserveLocalAdded)
+void RemotePublisherManager::pullProducts(bool _UpToDateOnly, bool _PreserveLocalAdded)
 {
 	bool DownloadProducts = true;
 	//If we already have products check if there are up to date.
@@ -64,11 +65,18 @@ void RemotePublisherManager::pullProducts(bool _PreserveLocalAdded)
 		try
 		{
 			STDom::Publisher Publisher = Manager->getPublisher();
+
 			//TODO: If preserve local added merge it (See ttpops sync code).
-			FtpTrans->getFile(PublisherDbFileInfo.fileName(), Publisher.initDir(), PublisherDbFileInfo.absoluteFilePath(),
-							  Publisher.ftpUrl(), Publisher.ftpPort(),
-							  Publisher.userName(), Publisher.password(),
-							  static_cast<QFtp::TransferMode>(Publisher.transferMode()));
+			if (_UpToDateOnly)
+				FtpTrans->syncRemoteFile(PublisherDbFileInfo.fileName(), PublisherDbFileInfo.dir().absolutePath(),
+										 Publisher.ftpUrl(), Publisher.ftpPort(),
+										 Publisher.userName(), Publisher.password(), Publisher.initDir(),
+										 static_cast<QFtp::TransferMode>(Publisher.transferMode()));
+			else
+				FtpTrans->getFile(PublisherDbFileInfo.fileName(), Publisher.initDir(), PublisherDbFileInfo.absoluteFilePath(),
+								  Publisher.ftpUrl(), Publisher.ftpPort(),
+								  Publisher.userName(), Publisher.password(),
+								  static_cast<QFtp::TransferMode>(Publisher.transferMode()));
 		}
 		catch (...)
 		{
@@ -79,10 +87,58 @@ void RemotePublisherManager::pullProducts(bool _PreserveLocalAdded)
 	}
 }
 
+void RemotePublisherManager::pushProducts()
+{
+	QFileInfo PublisherDbFileInfo(PublisherDatabaseFilePath);
+	if (PublisherDbFileInfo.exists()) //Defensive
+	{
+		QString ProductsHash = STImage::hashString(PublisherDbFileInfo.absoluteFilePath());
+
+		STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
+		try
+		{
+			if (!Manager->productsUpToDate(ProductsHash))
+			{
+				STDom::Publisher Publisher = Manager->getPublisher();
+				FtpTrans->putFile(PublisherDbFileInfo.absoluteFilePath(), Publisher.ftpUrl(),
+								  Publisher.ftpPort(), Publisher.userName(), Publisher.password(),
+								  Publisher.initDir(), static_cast<QFtp::TransferMode>(Publisher.transferMode()));
+				Manager->updateProductHash(ProductsHash);
+			}
+		}
+		catch (...)
+		{
+		}
+		delete FtpTrans;
+	}
+}
+
+void RemotePublisherManager::pushTemplate(const SPhotoBook::TemplateInfo& _Template)
+{
+	//sync starlab products for this template only.(Create template if not exist).
+	Manager->syncTemplate(_Template);
+	STDom::PublisherDatabase PubDatabase = getProducts();
+	Assert(PubDatabase.open(), Error(QObject::tr("Could not open products database")));
+	Manager->syncTemplateProducts(PubDatabase, _Template);
+
+	//upload template files for all designs not up to date.
+	STDom::Publisher Publisher = Manager->getPublisher();
+
+
+	//update publictemplatesinfo.db for this template and upload it.
+	//update templates hash
+
+}
+
 bool RemotePublisherManager::productsDBExist()
 {
+	bool Res = false;
 	QFileInfo FInfo(PublisherDatabaseFilePath);
-	return FInfo.exists();
+	if (FInfo.exists())
+	{
+		Res = FInfo.size() > 0;
+	}
+	return Res;
 }
 
 void RemotePublisherManager::addDefaultProducts(DefaultSindarDatabase& _SindarDatabase)
@@ -104,9 +160,50 @@ STDom::PublisherDatabase RemotePublisherManager::getProducts() const
 STDom::PublisherInfo RemotePublisherManager::getPublisherInfo() const
 {
 	STDom::PublisherInfo Res;
-	Res.setDatabase(getProducts());
+	Res.setDatabase(getProducts(), PublisherDatabaseFilePath);
 	Res.setPublisher(Manager->getPublisher());
-	//TODO: payment type and other stuff ...
+
+	StarlabTable ShippingMethodTable = Manager->getPublisherTable(StarlabAbstractManager::TableShippingMethods);
+	StarlabTable::iterator it;
+	for (it = ShippingMethodTable.begin(); it != ShippingMethodTable.end(); ++it)
+	{
+		STDom::ShippingMethod ShippingMethod;
+		QSqlRecord CRec = *it;
+		ShippingMethod.setId(CRec.value("id").toString());
+		ShippingMethod.setDescription(CRec.value("description").toString());
+		ShippingMethod.setPrice(CRec.value("amount").toDouble());
+		Res.addShippingMethod(ShippingMethod);
+	}
+
+	StarlabTable PaymentTypesTable = Manager->getPublisherTable(StarlabAbstractManager::TablePaymentTypes);
+	for (it = PaymentTypesTable.begin(); it != PaymentTypesTable.end(); ++it)
+	{
+		STDom::PaymentType PType;
+		QSqlRecord CRec = *it;
+		PType.setId(CRec.value("id").toString());
+		PType.setDescription(CRec.value("description").toString());
+		PType.setPayRequired(CRec.value("pay_required").toString().toLower() == "true");
+		Res.addPaymentType(PType);
+	}
+
+	StarlabTable CollectionPointsTable = Manager->getPublisherTable(StarlabAbstractManager::TableCollectionPoints);
+	for (it = CollectionPointsTable.begin(); it != CollectionPointsTable.end(); ++it)
+	{
+		STDom::CollectionPoint CPoint;
+		QSqlRecord CRec = *it;
+		CPoint.setId(CRec.value("id").toString());
+		CPoint.setCity(CRec.value("city").toString());
+		CPoint.setName(CRec.value("name").toString());
+		CPoint.setWeb(CRec.value("web").toString());
+		CPoint.setCountry(CRec.value("country").toString());
+		CPoint.setEmail(CRec.value("email").toString());
+		CPoint.setState(CRec.value("state").toString());
+		CPoint.setAddress(CRec.value("address").toString());
+		CPoint.setPostalCode(CRec.value("postalcode").toString());
+		CPoint.setWebInfo(CRec.value("web_info").toString());
+		Res.addCollectionPoint(CPoint);
+	}
+
 	return Res;
 }
 

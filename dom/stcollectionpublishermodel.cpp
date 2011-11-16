@@ -26,10 +26,10 @@ using namespace STDom;
 
 //_____________________________________________________________________________
 //
-// STCollectionPublisherModel
+// STCollectionPublisherModelDep
 //_____________________________________________________________________________
 	
-STCollectionPublisherInfo::STCollectionPublisherInfo(const QDir& _PublisherDir)
+STCollectionPublisherInfoDep::STCollectionPublisherInfoDep(const QDir& _PublisherDir)
 {
 	QFile DescFile(_PublisherDir.absolutePath() + "/info.html" ); 
 	if (DescFile.open(QFile::ReadOnly))
@@ -41,15 +41,15 @@ STCollectionPublisherInfo::STCollectionPublisherInfo(const QDir& _PublisherDir)
 
 //_____________________________________________________________________________
 //
-// STCollectionPublisherModel
+// STCollectionPublisherModelDep
 //_____________________________________________________________________________
 
-STCollectionPublisherModel::STCollectionPublisherModel(QObject* parent): QAbstractListModel(parent)
+STCollectionPublisherModelDep::STCollectionPublisherModelDep(QObject* parent): QAbstractListModel(parent)
 {
 	SharedDataPath = SApplication::userSharedPath();
 }
 
-void STCollectionPublisherModel::loadPublishers()
+void STCollectionPublisherModelDep::loadPublishers()
 {
 	QDir TDir(publisherPath()); 
 	PublisherList.clear(); 
@@ -60,22 +60,22 @@ void STCollectionPublisherModel::loadPublishers()
 	for (it = TDirList.begin(); it != TDirList.end(); ++it)
 	{
 		QDir CurrDir(it->absoluteFilePath()); 
-		PublisherList.push_back(STCollectionPublisherInfo(CurrDir)); 
+		PublisherList.push_back(STCollectionPublisherInfoDep(CurrDir));
 	}
 	reset();
 }
 
-int STCollectionPublisherModel::rowCount(const QModelIndex& _Parent) const
+int STCollectionPublisherModelDep::rowCount(const QModelIndex& _Parent) const
 {
 	return PublisherList.size(); 
 }
 
-QVariant STCollectionPublisherModel::data(const QModelIndex& _Index, int _Role) const
+QVariant STCollectionPublisherModelDep::data(const QModelIndex& _Index, int _Role) const
 {
 	QVariant Res; 
 	if (_Index.isValid() && _Index.row() < rowCount())
 	{
-		STCollectionPublisherInfo CCInfo = PublisherList[_Index.row()];
+		STCollectionPublisherInfoDep CCInfo = PublisherList[_Index.row()];
 		if (_Role == Qt::DisplayRole)
 		{
 			Res = CCInfo.description(); 
@@ -90,15 +90,15 @@ QVariant STCollectionPublisherModel::data(const QModelIndex& _Index, int _Role) 
 }
 
 
-QString STCollectionPublisherModel::publisherPath()
+QString STCollectionPublisherModelDep::publisherPath()
 {
 	QString Res = SharedDataPath + "/publishers"; 
 	return Res; 
 }		
 
-STCollectionPublisherInfo STCollectionPublisherModel::publisherInfo(const QModelIndex& _Index)
+STCollectionPublisherInfoDep STCollectionPublisherModelDep::publisherInfo(const QModelIndex& _Index)
 {
-	STCollectionPublisherInfo Res;
+	STCollectionPublisherInfoDep Res;
 	if (_Index.isValid() && _Index.row() < rowCount())
 	{
 		Res = PublisherList[_Index.row()]; 
@@ -106,10 +106,10 @@ STCollectionPublisherInfo STCollectionPublisherModel::publisherInfo(const QModel
 	return Res; 
 }
 
-STCollectionPublisherInfo STCollectionPublisherModel::defaultPublisherInfo()
+STCollectionPublisherInfoDep STCollectionPublisherModelDep::defaultPublisherInfo()
 {
-	STCollectionPublisherInfo  PubInfo;
-	STDom::STCollectionPublisherModel Model;
+	STCollectionPublisherInfoDep  PubInfo;
+	STDom::STCollectionPublisherModelDep Model;
 	Model.loadPublishers();
 	if(Model.rowCount() > 0)
 		PubInfo= Model.publisherInfo(Model.index(0,0));

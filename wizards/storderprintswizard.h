@@ -84,6 +84,7 @@ class OPWUserDataPage : public STOWizardPage
 Q_OBJECT
 public:
 	OPWUserDataPage(QWidget* _Parent = 0);
+	void loadFieldSettings();
 	void initializePage();
 	bool validatePage();
 	bool forgetMe();
@@ -187,27 +188,6 @@ private slots:
 	void updateSelectedProduct();
 };
 
-/**
-	Page to choose shipping method.
-
-	@author Shadow
-*/
-
-class QSqlTableModel;
-class OPWChooseShippingMethod : public STOWizardPage
-{
-Q_OBJECT
-
-	QComboBox* CBSMethods;
-	QSqlTableModel* PModel;
-
-public:
-	OPWChooseShippingMethod(QWidget* _Parent = 0);
-	void initializePage();
-	bool forgetMe();
-	int nextId() const;
-	QSqlRecord currentShippingMethod() const;
-};
 
 
 /**
@@ -247,16 +227,16 @@ Q_OBJECT
 private:
 	QFileInfoList ImagesToSend; 
 	OPWAbstractChooseProduct* ProductPage;
-	OPWChooseShippingMethod* SMethPage;
 	OPWConfirmOrder* ConfirmOrderPage; 
 	OPWChooseSendMode* SendModePage;
 	QPushButton* ButConfirmAndSend;
 	int NumImages;
 	bool AtomicOrder;
 	static int DPIS; 
-	
+	QWidget* createContactWidget();
+
 public:	
-	enum { Page_Welcome, Page_UserData, Page_ChooseProduct, Page_ChooseShipMethod, Page_ChooseSendMode, Page_ConfirmOrder};
+	enum { Page_Welcome, Page_UserData, Page_ChooseProduct, Page_ChooseSendMode, Page_ConfirmOrder};
 
 	static const QString PublisherDBConnectionName; 
 	int nonForgetId(int _FromId) const;
@@ -292,12 +272,19 @@ class XmlOrderDealer;
 class SProcessStatusWidget;
 class QTextEdit;
 class QLabel;
+class QGroupBox;
 class OPWConfirmOrder: public STOWizardPage
 {
 Q_OBJECT
 
 public:
 	ST_DECLARE_ERRORCLASS();
+
+	enum EnShipOption
+	{
+		ShipOptionByPost = 0,
+		ShipOptionCollectInStore
+	};
 
 private:
 	QLabel* BillLabel; 
@@ -307,10 +294,26 @@ private:
 	STDom::PrintJob PrintJob;
 	bool SendViaInternet;
 	STDom::PublisherInfo PublisherInfo;
+	QLabel* ContactLabel;
+	QComboBox* CBPaymentType;
+	QComboBox* CBShipOption;
+	QComboBox* CBShippingMethod;
+	QComboBox* CBCollectionPoint;
+	QGroupBox* ByPostGBox;
+	QGroupBox* CollectInStoreGBox;
+	QLabel* ShippingAddressLabel;
+	QLabel* CollectionPointAddressLabel;
+	OPWUserDataPage* UserDataPage;
+
+	QWidget* createContactWidget();
+	QWidget* createShipmentOptionsWidget();
+	QWidget* createOtherOptionsWidget();
+	QWidget* createBillOptionsWidget();
+	void updateContactInfo();
+	void updateContactAddress();
 
 public:
-	OPWConfirmOrder(const STDom::PublisherInfo& _PublisherInfo, QWidget* _Parent = 0);
-	void calcBill(const STDom::PrintJob& _Job, const QSqlRecord& _ShippingMethod);
+	OPWConfirmOrder(const STDom::PublisherInfo& _PublisherInfo, OPWUserDataPage* _UserDataPage, QWidget* _Parent = 0);
 	void initialize(const STDom::PrintJob& _Job);
 	bool validatePayment();
 	void sendViaInternet(bool _Value);
@@ -320,7 +323,17 @@ public:
 	void storeImages();
 	bool validatePage();
 	QString lastOrderRef() const { return LastOrderRef; }
-	
+	EnShipOption currentShipOption();
+	STDom::ShippingMethod currentShippingMethod();
+	STDom::CollectionPoint currentCollectionPoint();
+	STDom::PaymentType currentPaymentType();
+
+private slots:
+	void slotShipOptionIndexChanged(int _Index);
+	void slotUpdateCollectionPointAddress();
+	void slotCalcBill();
+	void slotSenderSettings();
+
 signals:
 	void getImagesToSend(QFileInfoList& ImagesToSend, SProcessStatusWidget* _StatusWidget);		
 };

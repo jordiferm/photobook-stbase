@@ -29,6 +29,7 @@
 #include "stxmlpublishersettings.h"
 #include "stlog.h"
 #include "xmlorder.h"
+#include "publisher.h"
 
 using namespace STDom;
 
@@ -364,46 +365,51 @@ void STFtpOrderTransfer::syncRemoteFile(const QString& _FileName, const QString&
 	setTransferMode(_TransferMode);
 	Assert(waitForCommand(connectToHost(_Host, _Port)), Error(tr("Time out Error connecting to host.")));
 	Assert(state() == QFtp::Connected, Error(tr("Could not connect to host: %1 -> %2").arg(_Host).arg(errorString())));
-	waitForCommand(login(_User,_Password));
-	Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
-	waitForCommand(cd(_RemoteSourceDir));
-	Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteSourceDir)));
-	FilesTransfered.clear();
-	Assert(waitForCommand(list()), Error(tr("Time out Error getting files list.")));
-
-
-	QFileInfo DestFileInfo = QFileInfo(QDir(_DestDir).absoluteFilePath(_FileName));
-	qDebug() << FilesTransfered.keys();
-	qDebug() << "Requested file" << _FileName;
-	if (FilesTransfered.contains(_FileName))
+	try
 	{
-		qDebug() << "File in dest list";
-		if (FilesTransfered[_FileName].lastModified() > DestFileInfo.lastModified() || !DestFileInfo.exists() || DestFileInfo.size() == 0)
+		waitForCommand(login(_User,_Password));
+		Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
+		waitForCommand(cd(_RemoteSourceDir));
+		Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteSourceDir)));
+		FilesTransfered.clear();
+		Assert(waitForCommand(list()), Error(tr("Time out Error getting files list.")));
+
+
+		QFileInfo DestFileInfo = QFileInfo(QDir(_DestDir).absoluteFilePath(_FileName));
+		//qDebug() << FilesTransfered.keys();
+		//qDebug() << "Requested file" << _FileName;
+		if (FilesTransfered.contains(_FileName))
 		{
-			qDebug() << "Downloading file...";
-			QFile File(DestFileInfo.absoluteFilePath());
-			Assert(File.open(QIODevice::WriteOnly | QIODevice::Truncate), Error(QString(tr("Could not open file %1")).arg(DestFileInfo.absoluteFilePath())));
-			Assert(waitForCommand(get(_FileName, &File)), Error(tr("Time out Error getting file %1.").arg(DestFileInfo.fileName())));
+			//qDebug() << "File in dest list";
+			if (FilesTransfered[_FileName].lastModified() > DestFileInfo.lastModified() || !DestFileInfo.exists() || DestFileInfo.size() == 0)
+			{
+				//qDebug() << "Downloading file...";
+				QFile File(DestFileInfo.absoluteFilePath());
+				Assert(File.open(QIODevice::WriteOnly | QIODevice::Truncate), Error(QString(tr("Could not open file %1")).arg(DestFileInfo.absoluteFilePath())));
+				Assert(waitForCommand(get(_FileName, &File)), Error(tr("Time out Error getting file %1.").arg(DestFileInfo.fileName())));
+			}
 		}
+		close();
 	}
-	close();
+	catch(...)
+	{
+		close();
+		throw;
+	}
 }
 
 //TODO: Pass the publisher
-void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
+void STFtpOrderTransfer::transferOrder(const QString& _OrderId,const Publisher& _Publisher)
 {
 	QDir OrderDir(XmlOrderInfo::defaultOrderPath(_OrderId));
-	STCollectionPublisherInfo PubInfo(OrderDir.absolutePath()); 
-	STXmlPublisherSettings PubSettings; 
-	Assert(PubSettings.loadXml(PubInfo.publisherXmlFile().absoluteFilePath()), Error(QString(tr("Could not open publisher info file %1")).arg(PubInfo.publisherXmlFile().absoluteFilePath())));
-	
+
 	clearAbortFlag();
-	setTransferMode(static_cast<QFtp::TransferMode>(PubSettings.transferMode()));
-	Assert(waitForCommand(connectToHost(PubSettings.url(), PubSettings.port())), Error(tr("Time out Error connecting to host.")));
+	setTransferMode(static_cast<QFtp::TransferMode>(_Publisher.transferMode()));
+	Assert(waitForCommand(connectToHost(_Publisher.ftpUrl(), _Publisher.ftpPort())), Error(tr("Time out Error connecting to host.")));
 	Assert(state() == QFtp::Connected, Error(tr("Could not connect to host: %1").arg(errorString())));
-	login(PubSettings.userName(), PubSettings.password());
-	if (!PubSettings.initDir().isEmpty())
-		cd(PubSettings.initDir());
+	login(_Publisher.userName(), _Publisher.password());
+	if (!_Publisher.initDir().isEmpty())
+		cd(_Publisher.initDir());
 	QString OrderGlobalId = orderGlobalId(OrderDir); 
 	QString RemoteDir = OrderGlobalId;
 	int MKDirCommand = mkdir(RemoteDir);
@@ -423,7 +429,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 		Assert(waitForCommand(list()), Error(tr("Time out Error getting files list.")));
 		QFileInfoList FilesToPut = OrderDir.entryInfoList(QDir::Files); 
 		QFileInfoList::iterator it; 
-		QString DestAbsDirPath = PubSettings.initDir() + "/" + RemoteDir; 
+		QString DestAbsDirPath = _Publisher.initDir() + "/" + RemoteDir;
 		Cnt = 0; 
 		TotalSteps = FilesToPut.size() -1;
 		emit overallProcessStep(TotalSteps, Cnt++);	 
@@ -448,8 +454,8 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 				}
 			}
 	
-			if (!AlreadyTransfered && it->fileName() != PubInfo.publisherXmlFile().fileName() && 
-				it->completeSuffix().toLower() != "xml" )
+			if (!AlreadyTransfered &&
+					it->completeSuffix().toLower() != "xml")
 			{
 				//qDebug(QString("... Transfering %1 ...").arg(DestAbsDirPath + "/" + it->fileName()).toLatin1()); 
 				QFile File(it->absoluteFilePath());
@@ -474,8 +480,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 			FilesTransferedOK = true; 
 			while (!Aborted && it != FilesToPut.end() && FilesTransferedOK)
 			{
-				if (it->fileName() != PubInfo.publisherXmlFile().fileName() && 
-					it->completeSuffix().toLower() != "xml" )
+				if (it->completeSuffix().toLower() != "xml" )
 				{
 					//qDebug(QString("Checking for file %1").arg(it->fileName()).toLatin1()); 
 					if (FilesTransfered.contains(it->fileName()))
@@ -516,14 +521,12 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 			bool AlreadyTransfered = false; 
 			if (FilesTransfered.contains(it->fileName()))
 				AlreadyTransfered = FilesTransfered[it->fileName()].size() == it->size();
-			if (!AlreadyTransfered && it->fileName() != PubInfo.publisherXmlFile().fileName())
+			if (!AlreadyTransfered )
 			{
 				//Try to load order and clean sender data.
 				STDom::XmlOrder Order;
 				if (Order.loadXml(it->absoluteFilePath()))
 				{
-					if (PubSettings.hasDealer())
-						Order.clearDealerData(); 
 					Order.setGlobalId(OrderGlobalId); 
 					QTemporaryFile TempXmlOFile; 
 					Assert(TempXmlOFile.open(), Error(tr("Could not create a temporary file")));
@@ -543,7 +546,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 			++it;
 		}
 		//--- Transfer order.xml to Dealer.
-		if (PubSettings.hasDealer()) //Transfer order.xml to dealer 
+		/*if (PubSettings.hasDealer()) //Transfer order.xml to dealer
 		{
 			Assert(waitForCommand(close()), Error(tr("Time out Error closing connection.")));
 			Assert(waitForCommand(connectToHost(PubSettings.dealerUrl(), PubSettings.dealerPort())), Error(tr("Time out Error connecting to host.")));
@@ -574,7 +577,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 				Cnt++;
 				++it;
 			}
-		}
+		}*/
 
 		emit overallProcessStep(TotalSteps, Cnt);
 	}

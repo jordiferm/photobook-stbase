@@ -67,6 +67,7 @@ SET(prj_SRCS
 	remotepublishermanager.cpp
 	starlababstractmanager.cpp
 	starlablocalmanager.cpp
+	starlabtable.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -88,6 +89,7 @@ SET(prj_MOC_HDRS
 	remotepublishermanager.h
 	starlababstractmanager.h
 	starlablocalmanager.h
+	starlabtable.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

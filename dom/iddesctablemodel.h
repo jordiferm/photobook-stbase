@@ -36,10 +36,11 @@ class ST_DOM_EXPORT IdDescTableModel : public QAbstractTableModel
 public:
 	enum EnColumns
 	{
-		ColId = 0,
-		ColDescription = 1
+		ColDescription = 0,
+		ColId = 1
 	};
-	typedef QPair<QVariant, QString>  TKeyValue;
+	typedef QString TKey;
+	typedef QPair<TKey, QString>  TKeyValue;
 	typedef QList<TKeyValue> TKeyValueList;
 private:
 
@@ -51,9 +52,10 @@ public:
 	int columnCount(const QModelIndex &parent) const;
 	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
-	void addItem(const QVariant& _Id, const QString& _Description);
+	void addItem(const QString& _Id, const QString& _Description);
 	void setValues(const TKeyValueList& _Values);
 	void clear();
+	TKey key(const QModelIndex& _Index);
 
 signals:
 

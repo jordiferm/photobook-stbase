@@ -375,7 +375,7 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 	return JobToStore;
 }
 
-void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat, QProgressBar* _ProgBar)
+void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat, const QString& _DatabaseFilePath, QProgressBar* _ProgBar)
 {
 	if (_FitImagesToFormat)
 	{
@@ -392,6 +392,11 @@ void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order
 		_Order.clearPrintPath(); //To make paths relative to order dir
 		_Order.saveXml();
 		ErrorStack += _Order.errorStack();
+	}
+	if (!_DatabaseFilePath.isEmpty())
+	{
+		QString DestFileName = QDir(_Order.orderInfo().orderPath()).absoluteFilePath("publisher.db");
+		StackAssert(QFile::copy(_DatabaseFilePath, DestFileName), Error(QObject::tr("Could not copy Publisher Database file: %1").arg(_DatabaseFilePath)), ErrorStack);
 	}
 }
 

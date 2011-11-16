@@ -36,6 +36,7 @@ Class to send Starphob Orders via Ftp.
 
 	@author
 */
+class Publisher;
 class ST_DOM_EXPORT STFtpOrderTransfer : public QFtp
 {
 	Q_OBJECT
@@ -67,7 +68,7 @@ public:
 	QList<QUrlInfo> getFilesList(const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
 	void syncRemoteDir(const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
 	void syncRemoteFile(const QString& _FileName, const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
-	void transferOrder(const QString& _OrderId);
+	void transferOrder(const QString& _OrderId, const Publisher& _Publisher);
 	~STFtpOrderTransfer();
 	//!Aborts current command command and all pending commands.
 	void abortAll();

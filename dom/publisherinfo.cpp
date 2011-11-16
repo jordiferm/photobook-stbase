@@ -25,3 +25,46 @@ PublisherInfo::PublisherInfo()
 {
 	//void setCollectionPoints
 }
+
+CollectionPoint PublisherInfo::getCollectionPoint(const IdDescTableModel::TKey& _Key)
+{
+	CollectionPoint Res;
+	if (CollectionPointMap.contains(_Key))
+		Res = CollectionPointMap[_Key];
+	return Res;
+}
+
+PaymentType PublisherInfo::getPaymentType(const IdDescTableModel::TKey& _Key)
+{
+	PaymentType Res;
+	if (PaymentTypeMap.contains(_Key))
+		Res = PaymentTypeMap[_Key];
+	return Res;
+}
+
+ShippingMethod PublisherInfo::getShippingMethod(const IdDescTableModel::TKey& _Key)
+{
+	ShippingMethod Res;
+	if (ShippingMethodMap.contains(_Key))
+		Res = ShippingMethodMap[_Key];
+	return Res;
+}
+
+void PublisherInfo::addShippingMethod(const ShippingMethod& _Value)
+{
+	ShippingMethodMap.insert(_Value.id(), _Value );
+	ShippingMethods.push_back(IdDescTableModel::TKeyValue(_Value.id(), _Value.description()));
+}
+
+void PublisherInfo::addPaymentType(const PaymentType& _Value)
+{
+	PaymentTypeMap.insert(_Value.id(), _Value );
+	PaymentTypes.push_back(IdDescTableModel::TKeyValue(_Value.id(), _Value.description()));
+}
+
+void PublisherInfo::addCollectionPoint(const CollectionPoint& _Value)
+{
+	CollectionPointMap.insert(_Value.id(), _Value );
+	CollectionPoints.push_back(IdDescTableModel::TKeyValue(_Value.id(), _Value.name()));
+}
+

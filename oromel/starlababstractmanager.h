@@ -24,10 +24,17 @@
 #include "publisher.h"
 #include "templateinfolist.h"
 #include "publisherdatabase.h"
-#include "iddesctablemodel.h"
+#include "starlabtable.h"
 
 class ST_OROMEL_EXPORT StarlabAbstractManager
 {
+public:
+	enum EnPublisherTable
+	{
+		TableShippingMethods,
+		TablePaymentTypes,
+		TableCollectionPoints
+	};
 
 public:
     StarlabAbstractManager();
@@ -36,12 +43,9 @@ public:
 	virtual void updateProductHash(const QString& _Hash) {}
 	virtual bool templatesUpToDate(const QString& _Hash) { return false; }
 	virtual void updateTemplateHash(const QString& _Hash) {}
-	virtual void syncProducts(const STDom::PublisherDatabase& ) {}
-	virtual void syncTemplates(const SPhotoBook::TemplateInfoList& ) {}
-	virtual STDom::IdDescTableModel::TKeyValueList getCollectionPoints() const { return STDom::IdDescTableModel::TKeyValueList(); }
-	virtual STDom::IdDescTableModel::TKeyValueList getPaymentTypes() const { return STDom::IdDescTableModel::TKeyValueList(); }
-	virtual STDom::IdDescTableModel::TKeyValueList getShippingMethods() const { return STDom::IdDescTableModel::TKeyValueList(); }
-	virtual double getShippingMethodAmount(const QVariant& _IdShippingMethod) const { return 0; }
+	virtual void syncTemplateProducts(STDom::PublisherDatabase&, const SPhotoBook::TemplateInfo&  ) {}
+	virtual void syncTemplate(const SPhotoBook::TemplateInfo& ) {}
+	virtual StarlabTable getPublisherTable(enum EnPublisherTable) { return StarlabTable(); }
 	virtual QUrl infoUrl(const SPhotoBook::TemplateInfo& _Template) { return QUrl(); }
 	virtual void editTemplateInfo(const SPhotoBook::TemplateInfo& _Template) {}
 };

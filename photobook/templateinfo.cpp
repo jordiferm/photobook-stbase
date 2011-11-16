@@ -22,8 +22,8 @@
 
 using namespace SPhotoBook;
 
-TemplateInfo::TemplateInfo() :
-		BasePath(""), Name(""), Type(MetaInfo::TypePhotoBook)
+TemplateInfo::TemplateInfo(const QString& _Name, MetaInfo::EnTemplateType _Type ) :
+		BasePath(TemplatePaths::defaultTemplatesPath()), Name(_Name), Type(_Type)
 {
 }
 
@@ -76,3 +76,30 @@ bool TemplateInfo::operator==(const TemplateInfo& _Other) const
 {
 	return _Other.size() == size() && _Other.name() == name() && _Other.type() == type();
 }
+
+STDom::PublisherDatabase::EnProductType TemplateInfo::pubDatabaseProductType() const
+{
+	STDom::PublisherDatabase::EnProductType Res;
+	switch (type())
+	{
+		case SPhotoBook::MetaInfo::TypePhotoBook :
+			Res = STDom::PublisherDatabase::PhotoBookProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeCalendar :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeCard :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeIdPhoto :
+			Res = STDom::PublisherDatabase::PhotoIdProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeMultiPhoto :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
+		default:
+			Res = STDom::PublisherDatabase::AllProducts;
+	}
+	return Res;
+}
+

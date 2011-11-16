@@ -271,8 +271,14 @@ void XmlOrder::loadHeader(QDomElement& _HElement)
 			if (CEl.tagName().toLower() == "customer" )
 				Customer = XmlOrderDealer(CEl);
 			else 
-			if (CEl.tagName().toLower() == "publisher" )
-				Publisher = XmlOrderDealer(CEl);
+			if (CEl.tagName().toLower() == "collectionpoint" )
+				CollectionPoint = XmlOrderDealer(CEl);
+			else
+			if (CEl.tagName().toLower() == "shippingmethod")
+				SMethod = ShippingMethod(CEl);
+			else
+			if (CEl.tagName().toLower() == "paymenttype")
+				PType = PaymentType(CEl);
 		}
 		CNode = CNode.nextSibling();
 	}	
@@ -296,7 +302,9 @@ QDomElement XmlOrder::createHeader(QDomDocument& _Doc) const
 	
 	Header.appendChild(Sender.createElement(_Doc, "sender"));
 	Header.appendChild(Customer.createElement(_Doc, "customer"));
-	Header.appendChild(Publisher.createElement(_Doc, "publisher"));
+	Header.appendChild(CollectionPoint.createElement(_Doc, "collectionpoint"));
+	Header.appendChild(SMethod.createElement(_Doc, "shippingmethod"));
+	Header.appendChild(PType.createElement(_Doc, "paymenttype"));
 	
 	return Header;
 }

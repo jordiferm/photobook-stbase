@@ -30,6 +30,8 @@
 #include "sterror.h"
 #include "sterrorstack.h"
 #include "sapplication.h"
+#include "shippingmethod.h"
+#include "paymenttype.h"
 
 #define XMLO_CURRENT_VERSION "1.2.0"
 
@@ -229,7 +231,9 @@ private:
 	QDateTime SentDateTime;
 	XmlOrderDealer Sender; 
 	XmlOrderDealer Customer;
-	XmlOrderDealer Publisher;
+	XmlOrderDealer CollectionPoint;
+	ShippingMethod SMethod;
+	PaymentType PType;
 	TProductPrints Prints;
 	int Type; 
 	QString Version; 
@@ -286,8 +290,14 @@ public:
 	void setCustomer(const XmlOrderDealer& _Value) { Customer = _Value; }
 	XmlOrderDealer customer() const { return Customer;}
 
-	void setPublisher(const XmlOrderDealer& _Value) { Publisher = _Value; }
-	XmlOrderDealer publisher() const { return Publisher;}
+	void setCollectionPoint(const XmlOrderDealer& _Value) { CollectionPoint = _Value; }
+	XmlOrderDealer collectionPoint() const { return CollectionPoint;}
+
+	void setShippingMethod(const ShippingMethod& _Value) { SMethod = _Value; }
+	ShippingMethod shippingMethod() const { return SMethod; }
+
+	void setPaymentType(const PaymentType& _Value) { PType = _Value; }
+	PaymentType paymentType() const { return PType; }
 	
 	void setType(const int _Type) { Type = _Type; }
 	int type() const { return Type; }

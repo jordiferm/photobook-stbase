@@ -72,8 +72,8 @@ bool OrderTransferModel::isTherePendingOrders()
 		QFileInfoList::iterator it = OrderDirs.begin();
 		while (it != OrderDirs.end() && !Found)
 		{
-			STDom::STCollectionPublisherInfo PubInfo(it->absoluteFilePath());
-			Found = (QFile::exists(PubInfo.publisherXmlFile().absoluteFilePath())); //To be sure that order is entirelly saved at disk.
+			QDir CurrDir(it->absoluteFilePath());
+			Found = (QFile::exists(CurrDir.absoluteFilePath(STDom::XmlOrderInfo::orderXmlFileName()))); //To be sure that order is entirelly saved at disk.
 			++it;
 		}
 	}
@@ -91,8 +91,8 @@ void OrderTransferModel::updateOrders()
 		QFileInfoList::iterator it; 
 		for (it = OrderDirs.begin(); it != OrderDirs.end(); ++it)
 		{
-			STDom::STCollectionPublisherInfo PubInfo(it->absoluteFilePath());
-			if (QFile::exists(PubInfo.publisherXmlFile().absoluteFilePath())) //To be sure that order is entirelly saved at disk.
+			QDir CurrDir(it->absoluteFilePath());
+			if (QFile::exists(CurrDir.absoluteFilePath(STDom::XmlOrderInfo::orderXmlFileName()))) //To be sure that order is entirelly saved at disk.
 			{
 				QString OrderId = it->fileName(); 
 				QString OrderKey = idToKey(OrderId); 

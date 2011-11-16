@@ -25,6 +25,7 @@
 #include <QList> 
 #include <QSqlRecord> 
 #include <QSize>
+#include "sterror.h"
 
 /**
 	Abstraction of a publisher bill.
@@ -73,7 +74,9 @@ public:
 	public:
 		PublisherShippingMethod(const QString& _Description = "", double _Price = 0) : Description(_Description), Price(_Price) {}
 		QString description() const { return Description; }
+		void setDescription(const QString& _Value) { Description = _Value; }
 		double price() const { return Price; }
+		void setPrice(double _Price) { Price = _Price; }
 		QString ritchText() const;
 		QString plainText() const;
 		bool isEmpty() const { return Description.isEmpty(); }
@@ -112,6 +115,7 @@ public:
 class ST_DOM_EXPORT PublisherDatabase : public QSqlDatabase
 {
 public:
+	ST_DECLARE_ERRORCLASS();
 	enum EnProductType
 	{
 		AllProducts = -1,
@@ -135,6 +139,7 @@ public:
 	void importLocalProducts(const QSqlDatabase& _SourceDB);
 	void importTable(const FSqlDatabaseManager& _SourceDBManager, const QString& _TableName, const QString& _ImportOrderBy = "");
 	void importAll(const FSqlDatabaseManager& _SourceDBManager);
+	QAbstractItemModel* newProductsTemplateModel(QObject* _Parent , EnProductType _ProductType, const QString& _TemplateRef) const;
 	QAbstractItemModel* newProductsModel(QObject* _Parent = 0, EnProductType _ProductType = AllProducts, const QString& _Filter = "") const;
 	QAbstractItemModel* newFormatsModel(QObject* _Parent = 0, const QString& _Filter = "") const;
 	QSqlTableModel* newShippingMethodModel(QObject* _Parent = 0) const;
@@ -144,10 +149,10 @@ public:
 	static QSqlDatabase addDatabase(const QString& _DatabaseName, const QString& _ConnectionName = DefaultPublisherDBConnectionName); 
 	EnProductType productType(const QString& _ProductRef);
 	//! Overloaded function provided for convenience.
-	QString billRitchText(const PrintJob& _Job, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet = 1);
-	QString billRitchText(const XmlOrder& _Order, const QSqlRecord& _ShippingMethod = QSqlRecord(), int _ImagesPerSheet = 1);
-	PublisherBill calcBill(const PrintJob& _Job, const QSqlRecord& _ShippingMethod= QSqlRecord(), int _ImagesPerSheet = 1);
-	PublisherBill calcBill(const XmlOrder& _Order, const QSqlRecord& _ShippingMethod = QSqlRecord(), int _ImagesPerSheet = 1);
+	QString billRitchText(const PrintJob& _Job, const PublisherBill::PublisherShippingMethod& _ShippingMethod, int _ImagesPerSheet = 1);
+	QString billRitchText(const XmlOrder& _Order, const PublisherBill::PublisherShippingMethod& _ShippingMethod = PublisherBill::PublisherShippingMethod(), int _ImagesPerSheet = 1);
+	PublisherBill calcBill(const PrintJob& _Job, const PublisherBill::PublisherShippingMethod& _ShippingMethod= PublisherBill::PublisherShippingMethod(), int _ImagesPerSheet = 1);
+	PublisherBill calcBill(const XmlOrder& _Order, const PublisherBill::PublisherShippingMethod& _ShippingMethod = PublisherBill::PublisherShippingMethod(), int _ImagesPerSheet = 1);
 	static int digiprintProdDisplayColumn();
 	static int digiprintProdKeyColumn();
 	static int digiprintFormatDisplayColumn();
@@ -161,6 +166,8 @@ public:
 	void deleteTemplateProducts();
 	//returns true if database has some products.
 	bool hasProducts() const;
+	//!Exports products of one template
+	void exportCSV(const QString& _AbsoluteFilePath, EnProductType _ProductType, const QString& _TemplateRef);
 };
 } //namespace
 #endif

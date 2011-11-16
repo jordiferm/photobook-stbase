@@ -89,7 +89,7 @@ public:
 	void printToPrinter(QPrinter& _Printer, const PrintJob& _Job, const QString& _JobName = "noname", QProgressBar* _ProgBar = 0);
 	PrintJob print(const PrintJob& _Job, const QString& _JobName = "noname", QProgressBar* _ProgBar = 0);
 	//! If _FitImagestoFormat is false PrintJobPrinter don't modify images, else it uses FitMode, dpis and format to generate new images.
-	void store(const PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat = true, QProgressBar* _ProgBar = 0);
+	void store(const PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat = true, const QString& _DatabaseFilePath = "", QProgressBar* _ProgBar = 0);
 	static void setEncodeKey(const QString& _Value) { EncodeKey = _Value; }
 	static QString encodeKey() { return EncodeKey; }
 

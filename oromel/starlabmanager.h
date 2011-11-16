@@ -23,10 +23,13 @@
 #include <QString>
 #include <QUrl>
 #include <QTime>
+#include <QList>
+#include <QPair>
 #include "publisher.h"
 #include "sterror.h"
 #include "storomelexport.h"
 #include "starlababstractmanager.h"
+#include "starlabtable.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -44,14 +47,24 @@ public:
 	QTime InitTime;
 	static int DefaultTimeOutSecs;
 
+	QString tableName(EnPublisherTable _Table);
+	QString getResponse(const QString& _Path, const QList<QPair<QString, QString> >& _QueryItems = QList<QPair<QString, QString> >());
+	QString post(const QString& _Path, const QString& _FileName);
 	bool waitForReply(QNetworkReply* _Reply, int _TimeOutSecs = -1);
 	QUrl templateInfoUrl(const SPhotoBook::TemplateInfo& _Template, const QString& _Path);
 
 public:
+	bool productsUpToDate(const QString& _Hash);
+	void updateProductHash(const QString& _Hash);
 	StarlabManager(const QString& _StarlabUri, const QString& _PublisherPath, QObject* _Parent = 0);
 	STDom::Publisher getPublisher();
 	QUrl infoUrl(const SPhotoBook::TemplateInfo& _Template);
 	void editTemplateInfo(const SPhotoBook::TemplateInfo& _Template);
+	StarlabTable getPublisherTable(EnPublisherTable _Table);
+	QString getPublisherHash(const QString& _FileName);
+	void setPublisherHash(const QString& _FileName, const QString& _Hash);
+	void syncTemplateProducts(STDom::PublisherDatabase&, const SPhotoBook::TemplateInfo&  );
+	void syncTemplate(const SPhotoBook::TemplateInfo& );
 
 signals:
 

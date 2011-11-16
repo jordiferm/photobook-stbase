@@ -36,6 +36,7 @@ namespace STDom
 	Dialog to transfer Starphob print orders.
 */
 class STFtpOrderTransfer;
+class Publisher;
 class ST_DOM_EXPORT STFtpOrderTransferDialog : public QDialog
 {
 	Q_OBJECT;
@@ -51,8 +52,8 @@ class ST_DOM_EXPORT STFtpOrderTransferDialog : public QDialog
 public:
 	STFtpOrderTransferDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
 	~STFtpOrderTransferDialog();
-	void transferOrder(const QString& _OrderId);	
-	static void execTransferOrder(const QString& _OrderId, QWidget* _Parent);
+	void transferOrder(const QString& _OrderId, const Publisher& _Publisher);
+	static void execTransferOrder(const QString& _OrderId, QWidget* _Parent, const Publisher& _Publisher);
 	bool hasError() const { return HasError; }
 	bool aborted() const { return Aborted; }
 	

@@ -43,7 +43,9 @@ public:
 	RemotePublisherManager(StarlabAbstractManager* _Manager, const QString& _PublisherDatabaseFilePath);
 	StarlabAbstractManager* starlabManager() { return Manager; }
 	SPhotoBook::TemplateInfoList getTemplates();
-	void pullProducts(bool _PreserveLocalAdded = false);
+	void pullProducts(bool _UpToDateOnly = true, bool _PreserveLocalAdded = false);
+	void pushProducts();
+	void pushTemplate(const SPhotoBook::TemplateInfo& _Template);
 	bool productsDBExist();
 	void addDefaultProducts(DefaultSindarDatabase& _SindarDatabase);
 	STDom::PublisherDatabase getProducts() const;

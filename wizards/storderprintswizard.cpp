@@ -47,6 +47,7 @@
 #include "stftpordertransfer.h"
 #include "printjobmodel.h"
 #include "tpphotoselwidget.h"
+#include "stsendersettingsdialog.h"
 
 
 //_____________________________________________________________________________
@@ -167,24 +168,26 @@ OPWUserDataPage::OPWUserDataPage(QWidget* _Parent) : STOWizardPage(_Parent)
 #endif 
 }
 
+void OPWUserDataPage::loadFieldSettings()
+{
+	STOWizardSettings Settings;
+	setField("name", Settings.value("name"));
+	setField("surname", Settings.value("surname"));
+	setField("email", Settings.value("email"));
+	setField("phone", Settings.value("phone"));
+	setField("mobilephone", Settings.value("mobilephone"));
+	setField("address", Settings.value("address"));
+	setField("zip", Settings.value("zip"));
+	setField("city", Settings.value("city"));
+	setField("country", Settings.value("country"));
+	setField("state", Settings.value("state"));
+	//setField("id", Settings.value("id"));
+	//setField("transportroute", Settings.value("transportroute"));
+}
+
 void OPWUserDataPage::initializePage()
 {
-	//loadSettings();
-	STOWizardSettings Settings; 
-	//Settings.beginGroup("orderprintswizard");
-	setField("name", Settings.value("name")); 
-	setField("surname", Settings.value("surname")); 
-	setField("email", Settings.value("email")); 
-	setField("phone", Settings.value("phone")); 
-	setField("mobilephone", Settings.value("mobilephone")); 
-	setField("address", Settings.value("address")); 
-	setField("zip", Settings.value("zip")); 
-	setField("city", Settings.value("city")); 
-	setField("country", Settings.value("country")); 
-	setField("state", Settings.value("state")); 
-	setField("id", Settings.value("id")); 
-	setField("transportroute", Settings.value("transportroute")); 
-	//Settings.endGroup(); 
+	loadFieldSettings();
 }
 
 bool OPWUserDataPage::validatePage()
@@ -202,8 +205,8 @@ bool OPWUserDataPage::validatePage()
 	Settings.setValue("city", field("city").toString()); 
 	Settings.setValue("country", field("country").toString()); 
 	Settings.setValue("state", field("state").toString()); 
-	Settings.setValue("id", field("id").toString()); 
-	Settings.setValue("transportroute", field("transportroute").toString()); 
+	//Settings.setValue("id", field("id").toString());
+	//Settings.setValue("transportroute", field("transportroute").toString());
 	//Settings.endGroup(); 
 	return true; 
 }
@@ -240,9 +243,9 @@ void OPWAbstractChooseProduct::getPublisherData()
 
 	QString Filter;
 	if (!TemplateRef.isEmpty())
-		Filter = QString("templates_ref='%1'").arg(TemplateRef);
-
-	PModel = PubDatabase.newProductsModel(this, ProductType, Filter);
+		PModel = PubDatabase.newProductsTemplateModel(this, ProductType, TemplateRef);
+	else
+		PModel = PubDatabase.newProductsModel(this, ProductType);
 
 	STDom::STXmlPublisherSettings PXmlS;
 	Assert(PModel->rowCount() > 0, Error(tr("This publisher could not provide this product. Please contact him at <a href=\"mailto:%1\">%1</a>").arg(
@@ -269,7 +272,7 @@ void OPWAbstractChooseProduct::initialize(const QFileInfoList& _Images)
 
 int OPWAbstractChooseProduct::nextId() const
 {
-	return STOrderPrintsWizard::Page_ChooseShipMethod;
+	return STOrderPrintsWizard::Page_ChooseSendMode;
 }
 
 STDom::PrintJob OPWAbstractChooseProduct::printJob() const
@@ -381,7 +384,7 @@ OPWChooseAtomicProduct::OPWChooseAtomicProduct(const STDom::PublisherInfo& _Publ
 
 int OPWChooseAtomicProduct::nextId() const
 {
-	return STOrderPrintsWizard::Page_ChooseShipMethod;
+	return STOrderPrintsWizard::Page_ChooseSendMode;
 }
 
 void OPWChooseAtomicProduct::initializePage()
@@ -416,51 +419,6 @@ void OPWChooseAtomicProduct::showError(const STError& _Error)
 	setTitle(tr("<h1>The process could not continue due to an error</h1>"));
 	setSubTitle(QString("<center><img src=\":/st/error.png\"/>%1</center>").arg(_Error.description()));
 
-}
-
-
-//_____________________________________________________________________________
-//
-// class OPWChooseShippingMethod
-//_____________________________________________________________________________
-
-OPWChooseShippingMethod::OPWChooseShippingMethod(QWidget* _Parent) : STOWizardPage(_Parent), PModel(0)
-{
-	setTitle(tr("<h1>Shipping method selection</h1>"));
-	//TODO Fetch and show html from a remote URL stored in database.
-	setSubTitle(tr("Please select a shipping method from the list bellow."));
-	QGridLayout* MLayout = new QGridLayout(this); 
-	MLayout->addWidget(new QLabel(tr("Shipping methods :"), this), 0, 0);
-	CBSMethods = new QComboBox(this);
-	MLayout->addWidget(CBSMethods, 0, 1);
-}
-
-void OPWChooseShippingMethod::initializePage()
-{
-	STDom::PublisherDatabase PubDatabase;
-
-	if (PModel)
-		delete PModel;
-	PModel = PubDatabase.newShippingMethodModel(this);
-	CBSMethods->setModel(PModel);
-	CBSMethods->setModelColumn(PModel->record().indexOf("description")); 
-}
-
-bool OPWChooseShippingMethod::forgetMe() 
-{
-	initializePage();
-	return PModel->rowCount() <= 1;
-}
-
-
-int OPWChooseShippingMethod::nextId() const
-{
-	return STOrderPrintsWizard::Page_ChooseSendMode;
-}
-
-QSqlRecord OPWChooseShippingMethod::currentShippingMethod() const
-{
-	return PModel->record(CBSMethods->currentIndex());
 }
 
 
@@ -527,75 +485,216 @@ int OPWChooseSendMode::nextId() const
 
 //_____________________________________________________________________________
 //
-// class STOrderPrintsWizard
+// class OPWConfirmOrder
 //_____________________________________________________________________________
 
-OPWConfirmOrder::OPWConfirmOrder(const STDom::PublisherInfo& _PublisherInfo, QWidget* _Parent) : PublisherInfo(_PublisherInfo), STOWizardPage(_Parent), SendViaInternet(false)
+QWidget* OPWConfirmOrder::createContactWidget()
+{
+	QGroupBox* GBContact = new QGroupBox(tr("Contact"), this);
+	GBContact->setFlat(true);
+
+	QVBoxLayout* MLayout = new QVBoxLayout(GBContact);
+	ContactLabel = new QLabel(this);
+	MLayout->addWidget(ContactLabel);
+	QToolButton* ButModify = new QToolButton(this);
+	connect(ButModify, SIGNAL(clicked()), this, SLOT(slotSenderSettings()));
+	ButModify->setText(tr("Modify"));
+	MLayout->addWidget(ButModify);
+
+	return GBContact;
+}
+
+QWidget* OPWConfirmOrder::createShipmentOptionsWidget()
+{
+	QGroupBox* GBox = new QGroupBox(tr("Shippment options"), this);
+	GBox->setFlat(true);
+
+	QHBoxLayout* MLayout = new QHBoxLayout(GBox);
+
+	QGridLayout* LeftLayout = new QGridLayout;
+	MLayout->addLayout(LeftLayout);
+
+	//------ Payment type ---
+	LeftLayout->addWidget(new QLabel(tr("Payment Type"), 0, 0));
+	CBPaymentType = new QComboBox(this);
+	LeftLayout->addWidget(CBPaymentType, 0, 1);
+	STDom::IdDescTableModel* PaymentTypeModel = new STDom::IdDescTableModel(this);
+	CBPaymentType->setModel(PaymentTypeModel);
+	PaymentTypeModel->setValues(PublisherInfo.paymentTypes());
+	if (PaymentTypeModel->rowCount() > 0)
+		CBPaymentType->setCurrentIndex(0);
+
+	//------ Shipping Option ---
+	LeftLayout->addWidget(new QLabel(tr("Shipping option")), 1, 0);
+	CBShipOption = new QComboBox(this);
+	LeftLayout->addWidget(CBShipOption, 1, 1);
+	CBShipOption->addItem(tr("By Post"), ShipOptionByPost);
+	CBShipOption->addItem(tr("Collect In Store"), ShipOptionCollectInStore);
+	connect(CBShipOption, SIGNAL(currentIndexChanged(int)), this, SLOT(slotShipOptionIndexChanged(int )));
+
+	// -- By Post --
+	ByPostGBox = new QGroupBox(tr("Shipping Address"));
+	MLayout->addWidget(ByPostGBox);
+	QGridLayout* ByPostLayout = new QGridLayout(ByPostGBox);
+	ByPostLayout->addWidget(new QLabel(tr("Shipping Method"), this), 0, 0);
+
+	CBShippingMethod = new QComboBox(this);
+	ByPostLayout->addWidget(CBShippingMethod, 0, 1);
+	STDom::IdDescTableModel* ShippingMethodModel = new STDom::IdDescTableModel(this);
+	CBShippingMethod->setModel(ShippingMethodModel);
+	ShippingMethodModel->setValues(PublisherInfo.shippingMethods());
+
+	ShippingAddressLabel = new QLabel(this);
+	ByPostLayout->addWidget(ShippingAddressLabel, 1, 0, 1, 2);
+	if (ShippingMethodModel->rowCount() > 0)
+		CBShippingMethod->setCurrentIndex(0);
+	connect(CBShippingMethod, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCalcBill()));
+
+	QToolButton* ButModify = new QToolButton(this);
+	connect(ButModify, SIGNAL(clicked()), this, SLOT(slotSenderSettings()));
+	ButModify->setText(tr("Modify"));
+	ByPostLayout->addWidget(ButModify, 2, 0);
+
+
+	// -- Collect in Store --
+	CollectInStoreGBox = new QGroupBox(tr("Collection Address"));
+	MLayout->addWidget(CollectInStoreGBox);
+	QGridLayout* InStoreLayout = new QGridLayout(CollectInStoreGBox);
+	InStoreLayout->addWidget(new QLabel(tr("Collection Point"), this), 0, 0);
+
+	CBCollectionPoint = new QComboBox(this);
+	InStoreLayout->addWidget(CBCollectionPoint , 0, 1);
+	STDom::IdDescTableModel* CollectionPointModel = new STDom::IdDescTableModel(this);
+	CBCollectionPoint->setModel(CollectionPointModel);
+	CollectionPointModel->setValues(PublisherInfo.collectionPoints());
+	if (CollectionPointModel->rowCount() > 0)
+		CBCollectionPoint->setCurrentIndex(0);
+	connect(CBCollectionPoint, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCollectionPointAddress()));
+
+	CollectionPointAddressLabel = new QLabel(this);
+	InStoreLayout->addWidget(CollectionPointAddressLabel, 1, 0, 2, 1);
+	CollectInStoreGBox->setVisible(false);
+
+	CBShipOption->setCurrentIndex(0);
+	return GBox;
+}
+
+QWidget* OPWConfirmOrder::createOtherOptionsWidget()
+{
+	QGroupBox* GBox = new QGroupBox(tr("More Options"), this);
+	GBox->setFlat(true);
+
+	QVBoxLayout* MLayout = new QVBoxLayout(GBox );
+	MLayout->addWidget(new QLabel(tr("Order comments:"), this));
+	SenderOrderTE = new QTextEdit(this);
+	SenderOrderTE->setMaximumHeight(80);
+	MLayout->addWidget(SenderOrderTE);
+
+	QxtGroupBox* UserDataGBox = new QxtGroupBox(tr("Customer data"), this);
+	UserDataGBox->setChecked(false);
+	MLayout->addWidget(UserDataGBox);
+	QGridLayout* GBLayout = new QGridLayout(UserDataGBox);
+
+	GBLayout->addWidget(new QLabel(tr("<b>Name:</b>"), UserDataGBox), 0, 0);
+	QLineEdit* NewLEdit = new QLineEdit(UserDataGBox);
+	registerField("customer_name", NewLEdit);
+	GBLayout->addWidget(NewLEdit, 0, 1, 1, 7);
+
+	GBLayout->addWidget(new QLabel(tr("<b>Address:</b>"), UserDataGBox), 1, 0);
+	NewLEdit = new QLineEdit(UserDataGBox);
+	registerField("customer_address", NewLEdit);
+	GBLayout->addWidget(NewLEdit, 1, 1, 1, 7);
+
+	GBLayout->addWidget(new QLabel(tr("<b>Cp/Zip:</b>"), UserDataGBox), 2, 0);
+	NewLEdit = new QLineEdit(UserDataGBox);
+	registerField("customer_zip", NewLEdit);
+	GBLayout->addWidget(NewLEdit, 2, 1);
+
+	GBLayout->addWidget(new QLabel(tr("<b>City:</b>"), UserDataGBox), 2, 2);
+	NewLEdit = new QLineEdit(UserDataGBox);
+	registerField("customer_city", NewLEdit);
+	GBLayout->addWidget(NewLEdit, 2, 3);
+
+	GBLayout->addWidget(new QLabel(tr("<b>State:</b>"), UserDataGBox), 2, 4);
+	NewLEdit = new QLineEdit(UserDataGBox);
+	registerField("customer_state", NewLEdit);
+	GBLayout->addWidget(NewLEdit, 2, 5);
+
+	GBLayout->addWidget(new QLabel(tr("<b>Country:</b>"), UserDataGBox), 2, 6);
+	NewLEdit = new QLineEdit(UserDataGBox);
+	registerField("customer_country", NewLEdit);
+	GBLayout->addWidget(NewLEdit, 2, 7);
+
+	return GBox;
+}
+
+QWidget* OPWConfirmOrder::createBillOptionsWidget()
+{
+	QGroupBox* GBox = new QGroupBox(tr("Order invoice"), this);
+	GBox->setFlat(true);
+
+	QVBoxLayout* MLayout = new QVBoxLayout(GBox);
+	BillLabel = new QLabel(this);
+	MLayout->addWidget(BillLabel);
+
+	return GBox;
+}
+
+void OPWConfirmOrder::updateContactInfo()
+{
+	QString ContactStr;
+	QTextStream Strm(&ContactStr);
+	Strm << "<h2>" << field("name").toString()+ " " + field("surname").toString() << "</h2>";
+	Strm << field("email").toString() << "<b>" <<  tr(" Tel:") << "</b>" << field("phone").toString();
+	if (!field("mobilephone").toString().isEmpty())
+		Strm << "/" << field("mobilephone").toString();
+	ContactLabel->setText(ContactStr);
+
+
+}
+
+void OPWConfirmOrder::updateContactAddress()
+{
+	QString AddressStr;
+	QTextStream Strm(&AddressStr);
+	Strm << field("address").toString() << ", " <<  field("zip").toString() << " " << field("city").toString();
+	Strm << "(" << field("state").toString() << ") - " << field("country").toString();
+	ShippingAddressLabel->setText(AddressStr);
+}
+
+
+
+OPWConfirmOrder::OPWConfirmOrder(const STDom::PublisherInfo& _PublisherInfo, OPWUserDataPage* _UserDataPage, QWidget* _Parent) :
+	PublisherInfo(_PublisherInfo), STOWizardPage(_Parent), SendViaInternet(false), UserDataPage(_UserDataPage)
 {
 	setTitle(tr("<h1>Please confirm your order</h1>"));
 	//TODO Fetch and show html from a remote URL stored in database.
 	setSubTitle(tr("Below you can see your order bill. Please check it and if all its ok click confirm button. Once you confirm your order all the data will be sent to your provider. Thank you."));
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
-	BillLabel = new QLabel(this); 
-	MLayout->addWidget(BillLabel);
 
-	MLayout->addWidget(new QLabel(tr("Order comments:"), this)); 
-	SenderOrderTE = new QTextEdit(this); 
-	MLayout->addWidget(SenderOrderTE);
+	MLayout->addWidget(createContactWidget());
 
-	QxtGroupBox* UserDataGBox = new QxtGroupBox(tr("Customer data"), this); 
-	UserDataGBox->setChecked(false); 
-	MLayout->addWidget(UserDataGBox); 
-	QGridLayout* GBLayout = new QGridLayout(UserDataGBox); 
-		
-	GBLayout->addWidget(new QLabel(tr("<b>Name:</b>"), UserDataGBox), 0, 0); 
-	QLineEdit* NewLEdit = new QLineEdit(UserDataGBox); 
-	registerField("customer_name", NewLEdit);
-	GBLayout->addWidget(NewLEdit, 0, 1, 1, 7);
+	MLayout->addWidget(createShipmentOptionsWidget());
 
-	GBLayout->addWidget(new QLabel(tr("<b>Address:</b>"), UserDataGBox), 1, 0); 
-	NewLEdit = new QLineEdit(UserDataGBox); 
-	registerField("customer_address", NewLEdit);
-	GBLayout->addWidget(NewLEdit, 1, 1, 1, 7);
+	MLayout->addWidget(createOtherOptionsWidget());
 
-	GBLayout->addWidget(new QLabel(tr("<b>Cp/Zip:</b>"), UserDataGBox), 2, 0); 
-	NewLEdit = new QLineEdit(UserDataGBox); 
-	registerField("customer_zip", NewLEdit);
-	GBLayout->addWidget(NewLEdit, 2, 1);
-	
-	GBLayout->addWidget(new QLabel(tr("<b>City:</b>"), UserDataGBox), 2, 2); 
-	NewLEdit = new QLineEdit(UserDataGBox); 
-	registerField("customer_city", NewLEdit);
-	GBLayout->addWidget(NewLEdit, 2, 3);
-
-	GBLayout->addWidget(new QLabel(tr("<b>State:</b>"), UserDataGBox), 2, 4); 
-	NewLEdit = new QLineEdit(UserDataGBox); 
-	registerField("customer_state", NewLEdit);
-	GBLayout->addWidget(NewLEdit, 2, 5);
-
-	GBLayout->addWidget(new QLabel(tr("<b>Country:</b>"), UserDataGBox), 2, 6); 
-	NewLEdit = new QLineEdit(UserDataGBox); 
-	registerField("customer_country", NewLEdit);
-	GBLayout->addWidget(NewLEdit, 2, 7);
+	MLayout->addWidget(createBillOptionsWidget());
 
 
 	StatusWidg = new SProcessStatusWidget(this); 
 	MLayout->addWidget(StatusWidg); 	
-}
 
-void OPWConfirmOrder::calcBill(const STDom::PrintJob& _Job, const QSqlRecord& _ShippingMethod)
-{
-	STDom::PublisherDatabase PublDB;
-	STDom::PublisherBill Bill;
-	Bill = PublDB.calcBill(_Job, _ShippingMethod);
-	BillLabel->setText(Bill.ritchText());
+	MLayout->addItem(new QSpacerItem(0, 10, QSizePolicy::Preferred, QSizePolicy::MinimumExpanding));
 }
 
 void OPWConfirmOrder::initialize(const STDom::PrintJob& _Job)
 {
 	SenderOrderTE->clear();
 	StatusWidg->setVisible(false);
+	updateContactInfo();
+	updateContactAddress();
 	PrintJob = _Job;
+	slotCalcBill();
 }
 
 void OPWConfirmOrder::sendViaInternet(bool _Value)
@@ -631,8 +730,9 @@ STDom::XmlOrderDealer OPWConfirmOrder::sender()
 	Res.setCity(field("city").toString()); 
 	Res.setCountry(field("country").toString()); 
 	Res.setState(field("state").toString()); 
-	Res.setId(field("id").toString()); 
-	Res.setTransportRoute(field("transportroute").toString()); 
+	Res.setId("starphob");
+	//Res.setId(field("id").toString());
+	//Res.setTransportRoute(field("transportroute").toString());
 	return Res; 
 }
 
@@ -665,11 +765,12 @@ void OPWConfirmOrder::storeImages()
 	XmlOrder.setSenderComment(SenderOrderTE->toPlainText());
 	XmlOrder.setCustomer(customer());
 
-	//Publisher info
-	STDom::Publisher Publisher = PublisherInfo.publisher();
-	STDom::XmlOrderDealer PublisherDealer( Publisher.id(), Publisher.name());
-	PublisherDealer.setEmail(Publisher.email());
-	XmlOrder.setPublisher(PublisherDealer);
+	//Collection Point Info if  Collect in Store
+	if (currentShipOption() == ShipOptionCollectInStore)
+		XmlOrder.setCollectionPoint(currentCollectionPoint());
+	else
+		XmlOrder.setShippingMethod(currentShippingMethod());
+	XmlOrder.setPaymentType(currentPaymentType());
 
 	StatusWidg->setVisible(true);
 	StatusWidg->showProgressBar(tr("Storing images..."), 100);
@@ -677,7 +778,7 @@ void OPWConfirmOrder::storeImages()
 	Printer.clearErrorStack();
 
 	if (SendViaInternet)
-		Printer.store(PrintJob, XmlOrder, true, StatusWidg->progressBar());
+		Printer.store(PrintJob, XmlOrder, true, PublisherInfo.publisherDatabaseFilePath(), StatusWidg->progressBar());
 	else
 	{
 		//Choose a folder to store
@@ -763,6 +864,91 @@ bool OPWConfirmOrder::validatePage()
 	return Res; 
 }
 
+OPWConfirmOrder::EnShipOption OPWConfirmOrder::currentShipOption()
+{
+	return static_cast<OPWConfirmOrder::EnShipOption>(CBShipOption->itemData(CBShipOption->currentIndex()).toInt());
+}
+
+STDom::ShippingMethod OPWConfirmOrder::currentShippingMethod()
+{
+	STDom::ShippingMethod Res;
+	if (CBShippingMethod->currentIndex() != -1 && currentShipOption() == ShipOptionByPost)
+	{
+		if (STDom::IdDescTableModel* Model = qobject_cast<STDom::IdDescTableModel*>(CBShippingMethod->model()))
+		{
+			STDom::IdDescTableModel::TKey Key = Model->key(Model->index(CBShippingMethod->currentIndex(), 0));
+			Res = PublisherInfo.getShippingMethod(Key);
+		}
+	}
+	return Res;
+}
+
+STDom::CollectionPoint OPWConfirmOrder::currentCollectionPoint()
+{
+	STDom::CollectionPoint  Res;
+	if (CBCollectionPoint->currentIndex() != -1)
+	{
+		if (STDom::IdDescTableModel* Model = qobject_cast<STDom::IdDescTableModel*>(CBCollectionPoint->model()))
+		{
+			STDom::IdDescTableModel::TKey  Key = Model->key(Model->index(CBCollectionPoint->currentIndex(), 0));
+			Res = PublisherInfo.getCollectionPoint(Key);
+		}
+	}
+	return Res;
+}
+
+STDom::PaymentType OPWConfirmOrder::currentPaymentType()
+{
+	STDom::PaymentType  Res;
+	if (CBPaymentType->currentIndex() != -1)
+	{
+		if (STDom::IdDescTableModel* Model = qobject_cast<STDom::IdDescTableModel*>(CBPaymentType->model()))
+		{
+			STDom::IdDescTableModel::TKey  Key = Model->key(Model->index(CBPaymentType->currentIndex(), 0));
+			Res = PublisherInfo.getPaymentType(Key);
+		}
+	}
+	return Res;
+}
+
+void OPWConfirmOrder::slotShipOptionIndexChanged(int _Index)
+{
+	ByPostGBox->setVisible(static_cast<OPWConfirmOrder::EnShipOption>(CBShipOption->itemData(_Index).toInt()) == ShipOptionByPost);
+	CollectInStoreGBox->setVisible(!ByPostGBox->isVisible());
+	if (CollectInStoreGBox->isVisible())
+		slotUpdateCollectionPointAddress();
+	slotCalcBill();
+}
+
+void OPWConfirmOrder::slotUpdateCollectionPointAddress()
+{
+	STDom::CollectionPoint CCollectionPoint = currentCollectionPoint();
+	QString AddressStr;
+	QTextStream Strm(&AddressStr);
+	Strm << CCollectionPoint.address() << ", " <<  CCollectionPoint.postalcode() << " " << CCollectionPoint.city();
+	Strm << "(" << CCollectionPoint.state() << ") - " << CCollectionPoint.country();
+	CollectionPointAddressLabel->setText(AddressStr);
+}
+
+void OPWConfirmOrder::slotCalcBill()
+{
+	STDom::PublisherDatabase PublDB = PublisherInfo.publisherDatabase();
+	STDom::PublisherBill Bill;
+	Bill = PublDB.calcBill(PrintJob, static_cast <STDom::PublisherBill::PublisherShippingMethod>(currentShippingMethod()));
+	BillLabel->setText(Bill.ritchText());
+}
+
+void OPWConfirmOrder::slotSenderSettings()
+{
+	STSenderSettingsDialog SettingsDialog;
+	SettingsDialog.exec();
+	UserDataPage->loadFieldSettings();
+	updateContactInfo();
+	updateContactAddress();
+}
+
+
+
 //_____________________________________________________________________________
 //
 // class STOrderPrintsWizard
@@ -792,7 +978,8 @@ STOrderPrintsWizard::STOrderPrintsWizard(bool _AtomicOrder, const STDom::Publish
 							AtomicOrder(_AtomicOrder), NumImages(0)
 {
 	setPage(Page_Welcome, new OPWWelcomePage(this));
-	setPage(Page_UserData, new OPWUserDataPage(this));
+	OPWUserDataPage* UserDataPage = new OPWUserDataPage(this);
+	setPage(Page_UserData, UserDataPage);
 
 	if (_AtomicOrder)
 		ProductPage = new OPWChooseAtomicProduct(_PublisherInfo, this);
@@ -801,13 +988,11 @@ STOrderPrintsWizard::STOrderPrintsWizard(bool _AtomicOrder, const STDom::Publish
 
 	setPage(Page_ChooseProduct, ProductPage);
 
-	SMethPage = new OPWChooseShippingMethod(this);
-	setPage(Page_ChooseShipMethod, SMethPage); 
 
 	SendModePage = new OPWChooseSendMode(this);
 	setPage(Page_ChooseSendMode, SendModePage);
 
-	ConfirmOrderPage = new OPWConfirmOrder(_PublisherInfo, this);
+	ConfirmOrderPage = new OPWConfirmOrder(_PublisherInfo, UserDataPage, this);
 	setPage(Page_ConfirmOrder, ConfirmOrderPage);
 	
 
@@ -875,7 +1060,6 @@ void STOrderPrintsWizard::initializePage(int _Id)
 		case Page_ConfirmOrder :
 		{
 			ConfirmOrderPage->initialize(ProductPage->printJob());
-			ConfirmOrderPage->calcBill(ProductPage->printJob(), SMethPage->currentShippingMethod());
 			QWizard::initializePage(_Id);
 		}
 		break;
