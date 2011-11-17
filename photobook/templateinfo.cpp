@@ -18,6 +18,7 @@
 
 #include "templateinfo.h"
 #include "templatepaths.h"
+#include "collectioninfo.h"
 #include <QDir>
 
 using namespace SPhotoBook;
@@ -61,6 +62,12 @@ QString TemplateInfo::absolutePath(const DesignInfo& _Design) const
 	return BaseDir.absoluteFilePath(_Design.name());
 }
 
+QString TemplateInfo::metaInfoFileName(const DesignInfo& _Design) const
+{
+	return CollectionInfo::xmlMetaInfoFileNameFromPath(absolutePath(_Design));
+}
+
+
 DesignInfoList TemplateInfo::designs() const
 {
 	return Designs;
@@ -76,6 +83,13 @@ bool TemplateInfo::operator==(const TemplateInfo& _Other) const
 {
 	return _Other.size() == size() && _Other.name() == name() && _Other.type() == type();
 }
+
+bool TemplateInfo::designOnDisk(const DesignInfo& _Design) const
+{
+	QDir DesignDir(absolutePath(_Design));
+	return DesignDir.entryList(QDir::Files).size() > 1;
+}
+
 
 STDom::PublisherDatabase::EnProductType TemplateInfo::pubDatabaseProductType() const
 {

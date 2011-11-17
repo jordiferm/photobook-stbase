@@ -103,7 +103,7 @@ TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName) const
 //! Returns -1 if template does not exist.
 int TemplateInfoList::indexOf(const TemplateInfo& _TemplateInfo)
 {
-	int Res = 0;
+	int Res = -1;
 	bool Found = false;
 	int Cnt = 0;
 	while (!Found && Cnt < size())
@@ -153,4 +153,29 @@ void TemplateInfoList::updateTemplateInfo(const TemplateInfo& _Old, const Templa
 	int Index = indexOf(_Old);
 	if (Index != -1)
 		(*this)[Index] = _New;
+}
+
+void TemplateInfoList::mergePublicInfo(const TemplateInfoList& _PublicTemplates)
+{
+	TemplateInfoList::const_iterator it;
+	for (it = _PublicTemplates.begin(); it != _PublicTemplates.end(); ++it)
+	{
+		TemplateInfo PubTemplate = *it;
+		int CIndex = indexOf(PubTemplate);
+		if (CIndex != -1)
+		{
+			TemplateInfo& TRef = (*this)[CIndex];
+			DesignInfoList& DesignListRef = TRef.designsRef();
+			DesignInfoList PubDesigns = PubTemplate.designs();
+			DesignInfoList::const_iterator dit;
+			for (dit = PubDesigns.begin(); dit != PubDesigns.end(); ++dit)
+			{
+				int DesignIndex = DesignListRef.findDesignName(dit->name());
+				if (DesignIndex != -1)
+				{
+					DesignListRef[DesignIndex].setPublicVersion(dit->publicVersion());
+				}
+			}
+		}
+	}
 }

@@ -131,7 +131,6 @@ QUrl StarlabManager::templateInfoUrl(const SPhotoBook::TemplateInfo& _Template, 
 	QList< TQItem> QueryItems;
 	QueryItems << QPair<QString, QString>("templateref", _Template.name());
 	Res.setQueryItems(QueryItems);
-	qDebug() << Res.toString();
 	return Res;
 }
 
@@ -187,6 +186,27 @@ void StarlabManager::updateProductHash(const QString& _Hash)
 {
 	setPublisherHash("products", _Hash);
 }
+
+bool StarlabManager::templatesUpToDate(const QString& _Hash)
+{
+	bool Res = false;
+	try
+	{
+		QString ProductsHash = getPublisherHash("templates");
+		Res = ProductsHash == _Hash;
+	}
+	catch(...)
+	{
+	}
+	return Res;
+
+}
+
+void StarlabManager::updateTemplateHash(const QString& _Hash)
+{
+	setPublisherHash("templates", _Hash);
+}
+
 
 QUrl StarlabManager::infoUrl(const SPhotoBook::TemplateInfo& _Template)
 {
@@ -250,8 +270,6 @@ void StarlabManager::syncTemplate(const SPhotoBook::TemplateInfo& _Template)
 		Enable = "true";
 	else
 		Enable = "false";
-	qDebug() << "Enabled: " << Enable;
-	qDebug() <<  "Num Designs " << _Template.designs().size();
 	QueryItems.append(QPair<QString, QString>("enable", Enable));
 	QString Response = getResponse("update_template", QueryItems);
 	Assert(Response.toLower() == "ok", Error(tr("Error updating template %1").arg(_Template.name())));

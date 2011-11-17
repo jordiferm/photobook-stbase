@@ -102,7 +102,17 @@ QVariant DesignInfoTableModel::data(const QModelIndex& _Index, int _Role) const
 			 if (_Role == Qt::BackgroundColorRole)
 			 {
 				 if (DInfo.isUpToDate())
-					 Res = QColor(Qt::white);
+				 {
+					 if (DInfo.isPublic())
+					 {
+						 if (InDiskList[_Index.row()])
+							Res = QColor("#c3ffbd");
+						 else
+							 Res = QColor("#c3ffff");
+					 }
+					 else
+						Res = QColor(Qt::white);
+				 }
 				 else
 					 Res = QColor(Qt::yellow);
 			 }
@@ -126,8 +136,7 @@ void DesignInfoTableModel::setTemplate(const TemplateInfo& _Template)
 	InDiskList.clear();
 	for (it=DIList.begin(); it != DIList.end(); ++it )
 	{
-		QDir DesignDir(Template.absolutePath(*it));
-		InDiskList.push_back(DesignDir.entryList(QDir::Files).size() > 1);
+		InDiskList.push_back(_Template.designOnDisk(*it));
 	}
 	reset();
 }

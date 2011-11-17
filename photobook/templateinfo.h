@@ -56,12 +56,14 @@ public:
 	MetaInfo::EnTemplateType type() const { return Type; }
 	QString absolutePath() const;
 	QString absolutePath(const DesignInfo& _Path) const;
+	QString metaInfoFileName(const DesignInfo& _Design) const;
 	QString basePath() const { return BasePath; }
 	DesignInfoList designs() const;
 	void addDesign(const DesignInfo& _Design);
 	DesignInfoList& designsRef() { return Designs; }
 	void setDesigns(const DesignInfoList& _Designs) { Designs = _Designs; }
 	bool operator==(const TemplateInfo& _Other) const;
+	bool designOnDisk(const DesignInfo& _Design) const;
 	STDom::PublisherDatabase::EnProductType pubDatabaseProductType() const;
 	bool hasPublicDesigns() const;
 };

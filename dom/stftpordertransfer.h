@@ -62,7 +62,7 @@ private:
 public:
 	STFtpOrderTransfer(QObject* parent = 0);
 	QString orderGlobalId(const QDir& _OrderDir);
-	void getFile(const QString& _SourceFilePath, const QString& _RemoteTemplatesDir, const QString& _DestFilePath, const QString& _Host, int _Port,
+	void getFile(const QString& _FileName, const QString& _RemoteDir, const QString& _DestFilePath, const QString& _Host, int _Port,
 				 const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode);
 	void putDir(const QString& _SourceDirPath, const QString& _Host, int _Port, const QString& _User,
 				const QString& _Password, const QString& _RemoteDestDir, QFtp::TransferMode _TransferMode,

@@ -43,6 +43,7 @@ public:
 	void addTemplateInfoList(const TemplateInfoList& _TemplateInfoList);
 	void addTemplateInfoList(const QList<TemplateInfo> _List);
 	void updateTemplateInfo(const TemplateInfo& _Source, const TemplateInfo& _Dest);
+	void mergePublicInfo(const TemplateInfoList& _PublicTemplates);
 };
 
 }

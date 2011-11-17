@@ -22,16 +22,24 @@
 
 #include <QSqlDatabase>
 #include "stphotobookexport.h"
+#include "sterror.h"
+#include "templateinfolist.h"
 
 namespace SPhotoBook
 {
 
 class TemplateInfo;
+class DesignInfo;
 class ST_PHOTOBOOK_EXPORT PublicTemplatesDatabase : public QSqlDatabase
 {
+public:
+	ST_DECLARE_ERRORCLASS();
+
+private:
 	static const QString DefaultPublicTemplatesDBConnectionName;
 	void createTemplatesTable();
 	void ensureCreated();
+	void updateDInfo(const TemplateInfo& _Template, const DesignInfo& _Design);
 
 public:
 	explicit PublicTemplatesDatabase(const QString& _DatabaseName);
@@ -39,6 +47,7 @@ public:
 	//Adds database to QSqlDatabase active connections or replaces the old connection if a connection with _ConnectionName already exists.
 	QSqlDatabase addDatabase(const QString& _DatabaseName, const QString& _ConnectionName = DefaultPublicTemplatesDBConnectionName);
 	void updateTemplateInfo(const TemplateInfo& _Template);
+	TemplateInfoList publicTemplatesInfoList() const;
 
 
 };

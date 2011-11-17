@@ -20,6 +20,7 @@
 
 
 #include "remotepublishermanager.h"
+#include <QDebug>
 #include "systemtemplates.h"
 #include "stimage.h"
 #include "stftpordertransfer.h"
@@ -35,19 +36,83 @@ RemotePublisherManager::RemotePublisherManager(StarlabAbstractManager* _Manager,
 
 }
 
+void RemotePublisherManager::pullTemplates(const STDom::Publisher& _Publisher )
+{
+	QFileInfo TemplatesDbFileInfo(SPhotoBook::SystemTemplates::publicTemplatesDatabaseFile());
+	QString TemplatesHash = STImage::hashString(TemplatesDbFileInfo.absoluteFilePath());
+	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
+	try
+	{
+		if (!Manager->templatesUpToDate(TemplatesHash))
+		{
+			FtpTrans->getFile(TemplatesDbFileInfo.fileName(), _Publisher.initDir(), TemplatesDbFileInfo.absoluteFilePath(),
+							  _Publisher.ftpUrl(), _Publisher.ftpPort(),
+							  _Publisher.userName(), _Publisher.password(),
+							  static_cast<QFtp::TransferMode>(_Publisher.transferMode()));
+			Manager->updateTemplateHash(TemplatesHash);
+		}
+	}
+	catch (...)
+	{
+	}
+	delete FtpTrans;
+
+}
+
+void RemotePublisherManager::downloadTemplateMetaInfo(const SPhotoBook::TemplateInfoList& _Templates, const STDom::Publisher& _Publisher )
+{
+	// - For all template designs:
+	SPhotoBook::TemplateInfoList::const_iterator it;
+	for (it = _Templates.begin(); it != _Templates.end(); ++it)
+	{
+		SPhotoBook::TemplateInfo CTemplate = *it;
+		SPhotoBook::DesignInfoList Designs = CTemplate.designs();
+		SPhotoBook::DesignInfoList::const_iterator dit;
+		for (dit = Designs.begin(); dit != Designs.end(); ++dit)
+		{
+			SPhotoBook::DesignInfo CDesign = *dit;
+			// - If public ver is greater than local ver remove local template files. (Local Ver is in metainfo)
+			QFileInfo MetaInfoFile(CTemplate.metaInfoFileName(CDesign));
+
+			if (MetaInfoFile.exists())
+			{
+				SPhotoBook::MetaInfo MInfo;
+				MInfo.load(MetaInfoFile.absoluteFilePath());
+				if (CDesign.publicVersion() > MInfo.version())
+					SPhotoBook::SystemTemplates::deleteTemplateDesign(CTemplate, CDesign);
+			}
+			//It could have been deleted.
+			if (!MetaInfoFile.exists())
+			{
+				//qDebug() << "Metainfo file: " << MetaInfoFile.absoluteFilePath() << " Does not exist";
+				// - If template metainfo isn't on disk download it.
+				SPhotoBook::SystemTemplates::downloadTemplateDesignMetaInfo(_Publisher, CTemplate, CDesign);
+			}
+		}
+	}
+}
+
 SPhotoBook::TemplateInfoList RemotePublisherManager::getTemplates()
 {
 	//Load local templates
 	SPhotoBook::TemplateInfoList Res;
-	Res = SPhotoBook::SystemTemplates::load();
 
+	STDom::Publisher Publisher = Manager->getPublisher();
 	//And remote templates
-	//TODO:
 	// - Get publictemplateinfo.db
+	pullTemplates(Publisher);
+
 	// - Open it and merge template lists.
-	// - If template metainfo isn't on disk download it.
-	// - If public ver is greater than local ver remove local template files.
-	// - If public ver is smaller don't download meta info, only update public ver.
+	QString PTemplatesDbFile = SPhotoBook::SystemTemplates::publicTemplatesDatabaseFile();
+	SPhotoBook::PublicTemplatesDatabase PDBase(PTemplatesDbFile);
+	Assert(PDBase.open(), Error(QString(QObject::tr("Could not open file %1 for database export.")).arg(PTemplatesDbFile)));
+	SPhotoBook::TemplateInfoList  PublicTemplates = PDBase.publicTemplatesInfoList();
+	PDBase.close();
+
+	downloadTemplateMetaInfo(PublicTemplates, Publisher);
+
+	Res = SPhotoBook::SystemTemplates::load(); //This will load all metainfos
+	Res.mergePublicInfo(PublicTemplates);
 
 	return Res;
 }

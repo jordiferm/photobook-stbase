@@ -44,7 +44,7 @@ QVariant TemplateInfoModel::data(const QModelIndex& _Index, int _Role ) const
 		 else
 		 if (_Role == Qt::DecorationRole)
 		 {
-				 Res = MetaInfo::typePixmap(TemplateType).scaled(QSize(32, 32));
+			 Res = MetaInfo::typePixmap(TemplateList[_Index.row()].type()).scaled(QSize(32, 32));
 		 }
 	 }
 	 return Res;

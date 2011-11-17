@@ -49,6 +49,10 @@ public:
 	static void uploadTemplateDesign(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
 									 const DesignInfo& _DesignInfo, SProcessStatusWidget* _ProcessWidget = 0);
 	static QString publicTemplatesDatabaseFile() { return TemplatePaths::defaultTemplatesPath() + "/publictemplatesinfo.db"; }
+	static void downloadTemplateDesignMetaInfo(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
+														 const DesignInfo& _DesignInfo);
+	static void downloadTemplateDesign(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
+													const DesignInfo& _DesignInfo, SProcessStatusWidget* _ProcessWidget = 0);
 };
 
 }

@@ -39,6 +39,8 @@ public:
 private:
 	StarlabAbstractManager* Manager;
 	QString PublisherDatabaseFilePath;
+	void pullTemplates(const STDom::Publisher& _Publisher );
+	void downloadTemplateMetaInfo(const SPhotoBook::TemplateInfoList& _Templates, const STDom::Publisher& _Publisher  );
 
 public:
 	RemotePublisherManager(StarlabAbstractManager* _Manager, const QString& _PublisherDatabaseFilePath);

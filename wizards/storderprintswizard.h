@@ -50,7 +50,7 @@ Q_OBJECT
 public:
 	STOWizardSettings()  { beginGroup("orderprintswizard"); }
 	~STOWizardSettings() { endGroup(); }
-	bool areEmpty() const { return !contains("name") || !contains("id"); }
+	bool areEmpty() const { return !contains("name"); }
 };
 
 class STOWizardPage : public QWizardPage

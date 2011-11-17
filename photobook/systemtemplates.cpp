@@ -152,3 +152,35 @@ void SystemTemplates::uploadTemplateDesign(const STDom::Publisher& _Publisher, c
 	}
 }
 
+void SystemTemplates::downloadTemplateDesignMetaInfo(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
+													 const DesignInfo& _DesignInfo)
+{
+	QFileInfo TFileInfo(_TemplateInfo.absolutePath(_DesignInfo));
+
+	QString TemplateDir = TFileInfo.absoluteFilePath();
+	TemplateDir.remove(_TemplateInfo.basePath());
+	QDir BaseDir(TemplateDir);
+	Assert(BaseDir.mkpath(BaseDir.relativeFilePath(TFileInfo.absoluteFilePath())), Error(QObject::tr("Error creating dir %1").arg(TemplateDir)));
+	TemplateDir = _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + TemplateDir;
+	QFileInfo MetaDataFile(_TemplateInfo.metaInfoFileName(_DesignInfo));
+
+	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
+	try
+	{
+		FtpTrans->getFile(MetaDataFile.fileName(), TemplateDir, MetaDataFile.absoluteFilePath(), _Publisher.ftpUrl(),
+						  _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
+						  static_cast<QFtp::TransferMode>(_Publisher.transferMode()));
+		delete FtpTrans;
+	}
+	catch (...)
+	{
+		delete FtpTrans;
+		throw;
+	}
+}
+
+void SystemTemplates::downloadTemplateDesign(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
+												const DesignInfo& _DesignInfo, SProcessStatusWidget* _ProcessWidget)
+{
+
+}

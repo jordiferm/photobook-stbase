@@ -58,6 +58,8 @@ public:
 	void updateProductHash(const QString& _Hash);
 	StarlabManager(const QString& _StarlabUri, const QString& _PublisherPath, QObject* _Parent = 0);
 	STDom::Publisher getPublisher();
+	bool templatesUpToDate(const QString& _Hash);
+	void updateTemplateHash(const QString& _Hash);
 	QUrl infoUrl(const SPhotoBook::TemplateInfo& _Template);
 	void editTemplateInfo(const SPhotoBook::TemplateInfo& _Template);
 	StarlabTable getPublisherTable(EnPublisherTable _Table);

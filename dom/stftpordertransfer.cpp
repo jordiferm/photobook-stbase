@@ -225,7 +225,7 @@ QString STFtpOrderTransfer::orderGlobalId(const QDir& _OrderDir)
 }
 
 
-void STFtpOrderTransfer::getFile(const QString& _SourceFilePath, const QString& _RemoteTemplatesDir, const QString& _DestFilePath, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode)
+void STFtpOrderTransfer::getFile(const QString& _FileName, const QString& _RemoteDir, const QString& _DestFilePath, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode)
 {
 	clearAbortFlag();
 	setTransferMode(_TransferMode);
@@ -235,16 +235,16 @@ void STFtpOrderTransfer::getFile(const QString& _SourceFilePath, const QString& 
 	{
 		waitForCommand(login(_User,_Password));
 		Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
-		waitForCommand(cd(_RemoteTemplatesDir));
-		Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteTemplatesDir)));
+		waitForCommand(cd(_RemoteDir));
+		Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteDir)));
 		QFileInfo FInfo(_DestFilePath);
 		QFile File(FInfo.absoluteFilePath());
 		Assert(File.open(QIODevice::WriteOnly), Error(QString(tr("Could not open file: '%1'")).arg(FInfo.absoluteFilePath())));
-		Assert(waitForCommand(get(_SourceFilePath, &File)), Error(tr("Time out Error getting file %1.").arg(_SourceFilePath)));
+		Assert(waitForCommand(get(_FileName, &File)), Error(tr("Time out Error getting file %1.").arg(_FileName)));
 		if (error() != QFtp::NoError)
 		{
 			File.remove();
-			throw Error(tr("Could not download file: %1").arg(_SourceFilePath));
+			throw Error(tr("Could not download file: %1").arg(_RemoteDir + "/" + _FileName));
 		}
 		File.close();
 		close();
