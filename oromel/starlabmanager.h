@@ -49,7 +49,7 @@ public:
 
 	QString tableName(EnPublisherTable _Table);
 	QString getResponse(const QString& _Path, const QList<QPair<QString, QString> >& _QueryItems = QList<QPair<QString, QString> >());
-	QString post(const QString& _Path, const QString& _FileName);
+	QString post(const QString& _Path, const QString& _FileName, const QList<QPair<QString, QString> >& _QueryItems = QList<QPair<QString, QString> >());
 	bool waitForReply(QNetworkReply* _Reply, int _TimeOutSecs = -1);
 	QUrl templateInfoUrl(const SPhotoBook::TemplateInfo& _Template, const QString& _Path);
 

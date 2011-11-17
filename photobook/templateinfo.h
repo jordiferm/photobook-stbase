@@ -63,6 +63,7 @@ public:
 	void setDesigns(const DesignInfoList& _Designs) { Designs = _Designs; }
 	bool operator==(const TemplateInfo& _Other) const;
 	STDom::PublisherDatabase::EnProductType pubDatabaseProductType() const;
+	bool hasPublicDesigns() const;
 };
 
 }

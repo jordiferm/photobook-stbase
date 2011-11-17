@@ -103,3 +103,15 @@ STDom::PublisherDatabase::EnProductType TemplateInfo::pubDatabaseProductType() c
 	return Res;
 }
 
+
+bool TemplateInfo::hasPublicDesigns() const
+{
+	DesignInfoList::const_iterator it = Designs.begin();
+	bool Found = false;
+	while (it != Designs.end() && !Found)
+	{
+		Found = it->isPublic();
+		++it;
+	}
+	return Found;
+}

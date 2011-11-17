@@ -21,8 +21,11 @@
 #include "stphotobookexport.h"
 #include "templateinfolist.h"
 #include "sterror.h"
+#include "publisher.h"
+#include "templatepaths.h"
 
 class QDir;
+class SProcessStatusWidget;
 namespace SPhotoBook
 {
 
@@ -33,6 +36,7 @@ class ST_PHOTOBOOK_EXPORT SystemTemplates
 	ST_DECLARE_ERRORCLASS();
 
 public:
+	static QString remoteTemplatesDir() { return "templates"; }
 	static TemplateInfoList load();
 	static void import(const QDir& _SourceDir, const QString& _NewName = "");
 	static TemplateInfo templateInfo(const QDir& _Sourcedir);
@@ -42,6 +46,9 @@ public:
 	static void exportTemplateDesign(const QDir& _DestDir, const TemplateInfo& _Template, const DesignInfo& _Design);
 	static void deleteTemplateDesign(const TemplateInfo& _Template, const DesignInfo& _Design);
 	static void deleteTemplateDesign(const MetaInfo& _MetaInfo);
+	static void uploadTemplateDesign(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
+									 const DesignInfo& _DesignInfo, SProcessStatusWidget* _ProcessWidget = 0);
+	static QString publicTemplatesDatabaseFile() { return TemplatePaths::defaultTemplatesPath() + "/publictemplatesinfo.db"; }
 };
 
 }

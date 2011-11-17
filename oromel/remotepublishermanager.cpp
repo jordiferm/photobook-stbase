@@ -26,6 +26,8 @@
 #include "sindardatabase.h"
 #include "fsqldatabasemanager.h"
 #include "starlabtable.h"
+#include "sprocessstatuswidget.h"
+#include "publictemplatesdatabase.h"
 
 RemotePublisherManager::RemotePublisherManager(StarlabAbstractManager* _Manager, const QString& _PublisherDatabaseFilePath) :
 	Manager(_Manager), PublisherDatabaseFilePath(_PublisherDatabaseFilePath)
@@ -113,20 +115,62 @@ void RemotePublisherManager::pushProducts()
 	}
 }
 
-void RemotePublisherManager::pushTemplate(const SPhotoBook::TemplateInfo& _Template)
+void RemotePublisherManager::pushTemplate(const SPhotoBook::TemplateInfo& _Template, SProcessStatusWidget* _L1Process, SProcessStatusWidget* _L2Process)
 {
 	//sync starlab products for this template only.(Create template if not exist).
 	Manager->syncTemplate(_Template);
-	STDom::PublisherDatabase PubDatabase = getProducts();
-	Assert(PubDatabase.open(), Error(QObject::tr("Could not open products database")));
-	Manager->syncTemplateProducts(PubDatabase, _Template);
-
-	//upload template files for all designs not up to date.
 	STDom::Publisher Publisher = Manager->getPublisher();
 
+	if (_Template.hasPublicDesigns())
+	{
+		STDom::PublisherDatabase PubDatabase = getProducts();
+		Assert(PubDatabase.open(), Error(QObject::tr("Could not open products database")));
+		Manager->syncTemplateProducts(PubDatabase, _Template);
+		//upload template files for all designs not up to date.
+
+
+		SPhotoBook::DesignInfoList Designs = _Template.designs();
+		SPhotoBook::DesignInfoList::const_iterator it;
+		if (_L1Process)
+			_L1Process->showProgressBar(QObject::tr("Exporting design files..."), Designs.size());
+		for (it = Designs.begin(); it != Designs.end(); ++it )
+		{
+			SPhotoBook::DesignInfo DInfo = *it;
+			if (DInfo.isPublic() && !DInfo.isUpToDate())
+				SPhotoBook::SystemTemplates::uploadTemplateDesign(Publisher, _Template, DInfo, _L2Process);
+			if (_L1Process)
+				_L1Process->incrementProgress();
+		}
+
+	}
 
 	//update publictemplatesinfo.db for this template and upload it.
-	//update templates hash
+	QString PTemplatesDbFile = SPhotoBook::SystemTemplates::publicTemplatesDatabaseFile();
+	SPhotoBook::PublicTemplatesDatabase PDBase(PTemplatesDbFile);
+	Assert(PDBase.open(), Error(QString(QObject::tr("Could not open file %1 for database export.")).arg(PTemplatesDbFile)));
+	PDBase.updateTemplateInfo(_Template);
+	PDBase.close();
+
+	QString TemplatesHash = STImage::hashString(PTemplatesDbFile);
+
+	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
+	try
+	{
+		if (!Manager->templatesUpToDate(TemplatesHash))
+		{
+			STDom::Publisher Publisher = Manager->getPublisher();
+			FtpTrans->putFile(PTemplatesDbFile, Publisher.ftpUrl(),
+							  Publisher.ftpPort(), Publisher.userName(), Publisher.password(),
+							  Publisher.initDir(), static_cast<QFtp::TransferMode>(Publisher.transferMode()));
+			Manager->updateTemplateHash(TemplatesHash);
+		}
+		delete FtpTrans;
+	}
+	catch (...)
+	{
+		delete FtpTrans;
+		throw;
+	}
 
 }
 

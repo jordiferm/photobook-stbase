@@ -30,6 +30,7 @@
 #include "stlog.h"
 #include "xmlorder.h"
 #include "publisher.h"
+#include "sprocessstatuswidget.h"
 
 using namespace STDom;
 
@@ -123,6 +124,39 @@ qint64 STFtpOrderTransfer::calcDirTransferBytesInt(const QString& _RemoteDirName
 	return Res;
 }
 
+void STFtpOrderTransfer::putDirInmer(const QString& _SourceDirPath, const QString& _RemoteDestDir, SProcessStatusWidget* _ProcessWidget)
+{
+	int MKDirCommand = mkdir(_RemoteDestDir);
+	IgnoreErrorCommands.push_back(MKDirCommand);
+	waitForCommand(MKDirCommand);
+
+	waitForCommand(cd(_RemoteDestDir));
+	Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteDestDir)));
+
+	QDir SourceDir(_SourceDirPath);
+	QStringList SourceDirsList = SourceDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+	QStringList::iterator it;
+	for (it = SourceDirsList.begin(); it != SourceDirsList.end(); ++it)
+	{
+		QDir NewSourceDir(*it);
+		QDir DestDir(_RemoteDestDir);
+		putDirInmer(NewSourceDir.absolutePath(), DestDir.absoluteFilePath(NewSourceDir.dirName()), _ProcessWidget);
+	}
+
+	//For each file
+	QStringList SourceFilesList = SourceDir.entryList(QDir::Files);
+	if(_ProcessWidget)
+		_ProcessWidget->showProgressBar(tr("Uploading files from %1").arg(_SourceDirPath), SourceFilesList.size());
+	for (it = SourceFilesList.begin(); it != SourceFilesList.end(); ++it)
+	{
+		QFileInfo FInfo(SourceDir.absoluteFilePath(*it));
+		QFile File(FInfo.absoluteFilePath());
+		Assert(File.open(QIODevice::ReadOnly), Error(QString(tr("Could not open file %1")).arg(*it)));
+		Assert(waitForCommand(put(&File, FInfo.fileName())), Error(tr("Time out Error putting file %1.").arg(*it)));
+		if(_ProcessWidget)
+			_ProcessWidget->incrementProgress();
+	}
+}
 
 STFtpOrderTransfer::STFtpOrderTransfer(QObject* parent): QFtp(parent)
 {
@@ -221,6 +255,33 @@ void STFtpOrderTransfer::getFile(const QString& _SourceFilePath, const QString& 
 		throw;
 	}
 }
+
+
+void STFtpOrderTransfer::putDir(const QString& _SourceDirPath, const QString& _Host, int _Port, const QString& _User,
+								const QString& _Password, const QString& _RemoteDestDir, QFtp::TransferMode _TransferMode,
+								SProcessStatusWidget* _ProcessWidget)
+{
+	clearAbortFlag();
+	setTransferMode(_TransferMode);
+	Assert(waitForCommand(connectToHost(_Host, _Port)), Error(tr("Time out Error connecting to host.")));
+
+	try{
+		Assert(state() == QFtp::Connected, Error(tr("Could not connect to host: %1 -> %2").arg(_Host).arg(errorString())));
+		waitForCommand(login(_User,_Password));
+		Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
+		putDirInmer(_SourceDirPath, _RemoteDestDir, _ProcessWidget);
+		close();
+	}
+	catch(...)
+	{
+		close();
+		throw;
+	}
+
+
+
+}
+
 
 void STFtpOrderTransfer::putFile(const QString& _SourceFilePath, const QString& _Host, int _Port, const QString& _User, const QString& _Password, const QString& _RemoteDestDir, QFtp::TransferMode _TransferMode)
 {

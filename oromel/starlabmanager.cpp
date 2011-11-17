@@ -67,11 +67,12 @@ QString StarlabManager::getResponse(const QString& _Path, const QList<QPair<QStr
 }
 
 
-QString StarlabManager::post(const QString& _Path, const QString& _FileName)
+QString StarlabManager::post(const QString& _Path, const QString& _FileName, const QList<QPair<QString, QString> >& _QueryItems )
 {
 	QNetworkRequest Request;
 	QUrl RequestUrl = StarlabUrl;
 	RequestUrl.setPath(RequestUrl.path() + "/" + _Path);
+	RequestUrl.setQueryItems(_QueryItems);
 	QFileInfo  FNameInfo(_FileName);
 
 	Request.setUrl(RequestUrl);
@@ -233,9 +234,10 @@ void StarlabManager::syncTemplateProducts(STDom::PublisherDatabase& _Database, c
 	//Create a CSV file with all template products.
 	QString CSVFileName = QDir::temp().absoluteFilePath("slmtmpproduct.csv");
 	_Database.exportCSV(CSVFileName, _TemplateInfo.pubDatabaseProductType(), _TemplateInfo.name());
-
-	QString Response = post("update_products", CSVFileName);
-	qDebug() << "----- REsponse " << Response;
+	QList<QPair<QString, QString> > QueryItems;
+	QueryItems.append(QPair<QString, QString>("template", _TemplateInfo.name()));
+	QString Response = post("update_products", CSVFileName, QueryItems);
+	Assert(Response.toLower() == "ok", Error(tr("Error in sync Products.")));
 }
 
 //Creates if not exist only
@@ -243,6 +245,14 @@ void StarlabManager::syncTemplate(const SPhotoBook::TemplateInfo& _Template)
 {
 	QList<QPair<QString, QString> > QueryItems;
 	QueryItems.append(QPair<QString, QString>("name", _Template.name()));
+	QString Enable;
+	if (_Template.hasPublicDesigns())
+		Enable = "true";
+	else
+		Enable = "false";
+	qDebug() << "Enabled: " << Enable;
+	qDebug() <<  "Num Designs " << _Template.designs().size();
+	QueryItems.append(QPair<QString, QString>("enable", Enable));
 	QString Response = getResponse("update_template", QueryItems);
 	Assert(Response.toLower() == "ok", Error(tr("Error updating template %1").arg(_Template.name())));
 }

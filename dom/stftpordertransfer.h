@@ -28,6 +28,7 @@
 #include "stdomexport.h"
 
 class QDir;
+class SProcessStatusWidget;
 namespace STDom
 {
 
@@ -55,6 +56,7 @@ private:
 	bool waitForCommand(int _CommandId, int _TimeOut = -1);
 	void getDirInt(const QString& _RemoteDirName, const QString& _LocalDestDir);
 	qint64 calcDirTransferBytesInt(const QString& _RemoteDirName);
+	void putDirInmer(const QString& _SourceDirPath, const QString& _RemoteDestDir, SProcessStatusWidget* _ProcessWidget = 0);
 
 	
 public:
@@ -62,6 +64,9 @@ public:
 	QString orderGlobalId(const QDir& _OrderDir);
 	void getFile(const QString& _SourceFilePath, const QString& _RemoteTemplatesDir, const QString& _DestFilePath, const QString& _Host, int _Port,
 				 const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode);
+	void putDir(const QString& _SourceDirPath, const QString& _Host, int _Port, const QString& _User,
+				const QString& _Password, const QString& _RemoteDestDir, QFtp::TransferMode _TransferMode,
+				SProcessStatusWidget* _ProcessWidget = 0);
 	void putFile(const QString& _SourceFilePath, const QString& _Host, int _Port, const QString& _User, const QString& _Password, const QString& _RemoteDestDir, QFtp::TransferMode _TransferMode);
 	qint64 calcDirTransferBytes(const QString& _RemoteDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode);
 	void getDir(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode);

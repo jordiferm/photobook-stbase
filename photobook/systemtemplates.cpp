@@ -22,6 +22,7 @@
 #include "templatepaths.h"
 #include "stutils.h"
 #include "collectioninfo.h"
+#include "stftpordertransfer.h"
 
 using namespace SPhotoBook;
 
@@ -125,3 +126,29 @@ void SystemTemplates::deleteTemplateDesign(const MetaInfo& _MetaInfo)
 {
 	deleteTemplateDesign(TemplateInfo(_MetaInfo), DesignInfo(_MetaInfo.designName()));
 }
+
+
+void SystemTemplates::uploadTemplateDesign(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
+										   const DesignInfo& _DesignInfo, SProcessStatusWidget* _ProcessWidget)
+{
+	QString SourceDir = _TemplateInfo.absolutePath(_DesignInfo);
+
+	QString DestDir = SourceDir;
+	DestDir.remove(_TemplateInfo.basePath());
+	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
+	try
+	{
+
+		FtpTrans-> putDir(SourceDir, _Publisher.ftpUrl(),
+						  _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
+						  _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + DestDir, static_cast<QFtp::TransferMode>(_Publisher.transferMode()),
+						  _ProcessWidget);
+		delete FtpTrans;
+	}
+	catch (...)
+	{
+		delete FtpTrans;
+		throw;
+	}
+}
+
