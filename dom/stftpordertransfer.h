@@ -54,7 +54,7 @@ private:
 	QTime InitTime;
 	
 	bool waitForCommand(int _CommandId, int _TimeOut = -1);
-	void getDirInt(const QString& _RemoteDirName, const QString& _LocalDestDir);
+	void getDirInt(const QString& _RemoteDirName, const QString& _LocalDestDir, SProcessStatusWidget* _ProcessWidget = 0);
 	qint64 calcDirTransferBytesInt(const QString& _RemoteDirName);
 	void putDirInmer(const QString& _SourceDirPath, const QString& _RemoteDestDir, SProcessStatusWidget* _ProcessWidget = 0);
 
@@ -69,7 +69,7 @@ public:
 				SProcessStatusWidget* _ProcessWidget = 0);
 	void putFile(const QString& _SourceFilePath, const QString& _Host, int _Port, const QString& _User, const QString& _Password, const QString& _RemoteDestDir, QFtp::TransferMode _TransferMode);
 	qint64 calcDirTransferBytes(const QString& _RemoteDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode);
-	void getDir(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode);
+	void getDir(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode, SProcessStatusWidget* _ProcessWidget = 0);
 	QList<QUrlInfo> getFilesList(const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
 	void syncRemoteDir(const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
 	void syncRemoteFile(const QString& _FileName, const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);

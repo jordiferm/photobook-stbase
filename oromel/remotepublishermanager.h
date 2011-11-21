@@ -49,6 +49,7 @@ public:
 	void pullProducts(bool _UpToDateOnly = true, bool _PreserveLocalAdded = false);
 	void pushProducts();
 	void pushTemplate(const SPhotoBook::TemplateInfo& _Template, SProcessStatusWidget* _L1Process = 0, SProcessStatusWidget* _L2Process = 0);
+	void downloadTemplateDesign(const SPhotoBook::TemplateInfo& _Template, const SPhotoBook::DesignInfo& _Design, SProcessStatusWidget* _L1Process = 0);
 	bool productsDBExist();
 	void addDefaultProducts(DefaultSindarDatabase& _SindarDatabase);
 	STDom::PublisherDatabase getProducts() const;

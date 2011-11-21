@@ -59,7 +59,7 @@ bool STFtpOrderTransfer::waitForCommand(int _CommandId, int _TimeOutSecs)
 	return !TimeOut;
 }		
 
-void STFtpOrderTransfer::getDirInt(const QString& _RemoteDirName, const QString& _LocalDestDir)
+void STFtpOrderTransfer::getDirInt(const QString& _RemoteDirName, const QString& _LocalDestDir, SProcessStatusWidget* _ProcessWidget)
 {
 	waitForCommand(cd(_RemoteDirName));
 	Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteDirName)));
@@ -76,6 +76,11 @@ void STFtpOrderTransfer::getDirInt(const QString& _RemoteDirName, const QString&
 
 
 	QMap<QString, QUrlInfo>::iterator it;
+	if(_ProcessWidget)
+	{
+		_ProcessWidget->showProgressBar(tr("Downloading files from %1").arg(_RemoteDirName), FilesTransfered.size());
+		QApplication::processEvents();
+	}
 	for (it = FilesTransfered.begin(); it != FilesTransfered.end(); ++it)
 	{
 		if (it.value().isDir())
@@ -92,6 +97,11 @@ void STFtpOrderTransfer::getDirInt(const QString& _RemoteDirName, const QString&
 				throw Error(tr("Could not download file: %1").arg(it.key()));
 			}
 			File.close();
+			if(_ProcessWidget)
+			{
+				_ProcessWidget->incrementProgress();
+				QApplication::processEvents();
+			}
 		}
 	}
 	waitForCommand(cd(".."));
@@ -337,7 +347,9 @@ qint64 STFtpOrderTransfer::calcDirTransferBytes(const QString& _RemoteDir, const
 	return Res;
 }
 
-void STFtpOrderTransfer::getDir(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode)
+void STFtpOrderTransfer::getDir(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port,
+								const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode,
+								SProcessStatusWidget* _ProcessWidget)
 {
 	clearAbortFlag();
 	setTransferMode(_TransferMode);
@@ -353,7 +365,7 @@ void STFtpOrderTransfer::getDir(const QString& _RemoteDir, const QString& _Local
 		Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg("..")));
 
 		QDir RDir(_RemoteDir);
-		getDirInt(RDir.dirName(), _LocalDestDir);
+		getDirInt(RDir.dirName(), _LocalDestDir, _ProcessWidget);
 		close();
 	}
 	catch(...)

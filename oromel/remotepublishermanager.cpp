@@ -239,6 +239,13 @@ void RemotePublisherManager::pushTemplate(const SPhotoBook::TemplateInfo& _Templ
 
 }
 
+void RemotePublisherManager::downloadTemplateDesign(const SPhotoBook::TemplateInfo& _Template, const SPhotoBook::DesignInfo& _Design, SProcessStatusWidget* _L1Process)
+{
+	STDom::Publisher Publisher = Manager->getPublisher();
+	SPhotoBook::SystemTemplates::downloadTemplateDesign(Publisher, _Template, _Design);
+}
+
+
 bool RemotePublisherManager::productsDBExist()
 {
 	bool Res = false;

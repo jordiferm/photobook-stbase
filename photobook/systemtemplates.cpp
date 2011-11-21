@@ -157,10 +157,11 @@ void SystemTemplates::downloadTemplateDesignMetaInfo(const STDom::Publisher& _Pu
 {
 	QFileInfo TFileInfo(_TemplateInfo.absolutePath(_DesignInfo));
 
+	QDir BaseDir(_TemplateInfo.basePath());
+	Assert(BaseDir.mkpath(BaseDir.relativeFilePath(TFileInfo.absoluteFilePath())), Error(QObject::tr("Error creating dir %1").arg(TFileInfo.absoluteFilePath())));
+
 	QString TemplateDir = TFileInfo.absoluteFilePath();
 	TemplateDir.remove(_TemplateInfo.basePath());
-	QDir BaseDir(TemplateDir);
-	Assert(BaseDir.mkpath(BaseDir.relativeFilePath(TFileInfo.absoluteFilePath())), Error(QObject::tr("Error creating dir %1").arg(TemplateDir)));
 	TemplateDir = _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + TemplateDir;
 	QFileInfo MetaDataFile(_TemplateInfo.metaInfoFileName(_DesignInfo));
 
@@ -182,5 +183,25 @@ void SystemTemplates::downloadTemplateDesignMetaInfo(const STDom::Publisher& _Pu
 void SystemTemplates::downloadTemplateDesign(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
 												const DesignInfo& _DesignInfo, SProcessStatusWidget* _ProcessWidget)
 {
+	QFileInfo TFileInfo(_TemplateInfo.absolutePath(_DesignInfo));
+	QDir BaseDir(_TemplateInfo.basePath());
+	Assert(BaseDir.mkpath(BaseDir.relativeFilePath(TFileInfo.absoluteFilePath())), Error(QObject::tr("Error creating dir %1").arg(TFileInfo.absoluteFilePath())));
 
+	QString RemoteTemplateDir = TFileInfo.absoluteFilePath();
+	RemoteTemplateDir.remove(_TemplateInfo.basePath());
+	RemoteTemplateDir = _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + RemoteTemplateDir + "/";
+
+	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
+	try
+	{
+		FtpTrans->getDir(RemoteTemplateDir, TFileInfo.absoluteFilePath(),
+						 _Publisher.ftpUrl(), _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
+						  static_cast<QFtp::TransferMode>(_Publisher.transferMode()), _ProcessWidget);
+		delete FtpTrans;
+	}
+	catch (...)
+	{
+		delete FtpTrans;
+		throw;
+	}
 }
