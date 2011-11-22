@@ -54,6 +54,8 @@ void RemotePublisherManager::pullTemplates(const STDom::Publisher& _Publisher )
 	}
 	catch (...)
 	{
+		delete FtpTrans;
+		throw;
 	}
 	delete FtpTrans;
 
@@ -242,7 +244,7 @@ void RemotePublisherManager::pushTemplate(const SPhotoBook::TemplateInfo& _Templ
 void RemotePublisherManager::downloadTemplateDesign(const SPhotoBook::TemplateInfo& _Template, const SPhotoBook::DesignInfo& _Design, SProcessStatusWidget* _L1Process)
 {
 	STDom::Publisher Publisher = Manager->getPublisher();
-	SPhotoBook::SystemTemplates::downloadTemplateDesign(Publisher, _Template, _Design);
+	SPhotoBook::SystemTemplates::downloadTemplateDesign(Publisher, _Template, _Design, _L1Process);
 }
 
 

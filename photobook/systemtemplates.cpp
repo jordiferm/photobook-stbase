@@ -184,17 +184,22 @@ void SystemTemplates::downloadTemplateDesign(const STDom::Publisher& _Publisher,
 												const DesignInfo& _DesignInfo, SProcessStatusWidget* _ProcessWidget)
 {
 	QFileInfo TFileInfo(_TemplateInfo.absolutePath(_DesignInfo));
+	//Remove current template files
+	deleteTemplateDesign(_TemplateInfo, _DesignInfo);
+
 	QDir BaseDir(_TemplateInfo.basePath());
-	Assert(BaseDir.mkpath(BaseDir.relativeFilePath(TFileInfo.absoluteFilePath())), Error(QObject::tr("Error creating dir %1").arg(TFileInfo.absoluteFilePath())));
+	QDir TemplateParentDir(TFileInfo.absoluteFilePath());
+	TemplateParentDir.cdUp();
+	Assert(BaseDir.mkpath(BaseDir.relativeFilePath(TemplateParentDir.absolutePath())), Error(QObject::tr("Error creating dir %1").arg(TFileInfo.absoluteFilePath())));
 
 	QString RemoteTemplateDir = TFileInfo.absoluteFilePath();
 	RemoteTemplateDir.remove(_TemplateInfo.basePath());
 	RemoteTemplateDir = _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + RemoteTemplateDir + "/";
-
+	qDebug() << "Remote Template dir"  << RemoteTemplateDir << " Dest Dir: " << TemplateParentDir.absolutePath();
 	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
 	try
 	{
-		FtpTrans->getDir(RemoteTemplateDir, TFileInfo.absoluteFilePath(),
+		FtpTrans->getDir(RemoteTemplateDir, TemplateParentDir.absolutePath(),
 						 _Publisher.ftpUrl(), _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
 						  static_cast<QFtp::TransferMode>(_Publisher.transferMode()), _ProcessWidget);
 		delete FtpTrans;

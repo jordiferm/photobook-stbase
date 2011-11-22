@@ -48,7 +48,7 @@ QString StarlabManager::tableName(EnPublisherTable _Table)
 	return Res;
 }
 
-QString StarlabManager::getResponse(const QString& _Path, const QList<QPair<QString, QString> >& _QueryItems )
+QString StarlabManager::getResponse(const QString& _Path, const QList<StarlabManager::TResponsePair>& _QueryItems )
 {
 	QNetworkRequest Request;
 	QUrl RequestUrl = StarlabUrl;
@@ -67,7 +67,7 @@ QString StarlabManager::getResponse(const QString& _Path, const QList<QPair<QStr
 }
 
 
-QString StarlabManager::post(const QString& _Path, const QString& _FileName, const QList<QPair<QString, QString> >& _QueryItems )
+QString StarlabManager::post(const QString& _Path, const QString& _FileName, const QList<TResponsePair >& _QueryItems )
 {
 	QNetworkRequest Request;
 	QUrl RequestUrl = StarlabUrl;

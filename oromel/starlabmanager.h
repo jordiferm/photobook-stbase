@@ -39,7 +39,9 @@ class ST_OROMEL_EXPORT StarlabManager : public QObject, public StarlabAbstractMa
 	Q_OBJECT
 public:
 	ST_DECLARE_ERRORCLASS();
+	typedef QPair<QString, QString> TResponsePair;
 
+private:
 	QUrl StarlabUrl;
 	QNetworkAccessManager* Manager;
 	QNetworkReply* CurrReplyFinished;
@@ -48,8 +50,8 @@ public:
 	static int DefaultTimeOutSecs;
 
 	QString tableName(EnPublisherTable _Table);
-	QString getResponse(const QString& _Path, const QList<QPair<QString, QString> >& _QueryItems = QList<QPair<QString, QString> >());
-	QString post(const QString& _Path, const QString& _FileName, const QList<QPair<QString, QString> >& _QueryItems = QList<QPair<QString, QString> >());
+	QString getResponse(const QString& _Path, const QList<TResponsePair>& _QueryItems = QList<TResponsePair>());
+	QString post(const QString& _Path, const QString& _FileName, const QList<TResponsePair >& _QueryItems = QList<TResponsePair >());
 	bool waitForReply(QNetworkReply* _Reply, int _TimeOutSecs = -1);
 	QUrl templateInfoUrl(const SPhotoBook::TemplateInfo& _Template, const QString& _Path);
 
