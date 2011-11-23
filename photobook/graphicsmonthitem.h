@@ -51,19 +51,29 @@ private:
 
 public:
 	GraphicsMonthItem(QGraphicsItem* parent = 0);
-	//int type() const { return Type; } //Temporary the same type as TextItem.
+	int type() const { return Type; }
 	void scaleToSize(const QSizeF& _Size);
-	QString longMonthName(int _Month);
-	QString shortDayName(int _DayOfWeek);
+	QString longMonthName(int _Month) const;
+	QString shortDayName(int _DayOfWeek) const;
 	void setHolidays(const THolidayList& _List) { HolidayList = _List; }
-	void setMonth(int _Month, int _Year) { Month = _Month; Year = _Year; }
-	int month() { return Month; }
-	int year() { return Year; }
+	void setMonth(int _Month, int _Year);
+	int month() const { return Month; }
+	int year() const { return Year; }
 	void setShowDayLabels(bool _Value) { ShowDayLabels = _Value; }
+	bool showDayLabels() const { return ShowDayLabels; }
 	void setShowMonthLabel(bool _Value) { ShowMonthLabel = _Value; }
-	bool isHoliday(int _Day, int _Month);
-	QString getMonthHtml();
+	bool showMonthLabel() const { return ShowMonthLabel; }
+	bool isHoliday(int _Day, int _Month) const;
+	QString getMonthHtml() const;
 	void setTextColor(const QColor& _Color) { TextColor = _Color; } 
+	QColor textColor() const { return TextColor; }
+	void loadElement(const QDomElement& _Element, const QString& _LoadDir = "");
+	QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "") const;
+	static QString tagName() { return "monthitem"; }
+	void addHolyDay(const QString& _DayAndMonth);
+	void addHolyDay(const QDate& _Date);
+	void clearHolyDays();
+	void addDefaultHolyDays(int _Year);
 };
 }
 #endif

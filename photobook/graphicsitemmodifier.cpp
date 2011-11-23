@@ -174,7 +174,8 @@ void GraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsItem
 			qreal NewWidth = sqrt((Diag * Diag) - (Height * Height));
 			//int NewTextWidth =  Pos.y() - Item->pos().y();
 			//CItem->document()->setTextWidth(NewWidth);
-			CItem->setTextWidth(NewWidth);
+			qDebug() << "Item Scale: " << CItem->scale();
+			CItem->setTextWidth(NewWidth * 1 / CItem->scale());
 			layoutChildren();
 		}
 	}

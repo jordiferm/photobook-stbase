@@ -88,6 +88,7 @@ SET(prj_SRCS
 	designinfotablemodel.cpp
 	systemtemplates.cpp
 	publictemplatesdatabase.cpp
+	templatedatacontext.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -137,6 +138,7 @@ SET(prj_MOC_HDRS
 	designinfotablemodel.h
 	systemtemplates.h
 	publictemplatesdatabase.h
+	templatedatacontext.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

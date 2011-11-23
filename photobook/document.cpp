@@ -35,6 +35,7 @@
 #include "graphicspageitem.h"
 #include "graphicstextitem.h"
 #include "graphicsclipartitem.h"
+#include "graphicsmonthitem.h"
 #include "sterrorstack.h"
 #include "sprocessstatuswidget.h" 
 #include "stprogressindicator.h"
@@ -73,6 +74,7 @@ TemplateScene* Document::createPage(TemplateScene* _Template, QList<GraphicsPhot
 	TemplateScene* Scene = createPage();
 	
 	Scene->copy(_Template);
+	Scene->getContextVariables();
 	
 	_PhotoItems = Scene->photoItems();
 	return Scene;
@@ -121,8 +123,12 @@ void Document::setHasChanges(bool _Value)
 	}
 }
 
-
-
+void Document::setTemplateDataContext(const SPhotoBook::BuildOptions& _BuildOptions, TemplateScene* _Template)
+{
+	_Template->dataContext().setTitle(_BuildOptions.title());
+	_Template->dataContext().setSubTitle(_BuildOptions.subTitle());
+	_Template->dataContext().setAuthor(_BuildOptions.author());
+}
 
 Document::Document(QObject* _Parent) : QObject(_Parent),  HasChanges(false)
 {
@@ -237,19 +243,21 @@ void Document::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDa
 	if (!Covers.isEmpty())
 	{
 		TemplateScene* FirstPageTemplate = randomTemplate(Covers);
-		FirstPageTemplate->setYear(_FromDate.year());
+		FirstPageTemplate->dataContext().setDate(_FromDate);
+		setTemplateDataContext(BOptions, FirstPageTemplate);
 		TemplateScene* NewPage = createPage(FirstPageTemplate);
 		Pages.push_back(NewPage);
 		CCalculator.fillPage(NewPage, FirstPageTemplate, _Progress);
 		emit newPageCreated();
 	}
-	qDebug() << " - Building Calendar...";
 	//For each month
 	QDate CDate = _FromDate;
 	for (int Vfor = 0; Vfor < NumMonths; Vfor++)
 	{
 		TemplateScene* CurrTemplate = CCalculator.getDateCandidate(Layouts, CDate);
 		Assert(CurrTemplate, Error(tr("Error creating calendar: No candidates found")));
+		CurrTemplate->dataContext().setDate(CDate);
+		setTemplateDataContext(BOptions, CurrTemplate);
 		CDate = CDate.addMonths(1);
 		TemplateScene* NewPage = createPage(CurrTemplate);
 		Pages.push_back(NewPage);
@@ -289,7 +297,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		else
 			CurrTemplate = CCalculator.getCandidate(Layouts, PagToFill - NPages,
 													CCalculator.calcMargin(ITEM_AVERAGE_MARGIN, PagToFill - NPages));
-
+		setTemplateDataContext(BOptions, CurrTemplate);
 		TemplateScene* NewPage = createPage(CurrTemplate);
 		Pages.push_back(NewPage);
 		CCalculator.fillPage(NewPage, MetInfo.multiPhoto(), _Progress);
@@ -312,6 +320,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 			PList = Layouts;
 
 		CurrTemplate = CCalculator.getEmptyCandidate(PList, MetInfo.numOptimalImagesPerPage(), ITEM_AVERAGE_MARGIN);
+		setTemplateDataContext(BOptions, CurrTemplate);
 		if (CurrTemplate) //Defensive
 		{
 			insertPage(createPage(CurrTemplate), NPages);
@@ -872,6 +881,9 @@ Document::EnItemType Document::itemType(QGraphicsItem* _Item)
 		break;
 		case GraphicsClipartItem::Type:
 			CurrType = ClipartItemType;
+		break;
+		case GraphicsMonthItem::Type:
+			CurrType = MonthItemType;
 		break;
 		default:
 			CurrType = PageItemType;

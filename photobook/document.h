@@ -66,6 +66,7 @@ public:
 		PhotoItemType, 
 		PageItemType, 
 		ClipartItemType,
+		MonthItemType,
 		UnknownItemType
 	};
 
@@ -97,6 +98,7 @@ private:
 	void clearAllSceneChanges();
 	bool anySceneHasChanges() const;
 	void setHasChanges(bool _Value);
+	void setTemplateDataContext(const BuildOptions& _BuildOptions, TemplateScene* _Template);
 
 public:
 	ST_DECLARE_ERRORCLASS();

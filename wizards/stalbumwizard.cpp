@@ -446,9 +446,19 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent), Aut
 
 	QFormLayout* FormLayout = new QFormLayout();
 	PhotoBookLayout->addLayout(FormLayout);
+
 	QLineEdit* LETitle = new QLineEdit(GBPhotoBook);
 	registerField("title", LETitle);
 	FormLayout->addRow(tr("Title"), LETitle);
+
+	QLineEdit* LESubTitle = new QLineEdit(GBPhotoBook);
+	registerField("subtitle", LESubTitle);
+	FormLayout->addRow(tr("SubTitle"), LESubTitle);
+
+	QLineEdit* LEAuthor = new QLineEdit(GBPhotoBook);
+	registerField("author", LEAuthor);
+	FormLayout->addRow(tr("Author"), LEAuthor);
+
 
 	SBNumPages = new QSpinBox(GBPhotoBook);
 	registerField("numpages", SBNumPages);
@@ -507,6 +517,8 @@ void BuildOptionsPage::setBuildOptions(const SPhotoBook::BuildOptions& _Options)
 	setField("autodetectrotation", !_Options.ignoreExifRotation());
 	setField("includetexts", _Options.useTexts());
 	setField("title", _Options.title());
+	setField("subtitle", _Options.subTitle());
+	setField("author", _Options.author());
 	setField("numpages", _Options.pagesToFill());
 	setField("fromdate", _Options.fromDate());
 	setField("todate", _Options.toDate());
@@ -521,6 +533,8 @@ SPhotoBook::BuildOptions BuildOptionsPage::getBuildOptions() const
 	Res.setIgnoreExifRotation(!field("autodetectrotation").toBool());
 	Res.setUseTexts(field("includetexts").toBool());
 	Res.setTitle(field("title").toString());
+	Res.setSubTitle(field("subtitle").toString());
+	Res.setAuthor(field("author").toString());
 	Res.setPagesToFill(field("numpages").toInt());
 	Res.setFromDate(field("fromdate").toDate());
 	Res.setToDate(field("todate").toDate());

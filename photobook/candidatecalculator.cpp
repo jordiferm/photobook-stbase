@@ -152,7 +152,7 @@ TemplateScene* CandidateCalculator::getDateCandidate(const PageList& _Templates,
 	PageList Templates = _Templates;
 	qSort(Templates.begin(), Templates.end()); //Sorted by number of gaps.
 
-	TemplateScene* Res;
+	TemplateScene* Res = 0;
 	PageList::const_iterator it = Templates.begin();
 
 	//Look for a month template with 3 months.

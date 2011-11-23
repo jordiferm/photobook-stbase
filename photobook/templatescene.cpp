@@ -95,6 +95,7 @@ void TemplateScene::copy(TemplateScene* _Other)
 	//Make sure photoitems are inserted to PhotoItems list.
 	//Use clone method in each item ? from virtual in AbstractGraphicsItem ?
 	QDomDocument Doc;
+	DataContext = _Other->DataContext;
 /*	QString DestImageSourcePath;
 	if (_Other->pageItem())
 		DestImageSourcePath = _Other->pageItem()->imageSourcePath();*/
@@ -116,7 +117,7 @@ void TemplateScene::resize(const QSizeF& _NewSize)
 {
 	QSizeF CurrentSize = PageItem->rect().size();
 	setSceneRect(translatedRectF(sceneRect(), _NewSize, CurrentSize));
-	PageItem->setRect(translatedRectF(PageItem->rect(), _NewSize, CurrentSize));
+	//PageItem->setRect(QRectF(PageItem->rect(), _NewSize));
 	QList<QGraphicsItem *> Items = items();
 	QList<QGraphicsItem *>::iterator it;
 	for (it = Items.begin(); it != Items.end(); ++it)
@@ -130,7 +131,7 @@ void TemplateScene::resize(const QSizeF& _NewSize)
 				CItem->setRect(TransRect);
 			}
 			else
-			if (GraphicsClipartItem* CItem = qgraphicsitem_cast<GraphicsClipartItem*>(*it))
+			if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
 			{
 				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
 				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
@@ -138,7 +139,7 @@ void TemplateScene::resize(const QSizeF& _NewSize)
 				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
 			}
 			else
-			if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
+			if (QGraphicsItem* CItem = qgraphicsitem_cast<QGraphicsItem*>(*it))
 			{
 				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
 				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
@@ -167,6 +168,7 @@ void TemplateScene::replaceTemplate(TemplateScene* _Scene)
 
 	clear();
 	copy(_Scene);
+	getContextVariables();
 	if (PageItem->hasImage())
 		PageItem->loadImageSpawn();
 
@@ -670,7 +672,15 @@ QGraphicsItem* TemplateScene::addElement(QDomElement& _Element, const QString& _
 			CItem = NItem; 
 			GrItem = NItem;
 		}
-		
+		else
+		if (_Element.tagName().toLower() ==  GraphicsMonthItem::tagName())
+		{
+			GraphicsMonthItem* NItem = new GraphicsMonthItem;
+			configureItem(NItem);
+			CItem = NItem;
+			GrItem = NItem;
+		}
+
 		if (CItem && GrItem)
 		{
 			CItem->loadElement(_Element, _LoadDir);
@@ -1132,14 +1142,27 @@ void TemplateScene::autoFillImages(const QFileInfoList& _Images)
 	slotImageListDropped(UrlList);
 }
 
-void TemplateScene::setVariable(const QString& _VariableName, const QString& _Value)
+void TemplateScene::getContextVariables()
 {
-	//Replace all texts for all items of form %_VariableName% for _Value
+	QList<QGraphicsItem *> Items = items();
+	QList<QGraphicsItem *>::iterator it;
+	for (it = Items.begin(); it != Items.end(); ++it)
+	{
+		if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
+		{
+			CItem->replaceTextVariables(DataContext);
+		}
+	}
 }
 
-void TemplateScene::setYear(int _Year)
+void TemplateScene::setDataContext(const TemplateDataContext& _DataContext)
 {
-	setVariable("year", QString::number(_Year));
+	DataContext = _DataContext;
+}
+
+TemplateDataContext& TemplateScene::dataContext()
+{
+	return DataContext;
 }
 
 /*!

@@ -32,7 +32,7 @@ class ST_PHOTOBOOK_EXPORT BuildOptions
 {
 	bool IgnoreExifRotation, AutoadjustFrames, UseTexts, AutoFillBackgrounds;
 	int PagesToFill;
-	QString Title;
+	QString Title, SubTitle, Author;
 	QDate FromDate, ToDate;
 
 	void clear();
@@ -50,8 +50,12 @@ public:
 	bool autoFillBackgrounds() const { return AutoFillBackgrounds; }
 	void setPagesToFill(int _Value) { PagesToFill = _Value; }
 	int pagesToFill() const { return PagesToFill; }
+	void setSubTitle(const QString& _Value) { SubTitle = _Value; }
+	QString subTitle() const { return SubTitle; }
 	void setTitle(const QString& _Title) { Title = _Title; }
 	QString title() const { return Title; }
+	void setAuthor(const QString& _Author) { Author = _Author; }
+	QString author() const { return Author; }
 	void setFromDate(const QDate& _Value) { FromDate = _Value; }
 	QDate fromDate() const { return FromDate; }
 	void setToDate(const QDate& _Value) { ToDate = _Value; }

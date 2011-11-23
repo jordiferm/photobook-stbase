@@ -30,6 +30,7 @@
 #include "stphotobookexport.h"
 #include "ichangescontrol.h"
 #include "collectioninfo.h"
+#include "templatedatacontext.h"
 
 /**
 	QGraphicsScene to represent templates.
@@ -71,6 +72,7 @@ private:
 	bool AutoAdjustFrames;
 	bool IgnoreExifRotation;
 	bool HasChanges;
+	TemplateDataContext DataContext;
 	QList<GraphicsPhotoItem *> PhotoItems;
 	
 	QStringList storePhotoItemImage(GraphicsPhotoItem* _CItem, const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages = false);
@@ -178,8 +180,9 @@ public:
 	void autoFillImages(const QFileInfoList& _Images);
 
 	//Variables
-	void setVariable(const QString& _VariableName, const QString& _Value);
-	void setYear(int _Year);
+	void getContextVariables();
+	void setDataContext(const TemplateDataContext& _DataContext);
+	TemplateDataContext& dataContext();
 
 protected:
 	bool event(QEvent* _Event);

@@ -31,6 +31,7 @@
 #include <QAbstractTextDocumentLayout>
 
 #include "graphicsitemmodifier.h"
+#include "templatedatacontext.h"
 
 using namespace SPhotoBook;
 
@@ -68,6 +69,27 @@ void GraphicsTextItem::setMovable(bool _Movable)
 //  	QGraphicsItem::setFlag(QGraphicsItem::ItemIsMovable, _Movable);
 //  	QGraphicsItem::setFlag(QGraphicsItem::ItemIsFocusable, !_Movable);
 	
+}
+
+void GraphicsTextItem::setCharFormat(const QTextCharFormat& _Format)
+{
+	QTextCursor Cursor = textCursor();
+	Cursor.select(QTextCursor::Document);
+	Cursor.setCharFormat(_Format);
+}
+
+void GraphicsTextItem::mergeCharFormat(const QTextCharFormat& _Format)
+{
+	QTextCursor Cursor = textCursor();
+	Cursor.select(QTextCursor::Document);
+	Cursor.mergeCharFormat(_Format);
+}
+
+QTextCharFormat GraphicsTextItem::charFormat() const
+{
+	QTextCursor TCursor(document());
+	TCursor.select(QTextCursor::Document);
+	return TCursor.charFormat();
 }
 
 
@@ -141,6 +163,35 @@ AbstractGraphicsItem* GraphicsTextItem::clone() const
 	QDomDocument Doc;
 	Res->loadElement(createElement(Doc));
 	return Res;
+}
+
+void GraphicsTextItem::replaceTextVariables(const TemplateDataContext& _DataContext)
+{
+	QString Text = toHtml();
+
+
+	QStringList Vars = _DataContext.vars();
+
+	QStringList::iterator it;
+	for (it = Vars.begin(); it != Vars.end(); ++it)
+	{
+		Text.replace(TemplateDataContext::varPattern(*it), _DataContext.value(*it));
+	}
+	setHtml(Text);
+
+
+	/*QRegExp ReVars("%(.*)%");
+
+	int Pos = 0;
+	while ((Pos = ReVars.indexIn(Text, Pos)) != -1)
+	{
+		 VarName << ReVars.cap(1);
+		 Text
+
+		 Pos += ReVars.matchedLength();
+
+
+	}*/
 }
 
 
