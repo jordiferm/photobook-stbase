@@ -31,6 +31,7 @@ TemplateInfoList::TemplateInfoList()
 
 void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName)
 {
+	qDebug() << "addDesignNames:(" << _BaseDir.absolutePath() << ", Name:" << _Name << " SizeName:" <<  _SizeName;
 	QMap <MetaInfo::EnTemplateType, TemplateInfo> TInfoMap;
 	//For each design_name
 	QDir BaseDir(_BaseDir.absoluteFilePath(_Name + "/" + _SizeName));
