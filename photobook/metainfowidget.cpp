@@ -28,10 +28,13 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QDebug>
+#include "qxtgroupbox.h"
 #include "qwwrichtextedit.h"
 #include "fpixmapselector.h"
 #include "templateinfo.h"
 #include "rendersettings.h"
+#include "systemtemplates.h"
+#include "strecteditwidget.h"
 
 using namespace SPhotoBook;
 
@@ -67,10 +70,13 @@ QWidget* MetaInfoWidget::createGeneralWidget()
 	TopLayout->addLayout(LeftFormLayout);
 
 	CBName = new QComboBox(this);
+	CBName->setMinimumWidth(150);
 	CBName->setEditable(true);
+	connect(CBName, SIGNAL(activated(QString)), this, SLOT(slotNameActivated(QString)));
 	LeftFormLayout->addRow(tr("Name"), CBName);
 
 	CBDesignName = new QComboBox(this);
+	CBDesignName->setMinimumWidth(150);
 	CBDesignName->setEditable(true);
 	LeftFormLayout->addRow(tr("Design name"), CBDesignName);
 
@@ -182,6 +188,54 @@ QWidget* MetaInfoWidget::createBehaviorWidget()
 
 }
 
+QWidget* MetaInfoWidget::createUIWidget()
+{
+	QWidget* Widget = new QWidget(this);
+	QVBoxLayout* MLayout = new QVBoxLayout(Widget);
+
+	QxtGroupBox* GBCoverMargin = new QxtGroupBox(tr("Cover Margins"), this);
+	GBCoverMargin->setChecked(false);
+	MLayout->addWidget(GBCoverMargin);
+	QHBoxLayout* CMarginLayout = new QHBoxLayout(GBCoverMargin);
+	STRectEditWidget* RECover = new STRectEditWidget(this);
+	RECover->setRect(QRectF(0,0,0,0));
+	RECover->setSuffix(" mm");
+	CMarginLayout->addWidget(RECover);
+
+	QxtGroupBox* GBCoverSpineMargin = new QxtGroupBox(tr("Cover Spine Margins"), this);
+	GBCoverSpineMargin->setChecked(false);
+	MLayout->addWidget(GBCoverSpineMargin);
+	QHBoxLayout* CSpineMarginLayout = new QHBoxLayout(GBCoverSpineMargin);
+	STRectEditWidget* RECoverSpine = new STRectEditWidget(this);
+	RECoverSpine->setRect(QRectF(0,0,0,0));
+	RECoverSpine->setSuffix(" mm");
+	CSpineMarginLayout->addWidget(RECoverSpine);
+
+	QxtGroupBox* GBPageMargin = new QxtGroupBox(tr("Page Margins"), this);
+	GBPageMargin->setChecked(false);
+	MLayout->addWidget(GBPageMargin);
+	QHBoxLayout* CPageMarginLayout = new QHBoxLayout(GBPageMargin);
+	STRectEditWidget* REPage = new STRectEditWidget(this);
+	REPage->setRect(QRectF(0,0,0,0));
+	REPage->setSuffix(" mm");
+	CPageMarginLayout->addWidget(REPage);
+
+	return Widget;
+}
+
+void MetaInfoWidget::loadTemplatesInfo(const SPhotoBook::TemplateInfoList& _TInfoList)
+{
+	SPhotoBook::TemplateInfoList::const_iterator it;
+	QStringList NewItems;
+	for (it = _TInfoList.begin(); it != _TInfoList.end(); ++it)
+	{
+		TemplateInfo CurrTInfo = *it;
+		if (!NewItems.contains(CurrTInfo.name()))
+			NewItems.push_back(CurrTInfo.name());
+	}
+	CBName->addItems(NewItems);
+}
+
 MetaInfoWidget::MetaInfoWidget(QWidget *parent) :
     QWidget(parent)
 {
@@ -200,6 +254,11 @@ MetaInfoWidget::MetaInfoWidget(QWidget *parent) :
 	TabWidget->addTab(createGeneralWidget(), QIcon(":/photobook/general.png"), tr("General"));
 	TabWidget->addTab(createRenderWidget(), QIcon(":/photobook/render.png"), tr("Render info"));
 	TabWidget->addTab(createBehaviorWidget(), QIcon(":/photobook/behavior.png"), tr("Behavior info"));
+	TabWidget->addTab(createUIWidget(), QIcon(":/photobook/user-interface.png"), tr("User interface"));
+
+	//Load template info
+	TInfoList = SystemTemplates::load();
+	loadTemplatesInfo(TInfoList);
 
 	setMinimumWidth(600);
 }
@@ -271,4 +330,29 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	Res.setAutogenerateLayouts(CBAutoGenerate->isChecked());
 
 	return Res;
+}
+
+void MetaInfoWidget::slotNameActivated(const QString& _TemplateName)
+{
+	CBDesignName->clear();
+	QStringList DesignList;
+	TemplateInfoList::const_iterator it;
+	for (it = TInfoList.begin(); it != TInfoList.end(); ++it)
+	{
+		TemplateInfo CurrTemplate = *it;
+		if (CurrTemplate.name() == _TemplateName)
+		{
+			SPhotoBook::DesignInfoList DesignsList = CurrTemplate.designs();
+			SPhotoBook::DesignInfoList::const_iterator dit;
+			for (dit = DesignsList.begin(); dit != DesignsList.end(); ++dit)
+			{
+				if (!DesignList.contains(dit->name()))
+					DesignList.push_back(dit->name());
+			}
+		}
+	}
+	CBDesignName->addItems(DesignList);
+	if (CBDesignName->count() == 0)
+		CBDesignName->lineEdit()->setText(tr("noname"));
+
 }

@@ -136,12 +136,14 @@ void SystemTemplates::uploadTemplateDesign(const STDom::Publisher& _Publisher, c
 	QString DestDir = SourceDir;
 	DestDir.remove(_TemplateInfo.basePath());
 	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
+	QString AbsoluteDestPath = _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + DestDir;
+	AbsoluteDestPath.replace("//", "/");
 	try
 	{
 
 		FtpTrans-> putDir(SourceDir, _Publisher.ftpUrl(),
 						  _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
-						  _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + DestDir, static_cast<QFtp::TransferMode>(_Publisher.transferMode()),
+						 AbsoluteDestPath, static_cast<QFtp::TransferMode>(_Publisher.transferMode()),
 						  _ProcessWidget);
 		delete FtpTrans;
 	}

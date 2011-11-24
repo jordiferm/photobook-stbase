@@ -28,5 +28,6 @@
         <file>typephotobook.png</file>
         <file>typephotoid.png</file>
         <file>design.png</file>
+        <file>user-interface.png</file>
     </qresource>
 </RCC>

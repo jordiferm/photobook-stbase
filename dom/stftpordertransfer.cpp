@@ -134,11 +134,14 @@ qint64 STFtpOrderTransfer::calcDirTransferBytesInt(const QString& _RemoteDirName
 	return Res;
 }
 
+
 void STFtpOrderTransfer::putDirInmer(const QString& _SourceDirPath, const QString& _RemoteDestDir, SProcessStatusWidget* _ProcessWidget)
 {
+/*	qDebug() << "_RemoteDestDir: " << _RemoteDestDir;
 	int MKDirCommand = mkdir(_RemoteDestDir);
 	IgnoreErrorCommands.push_back(MKDirCommand);
-	waitForCommand(MKDirCommand);
+	waitForCommand(MKDirCommand);*/
+	mkpath(_RemoteDestDir);
 
 	waitForCommand(cd(_RemoteDestDir));
 	Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteDestDir)));
@@ -178,6 +181,34 @@ STFtpOrderTransfer::STFtpOrderTransfer(QObject* parent): QFtp(parent)
 STFtpOrderTransfer::~STFtpOrderTransfer()
 {
 }
+
+void STFtpOrderTransfer::mkpath(const QString& _Path)
+{
+	QString CurrDir = "";
+	QString LastDir = "";
+	int Cnt = 0;
+	while (Cnt < _Path.size())
+	{
+		if ((_Path[Cnt] == '/' || Cnt == _Path.size() -1) && !CurrDir.isEmpty())
+		{
+			if (Cnt == _Path.size() -1 && _Path[Cnt] != '/')
+				CurrDir += _Path[Cnt];
+			if (!LastDir.isEmpty())
+				LastDir += "/";
+			LastDir += CurrDir;
+			//qDebug() << "MkDir Path" << LastDir;
+			int MKDirCommand = mkdir(LastDir);
+			IgnoreErrorCommands.push_back(MKDirCommand);
+			waitForCommand(MKDirCommand);
+
+			CurrDir = "";
+		}
+		else
+			CurrDir += _Path[Cnt];
+		Cnt++;
+	}
+}
+
 
 void STFtpOrderTransfer::abortAll()
 {
@@ -661,7 +692,8 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId,const Publisher& 
 
 void STFtpOrderTransfer::slotListInfo(const QUrlInfo& _UrlInfo)
 {
-	FilesTransfered.insert(_UrlInfo.name(), _UrlInfo);
+	if (_UrlInfo.name() != "." && _UrlInfo.name() != "..")
+		FilesTransfered.insert(_UrlInfo.name(), _UrlInfo);
 }
 
 void STFtpOrderTransfer::commandFinished(int _Id, bool _Error)

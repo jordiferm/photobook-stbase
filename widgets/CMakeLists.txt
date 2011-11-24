@@ -89,6 +89,7 @@ SET(prj_SRCS
 	sacceptcanceldialog.cpp
 	sptoolbarlistview.cpp
 	thumbnailsizewidget.cpp
+	strecteditwidget.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -169,6 +170,7 @@ SET(prj_MOC_HDRS
 	sacceptcanceldialog.h
 	sptoolbarlistview.h
 	thumbnailsizewidget.h
+	strecteditwidget.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

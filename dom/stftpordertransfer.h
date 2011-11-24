@@ -61,6 +61,8 @@ private:
 	
 public:
 	STFtpOrderTransfer(QObject* parent = 0);
+	~STFtpOrderTransfer();
+	void mkpath(const QString& _Path);
 	QString orderGlobalId(const QDir& _OrderDir);
 	void getFile(const QString& _FileName, const QString& _RemoteDir, const QString& _DestFilePath, const QString& _Host, int _Port,
 				 const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode);
@@ -74,7 +76,6 @@ public:
 	void syncRemoteDir(const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
 	void syncRemoteFile(const QString& _FileName, const QString& _DestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode);
 	void transferOrder(const QString& _OrderId, const Publisher& _Publisher);
-	~STFtpOrderTransfer();
 	//!Aborts current command command and all pending commands.
 	void abortAll();
 	void clearAbortFlag() { Aborted = false; }
