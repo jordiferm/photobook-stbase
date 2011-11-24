@@ -717,29 +717,37 @@ AlbumWizardEndPage::AlbumWizardEndPage(QWidget* _Parent) : QWizardPage(_Parent)
 
 STAlbumWizard::STAlbumWizard(StarlabAbstractManager* _Manager, QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags), Manager(_Manager)
 {
+	qDebug() << "--Creating ChooseTemplatePage";
 	CTemplatePage = new ChooseTemplatePage(_Manager, this);
 	setPage(Page_ChooseTemplate, CTemplatePage);
+	qDebug() << "--Creating ChooseCreationModePage";
 	CCreationModePage = new ChooseCreationModePage(this);
 	setPage(Page_ChooseCreationMode, CCreationModePage);
+	qDebug() << "--Creating BuildOptionsPage";
 	PBuildOptions = new BuildOptionsPage(this);
 	setPage(Page_BuildOptions, PBuildOptions);
+	qDebug() << "--Creating SelectDiskFolderPage";
 	SDFolderPage = new SelectDiskFolderPage(this);
 	setPage(Page_SelectDiskFolder, SDFolderPage);
-	setPage(Page_End, new AlbumWizardEndPage(this)); 
+	qDebug() << "--Creating AlbumWizardEndPage";
+	setPage(Page_End, new AlbumWizardEndPage(this));
 	
+	qDebug() << "--Creating Setting startid";
 	setStartId(Page_ChooseTemplate);
 
+	qDebug() << "--Setting Style";
 #ifndef Q_WS_MAC
 	setWizardStyle(ModernStyle);
 #endif
 
-	setOption(HaveHelpButton, true);
+	qDebug() << "--Setting Style";
+	setOption(HaveHelpButton, false);
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/st/wizards/albumwizard.png").scaled(64,64));
 
-	connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
-	connect(CTemplatePage, SIGNAL(templateSelected()), this, SLOT(slotLoadTemplate()));
+	//connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
 
 	setWindowTitle(QObject::tr("PhotoBook Wizard"));
+	qDebug() << "Wizard builded !";
 }
 
 STAlbumWizard::~STAlbumWizard()
