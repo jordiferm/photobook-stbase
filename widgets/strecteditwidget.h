@@ -20,8 +20,8 @@ class ST_WIDGETS_EXPORT STRectEditWidget : public QWidget
 
 public:
     explicit STRectEditWidget(QWidget *parent = 0);
-	void setRect(const QRectF& _Rect);
-	QRectF rect() const;
+	void setEditedRect(const QRectF& _Rect);
+	QRectF editedRect() const;
 	void setSuffix(const QString& _Suffix);
 
 signals:

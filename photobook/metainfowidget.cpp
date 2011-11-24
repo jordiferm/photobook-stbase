@@ -193,30 +193,30 @@ QWidget* MetaInfoWidget::createUIWidget()
 	QWidget* Widget = new QWidget(this);
 	QVBoxLayout* MLayout = new QVBoxLayout(Widget);
 
-	QxtGroupBox* GBCoverMargin = new QxtGroupBox(tr("Cover Margins"), this);
+	GBCoverMargin = new QxtGroupBox(tr("Cover Margins"), this);
 	GBCoverMargin->setChecked(false);
 	MLayout->addWidget(GBCoverMargin);
 	QHBoxLayout* CMarginLayout = new QHBoxLayout(GBCoverMargin);
-	STRectEditWidget* RECover = new STRectEditWidget(this);
-	RECover->setRect(QRectF(0,0,0,0));
+	RECover = new STRectEditWidget(this);
+	RECover->setEditedRect(QRectF(0,0,0,0));
 	RECover->setSuffix(" mm");
 	CMarginLayout->addWidget(RECover);
 
-	QxtGroupBox* GBCoverSpineMargin = new QxtGroupBox(tr("Cover Spine Margins"), this);
+	GBCoverSpineMargin = new QxtGroupBox(tr("Cover Spine Margins"), this);
 	GBCoverSpineMargin->setChecked(false);
 	MLayout->addWidget(GBCoverSpineMargin);
 	QHBoxLayout* CSpineMarginLayout = new QHBoxLayout(GBCoverSpineMargin);
-	STRectEditWidget* RECoverSpine = new STRectEditWidget(this);
-	RECoverSpine->setRect(QRectF(0,0,0,0));
+	RECoverSpine = new STRectEditWidget(this);
+	RECoverSpine->setEditedRect(QRectF(0,0,0,0));
 	RECoverSpine->setSuffix(" mm");
 	CSpineMarginLayout->addWidget(RECoverSpine);
 
-	QxtGroupBox* GBPageMargin = new QxtGroupBox(tr("Page Margins"), this);
+	GBPageMargin = new QxtGroupBox(tr("Page Margins"), this);
 	GBPageMargin->setChecked(false);
 	MLayout->addWidget(GBPageMargin);
 	QHBoxLayout* CPageMarginLayout = new QHBoxLayout(GBPageMargin);
-	STRectEditWidget* REPage = new STRectEditWidget(this);
-	REPage->setRect(QRectF(0,0,0,0));
+	REPage = new STRectEditWidget(this);
+	REPage->setEditedRect(QRectF(0,0,0,0));
 	REPage->setSuffix(" mm");
 	CPageMarginLayout->addWidget(REPage);
 
@@ -328,6 +328,14 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	Res.setAtomic(CBAtomic->isChecked());
 	Res.setNumOptimalImagesPerPage(SBOptImagesPerPage->value());
 	Res.setAutogenerateLayouts(CBAutoGenerate->isChecked());
+
+	//GUI
+	if (GBCoverMargin->isChecked())
+		Res.setCoverMarginRect(RECover->editedRect());
+	if (GBCoverSpineMargin->isChecked())
+		Res.setSpineMarginRect(RECoverSpine->editedRect());
+	if (GBPageMargin->isChecked())
+		Res.setSpineMarginRect(REPage->editedRect());
 
 	return Res;
 }

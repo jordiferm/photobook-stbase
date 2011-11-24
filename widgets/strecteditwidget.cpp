@@ -53,7 +53,7 @@ STRectEditWidget::STRectEditWidget(QWidget *parent) :
 	MLayout->addWidget(SPValueRight);
 }
 
-void STRectEditWidget::setRect(const QRectF& _Rect)
+void STRectEditWidget::setEditedRect(const QRectF& _Rect)
 {
 	SPValueLeft->setValue(_Rect.left());
 	SPValueRight->setValue(_Rect.right());
@@ -61,7 +61,7 @@ void STRectEditWidget::setRect(const QRectF& _Rect)
 	SPValueBottom->setValue(_Rect.bottom());
 }
 
-QRectF STRectEditWidget::rect() const
+QRectF STRectEditWidget::editedRect() const
 {
 	return QRectF(QPoint(SPValueTop->value(), SPValueLeft->value()), QPoint(SPValueBottom->value(), SPValueRight->value()));
 }

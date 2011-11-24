@@ -35,7 +35,6 @@ class ST_PHOTOBOOK_EXPORT MetaInfo
 {
 public:
 	ST_DECLARE_ERRORCLASS();
-	typedef QList<QRectF> TMarginRectList;
 
 	enum EnTemplateType
 	{
@@ -53,7 +52,7 @@ private:
 	RenderSettings::EnPrintPreProcessType PrintPreprocessType;
 	EnTemplateType TemplateType;
 	bool MultiPhoto, AutogenerateLayouts, PreferMinPages, Atomic, Cyphered, CutPagesOnPrint;
-	TMarginRectList PageMarginRects, CoverMarginRects;
+	QRectF PageMarginRect, CoverMarginRect, SpineMarginRect;
 	int NumOptimalImagesPerPage;
 
 	QDomElement createGlobalInfo(QDomDocument& _Doc) const;
@@ -132,11 +131,14 @@ public:
 	void setAtomic(bool _Value) { Atomic = _Value; }
 	bool atomic() const { return Atomic; }
 
-	void setPageMarginRects(const TMarginRectList& _Value) { PageMarginRects = _Value; }
-	TMarginRectList pageMarginRects() const { return PageMarginRects; }
+	void setPageMarginRect(const QRectF& _Value) { PageMarginRect = _Value; }
+	QRectF pageMarginRect() const { return PageMarginRect; }
 
-	void setCoverMarginRects(const TMarginRectList& _Value) { CoverMarginRects = _Value; }
-	TMarginRectList coverMarginRects() const { return CoverMarginRects; }
+	void setCoverMarginRect(const QRectF& _Value) { CoverMarginRect = _Value; }
+	QRectF coverMarginRect() const { return CoverMarginRect; }
+
+	void setSpineMarginRect(const QRectF& _Value) { SpineMarginRect = _Value; }
+	QRectF spineMarginRect() const { return SpineMarginRect; }
 
 	int numOptimalImagesPerPage() const { return NumOptimalImagesPerPage; }
 	void setNumOptimalImagesPerPage(int _Value) { NumOptimalImagesPerPage = _Value; }

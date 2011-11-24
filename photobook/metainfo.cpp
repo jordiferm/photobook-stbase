@@ -115,8 +115,9 @@ void MetaInfo::setDefaults()
 	PreferMinPages = true;
 	Atomic = true;
 	Cyphered = false;
-	PageMarginRects.clear();
-	CoverMarginRects.clear();
+	PageMarginRect.setRect(0, 0, 0, 0);
+	CoverMarginRect.setRect(0, 0, 0, 0);
+	SpineMarginRect.setRect(0, 0, 0, 0);
 	NumOptimalImagesPerPage = 3;
 }
 

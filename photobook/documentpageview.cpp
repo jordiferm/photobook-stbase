@@ -113,7 +113,7 @@ void DocumentPageView::drawForeground(QPainter* _Painter, const QRectF& _Rect)
 	MarginMarkPen.setWidthF(0);//Cosmetic pen
 	//MarginMarkPen.setStyle(Qt::DashLine); //this is Too slow
 	_Painter->setPen(MarginMarkPen);
-	MetaInfo::TMarginRectList::iterator it;
+	TMarginRectList::iterator it;
 	for (it = MarginRects.begin(); it != MarginRects.end(); ++it)
 	{
 		_Painter->drawRect(*it);

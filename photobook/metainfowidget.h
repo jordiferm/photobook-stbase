@@ -29,6 +29,8 @@ class QwwRichTextEdit;
 class QComboBox;
 class QSpinBox;
 class QCheckBox;
+class QxtGroupBox;
+class STRectEditWidget;
 namespace SPhotoBook
 {
 
@@ -64,6 +66,14 @@ class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 	QCheckBox* CBAtomic;
 	QSpinBox* SBOptImagesPerPage;
 	QCheckBox* CBAutoGenerate;
+
+	//GUI
+	QxtGroupBox* GBCoverMargin;
+	QxtGroupBox* GBCoverSpineMargin;
+	QxtGroupBox* GBPageMargin;
+	STRectEditWidget* RECover;
+	STRectEditWidget* RECoverSpine;
+	STRectEditWidget* REPage;
 
 	TemplateInfoList TInfoList;
 
