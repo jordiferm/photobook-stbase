@@ -116,8 +116,13 @@ void DocumentPageView::drawForeground(QPainter* _Painter, const QRectF& _Rect)
 	TMarginRectList::iterator it;
 	for (it = MarginRects.begin(); it != MarginRects.end(); ++it)
 	{
-		_Painter->drawRect(*it);
-		ClipRegion = ClipRegion.united(it->toRect()); 
+		QRectF CurrRect = *it;
+		if (CurrRect.right() < 0)
+			CurrRect.setWidth(sceneRect().width() + CurrRect.width());
+		if (CurrRect.bottom() < 0)
+			CurrRect.setHeight(sceneRect().height() + CurrRect.height());
+		_Painter->drawRect(CurrRect);
+		ClipRegion = ClipRegion.united(CurrRect.toRect());
 	}
 	QRegion InvClipRegion(sceneRect().toRect()); 
 	InvClipRegion = InvClipRegion.subtract(ClipRegion);

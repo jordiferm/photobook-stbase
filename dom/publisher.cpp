@@ -20,19 +20,19 @@
 
 #include "publisher.h"
 
-namespace STDom
+using namespace STDom;
+
+QString Publisher::DefaultUserName = PUBLISHER_LOGIN;
+QString Publisher::DefaultUserPassword = PUBLISHER_PASSWD;
+
+Publisher::Publisher()
 {
-
-	Publisher::Publisher()
-	{
-		UserName = PUBLISHER_LOGIN;
-		Password = PUBLISHER_PASSWD;
-	}
-
-	Publisher::Publisher(const QString& _Id, const QString& _Name, const QString& _Url, const QString& _UserName, const QString& _Password)
-		: Id(_Id), Name(_Name), FtpUrl(_Url), UserName(_UserName), Password(_Password)
-	{
-	}
-
-
+	UserName = DefaultUserName;
+	Password = DefaultUserPassword;
 }
+
+Publisher::Publisher(const QString& _Id, const QString& _Name, const QString& _Url, const QString& _UserName, const QString& _Password)
+	: Id(_Id), Name(_Name), FtpUrl(_Url), UserName(_UserName), Password(_Password)
+{
+}
+

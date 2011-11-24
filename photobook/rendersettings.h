@@ -56,9 +56,6 @@ public:
 	void setForPrint(bool _Value) { ForPrint = _Value; }
 	bool forPrint() const { return ForPrint; }
 
-	void setPrintFirstAtLast(bool _Value) { PrintFirstAtLast = _Value; }
-	bool printFirstAtLast() const { return PrintFirstAtLast;}
-
 };
 
 }

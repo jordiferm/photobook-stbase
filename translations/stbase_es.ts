@@ -93,7 +93,7 @@
     </message>
     <message>
         <source>&lt;p&gt;Please, configure your &lt;em&gt;Photo Book&lt;/em&gt;?&lt;/p&gt; automatic options:</source>
-        <translation>&lt;p&gt;Por favor, configure las opciones automáticas de su &lt;em&gt;FotoLibro&lt;/em&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Por favor, configure las opciones automáticas de su &lt;em&gt;FotoLibro&lt;/em&gt;&lt;/p&gt;:</translation>
     </message>
     <message>
         <source>General</source>
@@ -138,6 +138,14 @@
     <message>
         <source>To month</source>
         <translation>Hasta mes</translation>
+    </message>
+    <message>
+        <source>SubTitle</source>
+        <translation>Sub Título</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Autor</translation>
     </message>
 </context>
 <context>
@@ -209,16 +217,16 @@
         <translation>Tamaño:</translation>
     </message>
     <message>
-        <source>Themes:</source>
-        <translation>Tema:</translation>
-    </message>
-    <message>
         <source>&lt;h2&gt;There is no templates of this type.&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;No hay plantillas de este tipo.&lt;/h2&gt;</translation>
     </message>
     <message>
-        <source>Information:</source>
-        <translation>Información:</translation>
+        <source>&lt;h2&gt;Please, select a template from the list.&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Por favor seleccione un producto de la lista de productos.&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <source>Products:</source>
+        <translation>Productos:</translation>
     </message>
 </context>
 <context>
@@ -3937,21 +3945,6 @@ Num</source>
     </message>
 </context>
 <context>
-    <name>OPWChooseShippingMethod</name>
-    <message>
-        <source>&lt;h1&gt;Shipping method selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please select a shipping method from the list bellow.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shipping methods :</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>OPWConfirmOrder</name>
     <message>
         <source>&lt;h1&gt;Please confirm your order&lt;/h1&gt;</source>
@@ -4012,6 +4005,62 @@ Num</source>
     <message>
         <source>There was problems getting images to send. Please try again.</source>
         <translation>Ha ocurrido un error obteniendo las imágenes para almacenar. Por favor intentelo de nuevo.</translation>
+    </message>
+    <message>
+        <source>Contact</source>
+        <translation type="unfinished">Contacto</translation>
+    </message>
+    <message>
+        <source>Modify</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shippment options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By Post</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collect In Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping Method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order invoice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Tel:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5251,27 +5300,27 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>PhotoBook</source>
-        <translation type="unfinished">FotoLibro</translation>
+        <translation>FotoLibro</translation>
     </message>
     <message>
         <source>Calendar</source>
-        <translation type="unfinished">Calendario</translation>
+        <translation>Calendario</translation>
     </message>
     <message>
         <source>Card</source>
-        <translation type="unfinished"></translation>
+        <translation>Targeta</translation>
     </message>
     <message>
         <source>Id Photo</source>
-        <translation type="unfinished"></translation>
+        <translation>Foto Carnet</translation>
     </message>
     <message>
         <source>MultiPhoto</source>
-        <translation type="unfinished"></translation>
+        <translation>Multi foto</translation>
     </message>
     <message>
         <source>Saving Model...</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardando el modelo...</translation>
     </message>
     <message>
         <source>There was errors storing images: %1</source>
@@ -5327,6 +5376,34 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Error copying dir from %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not copy Publisher Database file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open products database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting design files...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error updating templates %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating dir %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Title</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5462,19 +5539,19 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>SPImagesListView</name>
     <message>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escritorio</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Disco</translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colección</translation>
     </message>
     <message>
         <source>Select Folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selecciona carpeta</translation>
     </message>
     <message>
         <source>Image(s)</source>
@@ -5482,7 +5559,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Please select a directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Por favor selecciona un directorio</translation>
     </message>
 </context>
 <context>
@@ -5609,10 +5686,14 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>The model should have the number of pages in multiple of %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">El modelo debe tener un número de páginas múltiples de %1</translation>
     </message>
     <message>
         <source>The Model must have at least %1 pages</source>
+        <translation type="unfinished">El modelo debe tener al menos %1 páginas.</translation>
+    </message>
+    <message>
+        <source>Error creating calendar: No candidates found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5759,8 +5840,8 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <translation>Imagen(es)</translation>
     </message>
     <message>
-        <source>Please select a directory</source>
-        <translation>Por favor selecciona un directorio</translation>
+        <source>Please, select a directory with Images.</source>
+        <translation>Por favor seleccione una carpeta con imágenes.</translation>
     </message>
 </context>
 <context>
@@ -5919,6 +6000,26 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <message>
         <source>Behavior info</source>
         <translation>Información de comportamiento</translation>
+    </message>
+    <message>
+        <source>Cover Margins</source>
+        <translation>Margen de portada</translation>
+    </message>
+    <message>
+        <source>Cover Spine Margins</source>
+        <translation>Margen del lomo</translation>
+    </message>
+    <message>
+        <source>Page Margins</source>
+        <translation>Margen de página</translation>
+    </message>
+    <message>
+        <source>User interface</source>
+        <translation>Interfaz de usuario</translation>
+    </message>
+    <message>
+        <source>noname</source>
+        <translation>sinnombre</translation>
     </message>
 </context>
 <context>
@@ -6157,10 +6258,6 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Could not open publisher info file %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Could not connect to host: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6173,11 +6270,15 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Time out Error closing connection.</source>
+        <source>File size check failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File size check failed</source>
+        <source>Downloading files from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uploading files from %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6571,7 +6672,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tamaño</translation>
     </message>
     <message>
         <source>Width</source>
@@ -6732,7 +6833,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>The Model must have at least %1 pages</source>
-        <translation>El modelo debe tener al menos %1 páginas.</translation>
+        <translation>El modelo debe tener al menos %1 páginas</translation>
     </message>
 </context>
 <context>
@@ -6769,6 +6870,25 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <message>
         <source>There are no selected copies of &apos;%1&apos; product, please select a different product</source>
         <translation>No hay copias seleccionadas para el producto &apos;%1&apos;, por favor, selecciona un producto distinto</translation>
+    </message>
+</context>
+<context>
+    <name>STRectEditWidget</name>
+    <message>
+        <source>Top:</source>
+        <translation>Superior:</translation>
+    </message>
+    <message>
+        <source>Left:</source>
+        <translation>Izquierdo:</translation>
+    </message>
+    <message>
+        <source>Bottom:</source>
+        <translation>Inferior:</translation>
+    </message>
+    <message>
+        <source>Right:</source>
+        <translation>Derecho:</translation>
     </message>
 </context>
 <context>
@@ -7055,11 +7175,27 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
 <context>
     <name>StarlabManager</name>
     <message>
-        <source>EPrintKeeper error connecting for loggin: %1</source>
-        <translation type="unfinished">Error de EPrinKeeper conectando para registarse: %1</translation>
+        <source>Error connecting to StarLab Service: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid number of parameters returned from server expected &gt;=9, returned %s</source>
+        <source>Error opening file to post %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid number of parameters returned from server expected &gt;=8, returned %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error setting hash(%1) = %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in sync Products.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error updating template %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

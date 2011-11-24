@@ -280,7 +280,6 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	CBCyphered->setChecked(_MetaInfo.cyphered());
 
 	//Render
-
 	SBPPageWidth->setValue(_MetaInfo.printPageSize().width());
 	SBPPageHeight->setValue(_MetaInfo.printPageSize().height());
 	SBDpis->setValue(_MetaInfo.dpis());
@@ -298,6 +297,19 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	CBAtomic->setChecked(_MetaInfo.atomic());
 	SBOptImagesPerPage->setValue(_MetaInfo.numOptimalImagesPerPage());
 	CBAutoGenerate->setChecked(_MetaInfo.autogenerateLayouts());
+
+	//GUI
+	QRectF CoverMarginRect = _MetaInfo.coverMarginRect();
+	GBCoverMargin->setChecked(!CoverMarginRect.isNull());
+	RECover->setEditedRect(CoverMarginRect);
+
+	QRectF SpineMarginRect = _MetaInfo.spineMarginRect();
+	GBCoverSpineMargin->setChecked(!SpineMarginRect.isNull());
+	RECoverSpine->setEditedRect(SpineMarginRect);
+
+	QRectF PageMarginRect = _MetaInfo.pageMarginRect();
+	GBPageMargin->setChecked(!PageMarginRect.isNull());
+	REPage->setEditedRect(PageMarginRect);
 
 }
 
@@ -335,7 +347,7 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	if (GBCoverSpineMargin->isChecked())
 		Res.setSpineMarginRect(RECoverSpine->editedRect());
 	if (GBPageMargin->isChecked())
-		Res.setSpineMarginRect(REPage->editedRect());
+		Res.setPageMarginRect(REPage->editedRect());
 
 	return Res;
 }

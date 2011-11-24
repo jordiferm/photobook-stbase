@@ -660,7 +660,7 @@ QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSett
 	QFileInfoList Res;
 	//bool Booklet = (_RSettings.PrintPreprocessType == STPhotoBookRenderSettings::TypeBooklet || Template.preprocessType() == STPhotoBookTemplate::TypeBooklet);
 	bool Booklet = isExportedAsBooklet();
-	bool PrintFirstAtLast = (_RSettings.printFirstAtLast() || Booklet);
+	bool PrintFirstAtLast = (Booklet);
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 	if (_StatusWidget)
 	{

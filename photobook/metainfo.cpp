@@ -25,6 +25,24 @@
 
 using namespace SPhotoBook;
 
+void MetaInfo::setMarginAttributes(QDomElement& _Element, const QString& _MarginName, const QRectF& _MarginRect) const
+{
+	_Element.setAttribute(QString("%1_top").arg(_MarginName), _MarginRect.top());
+	_Element.setAttribute(QString("%1_left").arg(_MarginName), _MarginRect.left());
+	_Element.setAttribute(QString("%1_bottom").arg(_MarginName), _MarginRect.bottom());
+	_Element.setAttribute(QString("%1_right").arg(_MarginName), _MarginRect.right());
+}
+
+QRectF MetaInfo::loadMarginAttributes(const QDomElement& _Element, const QString& _MarginName) const
+{
+	QRectF Res;
+	Res.setTop(_Element.attribute(QString("%1_top").arg(_MarginName), "0").toDouble());
+	Res.setLeft(_Element.attribute(QString("%1_left").arg(_MarginName), "0").toDouble());
+	Res.setBottom(_Element.attribute(QString("%1_bottom").arg(_MarginName), "0").toDouble());
+	Res.setRight(_Element.attribute(QString("%1_right").arg(_MarginName), "0").toDouble());
+	return Res;
+}
+
 QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 {
 	QDomElement Element = _Doc.createElement("global");
@@ -51,7 +69,11 @@ QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 	Element.setAttribute("atomic", Atomic);
 	Element.setAttribute("cyphered", Cyphered);
 	Element.setAttribute("cutpagesonprint", CutPagesOnPrint);
-	//Element.setAttribute("", PageMarginRects);
+
+	setMarginAttributes(Element, "pagemargin", PageMarginRect);
+	setMarginAttributes(Element, "covermargin", CoverMarginRect);
+	setMarginAttributes(Element, "spinemargin", SpineMarginRect);
+
 	//Element.setAttribute("", CoverMarginRects);
 	Element.setAttribute("numoptimalimagesperpage", NumOptimalImagesPerPage);
 
@@ -84,6 +106,10 @@ void MetaInfo::loadGlobalInfo(const QDomElement& _Element)
 	PreferMinPages = _Element.attribute("preferminpages", "1") == "1";
 	Atomic = _Element.attribute("atomic", "1") == "1";
 	Cyphered = _Element.attribute("cyphered", "0") == "1";
+
+	PageMarginRect = loadMarginAttributes(_Element, "pagemargin");
+	CoverMarginRect = loadMarginAttributes(_Element, "covermargin");
+	SpineMarginRect = loadMarginAttributes(_Element, "spinemargin");
 	//PageMarginRects.clear();
 	//CoverMarginRects.clear();
 	NumOptimalImagesPerPage = _Element.attribute("numoptimalimagesperpage", "3").toInt();

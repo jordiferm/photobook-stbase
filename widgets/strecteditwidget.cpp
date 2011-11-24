@@ -63,7 +63,12 @@ void STRectEditWidget::setEditedRect(const QRectF& _Rect)
 
 QRectF STRectEditWidget::editedRect() const
 {
-	return QRectF(QPoint(SPValueTop->value(), SPValueLeft->value()), QPoint(SPValueBottom->value(), SPValueRight->value()));
+	QRectF Res;
+	Res.setTop(SPValueTop->value());
+	Res.setLeft(SPValueLeft->value());
+	Res.setBottom(SPValueBottom->value());
+	Res.setRight(SPValueRight->value());
+	return Res;
 }
 
 void STRectEditWidget::setSuffix(const QString& _Suffix)

@@ -93,7 +93,7 @@
     </message>
     <message>
         <source>&lt;p&gt;Please, configure your &lt;em&gt;Photo Book&lt;/em&gt;?&lt;/p&gt; automatic options:</source>
-        <translation>&lt;p&gt;Si us plau, configuri les opcions automátiques del seu &lt;em&gt;FotoLlibre&lt;/em&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Si us plau, configuri les opcions automátiques del seu &lt;em&gt;FotoLlibre&lt;/em&gt;&lt;/p&gt;:</translation>
     </message>
     <message>
         <source>General</source>
@@ -138,6 +138,14 @@
     <message>
         <source>To month</source>
         <translation>Fins a mes</translation>
+    </message>
+    <message>
+        <source>SubTitle</source>
+        <translation>Sub Títol</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Autor</translation>
     </message>
 </context>
 <context>
@@ -209,16 +217,16 @@
         <translation>Mida:</translation>
     </message>
     <message>
-        <source>Themes:</source>
-        <translation>Tema:</translation>
-    </message>
-    <message>
         <source>&lt;h2&gt;There is no templates of this type.&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;No hi ha plantilles d&apos;aquest tipus.&lt;/h2&gt;</translation>
     </message>
     <message>
-        <source>Information:</source>
-        <translation>Informació:</translation>
+        <source>&lt;h2&gt;Please, select a template from the list.&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Si us plau seleccioni un producte de la llista de productes.&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <source>Products:</source>
+        <translation>Productes:</translation>
     </message>
 </context>
 <context>
@@ -3938,21 +3946,6 @@ Num</source>
     </message>
 </context>
 <context>
-    <name>OPWChooseShippingMethod</name>
-    <message>
-        <source>&lt;h1&gt;Shipping method selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please select a shipping method from the list bellow.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shipping methods :</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>OPWConfirmOrder</name>
     <message>
         <source>&lt;h1&gt;Please confirm your order&lt;/h1&gt;</source>
@@ -4013,6 +4006,62 @@ Num</source>
     <message>
         <source>There was problems getting images to send. Please try again.</source>
         <translation>Hi ha hagut un problema obtinguent les imatges que s&apos;han d&apos;enviar. Si us plau prova-ho de nou.</translation>
+    </message>
+    <message>
+        <source>Contact</source>
+        <translation type="unfinished">Contacte</translation>
+    </message>
+    <message>
+        <source>Modify</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shippment options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By Post</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collect In Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping Method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order invoice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Tel:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5253,27 +5302,27 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>PhotoBook</source>
-        <translation type="unfinished">FotoLlibre</translation>
+        <translation>FotoLlibre</translation>
     </message>
     <message>
         <source>Calendar</source>
-        <translation type="unfinished">Calendari</translation>
+        <translation>Calendari</translation>
     </message>
     <message>
         <source>Card</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarjeta</translation>
     </message>
     <message>
         <source>Id Photo</source>
-        <translation type="unfinished"></translation>
+        <translation>Foto Carnet</translation>
     </message>
     <message>
         <source>MultiPhoto</source>
-        <translation type="unfinished"></translation>
+        <translation>Multi foto</translation>
     </message>
     <message>
         <source>Saving Model...</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvant el model...</translation>
     </message>
     <message>
         <source>There was errors storing images: %1</source>
@@ -5329,6 +5378,34 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Error copying dir from %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not copy Publisher Database file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open products database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting design files...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error updating templates %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating dir %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Title</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5464,19 +5541,19 @@ El node arrel no es un reportatge.</translation>
     <name>SPImagesListView</name>
     <message>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escritori</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Disc</translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colecció</translation>
     </message>
     <message>
         <source>Select Folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selecciona carpeta</translation>
     </message>
     <message>
         <source>Image(s)</source>
@@ -5484,7 +5561,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Please select a directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Si us plau, selecciona un directori</translation>
     </message>
 </context>
 <context>
@@ -5611,10 +5688,14 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>The model should have the number of pages in multiple of %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">El model ha de tenir un número de pàgines múltiples de %1</translation>
     </message>
     <message>
         <source>The Model must have at least %1 pages</source>
+        <translation type="unfinished">El model ha de tindre almenys %1 pàgines</translation>
+    </message>
+    <message>
+        <source>Error creating calendar: No candidates found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5761,8 +5842,8 @@ El node arrel no es un reportatge.</translation>
         <translation>Imatge(s)</translation>
     </message>
     <message>
-        <source>Please select a directory</source>
-        <translation>Si us plau, selecciona un directori</translation>
+        <source>Please, select a directory with Images.</source>
+        <translation>Si us plau, seleccioni un directori amb imatges.</translation>
     </message>
 </context>
 <context>
@@ -5921,6 +6002,26 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>Behavior info</source>
         <translation>Informació de comportament</translation>
+    </message>
+    <message>
+        <source>Cover Margins</source>
+        <translation>Marge de portada</translation>
+    </message>
+    <message>
+        <source>Cover Spine Margins</source>
+        <translation>Marge del llom</translation>
+    </message>
+    <message>
+        <source>Page Margins</source>
+        <translation>Marge de pàgina</translation>
+    </message>
+    <message>
+        <source>User interface</source>
+        <translation>Interfície d&apos;usuari</translation>
+    </message>
+    <message>
+        <source>noname</source>
+        <translation>sensenom</translation>
     </message>
 </context>
 <context>
@@ -6159,10 +6260,6 @@ El node arrel no es un reportatge.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Could not open publisher info file %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Could not connect to host: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6175,11 +6272,15 @@ El node arrel no es un reportatge.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Time out Error closing connection.</source>
+        <source>File size check failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File size check failed</source>
+        <source>Downloading files from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uploading files from %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6573,7 +6674,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mida</translation>
     </message>
     <message>
         <source>Width</source>
@@ -6771,6 +6872,25 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>There are no selected copies of &apos;%1&apos; product, please select a different product</source>
         <translation>No hi ha cópies seleccionades del producte &apos;%1&apos; , si us plau selecciona un producte diferent</translation>
+    </message>
+</context>
+<context>
+    <name>STRectEditWidget</name>
+    <message>
+        <source>Top:</source>
+        <translation>Superior:</translation>
+    </message>
+    <message>
+        <source>Left:</source>
+        <translation>Esquerra:</translation>
+    </message>
+    <message>
+        <source>Bottom:</source>
+        <translation>Inferior:</translation>
+    </message>
+    <message>
+        <source>Right:</source>
+        <translation>Dret:</translation>
     </message>
 </context>
 <context>
@@ -7057,11 +7177,27 @@ El node arrel no es un reportatge.</translation>
 <context>
     <name>StarlabManager</name>
     <message>
-        <source>EPrintKeeper error connecting for loggin: %1</source>
-        <translation type="unfinished">Error de EPrintKeeper conectant per a registrar-se: %1</translation>
+        <source>Error connecting to StarLab Service: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid number of parameters returned from server expected &gt;=9, returned %s</source>
+        <source>Error opening file to post %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid number of parameters returned from server expected &gt;=8, returned %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error setting hash(%1) = %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in sync Products.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error updating template %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

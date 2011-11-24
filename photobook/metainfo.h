@@ -55,6 +55,8 @@ private:
 	QRectF PageMarginRect, CoverMarginRect, SpineMarginRect;
 	int NumOptimalImagesPerPage;
 
+	void setMarginAttributes(QDomElement& _Element, const QString& _MarginName, const QRectF& _MarginRect) const;
+	QRectF loadMarginAttributes(const QDomElement& _Element, const QString& _MarginName) const;
 	QDomElement createGlobalInfo(QDomDocument& _Doc) const;
 	void loadGlobalInfo(const QDomElement& _Element);
 

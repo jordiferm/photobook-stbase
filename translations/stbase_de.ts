@@ -139,6 +139,14 @@
         <source>To month</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>SubTitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChooseCreationModePage</name>
@@ -209,15 +217,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Themes:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;h2&gt;There is no templates of this type.&lt;/h2&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Information:</source>
+        <source>&lt;h2&gt;Please, select a template from the list.&lt;/h2&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Products:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3932,21 +3940,6 @@ Num</source>
     </message>
 </context>
 <context>
-    <name>OPWChooseShippingMethod</name>
-    <message>
-        <source>&lt;h1&gt;Shipping method selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please select a shipping method from the list bellow.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shipping methods :</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>OPWConfirmOrder</name>
     <message>
         <source>&lt;h1&gt;Please confirm your order&lt;/h1&gt;</source>
@@ -4006,6 +3999,62 @@ Num</source>
     </message>
     <message>
         <source>There was problems getting images to send. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contact</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modify</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shippment options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By Post</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collect In Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping Method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order invoice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Tel:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5318,6 +5367,34 @@ The root node is not &apos;report&apos;.</source>
         <source>Error copying dir from %1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Could not copy Publisher Database file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open products database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting design files...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error updating templates %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating dir %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Title</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -5604,6 +5681,10 @@ The root node is not &apos;report&apos;.</source>
         <source>The Model must have at least %1 pages</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error creating calendar: No candidates found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SPhotoBook::DocumentViewWidget</name>
@@ -5748,7 +5829,7 @@ The root node is not &apos;report&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please select a directory</source>
+        <source>Please, select a directory with Images.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5907,6 +5988,26 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>Behavior info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover Spine Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User interface</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>noname</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6146,10 +6247,6 @@ The root node is not &apos;report&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Could not open publisher info file %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Could not connect to host: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6162,11 +6259,15 @@ The root node is not &apos;report&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Time out Error closing connection.</source>
+        <source>File size check failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File size check failed</source>
+        <source>Downloading files from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uploading files from %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6761,6 +6862,25 @@ The root node is not &apos;report&apos;.</source>
     </message>
 </context>
 <context>
+    <name>STRectEditWidget</name>
+    <message>
+        <source>Top:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>STSenderSettingsDialog</name>
     <message>
         <source>User Settings Wizard</source>
@@ -7044,11 +7164,27 @@ The root node is not &apos;report&apos;.</source>
 <context>
     <name>StarlabManager</name>
     <message>
-        <source>EPrintKeeper error connecting for loggin: %1</source>
+        <source>Error connecting to StarLab Service: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid number of parameters returned from server expected &gt;=9, returned %s</source>
+        <source>Error opening file to post %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid number of parameters returned from server expected &gt;=8, returned %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error setting hash(%1) = %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in sync Products.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error updating template %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

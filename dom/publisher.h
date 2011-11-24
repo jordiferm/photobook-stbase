@@ -36,6 +36,9 @@ class ST_DOM_EXPORT Publisher
 	QString Id, Name, Email, Web, LogoHtml;
 	QString FtpUrl, UserName, Password, InitDir;
 	int TransferMode, FtpPort;
+public:
+	static QString DefaultUserName;
+	static QString DefaultUserPassword;
 
 public:
 	Publisher();

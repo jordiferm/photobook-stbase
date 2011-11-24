@@ -44,15 +44,12 @@ Q_OBJECT
 public:
 	ImagesListView(QWidget* _Parent = 0);
 	void setDiskPath(const QString& _CurrentPath);
-	//void setCollectionFolderKey(quint64 _Key);
 	QAction* addImageSourceAction(const QIcon& _Icon, const QString& _Text);
 
 public slots:
 	void setDesktopPath();
 	void selectFolder();
 	void selectDiskFolder();
-	//void selectCollectionFolder();
-
 };
 }
 #endif // ImagesListView_H

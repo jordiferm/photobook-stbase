@@ -60,23 +60,7 @@ ImagesListView::ImagesListView(QWidget* _Parent) : ImagesListViewBase(_Parent)
 	connect(SelectFolderAction, SIGNAL(triggered()), this, SLOT(selectFolder()));
 	toolBar()->addAction(SelectFolderAction);
 
-//	SelectAllAction = new QAction(QIcon(":/phototemplates/rating.png"), tr("Select All (Ctrl+A)"), this);
-//	connect(SelectAllAction , SIGNAL(triggered()), this, SLOT(slotSelectAll()));
-//	toolBar()->addAction(SelectAllAction);
-//	SelectAllAction->setVisible(false);
-
-//	toolBar()->addSeparator();
-
-//	QAction* AddImagesAction = new QAction(QIcon(":/phototemplates/list-add.png"), tr("Add"), this);
-//	toolBar()->addAction(AddImagesAction);
-//	AddImagesAction->setVisible(false);
-//
-//	QAction* RemoveImagesAction = new QAction(QIcon(":/phototemplates/list-remove.png"), tr("Remove"), this);
-//	toolBar()->addAction(RemoveImagesAction);
-//	RemoveImagesAction->setVisible(false);
 	activateItemCounter(tr("Image(s)"));
-
-	//setDesktopPath();
 }
 
 void ImagesListView::setDiskPath(const QString& _CurrentPath)
@@ -85,37 +69,21 @@ void ImagesListView::setDiskPath(const QString& _CurrentPath)
 	setPath(_CurrentPath);
 }
 
-//void ImagesListView::setCollectionFolderKey(quint64 _Key)
-//{
-//	CollectionAction->setChecked(true);
-//	OPhotoCollectionModel* ColModel = OPhotoCollection::model();
-//	QModelIndex NodeIndex = ColModel->indexById(_Key);
-//	ImageModel->setImages(ColModel->nodeImages(NodeIndex));
-//	updateCheckedFiles();
-//}
-
-
 QAction* ImagesListView::addImageSourceAction(const QIcon& _Icon, const QString& _Text)
 {
 	QAction* NewAction = new QAction(_Icon, _Text, this);
 	toolBar()->insertAction(DesktopAction, NewAction);
-	//ImageSourceActions->addAction(NewAction);
-	//NewAction->setCheckable(true);
 	return NewAction;
 }
 
 void ImagesListView::setDesktopPath()
 {
-	//DesktopAction->setChecked(true);
 	setDiskPath(QDesktopServices::storageLocation(QDesktopServices::DesktopLocation));
 }
 
 void ImagesListView::selectFolder()
 {
-//	if (CollectionAction->isChecked())
-//		selectCollectionFolder();
-//	else
-		selectDiskFolder();
+	selectDiskFolder();
 }
 
 void ImagesListView::selectDiskFolder()
@@ -125,11 +93,4 @@ void ImagesListView::selectDiskFolder()
 		setDiskPath(NewPath);
 
 }
-
-//void ImagesListView::selectCollectionFolder()
-//{
-//	OPhotoCollectionTreeDialog Dialog;
-//	if (Dialog.exec() == QDialog::Accepted)
-//		setCollectionFolderKey(Dialog.currentNodeKey());
-//}
 
