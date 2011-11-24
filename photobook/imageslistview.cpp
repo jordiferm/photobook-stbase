@@ -46,7 +46,6 @@ ImagesListView::ImagesListView(QWidget* _Parent) : ImagesListViewBase(_Parent)
 	DiskAction->setVisible(false);
 
 	CollectionAction = new QAction(QIcon(":/phototemplates/collection.png"), tr("Collection"), this);
-	connect(CollectionAction, SIGNAL(triggered()), this, SLOT(selectCollectionFolder()));
 	CollectionAction->setCheckable(true);
 	CollectionAction->setVisible(false); //TODO:Change it for Favourites !
 
@@ -77,7 +76,7 @@ ImagesListView::ImagesListView(QWidget* _Parent) : ImagesListViewBase(_Parent)
 //	RemoveImagesAction->setVisible(false);
 	activateItemCounter(tr("Image(s)"));
 
-	setDesktopPath();
+	//setDesktopPath();
 }
 
 void ImagesListView::setDiskPath(const QString& _CurrentPath)
@@ -121,7 +120,7 @@ void ImagesListView::selectFolder()
 
 void ImagesListView::selectDiskFolder()
 {
-	QString NewPath = QFileDialog::getExistingDirectory(this, tr("Please select a directory"), CurrentPath);
+	QString NewPath = QFileDialog::getExistingDirectory(this, tr("Please, select a directory with Images."), CurrentPath);
 	if (!NewPath.isEmpty())
 		setDiskPath(NewPath);
 

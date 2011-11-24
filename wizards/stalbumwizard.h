@@ -37,6 +37,7 @@ namespace SPhotoBook
 	class DesignInfo;
 	class DesignInfoModel;
 	class ImageBoxListView;
+	class ImagesListView;
 }
 
 class STCollectionTemplateModel;
@@ -167,6 +168,7 @@ Q_OBJECT
 
 	SPhotoBook::ImageBoxListView* IBListView;
 	QLabel* InfoLabel;
+	SPhotoBook::ImagesListView* IListView;
 	int PagesToFill, OptimalImagesPerPage, AbsoluteImageCount;
 	void updateInfo();
 
@@ -177,6 +179,8 @@ public:
 	int nextId() const;
 	bool isComplete() const;
 	STDom::DDocModel* selectedImages() const;
+	void initializePage();
+
 private slots:
 	void slotUpdateInfo();
 };

@@ -280,7 +280,6 @@ void ChooseTemplatePage::slotWebLoadStarted()
 
 void ChooseTemplatePage::slotWebLoadFinished(bool _Ok)
 {
-	qDebug() << "WebLoad Finished";
 	QApplication::restoreOverrideCursor();
 	if (_Ok)
 		setCurrentState(StateShowWebInfo);
@@ -619,7 +618,7 @@ SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Pare
 	SourceLabel->setRotation(Qxt::CounterClockwise);
 	TopLayout->addWidget(SourceLabel);
 	//MLayout->addWidget(new QLabel(tr("Folder name:"), this));
-	SPhotoBook::ImagesListView* IListView = new SPhotoBook::ImagesListView(this);
+	IListView = new SPhotoBook::ImagesListView(this);
 	IListView->model()->setNumMatchLimit(1);
 	TopLayout->addWidget(IListView);
 	IListView->showSelectAllAction(true);
@@ -679,6 +678,12 @@ STDom::DDocModel* SelectDiskFolderPage::selectedImages() const
 	return IBListView->model()->sourceModel();
 }
 
+void SelectDiskFolderPage::initializePage()
+{
+	if (IListView->model()->rowCount() == 0)
+		IListView->selectFolder();
+}
+
 void SelectDiskFolderPage::slotUpdateInfo()
 {
 	updateInfo();
@@ -717,37 +722,28 @@ AlbumWizardEndPage::AlbumWizardEndPage(QWidget* _Parent) : QWizardPage(_Parent)
 
 STAlbumWizard::STAlbumWizard(StarlabAbstractManager* _Manager, QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags), Manager(_Manager)
 {
-	qDebug() << "--Creating ChooseTemplatePage";
 	CTemplatePage = new ChooseTemplatePage(_Manager, this);
 	setPage(Page_ChooseTemplate, CTemplatePage);
-	qDebug() << "--Creating ChooseCreationModePage";
 	CCreationModePage = new ChooseCreationModePage(this);
 	setPage(Page_ChooseCreationMode, CCreationModePage);
-	qDebug() << "--Creating BuildOptionsPage";
 	PBuildOptions = new BuildOptionsPage(this);
 	setPage(Page_BuildOptions, PBuildOptions);
-	qDebug() << "--Creating SelectDiskFolderPage";
 	SDFolderPage = new SelectDiskFolderPage(this);
 	setPage(Page_SelectDiskFolder, SDFolderPage);
-	qDebug() << "--Creating AlbumWizardEndPage";
 	setPage(Page_End, new AlbumWizardEndPage(this));
 	
-	qDebug() << "--Creating Setting startid";
 	setStartId(Page_ChooseTemplate);
 
-	qDebug() << "--Setting Style";
 #ifndef Q_WS_MAC
 	setWizardStyle(ModernStyle);
 #endif
 
-	qDebug() << "--Setting Style";
 	setOption(HaveHelpButton, false);
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/st/wizards/albumwizard.png").scaled(64,64));
 
 	//connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
 
 	setWindowTitle(QObject::tr("PhotoBook Wizard"));
-	qDebug() << "Wizard builded !";
 }
 
 STAlbumWizard::~STAlbumWizard()
