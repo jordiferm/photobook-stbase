@@ -76,18 +76,21 @@
 
 void ChooseTemplatePage::setCurrentState(ChooseTemplatePage::EnState _State)
 {
+	CurrentState = _State;
 	BottomFrame->setVisible(_State != StateTemplatesEmpty);
-	LabSize->setVisible(BottomFrame->isVisible());
-	CBSize->setVisible(BottomFrame->isVisible());
-	if (BottomFrame->isVisible())
-	{
-		NoInfoFrame->setVisible(_State != StateShowWebInfo);
-		//WebView->setVisible(!NoInfoFrame->isVisible());
-	}
+
+	bool TempInfoVisible = BottomFrame->isVisible() && _State != StateUnselected;
+	LabSize->setVisible(TempInfoVisible);
+	CBSize->setVisible(TempInfoVisible);
+
+	NoInfoFrame->setVisible(_State != StateShowWebInfo && TempInfoVisible);
+	WebView->setVisible(!NoInfoFrame->isVisible() && TempInfoVisible);
+
 	InetgetTimer->stop();
 
 	View->setVisible(_State != StateTemplatesEmpty);
 	NoTemplatesLabel->setVisible(_State == StateTemplatesEmpty);
+	UnselectedLabel->setVisible(_State == StateUnselected);
 
 	switch (_State)
 	{
@@ -102,6 +105,7 @@ void ChooseTemplatePage::setCurrentState(ChooseTemplatePage::EnState _State)
 			LabelInfoPixmap->setPixmap(QPixmap(":/dialog-information.png"));
 		break;
 	}
+	completeChanged();
 }
 
 
@@ -110,20 +114,11 @@ ChooseTemplatePage::ChooseTemplatePage(StarlabAbstractManager* _Manager, QWidget
 	setTitle(tr("<h1>Template selection</h1>"));
 	setSubTitle(tr("The <em>Photo Book</em> template defines the photobook features like size, number of pages, layouts, etc... </br> Use the following list to choose the template that you want for your <em>Photo Book</em>"));
 	QVBoxLayout* MLayout = new QVBoxLayout(this);
-	QHBoxLayout* TopLayout = new QHBoxLayout;
-	MLayout->addLayout(TopLayout);
 
-
-	TopLayout->addItem(new QSpacerItem(10, 0, QSizePolicy::Fixed, QSizePolicy::Preferred));
-
-	LabSize = new QLabel(tr("Size:"), this);
-	LabSize->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-	TopLayout->addWidget(LabSize);
-	CBSize = new QComboBox(this);
-	CBSize->setMinimumWidth(250);
-	TopLayout->addWidget(CBSize);
-
-	TopLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
+	UnselectedLabel = new QLabel(this);
+	UnselectedLabel->setText(tr("<h2>Please, select a template from the list.</h2>"));
+	UnselectedLabel->setWordWrap(true);
+	MLayout->addWidget(UnselectedLabel);
 
 	BottomFrame = new QFrame(this);
 	MLayout->addWidget(BottomFrame);
@@ -132,7 +127,7 @@ ChooseTemplatePage::ChooseTemplatePage(StarlabAbstractManager* _Manager, QWidget
 
 	QVBoxLayout* LeftLayout = new QVBoxLayout;
 	BottomLayout->addLayout(LeftLayout);
-	LeftLayout->addWidget(new QLabel(tr("Themes:"), this));
+	LeftLayout->addWidget(new QLabel(tr("Products:"), this));
 	View = new QListView(this); 
 	Model = new SPhotoBook::TemplateInfoModel(this);
 	View->setModel(Model);
@@ -149,9 +144,24 @@ ChooseTemplatePage::ChooseTemplatePage(StarlabAbstractManager* _Manager, QWidget
 	NoTemplatesLabel->setWordWrap(true);
 	MLayout->addWidget(NoTemplatesLabel);
 
-	QGridLayout* RightLayout = new QGridLayout;
+	//------------ Right info widgets -------------
+	QVBoxLayout* RightLayout = new QVBoxLayout;
 	BottomLayout->addLayout(RightLayout);
-	RightLayout->addWidget(new QLabel(tr("Information:"), this), 0, 0);
+
+	QHBoxLayout* TopRightLayout = new QHBoxLayout;
+	RightLayout->addLayout(TopRightLayout);
+	TopRightLayout->addItem(new QSpacerItem(10, 0, QSizePolicy::Fixed, QSizePolicy::Preferred));
+
+	LabSize = new QLabel(tr("Size:"), this);
+	LabSize->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+	TopRightLayout->addWidget(LabSize);
+	CBSize = new QComboBox(this);
+	CBSize->setMinimumWidth(250);
+	CBSize->setObjectName("WizardSizeCombo");
+	TopRightLayout->addWidget(CBSize);
+
+	TopRightLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
+
 
 	WebView = new QWebView(this);
 	RightLayout->addWidget(WebView, 1, 0);
@@ -199,6 +209,7 @@ void ChooseTemplatePage::selectFirstIndex()
 
 void ChooseTemplatePage::initializePage()
 {
+	setCurrentState(StateUnselected);
 }
 
 SPhotoBook::TemplateInfo ChooseTemplatePage::templateInfo(const QModelIndex& _Index, const QSizeF& _Size) const
@@ -225,24 +236,24 @@ SPhotoBook::TemplateInfo ChooseTemplatePage::selectedTemplateInfo() const
 
 bool ChooseTemplatePage::validatePage()
 {
-	return true; 
+	return View->currentIndex().isValid();
 }
 
 bool ChooseTemplatePage::isComplete() const
 {
-	return Model->rowCount() > 0 && View->currentIndex().isValid();
+	return Model->rowCount() > 0 && View->currentIndex().isValid() && CurrentState != StateUnselected;
 }
 
 void ChooseTemplatePage::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type )
 {
 	Model->setTemplateList(_TemplateList);
-	selectFirstIndex();
+	//selectFirstIndex();
 }
 
 void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 {
 	WebView->stop();
-
+	completeChanged();
 	//Load available sizes.
 	CBSize->clear();
 	QList<QSizeF> SizesList = Model->sizes(_Index);
@@ -269,6 +280,7 @@ void ChooseTemplatePage::slotWebLoadStarted()
 
 void ChooseTemplatePage::slotWebLoadFinished(bool _Ok)
 {
+	qDebug() << "WebLoad Finished";
 	QApplication::restoreOverrideCursor();
 	if (_Ok)
 		setCurrentState(StateShowWebInfo);

@@ -58,7 +58,8 @@ Q_OBJECT
 		StateShowWebInfo,
 		StateNoInfo,
 		StateGettingInfo,
-		StateTemplatesEmpty
+		StateTemplatesEmpty,
+		StateUnselected
 	};
 
 	SPhotoBook::TemplateInfoModel* Model;
@@ -70,6 +71,7 @@ Q_OBJECT
 	QLabel* NoInfoLabel;
 	QLabel* LabelInfoPixmap;
 	QLabel* LabSize;
+	QLabel* UnselectedLabel;
 	bool InetgetPicture1;
 	QTimer* InetgetTimer;
 	QActionGroup* TypeActions;
@@ -78,7 +80,7 @@ Q_OBJECT
 	bool HasPreselection;
 	SPhotoBook::MetaInfo::EnTemplateType  PreselectedType;
 	StarlabAbstractManager* Manager;
-
+	EnState CurrentState;
 
 	void setCurrentState(EnState _State);
 
