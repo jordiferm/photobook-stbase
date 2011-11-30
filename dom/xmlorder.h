@@ -162,8 +162,11 @@ class ST_DOM_EXPORT XmlOrderInfo
 public:
 	XmlOrderInfo(const QString& _OrderId, const QString _OrderFilesPath = defaultOrderFilesPath())
 			: OrderId(_OrderId), OrderFilesPath(_OrderFilesPath) {}
+	void setOrderFilesPath(const QString& _Value) { OrderFilesPath = _Value; }
 	QString orderPath() const { return OrderFilesPath + "/" + OrderId + "/"; }
 	QString orderXmlFilePath() const { return orderPath() +  orderXmlFileName(); }
+	QString orderPublisherDbFilePath() const;
+	static QString orderPublisherDbFilePath(const QString& _OrderPath);
 	static QString orderXmlFileName() { return "order.xml"; }
 	static QString defaultOrderPath(const QString& _OrderId) { return defaultOrderFilesPath() + "/" + _OrderId + "/"; }
 	static QString defaultOrderFilesPath() { return SApplication::dbFilesPath() + "/orders"; }
@@ -315,6 +318,9 @@ public:
 	//! Appends _BasePath to all print srcs.
 	void setPrintBasePath(const QString& _BasePath);
 	void clearPrintPath();
+
+	//Products
+	PublisherDatabase orderPublisherDatabase() const;
 
 	//Errors
 	STErrorStack errorStack() const { return ErrorStack; }

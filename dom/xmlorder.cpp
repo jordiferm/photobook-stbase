@@ -28,6 +28,7 @@
 #include <QDir>
 #include <QProgressBar>
 #include "stutils.h"
+#include "publisherinfo.h"
 
 using namespace STDom;
 
@@ -242,6 +243,23 @@ void XmlOrderPrint::clearDealerData()
 	Description = ""; 
 }
 	
+
+
+// _________________________________________________________________________
+//
+// Class XmlOrderInfo
+// _________________________________________________________________________
+
+
+QString XmlOrderInfo::orderPublisherDbFilePath() const
+{
+	return orderPublisherDbFilePath(orderPath());
+}
+
+QString XmlOrderInfo::orderPublisherDbFilePath(const QString& _OrderPath)
+{
+	return  _OrderPath + "/" + PublisherInfo::defaultDatabaseFileName();
+}
 
 // _________________________________________________________________________
 //
@@ -569,4 +587,18 @@ void XmlOrder::clearPrintPath()
 		}
 	}
 
+}
+
+PublisherDatabase XmlOrder::orderPublisherDatabase() const
+{
+	PublisherDatabase Res;
+	QFileInfo FInfo(orderInfo().orderPublisherDbFilePath());
+	if (FInfo.exists())
+	{
+		Res = PublisherDatabase(FInfo.absoluteFilePath());
+		if (!Res.isOpen())
+			Assert(Res.open(), Error(QObject::tr("Error opening database %1").arg(FInfo.absoluteFilePath())));
+	}
+
+	return Res;
 }

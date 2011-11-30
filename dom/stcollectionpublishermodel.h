@@ -25,6 +25,7 @@
 #include <QIcon>
 #include <QDir>
 #include "stdomexport.h"
+#include "publisherinfo.h"
 
 namespace STDom
 {
@@ -45,7 +46,7 @@ public:
 	QString description() const { return Description; }
 	void setPublisherXml( const QFileInfo& _PublisherXmlFile ) { PublisherXmlFile = _PublisherXmlFile; }
 	QFileInfo publisherXmlFile() const { return PublisherXmlFile; }
-	QFileInfo publisherDatabaseFile() const { return PublisherXmlFile.dir().absolutePath() + "/publisher.db"; } 
+	QFileInfo publisherDatabaseFile() const { return PublisherXmlFile.dir().absolutePath() + "/" + PublisherInfo::defaultDatabaseFileName(); }
 };
 
 /**

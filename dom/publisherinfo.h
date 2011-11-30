@@ -70,6 +70,7 @@ public:
 	QString publisherDatabaseFilePath() const { return DatabaseFilePath; }
 	void setPublisher(const STDom::Publisher& _Value) { Publisher = _Value; }
 	STDom::Publisher publisher() const { return Publisher; }
+	static QString defaultDatabaseFileName() { return "publisher.db"; }
 
 };
 }

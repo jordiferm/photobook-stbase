@@ -135,6 +135,7 @@ public:
 public:
 	PublisherDatabase(const QString& _DatabaseName);
 	PublisherDatabase(const QSqlDatabase& _Other = QSqlDatabase::database(DefaultPublisherDBConnectionName));
+	void importNewProducts(const QSqlDatabase& _SourceDB);
 	void importLocalFormats(const QSqlDatabase& _SourceDB);
 	void importLocalProducts(const QSqlDatabase& _SourceDB);
 	void importTable(const FSqlDatabaseManager& _SourceDBManager, const QString& _TableName, const QString& _ImportOrderBy = "");
