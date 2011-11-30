@@ -183,6 +183,66 @@ void PublisherDatabase::importLocalFormats(const QSqlDatabase& _SourceDB)
 	}
 }
 
+
+//TODO: Not tested, please test it
+void PublisherDatabase::importNewProducts(const QSqlDatabase& _SourceDB)
+{
+	FSqlQuery SourceDBQuery(_SourceDB);
+	FSqlQuery DestQuery(*this);
+	SourceDBQuery.exec("SELECT * FROM products");
+	while(SourceDBQuery.next())
+	{
+		QSqlRecord SourceRecord = SourceDBQuery.record();
+		//Check if we have this product:
+		DestQuery.prepare("SELECT * FROM products WHERE ref=:ref");
+		DestQuery.bindValue(":ref", SourceRecord.value("ref"));
+		DestQuery.exec();
+
+		if (!DestQuery.next())
+		{
+			//Get the Source Format
+			FSqlQuery SourceFormatQuery(_SourceDB);
+			SourceFormatQuery.prepare("SELECT * FROM formats WHERE idformats=:idformats");
+			SourceFormatQuery.bindValue("idformats", SourceRecord.value("formats_idformats"));
+			SourceFormatQuery.exec();
+			Assert(SourceFormatQuery.next(), Error(QObject::tr("Error getting product format on product: %1").arg(SourceRecord.value("ref").toString())));
+
+			//Check if we have a format like source product.
+			QVariant IdFormats;
+			DestQuery.prepare("SELECT idformats FROM formats WHERE width=:width AND height=:height");
+			DestQuery.bindValue(":width", SourceFormatQuery.record().value("width"));
+			DestQuery.bindValue(":height", SourceFormatQuery.record().value("height"));
+
+			if (!DestQuery.next()) //Lets insert a new format
+			{
+				DestQuery.prepare("INSERT INTO formats(idformats, description, width, height) "
+							   "VALUES( :idformats, :description, :width, :height)");
+				IdFormats = FSqlQuery::sequenceNextVal("formats", "idformats", *this);
+				DestQuery.bindValue(":idformats", IdFormats);
+				DestQuery.bindValue(":description", SourceFormatQuery.record().value("description"));
+				DestQuery.bindValue(":width", SourceFormatQuery.record().value("width"));
+				DestQuery.bindValue(":height", SourceFormatQuery.record().value("height"));
+				DestQuery.exec();
+			}
+			else
+				IdFormats = DestQuery.value(0);
+
+
+			QSqlRecord RecProduct = DestQuery.database().record("products");
+			RecProduct.setValue("ref", SourceRecord.value("ref"));
+			RecProduct.setValue("description", SourceRecord.value("description"));
+			RecProduct.setValue("fixedprice", SourceRecord.value("fixedprice"));
+			RecProduct.setValue("label", SourceRecord.value("description"));
+			RecProduct.setValue("templates_ref", SourceRecord.value("name"));
+			RecProduct.setValue("formats_idformats", IdFormats);
+			RecProduct.setValue("type", SourceRecord.value("type"));
+			DestQuery.prepareInsert(RecProduct, "products");
+			DestQuery.exec();
+		}
+	}
+}
+
+
 void PublisherDatabase::importLocalProducts(const QSqlDatabase& _SourceDB)
 {
 	FSqlQuery SourceDBQuery(_SourceDB);

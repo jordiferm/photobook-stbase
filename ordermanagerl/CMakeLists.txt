@@ -14,6 +14,8 @@ INCLUDE_DIRECTORIES( ${st_database_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_database_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_dom_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_dom_BINARY_DIR})
+INCLUDE_DIRECTORIES( ${st_sindarl_SOURCE_DIR})
+INCLUDE_DIRECTORIES( ${st_sindarl_BINARY_DIR})
 
 # --------------------------------------------------------------------------
 # Modules
@@ -24,6 +26,7 @@ INCLUDE(${st_imagelib_SOURCE_DIR}/stmodinclude.cmake)
 
 SET(QT_USE_QTSQL TRUE)
 SET(QT_USE_QTXML TRUE)
+SET(QT_USE_QTNETWORK TRUE)
 
 INCLUDE(${QT_USE_FILE})
 
@@ -46,10 +49,14 @@ QT4_ADD_RESOURCES(prj_RCC_SRCS ${prj_RCCS})
 # Source files
 SET(prj_SRCS
 	stomwatchdog.cpp
+	wprintermanager.cpp
+	wprintworkflowmanager.cpp
 )
 
 SET(prj_MOC_HDRS
 	stomwatchdog.h
+	wprintermanager.h
+	wprintworkflowmanager.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})
@@ -71,5 +78,5 @@ INCLUDE_DIRECTORIES( ${st_ordermanagerl_BINARY_DIR} )
 ADD_LIBRARY(st_ordermanagerl SHARED ${prj_SRCS} ${prj_MOC_SRCS} ${prj_RCC_SRCS})
 
 SET_TARGET_PROPERTIES(st_ordermanagerl PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
-TARGET_LINK_LIBRARIES(st_ordermanagerl ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_dom st_phototemplates st_dbmanag st_metadata st_database)
+TARGET_LINK_LIBRARIES(st_ordermanagerl ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_dom st_phototemplates st_dbmanag st_metadata st_database st_sindarl)
 INSTALL(TARGETS st_ordermanagerl DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})
