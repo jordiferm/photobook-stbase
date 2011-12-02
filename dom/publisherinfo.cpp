@@ -50,6 +50,14 @@ ShippingMethod PublisherInfo::getShippingMethod(const IdDescTableModel::TKey& _K
 	return Res;
 }
 
+ShippingMethod PublisherInfo::getDefaultShippingMethod() const
+{
+	ShippingMethod Res;
+	if (!ShippingMethodMap.isEmpty())
+		Res = ShippingMethodMap[0];
+	return Res;
+}
+
 void PublisherInfo::addShippingMethod(const ShippingMethod& _Value)
 {
 	ShippingMethodMap.insert(_Value.id(), _Value );

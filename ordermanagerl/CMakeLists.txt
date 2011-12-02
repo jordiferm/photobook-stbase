@@ -78,5 +78,5 @@ INCLUDE_DIRECTORIES( ${st_ordermanagerl_BINARY_DIR} )
 ADD_LIBRARY(st_ordermanagerl SHARED ${prj_SRCS} ${prj_MOC_SRCS} ${prj_RCC_SRCS})
 
 SET_TARGET_PROPERTIES(st_ordermanagerl PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
-TARGET_LINK_LIBRARIES(st_ordermanagerl ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_dom st_phototemplates st_dbmanag st_metadata st_database st_sindarl)
+TARGET_LINK_LIBRARIES(st_ordermanagerl ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_dom st_dbmanag st_metadata st_database st_sindarl)
 INSTALL(TARGETS st_ordermanagerl DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})

@@ -60,6 +60,7 @@ public:
 	CollectionPoint getCollectionPoint(const IdDescTableModel::TKey& _Key);
 	PaymentType getPaymentType(const IdDescTableModel::TKey& _Key);
 	ShippingMethod getShippingMethod(const IdDescTableModel::TKey& _Key);
+	ShippingMethod getDefaultShippingMethod() const;
 
 	void addShippingMethod(const ShippingMethod& _Value);
 	void addPaymentType(const PaymentType& _Value);
