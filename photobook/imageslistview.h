@@ -30,6 +30,7 @@ class STPhotoBookCheckedProxyModel;
 class STPhotoBook;
 class QActionGroup;
 
+//!!!! DEPRECATED !!!!
 namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT ImagesListView : public ImagesListViewBase
