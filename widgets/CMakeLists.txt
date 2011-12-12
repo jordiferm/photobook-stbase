@@ -94,6 +94,12 @@ SET(prj_SRCS
 	qscrollareakineticscroller.cpp
 )
 
+IF(APPLE)
+SET(prj_SRCS ${prj_SRCS}
+	qkineticscroller_mac.mm
+)
+ENDIF(APPLE)
+
 SET(prj_MOC_HDRS
 #	stwidgetsexport.h
 	sconfigwidget.h
