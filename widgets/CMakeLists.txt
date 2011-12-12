@@ -90,6 +90,8 @@ SET(prj_SRCS
 	sptoolbarlistview.cpp
 	thumbnailsizewidget.cpp
 	strecteditwidget.cpp
+	qkineticscroller.cpp
+	qscrollareakineticscroller.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -171,6 +173,9 @@ SET(prj_MOC_HDRS
 	sptoolbarlistview.h
 	thumbnailsizewidget.h
 	strecteditwidget.h
+	qkineticscroller.h
+	qkineticscroller_p.h
+	qscrollareakineticscroller.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

@@ -33,8 +33,8 @@
 
 using namespace SPhotoBook;
 
-ImagesListViewBase::ImagesListViewBase(QWidget* _Parent, bool _ToolBarOnTop) :
-		SPToolbarListView(Qt::Horizontal, _Parent, _ToolBarOnTop)
+ImagesListViewBase::ImagesListViewBase(QWidget* _Parent, bool _ToolBarOnTop, Qt::Orientation _Orientation, bool _CheckDelegate) :
+		SPToolbarListView(_Orientation, _Parent, _ToolBarOnTop)
 {
 	SelectAllAction = new QAction(QIcon(":/photobook/rating.png"), tr("Select All (Ctrl+A)"), this);
 	connect(SelectAllAction , SIGNAL(triggered()), this, SLOT(slotSelectAll()));
@@ -48,10 +48,14 @@ ImagesListViewBase::ImagesListViewBase(QWidget* _Parent, bool _ToolBarOnTop) :
 	toolBar()->addWidget(TSWidget);
 
 	listView()->setThumbnailSize(100);
-	listView()->setSpacing(0);
-	CheckItemDelegate* PDelegate = new CheckItemDelegate(listView());
-	//PDelegate->setShowToolTips(true);
-	listView()->setItemDelegate(PDelegate);
+
+	if (_CheckDelegate)
+	{
+		listView()->setSpacing(0);
+		CheckItemDelegate* PDelegate = new CheckItemDelegate(listView());
+		//PDelegate->setShowToolTips(true);
+		listView()->setItemDelegate(PDelegate);
+	}
 
 	ImageModel = new STDom::DDocModel(this);
 	ImageModel->setNoImagePixmap(QPixmap(":/photobook/hourglass.png"));
