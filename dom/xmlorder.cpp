@@ -28,6 +28,7 @@
 #include <QDir>
 #include <QProgressBar>
 #include "stutils.h"
+#include "publisherinfo.h"
 
 using namespace STDom;
 
@@ -243,6 +244,23 @@ void XmlOrderPrint::clearDealerData()
 }
 	
 
+
+// _________________________________________________________________________
+//
+// Class XmlOrderInfo
+// _________________________________________________________________________
+
+
+QString XmlOrderInfo::orderPublisherDbFilePath() const
+{
+	return orderPublisherDbFilePath(orderPath());
+}
+
+QString XmlOrderInfo::orderPublisherDbFilePath(const QString& _OrderPath)
+{
+	return  _OrderPath + "/" + PublisherInfo::defaultDatabaseFileName();
+}
+
 // _________________________________________________________________________
 //
 // Class XmlOrder
@@ -271,8 +289,14 @@ void XmlOrder::loadHeader(QDomElement& _HElement)
 			if (CEl.tagName().toLower() == "customer" )
 				Customer = XmlOrderDealer(CEl);
 			else 
-			if (CEl.tagName().toLower() == "publisher" )
-				Publisher = XmlOrderDealer(CEl);
+			if (CEl.tagName().toLower() == "collectionpoint" )
+				CollectionPoint = XmlOrderDealer(CEl);
+			else
+			if (CEl.tagName().toLower() == "shippingmethod")
+				SMethod = ShippingMethod(CEl);
+			else
+			if (CEl.tagName().toLower() == "paymenttype")
+				PType = PaymentType(CEl);
 		}
 		CNode = CNode.nextSibling();
 	}	
@@ -296,7 +320,9 @@ QDomElement XmlOrder::createHeader(QDomDocument& _Doc) const
 	
 	Header.appendChild(Sender.createElement(_Doc, "sender"));
 	Header.appendChild(Customer.createElement(_Doc, "customer"));
-	Header.appendChild(Publisher.createElement(_Doc, "publisher"));
+	Header.appendChild(CollectionPoint.createElement(_Doc, "collectionpoint"));
+	Header.appendChild(SMethod.createElement(_Doc, "shippingmethod"));
+	Header.appendChild(PType.createElement(_Doc, "paymenttype"));
 	
 	return Header;
 }
@@ -561,4 +587,18 @@ void XmlOrder::clearPrintPath()
 		}
 	}
 
+}
+
+PublisherDatabase XmlOrder::orderPublisherDatabase() const
+{
+	PublisherDatabase Res;
+	QFileInfo FInfo(orderInfo().orderPublisherDbFilePath());
+	if (FInfo.exists())
+	{
+		Res = PublisherDatabase(FInfo.absoluteFilePath());
+		if (!Res.isOpen())
+			Assert(Res.open(), Error(QObject::tr("Error opening database %1").arg(FInfo.absoluteFilePath())));
+	}
+
+	return Res;
 }

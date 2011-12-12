@@ -29,6 +29,8 @@
 #include "stxmlpublishersettings.h"
 #include "stlog.h"
 #include "xmlorder.h"
+#include "publisher.h"
+#include "sprocessstatuswidget.h"
 
 using namespace STDom;
 
@@ -57,7 +59,7 @@ bool STFtpOrderTransfer::waitForCommand(int _CommandId, int _TimeOutSecs)
 	return !TimeOut;
 }		
 
-void STFtpOrderTransfer::getDirInt(const QString& _RemoteDirName, const QString& _LocalDestDir)
+void STFtpOrderTransfer::getDirInt(const QString& _RemoteDirName, const QString& _LocalDestDir, SProcessStatusWidget* _ProcessWidget)
 {
 	waitForCommand(cd(_RemoteDirName));
 	Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteDirName)));
@@ -74,6 +76,11 @@ void STFtpOrderTransfer::getDirInt(const QString& _RemoteDirName, const QString&
 
 
 	QMap<QString, QUrlInfo>::iterator it;
+	if(_ProcessWidget)
+	{
+		_ProcessWidget->showProgressBar(tr("Downloading files from %1").arg(_RemoteDirName), FilesTransfered.size());
+		QApplication::processEvents();
+	}
 	for (it = FilesTransfered.begin(); it != FilesTransfered.end(); ++it)
 	{
 		if (it.value().isDir())
@@ -90,6 +97,11 @@ void STFtpOrderTransfer::getDirInt(const QString& _RemoteDirName, const QString&
 				throw Error(tr("Could not download file: %1").arg(it.key()));
 			}
 			File.close();
+			if(_ProcessWidget)
+			{
+				_ProcessWidget->incrementProgress();
+				QApplication::processEvents();
+			}
 		}
 	}
 	waitForCommand(cd(".."));
@@ -123,6 +135,42 @@ qint64 STFtpOrderTransfer::calcDirTransferBytesInt(const QString& _RemoteDirName
 }
 
 
+void STFtpOrderTransfer::putDirInmer(const QString& _SourceDirPath, const QString& _RemoteDestDir, SProcessStatusWidget* _ProcessWidget)
+{
+/*	qDebug() << "_RemoteDestDir: " << _RemoteDestDir;
+	int MKDirCommand = mkdir(_RemoteDestDir);
+	IgnoreErrorCommands.push_back(MKDirCommand);
+	waitForCommand(MKDirCommand);*/
+	mkpath(_RemoteDestDir);
+
+	waitForCommand(cd(_RemoteDestDir));
+	Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteDestDir)));
+
+	QDir SourceDir(_SourceDirPath);
+	QStringList SourceDirsList = SourceDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+	QStringList::iterator it;
+	for (it = SourceDirsList.begin(); it != SourceDirsList.end(); ++it)
+	{
+		QDir NewSourceDir(*it);
+		QDir DestDir(_RemoteDestDir);
+		putDirInmer(NewSourceDir.absolutePath(), DestDir.absoluteFilePath(NewSourceDir.dirName()), _ProcessWidget);
+	}
+
+	//For each file
+	QStringList SourceFilesList = SourceDir.entryList(QDir::Files);
+	if(_ProcessWidget)
+		_ProcessWidget->showProgressBar(tr("Uploading files from %1").arg(_SourceDirPath), SourceFilesList.size());
+	for (it = SourceFilesList.begin(); it != SourceFilesList.end(); ++it)
+	{
+		QFileInfo FInfo(SourceDir.absoluteFilePath(*it));
+		QFile File(FInfo.absoluteFilePath());
+		Assert(File.open(QIODevice::ReadOnly), Error(QString(tr("Could not open file %1")).arg(*it)));
+		Assert(waitForCommand(put(&File, FInfo.fileName())), Error(tr("Time out Error putting file %1.").arg(*it)));
+		if(_ProcessWidget)
+			_ProcessWidget->incrementProgress();
+	}
+}
+
 STFtpOrderTransfer::STFtpOrderTransfer(QObject* parent): QFtp(parent)
 {
 	connect(this, SIGNAL(listInfo( const QUrlInfo& )), this, SLOT(slotListInfo(const QUrlInfo& )));
@@ -133,6 +181,34 @@ STFtpOrderTransfer::STFtpOrderTransfer(QObject* parent): QFtp(parent)
 STFtpOrderTransfer::~STFtpOrderTransfer()
 {
 }
+
+void STFtpOrderTransfer::mkpath(const QString& _Path)
+{
+	QString CurrDir = "";
+	QString LastDir = "";
+	int Cnt = 0;
+	while (Cnt < _Path.size())
+	{
+		if ((_Path[Cnt] == '/' || Cnt == _Path.size() -1) && !CurrDir.isEmpty())
+		{
+			if (Cnt == _Path.size() -1 && _Path[Cnt] != '/')
+				CurrDir += _Path[Cnt];
+			if (!LastDir.isEmpty())
+				LastDir += "/";
+			LastDir += CurrDir;
+			//qDebug() << "MkDir Path" << LastDir;
+			int MKDirCommand = mkdir(LastDir);
+			IgnoreErrorCommands.push_back(MKDirCommand);
+			waitForCommand(MKDirCommand);
+
+			CurrDir = "";
+		}
+		else
+			CurrDir += _Path[Cnt];
+		Cnt++;
+	}
+}
+
 
 void STFtpOrderTransfer::abortAll()
 {
@@ -190,7 +266,7 @@ QString STFtpOrderTransfer::orderGlobalId(const QDir& _OrderDir)
 }
 
 
-void STFtpOrderTransfer::getFile(const QString& _SourceFilePath, const QString& _RemoteTemplatesDir, const QString& _DestFilePath, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode)
+void STFtpOrderTransfer::getFile(const QString& _FileName, const QString& _RemoteDir, const QString& _DestFilePath, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode)
 {
 	clearAbortFlag();
 	setTransferMode(_TransferMode);
@@ -200,16 +276,16 @@ void STFtpOrderTransfer::getFile(const QString& _SourceFilePath, const QString& 
 	{
 		waitForCommand(login(_User,_Password));
 		Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
-		waitForCommand(cd(_RemoteTemplatesDir));
-		Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteTemplatesDir)));
+		waitForCommand(cd(_RemoteDir));
+		Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteDir)));
 		QFileInfo FInfo(_DestFilePath);
 		QFile File(FInfo.absoluteFilePath());
 		Assert(File.open(QIODevice::WriteOnly), Error(QString(tr("Could not open file: '%1'")).arg(FInfo.absoluteFilePath())));
-		Assert(waitForCommand(get(_SourceFilePath, &File)), Error(tr("Time out Error getting file %1.").arg(_SourceFilePath)));
+		Assert(waitForCommand(get(_FileName, &File)), Error(tr("Time out Error getting file %1.").arg(_FileName)));
 		if (error() != QFtp::NoError)
 		{
 			File.remove();
-			throw Error(tr("Could not download file: %1").arg(_SourceFilePath));
+			throw Error(tr("Could not download file: %1").arg(_RemoteDir + "/" + _FileName));
 		}
 		File.close();
 		close();
@@ -220,6 +296,33 @@ void STFtpOrderTransfer::getFile(const QString& _SourceFilePath, const QString& 
 		throw;
 	}
 }
+
+
+void STFtpOrderTransfer::putDir(const QString& _SourceDirPath, const QString& _Host, int _Port, const QString& _User,
+								const QString& _Password, const QString& _RemoteDestDir, QFtp::TransferMode _TransferMode,
+								SProcessStatusWidget* _ProcessWidget)
+{
+	clearAbortFlag();
+	setTransferMode(_TransferMode);
+	Assert(waitForCommand(connectToHost(_Host, _Port)), Error(tr("Time out Error connecting to host.")));
+
+	try{
+		Assert(state() == QFtp::Connected, Error(tr("Could not connect to host: %1 -> %2").arg(_Host).arg(errorString())));
+		waitForCommand(login(_User,_Password));
+		Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
+		putDirInmer(_SourceDirPath, _RemoteDestDir, _ProcessWidget);
+		close();
+	}
+	catch(...)
+	{
+		close();
+		throw;
+	}
+
+
+
+}
+
 
 void STFtpOrderTransfer::putFile(const QString& _SourceFilePath, const QString& _Host, int _Port, const QString& _User, const QString& _Password, const QString& _RemoteDestDir, QFtp::TransferMode _TransferMode)
 {
@@ -275,7 +378,9 @@ qint64 STFtpOrderTransfer::calcDirTransferBytes(const QString& _RemoteDir, const
 	return Res;
 }
 
-void STFtpOrderTransfer::getDir(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port, const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode)
+void STFtpOrderTransfer::getDir(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port,
+								const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode,
+								SProcessStatusWidget* _ProcessWidget)
 {
 	clearAbortFlag();
 	setTransferMode(_TransferMode);
@@ -291,7 +396,7 @@ void STFtpOrderTransfer::getDir(const QString& _RemoteDir, const QString& _Local
 		Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg("..")));
 
 		QDir RDir(_RemoteDir);
-		getDirInt(RDir.dirName(), _LocalDestDir);
+		getDirInt(RDir.dirName(), _LocalDestDir, _ProcessWidget);
 		close();
 	}
 	catch(...)
@@ -364,45 +469,51 @@ void STFtpOrderTransfer::syncRemoteFile(const QString& _FileName, const QString&
 	setTransferMode(_TransferMode);
 	Assert(waitForCommand(connectToHost(_Host, _Port)), Error(tr("Time out Error connecting to host.")));
 	Assert(state() == QFtp::Connected, Error(tr("Could not connect to host: %1 -> %2").arg(_Host).arg(errorString())));
-	waitForCommand(login(_User,_Password));
-	Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
-	waitForCommand(cd(_RemoteSourceDir));
-	Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteSourceDir)));
-	FilesTransfered.clear();
-	Assert(waitForCommand(list()), Error(tr("Time out Error getting files list.")));
-
-
-	QFileInfo DestFileInfo = QFileInfo(QDir(_DestDir).absoluteFilePath(_FileName));
-	qDebug() << FilesTransfered.keys();
-	qDebug() << "Requested file" << _FileName;
-	if (FilesTransfered.contains(_FileName))
+	try
 	{
-		qDebug() << "File in dest list";
-		if (FilesTransfered[_FileName].lastModified() > DestFileInfo.lastModified() || !DestFileInfo.exists() || DestFileInfo.size() == 0)
+		waitForCommand(login(_User,_Password));
+		Assert(state() == QFtp::LoggedIn, Error(tr("Could login to host: %1 ").arg(_Host)));
+		waitForCommand(cd(_RemoteSourceDir));
+		Assert(error() == QFtp::NoError, Error(tr("Could not chdir to: %1").arg(_RemoteSourceDir)));
+		FilesTransfered.clear();
+		Assert(waitForCommand(list()), Error(tr("Time out Error getting files list.")));
+
+
+		QFileInfo DestFileInfo = QFileInfo(QDir(_DestDir).absoluteFilePath(_FileName));
+		//qDebug() << FilesTransfered.keys();
+		//qDebug() << "Requested file" << _FileName;
+		if (FilesTransfered.contains(_FileName))
 		{
-			qDebug() << "Downloading file...";
-			QFile File(DestFileInfo.absoluteFilePath());
-			Assert(File.open(QIODevice::WriteOnly | QIODevice::Truncate), Error(QString(tr("Could not open file %1")).arg(DestFileInfo.absoluteFilePath())));
-			Assert(waitForCommand(get(_FileName, &File)), Error(tr("Time out Error getting file %1.").arg(DestFileInfo.fileName())));
+			//qDebug() << "File in dest list";
+			if (FilesTransfered[_FileName].lastModified() > DestFileInfo.lastModified() || !DestFileInfo.exists() || DestFileInfo.size() == 0)
+			{
+				//qDebug() << "Downloading file...";
+				QFile File(DestFileInfo.absoluteFilePath());
+				Assert(File.open(QIODevice::WriteOnly | QIODevice::Truncate), Error(QString(tr("Could not open file %1")).arg(DestFileInfo.absoluteFilePath())));
+				Assert(waitForCommand(get(_FileName, &File)), Error(tr("Time out Error getting file %1.").arg(DestFileInfo.fileName())));
+			}
 		}
+		close();
 	}
-	close();
+	catch(...)
+	{
+		close();
+		throw;
+	}
 }
 
-void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
+//TODO: Pass the publisher
+void STFtpOrderTransfer::transferOrder(const QString& _OrderId,const Publisher& _Publisher)
 {
 	QDir OrderDir(XmlOrderInfo::defaultOrderPath(_OrderId));
-	STCollectionPublisherInfo PubInfo(OrderDir.absolutePath()); 
-	STXmlPublisherSettings PubSettings; 
-	Assert(PubSettings.loadXml(PubInfo.publisherXmlFile().absoluteFilePath()), Error(QString(tr("Could not open publisher info file %1")).arg(PubInfo.publisherXmlFile().absoluteFilePath())));
-	
+
 	clearAbortFlag();
-	setTransferMode(static_cast<QFtp::TransferMode>(PubSettings.transferMode()));
-	Assert(waitForCommand(connectToHost(PubSettings.url(), PubSettings.port())), Error(tr("Time out Error connecting to host.")));
+	setTransferMode(static_cast<QFtp::TransferMode>(_Publisher.transferMode()));
+	Assert(waitForCommand(connectToHost(_Publisher.ftpUrl(), _Publisher.ftpPort())), Error(tr("Time out Error connecting to host.")));
 	Assert(state() == QFtp::Connected, Error(tr("Could not connect to host: %1").arg(errorString())));
-	login(PubSettings.userName(), PubSettings.password());
-	if (!PubSettings.initDir().isEmpty())
-		cd(PubSettings.initDir());
+	login(_Publisher.userName(), _Publisher.password());
+	if (!_Publisher.initDir().isEmpty())
+		cd(_Publisher.initDir());
 	QString OrderGlobalId = orderGlobalId(OrderDir); 
 	QString RemoteDir = OrderGlobalId;
 	int MKDirCommand = mkdir(RemoteDir);
@@ -422,7 +533,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 		Assert(waitForCommand(list()), Error(tr("Time out Error getting files list.")));
 		QFileInfoList FilesToPut = OrderDir.entryInfoList(QDir::Files); 
 		QFileInfoList::iterator it; 
-		QString DestAbsDirPath = PubSettings.initDir() + "/" + RemoteDir; 
+		QString DestAbsDirPath = _Publisher.initDir() + "/" + RemoteDir;
 		Cnt = 0; 
 		TotalSteps = FilesToPut.size() -1;
 		emit overallProcessStep(TotalSteps, Cnt++);	 
@@ -447,8 +558,8 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 				}
 			}
 	
-			if (!AlreadyTransfered && it->fileName() != PubInfo.publisherXmlFile().fileName() && 
-				it->completeSuffix().toLower() != "xml" )
+			if (!AlreadyTransfered &&
+					it->completeSuffix().toLower() != "xml")
 			{
 				//qDebug(QString("... Transfering %1 ...").arg(DestAbsDirPath + "/" + it->fileName()).toLatin1()); 
 				QFile File(it->absoluteFilePath());
@@ -473,8 +584,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 			FilesTransferedOK = true; 
 			while (!Aborted && it != FilesToPut.end() && FilesTransferedOK)
 			{
-				if (it->fileName() != PubInfo.publisherXmlFile().fileName() && 
-					it->completeSuffix().toLower() != "xml" )
+				if (it->completeSuffix().toLower() != "xml" )
 				{
 					//qDebug(QString("Checking for file %1").arg(it->fileName()).toLatin1()); 
 					if (FilesTransfered.contains(it->fileName()))
@@ -515,14 +625,12 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 			bool AlreadyTransfered = false; 
 			if (FilesTransfered.contains(it->fileName()))
 				AlreadyTransfered = FilesTransfered[it->fileName()].size() == it->size();
-			if (!AlreadyTransfered && it->fileName() != PubInfo.publisherXmlFile().fileName())
+			if (!AlreadyTransfered )
 			{
 				//Try to load order and clean sender data.
 				STDom::XmlOrder Order;
 				if (Order.loadXml(it->absoluteFilePath()))
 				{
-					if (PubSettings.hasDealer())
-						Order.clearDealerData(); 
 					Order.setGlobalId(OrderGlobalId); 
 					QTemporaryFile TempXmlOFile; 
 					Assert(TempXmlOFile.open(), Error(tr("Could not create a temporary file")));
@@ -542,7 +650,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 			++it;
 		}
 		//--- Transfer order.xml to Dealer.
-		if (PubSettings.hasDealer()) //Transfer order.xml to dealer 
+		/*if (PubSettings.hasDealer()) //Transfer order.xml to dealer
 		{
 			Assert(waitForCommand(close()), Error(tr("Time out Error closing connection.")));
 			Assert(waitForCommand(connectToHost(PubSettings.dealerUrl(), PubSettings.dealerPort())), Error(tr("Time out Error connecting to host.")));
@@ -573,7 +681,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 				Cnt++;
 				++it;
 			}
-		}
+		}*/
 
 		emit overallProcessStep(TotalSteps, Cnt);
 	}
@@ -584,7 +692,8 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId)
 
 void STFtpOrderTransfer::slotListInfo(const QUrlInfo& _UrlInfo)
 {
-	FilesTransfered.insert(_UrlInfo.name(), _UrlInfo);
+	if (_UrlInfo.name() != "." && _UrlInfo.name() != "..")
+		FilesTransfered.insert(_UrlInfo.name(), _UrlInfo);
 }
 
 void STFtpOrderTransfer::commandFinished(int _Id, bool _Error)

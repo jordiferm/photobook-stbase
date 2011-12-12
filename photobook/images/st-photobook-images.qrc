@@ -1,0 +1,33 @@
+<RCC>
+    <qresource prefix="/photobook">
+        <file>hourglass.png</file>
+        <file>behavior.png</file>
+        <file>general.png</file>
+        <file>render.png</file>
+        <file>defaults.png</file>
+        <file>help.png</file>
+        <file>load.png</file>
+        <file>save.png</file>
+        <file>object-rotate-right.png</file>
+        <file>transform-move.png</file>
+        <file>transform-scale.png</file>
+        <file>checked.png</file>
+        <file>rating.png</file>
+        <file>drive-harddisk.png</file>
+        <file>desktop.png</file>
+        <file>preview.png</file>
+        <file>dialog-warning.png</file>
+        <file>thumbtack_red_unplug_64.png</file>
+        <file>thumbtack_red_plug_64.png</file>
+        <file>list-add.png</file>
+        <file>list-remove.png</file>
+        <file>folder.png</file>
+        <file>typecalendar.png</file>
+        <file>typecard.png</file>
+        <file>typeother.png</file>
+        <file>typephotobook.png</file>
+        <file>typephotoid.png</file>
+        <file>design.png</file>
+        <file>user-interface.png</file>
+    </qresource>
+</RCC>

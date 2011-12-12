@@ -1,0 +1,73 @@
+/****************************************************************************
+**
+** Copyright (C) 2010-2011 SoftTopia. All rights reserved.
+**
+** This file is part of SoftTopia Software.
+**
+** This file may be used under the terms of the GNU General Public
+** License version 2.0 as published by the Free Software Foundation
+** and appearing in the file COPYING included in the packaging of
+** this file.  
+**
+** SoftTopia reserves all rights not expressly granted herein.
+** 
+** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+**
+****************************************************************************/
+
+#ifndef TEMPLATEINFO_H
+#define TEMPLATEINFO_H
+
+#include <QString>
+#include <QSizeF>
+#include <QList>
+#include <QUrl>
+
+#include "stphotobookexport.h"
+#include "designinfolist.h"
+#include "designinfo.h"
+#include "metainfo.h"
+#include "publisherdatabase.h"
+
+namespace SPhotoBook
+{
+
+class ST_PHOTOBOOK_EXPORT TemplateInfo
+{
+private:
+	QString Name, BasePath;
+	QSizeF Size;
+	MetaInfo::EnTemplateType Type;
+	DesignInfoList Designs;
+
+
+public:
+	TemplateInfo(const QString& _Name = "", MetaInfo::EnTemplateType _Type = MetaInfo::TypePhotoBook);
+	TemplateInfo(const MetaInfo& _MetaInfo);
+	TemplateInfo(const QString& _Name, const QSizeF& _Size, MetaInfo::EnTemplateType );
+	TemplateInfo(const QString& _BasePath, const QString& _Name, const QString& _SizeName, MetaInfo::EnTemplateType );
+	bool isNull() { return Name.isEmpty(); }
+	void setName(const QString& _Value) { Name = _Value;  }
+	QString name() const { return Name; }
+	void setSize(const QSizeF& _Size) { Size = _Size; }
+	QSizeF size() const { return Size; }
+	void setType(MetaInfo::EnTemplateType _Type) { Type = _Type; }
+	MetaInfo::EnTemplateType type() const { return Type; }
+	QString absolutePath() const;
+	QString absolutePath(const DesignInfo& _Path) const;
+	QString metaInfoFileName(const DesignInfo& _Design) const;
+	QString basePath() const { return BasePath; }
+	DesignInfoList designs() const;
+	void addDesign(const DesignInfo& _Design);
+	DesignInfoList& designsRef() { return Designs; }
+	void setDesigns(const DesignInfoList& _Designs) { Designs = _Designs; }
+	bool operator==(const TemplateInfo& _Other) const;
+	bool designOnDisk(const DesignInfo& _Design) const;
+	STDom::PublisherDatabase::EnProductType pubDatabaseProductType() const;
+	bool hasPublicDesigns() const;
+};
+
+}
+
+#endif // TEMPLATEINFO_H

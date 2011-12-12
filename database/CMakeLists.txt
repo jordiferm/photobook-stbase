@@ -31,6 +31,8 @@ SET(prj_SRCS
 	fsqlactiontableview.cpp
 	fsqlsearchdialog.cpp
 	csvimport.cpp
+	fsqltabletreemodel.cpp
+	fsqlrelationaldelegate.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -48,6 +50,8 @@ SET(prj_MOC_HDRS
 	fsqlactiontableview.h
 	fsqlsearchdialog.h
 	csvimport.h
+	fsqltabletreemodel.h
+	fsqlrelationaldelegate.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

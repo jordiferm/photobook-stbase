@@ -28,7 +28,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsView> 
 #include <QGraphicsWidget> 
+#if QT_VERSION >= 0x040600
 #include <QGraphicsDropShadowEffect>
+#endif
 #include <QDebug>
 
 #include "stgraphicsitemmodifier.h" 
@@ -127,6 +129,8 @@ QDomElement STAbstractGraphicsItem::createTransformElement(const QGraphicsItem* 
 
 void STAbstractGraphicsItem::appendEffectElements(QDomElement& _Parent, const QGraphicsItem* _Item, QDomDocument& _Doc)
 {
+#if QT_VERSION >= 0x040600
+
 	if (QGraphicsDropShadowEffect* NewEffect = qobject_cast<QGraphicsDropShadowEffect*>(_Item->graphicsEffect()))
 	{
 		QDomElement ShadowElement = _Doc.createElement("shadow");
@@ -136,6 +140,7 @@ void STAbstractGraphicsItem::appendEffectElements(QDomElement& _Parent, const QG
 		ShadowElement.setAttribute("color", NewEffect->color().name());
 		_Parent.appendChild(ShadowElement);
 	}
+#endif
 }
 
 void STAbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, QDomElement& _Element)
@@ -146,6 +151,8 @@ void STAbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, QDomElemen
 		QDomElement CEl = CNode.toElement(); // try to convert the node to an element.
 		if(!CEl.isNull())
 		{
+
+#if QT_VERSION >= 0x040600
 			if (CEl.tagName().toLower() == "shadow")
 			{
 				QGraphicsDropShadowEffect* NewEffect = new QGraphicsDropShadowEffect;
@@ -155,6 +162,7 @@ void STAbstractGraphicsItem::loadEffectElements(QGraphicsItem* _Item, QDomElemen
 				NewEffect->setColor(CEl.attribute("color", "#000000"));
 				_Item->setGraphicsEffect(NewEffect);
 			}
+#endif
 		}
 		CNode = CNode.nextSibling();
 	}

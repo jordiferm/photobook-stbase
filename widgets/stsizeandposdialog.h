@@ -29,6 +29,7 @@ Dialog to specify position and size.
 	@author
 */
 class QDoubleSpinBox;
+class QLabel;
 class ST_WIDGETS_EXPORT STSizeAndPosDialog : public QDialog
 {
 Q_OBJECT
@@ -36,6 +37,10 @@ Q_OBJECT
 	QDoubleSpinBox* SPValueY;
 	QDoubleSpinBox* SPValueWidth;
 	QDoubleSpinBox* SPValueHeight;
+	QLabel* LabelX;
+	QLabel* LabelY;
+	QLabel* LabelWidth;
+	QLabel* LabelHeight;
 
 public:
 	STSizeAndPosDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
@@ -43,6 +48,8 @@ public:
 	QSizeF size() const; 
 	void setPosition(const QPointF& _Position); 
 	QPointF position() const; 
+	void setPosVisible(bool _Visible);
+	void setSizeVisible(bool _Visible);
 };
 
 #endif

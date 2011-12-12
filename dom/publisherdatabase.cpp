@@ -22,6 +22,7 @@
 #include <QSqlQueryModel> 
 #include <QSqlTableModel> 
 #include <QTextStream>
+#include <QDebug>
 
 #include "fsqlquery.h"
 #include "fsqldatabasemanager.h"
@@ -31,6 +32,7 @@
 
 //Calc bill
 #include "stutils.h" 
+#include "shippingmethod.h"
 
 using namespace STDom;
 //_____________________________________________________________________________
@@ -181,6 +183,66 @@ void PublisherDatabase::importLocalFormats(const QSqlDatabase& _SourceDB)
 	}
 }
 
+
+//TODO: Not tested, please test it
+void PublisherDatabase::importNewProducts(const QSqlDatabase& _SourceDB)
+{
+	FSqlQuery SourceDBQuery(_SourceDB);
+	FSqlQuery DestQuery(*this);
+	SourceDBQuery.exec("SELECT * FROM products");
+	while(SourceDBQuery.next())
+	{
+		QSqlRecord SourceRecord = SourceDBQuery.record();
+		//Check if we have this product:
+		DestQuery.prepare("SELECT * FROM products WHERE ref=:ref");
+		DestQuery.bindValue(":ref", SourceRecord.value("ref"));
+		DestQuery.exec();
+
+		if (!DestQuery.next())
+		{
+			//Get the Source Format
+			FSqlQuery SourceFormatQuery(_SourceDB);
+			SourceFormatQuery.prepare("SELECT * FROM formats WHERE idformats=:idformats");
+			SourceFormatQuery.bindValue("idformats", SourceRecord.value("formats_idformats"));
+			SourceFormatQuery.exec();
+			Assert(SourceFormatQuery.next(), Error(QObject::tr("Error getting product format on product: %1").arg(SourceRecord.value("ref").toString())));
+
+			//Check if we have a format like source product.
+			QVariant IdFormats;
+			DestQuery.prepare("SELECT idformats FROM formats WHERE width=:width AND height=:height");
+			DestQuery.bindValue(":width", SourceFormatQuery.record().value("width"));
+			DestQuery.bindValue(":height", SourceFormatQuery.record().value("height"));
+
+			if (!DestQuery.next()) //Lets insert a new format
+			{
+				DestQuery.prepare("INSERT INTO formats(idformats, description, width, height) "
+							   "VALUES( :idformats, :description, :width, :height)");
+				IdFormats = FSqlQuery::sequenceNextVal("formats", "idformats", *this);
+				DestQuery.bindValue(":idformats", IdFormats);
+				DestQuery.bindValue(":description", SourceFormatQuery.record().value("description"));
+				DestQuery.bindValue(":width", SourceFormatQuery.record().value("width"));
+				DestQuery.bindValue(":height", SourceFormatQuery.record().value("height"));
+				DestQuery.exec();
+			}
+			else
+				IdFormats = DestQuery.value(0);
+
+
+			QSqlRecord RecProduct = DestQuery.database().record("products");
+			RecProduct.setValue("ref", SourceRecord.value("ref"));
+			RecProduct.setValue("description", SourceRecord.value("description"));
+			RecProduct.setValue("fixedprice", SourceRecord.value("fixedprice"));
+			RecProduct.setValue("label", SourceRecord.value("description"));
+			RecProduct.setValue("templates_ref", SourceRecord.value("name"));
+			RecProduct.setValue("formats_idformats", IdFormats);
+			RecProduct.setValue("type", SourceRecord.value("type"));
+			DestQuery.prepareInsert(RecProduct, "products");
+			DestQuery.exec();
+		}
+	}
+}
+
+
 void PublisherDatabase::importLocalProducts(const QSqlDatabase& _SourceDB)
 {
 	FSqlQuery SourceDBQuery(_SourceDB);
@@ -228,6 +290,12 @@ void PublisherDatabase::importAll(const FSqlDatabaseManager& _SourceDBManager)
 }
 
 
+QAbstractItemModel* PublisherDatabase::newProductsTemplateModel(QObject* _Parent, PublisherDatabase::EnProductType _ProductType, const QString& _TemplateRef) const
+{
+	QString Filter = QString("templates_ref='%1'").arg(_TemplateRef);
+	return newProductsModel(_Parent, _ProductType, Filter);
+}
+
 QAbstractItemModel* PublisherDatabase::newProductsModel(QObject* _Parent, PublisherDatabase::EnProductType _ProductType, const QString& _Filter) const
 {
 	QSqlQueryModel* Res = new QSqlQueryModel(_Parent);
@@ -246,7 +314,7 @@ QAbstractItemModel* PublisherDatabase::newProductsModel(QObject* _Parent, Publis
 		Sql += " WHERE " + Filter;
 	
 	Sql += " ORDER BY ordering, label";
-	//qDebug(Sql.toLatin1()); 
+	//qDebug(Sql.toLatin1());
 	Res->setQuery(Sql, *this);
 	return Res; 
 }
@@ -315,21 +383,21 @@ PublisherDatabase::EnProductType PublisherDatabase::productType(const QString& _
 	return Res;
 }
 
-QString PublisherDatabase::billRitchText(const PrintJob& _Job, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet)
+QString PublisherDatabase::billRitchText(const PrintJob& _Job, const PublisherBill::PublisherShippingMethod& _ShippingMethod, int _ImagesPerSheet)
 {
 	XmlOrder Order;
 	_Job.addOrderPrints(Order);
 	return billRitchText(Order, _ShippingMethod, _ImagesPerSheet);
 }
 
-QString PublisherDatabase::billRitchText(const XmlOrder& _Order, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet)
+QString PublisherDatabase::billRitchText(const XmlOrder& _Order, const PublisherBill::PublisherShippingMethod& _ShippingMethod, int _ImagesPerSheet)
 {
 	PublisherBill Bill = calcBill(_Order, _ShippingMethod, _ImagesPerSheet);
 	return Bill.ritchText();
 }
 
 
-PublisherBill PublisherDatabase::calcBill(const PrintJob& _Job, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet)
+PublisherBill PublisherDatabase::calcBill(const PrintJob& _Job, const PublisherBill::PublisherShippingMethod& _ShippingMethod, int _ImagesPerSheet)
 {
 	XmlOrder Order;
 	_Job.addOrderPrints(Order);
@@ -339,7 +407,7 @@ PublisherBill PublisherDatabase::calcBill(const PrintJob& _Job, const QSqlRecord
 /*!
 \return Bill in Ritch Text format.
 */
-PublisherBill PublisherDatabase::calcBill(const XmlOrder& _Order, const QSqlRecord& _ShippingMethod, int _ImagesPerSheet)
+PublisherBill PublisherDatabase::calcBill(const XmlOrder& _Order, const PublisherBill::PublisherShippingMethod& _ShippingMethod, int _ImagesPerSheet)
 {
 	PublisherBill Res; 
 	STDom::XmlOrder::TProductPrints ProductPrints = _Order.prints();
@@ -419,9 +487,7 @@ PublisherBill PublisherDatabase::calcBill(const XmlOrder& _Order, const QSqlReco
 	} // For each product.
 	if (!_ShippingMethod.isEmpty())
 	{
-		PublisherBill::PublisherShippingMethod ShippingMethod(
-			_ShippingMethod.value("description").toString(),_ShippingMethod.value("shippingamount").toDouble());
-		Res.setShippingMethod(ShippingMethod);
+		Res.setShippingMethod(_ShippingMethod);
 	}
 	return Res; 
 }
@@ -578,4 +644,50 @@ void PublisherDatabase::deleteTemplateProducts()
 		deleteTemplateProductsByType(PublisherDatabase::DecorationsProduct);
 		deleteTemplateProductsByType(PublisherDatabase::PhotoBookProduct);
 		deleteTemplateProductsByType(PublisherDatabase::PhotoIdProduct);
+}
+
+void PublisherDatabase::exportCSV(const QString& _AbsoluteFilePath, EnProductType _ProductType, const QString& _TemplateRef)
+{
+	QFile OutFile(_AbsoluteFilePath);
+	Assert(OutFile.open(QFile::WriteOnly | QFile::Truncate), Error(QObject::tr("Error creating file %1").arg(_AbsoluteFilePath)));
+
+	QTextStream Strm(&OutFile);
+
+	QAbstractItemModel* TModel = newProductsTemplateModel(0, _ProductType, _TemplateRef);
+	for (int Vfor = 0; Vfor < TModel->rowCount(); Vfor++)
+	{
+		QStringList StrList;
+		DDocProduct CProduct = getProduct(TModel, Vfor);
+		StrList << CProduct.ref();
+		StrList << CProduct.description();
+		StrList << QString::number(_ProductType);
+		StrList << QString::number(CProduct.format().width());
+		StrList << QString::number(CProduct.format().height());
+		StrList << QString::number(CProduct.ordering());
+
+		FSqlQuery Query(*this);
+		Query.prepare("SELECT fixedprice FROM products WHERE ref=:ref");
+		Query.bindValue(":ref", CProduct.ref());
+		Query.exec();
+		if (Query.next())
+			StrList << Query.value(0).toString();
+		else
+			StrList << "0";
+
+		//Now all product prices
+		Query.prepare("SELECT price, quantity FROM productprices WHERE "
+			"products_ref=:products_ref "
+			"ORDER BY quantity;");
+		Query.bindValue(":products_ref", CProduct.ref());
+		Query.exec();
+		while (Query.next())
+		{
+			StrList << Query.value(0).toString() + ":" + Query.value(1).toString();
+		}
+
+		//New Line to file
+		Strm << StrList.join(";") + "\n";
+	}
+	OutFile.close();
+	delete TModel;
 }

@@ -75,7 +75,7 @@ STFtpOrderTransferDialog::~STFtpOrderTransferDialog()
 	}
 }
 
-void STFtpOrderTransferDialog::transferOrder(const QString& _OrderId)
+void STFtpOrderTransferDialog::transferOrder(const QString& _OrderId, const Publisher& _Publisher)
 {
 	bool Continue = true;
 	HasError = false;
@@ -98,7 +98,7 @@ void STFtpOrderTransferDialog::transferOrder(const QString& _OrderId)
 			connect(Ftp, SIGNAL(overallProcessStep(int , int )), this, SLOT(updateOverallProcess(int, int)));
 			CaptionLabel->setText(QString(tr("Transfering order: %1")).arg(_OrderId)); 
 			FtpStatusWidget->connectFtp(Ftp);
-			Ftp->transferOrder(_OrderId); 
+			Ftp->transferOrder(_OrderId, _Publisher);
 			accept();
 		}
 		catch(STError& _Error)
@@ -111,11 +111,11 @@ void STFtpOrderTransferDialog::transferOrder(const QString& _OrderId)
 	}
 }
 
-void STFtpOrderTransferDialog::execTransferOrder(const QString& _OrderId, QWidget* _Parent)
+void STFtpOrderTransferDialog::execTransferOrder(const QString& _OrderId, QWidget* _Parent, const Publisher& _Publisher)
 {
 	STFtpOrderTransferDialog* OrderDialog = new  STFtpOrderTransferDialog(_Parent, Qt::Dialog); 
 	OrderDialog->show();
-	OrderDialog->transferOrder(_OrderId); 
+	OrderDialog->transferOrder(_OrderId, _Publisher);
 	if (!OrderDialog->aborted() && ! OrderDialog->hasError()) //Defensiva.
 	{
 		SMessageBox::information(_Parent, tr("Order transfer info."), QString(tr("Order num %1 transfered succesfully.")).arg(_OrderId)); 

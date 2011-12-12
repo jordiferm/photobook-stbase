@@ -8,12 +8,14 @@ INCLUDE_DIRECTORIES( ${st_imagelib_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_imagelib_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_widgets_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_widgets_BINARY_DIR} )
-INCLUDE_DIRECTORIES( ${st_phototemplates_SOURCE_DIR})
-INCLUDE_DIRECTORIES( ${st_phototemplates_BINARY_DIR} )
 INCLUDE_DIRECTORIES( ${st_dom_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_dom_BINARY_DIR} )
+INCLUDE_DIRECTORIES( ${st_photobook_SOURCE_DIR})
+INCLUDE_DIRECTORIES( ${st_photobook_BINARY_DIR})
 INCLUDE_DIRECTORIES( ${st_tpopsl_SOURCE_DIR})
 INCLUDE_DIRECTORIES( ${st_tpopsl_BINARY_DIR} )
+INCLUDE_DIRECTORIES( ${st_oromel_SOURCE_DIR})
+INCLUDE_DIRECTORIES( ${st_oromel_BINARY_DIR} )
 
 # --------------------------------------------------------------------------
 # Modules
@@ -80,5 +82,5 @@ INCLUDE_DIRECTORIES( ${st_wizards_BINARY_DIR} )
 ADD_LIBRARY(st_wizards SHARED ${prj_SRCS} ${prj_MOC_SRCS} ${prj_RCC_SRCS})
 
 SET_TARGET_PROPERTIES(st_wizards PROPERTIES VERSION ${STBASE_VERSION} SOVERSION ${STBASE_SO_VERSION})
-TARGET_LINK_LIBRARIES(st_wizards ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_phototemplates st_dom st_tpopsl)
+TARGET_LINK_LIBRARIES(st_wizards ${QT_LIBRARIES} ${IMAGELIB_DEP_LIBRARIES} st_imagelib st_widgets st_photobook st_dom st_tpopsl st_oromel)
 INSTALL(TARGETS st_wizards DESTINATION ${STBASE_LIBRARY_OUTPUT_PATH})

@@ -779,8 +779,9 @@ void renderGraph(QPainter & paint, const QRect & rect, ORGraphData & gData, XSql
     ORSeriesData * sd = 0;
     for(snum = 0; snum < gData.series.count(); snum++) {
         sd = gData.series.at(snum);
-        if(sd) {
-            graph.setSetColor(snum, &_colorMap[sd->color]);
+	if(sd) {
+	    QColor Color = _colorMap[sd->color];
+	    graph.setSetColor(snum, &Color);
             graph.setSetStyle(snum, sd->style);
         }
     }

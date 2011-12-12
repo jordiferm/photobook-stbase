@@ -58,7 +58,6 @@ class ST_TPOPSL_EXPORT TPPhotoSelWidget : public QWidget
 	TPProductListView* LVProducts;
 	TPPhotoListView* LVImages;
 	QLabel* ReceiptLabel; 
-	QSqlRecord ShippingMethod;
 	TPPhotoEditor* PEditor;
 	AddRemoveWidget* ARWidget;
 	int ImagesPerSheet; 
@@ -83,7 +82,6 @@ public:
 	//! Instead of use productmodes uses only this product.
 	void setSingleProduct(const STDom::DDocProduct& _Product);
 	void setRootDir(const QDir& _Dir) { RootDir = _Dir; }
-	void setShippingMethod(const QSqlRecord& _Value) { ShippingMethod = _Value; } 
 	void setDpis(int _Value); 
 	//! For bill calculation.
 	void setImagesPerSheet(int _Value) { ImagesPerSheet = _Value; }

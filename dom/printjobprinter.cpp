@@ -37,6 +37,7 @@
 
 using namespace STDom;
 
+QString PrintJobPrinter::EncodeKey = "DefaultKey!";
 
 void PrintJobPrinter::printProductPrints(QPrinter& _Printer, STDom::DDocPrintList& _ProdPrints, const STDom::DDocProduct& _Product,
 										 const QString& _JobName, QProgressBar* _ProgBar)
@@ -208,7 +209,7 @@ STDom::PrintJob PrintJobPrinter::storeImages(const STDom::PrintJob& _Job, const 
 			QString ImageFileName;
 			if (_Encode)
 			{
-				StoreImage.blowFishEncode(PUBLISHER_KEY);
+				StoreImage.blowFishEncode(EncodeKey);
 				ImageFileName = StoreImage.hashString() + ".PNG";
 			}
 			else
@@ -374,7 +375,7 @@ PrintJob PrintJobPrinter::print(const PrintJob& _Job, const QString& _JobName, Q
 	return JobToStore;
 }
 
-void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat, QProgressBar* _ProgBar)
+void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, bool _FitImagesToFormat, const QString& _DatabaseFilePath, QProgressBar* _ProgBar)
 {
 	if (_FitImagesToFormat)
 	{
@@ -392,19 +393,20 @@ void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order
 		_Order.saveXml();
 		ErrorStack += _Order.errorStack();
 	}
-	if (PublisherXmlFile.exists())
+	if (!_DatabaseFilePath.isEmpty())
 	{
-		QString DestFileName = _Order.orderInfo().orderPath() + "/" + PublisherXmlFile.fileName();
-		StackAssert(QFile::copy(PublisherXmlFile.absoluteFilePath(), DestFileName),
-					Error(QObject::tr("Error copying file %1 -> %2").arg(PublisherXmlFile.absoluteFilePath()).arg(DestFileName)),
-					ErrorStack);
+		QString DestFileName = _Order.orderInfo().orderPublisherDbFilePath();
+		StackAssert(QFile::copy(_DatabaseFilePath, DestFileName), Error(QObject::tr("Could not copy Publisher Database file: %1").arg(_DatabaseFilePath)), ErrorStack);
 	}
-
 }
 
 void PrintJobPrinter::storeEncoded(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order, const QDir& _DestinationDir, QProgressBar* _ProgBar)
 {
+#ifdef ENCRYPTED_ORDERS
 	STDom::PrintJob StoredJob = storeImages(_Job, _DestinationDir, _ProgBar, true);
+#else
+	STDom::PrintJob StoredJob = storeImages(_Job, _DestinationDir, _ProgBar, false);
+#endif
 	StoredJob.addOrderPrints(_Order);
 	_Order.clearPrintPath(); //To make paths relative to order dir
 	_Order.saveXml(_DestinationDir.absoluteFilePath(XmlOrderInfo::orderXmlFileName()));

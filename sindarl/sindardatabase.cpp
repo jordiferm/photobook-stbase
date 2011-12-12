@@ -21,9 +21,9 @@
 #include "sindardatabase.h"
 #include "publisherdatabase.h"
 #include "fsqlquery.h"
-#include "stcollectiontemplatemodel.h"
 #include "fsqldatabasemanager.h"
 #include "stcollectionpublishermodel.h"
+#include "ddoc.h"
 #include <QApplication>
 #include <QDebug>
 
@@ -81,34 +81,119 @@ void DefaultSindarDatabase::exportPublisherDB(const QString& _FileName)
 // Class SindarDatabase
 //_____________________________________________________________________________
 
-STDom::PublisherDatabase::EnProductType SindarDatabase::productTypeFromLayoutType(STPhotoLayout::EnLayoutType _Type)
+STDom::PublisherDatabase::EnProductType SindarDatabase::productTypeFromLayoutType(SPhotoBook::MetaInfo::EnTemplateType _Type)
 {
 	STDom::PublisherDatabase::EnProductType Res;
 	switch (_Type)
 	{
-		case STPhotoLayout::TypeCalendar:
-			Res = STDom::PublisherDatabase::DecorationsProduct;
-		break;
-		case STPhotoLayout::TypeCard:
-			Res = STDom::PublisherDatabase::DecorationsProduct;
-		break;
-		case STPhotoLayout::TypeIdPhoto:
-			Res = STDom::PublisherDatabase::PhotoIdProduct;
-		break;
-		case STPhotoLayout::TypeMultiPhoto:
-			Res = STDom::PublisherDatabase::DecorationsProduct;
-		break;
-		case STPhotoLayout::TypePhotoBook:
+		case SPhotoBook::MetaInfo::TypePhotoBook :
 			Res = STDom::PublisherDatabase::PhotoBookProduct;
 		break;
+		case SPhotoBook::MetaInfo::TypeCalendar :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeCard :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeIdPhoto :
+			Res = STDom::PublisherDatabase::PhotoIdProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeMultiPhoto :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
 	}
+
 	return Res;
 }
+
 
 SindarDatabase::SindarDatabase(const QSqlDatabase& _Other ) : QSqlDatabase(_Other)
 {
 }
 
+int SindarDatabase::importTemplateRefs(const SPhotoBook::TemplateInfoList& _Templates)
+{
+	int NInserts = 0;
+	SPhotoBook::TemplateInfoList::const_iterator it;
+	for(it = _Templates.begin(); it != _Templates.end(); ++it)
+	{
+		SPhotoBook::TemplateInfo TInfo = *it;
+		//Insert if it not exist
+		FSqlQuery Query(*this);
+		Query.prepare("SELECT ref FROM templates WHERE ref=:ref");
+		Query.bindValue(":ref", TInfo.name());
+		Query.exec();
+		if (!Query.next())
+		{
+			Query.prepare("INSERT INTO templates (ref, description) VALUES (:ref, :description)");
+			Query.bindValue(":ref", TInfo.name());
+			Query.bindValue(":description", TInfo.name());
+			Query.exec();
+			NInserts++;
+		}
+	}
+	return NInserts;
+}
+
+int SindarDatabase::insertProductsForTemplates(const SPhotoBook::TemplateInfoList& _Templates)
+{
+	int NInserts = 0;
+	SPhotoBook::TemplateInfoList::const_iterator it;
+	for(it = _Templates.begin(); it != _Templates.end(); ++it)
+	{
+		//If there isn't any products with this template ref:
+		FSqlQuery PQuery(*this);
+		PQuery.prepare("SELECT ref FROM products WHERE templates_ref=:templates_ref");
+		PQuery.bindValue(":templates_ref", it->name());
+		PQuery.exec();
+		if (!PQuery.next()) //Lets insert it
+		{
+			STDom::DDocFormat Format(it->size());
+			Format.setDescription(Format.toString());
+			QVariant IdFormats;
+			//Look for a format with the same size
+			FSqlQuery FQuery(*this);
+			FQuery.prepare("SELECT idformats FROM formats WHERE (width=:width and height=:height)");
+			FQuery.bindValue(":width", Format.width());
+			FQuery.bindValue(":height", Format.height());
+			FQuery.exec();
+			if (!FQuery.next()) //Lets insert a new format
+			{
+				FQuery.prepare("INSERT INTO formats(idformats, description, width, height) "
+							   "VALUES( :idformats, :description, :width, :height)");
+				IdFormats = FSqlQuery::sequenceNextVal("formats", "idformats", *this);
+				FQuery.bindValue(":idformats", IdFormats);
+				FQuery.bindValue(":description", Format.description());
+				FQuery.bindValue(":width", Format.width());
+				FQuery.bindValue(":height", Format.height());
+				FQuery.exec();
+			}
+			else
+				IdFormats = FQuery.value(0);
+			//Automatic ref is template name + Format.
+			QString ProdRef = QString("R%1-%2").arg(it->name()).arg(Format.toString());
+			ProdRef.remove(" ");//Remove all spaces.
+			QString ProdDescription = QString("%1 %2 %3").arg(SPhotoBook::MetaInfo::typeString(it->type())).arg(it->name()).arg(Format.toString());
+
+			QSqlRecord RecProduct = PQuery.database().record("products");
+			RecProduct.setValue("ref", ProdRef);
+			RecProduct.setValue("description", ProdDescription);
+			RecProduct.setValue("fixedprice", 0);
+			RecProduct.setValue("label", ProdDescription.left(25));
+			RecProduct.setValue("templates_ref", it->name());
+			RecProduct.setValue("formats_idformats", IdFormats);
+			RecProduct.setValue("type", productTypeFromLayoutType(it->type()));
+			FSqlQuery IQuery(*this);
+			IQuery.prepareInsert(RecProduct, "products");
+			IQuery.exec();
+			NInserts++;
+		}
+
+	}
+	return NInserts;
+}
+
+/*
 int SindarDatabase::insertProductsForAllTemplates(STPhotoLayout::EnLayoutType _Type)
 {
 	STCollectionTemplateModel Model;
@@ -235,7 +320,7 @@ int SindarDatabase::importTemplateRefs(STPhotoLayout::EnLayoutType _Type)
 		}
 	}
 	return NInserts;
-}
+}*/
 
 void SindarDatabase::clearTemplatesTable()
 {
@@ -250,7 +335,7 @@ QString SindarDatabase::notemplateRef()
 	return "000000";
 }
 
-int SindarDatabase::importTemplateRefs()
+/*int SindarDatabase::importTemplateRefs()
 {
 	int NInserts = 0;
 	NInserts += importTemplateRefs(STPhotoLayout::TypePhotoBook);
@@ -259,7 +344,7 @@ int SindarDatabase::importTemplateRefs()
 	NInserts += importTemplateRefs(STPhotoLayout::TypeIdPhoto);
 	NInserts += importTemplateRefs(STPhotoLayout::TypeMultiPhoto);
 	return NInserts;
-}
+}*/
 
 SindarDatabase::TDefaultDatabaseList SindarDatabase::getDefaultDatabases()
 {

@@ -46,9 +46,6 @@
 #include <QAction> 
 #include <QGraphicsProxyWidget> 
 
-//Others
-#include <QGraphicsColorizeEffect>
-#include <QGraphicsBlurEffect>
 
 #include "stupdateitemevent.h"
 #include "stimage.h"
@@ -250,11 +247,6 @@ void STGraphicsPhotoItem::init()
 	RestoreZValue = false;
 	setAutoAdjustFramesToImages(true);
 
-	QGraphicsColorizeEffect* ColEffect = new QGraphicsColorizeEffect(this);
-	QGraphicsBlurEffect* BlurEffect = new QGraphicsBlurEffect(this);
-	ColEffect->setColor(Qt::red);
-	//setGraphicsEffect(ColEffect);
-	//setGraphicsEffect(BlurEffect);
 }
 
 void STGraphicsPhotoItem::checkForImageOrientation()
@@ -1099,29 +1091,75 @@ void STGraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _O
 
 	if (isSelected())
 	{
-		QRectF ItemRect = rect(); 
-		int SelMarkWidth = 15;
-		
-		_P->save();
-		_P->setOpacity(1);
+		QRectF ItemRect = rect();
+		if (MyIdGuidelines.isNull())
+		{
+			int SelMarkWidth = 15;
 
-		QPen Pen;
-		Pen.setCosmetic(true);
-		Pen.setColor(Qt::red);
-		Pen.setCapStyle(Qt::SquareCap);
-		Pen.setStyle(Qt::SolidLine);
-		Pen.setWidth(8);
-		_P->setPen(Pen);
-		QVector<QLine> Lines; 
-		Lines.push_back(QLine(ItemRect.x(), ItemRect.y(), ItemRect.x() + SelMarkWidth, ItemRect.y()));
-		Lines.push_back(QLine(ItemRect.x(), ItemRect.y(), ItemRect.x(), ItemRect.y() + SelMarkWidth));
-		Lines.push_back(QLine(ItemRect.topRight().x(), ItemRect.y(), ItemRect.topRight().x() - SelMarkWidth, ItemRect.y()));
-		Lines.push_back(QLine(ItemRect.topRight().x(), ItemRect.y(), ItemRect.topRight().x(), ItemRect.topRight().y() + SelMarkWidth));
-		Lines.push_back(QLine(ItemRect.bottomLeft().x(), ItemRect.bottomLeft().y(), ItemRect.bottomLeft().x() + SelMarkWidth, ItemRect.bottomLeft().y()));
-		Lines.push_back(QLine(ItemRect.bottomLeft().x(), ItemRect.bottomLeft().y(), ItemRect.bottomLeft().x(), ItemRect.bottomLeft().y() - SelMarkWidth));
-		Lines.push_back(QLine(ItemRect.bottomRight().x(), ItemRect.bottomRight().y(), ItemRect.bottomRight().x() - SelMarkWidth, ItemRect.bottomRight().y()));
-		Lines.push_back(QLine(ItemRect.bottomRight().x(), ItemRect.bottomRight().y(), ItemRect.bottomRight().x(), ItemRect.bottomRight().y() - SelMarkWidth));
-		_P->drawLines(Lines); 
+			_P->save();
+			_P->setOpacity(1);
+
+			QPen Pen;
+			Pen.setCosmetic(true);
+			Pen.setColor(Qt::red);
+			Pen.setCapStyle(Qt::SquareCap);
+			Pen.setStyle(Qt::SolidLine);
+			Pen.setWidth(8);
+			_P->setPen(Pen);
+			QVector<QLine> Lines;
+			Lines.push_back(QLine(ItemRect.x(), ItemRect.y(), ItemRect.x() + SelMarkWidth, ItemRect.y()));
+			Lines.push_back(QLine(ItemRect.x(), ItemRect.y(), ItemRect.x(), ItemRect.y() + SelMarkWidth));
+			Lines.push_back(QLine(ItemRect.topRight().x(), ItemRect.y(), ItemRect.topRight().x() - SelMarkWidth, ItemRect.y()));
+			Lines.push_back(QLine(ItemRect.topRight().x(), ItemRect.y(), ItemRect.topRight().x(), ItemRect.topRight().y() + SelMarkWidth));
+			Lines.push_back(QLine(ItemRect.bottomLeft().x(), ItemRect.bottomLeft().y(), ItemRect.bottomLeft().x() + SelMarkWidth, ItemRect.bottomLeft().y()));
+			Lines.push_back(QLine(ItemRect.bottomLeft().x(), ItemRect.bottomLeft().y(), ItemRect.bottomLeft().x(), ItemRect.bottomLeft().y() - SelMarkWidth));
+			Lines.push_back(QLine(ItemRect.bottomRight().x(), ItemRect.bottomRight().y(), ItemRect.bottomRight().x() - SelMarkWidth, ItemRect.bottomRight().y()));
+			Lines.push_back(QLine(ItemRect.bottomRight().x(), ItemRect.bottomRight().y(), ItemRect.bottomRight().x(), ItemRect.bottomRight().y() - SelMarkWidth));
+			_P->drawLines(Lines);
+		}
+
+
+		//Draw Guidelines
+		if (!MyIdGuidelines.isNull())
+		{
+			QPen Pen;
+			Pen.setCosmetic(true);
+			Pen.setColor(Qt::red);
+			Pen.setCapStyle(Qt::SquareCap);
+			Pen.setStyle(Qt::SolidLine);
+			Pen.setWidth(1);
+			_P->setPen(Pen);
+			_P->drawLine(QPointF(ItemRect.left(), ItemRect.top() + MyIdGuidelines.margin_Top()),
+						 QPointF(ItemRect.right(), ItemRect.top() + MyIdGuidelines.margin_Top()));
+			_P->drawLine(QPointF(ItemRect.left(), ItemRect.top() + MyIdGuidelines.margin_Bottom()),
+						 QPointF(ItemRect.right(), ItemRect.top() + MyIdGuidelines.margin_Bottom()));
+			int ElipseSideMargin = 7;
+
+			Pen.setColor(Qt::white);
+			Pen.setCapStyle(Qt::SquareCap);
+			Pen.setStyle(Qt::SolidLine);
+			Pen.setWidth(3);
+
+			QRectF FaceRect(QPointF(ItemRect.left() + ElipseSideMargin, ItemRect.top() + MyIdGuidelines.margin_Top()),
+							QPointF(ItemRect.right() - ElipseSideMargin, ItemRect.top() + MyIdGuidelines.margin_Bottom()));
+			_P->setPen(Pen);
+			_P->drawEllipse(FaceRect);
+			double FaceMargin = static_cast<double>(MyIdGuidelines.faceMargin()) / 2;
+			FaceRect.adjust(FaceMargin, FaceMargin, - FaceMargin,  -FaceMargin );
+
+			Pen.setStyle(Qt::DotLine);
+			_P->setPen(Pen);
+			_P->drawEllipse(FaceRect);
+
+			QRectF EyeRect(QPointF(ItemRect.left(), ItemRect.top() + MyIdGuidelines.eyePos_Top()),
+							QPointF(ItemRect.right(), ItemRect.top() + MyIdGuidelines.eyePos_Bottom()));
+
+			QColor EyeRectCol = Qt::black;
+			EyeRectCol.setAlpha(120);
+
+			_P->fillRect(EyeRect, EyeRectCol);
+		}
+
 
 		_P->restore();
 	}
@@ -1196,7 +1234,7 @@ QVariant STGraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVaria
 	else 
 	if (change == QGraphicsItem::ItemSelectedHasChanged)
 	{
-		setControlsVisible(isSelected());
+		setControlsVisible(isSelected() && MyIdGuidelines.isNull());
 //TODO: No retorna sol al valor anterior !.
 // 		if (isSelected() )
 // 		{

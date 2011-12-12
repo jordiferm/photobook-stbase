@@ -31,7 +31,7 @@
 #include "stthumbnailview.h"
 #include "previewitemdelegate.h"
 #include "stimagetools.h"
-#include "spthumbnailsizewidget.h"
+#include "thumbnailsizewidget.h"
 #include "dimagedoc.h"
 #include "smessagebox.h"
 
@@ -44,17 +44,17 @@ void STFolderImageSingleView::setupToolBarActions()
 
 void STFolderImageSingleView::setupImageActions()
 {
-	QAction* SelectAllAction = new QAction(QIcon(":/phototemplates/rating.png"), tr("Select All (Ctrl+A)"), this);
+	QAction* SelectAllAction = new QAction(QIcon(":/photobook/rating.png"), tr("Select All (Ctrl+A)"), this);
 	ImageActionsToolBar->addAction(SelectAllAction);
 	connect(SelectAllAction, SIGNAL(triggered()), LView, SLOT(selectAll()));
 
-	SPThumbnailSizeWidget* ThumbnailSizeWidget = new SPThumbnailSizeWidget(this);
-	connect(ThumbnailSizeWidget, SIGNAL(valueChanged(int )), this, SLOT(slotThumbnailSizeChanged(int )));
-	ImageActionsToolBar->addWidget(ThumbnailSizeWidget);
-	ThumbnailSizeWidget->setValue(3);
+	ThumbnailSizeWidget* TSWidget = new ThumbnailSizeWidget(this);
+	connect(TSWidget, SIGNAL(valueChanged(int )), this, SLOT(slotThumbnailSizeChanged(int )));
+	ImageActionsToolBar->addWidget(TSWidget);
+	TSWidget->setValue(3);
 	slotThumbnailSizeChanged(3);
 
-	QAction* BigViewAction = new QAction(QIcon(":/phototemplates/preview.png"), tr("Big view"), this);
+	QAction* BigViewAction = new QAction(QIcon(":/photobook/preview.png"), tr("Big view"), this);
 	ImageActionsToolBar->addAction(BigViewAction);
 	connect(BigViewAction, SIGNAL(triggered()), this, SLOT(slotBigPreviewFolder()));
 }

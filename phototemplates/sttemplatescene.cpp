@@ -211,6 +211,7 @@ void STTemplateScene::loadPageTemplate(const STPhotoLayoutTemplate& _Template)
 			default :
 			{
 				STGraphicsPhotoItem* PhotoItem = new STGraphicsPhotoItem(*it);
+				PhotoItem->setGuideLines(Template.idGuideLines());
 				PhotoItem->setAspectRatioMode(Template.aspectRatioMode()); 
 				PhotoItem->setAutoAdjustFramesToImages(AutoAdjustFrames);
 				PhotoItem->setIgnoreExifRotation(IgnoreExifRotation);

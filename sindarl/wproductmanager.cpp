@@ -197,6 +197,10 @@ void WProductManager::setLocalAdded(bool _Value)
 	FormatManager->setLocalAdded(_Value);
 }
 
+void WProductManager::filterByTemplate(const SPhotoBook::TemplateInfo& _TemplateInfo)
+{
+	model()->setFilter(QString("templates_ref='%1'").arg(_TemplateInfo.name()));
+}
 
 void WProductManager::beforeRemoveRow(int _Index, bool& _PerformOp)
 {
