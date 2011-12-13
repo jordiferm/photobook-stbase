@@ -173,7 +173,7 @@ bool QScrollAreaKineticScroller::eventFilter(QObject *o, QEvent *e)
     bool isMouseEvent = false;
     bool isMouseDown = false;
 
-    qDebug("QScrollAreaKineticScroller::eventFilter: %d", e->type());
+	//qDebug("QScrollAreaKineticScroller::eventFilter: %d", e->type());
     if (d->area && (o == d->area->viewport()) &&
         !d->ignoreEvents && d->area->isEnabled() && isEnabled()) {
         switch (e->type()) {

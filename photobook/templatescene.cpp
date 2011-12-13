@@ -542,6 +542,7 @@ void TemplateScene::addPhotoItem(GraphicsPhotoItem* _PhotoItem)
 {
 	_PhotoItem->setPanningEnabled(!ItemsMovable);
 	_PhotoItem->setMultiSelection(ModifyAllFrames);
+	_PhotoItem->setAutoAdjustFramesToImages(AutoAdjustFrames);
 	configureItem(_PhotoItem); 
 	connect(_PhotoItem, SIGNAL(mousePanning(const QPointF&)), this, SLOT(panSelectedPhotoItems(const QPointF&)));
 	connect(_PhotoItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));

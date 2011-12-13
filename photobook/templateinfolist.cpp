@@ -29,7 +29,7 @@ TemplateInfoList::TemplateInfoList()
 {
 }
 
-void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName)
+void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName, bool _OnDiskOnly)
 {
 	QMap <MetaInfo::EnTemplateType, TemplateInfo> TInfoMap;
 	//For each design_name
@@ -45,14 +45,24 @@ void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name
 		{
 			MInfo.load(MetaInfoFileName);
 			TemplateInfo NewTInfo(_BaseDir.absolutePath(), _Name, _SizeName, MInfo.templateType());
-			//Check if there is templates of current type
-			if (!TInfoMap.contains(MInfo.templateType()))
-				TInfoMap.insert(NewTInfo.type(), NewTInfo);
 			DesignInfo CDesignInfo(*it);
 			CDesignInfo.setMetaInfo(MInfo);
 			CDesignInfo.setDescription(MInfo.description());
-			//TODO: set Design image
-			TInfoMap[NewTInfo.type()].addDesign(CDesignInfo);
+
+			bool AddDesign;
+			if (_OnDiskOnly)
+				AddDesign = NewTInfo.designOnDisk(CDesignInfo);
+			else
+				AddDesign = true;
+
+			if (AddDesign)
+			{
+				//Check if there is templates of current type
+				if (!TInfoMap.contains(MInfo.templateType()))
+					TInfoMap.insert(NewTInfo.type(), NewTInfo);
+				//TODO: set Design image
+				TInfoMap[NewTInfo.type()].addDesign(CDesignInfo);
+			}
 		}
 		catch (...) //Ignore errors loading metainfo.xml
 		{}
