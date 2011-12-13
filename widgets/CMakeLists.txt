@@ -7,6 +7,11 @@ PROJECT(st_widgets)
 INCLUDE_DIRECTORIES( ${st_core_SOURCE_DIR} )
 INCLUDE_DIRECTORIES( ${st_core_BINARY_DIR} )
 
+OPTION(ST_WIDGETS_KINETICSCROLL
+  "Kinetic Scroll support (Requires Qt>=4.6.0)"
+  ON)
+
+
 # --------------------------------------------------------------------------
 # Configure Qt
 
@@ -90,15 +95,20 @@ SET(prj_SRCS
 	sptoolbarlistview.cpp
 	thumbnailsizewidget.cpp
 	strecteditwidget.cpp
-	qkineticscroller.cpp
-	qscrollareakineticscroller.cpp
 )
 
-IF(APPLE)
-SET(prj_SRCS ${prj_SRCS}
-	qkineticscroller_mac.mm
-)
-ENDIF(APPLE)
+IF(ST_WIDGETS_KINETICSCROLL)
+	SET(prj_SRCS ${prj_SRCS}
+		qkineticscroller.cpp
+		qscrollareakineticscroller.cpp
+	)
+
+	IF(APPLE)
+	SET(prj_SRCS ${prj_SRCS}
+		qkineticscroller_mac.mm
+	)
+	ENDIF(APPLE)
+ENDIF(ST_WIDGETS_KINETICSCROLL)
 
 SET(prj_MOC_HDRS
 #	stwidgetsexport.h
@@ -179,10 +189,16 @@ SET(prj_MOC_HDRS
 	sptoolbarlistview.h
 	thumbnailsizewidget.h
 	strecteditwidget.h
-	qkineticscroller.h
-	qkineticscroller_p.h
-	qscrollareakineticscroller.h
 )
+
+IF(ST_WIDGETS_KINETICSCROLL)
+	SET(prj_MOC_HDRS ${prj_MOC_HDRS}
+		qkineticscroller.h
+		qkineticscroller_p.h
+		qscrollareakineticscroller.h
+	)
+ENDIF(ST_WIDGETS_KINETICSCROLL)
+
 
 QT4_AUTOMOC(${prj_SRCS})
 

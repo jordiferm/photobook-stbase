@@ -44,6 +44,7 @@
 
 #include "qkineticscroller.h"
 #include <QAbstractScrollArea>
+#include "stwidgetsexport.h"
 
 QT_BEGIN_HEADER
 
@@ -53,7 +54,7 @@ QT_MODULE(Gui)
 
 class QScrollAreaKineticScrollerPrivate;
 
-class Q_GUI_EXPORT QScrollAreaKineticScroller : public QObject, public QKineticScroller
+class ST_WIDGETS_EXPORT QScrollAreaKineticScroller : public QObject, public QKineticScroller
 {
     Q_OBJECT
 public:

@@ -46,6 +46,7 @@
 #include <QtCore/qpoint.h>
 #include <QtCore/qrect.h>
 #include <QtCore/qvariant.h>
+#include "stwidgetsexport.h"
 
 QT_BEGIN_HEADER
 
@@ -55,7 +56,7 @@ QT_MODULE(Gui)
 
 class QKineticScrollerPrivate;
 
-class QKineticScroller
+class ST_WIDGETS_EXPORT QKineticScroller
 {
 public:
     virtual ~QKineticScroller();
