@@ -865,7 +865,11 @@ void GraphicsPhotoItem::drawFrameResource(const SPhotoBook::Resource& _Resource,
 		QImage FrameImage;
 		int CacheWidth = cachedWidth(_MaxResRect.width());
 		QString PixmapKey = FrameFilePath + QString::number(CacheWidth); // + QString("%1_%2").arg(_MaxResRect.width()).arg(_MaxResRect.height());
+#if QT_VERSION >= 0x040600
 		if (!QPixmapCache::find(PixmapKey, &Pixmap))
+#else
+		if (!QPixmapCache::find(PixmapKey, Pixmap))
+#endif
 		{
 			FrameImage = QImage(FrameFilePath);
 
