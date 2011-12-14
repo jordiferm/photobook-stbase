@@ -33,11 +33,14 @@ class QListView;
 class QModelIndex; 
 class QtScrollWheel;
 class QAbstractItemModel;
+class StringWheelWidget;
 class ST_TPOPSL_EXPORT TPProductListView : public QWidget
 {
 	Q_OBJECT
 	QListView* MListView; 
 	QtScrollWheel* ScrWheel;
+	StringWheelWidget* MWheelWidget;
+	QAbstractItemModel* Model;
 
 	int scrollToIndexValue(int _Value);
 
@@ -46,7 +49,9 @@ public:
 	~TPProductListView();
 	QSize sizeHint() const;
 	void setModel(QAbstractItemModel* _Model);
-	QListView* listView() { return MListView; }
+	QAbstractItemModel* model() const { return Model; }
+
+	//QListView* listView() { return MListView; }
 	QModelIndex currentIndex() const;
 	void setCurrentIndex(const QModelIndex& _Index);
 	STDom::DDocProduct currentProduct() const;

@@ -101,6 +101,13 @@ IF(ST_WIDGETS_KINETICSCROLL)
 	SET(prj_SRCS ${prj_SRCS}
 		qkineticscroller.cpp
 		qscrollareakineticscroller.cpp
+#For Wheel widget
+		qtscroller.cpp
+		qtscrollerfilter.cpp
+		qtscrollerproperties.cpp
+		qtscrollevent.cpp
+		qtflickgesture.cpp
+		wheelwidget.cpp
 	)
 
 	IF(APPLE)
@@ -196,6 +203,16 @@ IF(ST_WIDGETS_KINETICSCROLL)
 		qkineticscroller.h
 		qkineticscroller_p.h
 		qscrollareakineticscroller.h
+#For Wheel widget
+		qtscrollerfilter_p.h
+		qtscroller.h
+		qtscroller_p.h
+		qtscrollerproperties.h
+		qtscrollerproperties_p.h
+		qtscrollevent.h
+		qtscrollevent_p.h
+		qtflickgesture_p.h
+		wheelwidget.h
 	)
 ENDIF(ST_WIDGETS_KINETICSCROLL)
 

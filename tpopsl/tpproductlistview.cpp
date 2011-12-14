@@ -20,26 +20,34 @@
 #include "tpproductlistview.h"
 #include <QLayout> 
 #include <QListView> 
-#include <QToolButton> 
+#include <QToolButton>
 
 #include "publisherdatabase.h"
 #include "qtscrollwheel.h"
+#ifdef ST_TTPOPSL_KINETICSCROLL
+#include "wheelwidget.h"
+#endif
 
 int TPProductListView::scrollToIndexValue(int _Value)
 {
 	int Res = _Value;
-	if (MListView->model()) //Defensive
-		Res = (MListView->model()->rowCount() - _Value) -1;
+	if (model()) //Defensive
+		Res = (model()->rowCount() - _Value) -1;
 	return Res;
 }
 
 TPProductListView::TPProductListView(QWidget *parent, bool _EmbeddedWidgets)
- : QWidget(parent), ScrWheel(0)
+	: QWidget(parent), ScrWheel(0), Model(0)
 {
 	setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 	QHBoxLayout* MLayout = new QHBoxLayout(this); 
 	MLayout->setMargin(1); 
 	MLayout->setSpacing(1);
+
+#ifdef ST_TTPOPSL_KINETICSCROLL
+	MWheelWidget = new StringWheelWidget(false, this);
+	MLayout->addWidget(MWheelWidget);
+#else
 	MListView = new QListView(this);
 	MListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	MListView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -76,6 +84,7 @@ TPProductListView::TPProductListView(QWidget *parent, bool _EmbeddedWidgets)
 		connect(ButScrollDown, SIGNAL(clicked( bool )), this, SLOT(scrollDownClicked()));
 		TBLayout->addWidget(ButScrollDown);
 	}
+#endif
 }
 
 TPProductListView::~TPProductListView()
@@ -89,23 +98,41 @@ QSize TPProductListView::sizeHint() const
 
 void TPProductListView::setModel(QAbstractItemModel* _Model)
 {
+	Model = _Model;
+#ifdef ST_TTPOPSL_KINETICSCROLL
+	QStringList ModelDataStringList;
+	for (int Vfor = 0; Vfor < _Model->rowCount(); Vfor++)
+	{
+		ModelDataStringList << _Model->data(_Model->index(Vfor, 0), Qt::DisplayRole).toString();
+	}
+	MWheelWidget->setItems(ModelDataStringList);
+#else
 	MListView->setModel(_Model);
-	MListView->setCurrentIndex(_Model->index(0,0));
 	if (ScrWheel)
 	{
 		ScrWheel->setRange(0, _Model->rowCount() -1);
 		ScrWheel->setValue(scrollToIndexValue(0));
 	}
+#endif
+	setCurrentIndex(_Model->index(0,0));
 }
 
 QModelIndex TPProductListView::currentIndex() const
 {
+#ifdef ST_TTPOPSL_KINETICSCROLL
+	return model()->index(MWheelWidget->currentIndex(), 0);
+#else
 	return MListView->currentIndex();
+#endif
 }
 
 void TPProductListView::setCurrentIndex(const QModelIndex& _Index)
 {
+#ifdef ST_TTPOPSL_KINETICSCROLL
+	MWheelWidget->setCurrentIndex(_Index.row());
+#else
 	MListView->setCurrentIndex(_Index);
+#endif
 	slotListClicked(_Index);
 }
 
@@ -113,10 +140,10 @@ STDom::DDocProduct TPProductListView::currentProduct() const
 {
 	STDom::DDocProduct Res;
 	STDom::PublisherDatabase PublDB;
-	if (MListView->model())
+	if (model())
 	{
-		if (MListView->currentIndex().row() < MListView->model()->rowCount())
-			Res = PublDB.getProduct(MListView->model(), MListView->currentIndex().row());
+		if (currentIndex().row() < model()->rowCount())
+			Res = PublDB.getProduct(model(), currentIndex().row());
 	}
 	return Res;
 }
@@ -124,18 +151,18 @@ STDom::DDocProduct TPProductListView::currentProduct() const
 STDom::DDocProduct TPProductListView::product(const QModelIndex& _Index) const
 {
 	STDom::PublisherDatabase PublDB;
-	return PublDB.getProduct(MListView->model(), _Index.row());	
+	return PublDB.getProduct(model(), _Index.row());
 }
 
 void TPProductListView::scrollUpClicked()
 {
-	if (MListView->model()) //Defensive 
+	if (model()) //Defensive
 	{
-		QModelIndex CurrentIndex = MListView->currentIndex(); 
+		QModelIndex CurrentIndex = currentIndex();
 		if (CurrentIndex.row() > 0) 
 		{
-			QModelIndex NIndex = MListView->model()->index(CurrentIndex.row() -1, CurrentIndex.column()); 
-			MListView->setCurrentIndex(NIndex); 
+			QModelIndex NIndex = model()->index(CurrentIndex.row() -1, CurrentIndex.column());
+			setCurrentIndex(NIndex);
 			clicked(NIndex); 
 		}
 	}
@@ -143,13 +170,13 @@ void TPProductListView::scrollUpClicked()
 
 void TPProductListView::scrollDownClicked()
 {
-	if (MListView->model()) //Defensive 
+	if (model()) //Defensive
 	{
-		QModelIndex CurrentIndex = MListView->currentIndex(); 
-		if (CurrentIndex.row() < MListView->model()->rowCount() -1) 
+		QModelIndex CurrentIndex = currentIndex();
+		if (CurrentIndex.row() < model()->rowCount() -1)
 		{
-			QModelIndex NIndex = MListView->model()->index(CurrentIndex.row() +1, CurrentIndex.column()); 
-			MListView->setCurrentIndex(NIndex); 
+			QModelIndex NIndex = model()->index(CurrentIndex.row() +1, CurrentIndex.column());
+			setCurrentIndex(NIndex);
 			clicked(NIndex); 
 		}
 	}
@@ -157,12 +184,12 @@ void TPProductListView::scrollDownClicked()
 
 void TPProductListView::slotScrollValueChanged(int _Value)
 {
-	if (MListView->model()) //Defensive
+	if (model()) //Defensive
 	{
-		QModelIndex NewIndex = MListView->model()->index(scrollToIndexValue(_Value), MListView->currentIndex().column());
-		if (NewIndex.row() < MListView->model()->rowCount() && NewIndex.row() >= 0)
+		QModelIndex NewIndex = model()->index(scrollToIndexValue(_Value), currentIndex().column());
+		if (NewIndex.row() < model()->rowCount() && NewIndex.row() >= 0)
 		{
-			MListView->setCurrentIndex(NewIndex);
+			setCurrentIndex(NewIndex);
 			clicked(NewIndex);
 		}
 	}
