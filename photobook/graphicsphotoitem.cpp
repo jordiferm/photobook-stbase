@@ -914,7 +914,11 @@ QImage GraphicsPhotoItem::loadMaskImage(const QFileInfo& _MaskImage, const QSize
 	QImage MaskImage;
 	int CacheWidth = cachedWidth(_Size.width());
 	QString PixmapKey = _MaskImage.absoluteFilePath() + QString::number(CacheWidth);
+#if QT_VERSION >= 0x040600
 	if (!QPixmapCache::find(PixmapKey, &Pixmap))
+#else
+	if (!QPixmapCache::find(PixmapKey, Pixmap))
+#endif
 	{
 		MaskImage.load(_MaskImage.absoluteFilePath());
 		if (!MaskImage.isNull())
