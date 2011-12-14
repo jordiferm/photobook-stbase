@@ -413,7 +413,7 @@ QImage Document::renderPage(int _Page, QProgressBar* _LoadImagesPrgBar)
 	QSize PageSize = renderPageSize();
 	QSize TemplateSize = STDom::DDocFormat::pixelSize(PageScene->sceneRect().size(), MetInfo.dpis());
 	QSize RenderSize;
-	if (PageSize.width() > TemplateSize.width() && PageSize.height() > TemplateSize.height())
+	if (PageSize.width() >= TemplateSize.width() && PageSize.height() >= TemplateSize.height())
 		RenderSize = PageSize;
 	else
 		RenderSize = TemplateSize;
@@ -439,6 +439,7 @@ void Document::renderPage(TemplateScene* _PageScene , QProgressBar* _LoadImagesP
 	{
 		if (MetInfo.printPreprocessType() == RenderSettings::TypeMultiply)
 		{
+			qDebug() << "Multiplying: " << PageSize << " TemplateSize:" << TemplateSize;
 			STImage TmpImg(TemplateSize, QImage::Format_RGB32);
 			QPainter ImgPainter(&TmpImg);
 			_PageScene->render(&ImgPainter, QRect(QPoint(0,0), TemplateSize));
