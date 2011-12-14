@@ -67,6 +67,9 @@ public slots:
 	void setAlphaNumericKeyboardVisible(bool _Visible);
 	void setNumericKeyboardVisible(bool _Visible);
 
+signals:
+	void enterPressed();
+
 };
 
 #endif
