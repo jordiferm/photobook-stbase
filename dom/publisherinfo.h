@@ -60,6 +60,7 @@ public:
 	CollectionPoint getCollectionPoint(const IdDescTableModel::TKey& _Key);
 	PaymentType getPaymentType(const IdDescTableModel::TKey& _Key);
 	ShippingMethod getShippingMethod(const IdDescTableModel::TKey& _Key);
+	ShippingMethod getDefaultShippingMethod() const;
 
 	void addShippingMethod(const ShippingMethod& _Value);
 	void addPaymentType(const PaymentType& _Value);
@@ -70,6 +71,7 @@ public:
 	QString publisherDatabaseFilePath() const { return DatabaseFilePath; }
 	void setPublisher(const STDom::Publisher& _Value) { Publisher = _Value; }
 	STDom::Publisher publisher() const { return Publisher; }
+	static QString defaultDatabaseFileName() { return "publisher.db"; }
 
 };
 }

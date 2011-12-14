@@ -26,7 +26,7 @@
 
 using namespace SPhotoBook;
 
-SPhotoBook::TemplateInfoList SystemTemplates::load()
+SPhotoBook::TemplateInfoList SystemTemplates::load(bool _OnDiskOnly)
 {
 	SPhotoBook::TemplateInfoList Res;
 	//For each path
@@ -46,7 +46,7 @@ SPhotoBook::TemplateInfoList SystemTemplates::load()
 			QStringList::iterator snit = TSizeList.begin();
 			while (snit != TSizeList.end())
 			{
-				Res.addDesignNames(BaseDir, NameDir.dirName(), QDir(*snit).dirName());
+				Res.addDesignNames(BaseDir, NameDir.dirName(), QDir(*snit).dirName(), _OnDiskOnly);
 				++snit;
 			}
 			++tnit;

@@ -598,7 +598,7 @@ void TPPhotoEditor::showAdvanced(bool _Value)
 
 	if (_Value)
 	{
-		FrameBasicControls->setVisible(!_Value && LVProducts->listView()->model());
+		FrameBasicControls->setVisible(!_Value && LVProducts->model());
 		FrameAdvanced->setVisible(_Value);
 		AdvancedAction->setIcon(QIcon(":/st/tpopsl/hide-advanced.png"));
 		AdvancedAction->setText(tr("Basic"));
@@ -606,7 +606,7 @@ void TPPhotoEditor::showAdvanced(bool _Value)
 	else
 	{
 		FrameAdvanced->setVisible(_Value);
-		FrameBasicControls->setVisible(!_Value && LVProducts->listView()->model());
+		FrameBasicControls->setVisible(!_Value && LVProducts->model());
 		AdvancedAction->setIcon(QIcon(":/st/tpopsl/show-advanced.png"));
 		AdvancedAction->setText(tr("Advanced"));
 	}

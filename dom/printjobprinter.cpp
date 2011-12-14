@@ -395,7 +395,7 @@ void PrintJobPrinter::store(const STDom::PrintJob& _Job, STDom::XmlOrder& _Order
 	}
 	if (!_DatabaseFilePath.isEmpty())
 	{
-		QString DestFileName = QDir(_Order.orderInfo().orderPath()).absoluteFilePath("publisher.db");
+		QString DestFileName = _Order.orderInfo().orderPublisherDbFilePath();
 		StackAssert(QFile::copy(_DatabaseFilePath, DestFileName), Error(QObject::tr("Could not copy Publisher Database file: %1").arg(_DatabaseFilePath)), ErrorStack);
 	}
 }

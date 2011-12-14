@@ -33,7 +33,6 @@
 RemotePublisherManager::RemotePublisherManager(StarlabAbstractManager* _Manager, const QString& _PublisherDatabaseFilePath) :
 	Manager(_Manager), PublisherDatabaseFilePath(_PublisherDatabaseFilePath)
 {
-
 }
 
 void RemotePublisherManager::pullTemplates(const STDom::Publisher& _Publisher )
@@ -246,7 +245,6 @@ void RemotePublisherManager::downloadTemplateDesign(const SPhotoBook::TemplateIn
 	STDom::Publisher Publisher = Manager->getPublisher();
 	SPhotoBook::SystemTemplates::downloadTemplateDesign(Publisher, _Template, _Design, _L1Process);
 }
-
 
 bool RemotePublisherManager::productsDBExist()
 {

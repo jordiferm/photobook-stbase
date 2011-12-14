@@ -52,6 +52,7 @@ public:
 	void downloadTemplateDesign(const SPhotoBook::TemplateInfo& _Template, const SPhotoBook::DesignInfo& _Design, SProcessStatusWidget* _L1Process = 0);
 	bool productsDBExist();
 	void addDefaultProducts(DefaultSindarDatabase& _SindarDatabase);
+	QString publisherDatabaseFilePath() const { return PublisherDatabaseFilePath; }
 	STDom::PublisherDatabase getProducts() const;
 	STDom::PublisherInfo getPublisherInfo() const;
 	void removeAllProducts();

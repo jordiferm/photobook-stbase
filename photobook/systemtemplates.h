@@ -37,7 +37,7 @@ class ST_PHOTOBOOK_EXPORT SystemTemplates
 
 public:
 	static QString remoteTemplatesDir() { return "templates"; }
-	static TemplateInfoList load();
+	static TemplateInfoList load(bool _OnDiskOnly = false);
 	static void import(const QDir& _SourceDir, const QString& _NewName = "");
 	static TemplateInfo templateInfo(const QDir& _Sourcedir);
 	static bool existMetaInfo(const QDir& _SourceDir);

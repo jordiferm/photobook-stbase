@@ -730,7 +730,7 @@ STDom::XmlOrderDealer OPWConfirmOrder::sender()
 	Res.setCity(field("city").toString()); 
 	Res.setCountry(field("country").toString()); 
 	Res.setState(field("state").toString()); 
-	Res.setId("starphob");
+	Res.setId(PublisherInfo.publisher().id());
 	//Res.setId(field("id").toString());
 	//Res.setTransportRoute(field("transportroute").toString());
 	return Res; 

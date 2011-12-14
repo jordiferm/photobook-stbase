@@ -33,7 +33,7 @@ class ST_PHOTOBOOK_EXPORT TemplateInfoList : public QList<TemplateInfo>
 
 public:
     TemplateInfoList();
-	void addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName);
+	void addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName, bool _OnDiskOnly = false);
 	QFileInfoList globalResources(DesignInfo::EnResourceType _Type);
 	TemplateInfoList subList(MetaInfo::EnTemplateType _Type) const;
 	TemplateInfoList sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type) const;
