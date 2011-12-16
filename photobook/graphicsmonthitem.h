@@ -49,6 +49,9 @@ private:
 
 	void init(); 
 
+protected:
+	void mousePressEvent(QGraphicsSceneMouseEvent* _Event);
+
 public:
 	GraphicsMonthItem(QGraphicsItem* parent = 0);
 	int type() const { return Type; }
@@ -74,6 +77,7 @@ public:
 	void addHolyDay(const QDate& _Date);
 	void clearHolyDays();
 	void addDefaultHolyDays(int _Year);
+
 };
 }
 #endif

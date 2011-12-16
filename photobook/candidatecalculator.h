@@ -48,7 +48,7 @@ public:
 	CandidateCalculator(const Document& _PhotoBook, STDom::DDocModel* _Model);
 	void reset();
 	void configureDate(TemplateScene* _Template, const QDate& _Date);
-	TemplateScene* getDateCandidate(const PageList& _Templates, const QDate& _Date);
+	TemplateScene* newDateCandidate(const PageList& _Templates, const QDate& _Date);
 	PageList::const_iterator lowerBound(PageList::const_iterator begin, PageList::const_iterator end, int _Value);
 	PageList::const_iterator upperBound(PageList::const_iterator begin, PageList::const_iterator  end, int _Value);
 	PageList unusedTemplates(const PageList& _Templates);
