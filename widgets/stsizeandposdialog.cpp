@@ -35,22 +35,26 @@ STSizeAndPosDialog::STSizeAndPosDialog(QWidget* parent, Qt::WindowFlags f): QDia
 	MLayout->addWidget(ValuesFrame); 
 	QGridLayout* FrLayout = new QGridLayout(ValuesFrame); 
 
-	FrLayout->addWidget(new QLabel(tr("X:"), ValuesFrame), 0, 0); 
+	LabelX = new QLabel(tr("X:"), ValuesFrame);
+	FrLayout->addWidget(LabelX, 0, 0);
 	SPValueX = new QDoubleSpinBox(ValuesFrame);
 	SPValueX->setRange(-10000, 10000); 
 	FrLayout->addWidget(SPValueX, 0, 1); 
 	
-	FrLayout->addWidget(new QLabel(tr("Y:"), ValuesFrame), 0, 2); 
+	LabelY = new QLabel(tr("Y:"), ValuesFrame);
+	FrLayout->addWidget(LabelY, 0, 2);
 	SPValueY = new QDoubleSpinBox(ValuesFrame);
 	SPValueY->setRange(-10000, 10000); 
 	FrLayout->addWidget(SPValueY, 0, 3); 
 
-	FrLayout->addWidget(new QLabel(tr("Width:"), ValuesFrame), 1, 0); 
+	LabelWidth = new QLabel(tr("Width:"), ValuesFrame);
+	FrLayout->addWidget(LabelWidth, 1, 0);
 	SPValueWidth = new QDoubleSpinBox(ValuesFrame);
 	SPValueWidth->setRange(-10000, 10000); 
 	FrLayout->addWidget(SPValueWidth, 1, 1); 
 
-	FrLayout->addWidget(new QLabel(tr("Height:"), ValuesFrame), 1, 2); 
+	LabelHeight = new QLabel(tr("Height:"), ValuesFrame);
+	FrLayout->addWidget(LabelHeight, 1, 2);
 	SPValueHeight = new QDoubleSpinBox(ValuesFrame);
 	SPValueHeight->setRange(-10000, 10000); 
 	FrLayout->addWidget(SPValueHeight, 1, 3); 
@@ -88,4 +92,20 @@ void STSizeAndPosDialog::setPosition(const QPointF& _Position)
 QPointF STSizeAndPosDialog::position() const 
 {
 	return QPointF(SPValueX->value(), SPValueY->value());
+}
+
+void STSizeAndPosDialog::setPosVisible(bool _Visible)
+{
+	LabelX->setVisible(_Visible);
+	LabelY->setVisible(_Visible);
+	SPValueX->setVisible(_Visible);
+	SPValueY->setVisible(_Visible);
+}
+
+void STSizeAndPosDialog::setSizeVisible(bool _Visible)
+{
+	LabelWidth->setVisible(_Visible);
+	LabelHeight->setVisible(_Visible);
+	SPValueWidth->setVisible(_Visible);
+	SPValueHeight->setVisible(_Visible);
 }

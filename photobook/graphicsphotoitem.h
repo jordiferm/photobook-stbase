@@ -91,8 +91,8 @@ private:
 	//-- Loaded Resources
 	STImage CurrImage;
 	QImage PaintedImage;
-	QImage MaskImage;
-	QImage FrameImage;
+	//QImage MaskImage;
+	//QImage FrameImage;
 
 	//-- Resources
 	Resource FrameResource;
@@ -149,7 +149,7 @@ public:
 	int type() const { return Type; }
 
 	// --- Resources
-	QStringList saveResources(const QDir& _StoreDir, bool _SaveImageRes = true);
+	virtual QStringList saveResources(const QDir& _StoreDir, bool _SaveImageRes = true);
 	void setResource(const Resource& _Resource);
 
 	// --- Alpha channel ---
@@ -184,6 +184,7 @@ public:
 	void waitForImageLoaded();
 	void unloadImage();
 	//! Unsets the item image file.
+	void setImageResource(const Resource& _Value) { ImageResource = _Value; }
 	void clearImage();
 	QString imageMD5Sum() const { return ImageMD5Sum; }
 	bool hasImage() const { return !ImageResource.isNull(); }
@@ -242,6 +243,9 @@ public:
 	void setRectPos(qreal _X, qreal _Y);
 
 protected:
+	QImage loadMaskImage(const QFileInfo& _MaskImage, const QSize& _Size);
+	int cachedWidth(int _Width) const;
+	void drawFrameResource(const SPhotoBook::Resource& _Resource, QPainter* _P, const QRectF& _Rect, const QRect& _MaxResRect);
 	void paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* );
 	void mouseReleaseEvent( QGraphicsSceneMouseEvent * event );
 	void mousePressEvent(QGraphicsSceneMouseEvent* _Event);

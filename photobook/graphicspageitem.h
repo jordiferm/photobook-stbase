@@ -49,7 +49,8 @@ public:
 	void loadElement(QDomElement& _Element, const QString& _LoadDir = "");
 	QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "") const;
 	void setResizeAllowed(bool _Value);
-	static QString tagName() { return "pageitem"; }	
+	QStringList saveResources(const QDir& _StoreDir, bool _SaveImageRes = false);
+	static QString tagName() { return "pageitem"; }
 	
 };
 }

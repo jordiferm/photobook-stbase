@@ -23,6 +23,7 @@
 
 #include <QAbstractItemModel>
 #include <QSqlRecord>
+#include "stdatabaseexport.h"
 
 /**
 FRecordWidget for articles.
@@ -56,7 +57,7 @@ Tree model filled with TableModel.
 @author Shadow
 */
 class QSqlTableModel;
-class FSqlTableTreeModel : public QAbstractItemModel
+class ST_DATABASE_EXPORT FSqlTableTreeModel : public QAbstractItemModel
 {
 Q_OBJECT
 	TreeItem* RootItem;

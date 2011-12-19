@@ -66,6 +66,7 @@ public:
 		PhotoItemType, 
 		PageItemType, 
 		ClipartItemType,
+		MonthItemType,
 		UnknownItemType
 	};
 
@@ -97,6 +98,7 @@ private:
 	void clearAllSceneChanges();
 	bool anySceneHasChanges() const;
 	void setHasChanges(bool _Value);
+	void setTemplateDataContext(const BuildOptions& _BuildOptions, TemplateScene* _Template);
 
 public:
 	ST_DECLARE_ERRORCLASS();
@@ -126,6 +128,8 @@ public:
 	PageList backCovers() const { return BackCovers; }
 	void setBackCovers(const PageList& _BackCovers) { BackCovers = _BackCovers; }
 	ResourceList resources() const { return Resources; }
+	void addResource(const Resource& _Resource);
+	void removeResource(const Resource& _Resource);
 
 	//-- Generation and manipulation
 	void clear(); 
@@ -140,14 +144,16 @@ public:
 	void autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
 	void clearImages();
 	void movePage(int _Source, int _Destination);
+	void resizePage(int _Page, const QSizeF& _NewSize);
+	void resizeAll(const QSizeF& _NewSize);
 
 	//-- Rendering
-	QSize renderSize(TemplateScene* _Scene) const;
+	QSize renderPageSize() const;
 	QImage renderPage(int _Page, QProgressBar* _LoadImagesPrgBar = 0);
 	void renderPage(TemplateScene* _PageScene , QProgressBar* _LoadImagesPrgBar, QPainter* _Painter);
 	void renderPageToPdf(int _Page, QProgressBar* _LoadImagesPrgBar, const QString& _PdfFileName);
 	//! return images prepared for print according to current template printPageWidth.
-	QList<QImage> prepareForPrint(const QImage& _AlbumPageImage, const QSizeF& _SceneSize);
+	QList<QImage> prepareForPrint(const QImage& _AlbumPageImage);
 
 	//-- Input and output
 	//!Saves into collection. Using DocumentCollectionInfo data.
@@ -178,8 +184,8 @@ public:
 	//! \returns true if this photobook contains any photoitem with no image assigned.
 	bool hasEmptyPhotoItems() const; 
 	bool suitableTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason);
-	bool isExportedAsBooklet(const RenderSettings& _RSettings) const;
-	int numRenderedPages(bool _Booklet);
+	bool isExportedAsBooklet() const;
+	//int numRenderedPages(bool _Booklet);
 	QImage getPageThumbnail(int _Index, const QSize& _MaxSize);
 	QImage getLastPageThumbnail(const QSize& _MaxSize);
 	bool isPhotoBookCorrect(QString& _ErrorMessage, bool _CheckToOrder = true);

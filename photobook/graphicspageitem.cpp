@@ -23,6 +23,7 @@
 #include <QDomElement>
 
 #include <QStyleOptionGraphicsItem>
+#include <QDebug>
 
 using namespace SPhotoBook;
 
@@ -69,6 +70,20 @@ GraphicsPageItem::GraphicsPageItem(QGraphicsItem* _Parent) : GraphicsPhotoItem(_
 void GraphicsPageItem::setResizeAllowed(bool _Value)
 { //Does nothing  
 } 
+
+QStringList GraphicsPageItem::saveResources(const QDir& _StoreDir, bool )
+{
+	QStringList Res;
+	if (hasImage())
+	{
+		Resource BGResource(imageResource().fileInfo(), Resource::TypeBackground);
+		Res += BGResource.save(_StoreDir);
+		setImageResource(BGResource);
+	}
+	Res += GraphicsPhotoItem::saveResources(_StoreDir, false);
+	return Res;
+}
+
 
 QDomElement GraphicsPageItem::createElement(QDomDocument& _Doc, const QString& _StoreDir) const
 {

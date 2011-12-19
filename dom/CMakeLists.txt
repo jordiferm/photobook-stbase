@@ -47,6 +47,12 @@ SET(prj_SRCS
 	stftpordertransferdialog.cpp
 	printjobprinter.cpp
 	ordertransfermodel.cpp
+	publisher.cpp
+	publisherinfo.cpp
+	iddesctablemodel.cpp
+	collectionpoint.cpp
+	paymenttype.cpp
+	shippingmethod.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -67,6 +73,12 @@ SET(prj_MOC_HDRS
 	stftpordertransferdialog.h
 	printjobprinter.h
 	ordertransfermodel.h
+	publisher.h
+	publisherinfo.h
+	iddesctablemodel.h
+	collectionpoint.h
+	paymenttype.h
+	shippingmethod.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

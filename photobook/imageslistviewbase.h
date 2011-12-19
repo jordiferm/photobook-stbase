@@ -47,7 +47,7 @@ protected:
 	ThumbnailSizeWidget* TSWidget;
 
 public:
-	ImagesListViewBase(QWidget* _Parent = 0, bool _ToolBarOnTop = true);
+	ImagesListViewBase(QWidget* _Parent = 0, bool _ToolBarOnTop = true, Qt::Orientation _Orientation = Qt::Horizontal, bool _CheckDelegate = true);
 	void setPath(const QString& _Path);
 	QString currentPath() const { return CurrentPath; }
 	void setImages(const QFileInfoList& _Images);

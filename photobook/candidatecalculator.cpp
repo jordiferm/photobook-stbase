@@ -123,7 +123,9 @@ void CandidateCalculator::configureDate(TemplateScene* _Template, const QDate& _
 			//Sort Frames by month
 			for (int Vfor = 1; Vfor < MonthFrames.size(); Vfor++)
 			{
-				if (MonthFrames[Vfor]->month() < MonthFrames[Vfor -1]->month())
+				QDate CurrDate(MonthFrames[Vfor]->year(), MonthFrames[Vfor]->month(), 1);
+				QDate BerofeCurrDate(MonthFrames[Vfor -1]->year(), MonthFrames[Vfor -1]->month(), 1);
+				if (CurrDate < BerofeCurrDate)
 				{
 					GraphicsMonthItem* TmpFrame = MonthFrames[Vfor];
 					MonthFrames[Vfor] = MonthFrames[Vfor -1];
@@ -135,9 +137,9 @@ void CandidateCalculator::configureDate(TemplateScene* _Template, const QDate& _
 	}
 
 	QList<GraphicsMonthItem*>::iterator it = MonthFrames.begin();
-	int Middle = MonthFrames.size() / 2;
 	QDate CDate = _Date;
-	CDate = CDate.addMonths(-Middle);
+	if (MonthFrames.size() > 1 && MonthFrames.size() < 4)
+		CDate = CDate.addMonths(-1);
 	while (it != MonthFrames.end())
 	{
 		(*it)->setMonth(CDate.month(), CDate.year());
@@ -146,13 +148,14 @@ void CandidateCalculator::configureDate(TemplateScene* _Template, const QDate& _
 	}
 }
 
-TemplateScene* CandidateCalculator::getDateCandidate(const PageList& _Templates, const QDate& _Date)
+//! Caller becomes owner of result.
+TemplateScene* CandidateCalculator::newDateCandidate(const PageList& _Templates, const QDate& _Date)
 {
 
 	PageList Templates = _Templates;
 	qSort(Templates.begin(), Templates.end()); //Sorted by number of gaps.
 
-	TemplateScene* Res;
+	TemplateScene* Res = 0;
 	PageList::const_iterator it = Templates.begin();
 
 	//Look for a month template with 3 months.
@@ -176,7 +179,8 @@ TemplateScene* CandidateCalculator::getDateCandidate(const PageList& _Templates,
 
 	if (Found)
 	{
-		Res = *it;
+		Res = new TemplateScene;
+		Res->copy(*it);
 		configureDate(Res, _Date);
 	}
 

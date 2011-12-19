@@ -30,6 +30,8 @@
 #include "sterror.h"
 #include "sterrorstack.h"
 #include "sapplication.h"
+#include "shippingmethod.h"
+#include "paymenttype.h"
 
 #define XMLO_CURRENT_VERSION "1.2.0"
 
@@ -160,8 +162,11 @@ class ST_DOM_EXPORT XmlOrderInfo
 public:
 	XmlOrderInfo(const QString& _OrderId, const QString _OrderFilesPath = defaultOrderFilesPath())
 			: OrderId(_OrderId), OrderFilesPath(_OrderFilesPath) {}
+	void setOrderFilesPath(const QString& _Value) { OrderFilesPath = _Value; }
 	QString orderPath() const { return OrderFilesPath + "/" + OrderId + "/"; }
 	QString orderXmlFilePath() const { return orderPath() +  orderXmlFileName(); }
+	QString orderPublisherDbFilePath() const;
+	static QString orderPublisherDbFilePath(const QString& _OrderPath);
 	static QString orderXmlFileName() { return "order.xml"; }
 	static QString defaultOrderPath(const QString& _OrderId) { return defaultOrderFilesPath() + "/" + _OrderId + "/"; }
 	static QString defaultOrderFilesPath() { return SApplication::dbFilesPath() + "/orders"; }
@@ -229,7 +234,9 @@ private:
 	QDateTime SentDateTime;
 	XmlOrderDealer Sender; 
 	XmlOrderDealer Customer;
-	XmlOrderDealer Publisher;
+	XmlOrderDealer CollectionPoint;
+	ShippingMethod SMethod;
+	PaymentType PType;
 	TProductPrints Prints;
 	int Type; 
 	QString Version; 
@@ -286,8 +293,14 @@ public:
 	void setCustomer(const XmlOrderDealer& _Value) { Customer = _Value; }
 	XmlOrderDealer customer() const { return Customer;}
 
-	void setPublisher(const XmlOrderDealer& _Value) { Publisher = _Value; }
-	XmlOrderDealer publisher() const { return Publisher;}
+	void setCollectionPoint(const XmlOrderDealer& _Value) { CollectionPoint = _Value; }
+	XmlOrderDealer collectionPoint() const { return CollectionPoint;}
+
+	void setShippingMethod(const ShippingMethod& _Value) { SMethod = _Value; }
+	ShippingMethod shippingMethod() const { return SMethod; }
+
+	void setPaymentType(const PaymentType& _Value) { PType = _Value; }
+	PaymentType paymentType() const { return PType; }
 	
 	void setType(const int _Type) { Type = _Type; }
 	int type() const { return Type; }
@@ -305,6 +318,9 @@ public:
 	//! Appends _BasePath to all print srcs.
 	void setPrintBasePath(const QString& _BasePath);
 	void clearPrintPath();
+
+	//Products
+	PublisherDatabase orderPublisherDatabase() const;
 
 	//Errors
 	STErrorStack errorStack() const { return ErrorStack; }

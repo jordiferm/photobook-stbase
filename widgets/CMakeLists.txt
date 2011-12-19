@@ -7,6 +7,11 @@ PROJECT(st_widgets)
 INCLUDE_DIRECTORIES( ${st_core_SOURCE_DIR} )
 INCLUDE_DIRECTORIES( ${st_core_BINARY_DIR} )
 
+OPTION(ST_WIDGETS_KINETICSCROLL
+  "Kinetic Scroll support (Requires Qt>=4.6.0)"
+  ON)
+
+
 # --------------------------------------------------------------------------
 # Configure Qt
 
@@ -89,7 +94,28 @@ SET(prj_SRCS
 	sacceptcanceldialog.cpp
 	sptoolbarlistview.cpp
 	thumbnailsizewidget.cpp
+	strecteditwidget.cpp
 )
+
+IF(ST_WIDGETS_KINETICSCROLL)
+	SET(prj_SRCS ${prj_SRCS}
+		qkineticscroller.cpp
+		qscrollareakineticscroller.cpp
+#For Wheel widget
+		qtscroller.cpp
+		qtscrollerfilter.cpp
+		qtscrollerproperties.cpp
+		qtscrollevent.cpp
+		qtflickgesture.cpp
+		wheelwidget.cpp
+	)
+
+	IF(APPLE)
+	SET(prj_SRCS ${prj_SRCS}
+		qkineticscroller_mac.mm
+	)
+	ENDIF(APPLE)
+ENDIF(ST_WIDGETS_KINETICSCROLL)
 
 SET(prj_MOC_HDRS
 #	stwidgetsexport.h
@@ -169,7 +195,27 @@ SET(prj_MOC_HDRS
 	sacceptcanceldialog.h
 	sptoolbarlistview.h
 	thumbnailsizewidget.h
+	strecteditwidget.h
 )
+
+IF(ST_WIDGETS_KINETICSCROLL)
+	SET(prj_MOC_HDRS ${prj_MOC_HDRS}
+		qkineticscroller.h
+		qkineticscroller_p.h
+		qscrollareakineticscroller.h
+#For Wheel widget
+		qtscrollerfilter_p.h
+		qtscroller.h
+		qtscroller_p.h
+		qtscrollerproperties.h
+		qtscrollerproperties_p.h
+		qtscrollevent.h
+		qtscrollevent_p.h
+		qtflickgesture_p.h
+		wheelwidget.h
+	)
+ENDIF(ST_WIDGETS_KINETICSCROLL)
+
 
 QT4_AUTOMOC(${prj_SRCS})
 

@@ -24,6 +24,7 @@
 #include "fgenmanager.h"
 #include "frecordwidget.h"
 #include "stsindarlexport.h"
+#include "templateinfo.h"
 
 /**
 Format management
@@ -104,6 +105,7 @@ public:
 	WProductManager(QWidget* _Parent = 0, const QSqlDatabase& _Database = QSqlDatabase::database());
 	bool localAdded() const { return LocalAdded; }
 	void setLocalAdded(bool _Value);
+	void filterByTemplate(const SPhotoBook::TemplateInfo& _TemplateInfo);
 
 protected slots:
 	void beforeRemoveRow(int , bool& );

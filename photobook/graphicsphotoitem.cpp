@@ -40,12 +40,12 @@
 #include <QUrl>
 #include "resourcemimedata.h"
 
-
 //Controls 
 #include <QToolBar> 
 #include <QAction> 
 #include <QGraphicsProxyWidget> 
 
+#include <QPixmapCache>
 
 #include "updateitemevent.h"
 #include "stimage.h"
@@ -99,7 +99,7 @@ QBrush GraphicsPhotoItem::SelectedBrush(QColor(255,255,255, 150), Qt::Dense6Patt
 
 QSize GraphicsPhotoItem::MaxLowResImageSize(100, 100);
 int GraphicsPhotoItem::LowResImageDPIs = 72;
-QString GraphicsPhotoItem::LowResWarningImage(":/phototemplates/dialog-warning.png");
+QString GraphicsPhotoItem::LowResWarningImage(":/photobook/dialog-warning.png");
 int GraphicsPhotoItem::LowResMinDpis = 100;
 bool GraphicsPhotoItem::TouchInterface = false;
 bool GraphicsPhotoItem::ThresholdMoving = true;
@@ -129,8 +129,8 @@ void GraphicsPhotoItem::createPaintedImage(const Qt::TransformationMode&  _CTran
 	PaintedImage = CurrImage.transformed(ImageMatrix, _CTransformMode);
 	PaintedImage = PaintedImage.scaled(QSize(_MaxResRect.width() * CurrScale, _MaxResRect.height() * CurrScale), AspectRatioMode, _CTransformMode);
 	//If Mask
-	if (CurrScale < 1.0 && !MaskImage.isNull())
-		PaintedImage.setAlphaChannel(MaskImage.scaled(PaintedImage.size()));
+	//if (CurrScale < 1.0 && !MaskImage.isNull())
+	//	PaintedImage.setAlphaChannel(MaskImage.scaled(PaintedImage.size()));
 }
 
 void GraphicsPhotoItem::updateToolTip()
@@ -242,7 +242,6 @@ AbstractGraphicsItem* GraphicsPhotoItem::clone() const
 
 QStringList GraphicsPhotoItem::saveResources(const QDir& _StoreDir, bool _SaveImageRes)
 {
-	qDebug() << "------ QStringList GraphicsPhotoItem::saveResources(const QDir& _StoreDir, bool _SaveImageRes)";
 	QStringList Res;
 	if (!ImageResource.isNull() && _SaveImageRes)
 		Res << ImageResource.save(_StoreDir);
@@ -257,7 +256,7 @@ QStringList GraphicsPhotoItem::saveResources(const QDir& _StoreDir, bool _SaveIm
 
 void GraphicsPhotoItem::setResource(const Resource& _Resource)
 {
-	if (_Resource.type() == Resource::TypeFrameMask)
+	if (_Resource.type() == Resource::TypeMask)
 	{
 		setAlphaChannel(_Resource);
 	}
@@ -268,7 +267,7 @@ void GraphicsPhotoItem::setResource(const Resource& _Resource)
 	}
 }
 
-void GraphicsPhotoItem::setAlphaChannel(const Resource& _Resource, const QImage& _AlphaChannel)
+/*void GraphicsPhotoItem::setAlphaChannel(const Resource& _Resource, const QImage& _AlphaChannel)
 {
 	if (!_Resource.isNull())
 		MaskImage = _AlphaChannel;
@@ -288,17 +287,40 @@ void GraphicsPhotoItem::setAlphaChannel(const Resource& _Resource, const QImage&
 
 	update();
 	modified();
-}
+}*/
 
 void GraphicsPhotoItem::setAlphaChannel(const Resource& _Resource)
 {
-	setAlphaChannel(_Resource, QImage(_Resource.fileInfo().absoluteFilePath()));
+	//setAlphaChannel(_Resource, QImage(_Resource.fileInfo().absoluteFilePath()));
+	MaskResource = _Resource;
+
+	QBrush CurrBrush = brush();
+	QColor EFColor = EmptyFrameColor;
+	if (_Resource.isNull())
+		EFColor.setAlpha(150);
+	else
+		EFColor.setAlpha(0);
+	CurrBrush.setColor(EFColor);
+	setBrush(CurrBrush);
+
+	update();
+	modified();
 }
 
 void GraphicsPhotoItem::setFrameResource(const Resource& _Resource)
 {
 	FrameResource = _Resource;
-	if (!_Resource.isNull())
+	if (FrameResource.isNull())
+		setAlphaChannel(Resource()); //No alpha channel
+	else
+	{
+		QFileInfo FrameMaskFile = Resource::frameMaskFile(_Resource);
+		if (FrameMaskFile.exists())
+			setAlphaChannel(Resource(FrameMaskFile, SPhotoBook::Resource::TypeMask));
+		else
+			setAlphaChannel(Resource());//No Alpha Channel
+	}
+/*	if (!_Resource.isNull())
 	{
 		QString FrameFilePath = _Resource.fileInfo().absoluteFilePath();
 		if (!QFile::exists(FrameFilePath))
@@ -328,9 +350,10 @@ void GraphicsPhotoItem::setFrameResource(const Resource& _Resource)
 	{
 		setAlphaChannel(Resource());
 		FrameImage = QImage();
-	}
+	}*/
 
 	update();
+	modified();
 }
 
 QImage GraphicsPhotoItem::originalPaintedImage()
@@ -707,10 +730,18 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& 
 	PanningPoint.setY(_Element.attribute("panningy", "0").toDouble());
 
 	//Load Frame and masks
-	setFrameResource(Resource::resourceFromXmlSrc(_Element.attribute("frame_src", ""), _LoadDir));
-
+	QString FrameSrc = _Element.attribute("frame_src", "");
+	if (!FrameSrc.isEmpty())
+		setFrameResource(Resource(Resource::fileInfoFromXmlSrc(FrameSrc, _LoadDir), Resource::TypeFrame));
+	//FIXED (11/11/11): resourceFromXmlSrc could not resolve resource type if file don't starts with resource prefix.
+	//setFrameResource(Resource::resourceFromXmlSrc(_Element.attribute("frame_src", ""), _LoadDir));
 	if (FrameResource.isNull()) //Frame and mask are exclusives
-		setAlphaChannel(Resource::Resource::resourceFromXmlSrc(_Element.attribute("mask_src", ""), _LoadDir));
+	{
+		QString MaskSrc = _Element.attribute("mask_src", "");
+		if (!MaskSrc.isEmpty())
+			setAlphaChannel(Resource(Resource::fileInfoFromXmlSrc(MaskSrc, _LoadDir), Resource::TypeMask));
+		//setAlphaChannel(Resource::Resource::resourceFromXmlSrc(_Element.attribute("mask_src", ""), _LoadDir));
+	}
 
 	AbstractGraphicsItem::loadEffectElements(this,  _Element);
 
@@ -811,14 +842,110 @@ QPointF GraphicsPhotoItem::rectPos() const
 
 void GraphicsPhotoItem::setRectPos(const QPointF& _Pos)
 {
-	QRectF newItemRect = QRectF(QPoint(0, 0), rect().size());
-	setRect(newItemRect);
-	setPos(_Pos);
+	setRect(QRectF(_Pos, rect().size()));
+	//QRectF newItemRect = QRectF(QPoint(0, 0), rect().size());
+	//setRect(newItemRect);
+	//setPos(_Pos);
 }
 
 void GraphicsPhotoItem::setRectPos(qreal _X, qreal _Y)
 {
 	setRectPos(QPointF(_X, _Y));
+}
+
+void GraphicsPhotoItem::drawFrameResource(const SPhotoBook::Resource& _Resource, QPainter* _P, const QRectF& _Rect, const QRect& _MaxResRect)
+{
+	if (!_Resource.isNull()) //Defensive
+	{
+		QString FrameFilePath = _Resource.fileInfo().absoluteFilePath();
+		if (!QFile::exists(FrameFilePath))
+			return;
+
+		QPixmap Pixmap;
+		QImage FrameImage;
+		int CacheWidth = cachedWidth(_MaxResRect.width());
+		QString PixmapKey = FrameFilePath + QString::number(CacheWidth); // + QString("%1_%2").arg(_MaxResRect.width()).arg(_MaxResRect.height());
+#if QT_VERSION >= 0x040600
+		if (!QPixmapCache::find(PixmapKey, &Pixmap))
+#else
+		if (!QPixmapCache::find(PixmapKey, Pixmap))
+#endif
+		{
+			FrameImage = QImage(FrameFilePath);
+
+			if (FrameImage.isNull())
+			 return;
+
+
+			//QRectF BRect = boundingRect();
+			FrameImage = FrameImage.scaledToWidth(CacheWidth);
+			QPixmapCache::insert(PixmapKey, QPixmap::fromImage(FrameImage));
+		}
+		else
+			FrameImage = Pixmap.toImage();
+
+		//! PERFORMANCE_HOTPOINT
+		//FIXME: Do the rotation before insert it to cache
+		FrameImage = FrameImage.scaled(QSize(_MaxResRect.width() * CurrScale, _MaxResRect.height() * CurrScale), AspectRatioMode, Qt::SmoothTransformation);
+		if ((_MaxResRect.width() > _MaxResRect.height() && FrameImage.width() < FrameImage.height())
+		 || (_MaxResRect.width() < _MaxResRect.height() && FrameImage.width() > FrameImage.height()))
+		{
+			QMatrix Matrix;
+			Matrix.rotate(90);
+			FrameImage = FrameImage.transformed(Matrix);
+		}
+
+		_P->drawImage(_Rect, FrameImage);
+	}
+}
+
+int GraphicsPhotoItem::cachedWidth(int _Width) const
+{
+	int Res;
+	if (_Width  < 100)
+		Res = 50;
+	else
+	if (_Width < 200)
+		Res = 150;
+	else
+		Res = _Width / 200 * 200;
+	return Res;
+}
+
+QImage GraphicsPhotoItem::loadMaskImage(const QFileInfo& _MaskImage, const QSize& _Size)
+{
+	QPixmap Pixmap;
+	QImage MaskImage;
+	int CacheWidth = cachedWidth(_Size.width());
+	QString PixmapKey = _MaskImage.absoluteFilePath() + QString::number(CacheWidth);
+#if QT_VERSION >= 0x040600
+	if (!QPixmapCache::find(PixmapKey, &Pixmap))
+#else
+	if (!QPixmapCache::find(PixmapKey, Pixmap))
+#endif
+	{
+		MaskImage.load(_MaskImage.absoluteFilePath());
+		if (!MaskImage.isNull())
+		{
+			//QRectF BRect = boundingRect();
+			MaskImage = MaskImage.scaledToWidth(CacheWidth);
+			QPixmapCache::insert(PixmapKey, QPixmap::fromImage(MaskImage));
+		}
+	}
+	else
+		MaskImage = Pixmap.toImage();
+
+	//! PERFORMANCE_HOTPOINT
+	//FIXME: Do the rotation before insert it to cache
+	if ((_Size.width() > _Size.height() && MaskImage.width() < MaskImage.height())
+		|| (_Size.width() < _Size.height() && MaskImage.width() > MaskImage.height()))
+	{
+		QMatrix Matrix;
+		Matrix.rotate(90);
+		MaskImage = MaskImage.transformed(Matrix);
+	}
+	MaskImage = MaskImage.scaled(_Size);
+	return MaskImage;
 }
 
 void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Option, QWidget* )
@@ -832,18 +959,19 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 	if (ImageMode == HiResImageMode)
 		waitForImageLoaded();
 
+
+	QRectF ItemRect = rect();
+
+	//Real size rect to fit in.
+	QMatrix OMatrix = _Option->matrix;
+	//QMatrix OMatrix = QMatrix(); //_Option->matrix;
+	//OMatrix.scale(LevelOfDetailFromTransform(_P->worldTransform()), LevelOfDetailFromTransform(_P->worldTransform()) );
+	if (Modifier->rotation(Qt::ZAxis) != 0)
+		OMatrix.rotate( -Modifier->rotation(Qt::ZAxis));
+	QRect MaxResRect = OMatrix.mapRect(ItemRect).toRect();
+
 	if (!CurrImage.isNull())
 	{
-		QRectF ItemRect = rect();
-
-		//Real size rect to fit in.
-		QMatrix OMatrix = _Option->matrix;
-		//QMatrix OMatrix = QMatrix(); //_Option->matrix;
-		//OMatrix.scale(LevelOfDetailFromTransform(_P->worldTransform()), LevelOfDetailFromTransform(_P->worldTransform()) );
-		if (Modifier->rotation(Qt::ZAxis) != 0)
-			OMatrix.rotate( -Modifier->rotation(Qt::ZAxis));
-		QRect MaxResRect = OMatrix.mapRect(ItemRect).toRect();
-
 		//qDebug("_Option->exposedRect: %f, %f, %f, %f", _Option->exposedRect.x(), _Option->exposedRect.y(), _Option->exposedRect.width(), _Option->exposedRect.height());
 		//qDebug("MaxResRect: %d, %d, %d, %d", MaxResRect.x(), MaxResRect.y(), MaxResRect.width(), MaxResRect.height());
 		//qDebug("Event Pos: %f, %f", Pos.x(), Pos.y());
@@ -887,7 +1015,7 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 			if (-PanningPoint.y() * LevelOfDetail > static_cast<qreal>(PaintedImage.height() - MaxResRect.height()))
 				PanningPoint.setY(- (PaintedImage.height() - MaxResRect.height()) / LevelOfDetail);
 		}
-		if (MaskImage.isNull() && ImageMode != HiResImageMode)
+		if (MaskResource.isNull() && ImageMode != HiResImageMode)
 			_P->drawImage(ItemRect, PaintedImage, ClipRect);
 		else
 		{ //In HiResImageMode there's a problem for example drawing to a PDF printer se we always yse BuffImage to solve it.
@@ -895,8 +1023,9 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 			QPainter Painter(&BuffImage);
 			Painter.drawImage(BuffImage.rect(), PaintedImage, ClipRect);
 			Painter.end();
-			if (!MaskImage.isNull())
-				BuffImage.setAlphaChannel(MaskImage.scaled(BuffImage.size()));
+			if (!MaskResource.isNull())
+				BuffImage.setAlphaChannel(loadMaskImage(MaskResource.fileInfo(), BuffImage.size()));
+				//BuffImage.setAlphaChannel( MaskImage.scaled(BuffImage.size()));
 			_P->drawImage(ItemRect, BuffImage);
 		}
 		QSize Dpis = imageWindowDpis(ItemRect.size(), ClipRect.size().toSize(), PaintedImage.size(), BigImageSize);
@@ -925,10 +1054,12 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 			_P->drawText(TextRect, LowResText);
 		}
 		//Frame Image
-		if (!FrameImage.isNull())
+
+		drawFrameResource(FrameResource, _P, rect(), MaxResRect);
+		/*if (!FrameImage.isNull())
 		{
 			_P->drawImage(rect(), FrameImage);
-		}
+		}*/
 	}
 	else //We could not see frames with mask image and not image.
 	{
@@ -938,8 +1069,12 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 			QImage Img(rect().size().toSize(), QImage::Format_ARGB32_Premultiplied);
 			//QImage Img(rect().size().toSize(), QImage::Format_ARGB32);
 			Img.fill(EFColor.rgb());
-			if (!MaskImage.isNull())
-				Img.setAlphaChannel(MaskImage.scaled(Img.size()));
+
+			if (!MaskResource.isNull())
+				Img.setAlphaChannel(loadMaskImage(MaskResource.fileInfo(), Img.size()));
+
+			//if (!MaskImage.isNull())
+			//	Img.setAlphaChannel(MaskImage.scaled(Img.size()));
 			_P->drawImage(rect(), Img);
 
 			//_P->fillRect(rect(), QBrush(EmptyFrameColor));
@@ -950,10 +1085,11 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 			_P->setPen(QPen(Qt::black));
 			_P->drawText(rect(), Qt::AlignCenter | Qt::TextWordWrap, tr("Drop images here"));
 		}
-		if (!FrameImage.isNull())
+		drawFrameResource(FrameResource, _P, rect(), MaxResRect);
+		/*if (!FrameImage.isNull())
 		{
 			_P->drawImage(rect(), FrameImage);
-		}
+		}*/
 
 	}
 
@@ -1221,9 +1357,9 @@ void GraphicsPhotoItem::setPanningEnabled(bool _Enabled)
 	{
 		PanAct->setChecked(_Enabled);
 		if (_Enabled)
-			PanAct->setIcon(QIcon(":/phototemplates/thumbtack_red_plug_64.png"));
+			PanAct->setIcon(QIcon(":/photobook/thumbtack_red_plug_64.png"));
 		else
-			PanAct->setIcon(QIcon(":/phototemplates/thumbtack_red_unplug_64.png"));
+			PanAct->setIcon(QIcon(":/photobook/thumbtack_red_unplug_64.png"));
 	}
 }
 

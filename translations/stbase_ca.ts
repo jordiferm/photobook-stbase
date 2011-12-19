@@ -5,7 +5,7 @@
     <name>AdvancedEffectFilterManager</name>
     <message>
         <source>Apply advanced filters ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplicar filtres abansats ?</translation>
     </message>
     <message>
         <source>Median filter</source>
@@ -93,7 +93,7 @@
     </message>
     <message>
         <source>&lt;p&gt;Please, configure your &lt;em&gt;Photo Book&lt;/em&gt;?&lt;/p&gt; automatic options:</source>
-        <translation>&lt;p&gt;Si us plau, configuri les opcions automátiques del seu &lt;em&gt;FotoLlibre&lt;/em&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Si us plau, configuri les opcions automátiques del seu &lt;em&gt;FotoLlibre&lt;/em&gt;&lt;/p&gt;:</translation>
     </message>
     <message>
         <source>General</source>
@@ -139,6 +139,14 @@
         <source>To month</source>
         <translation>Fins a mes</translation>
     </message>
+    <message>
+        <source>SubTitle</source>
+        <translation>Sub Títol</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Autor</translation>
+    </message>
 </context>
 <context>
     <name>ChooseCreationModePage</name>
@@ -162,231 +170,112 @@
         <source>Use a predesign</source>
         <translation>Usar un predisseny</translation>
     </message>
-    <message>
-        <source>Error loading predesign</source>
-        <translation>Error carregant predisseny</translation>
-    </message>
 </context>
 <context>
     <name>ChooseCropModePage</name>
     <message>
         <source>&lt;h1&gt;Image adjustment to paper size&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Ajustar la imatge a la mida del paper&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>Please, select the desired policy to fit your images to paper size and press &apos;Next&apos; button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si us plau, selecciona la política d&apos;ajust de les imatges al paper i prem el botó &apos;Següent&apos;.</translation>
     </message>
     <message>
         <source>Crop images that don&apos;t fit to media</source>
-        <translation type="unfinished"></translation>
+        <translation>Retalla les imatges no proporcionals</translation>
     </message>
     <message>
         <source>Leave space to spare as white margins and image aligned to one side</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixa marge blanc a un costat</translation>
     </message>
     <message>
         <source>Leave space to spare as white margins and image centered</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ChooseTemplateModePage</name>
-    <message>
-        <source>&lt;h1&gt;Photo book size&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Which are the &lt;em&gt;Photo Book&lt;/em&gt; sizes?&lt;/p&gt; You have 2 options:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create custom size PhotoBook</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Specify&lt;/b&gt; a custom photobook size. &lt;br/&gt; &lt;em&gt; Note:Suitabe for template creation too.&lt;/em&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create from template</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create photobook using template sizes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixa el marge blanc repartit als costats i la imatge centrada</translation>
     </message>
 </context>
 <context>
     <name>ChooseTemplatePage</name>
     <message>
         <source>&lt;h1&gt;Getting info from internet.&lt;/h1&gt;</source>
-        <translation type="unfinished">&lt;h1&gt;Obtinguent informació d&apos;internet.&lt;/h1&gt;</translation>
+        <translation>&lt;h1&gt;Obtinguent informació d&apos;internet.&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;h1&gt;There is no information for this item.&lt;/h1&gt;</source>
-        <translation type="unfinished">&lt;h1&gt;No hi ha informació per a aquest element.&lt;/h1&gt;</translation>
+        <translation>&lt;h1&gt;No hi ha informació per a aquest element.&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;h1&gt;Template selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Selecció de la plantilla&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>The &lt;em&gt;Photo Book&lt;/em&gt; template defines the photobook features like size, number of pages, layouts, etc... &lt;/br&gt; Use the following list to choose the template that you want for your &lt;em&gt;Photo Book&lt;/em&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PhotoBook</source>
-        <translation type="unfinished">FotoLlibre</translation>
-    </message>
-    <message>
-        <source>Calendar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Card</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IdPhoto</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>MultiPhoto</source>
-        <translation type="unfinished"></translation>
+        <translation>La plantilla del  defineix característiques del &lt;em&gt;Foto Llibre&lt;/em&gt;  com les seves mides, el número de pàgines, les distribucions, etc...&lt;/br&gt;Selecciona de la llista que tens a continuació la plantilla que desitges per el teu &lt;em&gt;Foto Llibre&lt;/em&gt; </translation>
     </message>
     <message>
         <source>Size:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Themes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida:</translation>
     </message>
     <message>
         <source>&lt;h2&gt;There is no templates of this type.&lt;/h2&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;No hi ha plantilles d&apos;aquest tipus.&lt;/h2&gt;</translation>
     </message>
     <message>
-        <source>Information:</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;h2&gt;Please, select a template from the list.&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Si us plau seleccioni un producte de la llista de productes.&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <source>Products:</source>
+        <translation>Productes:</translation>
     </message>
 </context>
 <context>
     <name>CropFixesWidget</name>
     <message>
         <source>Select a dimension bellow and then click and drag on the image to define the region you wish to crop. When you are shure click &lt;b&gt;Apply&lt;/b&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona una mida a sota i llavors arrossega el cursor sobre la imatge per definir la regió que vols retallar. Per finalitzar prem &lt;b&gt;Aplicar&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Crop</source>
-        <translation type="unfinished"></translation>
+        <translation>Retallar</translation>
     </message>
     <message>
         <source>Selection standard proportion</source>
-        <translation type="unfinished"></translation>
+        <translation>Proporció de la selecció</translation>
     </message>
     <message>
         <source>Selection size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida de seleccio</translation>
     </message>
 </context>
 <context>
-    <name>CustomSizesPage</name>
+    <name>DefaultDbSelectionDialog</name>
     <message>
-        <source> mm</source>
-        <translation type="unfinished"></translation>
+        <source>Publisher default database creation</source>
+        <translation>Creació de la base de dades de l&apos;editor per defecte</translation>
     </message>
     <message>
-        <source>&lt;h1&gt;Photo Book sizes&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Please specify the new &lt;em&gt;Photo Book&lt;/em&gt; sizes and features&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="unfinished">Amplada</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <translation type="unfinished">Altura</translation>
-    </message>
-    <message>
-        <source>Margin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout</source>
-        <translation type="unfinished">Distribució</translation>
-    </message>
-    <message>
-        <source>Single Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Double Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Valid pages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>First page is editable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Last page is editable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Min. Pages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max. Pages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>DPIS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error saving photobook template</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;New Photo Book Name: &lt;/h3&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;h2&gt;Please, select one of the following options:&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Si us plau, seleccioni una de les següents opcions:&lt;/h2&gt;</translation>
     </message>
 </context>
 <context>
     <name>DestinationPropertiesPage</name>
     <message>
         <source>&lt;h1&gt;Select disk folder&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Selecció de carpeta a disc&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;The program generates images inside this folder.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;El programa genera imatges dins aquesta carpeta.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Output format: </source>
-        <translation type="unfinished"></translation>
+        <translation>Format de sortida:</translation>
     </message>
     <message>
         <source>Folder name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de la carpeta: </translation>
     </message>
 </context>
 <context>
@@ -3675,22 +3564,22 @@ Num</source>
     </message>
     <message>
         <source>Related format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format relacionat</translation>
     </message>
 </context>
 <context>
     <name>OBigImagePreviewWidget</name>
     <message>
         <source>Exclude</source>
-        <translation type="unfinished"></translation>
+        <translation>Excloure</translation>
     </message>
     <message>
         <source>Include</source>
-        <translation type="unfinished"></translation>
+        <translation>Incloure</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Anterior</translation>
+        <translation>Anterior</translation>
     </message>
 </context>
 <context>
@@ -3784,7 +3673,7 @@ Num</source>
     <name>OEditorActionsWidget</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Anterior</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <source>Back to collection manager.</source>
@@ -3973,94 +3862,7 @@ Num</source>
     </message>
 </context>
 <context>
-    <name>OMarketPlaceDialog</name>
-    <message>
-        <source>&lt;h3&gt;New items to install&lt;/h3&gt;</source>
-        <translation>&lt;h3&gt;Nous elements a instal·lar&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation>Instal·lar</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Installed items&lt;/h3&gt;</source>
-        <translation>&lt;h3&gt;Elements instal·lats&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>Uninstall</source>
-        <translation>Desinstal·lar</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Updates for installed items&lt;/h3&gt;</source>
-        <translation>&lt;h3&gt;Actualitzacions per els elements instal·lats&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation>Actualitzar</translation>
-    </message>
-    <message>
-        <source>&lt;h1&gt;Getting info from internet.&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Obtinguent informació d&apos;internet.&lt;/h1&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h1&gt;There is no information for this item.&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;No hi ha informació per a aquest element.&lt;/h1&gt;</translation>
-    </message>
-    <message>
-        <source>Uninstalling Marketplace items</source>
-        <translation>Desinstalant elements del mercat</translation>
-    </message>
-    <message>
-        <source>Are you sure that you want to remove the package %1 from your computer ?</source>
-        <translation>N&apos;estas segur que vols eliminar el paquet %1 d&apos;aquest ordinador ?</translation>
-    </message>
-    <message>
-        <source>Installing Marketplace items</source>
-        <translation>Instalant elements del mercat</translation>
-    </message>
-    <message>
-        <source>Package has been successfull removed.</source>
-        <translation>El paquet s&apos;ha eliminat satisfactòriament.</translation>
-    </message>
-    <message>
-        <source>Error installing Marketplace items</source>
-        <translation>Error instal·lant elements del mercat</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;Installing items, please wait...&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;Instal·lant elements, s.u.p. esperi...&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <source>Installing marketplace items</source>
-        <translation>Instal·lant elements del mercat</translation>
-    </message>
-    <message>
-        <source>Package has been successfull installed.</source>
-        <translation>El paquet s&apos;ha instal·lat satisfactòriament.</translation>
-    </message>
-    <message>
-        <source>Error installing marketplace items</source>
-        <translation>Error instal·lant elements del mercat</translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation>Nous</translation>
-    </message>
-    <message>
-        <source>Installed</source>
-        <translation>Instal·lats</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;There are no items.&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;No hi ha elements.&lt;/h2&gt;</translation>
-    </message>
-</context>
-<context>
     <name>OPWAbstractChooseProduct</name>
-    <message>
-        <source>Could not load settings file: %1</source>
-        <translation>No puc obrir l&apos;arxiu de configuració: %1</translation>
-    </message>
     <message>
         <source>Could not open publisher database file %1</source>
         <translation>No puc obrir l&apos;arxiu de la base de dades de l&apos;editor %1</translation>
@@ -4074,169 +3876,191 @@ Num</source>
     <name>OPWChooseAtomicProduct</name>
     <message>
         <source>&lt;h1&gt;PhotoBook selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Selecció de fotollibre&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>Please select a photobook from the list bellow. And the number of photobook copies.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si us plau, selecciona un fotollibre de la següent llista. I el número de copies.</translation>
     </message>
     <message>
         <source>Number of copies:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de copies:</translation>
     </message>
     <message>
         <source>Modelo:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error in sync process</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error getting publisher data</source>
-        <translation type="unfinished"></translation>
+        <translation>Model:</translation>
     </message>
     <message>
         <source>Error getting product</source>
-        <translation type="unfinished"></translation>
+        <translation>Error obtinguent producte</translation>
+    </message>
+    <message>
+        <source>&lt;h1&gt;The process could not continue due to an error&lt;/h1&gt;</source>
+        <translation>&lt;h1&gt;El procés no pot continuar per culpa d&apos;un error&lt;/h1&gt;</translation>
     </message>
 </context>
 <context>
     <name>OPWChooseDigiprintProduct</name>
     <message>
         <source>Error in sync process</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error getting publisher data</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al procés de sincronització</translation>
     </message>
     <message>
         <source>&lt;h1&gt;Image selection page&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Pàgina de selecció d&apos;imatges&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>Here you can select and edit printed images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>OPWChoosePublisher</name>
-    <message>
-        <source>&lt;h1&gt;Publisher selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquí pots seleccionar i modificar les imatges que s&apos;han d&apos;imprimir.</translation>
     </message>
     <message>
-        <source>Please select the publisher you want to order your prints from the list bellow.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Template list:</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;h1&gt;The process could not continue due to an error&lt;/h1&gt;</source>
+        <translation>&lt;h1&gt;El procés no pot continuar per culpa d&apos;un error&lt;/h1&gt;</translation>
     </message>
 </context>
 <context>
     <name>OPWChooseSendMode</name>
     <message>
         <source>&lt;h1&gt;Send mode selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Selecció del mode d&apos;enviament&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;How do you want to send your order?&lt;/p&gt; You have 2 options:</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Com vols enviar el teu pedido?&lt;/p&gt; Tens 2 opcions:</translation>
     </message>
     <message>
         <source>Store it to a folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar-lo a una carpeta</translation>
     </message>
     <message>
         <source>Store it to a &lt;b&gt;Pen drive&lt;/b&gt; folder and bring it personaly to your publisher store.</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar la comanda a una carpeta de un &quot;&lt;b&gt;Pen drive&lt;/b&gt;&quot; i portar-lo personalment a la botiga.</translation>
     </message>
     <message>
         <source>Sent it via internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar-lo per internet</translation>
     </message>
     <message>
         <source>Automatically sent it to your store via internet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>OPWChooseShippingMethod</name>
-    <message>
-        <source>&lt;h1&gt;Shipping method selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please select a shipping method from the list bellow.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shipping methods :</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar automàticament la comanda a la botiga per internet.</translation>
     </message>
 </context>
 <context>
     <name>OPWConfirmOrder</name>
     <message>
         <source>&lt;h1&gt;Please confirm your order&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Si us plau, confirma la teva comanda&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>Below you can see your order bill. Please check it and if all its ok click confirm button. Once you confirm your order all the data will be sent to your provider. Thank you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aqui sota pots veure la factura de la teva comanda. Si us plau, comprova que tot sigui correcte i prem el botó de confirmació. Un cop confirmada la comanda serà enviada al teu proveidor. Gràcies.</translation>
     </message>
     <message>
         <source>Order comments:</source>
-        <translation type="unfinished"></translation>
+        <translation>Comentaris de la comanda:</translation>
     </message>
     <message>
         <source>Customer data</source>
-        <translation type="unfinished"></translation>
+        <translation>Dades del client</translation>
     </message>
     <message>
         <source>&lt;b&gt;Name:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Nom:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;Address:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Direcció:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;Cp/Zip:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Cp/Zip:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;City:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Ciutat:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;State:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Província:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;Country:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;País:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Storing images...</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardant imatges...</translation>
     </message>
     <message>
         <source>Storage folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Carpeta d&apos;emmagatzemage</translation>
     </message>
     <message>
         <source>Please select the folder to store your order</source>
-        <translation type="unfinished"></translation>
+        <translation>Si us plau seleccioneu la carpeta on voleu deixar la comanda</translation>
     </message>
     <message>
         <source>Error storing images</source>
-        <translation type="unfinished"></translation>
+        <translation>Error desant imatges</translation>
     </message>
     <message>
         <source>There was problems getting images to send. Please try again.</source>
+        <translation>Hi ha hagut un problema obtinguent les imatges que s&apos;han d&apos;enviar. Si us plau prova-ho de nou.</translation>
+    </message>
+    <message>
+        <source>Contact</source>
+        <translation type="unfinished">Contacte</translation>
+    </message>
+    <message>
+        <source>Modify</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shippment options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By Post</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collect In Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shipping Method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order invoice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Tel:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4244,59 +4068,59 @@ Num</source>
     <name>OPWUserDataPage</name>
     <message>
         <source>Enter or modify User Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Entri o modifiqui les dades de l&apos;usuari</translation>
     </message>
     <message>
         <source>Please enter your personal data or verify if it is correct. This data will be attached to your order to inform the order supplier.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si us plau entri les seves dades personals i verifiqui que son correctes. Aquestes dades s&apos;enviaràn juntament amb la seva comanda al proveidor.</translation>
     </message>
     <message>
         <source>&lt;b&gt;Name:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Nom:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;Surname:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Cognoms:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Contact</source>
-        <translation type="unfinished"></translation>
+        <translation>Contacte</translation>
     </message>
     <message>
         <source>e-mail:</source>
-        <translation type="unfinished"></translation>
+        <translation>e-mail:</translation>
     </message>
     <message>
         <source>&lt;b&gt;Phone:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Teléfon:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Mobile phone:</source>
-        <translation type="unfinished"></translation>
+        <translation>Telèfon mòbil:</translation>
     </message>
     <message>
         <source>Send Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Direcció d&apos;envio</translation>
     </message>
     <message>
         <source>&lt;b&gt;Address:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Direcció:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;Cp/Zip:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Cp/Zip:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;City:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Ciutat:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;Country:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;País:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;State:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Província:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Other data</source>
@@ -4315,12 +4139,12 @@ Num</source>
     <name>OPWWelcomePage</name>
     <message>
         <source>&lt;h1&gt;Welcome to Starblitz Order Print wizard&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Benvingut a l&apos;assistent d&apos;impressió de comandes de Starblitz&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>This wizard will walk you throw the process of sending your photos to your publisher.
  Click the &apos;Next&apos; button to begin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquest asistent et guiará durant el procés per enviar les teves fotografies al teu proveidor. Fes clic a &apos;Següent&apos; per començár.</translation>
     </message>
 </context>
 <context>
@@ -4335,51 +4159,51 @@ Num</source>
     <message>
         <source>Id</source>
         <comment>i.e: file name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Id</translation>
     </message>
     <message>
         <source>C.Date</source>
         <comment>i.e: creation datetime</comment>
-        <translation type="unfinished"></translation>
+        <translation>Data</translation>
     </message>
     <message>
         <source>Size</source>
         <comment>i.e: file size</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mida</translation>
     </message>
     <message>
         <source>State</source>
         <comment>i.e: Connecting</comment>
-        <translation type="unfinished"></translation>
+        <translation>Estat</translation>
     </message>
     <message>
         <source>Overall Progress</source>
         <comment>i.e: % downloaded</comment>
-        <translation type="unfinished"></translation>
+        <translation>Procés global</translation>
     </message>
     <message>
         <source>UP Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation type="unfinished"></translation>
+        <translation>Velocitat de pujada</translation>
     </message>
     <message>
         <source>Priority</source>
         <comment>i.e: order number</comment>
-        <translation type="unfinished"></translation>
+        <translation>Prioritat</translation>
     </message>
     <message>
         <source>Key</source>
         <comment>i.e: 0000046</comment>
-        <translation type="unfinished">Clau</translation>
+        <translation>Clau</translation>
     </message>
     <message>
         <source>ETA</source>
         <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation type="unfinished"></translation>
+        <translation>Temps estimat</translation>
     </message>
     <message>
         <source>Waiting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Esperant...</translation>
     </message>
 </context>
 <context>
@@ -4987,10 +4811,6 @@ El node arrel no es un reportatge.</translation>
         <translation>Error carregant imatge %1</translation>
     </message>
     <message>
-        <source>Error copying file %1 -&gt; %2</source>
-        <translation>Error copiant arxiu %1 -&gt; %2</translation>
-    </message>
-    <message>
         <source>Order Invoice</source>
         <translation>Factura de la comanda</translation>
     </message>
@@ -5157,22 +4977,6 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>Revert to Original</source>
         <translation>Tornar a l&apos;Original</translation>
-    </message>
-    <message>
-        <source>Could not open file %1 for database export: %2</source>
-        <translation>No puc obrir l&apos;arxiu %1 per a exportar a la base de dades: %2</translation>
-    </message>
-    <message>
-        <source>OMarketplace Info</source>
-        <translation>Informació del mercat</translation>
-    </message>
-    <message>
-        <source>There are new items in the market. Do you want to view them ?</source>
-        <translation>Hi ha nous elements al mercat. Vols veurel&apos;s ?</translation>
-    </message>
-    <message>
-        <source>Not now</source>
-        <translation>No ara</translation>
     </message>
     <message>
         <source>No Description</source>
@@ -5476,6 +5280,134 @@ El node arrel no es un reportatge.</translation>
         <source>Graphics Effect</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Could not database %1 for database export.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error opening publisher database %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving file: %1</source>
+        <translation type="unfinished">Errada desant l&apos;arxiu %1</translation>
+    </message>
+    <message>
+        <source>Error loading file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wrong file type loading %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PhotoBook</source>
+        <translation>FotoLlibre</translation>
+    </message>
+    <message>
+        <source>Calendar</source>
+        <translation>Calendari</translation>
+    </message>
+    <message>
+        <source>Card</source>
+        <translation>Tarjeta</translation>
+    </message>
+    <message>
+        <source>Id Photo</source>
+        <translation>Foto Carnet</translation>
+    </message>
+    <message>
+        <source>MultiPhoto</source>
+        <translation>Multi foto</translation>
+    </message>
+    <message>
+        <source>Saving Model...</source>
+        <translation>Salvant el model...</translation>
+    </message>
+    <message>
+        <source>There was errors storing images: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading Photo Book from file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error setting document content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving resource file: %1 -&gt; %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Images (*.png *.xpm *.jpg)</source>
+        <translation type="unfinished">Imatges (*.png *.xmp *.jpg)</translation>
+    </message>
+    <message>
+        <source>Clipart (*.svg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frames (*.png)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Masks (*.png)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frame Mask (framemask_*.png)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>True Type Font (*.ttf)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error importing templates, template metainfo does not exist: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error importing template, template already exist: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error, could not create dir path %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error copying dir from %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not copy Publisher Database file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open products database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting design files...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error updating templates %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating dir %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Title</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -5486,6 +5418,38 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>unknown</source>
         <translation>desconegut</translation>
+    </message>
+</context>
+<context>
+    <name>QwwColorButton</name>
+    <message>
+        <source>Custom color</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QwwColorButtonPrivate</name>
+    <message>
+        <source>Choose color</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QwwColorPopup</name>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QwwRichTextEdit</name>
+    <message>
+        <source>Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5503,6 +5467,17 @@ El node arrel no es un reportatge.</translation>
     <name>RedEyeFixesWidget</name>
     <message>
         <source>Click, hold, and drag the mouse around the eyes regions. Once you have selected it you can press &lt;b&gt;Apply&lt;/b&gt; button. The picture then will be displayed with the red eye removed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SAcceptCancelDialog</name>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished">Ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5566,19 +5541,19 @@ El node arrel no es un reportatge.</translation>
     <name>SPImagesListView</name>
     <message>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escritori</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Disc</translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colecció</translation>
     </message>
     <message>
         <source>Select Folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selecciona carpeta</translation>
     </message>
     <message>
         <source>Image(s)</source>
@@ -5586,7 +5561,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Please select a directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Si us plau, selecciona un directori</translation>
     </message>
 </context>
 <context>
@@ -5624,6 +5599,443 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>There are no %1</source>
         <translation>No hi ha %1</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::DesignInfoTableModel</name>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versió</translation>
+    </message>
+    <message>
+        <source>Public Version</source>
+        <translation>Versió pública</translation>
+    </message>
+    <message>
+        <source>On Disk</source>
+        <translation>És a disc</translation>
+    </message>
+    <message>
+        <source>Public</source>
+        <translation>Public</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::Document</name>
+    <message>
+        <source>Error creating path %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Document::removePage Range Checking Error.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>failed to open PDF file: %1, is it writable?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating Photo Book Path %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error saving photo book thumbnail at: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rendering, please wait...</source>
+        <translation type="unfinished">Generant, si us plau espereu...</translation>
+    </message>
+    <message>
+        <source>Rendering in progress...</source>
+        <translation type="unfinished">Generació en procés...</translation>
+    </message>
+    <message>
+        <source>There was problems storing the following files: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Post processing, please wait...</source>
+        <translation type="unfinished">Post processat, si us plau espereu...</translation>
+    </message>
+    <message>
+        <source>Post processing in progress...</source>
+        <translation type="unfinished">Post processat en procés...</translation>
+    </message>
+    <message>
+        <source>Error in print preprocess. Error loading file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in print preprocess. Error removing file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template is for first page only.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template is not for first page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The model contains empty frames. Please delete or fill it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The model should have the number of pages in multiple of %1</source>
+        <translation type="unfinished">El model ha de tenir un número de pàgines múltiples de %1</translation>
+    </message>
+    <message>
+        <source>The Model must have at least %1 pages</source>
+        <translation type="unfinished">El model ha de tindre almenys %1 pàgines</translation>
+    </message>
+    <message>
+        <source>Error creating calendar: No candidates found</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::DocumentViewWidget</name>
+    <message>
+        <source>Model cover</source>
+        <translation>Portada de model</translation>
+    </message>
+    <message>
+        <source>Sheet %1 of %2 </source>
+        <translation>Fulla %1 de %2</translation>
+    </message>
+    <message>
+        <source>From %1 to %2 Pages</source>
+        <translation>Desde %1 a %2 pàgines</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::GraphicsMonthItem</name>
+    <message>
+        <source>January</source>
+        <translation>Gener</translation>
+    </message>
+    <message>
+        <source>February</source>
+        <translation>Febrer</translation>
+    </message>
+    <message>
+        <source>March</source>
+        <translation>Març</translation>
+    </message>
+    <message>
+        <source>April</source>
+        <translation>Abril</translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation>Maig</translation>
+    </message>
+    <message>
+        <source>June</source>
+        <translation>Juny</translation>
+    </message>
+    <message>
+        <source>July</source>
+        <translation>Juliol</translation>
+    </message>
+    <message>
+        <source>August</source>
+        <translation>Agost</translation>
+    </message>
+    <message>
+        <source>September</source>
+        <translation>Setembre</translation>
+    </message>
+    <message>
+        <source>October</source>
+        <translation>Octubre</translation>
+    </message>
+    <message>
+        <source>November</source>
+        <translation>Novembre</translation>
+    </message>
+    <message>
+        <source>December</source>
+        <translation>Desembre</translation>
+    </message>
+    <message>
+        <source>Mon</source>
+        <translation>DL</translation>
+    </message>
+    <message>
+        <source>Tue</source>
+        <translation>DM</translation>
+    </message>
+    <message>
+        <source>Wed</source>
+        <translation>DC</translation>
+    </message>
+    <message>
+        <source>Thu</source>
+        <translation>DJ</translation>
+    </message>
+    <message>
+        <source>Fri</source>
+        <translation>DV</translation>
+    </message>
+    <message>
+        <source>Sat</source>
+        <translation>DS</translation>
+    </message>
+    <message>
+        <source>Sun</source>
+        <translation>DU</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::GraphicsPhotoItem</name>
+    <message>
+        <source>Low resolution (%1 Dpis)</source>
+        <translation>Baixa resolució (%1 Dpis)</translation>
+    </message>
+    <message>
+        <source>Drop images here</source>
+        <translation>Arrosega imatges aquí</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::ImageBoxListView</name>
+    <message>
+        <source>Remove</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <source>Select All (Ctrl+A)</source>
+        <translation>Seleccionar totes (Ctrl+A)</translation>
+    </message>
+    <message>
+        <source>Image(s)</source>
+        <translation>Imatge(s)</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::ImagesListView</name>
+    <message>
+        <source>Desktop</source>
+        <translation>Escritori</translation>
+    </message>
+    <message>
+        <source>Disk</source>
+        <translation>Disc</translation>
+    </message>
+    <message>
+        <source>Collection</source>
+        <translation>Colecció</translation>
+    </message>
+    <message>
+        <source>Select Folder</source>
+        <translation>Selecciona carpeta</translation>
+    </message>
+    <message>
+        <source>Image(s)</source>
+        <translation>Imatge(s)</translation>
+    </message>
+    <message>
+        <source>Please, select a directory with Images.</source>
+        <translation>Si us plau, seleccioni un directori amb imatges.</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::ImagesListViewBase</name>
+    <message>
+        <source>Select All (Ctrl+A)</source>
+        <translation>Seleccionar totes (Ctrl+A)</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::MetaInfoWidget</name>
+    <message>
+        <source>Reset to defaults</source>
+        <translation>Assignar valors per defecte</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Ajuda</translation>
+    </message>
+    <message>
+        <source>&amp;Save</source>
+        <translation>&amp;Desar</translation>
+    </message>
+    <message>
+        <source>&amp;Load</source>
+        <translation>&amp;Obrir</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>Design name</source>
+        <translation>Nom del disseny</translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation>Imatge</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripció</translation>
+    </message>
+    <message>
+        <source>PhotoBook</source>
+        <translation>FotoLlibre</translation>
+    </message>
+    <message>
+        <source>Calendar</source>
+        <translation>Calendari</translation>
+    </message>
+    <message>
+        <source>Card</source>
+        <translation>Tarjeta</translation>
+    </message>
+    <message>
+        <source>IdPhoto</source>
+        <translation>Foto carnet</translation>
+    </message>
+    <message>
+        <source>MultiPhoto</source>
+        <translation>Multi foto</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipus</translation>
+    </message>
+    <message>
+        <source>Width</source>
+        <translation>Amplada</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>Altura</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versió</translation>
+    </message>
+    <message>
+        <source>Cyphered</source>
+        <translation>Xifrat</translation>
+    </message>
+    <message>
+        <source>Print page width</source>
+        <translation>Amplada d&apos;impressió de pàgina</translation>
+    </message>
+    <message>
+        <source>Print page height</source>
+        <translation>Altura d&apos;impressió de pàgina</translation>
+    </message>
+    <message>
+        <source>Dpis</source>
+        <translation>Dpis</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>Horizontal BookLet</source>
+        <translation>Llibret horitzontal</translation>
+    </message>
+    <message>
+        <source>Vertical BookLet</source>
+        <translation>Llibret vertical</translation>
+    </message>
+    <message>
+        <source>Multiply</source>
+        <translation>Multiplicar</translation>
+    </message>
+    <message>
+        <source>Print Preprocess type</source>
+        <translation>Tipus de preprocessat d&apos;impressió</translation>
+    </message>
+    <message>
+        <source>Mod Pages</source>
+        <translation>Num Pàgines múltiples de </translation>
+    </message>
+    <message>
+        <source>Max Pages</source>
+        <translation>Màxim de pàgines</translation>
+    </message>
+    <message>
+        <source>Min Pages</source>
+        <translation>Mínim de pàgines</translation>
+    </message>
+    <message>
+        <source>MultiPhoto selection</source>
+        <translation>Selecció múltiple</translation>
+    </message>
+    <message>
+        <source>Prefer min pages</source>
+        <translation>Preferir el mínim d&apos;imatges</translation>
+    </message>
+    <message>
+        <source>Is Atomic</source>
+        <translation>Es atòmic</translation>
+    </message>
+    <message>
+        <source>Optimal images per page</source>
+        <translation>Número òptim d&apos;imatges per pàgina</translation>
+    </message>
+    <message>
+        <source>Auto generate layouts</source>
+        <translation>Generar les distribucions automàticament</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
+        <source>Render info</source>
+        <translation>Informació de renderitzat</translation>
+    </message>
+    <message>
+        <source>Behavior info</source>
+        <translation>Informació de comportament</translation>
+    </message>
+    <message>
+        <source>Cover Margins</source>
+        <translation>Marge de portada</translation>
+    </message>
+    <message>
+        <source>Cover Spine Margins</source>
+        <translation>Marge del llom</translation>
+    </message>
+    <message>
+        <source>Page Margins</source>
+        <translation>Marge de pàgina</translation>
+    </message>
+    <message>
+        <source>User interface</source>
+        <translation>Interfície d&apos;usuari</translation>
+    </message>
+    <message>
+        <source>noname</source>
+        <translation>sensenom</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::PageThumbnailModel</name>
+    <message>
+        <source>Sheet %1</source>
+        <translation>Fulla %1</translation>
+    </message>
+</context>
+<context>
+    <name>SPhotoBook::ResourceStorage</name>
+    <message>
+        <source>Error storing mask image &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5668,13 +6080,6 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>From %1 to %2 Pages</source>
         <translation>Desde %1 a %2 pàgines</translation>
-    </message>
-</context>
-<context>
-    <name>STAlbumWizard</name>
-    <message>
-        <source>Error loading template</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5779,18 +6184,29 @@ El node arrel no es un reportatge.</translation>
     <name>STDom::DDocModel</name>
     <message>
         <source>File:</source>
-        <translation type="unfinished">Arxiu:</translation>
+        <translation>Arxiu:</translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation type="unfinished">Modificat:</translation>
+        <translation>Modificat:</translation>
+    </message>
+</context>
+<context>
+    <name>STDom::IdDescTableModel</name>
+    <message>
+        <source>Id</source>
+        <translation>Id</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripció</translation>
     </message>
 </context>
 <context>
     <name>STDom::PrintJobModel</name>
     <message>
         <source>Low res</source>
-        <translation type="unfinished">Baixa res</translation>
+        <translation>Baixa res</translation>
     </message>
 </context>
 <context>
@@ -5844,10 +6260,6 @@ El node arrel no es un reportatge.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Could not open publisher info file %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Could not connect to host: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5860,11 +6272,15 @@ El node arrel no es un reportatge.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Time out Error closing connection.</source>
+        <source>File size check failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File size check failed</source>
+        <source>Downloading files from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uploading files from %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5935,7 +6351,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Big view</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista gran</translation>
     </message>
 </context>
 <context>
@@ -6054,35 +6470,35 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>December</source>
-        <translation>Decembre</translation>
+        <translation>Desembre</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation>Dil</translation>
+        <translation>DL</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation>Dim</translation>
+        <translation>DM</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation>Dcs</translation>
+        <translation>DC</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation>Dij</translation>
+        <translation>DJ</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation>Div</translation>
+        <translation>DV</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation>Dis</translation>
+        <translation>DS</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation>Diu</translation>
+        <translation>DG</translation>
     </message>
 </context>
 <context>
@@ -6137,11 +6553,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Order Prints Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error getting publisher data</source>
-        <translation type="unfinished"></translation>
+        <translation>Asistent de comanda d&apos;impressió</translation>
     </message>
 </context>
 <context>
@@ -6262,7 +6674,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mida</translation>
     </message>
     <message>
         <source>Width</source>
@@ -6305,38 +6717,38 @@ El node arrel no es un reportatge.</translation>
     <name>STPWImageSelectionPage</name>
     <message>
         <source>&lt;h1&gt;Image selection page&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Pàgina de selecció d&apos;imatges&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>Here you can select and edit printed images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquí pots seleccionar i modificar les imatges que s&apos;han d&apos;imprimir.</translation>
     </message>
 </context>
 <context>
     <name>STPWPrintingPage</name>
     <message>
         <source>&lt;h1&gt;Printing photos&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Imprimint fotos&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>Press the &apos;Finish&apos; button to print your photos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prem &apos;Finalitzar per a imprimir les teves fotos.</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista prèvia</translation>
     </message>
     <message>
         <source>Printing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimint...</translation>
     </message>
     <message>
         <source>Print Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistent d&apos;impressió</translation>
     </message>
     <message>
         <source>There were errors while printing</source>
-        <translation type="unfinished"></translation>
+        <translation>Hi ha hagut errors durant la impressió</translation>
     </message>
 </context>
 <context>
@@ -6419,11 +6831,11 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>The model should have the number of pages in multiple of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>El model ha de tenir un número de pàgines múltiples de %1</translation>
     </message>
     <message>
         <source>The Model must have at least %1 pages</source>
-        <translation type="unfinished"></translation>
+        <translation>El model ha de tindre almenys %1 pàgines</translation>
     </message>
 </context>
 <context>
@@ -6451,26 +6863,45 @@ El node arrel no es un reportatge.</translation>
     <name>STPrintJobWizard</name>
     <message>
         <source>Print Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistent d&apos;impressió</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <source>There are no selected copies of &apos;%1&apos; product, please select a different product</source>
-        <translation type="unfinished"></translation>
+        <translation>No hi ha cópies seleccionades del producte &apos;%1&apos; , si us plau selecciona un producte diferent</translation>
+    </message>
+</context>
+<context>
+    <name>STRectEditWidget</name>
+    <message>
+        <source>Top:</source>
+        <translation>Superior:</translation>
+    </message>
+    <message>
+        <source>Left:</source>
+        <translation>Esquerra:</translation>
+    </message>
+    <message>
+        <source>Bottom:</source>
+        <translation>Inferior:</translation>
+    </message>
+    <message>
+        <source>Right:</source>
+        <translation>Dret:</translation>
     </message>
 </context>
 <context>
     <name>STSenderSettingsDialog</name>
     <message>
         <source>User Settings Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Asistent de configuració d&apos;usuari</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished">Confirmar</translation>
+        <translation>Confirmar</translation>
     </message>
 </context>
 <context>
@@ -6676,23 +7107,23 @@ El node arrel no es un reportatge.</translation>
     <name>SelectDiskFolderPage</name>
     <message>
         <source>&lt;h1&gt;Image selection&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Selecció d&apos;imatges&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;Please choose your PhotoBook images. Drag&amp;Drop them to the list at the bottom.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Si us plau , selecciona les imatges que vols per el teu fotollibre arrossegant &amp;i desant a la llista de baix de tot.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Source Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Imatges origen</translation>
     </message>
     <message>
         <source>PhotoBook Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Imatges del llibre</translation>
     </message>
     <message>
         <source>Optimal image number: &lt;span style=&quot;font-size:20px;&quot;&gt;&lt;font color=%1&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/font&gt;&lt;/span&gt;, Images per page: &lt;span style=&quot;font-size:20px;&quot;&gt;&lt;font  color=%1&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/font&gt;&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Num óptim d&apos;imatges:&lt;span style=&quot;font-size:20px;&quot;&gt;&lt;font color=%1&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/font&gt;&lt;/span&gt;, Imatges per pàg: &lt;span style=&quot;font-size:20px;&quot;&gt;&lt;font  color=%1&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/font&gt;&lt;/span&gt;</translation>
     </message>
 </context>
 <context>
@@ -6741,6 +7172,33 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>Adjusted</source>
         <translation>Ajustat</translation>
+    </message>
+</context>
+<context>
+    <name>StarlabManager</name>
+    <message>
+        <source>Error connecting to StarLab Service: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error opening file to post %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid number of parameters returned from server expected &gt;=8, returned %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error setting hash(%1) = %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error in sync Products.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error updating template %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

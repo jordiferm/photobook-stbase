@@ -35,8 +35,12 @@ class TemplateScene;
 class ST_PHOTOBOOK_EXPORT DocumentPageView : public QGraphicsView
 {
 Q_OBJECT
+public:
+	typedef QList<QRectF> TMarginRectList;
+
+private:
 	QMatrix NoScaleMatrix; 
-	MetaInfo::TMarginRectList MarginRects;
+	TMarginRectList MarginRects;
 	bool DrawTwoPagesEffect; 
 	qreal totalScaleFactor;
 	
@@ -46,7 +50,7 @@ public:
 	void setScale(qreal _ScaleXY); 
 	QRectF selectionBoundingRect() const;
 	void selectAll();
-	void setMarginRects(const MetaInfo::TMarginRectList& _MarginRects) { MarginRects = _MarginRects; }
+	void setMarginRects(const TMarginRectList& _MarginRects) { MarginRects = _MarginRects; }
 	void setDrawTwoPagesEffect(bool _Value) { DrawTwoPagesEffect = _Value; }
 
 protected:

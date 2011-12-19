@@ -91,6 +91,7 @@ public:
 	static void setSnapToGrid(bool _Value) { SnapToGrid = _Value; }
 	static bool snapToGrid() { return SnapToGrid; }
 	static qreal snapToGridValue(qreal _Value);
+	GraphicsItemModifier* modifier() { return Modifier; }
 
 	virtual AbstractGraphicsItem* clone() const = 0;
 

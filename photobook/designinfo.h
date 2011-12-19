@@ -39,7 +39,8 @@ public:
 
 private:
 	QString Name, Description, ImageFile;
-	int Version;
+	int PublicVersion;
+	bool IsPublic;
 	MetaInfo MInfo;
 
 public:
@@ -50,10 +51,14 @@ public:
 	QString description() const { return Description; }
 	void setImageFile(const QString& _ImageFile) { ImageFile = _ImageFile; }
 	QString imageFile() const { return ImageFile; }
-	void setVersion(int _Version)  { Version = _Version; }
-	int version() const { return Version; }
+	void setPublicVersion(int _Version)  { PublicVersion = _Version; }
+	int publicVersion() const { return PublicVersion; }
+	void setIsPublic(bool _Value) { IsPublic = _Value; }
+	bool isPublic() const { return IsPublic || PublicVersion > 0; }
+	bool isUpToDate() const { return (isPublic() && MInfo.version() == PublicVersion) || !isPublic(); }
 	void setMetaInfo(const MetaInfo& _MInfo) { MInfo = _MInfo; }
 	MetaInfo metaInfo() const { return MInfo; }
+	bool isNull() const { return Name == ""; }
 };
 
 }

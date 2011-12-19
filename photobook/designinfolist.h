@@ -30,6 +30,7 @@ class ST_PHOTOBOOK_EXPORT DesignInfoList : public QList<DesignInfo>
 {
 public:
     DesignInfoList();
+	int findDesignName(const QString& _DesignName);
 };
 
 }

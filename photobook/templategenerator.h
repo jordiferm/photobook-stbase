@@ -23,12 +23,13 @@
 
 #include <QSizeF>
 #include "pagelist.h"
+#include "stphotobookexport.h"
 
 class QObject;
 namespace SPhotoBook
 {
 class TemplateScene;
-class TemplateGenerator
+class ST_PHOTOBOOK_EXPORT TemplateGenerator
 {
 	int MaxImagesPerPage;
 	int MaxNumImagesForTextFrame; //Max Number of images for a template with Text Frames.

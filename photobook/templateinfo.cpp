@@ -18,12 +18,13 @@
 
 #include "templateinfo.h"
 #include "templatepaths.h"
+#include "collectioninfo.h"
 #include <QDir>
 
 using namespace SPhotoBook;
 
-TemplateInfo::TemplateInfo() :
-		BasePath(""), Name(""), Type(MetaInfo::TypePhotoBook)
+TemplateInfo::TemplateInfo(const QString& _Name, MetaInfo::EnTemplateType _Type ) :
+		BasePath(TemplatePaths::defaultTemplatesPath()), Name(_Name), Type(_Type)
 {
 }
 
@@ -61,6 +62,12 @@ QString TemplateInfo::absolutePath(const DesignInfo& _Design) const
 	return BaseDir.absoluteFilePath(_Design.name());
 }
 
+QString TemplateInfo::metaInfoFileName(const DesignInfo& _Design) const
+{
+	return CollectionInfo::xmlMetaInfoFileNameFromPath(absolutePath(_Design));
+}
+
+
 DesignInfoList TemplateInfo::designs() const
 {
 	return Designs;
@@ -71,3 +78,54 @@ void TemplateInfo::addDesign(const DesignInfo& _Design)
 	Designs.push_back(_Design);
 }
 
+
+bool TemplateInfo::operator==(const TemplateInfo& _Other) const
+{
+	return _Other.size() == size() && _Other.name() == name() && _Other.type() == type();
+}
+
+bool TemplateInfo::designOnDisk(const DesignInfo& _Design) const
+{
+	QDir DesignDir(absolutePath(_Design));
+	return DesignDir.entryList(QDir::Files).size() > 1;
+}
+
+
+STDom::PublisherDatabase::EnProductType TemplateInfo::pubDatabaseProductType() const
+{
+	STDom::PublisherDatabase::EnProductType Res;
+	switch (type())
+	{
+		case SPhotoBook::MetaInfo::TypePhotoBook :
+			Res = STDom::PublisherDatabase::PhotoBookProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeCalendar :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeCard :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeIdPhoto :
+			Res = STDom::PublisherDatabase::PhotoIdProduct;
+		break;
+		case SPhotoBook::MetaInfo::TypeMultiPhoto :
+			Res = STDom::PublisherDatabase::DecorationsProduct;
+		break;
+		default:
+			Res = STDom::PublisherDatabase::AllProducts;
+	}
+	return Res;
+}
+
+
+bool TemplateInfo::hasPublicDesigns() const
+{
+	DesignInfoList::const_iterator it = Designs.begin();
+	bool Found = false;
+	while (it != Designs.end() && !Found)
+	{
+		Found = it->isPublic();
+		++it;
+	}
+	return Found;
+}

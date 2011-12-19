@@ -22,6 +22,7 @@ INCLUDE(${st_imagelib_SOURCE_DIR}/stmodinclude.cmake)
 
 SET(QT_USE_QTXML TRUE) 
 SET(QT_USE_QTSVG TRUE) 
+SET(QT_USE_QTSQL TRUE)
 SET(QT_USE_QTNETWORK TRUE)
 INCLUDE(${QT_USE_FILE})
 
@@ -84,6 +85,10 @@ SET(prj_SRCS
 	resourcelist.cpp
 	resourcemodel.cpp
 	resourcemimedata.cpp
+	designinfotablemodel.cpp
+	systemtemplates.cpp
+	publictemplatesdatabase.cpp
+	templatedatacontext.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -130,6 +135,10 @@ SET(prj_MOC_HDRS
 	resourcelist.h
 	resourcemodel.h
 	resourcemimedata.h
+	designinfotablemodel.h
+	systemtemplates.h
+	publictemplatesdatabase.h
+	templatedatacontext.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

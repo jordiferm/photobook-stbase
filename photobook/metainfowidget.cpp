@@ -28,10 +28,13 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QDebug>
+#include "qxtgroupbox.h"
 #include "qwwrichtextedit.h"
 #include "fpixmapselector.h"
 #include "templateinfo.h"
 #include "rendersettings.h"
+#include "systemtemplates.h"
+#include "strecteditwidget.h"
 
 using namespace SPhotoBook;
 
@@ -67,10 +70,13 @@ QWidget* MetaInfoWidget::createGeneralWidget()
 	TopLayout->addLayout(LeftFormLayout);
 
 	CBName = new QComboBox(this);
+	CBName->setMinimumWidth(150);
 	CBName->setEditable(true);
+	connect(CBName, SIGNAL(activated(QString)), this, SLOT(slotNameActivated(QString)));
 	LeftFormLayout->addRow(tr("Name"), CBName);
 
 	CBDesignName = new QComboBox(this);
+	CBDesignName->setMinimumWidth(150);
 	CBDesignName->setEditable(true);
 	LeftFormLayout->addRow(tr("Design name"), CBDesignName);
 
@@ -134,11 +140,11 @@ QWidget* MetaInfoWidget::createRenderWidget()
 
 	CBPreProcType = new QComboBox(this);
 	CBPreProcType->addItem(tr("None"), RenderSettings::TypeNone);
-	CBPreProcType->addItem(tr("BookLet"), RenderSettings::TypeBooklet);
-	FormLayout->addRow(tr("Print Preprocess type"), CBPreProcType);
+	CBPreProcType->addItem(tr("Horizontal BookLet"), RenderSettings::TypeHBooklet);
+	CBPreProcType->addItem(tr("Vertical BookLet"), RenderSettings::TypeVBooklet);
+	CBPreProcType->addItem(tr("Multiply"), RenderSettings::TypeMultiply);
 
-	CBCutPages = new QCheckBox(this);
-	FormLayout->addRow(tr("Cut pages on print"), CBCutPages);
+	FormLayout->addRow(tr("Print Preprocess type"), CBPreProcType);
 
 	return Widget;
 }
@@ -182,6 +188,54 @@ QWidget* MetaInfoWidget::createBehaviorWidget()
 
 }
 
+QWidget* MetaInfoWidget::createUIWidget()
+{
+	QWidget* Widget = new QWidget(this);
+	QVBoxLayout* MLayout = new QVBoxLayout(Widget);
+
+	GBCoverMargin = new QxtGroupBox(tr("Cover Margins"), this);
+	GBCoverMargin->setChecked(false);
+	MLayout->addWidget(GBCoverMargin);
+	QHBoxLayout* CMarginLayout = new QHBoxLayout(GBCoverMargin);
+	RECover = new STRectEditWidget(this);
+	RECover->setEditedRect(QRectF(0,0,0,0));
+	RECover->setSuffix(" mm");
+	CMarginLayout->addWidget(RECover);
+
+	GBCoverSpineMargin = new QxtGroupBox(tr("Cover Spine Margins"), this);
+	GBCoverSpineMargin->setChecked(false);
+	MLayout->addWidget(GBCoverSpineMargin);
+	QHBoxLayout* CSpineMarginLayout = new QHBoxLayout(GBCoverSpineMargin);
+	RECoverSpine = new STRectEditWidget(this);
+	RECoverSpine->setEditedRect(QRectF(0,0,0,0));
+	RECoverSpine->setSuffix(" mm");
+	CSpineMarginLayout->addWidget(RECoverSpine);
+
+	GBPageMargin = new QxtGroupBox(tr("Page Margins"), this);
+	GBPageMargin->setChecked(false);
+	MLayout->addWidget(GBPageMargin);
+	QHBoxLayout* CPageMarginLayout = new QHBoxLayout(GBPageMargin);
+	REPage = new STRectEditWidget(this);
+	REPage->setEditedRect(QRectF(0,0,0,0));
+	REPage->setSuffix(" mm");
+	CPageMarginLayout->addWidget(REPage);
+
+	return Widget;
+}
+
+void MetaInfoWidget::loadTemplatesInfo(const SPhotoBook::TemplateInfoList& _TInfoList)
+{
+	SPhotoBook::TemplateInfoList::const_iterator it;
+	QStringList NewItems;
+	for (it = _TInfoList.begin(); it != _TInfoList.end(); ++it)
+	{
+		TemplateInfo CurrTInfo = *it;
+		if (!NewItems.contains(CurrTInfo.name()))
+			NewItems.push_back(CurrTInfo.name());
+	}
+	CBName->addItems(NewItems);
+}
+
 MetaInfoWidget::MetaInfoWidget(QWidget *parent) :
     QWidget(parent)
 {
@@ -200,6 +254,11 @@ MetaInfoWidget::MetaInfoWidget(QWidget *parent) :
 	TabWidget->addTab(createGeneralWidget(), QIcon(":/photobook/general.png"), tr("General"));
 	TabWidget->addTab(createRenderWidget(), QIcon(":/photobook/render.png"), tr("Render info"));
 	TabWidget->addTab(createBehaviorWidget(), QIcon(":/photobook/behavior.png"), tr("Behavior info"));
+	TabWidget->addTab(createUIWidget(), QIcon(":/photobook/user-interface.png"), tr("User interface"));
+
+	//Load template info
+	TInfoList = SystemTemplates::load();
+	loadTemplatesInfo(TInfoList);
 
 	setMinimumWidth(600);
 }
@@ -211,7 +270,6 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	CBDesignName->lineEdit()->setText(_MetaInfo.designName());
 	ISImage->setPixmapFileName(_MetaInfo.imagePath());
 	TEDescription->setText(_MetaInfo.description());
-	qDebug() << "Template Type" << _MetaInfo.templateType();
 	int Index = CBType->findData(_MetaInfo.templateType());
 	if ( Index != -1)
 		CBType->setCurrentIndex(Index);
@@ -222,14 +280,13 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	CBCyphered->setChecked(_MetaInfo.cyphered());
 
 	//Render
-
 	SBPPageWidth->setValue(_MetaInfo.printPageSize().width());
 	SBPPageHeight->setValue(_MetaInfo.printPageSize().height());
 	SBDpis->setValue(_MetaInfo.dpis());
 
-	if (int Index = CBPreProcType->findData(_MetaInfo.printPreprocessType()) != -1)
+	Index = CBPreProcType->findData(_MetaInfo.printPreprocessType());
+	if ( Index != -1)
 		CBPreProcType->setCurrentIndex(Index);
-	CBCutPages->setChecked(_MetaInfo.cutPagesOnPrint());
 
 	//Behavior
 	SBModPages->setValue(_MetaInfo.modPages());
@@ -240,6 +297,19 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	CBAtomic->setChecked(_MetaInfo.atomic());
 	SBOptImagesPerPage->setValue(_MetaInfo.numOptimalImagesPerPage());
 	CBAutoGenerate->setChecked(_MetaInfo.autogenerateLayouts());
+
+	//GUI
+	QRectF CoverMarginRect = _MetaInfo.coverMarginRect();
+	GBCoverMargin->setChecked(!CoverMarginRect.isNull());
+	RECover->setEditedRect(CoverMarginRect);
+
+	QRectF SpineMarginRect = _MetaInfo.spineMarginRect();
+	GBCoverSpineMargin->setChecked(!SpineMarginRect.isNull());
+	RECoverSpine->setEditedRect(SpineMarginRect);
+
+	QRectF PageMarginRect = _MetaInfo.pageMarginRect();
+	GBPageMargin->setChecked(!PageMarginRect.isNull());
+	REPage->setEditedRect(PageMarginRect);
 
 }
 
@@ -259,8 +329,7 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	//Render
 	Res.setPrintPageSize(QSizeF(SBPPageWidth->value(), SBPPageHeight->value()));
 	Res.setDpis(SBDpis->value());
-	Res.setPrintPreprocessType(static_cast<RenderSettings::EnPrintPreProcessType>(CBPreProcType->itemData(CBType->currentIndex()).toInt()));
-	Res.setCutPagesOnPrint(CBCutPages->isChecked());
+	Res.setPrintPreprocessType(static_cast<RenderSettings::EnPrintPreProcessType>(CBPreProcType->itemData(CBPreProcType->currentIndex()).toInt()));
 
 	//Behavior
 	Res.setModPages(SBModPages->value());
@@ -272,5 +341,38 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	Res.setNumOptimalImagesPerPage(SBOptImagesPerPage->value());
 	Res.setAutogenerateLayouts(CBAutoGenerate->isChecked());
 
+	//GUI
+	if (GBCoverMargin->isChecked())
+		Res.setCoverMarginRect(RECover->editedRect());
+	if (GBCoverSpineMargin->isChecked())
+		Res.setSpineMarginRect(RECoverSpine->editedRect());
+	if (GBPageMargin->isChecked())
+		Res.setPageMarginRect(REPage->editedRect());
+
 	return Res;
+}
+
+void MetaInfoWidget::slotNameActivated(const QString& _TemplateName)
+{
+	CBDesignName->clear();
+	QStringList DesignList;
+	TemplateInfoList::const_iterator it;
+	for (it = TInfoList.begin(); it != TInfoList.end(); ++it)
+	{
+		TemplateInfo CurrTemplate = *it;
+		if (CurrTemplate.name() == _TemplateName)
+		{
+			SPhotoBook::DesignInfoList DesignsList = CurrTemplate.designs();
+			SPhotoBook::DesignInfoList::const_iterator dit;
+			for (dit = DesignsList.begin(); dit != DesignsList.end(); ++dit)
+			{
+				if (!DesignList.contains(dit->name()))
+					DesignList.push_back(dit->name());
+			}
+		}
+	}
+	CBDesignName->addItems(DesignList);
+	if (CBDesignName->count() == 0)
+		CBDesignName->lineEdit()->setText(tr("noname"));
+
 }

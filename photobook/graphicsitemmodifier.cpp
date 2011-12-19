@@ -174,7 +174,12 @@ void GraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsItem
 			qreal NewWidth = sqrt((Diag * Diag) - (Height * Height));
 			//int NewTextWidth =  Pos.y() - Item->pos().y();
 			//CItem->document()->setTextWidth(NewWidth);
-			CItem->setTextWidth(NewWidth);
+			//qDebug() << "Item Scale: " << CItem->scale();
+#if QT_VERSION >= 0x040600
+			CItem->setTextWidth(NewWidth * 1 / CItem->scale());
+#else
+			CItem->setTextWidth(NewWidth * 1 / CScaleX);
+#endif
 			layoutChildren();
 		}
 	}
@@ -241,6 +246,7 @@ void GraphicsItemModifier::layoutChildren()
 			CItem->relayout(Item->boundingRect().toRect());
 	}
 }
+
 
 void GraphicsItemModifier::rotate(double _Angle)
 {

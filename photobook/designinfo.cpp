@@ -20,7 +20,8 @@
 
 using namespace SPhotoBook;
 
-DesignInfo::DesignInfo(const QString& _Name) : Name(_Name)
+DesignInfo::DesignInfo(const QString& _Name) : Name(_Name), PublicVersion(0), IsPublic(false)
 {
-};
+}
+
 

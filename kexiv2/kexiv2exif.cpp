@@ -852,7 +852,6 @@ bool KExiv2::setExifThumbnail(const QImage& thumb, bool setProgramName) const
         thumbFile.setAutoRemove(true);
         thumbFile.open();
         thumb.save(thumbFile.fileName(), "JPEG");
-        qDebug() << "Thumbnail temp file: " << thumbFile.fileName().toAscii().data() << endl;
         const std::string &fileName((const char*)(QFile::encodeName(thumbFile.fileName())));
         d->exifMetadata.setJpegThumbnail( fileName );
 #endif

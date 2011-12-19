@@ -66,7 +66,6 @@ void TemplateScene::init()
 	ItemsMovable = false;
 	ItemsResizable = true;
 	ModifyAllFrames = false;
-	RenderBaseSize = QSize(0, 0);
 	AutoAdjustFrames = true;
 	IgnoreExifRotation = false;
 	HasChanges = false;
@@ -96,11 +95,61 @@ void TemplateScene::copy(TemplateScene* _Other)
 	//Make sure photoitems are inserted to PhotoItems list.
 	//Use clone method in each item ? from virtual in AbstractGraphicsItem ?
 	QDomDocument Doc;
+	DataContext = _Other->DataContext;
 /*	QString DestImageSourcePath;
 	if (_Other->pageItem())
 		DestImageSourcePath = _Other->pageItem()->imageSourcePath();*/
 
 	loadElement(_Other->createElement(Doc));
+}
+
+
+QRectF TemplateScene::translatedRectF(const QRectF& _Rect, const QSizeF& _DestSize, const QSizeF& _SourceSize)
+{
+	qreal XPos = static_cast<int>((_Rect.x() * _DestSize.width()) / _SourceSize.width());
+	qreal Width = static_cast<int>((_Rect.width() * _DestSize.width()) / _SourceSize.width());
+	qreal YPos = static_cast<int>((_Rect.y() * _DestSize.height()) / _SourceSize.height());
+	qreal Height = static_cast<int>((_Rect.height() * _DestSize.height()) / _SourceSize.height());
+	return QRectF(XPos, YPos, Width, Height);
+}
+
+void TemplateScene::resize(const QSizeF& _NewSize)
+{
+	QSizeF CurrentSize = PageItem->rect().size();
+	setSceneRect(translatedRectF(sceneRect(), _NewSize, CurrentSize));
+	//PageItem->setRect(QRectF(PageItem->rect(), _NewSize));
+	QList<QGraphicsItem *> Items = items();
+	QList<QGraphicsItem *>::iterator it;
+	for (it = Items.begin(); it != Items.end(); ++it)
+	{
+		if ((*it)->isVisible())
+		{
+			if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
+			{
+				QRectF ItemRect = CItem->boundingRect();
+				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
+				CItem->setRect(TransRect);
+			}
+			else
+			if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
+			{
+				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
+				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
+				CItem->setPos(TransRect.topLeft());
+				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
+			}
+			else
+			if (QGraphicsItem* CItem = qgraphicsitem_cast<QGraphicsItem*>(*it))
+			{
+				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
+				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
+				CItem->setPos(TransRect.topLeft());
+				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
+			}
+
+			//	CItem-> setRect(translatedRectF(CItem->rect(), _NewSize, CurrentSize));
+		}
+	}
 }
 
 /*!
@@ -119,6 +168,9 @@ void TemplateScene::replaceTemplate(TemplateScene* _Scene)
 
 	clear();
 	copy(_Scene);
+	getContextVariables();
+	if (PageItem->hasImage())
+		PageItem->loadImageSpawn();
 
 	QList<GraphicsPhotoItem*> PhotoItems = photoItems();
 	int CntCurrPhoto = 0;
@@ -490,6 +542,7 @@ void TemplateScene::addPhotoItem(GraphicsPhotoItem* _PhotoItem)
 {
 	_PhotoItem->setPanningEnabled(!ItemsMovable);
 	_PhotoItem->setMultiSelection(ModifyAllFrames);
+	_PhotoItem->setAutoAdjustFramesToImages(AutoAdjustFrames);
 	configureItem(_PhotoItem); 
 	connect(_PhotoItem, SIGNAL(mousePanning(const QPointF&)), this, SLOT(panSelectedPhotoItems(const QPointF&)));
 	connect(_PhotoItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
@@ -508,6 +561,7 @@ void TemplateScene::setPageItem(GraphicsPageItem* _PageItem)
 		connect(_PageItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
 		connect(_PageItem, SIGNAL(imageListDropped(QList<QUrl>)), this, SIGNAL(imageListDropped(QList<QUrl>)));
 		connect(_PageItem, SIGNAL(imageRemoved(const QString&, const QString&)), this, SIGNAL(imageRemoved(const QString&, const QString&)));
+		setSceneRect(PageItem->boundingRect());
 	}
 }
 
@@ -619,7 +673,15 @@ QGraphicsItem* TemplateScene::addElement(QDomElement& _Element, const QString& _
 			CItem = NItem; 
 			GrItem = NItem;
 		}
-		
+		else
+		if (_Element.tagName().toLower() ==  GraphicsMonthItem::tagName())
+		{
+			GraphicsMonthItem* NItem = new GraphicsMonthItem;
+			configureItem(NItem);
+			CItem = NItem;
+			GrItem = NItem;
+		}
+
 		if (CItem && GrItem)
 		{
 			CItem->loadElement(_Element, _LoadDir);
@@ -635,8 +697,6 @@ void TemplateScene::loadElement(const QDomElement& _SceneElement, const QString&
 	deletePageItem();
 
 	ModifyAllFrames = _SceneElement.attribute("modifyallframes", "0").toLower() == "1";
-	RenderBaseSize.setWidth(_SceneElement.attribute("basewidth","0").toDouble());
-	RenderBaseSize.setHeight(_SceneElement.attribute("baseheight","0").toDouble());
 
 	//Search first the Page item
 	QDomNode CNode = _SceneElement.firstChild();
@@ -674,8 +734,6 @@ QDomElement TemplateScene::createElement(QDomDocument& _Doc, const QString& _Sto
 {
 	QDomElement SceneEl = _Doc.createElement("scene");
 	SceneEl.setAttribute("modifyallframes", ModifyAllFrames);
-	SceneEl.setAttribute("basewidth", RenderBaseSize.width());
-	SceneEl.setAttribute("baseheight", RenderBaseSize.height());
 
 	//PageItem
 	if (PageItem) //Defensive
@@ -1085,14 +1143,27 @@ void TemplateScene::autoFillImages(const QFileInfoList& _Images)
 	slotImageListDropped(UrlList);
 }
 
-void TemplateScene::setVariable(const QString& _VariableName, const QString& _Value)
+void TemplateScene::getContextVariables()
 {
-	//Replace all texts for all items of form %_VariableName% for _Value
+	QList<QGraphicsItem *> Items = items();
+	QList<QGraphicsItem *>::iterator it;
+	for (it = Items.begin(); it != Items.end(); ++it)
+	{
+		if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
+		{
+			CItem->replaceTextVariables(DataContext);
+		}
+	}
 }
 
-void TemplateScene::setYear(int _Year)
+void TemplateScene::setDataContext(const TemplateDataContext& _DataContext)
 {
-	setVariable("year", QString::number(_Year));
+	DataContext = _DataContext;
+}
+
+TemplateDataContext& TemplateScene::dataContext()
+{
+	return DataContext;
 }
 
 /*!

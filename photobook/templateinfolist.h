@@ -30,16 +30,20 @@ namespace SPhotoBook
 
 class ST_PHOTOBOOK_EXPORT TemplateInfoList : public QList<TemplateInfo>
 {
-	void addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName);
 
 public:
     TemplateInfoList();
-	void load(bool _Sync = false);
-	void sync();
-	bool isPublic();
+	void addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName, bool _OnDiskOnly = false);
 	QFileInfoList globalResources(DesignInfo::EnResourceType _Type);
-	TemplateInfoList subList(MetaInfo::EnTemplateType _Type);
-	TemplateInfoList sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type);
+	TemplateInfoList subList(MetaInfo::EnTemplateType _Type) const;
+	TemplateInfoList sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type) const;
+	TemplateInfoList sizes(const QString& _TemplateName) const;
+	int indexOf(const TemplateInfo& _TemplateInfo);
+	void addTemplateInfo(const TemplateInfo& _TemplateInfo);
+	void addTemplateInfoList(const TemplateInfoList& _TemplateInfoList);
+	void addTemplateInfoList(const QList<TemplateInfo> _List);
+	void updateTemplateInfo(const TemplateInfo& _Source, const TemplateInfo& _Dest);
+	void mergePublicInfo(const TemplateInfoList& _PublicTemplates);
 };
 
 }

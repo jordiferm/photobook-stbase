@@ -20,7 +20,7 @@
 
 #ifndef IMIMAGE_H
 #define IMIMAGE_H
-#include <Magick++.h>
+#include "Magick++.h"
 #include "stimagelibexport.h"
 
 

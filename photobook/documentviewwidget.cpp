@@ -94,11 +94,17 @@ void DocumentViewWidget::reloadPages()
 	for (it = Pages.begin(); it != Pages.end(); ++it)
 	{
 		DocumentPageView* NAlbumPage = new DocumentPageView(*it, this);
+		DocumentPageView::TMarginRectList MarginRects;
 		if (it == Pages.begin())
-			NAlbumPage->setMarginRects(PBDocument->metaInfo().coverMarginRects());
+		{
+			MarginRects.push_back(PBDocument->metaInfo().coverMarginRect());
+			MarginRects.push_back(PBDocument->metaInfo().spineMarginRect());
+			NAlbumPage->setMarginRects(MarginRects);
+		}
 		else
 		{
-			NAlbumPage->setMarginRects(PBDocument->metaInfo().coverMarginRects());
+			MarginRects.push_back(PBDocument->metaInfo().pageMarginRect());
+			NAlbumPage->setMarginRects(MarginRects);
 			//NAlbumPage->setDrawTwoPagesEffect(_PBDocument->PBDocumentTemplate().numPages() > 1);
 		}
 		StkLayout->addWidget(NAlbumPage);
@@ -244,7 +250,12 @@ QString DocumentViewWidget::templateInfo()
 {
 	QString Res;
 	if (PBDocument)
-		Res = QString("<a href=\"%1\">%2</a>").arg(PBDocument->metaInfo().infoUrl().toString()).arg(PBDocument->metaInfo().name());
+	{
+		QSizeF DocSize = PBDocument->metaInfo().size();
+		QString TemplateDescription = QString("%1 (%2x%3 mm)").arg(PBDocument->metaInfo().name()).arg(
+					DocSize.width()).arg(DocSize.height());
+		Res = QString("<a href=\"%1\">%2</a>").arg(PBDocument->metaInfo().infoUrl().toString()).arg(TemplateDescription);
+	}
 	return Res;
 }
 

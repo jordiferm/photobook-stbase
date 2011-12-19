@@ -20,8 +20,9 @@
 #define SACCEPTCANCELDIALOG_H
 
 #include <QDialog>
+#include "stwidgetsexport.h"
 
-class SAcceptCancelDialog : public QDialog
+class ST_WIDGETS_EXPORT SAcceptCancelDialog : public QDialog
 {
 	Q_OBJECT
 public:

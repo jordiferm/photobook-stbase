@@ -119,7 +119,7 @@ QStringList TemplatePaths::initialPaths()
 {
 	QStringList Res; 
 	Res <<  defaultTemplatesPath();
-	Res << extraTemplatesPaths(); 
+	Res << extraTemplatesPaths();
 	return Res; 
 }
 

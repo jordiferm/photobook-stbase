@@ -32,7 +32,9 @@ public:
 	enum EnPrintPreProcessType
 	{
 		TypeNone = 0,
-		TypeBooklet = 1
+		TypeHBooklet = 1,
+		TypeVBooklet = 2,
+		TypeMultiply = 3
 	};
 
 private:
@@ -53,12 +55,6 @@ public:
 
 	void setForPrint(bool _Value) { ForPrint = _Value; }
 	bool forPrint() const { return ForPrint; }
-
-	void setPrintFirstAtLast(bool _Value) { PrintFirstAtLast = _Value; }
-	bool printFirstAtLast() const { return PrintFirstAtLast;}
-
-	EnPrintPreProcessType printPreprocessType() const { return PrintPreprocessType; }
-	void setPrintPreprocessType(EnPrintPreProcessType _Value) { PrintPreprocessType = _Value; }
 
 };
 

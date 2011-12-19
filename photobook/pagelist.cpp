@@ -24,6 +24,7 @@
 #include <QTextStream>
 #include <QApplication>
 #include <QProgressBar>
+#include <QSizeF>
 #include "stutils.h"
 #include "stprogressindicator.h"
 
@@ -193,4 +194,14 @@ bool SPhotoBook::PageListItemLessThan(TemplateScene* _Scene1, TemplateScene* _Sc
 void PageList::sort()
 {
 	qSort(begin(), end(), SPhotoBook::PageListItemLessThan);
+}
+
+void PageList::resize(const QSizeF& _NewSize)
+{
+	iterator it = begin();
+	while (it != end())
+	{
+		(*it)->resize(_NewSize);
+		++it;
+	}
 }

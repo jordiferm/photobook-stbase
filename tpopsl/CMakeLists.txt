@@ -26,6 +26,16 @@ SET(QT_USE_QTXML TRUE)
 SET(QT_USE_QTNETWORK TRUE) 
 INCLUDE(${QT_USE_FILE})
 
+# --------------------------------------------------------------------------
+# Configure GUI
+
+OPTION(ST_TTPOPSL_KINETICSCROLL
+  "Kinetic Scroll support (Requires Qt>=4.6.0)"
+  ON)
+
+IF(ST_TTPOPSL_KINETICSCROLL)
+	SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "ST_TTPOPSL_KINETICSCROLL" )
+ENDIF(ST_TTPOPSL_KINETICSCROLL)
 
 # --------------------------------------------------------------------------
 # Project files

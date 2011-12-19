@@ -45,7 +45,8 @@ public:
 	QMimeData* mimeData(const QModelIndexList &indexes) const;
 	Qt::ItemFlags flags(const QModelIndex & index) const;
 	QStringList mimeTypes() const;
-	void addResource(const QFileInfo& _FileInfo);
+	void addResource(const Resource& _Resource);
+	void removeResource(const Resource& _Resource);
 	void setResourceList(const ResourceList& _List);
 	ResourceList resourceList() const { return RList; }
 	void setHasNullItem(const QImage& _NullItemThumbnail, const Resource& _NullItem);

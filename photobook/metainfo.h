@@ -23,6 +23,7 @@
 #include <QList>
 #include <QRectF>
 #include <QUrl>
+#include <QPixmap>
 #include "sterror.h"
 #include "rendersettings.h"
 
@@ -34,7 +35,6 @@ class ST_PHOTOBOOK_EXPORT MetaInfo
 {
 public:
 	ST_DECLARE_ERRORCLASS();
-	typedef QList<QRectF> TMarginRectList;
 
 	enum EnTemplateType
 	{
@@ -52,16 +52,19 @@ private:
 	RenderSettings::EnPrintPreProcessType PrintPreprocessType;
 	EnTemplateType TemplateType;
 	bool MultiPhoto, AutogenerateLayouts, PreferMinPages, Atomic, Cyphered, CutPagesOnPrint;
-	TMarginRectList PageMarginRects, CoverMarginRects;
+	QRectF PageMarginRect, CoverMarginRect, SpineMarginRect;
 	int NumOptimalImagesPerPage;
 
+	void setMarginAttributes(QDomElement& _Element, const QString& _MarginName, const QRectF& _MarginRect) const;
+	QRectF loadMarginAttributes(const QDomElement& _Element, const QString& _MarginName) const;
 	QDomElement createGlobalInfo(QDomDocument& _Doc) const;
 	void loadGlobalInfo(const QDomElement& _Element);
 
 public:
     MetaInfo();
 	void setDefaults();
-	void save(const QString& _XmlFilePath);
+	void checkVersion(const QString& _XmlFilePath);
+	void save(const QString& _XmlFilePath, bool _CheckVersion = true);
 	void load(const QString& _XmlFilePath);
 
 	//------- Global info ----------
@@ -106,9 +109,6 @@ public:
 	void setPrintPreprocessType(RenderSettings::EnPrintPreProcessType _Value) { PrintPreprocessType = _Value; }
 	RenderSettings::EnPrintPreProcessType printPreprocessType() const { return PrintPreprocessType; }
 
-	void setCutPagesOnPrint(bool _Value) { CutPagesOnPrint = _Value; }
-	bool cutPagesOnPrint() const { return CutPagesOnPrint; }
-
 
 	//------- Behavior info ----------
 	void setModPages(int _Value) { ModPages = _Value; }
@@ -133,15 +133,21 @@ public:
 	void setAtomic(bool _Value) { Atomic = _Value; }
 	bool atomic() const { return Atomic; }
 
-	void setPageMarginRects(const TMarginRectList& _Value) { PageMarginRects = _Value; }
-	TMarginRectList pageMarginRects() const { return PageMarginRects; }
+	void setPageMarginRect(const QRectF& _Value) { PageMarginRect = _Value; }
+	QRectF pageMarginRect() const { return PageMarginRect; }
 
-	void setCoverMarginRects(const TMarginRectList& _Value) { CoverMarginRects = _Value; }
-	TMarginRectList coverMarginRects() const { return CoverMarginRects; }
+	void setCoverMarginRect(const QRectF& _Value) { CoverMarginRect = _Value; }
+	QRectF coverMarginRect() const { return CoverMarginRect; }
+
+	void setSpineMarginRect(const QRectF& _Value) { SpineMarginRect = _Value; }
+	QRectF spineMarginRect() const { return SpineMarginRect; }
 
 	int numOptimalImagesPerPage() const { return NumOptimalImagesPerPage; }
 	void setNumOptimalImagesPerPage(int _Value) { NumOptimalImagesPerPage = _Value; }
 
+	//------- Miscelanea ---------
+	static QPixmap typePixmap(EnTemplateType _Type);
+	static QString typeString(EnTemplateType _Type);
 };
 
 }

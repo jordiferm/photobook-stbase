@@ -218,6 +218,9 @@ void GKeyboard2::keyReleased(int _Key)
 	{
 		if ( _Key ) 
 		{
+			if (_Key == Qt::Key_Enter)
+				emit enterPressed();
+
 			QKeyEvent* keyEvent = NULL;
 			//qDebug(QString("\nINIT Last pressed key: %1").arg(LastPressedKey));
 			

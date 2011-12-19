@@ -43,9 +43,12 @@ public:
 
 private:
 	QString Name;
+	QString HashCode;
 	EnResourceType Type;
 	QDir Dir;
 	QFileInfo FInfo;
+
+	void init(const QFileInfo& _FileInfo, EnResourceType _Type );
 
 public:
 	Resource(const QFileInfo& _FileInfo);
@@ -66,10 +69,16 @@ public:
 
 	bool isNull() const { return Name.isEmpty(); }
 
+	//Hash codes for comparsion operators
+	void calcHashCode();
+	QString getHashCode() const;
+	QString hashCode() const;
+
 	bool operator==(const Resource& _Other ) const;
 	bool operator!=(const Resource& _Other ) const;
 
 	static QStringList fileFilter(EnResourceType _Type);
+	static QString suffixFilter(EnResourceType _Type);
 	static QString filePrefix(EnResourceType _Type);
 	EnResourceType fileResourceType(const QString& _FileName);
 	static bool isResource(const QFileInfo& _FileInfo);

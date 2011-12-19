@@ -27,6 +27,7 @@
 #include "ddoc.h"
 #include "ddocmodel.h"
 #include "buildoptions.h"
+#include "metainfo.h"
 
 namespace SPhotoBook
 {
@@ -36,6 +37,7 @@ namespace SPhotoBook
 	class DesignInfo;
 	class DesignInfoModel;
 	class ImageBoxListView;
+	class ImagesListView;
 }
 
 class STCollectionTemplateModel;
@@ -47,6 +49,8 @@ class QTimer;
 class QLabel;
 class QActionGroup;
 class QToolBar;
+class StarlabAbstractManager;
+
 class ChooseTemplatePage : public QWizardPage
 {
 Q_OBJECT
@@ -55,7 +59,8 @@ Q_OBJECT
 		StateShowWebInfo,
 		StateNoInfo,
 		StateGettingInfo,
-		StateTemplatesEmpty
+		StateTemplatesEmpty,
+		StateUnselected
 	};
 
 	SPhotoBook::TemplateInfoModel* Model;
@@ -67,6 +72,7 @@ Q_OBJECT
 	QLabel* NoInfoLabel;
 	QLabel* LabelInfoPixmap;
 	QLabel* LabSize;
+	QLabel* UnselectedLabel;
 	bool InetgetPicture1;
 	QTimer* InetgetTimer;
 	QActionGroup* TypeActions;
@@ -74,19 +80,21 @@ Q_OBJECT
 	QLabel* NoTemplatesLabel;
 	bool HasPreselection;
 	SPhotoBook::MetaInfo::EnTemplateType  PreselectedType;
-
+	StarlabAbstractManager* Manager;
+	EnState CurrentState;
 
 	void setCurrentState(EnState _State);
 
 public:
-	ChooseTemplatePage(QWidget* _Parent = 0);
+	ChooseTemplatePage(StarlabAbstractManager* _Manager, QWidget* _Parent = 0);
 	int nextId() const;
 	void selectFirstIndex();
 	void initializePage();
+	SPhotoBook::TemplateInfo templateInfo(const QModelIndex& _Index, const QSizeF& _Size) const;
 	SPhotoBook::TemplateInfo selectedTemplateInfo() const;
 	bool validatePage();
 	bool isComplete() const; 
-	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList );
+	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type);
 
 
 private slots:
@@ -160,6 +168,7 @@ Q_OBJECT
 
 	SPhotoBook::ImageBoxListView* IBListView;
 	QLabel* InfoLabel;
+	SPhotoBook::ImagesListView* IListView;
 	int PagesToFill, OptimalImagesPerPage, AbsoluteImageCount;
 	void updateInfo();
 
@@ -170,6 +179,8 @@ public:
 	int nextId() const;
 	bool isComplete() const;
 	STDom::DDocModel* selectedImages() const;
+	void initializePage();
+
 private slots:
 	void slotUpdateInfo();
 };
@@ -200,9 +211,10 @@ private:
 	SelectDiskFolderPage* SDFolderPage;
 	BuildOptionsPage* PBuildOptions;
 	ChooseCreationModePage* CCreationModePage;
+	StarlabAbstractManager* Manager;
 
 public:
-	STAlbumWizard(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+	STAlbumWizard(StarlabAbstractManager* _Manager, QWidget* parent = 0, Qt::WindowFlags flags = 0);
 	~STAlbumWizard();
 	SPhotoBook::DesignInfo designInfo() const;
 	SPhotoBook::TemplateInfo templateInfo() const;
@@ -210,7 +222,7 @@ public:
 	int nextId() const;
 	STDom::DDocModel* selectedImages() const;
 	SPhotoBook::BuildOptions buildOptions() const;
-	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList);
+	void setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type);
 };
 
 

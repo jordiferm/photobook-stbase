@@ -25,31 +25,37 @@
 
 using namespace SPhotoBook;
 
+void Resource::init(const QFileInfo& _FileInfo, EnResourceType _Type )
+{
+	Name = _FileInfo.baseName().right(_FileInfo.baseName().length() - ( _FileInfo.baseName().indexOf("_") + 1));
+	FInfo = _FileInfo;
+	Dir = _FileInfo.dir();
+	Type = _Type;
+}
 
 Resource::Resource(const QFileInfo& _FileInfo)
 {
 	if (isResource(_FileInfo))
 	{
-		QString FileName = _FileInfo.fileName();
-		Name = FileName.right(FileName.length() - ( FileName.indexOf("_") + 1));
-		Type = fileResourceType(FileName);
-		Dir = _FileInfo.dir();
-		FInfo = _FileInfo;
+		Type = fileResourceType(_FileInfo.fileName());
+		init(_FileInfo, Type);
 	}
 }
 
 //Resource file with no standard filename
 Resource::Resource(const QFileInfo& _FileInfo, EnResourceType _Type )
 {
-	Name = _FileInfo.baseName();
-	FInfo = _FileInfo;
-	Dir = _FileInfo.dir();
-	Type = _Type;
+	init(_FileInfo, _Type);
 }
 
-Resource::Resource(const QDir& _Dir, const QString& _Name , EnResourceType _Type ) : Name(_Name), Type(_Type), Dir(_Dir)
+Resource::Resource(const QDir& _Dir, const QString& _NameAndSuffix , EnResourceType _Type )
 {
-	FInfo = QFileInfo(Dir.absoluteFilePath(QString("%1_%2").arg(filePrefix(Type)).arg(Name)));;
+	if (!_NameAndSuffix.isEmpty())
+	{
+		init(QFileInfo(_Dir.absoluteFilePath(QString("%1_%2").arg(filePrefix(_Type)).arg(_NameAndSuffix))), _Type);
+	}
+	else
+		Type = _Type; //Null resource of a specified type.
 }
 
 
@@ -69,11 +75,14 @@ QStringList Resource::save(const QDir& _StoreDir)
 	QStringList Res;
 	QString HashName = STImage::hashFileName(FInfo.absoluteFilePath());
 	QFileInfo DestFileInfo = Resource(_StoreDir, HashName, type()).fileInfo();
-
 	if (type() == TypeFrame) //Save FrameMask with the same hash
 	{
-		Resource FrameMaskResource(dir(), Name, TypeFrameMask );
-		Res << FrameMaskResource.save(Resource(_StoreDir, HashName, TypeFrameMask).fileInfo());
+		QFileInfo FrameMaskFinfo = frameMaskFile(*this);
+		if (FrameMaskFinfo.exists())
+		{
+			Resource FrameMaskResource(FrameMaskFinfo);
+			Res << FrameMaskResource.save(Resource(_StoreDir, HashName, TypeFrameMask).fileInfo());
+		}
 	}
 
 	Res << save(DestFileInfo);
@@ -85,14 +94,34 @@ QFileInfo Resource::fileInfo() const
 	return FInfo;
 }
 
-bool Resource::operator!=(const Resource& _Other ) const
+void Resource::calcHashCode()
 {
-	return !operator==(_Other);
+	HashCode = getHashCode();
+}
+
+QString Resource::getHashCode() const
+{
+	return STImage::hashFileName(FInfo.absoluteFilePath());
+}
+
+QString Resource::hashCode() const
+{
+	QString Res;
+	if (HashCode.isEmpty())
+		Res = getHashCode();
+	else
+		Res = HashCode;
+	return Res;
 }
 
 bool Resource::operator==(const Resource& _Other ) const
 {
-	return STImage::hashFileName(FInfo.absoluteFilePath()) == STImage::hashFileName(_Other.fileInfo().absoluteFilePath());
+	return hashCode() == _Other.hashCode();//You have to previously call to calcHashCode to improve speed.
+}
+
+bool Resource::operator!=(const Resource& _Other ) const
+{
+	return !operator==(_Other);
 }
 
 QStringList Resource::fileFilter(EnResourceType _Type)
@@ -100,6 +129,36 @@ QStringList Resource::fileFilter(EnResourceType _Type)
 	QStringList Filter;
 	Filter << QString("%1_*").arg(filePrefix(_Type));
 	return Filter;
+}
+
+QString Resource::suffixFilter(EnResourceType _Type)
+{
+	QString Res;
+	switch (_Type)
+	{
+		case TypeBackground :
+			Res = QObject::tr("Images (*.png *.xpm *.jpg)");
+		break;
+		case TypeClipart :
+			Res = QObject::tr("Clipart (*.svg)");
+		break;
+		case TypeFrame :
+			Res = QObject::tr("Frames (*.png)");
+		break;
+		case TypeMask :
+			Res = QObject::tr("Masks (*.png)");
+		break;
+		case TypeFrameMask :
+			Res = QObject::tr("Frame Mask (framemask_*.png)");
+		break;
+		case TypeFont :
+			Res = QObject::tr("True Type Font (*.ttf)");
+		break;
+		case TypeImage :
+			Res = QObject::tr("Images (*.png *.xpm *.jpg)");
+		break;
+	}
+	return Res;
 }
 
 QString Resource::filePrefix(EnResourceType _Type)
@@ -177,7 +236,7 @@ bool Resource::isResource(const QFileInfo& _FileInfo)
 
 QFileInfo Resource::frameMaskFile(const Resource& _FrameResource)
 {
-	return Resource(_FrameResource.fileInfo().dir(), _FrameResource.name(),TypeFrameMask ).fileInfo();
+	return Resource(_FrameResource.fileInfo().dir(), _FrameResource.name() + "." + _FrameResource.fileInfo().suffix(), TypeFrameMask ).fileInfo();
 }
 
 Resource Resource::resourceFromXmlSrc(const QString& _XmlSrc, const QString& _LoadDir)

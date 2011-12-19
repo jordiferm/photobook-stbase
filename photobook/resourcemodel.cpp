@@ -54,7 +54,7 @@ QVariant ResourceModel::data(const QModelIndex& _Index, int _Role) const
 			else
 			{
 				Resource CurrResource = resource(_Index);
-				if (_Role == Qt::DisplayRole)
+				if (_Role == Qt::ToolTipRole)
 				{
 					Res = CurrResource.name();
 				}
@@ -134,11 +134,22 @@ QStringList ResourceModel::mimeTypes() const
 	return types;
 }
 
-void ResourceModel::addResource(const QFileInfo& _FileInfo)
+void ResourceModel::addResource(const Resource& _Resource)
 {
 	beginInsertRows(QModelIndex(), RList.size(), RList.size() + 1);
-	RList.push_backResource(_FileInfo);
+	RList.push_back(_Resource);
 	endInsertRows();
+}
+
+void ResourceModel::removeResource(const Resource& _Resource)
+{
+	int Index = RList.indexOf(_Resource);
+	if (Index >= 0)
+	{
+		beginRemoveRows(QModelIndex(), Index, Index + 1);
+		RList.removeAt(Index);
+		endRemoveRows();
+	}
 }
 
 void ResourceModel::setResourceList(const ResourceList& _List)

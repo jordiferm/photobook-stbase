@@ -21,8 +21,12 @@
 
 #include <QAbstractListModel>
 #include <QModelIndexList>
+#include <QStringList>
+#include <QList>
+#include <QSizeF>
 #include "stphotobookexport.h"
 #include "templateinfolist.h"
+#include "metainfo.h"
 
 namespace SPhotoBook
 {
@@ -30,14 +34,16 @@ class ST_PHOTOBOOK_EXPORT TemplateInfoModel : public QAbstractListModel
 {
     Q_OBJECT
 	TemplateInfoList TemplateList;
+	QStringList TemplateNameList;
+	MetaInfo::EnTemplateType TemplateType;
 
 public:
     explicit TemplateInfoModel(QObject *parent = 0);
 	int rowCount(const QModelIndex& _Parent = QModelIndex()) const;
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
-	TemplateInfo templateInfo(const QModelIndex& _Index) const;
+	TemplateInfo templateInfo(const QModelIndex& _Index, const QSizeF& _Sizes) const;
 	void setTemplateList(const TemplateInfoList& _List);
-	QModelIndexList sizes(const QModelIndex& _Index) const;
+	QList<QSizeF> sizes(const QModelIndex& _Index) const;
 
 signals:
 

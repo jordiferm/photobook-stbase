@@ -29,7 +29,7 @@ TemplateInfoList::TemplateInfoList()
 {
 }
 
-void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName)
+void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name, const QString& _SizeName, bool _OnDiskOnly)
 {
 	QMap <MetaInfo::EnTemplateType, TemplateInfo> TInfoMap;
 	//For each design_name
@@ -45,72 +45,44 @@ void TemplateInfoList::addDesignNames(const QDir& _BaseDir, const QString& _Name
 		{
 			MInfo.load(MetaInfoFileName);
 			TemplateInfo NewTInfo(_BaseDir.absolutePath(), _Name, _SizeName, MInfo.templateType());
-			//Check if there is templates of current type
-			if (!TInfoMap.contains(MInfo.templateType()))
-				TInfoMap.insert(NewTInfo.type(), NewTInfo);
 			DesignInfo CDesignInfo(*it);
 			CDesignInfo.setMetaInfo(MInfo);
 			CDesignInfo.setDescription(MInfo.description());
-			//TODO: set Design image
-			TInfoMap[NewTInfo.type()].addDesign(CDesignInfo);
+
+			bool AddDesign;
+			if (_OnDiskOnly)
+				AddDesign = NewTInfo.designOnDisk(CDesignInfo);
+			else
+				AddDesign = true;
+
+			if (AddDesign)
+			{
+				//Check if there is templates of current type
+				if (!TInfoMap.contains(MInfo.templateType()))
+					TInfoMap.insert(NewTInfo.type(), NewTInfo);
+				//TODO: set Design image
+				TInfoMap[NewTInfo.type()].addDesign(CDesignInfo);
+			}
 		}
 		catch (...) //Ignore errors loading metainfo.xml
 		{}
 
 		++it;
 	}
-	*this += TInfoMap.values();
+	addTemplateInfoList(TInfoMap.values());
 }
 
-void TemplateInfoList::load(bool _Sync)
-{
-	//For each path
-	QStringList PathList = TemplatePaths::pathList();
-	QStringList::iterator pit = PathList.begin();
-	while (pit != PathList.end())
-	{
-		//For each template name
-		QDir BaseDir(*pit);
-		QStringList TNameList = BaseDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-		QStringList::iterator tnit = TNameList.begin();
-		while (tnit != TNameList.end())
-		{
-			//For each size
-			QDir NameDir(BaseDir.absoluteFilePath(*tnit));
-			QStringList TSizeList = NameDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-			QStringList::iterator snit = TSizeList.begin();
-			while (snit != TSizeList.end())
-			{
-				addDesignNames(BaseDir, NameDir.dirName(), QDir(*snit).dirName());
-				++snit;
-			}
-			++tnit;
-		}
-		++pit;
-	}
 
-
-}
-
-void TemplateInfoList::sync()
-{
-
-}
-
-bool TemplateInfoList::isPublic()
-{
-
-}
 
 QFileInfoList TemplateInfoList::globalResources(DesignInfo::EnResourceType _Type)
 {
 
 }
 
-TemplateInfoList TemplateInfoList::subList(MetaInfo::EnTemplateType _Type)
+TemplateInfoList TemplateInfoList::subList(MetaInfo::EnTemplateType _Type) const
 {
 	TemplateInfoList Res;
-	TemplateInfoList::iterator it;
+	TemplateInfoList::const_iterator it;
 	for (it = begin(); it != end(); ++it)
 	{
 		if (it->type() == _Type)
@@ -120,12 +92,16 @@ TemplateInfoList TemplateInfoList::subList(MetaInfo::EnTemplateType _Type)
 }
 
 
-TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type)
+TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName, MetaInfo::EnTemplateType _Type) const
+{
+	return subList(_Type).sizes(_TemplateName);
+}
+
+TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName) const
 {
 	TemplateInfoList Res;
-	TemplateInfoList SameTypeList = subList(_Type);
-	TemplateInfoList::iterator it;
-	for (it = SameTypeList.begin(); it != SameTypeList.end(); ++it)
+	TemplateInfoList::const_iterator it;
+	for (it = begin(); it != end(); ++it)
 	{
 		if (it->name() == _TemplateName)
 			Res.push_back(*it);
@@ -133,3 +109,83 @@ TemplateInfoList TemplateInfoList::sizes(const QString& _TemplateName, MetaInfo:
 	return Res;
 }
 
+
+//! Returns -1 if template does not exist.
+int TemplateInfoList::indexOf(const TemplateInfo& _TemplateInfo)
+{
+	int Res = -1;
+	bool Found = false;
+	int Cnt = 0;
+	while (!Found && Cnt < size())
+	{
+		Found = (value(Cnt) == _TemplateInfo);
+		if (!Found)
+			Cnt++;
+	}
+
+	if (Found)
+		Res = Cnt;
+	else
+		Res = -1;
+	return Res;
+
+}
+
+void TemplateInfoList::addTemplateInfo(const TemplateInfo& _TemplateInfo)
+{
+	int Index = indexOf(_TemplateInfo);
+	if (Index != -1)
+		(*this)[Index] = _TemplateInfo;
+	else
+		push_back(_TemplateInfo);
+}
+
+void TemplateInfoList::addTemplateInfoList(const TemplateInfoList& _TemplateInfoList)
+{
+	TemplateInfoList::const_iterator it;
+	for (it = _TemplateInfoList.begin(); it != _TemplateInfoList.end(); ++it)
+	{
+		addTemplateInfo(*it);
+	}
+}
+
+void TemplateInfoList::addTemplateInfoList(const QList<TemplateInfo> _List)
+{
+	QList<TemplateInfo>::const_iterator it;
+	for (it = _List.begin(); it != _List.end(); ++it)
+	{
+		addTemplateInfo(*it);
+	}
+}
+
+void TemplateInfoList::updateTemplateInfo(const TemplateInfo& _Old, const TemplateInfo& _New)
+{
+	int Index = indexOf(_Old);
+	if (Index != -1)
+		(*this)[Index] = _New;
+}
+
+void TemplateInfoList::mergePublicInfo(const TemplateInfoList& _PublicTemplates)
+{
+	TemplateInfoList::const_iterator it;
+	for (it = _PublicTemplates.begin(); it != _PublicTemplates.end(); ++it)
+	{
+		TemplateInfo PubTemplate = *it;
+		int CIndex = indexOf(PubTemplate);
+		if (CIndex != -1)
+		{
+			TemplateInfo& TRef = (*this)[CIndex];
+			DesignInfoList& DesignListRef = TRef.designsRef();
+			DesignInfoList PubDesigns = PubTemplate.designs();
+			DesignInfoList::const_iterator dit;
+			for (dit = PubDesigns.begin(); dit != PubDesigns.end(); ++dit)
+			{
+				int DesignIndex = DesignListRef.findDesignName(dit->name());
+				if (DesignIndex != -1)
+				{
+					DesignListRef[DesignIndex].setPublicVersion(dit->publicVersion());
+				}
+			}
+		}
+	}
+}

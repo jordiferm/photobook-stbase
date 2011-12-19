@@ -67,6 +67,7 @@
 #include "disksourceselectionwidget.h" 
 #include "strecentfiles.h"
 #include "sterror.h"
+#include "starlababstractmanager.h"
 
 //_____________________________________________________________________________
 //
@@ -75,18 +76,21 @@
 
 void ChooseTemplatePage::setCurrentState(ChooseTemplatePage::EnState _State)
 {
+	CurrentState = _State;
 	BottomFrame->setVisible(_State != StateTemplatesEmpty);
-	LabSize->setVisible(BottomFrame->isVisible());
-	CBSize->setVisible(BottomFrame->isVisible());
-	if (BottomFrame->isVisible())
-	{
-		NoInfoFrame->setVisible(_State != StateShowWebInfo);
-		//WebView->setVisible(!NoInfoFrame->isVisible());
-	}
+
+	bool TempInfoVisible = BottomFrame->isVisible() && _State != StateUnselected;
+	LabSize->setVisible(TempInfoVisible);
+	CBSize->setVisible(TempInfoVisible);
+
+	NoInfoFrame->setVisible(_State != StateShowWebInfo && TempInfoVisible);
+	WebView->setVisible(!NoInfoFrame->isVisible() && TempInfoVisible);
+
 	InetgetTimer->stop();
 
 	View->setVisible(_State != StateTemplatesEmpty);
 	NoTemplatesLabel->setVisible(_State == StateTemplatesEmpty);
+	UnselectedLabel->setVisible(_State == StateUnselected);
 
 	switch (_State)
 	{
@@ -101,28 +105,20 @@ void ChooseTemplatePage::setCurrentState(ChooseTemplatePage::EnState _State)
 			LabelInfoPixmap->setPixmap(QPixmap(":/dialog-information.png"));
 		break;
 	}
+	completeChanged();
 }
 
 
-ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent), HasPreselection(false)
+ChooseTemplatePage::ChooseTemplatePage(StarlabAbstractManager* _Manager, QWidget* _Parent) : QWizardPage(_Parent), HasPreselection(false), Manager(_Manager)
 {
 	setTitle(tr("<h1>Template selection</h1>"));
 	setSubTitle(tr("The <em>Photo Book</em> template defines the photobook features like size, number of pages, layouts, etc... </br> Use the following list to choose the template that you want for your <em>Photo Book</em>"));
 	QVBoxLayout* MLayout = new QVBoxLayout(this);
-	QHBoxLayout* TopLayout = new QHBoxLayout;
-	MLayout->addLayout(TopLayout);
 
-
-	TopLayout->addItem(new QSpacerItem(10, 0, QSizePolicy::Fixed, QSizePolicy::Preferred));
-
-	LabSize = new QLabel(tr("Size:"), this);
-	LabSize->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-	TopLayout->addWidget(LabSize);
-	CBSize = new QComboBox(this);
-	CBSize->setMinimumWidth(250);
-	TopLayout->addWidget(CBSize);
-
-	TopLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
+	UnselectedLabel = new QLabel(this);
+	UnselectedLabel->setText(tr("<h2>Please, select a template from the list.</h2>"));
+	UnselectedLabel->setWordWrap(true);
+	MLayout->addWidget(UnselectedLabel);
 
 	BottomFrame = new QFrame(this);
 	MLayout->addWidget(BottomFrame);
@@ -131,7 +127,7 @@ ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent),
 
 	QVBoxLayout* LeftLayout = new QVBoxLayout;
 	BottomLayout->addLayout(LeftLayout);
-	LeftLayout->addWidget(new QLabel(tr("Themes:"), this));
+	LeftLayout->addWidget(new QLabel(tr("Products:"), this));
 	View = new QListView(this); 
 	Model = new SPhotoBook::TemplateInfoModel(this);
 	View->setModel(Model);
@@ -148,9 +144,24 @@ ChooseTemplatePage::ChooseTemplatePage(QWidget* _Parent) : QWizardPage(_Parent),
 	NoTemplatesLabel->setWordWrap(true);
 	MLayout->addWidget(NoTemplatesLabel);
 
-	QGridLayout* RightLayout = new QGridLayout;
+	//------------ Right info widgets -------------
+	QVBoxLayout* RightLayout = new QVBoxLayout;
 	BottomLayout->addLayout(RightLayout);
-	RightLayout->addWidget(new QLabel(tr("Information:"), this), 0, 0);
+
+	QHBoxLayout* TopRightLayout = new QHBoxLayout;
+	RightLayout->addLayout(TopRightLayout);
+	TopRightLayout->addItem(new QSpacerItem(10, 0, QSizePolicy::Fixed, QSizePolicy::Preferred));
+
+	LabSize = new QLabel(tr("Size:"), this);
+	LabSize->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+	TopRightLayout->addWidget(LabSize);
+	CBSize = new QComboBox(this);
+	CBSize->setMinimumWidth(250);
+	CBSize->setObjectName("WizardSizeCombo");
+	TopRightLayout->addWidget(CBSize);
+
+	TopRightLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
+
 
 	WebView = new QWebView(this);
 	RightLayout->addWidget(WebView, 1, 0);
@@ -198,55 +209,68 @@ void ChooseTemplatePage::selectFirstIndex()
 
 void ChooseTemplatePage::initializePage()
 {
+	setCurrentState(StateUnselected);
+}
+
+SPhotoBook::TemplateInfo ChooseTemplatePage::templateInfo(const QModelIndex& _Index, const QSizeF& _Size) const
+{
+	SPhotoBook::TemplateInfo Res;
+
+	if (_Index.isValid())
+		Res = Model->templateInfo(_Index, _Size);
+	return Res;
 }
 
 SPhotoBook::TemplateInfo ChooseTemplatePage::selectedTemplateInfo() const
 {
 	SPhotoBook::TemplateInfo Res;
 
-	int ItemRow = CBSize->itemData(CBSize->currentIndex()).toInt();
-	QModelIndex ItemIndex = Model->index(ItemRow, 0);
-	if (ItemIndex.isValid())
-		Res = Model->templateInfo(ItemIndex);
+	if (CBSize->currentIndex() != -1)
+	{
+		QSizeF CurrentSize = CBSize->itemData(CBSize->currentIndex()).toSizeF();
+		Res = templateInfo(View->currentIndex(), CurrentSize);
+	}
 	return Res;
 }
 
+
 bool ChooseTemplatePage::validatePage()
 {
-	return true; 
+	return View->currentIndex().isValid();
 }
 
 bool ChooseTemplatePage::isComplete() const
 {
-	return Model->rowCount() > 0 && View->currentIndex().isValid();
+	return Model->rowCount() > 0 && View->currentIndex().isValid() && CurrentState != StateUnselected;
 }
 
-void ChooseTemplatePage::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList )
+void ChooseTemplatePage::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type )
 {
 	Model->setTemplateList(_TemplateList);
-	selectFirstIndex();
+	//selectFirstIndex();
 }
 
 void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 {
 	WebView->stop();
-
+	completeChanged();
 	//Load available sizes.
 	CBSize->clear();
-	QModelIndexList SizesList = Model->sizes(_Index);
-	QModelIndexList::iterator it;
+	QList<QSizeF> SizesList = Model->sizes(_Index);
+	QList<QSizeF>::iterator it;
 	for (it = SizesList.begin(); it != SizesList.end(); ++it)
 	{
-		SPhotoBook::TemplateInfo CTemplateInfo = Model->templateInfo(*it);
-		QSizeF CSize = CTemplateInfo.size();
-		CBSize->addItem(QString("%1x%2 mm").arg(CSize.width()).arg(CSize.height()), it->row());
+		QSizeF CSize = *it;
+		CBSize->addItem(QString("%1x%2 mm").arg(CSize.width()).arg(CSize.height()), CSize);
 	}
-
-	//Get info url from model and display it.
-	QUrl InfoUrl = SPhotoBook::MetaInfo::infoUrl(Model->templateInfo(_Index).name());
-	WebView->setHtml("");
-	setCurrentState(StateGettingInfo);
-	WebView->load(InfoUrl);
+	if (!SizesList.isEmpty())
+	{
+		//Get info url from model and display it.
+		QUrl InfoUrl = Manager->infoUrl(Model->templateInfo(_Index, SizesList.first()));
+		WebView->setHtml("");
+		setCurrentState(StateGettingInfo);
+		WebView->load(InfoUrl);
+	}
 }
 
 void ChooseTemplatePage::slotWebLoadStarted()
@@ -345,7 +369,6 @@ int ChooseCreationModePage::nextId() const
 void ChooseCreationModePage::setTemplateInfo(const SPhotoBook::TemplateInfo& _TemplateInfo)
 {
 	//Fill predesigns of template.
-	qDebug() << "--- Designs size: " << _TemplateInfo.designs().size();
 	DesignModel->setDesignInfoList(_TemplateInfo.designs());
 	if (DesignModel->rowCount() > 0)
 	{
@@ -384,8 +407,14 @@ void ChooseCreationModePage::slotPredesignChanged(const QModelIndex& _Index)
 	{
 		//Lets load the photobook
 		SPhotoBook::DesignInfo DInfo = designInfo();
+		QFileInfo ImageFInfo(DInfo.imageFile());
+		QString ImageFile;
+		if (ImageFInfo.isFile())
+			ImageFile = QString(QUrl::fromLocalFile(ImageFInfo.absoluteFilePath()).toEncoded());
+		else
+			ImageFile = ":/st/wizards/defaultdesign.png";
 		TBDescription->setHtml(QString("<h1>%1</h1><p>%2</p><center><img src=""%3""/></center>").arg(DInfo.name()).arg(DInfo.description()).arg(
-				QString(QUrl::fromLocalFile(DInfo.imageFile()).toEncoded())));
+				ImageFile));
 	}
 }
 
@@ -428,9 +457,19 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent), Aut
 
 	QFormLayout* FormLayout = new QFormLayout();
 	PhotoBookLayout->addLayout(FormLayout);
+
 	QLineEdit* LETitle = new QLineEdit(GBPhotoBook);
 	registerField("title", LETitle);
 	FormLayout->addRow(tr("Title"), LETitle);
+
+	QLineEdit* LESubTitle = new QLineEdit(GBPhotoBook);
+	registerField("subtitle", LESubTitle);
+	FormLayout->addRow(tr("SubTitle"), LESubTitle);
+
+	QLineEdit* LEAuthor = new QLineEdit(GBPhotoBook);
+	registerField("author", LEAuthor);
+	FormLayout->addRow(tr("Author"), LEAuthor);
+
 
 	SBNumPages = new QSpinBox(GBPhotoBook);
 	registerField("numpages", SBNumPages);
@@ -489,6 +528,8 @@ void BuildOptionsPage::setBuildOptions(const SPhotoBook::BuildOptions& _Options)
 	setField("autodetectrotation", !_Options.ignoreExifRotation());
 	setField("includetexts", _Options.useTexts());
 	setField("title", _Options.title());
+	setField("subtitle", _Options.subTitle());
+	setField("author", _Options.author());
 	setField("numpages", _Options.pagesToFill());
 	setField("fromdate", _Options.fromDate());
 	setField("todate", _Options.toDate());
@@ -503,6 +544,8 @@ SPhotoBook::BuildOptions BuildOptionsPage::getBuildOptions() const
 	Res.setIgnoreExifRotation(!field("autodetectrotation").toBool());
 	Res.setUseTexts(field("includetexts").toBool());
 	Res.setTitle(field("title").toString());
+	Res.setSubTitle(field("subtitle").toString());
+	Res.setAuthor(field("author").toString());
 	Res.setPagesToFill(field("numpages").toInt());
 	Res.setFromDate(field("fromdate").toDate());
 	Res.setToDate(field("todate").toDate());
@@ -575,7 +618,7 @@ SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Pare
 	SourceLabel->setRotation(Qxt::CounterClockwise);
 	TopLayout->addWidget(SourceLabel);
 	//MLayout->addWidget(new QLabel(tr("Folder name:"), this));
-	SPhotoBook::ImagesListView* IListView = new SPhotoBook::ImagesListView(this);
+	IListView = new SPhotoBook::ImagesListView(this);
 	IListView->model()->setNumMatchLimit(1);
 	TopLayout->addWidget(IListView);
 	IListView->showSelectAllAction(true);
@@ -635,6 +678,12 @@ STDom::DDocModel* SelectDiskFolderPage::selectedImages() const
 	return IBListView->model()->sourceModel();
 }
 
+void SelectDiskFolderPage::initializePage()
+{
+	if (IListView->model()->rowCount() == 0)
+		IListView->selectFolder();
+}
+
 void SelectDiskFolderPage::slotUpdateInfo()
 {
 	updateInfo();
@@ -671,9 +720,9 @@ AlbumWizardEndPage::AlbumWizardEndPage(QWidget* _Parent) : QWizardPage(_Parent)
 // class STAlbumWizard
 //_____________________________________________________________________________
 
-STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags)
+STAlbumWizard::STAlbumWizard(StarlabAbstractManager* _Manager, QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags), Manager(_Manager)
 {
-	CTemplatePage = new ChooseTemplatePage(this);
+	CTemplatePage = new ChooseTemplatePage(_Manager, this);
 	setPage(Page_ChooseTemplate, CTemplatePage);
 	CCreationModePage = new ChooseCreationModePage(this);
 	setPage(Page_ChooseCreationMode, CCreationModePage);
@@ -681,7 +730,7 @@ STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(pa
 	setPage(Page_BuildOptions, PBuildOptions);
 	SDFolderPage = new SelectDiskFolderPage(this);
 	setPage(Page_SelectDiskFolder, SDFolderPage);
-	setPage(Page_End, new AlbumWizardEndPage(this)); 
+	setPage(Page_End, new AlbumWizardEndPage(this));
 	
 	setStartId(Page_ChooseTemplate);
 
@@ -689,11 +738,10 @@ STAlbumWizard::STAlbumWizard(QWidget* parent, Qt::WindowFlags flags): QWizard(pa
 	setWizardStyle(ModernStyle);
 #endif
 
-	setOption(HaveHelpButton, true);
+	setOption(HaveHelpButton, false);
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/st/wizards/albumwizard.png").scaled(64,64));
 
-	connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
-	connect(CTemplatePage, SIGNAL(templateSelected()), this, SLOT(slotLoadTemplate()));
+	//connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
 
 	setWindowTitle(QObject::tr("PhotoBook Wizard"));
 }
@@ -755,8 +803,9 @@ SPhotoBook::BuildOptions STAlbumWizard::buildOptions() const
 	return PBuildOptions->getBuildOptions();
 }
 
-void STAlbumWizard::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList)
+//TODO: Refactor it (Remove _Type, its reiterant.
+void STAlbumWizard::setTemplateList(const SPhotoBook::TemplateInfoList& _TemplateList, SPhotoBook::MetaInfo::EnTemplateType _Type)
 {
-	CTemplatePage->setTemplateList(_TemplateList);
+	CTemplatePage->setTemplateList(_TemplateList, _Type);
 }
 

@@ -25,27 +25,28 @@
 #include <QIcon>
 #include <QDir>
 #include "stdomexport.h"
+#include "publisherinfo.h"
 
 namespace STDom
 {
-
+// !!!!!!!!!!!!!! DEPRECATED !!!!!!!!!!!!!!
 //#include "stphotolayout.h"
 
-class ST_DOM_EXPORT STCollectionPublisherInfo
+class ST_DOM_EXPORT STCollectionPublisherInfoDep
 {
 	QFileInfo PublisherXmlFile; 
 	QIcon Icon; 
 	QString Description;
 	 
 public:	
-	STCollectionPublisherInfo(const QDir& _PublisherDir = QDir()); 
+	STCollectionPublisherInfoDep(const QDir& _PublisherDir = QDir());
 	void setIcon(const QIcon& _Icon) { Icon = _Icon; }
 	QIcon icon() const {return Icon; } 
 	void setDescription(const QString& _Description) { Description = _Description; }
 	QString description() const { return Description; }
 	void setPublisherXml( const QFileInfo& _PublisherXmlFile ) { PublisherXmlFile = _PublisherXmlFile; }
 	QFileInfo publisherXmlFile() const { return PublisherXmlFile; }
-	QFileInfo publisherDatabaseFile() const { return PublisherXmlFile.dir().absolutePath() + "/publisher.db"; } 
+	QFileInfo publisherDatabaseFile() const { return PublisherXmlFile.dir().absolutePath() + "/" + PublisherInfo::defaultDatabaseFileName(); }
 };
 
 /**
@@ -53,22 +54,22 @@ Model for list of Publishers on collection structure.
 
 	@author
 */
-class ST_DOM_EXPORT STCollectionPublisherModel : public QAbstractListModel
+class ST_DOM_EXPORT STCollectionPublisherModelDep : public QAbstractListModel
 {
 private:
-	typedef QList<STCollectionPublisherInfo> TPublisherList; 
+	typedef QList<STCollectionPublisherInfoDep> TPublisherList;
 	
 	TPublisherList PublisherList; 
 	QString SharedDataPath; 
 	
 public:
-	STCollectionPublisherModel(QObject* parent = 0);
+	STCollectionPublisherModelDep(QObject* parent = 0);
 	void loadPublishers();
 	int rowCount(const QModelIndex& _Parent = QModelIndex()) const;
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
 	QString publisherPath(); 
-	STCollectionPublisherInfo publisherInfo(const QModelIndex& _Index); 
-	static STCollectionPublisherInfo defaultPublisherInfo();
+	STCollectionPublisherInfoDep publisherInfo(const QModelIndex& _Index);
+	static STCollectionPublisherInfoDep defaultPublisherInfo();
 	QString sharedDataPath() const { return SharedDataPath; } 
 	void setSharedDataPath(const QString& _Value) { SharedDataPath = _Value; }
 };

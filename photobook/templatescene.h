@@ -30,6 +30,7 @@
 #include "stphotobookexport.h"
 #include "ichangescontrol.h"
 #include "collectioninfo.h"
+#include "templatedatacontext.h"
 
 /**
 	QGraphicsScene to represent templates.
@@ -71,7 +72,7 @@ private:
 	bool AutoAdjustFrames;
 	bool IgnoreExifRotation;
 	bool HasChanges;
-	QSizeF RenderBaseSize;
+	TemplateDataContext DataContext;
 	QList<GraphicsPhotoItem *> PhotoItems;
 	
 	QStringList storePhotoItemImage(GraphicsPhotoItem* _CItem, const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages = false);
@@ -82,6 +83,8 @@ public:
 	TemplateScene(QObject* _Parent = 0);
 	TemplateScene(const QSizeF& _PageSize, QObject* _Parent);
 	void copy(TemplateScene* _Other);
+	static QRectF translatedRectF(const QRectF& _Rect, const QSizeF& _DestSize, const QSizeF& _SourceSize);
+	void resize(const QSizeF& _NewSize);
 	void replaceTemplate(TemplateScene* _Other);
 	void setImageToSelectedItems(const QPixmap& _ThumbNail, const QString& _ImageFileName);
 	void setDummyImages(const QList<QImage>& _ImageList);
@@ -164,8 +167,8 @@ public:
 	bool operator>(int _Value) const;
 
 	void selectFirstEmptyPhotoItem();
-	QSizeF renderBaseSize() const { return RenderBaseSize; }
 	bool modifyAllFrames() const { return ModifyAllFrames; }
+	void setModifyAllFrames(bool _Value) { ModifyAllFrames = _Value; }
 	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
@@ -177,8 +180,9 @@ public:
 	void autoFillImages(const QFileInfoList& _Images);
 
 	//Variables
-	void setVariable(const QString& _VariableName, const QString& _Value);
-	void setYear(int _Year);
+	void getContextVariables();
+	void setDataContext(const TemplateDataContext& _DataContext);
+	TemplateDataContext& dataContext();
 
 protected:
 	bool event(QEvent* _Event);

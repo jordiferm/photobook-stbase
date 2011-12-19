@@ -21,6 +21,7 @@
 #include <QWidget>
 #include "stphotobookexport.h"
 #include "metainfo.h"
+#include "templateinfolist.h"
 
 class QToolBar;
 class FPixmapSelector;
@@ -28,6 +29,8 @@ class QwwRichTextEdit;
 class QComboBox;
 class QSpinBox;
 class QCheckBox;
+class QxtGroupBox;
+class STRectEditWidget;
 namespace SPhotoBook
 {
 
@@ -53,7 +56,6 @@ class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 	QSpinBox* SBPPageHeight;
 	QSpinBox* SBDpis;
 	QComboBox* CBPreProcType;
-	QCheckBox* CBCutPages;
 
 	//Behavior
 	QSpinBox* SBModPages;
@@ -65,10 +67,22 @@ class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 	QSpinBox* SBOptImagesPerPage;
 	QCheckBox* CBAutoGenerate;
 
+	//GUI
+	QxtGroupBox* GBCoverMargin;
+	QxtGroupBox* GBCoverSpineMargin;
+	QxtGroupBox* GBPageMargin;
+	STRectEditWidget* RECover;
+	STRectEditWidget* RECoverSpine;
+	STRectEditWidget* REPage;
+
+	TemplateInfoList TInfoList;
+
 	void createActions();
 	QWidget* createGeneralWidget();
 	QWidget* createRenderWidget();
 	QWidget* createBehaviorWidget();
+	QWidget* createUIWidget();
+	void loadTemplatesInfo(const SPhotoBook::TemplateInfoList& _TInfoList);
 
 public:
     explicit MetaInfoWidget(QWidget *parent = 0);
@@ -77,8 +91,8 @@ public:
 
 signals:
 
-public slots:
-
+private slots:
+	void slotNameActivated(const QString& _TemplateName);
 };
 }
 
