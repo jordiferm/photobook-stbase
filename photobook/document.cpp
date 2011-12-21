@@ -254,14 +254,15 @@ void Document::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDa
 	QDate CDate = _FromDate;
 	for (int Vfor = 0; Vfor < NumMonths; Vfor++)
 	{
-		TemplateScene* CurrTemplate = CCalculator.getDateCandidate(Layouts, CDate);
+		TemplateScene* CurrTemplate = CCalculator.newDateCandidate(Layouts, CDate);
 		Assert(CurrTemplate, Error(tr("Error creating calendar: No candidates found")));
 		CurrTemplate->dataContext().setDate(CDate);
 		setTemplateDataContext(BOptions, CurrTemplate);
 		CDate = CDate.addMonths(1);
 		TemplateScene* NewPage = createPage(CurrTemplate);
 		Pages.push_back(NewPage);
-		CCalculator.fillPage(NewPage, CurrTemplate, _Progress);
+		CCalculator.fillPage(NewPage, CurrTemplate->modifyAllFrames(), _Progress);
+		delete CurrTemplate;
 		emit newPageCreated();
 	}
 }

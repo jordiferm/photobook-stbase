@@ -219,7 +219,8 @@ QVariant GraphicsTextItem::itemChange(GraphicsItemChange change, const QVariant 
 void GraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent* _Event)
 {
 	_Event->accept();
-	scene()->clearSelection();
+	if (!_Event->modifiers() && Qt::ControlModifier)
+		scene()->clearSelection();
 
 	setSelected(true);
 	setControlsVisible(isSelected());

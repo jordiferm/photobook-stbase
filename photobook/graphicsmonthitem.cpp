@@ -23,6 +23,7 @@
 #include <QDomElement>
 #include <QTextBlockFormat>
 #include <QTextCursor>
+#include <QGraphicsSceneMouseEvent>
 #include "stutils.h"
 
 using namespace SPhotoBook;
@@ -31,6 +32,7 @@ using namespace SPhotoBook;
 
 void GraphicsMonthItem::init()
 {
+	QGraphicsItem::setFlag(QGraphicsItem::ItemIsSelectable);
 	setTextInteractionFlags(Qt::NoTextInteraction);
 	QDate CDate = QDate::currentDate(); 
 	Month = CDate.month(); 
@@ -40,6 +42,12 @@ void GraphicsMonthItem::init()
 	TextColor = QColor("#000000");
 	QFont CalFont("Arial", 8);
 	setFont(CalFont);
+}
+
+void GraphicsMonthItem::mousePressEvent(QGraphicsSceneMouseEvent* _Event)
+{
+	QGraphicsTextItem::mousePressEvent(_Event);
+	return;
 }
 
 GraphicsMonthItem::GraphicsMonthItem(QGraphicsItem* parent): GraphicsTextItem(parent)
@@ -296,3 +304,4 @@ void GraphicsMonthItem::addDefaultHolyDays(int _Year)
 	addHolyDay("26/12");
 	addHolyDay(STUtils::pascuaDate(_Year));
 }
+
