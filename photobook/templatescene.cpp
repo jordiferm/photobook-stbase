@@ -117,7 +117,7 @@ void TemplateScene::resize(const QSizeF& _NewSize)
 {
 	QSizeF CurrentSize = PageItem->rect().size();
 	setSceneRect(translatedRectF(sceneRect(), _NewSize, CurrentSize));
-	//PageItem->setRect(QRectF(PageItem->rect(), _NewSize));
+	PageItem->setRect(sceneRect());
 	QList<QGraphicsItem *> Items = items();
 	QList<QGraphicsItem *>::iterator it;
 	for (it = Items.begin(); it != Items.end(); ++it)
@@ -131,23 +131,16 @@ void TemplateScene::resize(const QSizeF& _NewSize)
 				CItem->setRect(TransRect);
 			}
 			else
-			if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
-			{
-				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
-				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
-				CItem->setPos(TransRect.topLeft());
-				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
-			}
-			else
 			if (QGraphicsItem* CItem = qgraphicsitem_cast<QGraphicsItem*>(*it))
 			{
-				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
-				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
-				CItem->setPos(TransRect.topLeft());
-				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
+				if (CItem != PageItem)
+				{
+					QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
+					QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
+					CItem->setPos(TransRect.topLeft());
+					CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
+				}
 			}
-
-			//	CItem-> setRect(translatedRectF(CItem->rect(), _NewSize, CurrentSize));
 		}
 	}
 }
