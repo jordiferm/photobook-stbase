@@ -70,6 +70,7 @@ private:
 	static qreal PageZValue;
 	bool ModifyAllFrames;
 	bool AutoAdjustFrames;
+	bool ExpandImagesToFillFrames;
 	bool IgnoreExifRotation;
 	bool HasChanges;
 	TemplateDataContext DataContext;
@@ -171,6 +172,8 @@ public:
 	void setModifyAllFrames(bool _Value) { ModifyAllFrames = _Value; }
 	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
+	void setExpandImagesToFillFrames(bool _Value) { ExpandImagesToFillFrames = _Value; }
+	bool expandImagesToFillFrames() const { return ExpandImagesToFillFrames; }
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 	bool ignoreExifRotation() const { return IgnoreExifRotation; }
 	//IChangesControl

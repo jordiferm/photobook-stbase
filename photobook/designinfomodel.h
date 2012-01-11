@@ -22,6 +22,7 @@
 #include <QAbstractListModel>
 #include <QImage>
 #include "stphotobookexport.h"
+#include "templateinfo.h"
 #include "designinfolist.h"
 
 namespace SPhotoBook
@@ -37,7 +38,7 @@ public:
 	int rowCount(const QModelIndex& _Parent = QModelIndex()) const;
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
 	DesignInfo designInfo(const QModelIndex& _Index) const;
-	void setDesignInfoList(const DesignInfoList& _List);
+	void setTemplateInfo(const SPhotoBook::TemplateInfo& _TemplateInfo);
 
 signals:
 

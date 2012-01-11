@@ -30,7 +30,7 @@ namespace SPhotoBook
 {
 class ST_PHOTOBOOK_EXPORT BuildOptions
 {
-	bool IgnoreExifRotation, AutoadjustFrames, UseTexts, AutoFillBackgrounds;
+	bool IgnoreExifRotation, AutoadjustFrames, UseTexts, AutoFillBackgrounds, PagesFromImages, ExpandImagesToFillFrames;
 	int PagesToFill;
 	QString Title, SubTitle, Author;
 	QDate FromDate, ToDate;
@@ -48,6 +48,11 @@ public:
 	bool useTexts() const { return UseTexts; }
 	void setAutoFillBackgrounds(bool _Value) { AutoFillBackgrounds = _Value; }
 	bool autoFillBackgrounds() const { return AutoFillBackgrounds; }
+	void setPagesFromImages( bool _Value ) { PagesFromImages = _Value; }
+	//!Indicates if builder calculates num pages from num selected images.
+	bool pagesFromImages() const { return PagesFromImages; }
+	void setExpandImagesToFillFrames(bool _Value) { ExpandImagesToFillFrames = _Value; }
+	bool expandImagesToFillFrames() const { return ExpandImagesToFillFrames; }
 	void setPagesToFill(int _Value) { PagesToFill = _Value; }
 	int pagesToFill() const { return PagesToFill; }
 	void setSubTitle(const QString& _Value) { SubTitle = _Value; }

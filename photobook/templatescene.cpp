@@ -67,6 +67,7 @@ void TemplateScene::init()
 	ItemsResizable = true;
 	ModifyAllFrames = false;
 	AutoAdjustFrames = true;
+	ExpandImagesToFillFrames = false;
 	IgnoreExifRotation = false;
 	HasChanges = false;
 
@@ -117,7 +118,7 @@ void TemplateScene::resize(const QSizeF& _NewSize)
 {
 	QSizeF CurrentSize = PageItem->rect().size();
 	setSceneRect(translatedRectF(sceneRect(), _NewSize, CurrentSize));
-	//PageItem->setRect(QRectF(PageItem->rect(), _NewSize));
+	PageItem->setRect(sceneRect());
 	QList<QGraphicsItem *> Items = items();
 	QList<QGraphicsItem *>::iterator it;
 	for (it = Items.begin(); it != Items.end(); ++it)
@@ -131,23 +132,16 @@ void TemplateScene::resize(const QSizeF& _NewSize)
 				CItem->setRect(TransRect);
 			}
 			else
-			if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
-			{
-				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
-				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
-				CItem->setPos(TransRect.topLeft());
-				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
-			}
-			else
 			if (QGraphicsItem* CItem = qgraphicsitem_cast<QGraphicsItem*>(*it))
 			{
-				QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
-				QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
-				CItem->setPos(TransRect.topLeft());
-				CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
+				if (CItem != PageItem)
+				{
+					QRectF ItemRect(CItem->pos(), CItem->boundingRect().size());
+					QRectF TransRect = translatedRectF(ItemRect, _NewSize, CurrentSize);
+					CItem->setPos(TransRect.topLeft());
+					CItem->scale(TransRect.width() / ItemRect.width(), TransRect.height() / ItemRect.height());
+				}
 			}
-
-			//	CItem-> setRect(translatedRectF(CItem->rect(), _NewSize, CurrentSize));
 		}
 	}
 }
@@ -543,6 +537,7 @@ void TemplateScene::addPhotoItem(GraphicsPhotoItem* _PhotoItem)
 	_PhotoItem->setPanningEnabled(!ItemsMovable);
 	_PhotoItem->setMultiSelection(ModifyAllFrames);
 	_PhotoItem->setAutoAdjustFramesToImages(AutoAdjustFrames);
+	_PhotoItem->setExpandImagesToFillFrames(ExpandImagesToFillFrames);
 	configureItem(_PhotoItem); 
 	connect(_PhotoItem, SIGNAL(mousePanning(const QPointF&)), this, SLOT(panSelectedPhotoItems(const QPointF&)));
 	connect(_PhotoItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
@@ -981,7 +976,7 @@ int TemplateScene::numPhotoItems() const
 	QList<QGraphicsItem *>::iterator it;
 	for (it = Items.begin(); it != Items.end(); ++it)
 	{
-		if ((*it)->isVisible())
+		if ((*it)->isVisible() && (*it) != PageItem)
 			if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
 				++Res;
 

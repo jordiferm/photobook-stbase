@@ -45,6 +45,18 @@ void PublicTemplatesDatabase::ensureCreated()
 
 }
 
+void PublicTemplatesDatabase::removeDInfo(const TemplateInfo& _Template, const DesignInfo& _Design)
+{
+	QSqlQuery Query(*this);
+	//DELETE if exist
+	Query.prepare("DELETE FROM templates WHERE name=:name AND design=:design AND width=:width AND height=:height");
+	Query.bindValue(":name", _Template.name());
+	Query.bindValue(":design", _Design.name());
+	Query.bindValue(":width", _Template.size().width());
+	Query.bindValue(":height", _Template.size().height());
+	Query.exec();
+}
+
 void PublicTemplatesDatabase::updateDInfo(const TemplateInfo& _Template, const DesignInfo& _Design)
 {
 	QSqlQuery Query(*this);
@@ -110,9 +122,9 @@ void PublicTemplatesDatabase::updateTemplateInfo(const TemplateInfo& _Template)
 	{
 		DesignInfo DInfo = *it;
 		if (DInfo.isPublic())
-		{
 			updateDInfo(_Template, DInfo);
-		}
+		else
+			removeDInfo(_Template, DInfo);
 	}
 }
 
