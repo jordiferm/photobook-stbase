@@ -57,6 +57,7 @@ void Document::configurePage(TemplateScene* _Page)
 {
 	_Page->setAutoAdjustFrames(BOptions.autoadjustFrames());
 	_Page->setIgnoreExifRotation(BOptions.ignoreExifRotation());
+	_Page->setExpandImagesToFillFrames(BOptions.expandImagesToFillFrames());
 	_Page->setModifyAllFrames(MetInfo.multiPhoto());
 	connect(_Page, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
 	connect(_Page, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));
@@ -236,6 +237,9 @@ void Document::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDa
 	clear();
 	CandidateCalculator CCalculator(*this, _PhotoModel);
 	int NumMonths = STUtils::monthsTo(_FromDate, _ToDate) + 1;
+	if (MetInfo.preferMinPages()) //Ex: Anual calendars.
+		NumMonths = qMin(MetInfo.minPages(), NumMonths);
+
 	if (_Progress)
 		_Progress->setRange(0, NumMonths);
 
@@ -284,11 +288,17 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		_Progress->setRange(0, CCalculator.totalPhotos());
 	int NPages = 0;
 	int PagToFill = qMin(BOptions.pagesToFill(), MetInfo.maxPages());
+
+	if (BOptions.pagesFromImages())
+		PagToFill = _PhotoModel->rowCount() / qMax(1, MetInfo.numOptimalImagesPerPage());
+
+	if (MetInfo.preferMinPages())
+		PagToFill = MetInfo.minPages();
+
 	if (PagToFill == 0)
 		PagToFill = MetInfo.minPages();
 
-	while (CCalculator.photosAvailable() && ThereIsTemplates && NPages < PagToFill &&
-		   ((MetInfo.preferMinPages() && NPages < MetInfo.minPages()) || !MetInfo.preferMinPages()))
+	while (CCalculator.photosAvailable() && ThereIsTemplates && NPages < PagToFill )
 	{
 		//Agafem un template qualsevol
 		TemplateScene* CurrTemplate;
@@ -310,7 +320,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		_Progress->setValue(CCalculator.totalPhotos());
 
 	//There's no images and still pages to fill.
-	while (NPages < MetInfo.minPages() && ThereIsTemplates)
+	while (NPages < PagToFill && ThereIsTemplates)
 	{
 		//Agafem un template qualsevol
 		TemplateScene* CurrTemplate = 0;

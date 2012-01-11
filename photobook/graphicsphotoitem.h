@@ -215,6 +215,7 @@ public:
 
 	//-- Configuration
 	void setAutoAdjustFramesToImages(bool _Value);
+	void setExpandImagesToFillFrames(bool _Value);
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 	void setAspectRatioMode(Qt::AspectRatioMode _Value) { AspectRatioMode = _Value; }
 	Qt::AspectRatioMode aspectRatioMode() const { return AspectRatioMode; }
