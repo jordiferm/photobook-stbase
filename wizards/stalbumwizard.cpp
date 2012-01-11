@@ -369,7 +369,8 @@ int ChooseCreationModePage::nextId() const
 void ChooseCreationModePage::setTemplateInfo(const SPhotoBook::TemplateInfo& _TemplateInfo)
 {
 	//Fill predesigns of template.
-	DesignModel->setDesignInfoList(_TemplateInfo.designs());
+	MyTemplateInfo = _TemplateInfo;
+	DesignModel->setTemplateInfo(_TemplateInfo);
 	if (DesignModel->rowCount() > 0)
 	{
 		LVDesigns->setCurrentIndex(DesignModel->index(0, 0));
@@ -407,7 +408,9 @@ void ChooseCreationModePage::slotPredesignChanged(const QModelIndex& _Index)
 	{
 		//Lets load the photobook
 		SPhotoBook::DesignInfo DInfo = designInfo();
-		QFileInfo ImageFInfo(DInfo.imageFile());
+		QString DesignImageFile = QDir(MyTemplateInfo.absolutePath(DInfo)).absoluteFilePath(DInfo.imageFile());
+		QFileInfo ImageFInfo(DesignImageFile);
+
 		QString ImageFile;
 		if (ImageFInfo.isFile())
 			ImageFile = QString(QUrl::fromLocalFile(ImageFInfo.absoluteFilePath()).toEncoded());
@@ -523,6 +526,7 @@ bool BuildOptionsPage::isComplete() const
 
 void BuildOptionsPage::setBuildOptions(const SPhotoBook::BuildOptions& _Options)
 {
+	DefaultBuildOptions = _Options;
 	setField("autoadjust", _Options.autoadjustFrames());
 	setField("autofillbackgrounds", _Options.autoFillBackgrounds());
 	setField("autodetectrotation", !_Options.ignoreExifRotation());
@@ -538,7 +542,7 @@ void BuildOptionsPage::setBuildOptions(const SPhotoBook::BuildOptions& _Options)
 
 SPhotoBook::BuildOptions BuildOptionsPage::getBuildOptions() const
 {
-	SPhotoBook::BuildOptions Res;
+	SPhotoBook::BuildOptions Res = DefaultBuildOptions;
 	Res.setAutoadjustFrames(field("autoadjust").toBool());
 	Res.setAutoFillBackgrounds(field("autofillbackgrounds").toBool());
 	Res.setIgnoreExifRotation(!field("autodetectrotation").toBool());

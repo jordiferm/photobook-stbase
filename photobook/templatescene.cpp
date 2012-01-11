@@ -67,6 +67,7 @@ void TemplateScene::init()
 	ItemsResizable = true;
 	ModifyAllFrames = false;
 	AutoAdjustFrames = true;
+	ExpandImagesToFillFrames = false;
 	IgnoreExifRotation = false;
 	HasChanges = false;
 
@@ -536,6 +537,7 @@ void TemplateScene::addPhotoItem(GraphicsPhotoItem* _PhotoItem)
 	_PhotoItem->setPanningEnabled(!ItemsMovable);
 	_PhotoItem->setMultiSelection(ModifyAllFrames);
 	_PhotoItem->setAutoAdjustFramesToImages(AutoAdjustFrames);
+	_PhotoItem->setExpandImagesToFillFrames(ExpandImagesToFillFrames);
 	configureItem(_PhotoItem); 
 	connect(_PhotoItem, SIGNAL(mousePanning(const QPointF&)), this, SLOT(panSelectedPhotoItems(const QPointF&)));
 	connect(_PhotoItem, SIGNAL(imageDropped(const QString&, const QString&)), this, SIGNAL(imageDropped(const QString&, const QString&)));
@@ -974,7 +976,7 @@ int TemplateScene::numPhotoItems() const
 	QList<QGraphicsItem *>::iterator it;
 	for (it = Items.begin(); it != Items.end(); ++it)
 	{
-		if ((*it)->isVisible())
+		if ((*it)->isVisible() && (*it) != PageItem)
 			if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
 				++Res;
 

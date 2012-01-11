@@ -39,6 +39,7 @@ private:
 	static const QString DefaultPublicTemplatesDBConnectionName;
 	void createTemplatesTable();
 	void ensureCreated();
+	void removeDInfo(const TemplateInfo& _Template, const DesignInfo& _Design);
 	void updateDInfo(const TemplateInfo& _Template, const DesignInfo& _Design);
 
 public:

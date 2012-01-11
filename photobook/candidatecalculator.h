@@ -52,7 +52,9 @@ public:
 	PageList::const_iterator lowerBound(PageList::const_iterator begin, PageList::const_iterator end, int _Value);
 	PageList::const_iterator upperBound(PageList::const_iterator begin, PageList::const_iterator  end, int _Value);
 	PageList unusedTemplates(const PageList& _Templates);
+	PageList templateWithPhotoItems(const PageList& _Templates);
 	TemplateScene* randomUnused(const PageList& _Templates);
+	TemplateScene* randomUsed(const PageList& _Templates);
 	PageList candidatesByNumImages(const PageList& _Templates, int _ImagesPerPage, int _AvgMargin);
 	TemplateScene* getEmptyCandidate(const PageList& _Templates, int _ImagesPerPage, int _AvgMargin);
 	TemplateScene* getCandidate(const PageList& _Templates, int _PagesToFill, int _AvgMargin);

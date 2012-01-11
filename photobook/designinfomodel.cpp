@@ -17,6 +17,9 @@
 ****************************************************************************/
 
 #include "designinfomodel.h"
+#include <QDebug>
+
+#include "collectioninfo.h"
 
 using namespace SPhotoBook;
 
@@ -37,16 +40,16 @@ QVariant DesignInfoModel::data(const QModelIndex& _Index, int _Role) const
 	QVariant Res;
 	 if (_Index.isValid() && _Index.row() < rowCount())
 	 {
-			 DesignInfo DInfo = DIList[_Index.row()];
-			 if (_Role == Qt::DisplayRole)
-			 {
-					 Res = DInfo.name();
-			 }
-			 else
-			 if (_Role == Qt::DecorationRole)
-			 {
-				Res = QPixmap::fromImage(ItemIcon);
-			 }
+		DesignInfo DInfo = DIList[_Index.row()];
+		if (_Role == Qt::DisplayRole)
+		{
+			 Res = DInfo.name();
+		}
+		else
+		if (_Role == Qt::DecorationRole)
+		{
+			Res = QPixmap::fromImage(ItemIcon);
+		}
 	 }
 	 return Res;
 }
@@ -59,9 +62,9 @@ DesignInfo DesignInfoModel::designInfo(const QModelIndex& _Index) const
 	return Res;
 }
 
-void DesignInfoModel::setDesignInfoList(const DesignInfoList& _List)
+void DesignInfoModel::setTemplateInfo(const SPhotoBook::TemplateInfo& _TemplateInfo)
 {
-	DIList = _List;
+	DIList = _TemplateInfo.designs();
 	reset();
 }
 

@@ -120,6 +120,7 @@ Q_OBJECT
 	QListView* LVDesigns;
 	QTextBrowser* TBDescription;
 	int PredesignPhotoItems;
+	SPhotoBook::TemplateInfo MyTemplateInfo;
 
 public:
 	ChooseCreationModePage(QWidget* _Parent = 0);
@@ -146,6 +147,7 @@ class BuildOptionsPage : public QWizardPage
 	QGroupBox* GBCalendar;
 	QSpinBox* SBNumPages;
 	SPhotoBook::MetaInfo::EnTemplateType  LayoutType;
+	SPhotoBook::BuildOptions DefaultBuildOptions;
 	bool AutoBuildMode;
 
 

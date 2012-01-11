@@ -28,6 +28,8 @@ void BuildOptions::clear()
 	AutoadjustFrames = true;
 	UseTexts = false;
 	AutoFillBackgrounds = false;
+	PagesFromImages = false;
+	ExpandImagesToFillFrames = false;
 	int PagesToFill = 0;
 	QString Title = "";
 	FromDate = QDate(QDate::currentDate().year(), QDate::currentDate().month(), 1);
@@ -48,12 +50,15 @@ void BuildOptions::setDefaults(MetaInfo::EnTemplateType _Type, int _MinPages)
 	{
 		case MetaInfo::TypeMultiPhoto :
 			PagesToFill = 9999;
+			PagesFromImages = true;
 		case MetaInfo::TypeIdPhoto :
 			IgnoreExifRotation = true;
 			AutoadjustFrames = false;
+			ExpandImagesToFillFrames = true;
 		break;
 		case MetaInfo::TypeCard :
 			AutoadjustFrames = false;
+			PagesFromImages = true;
 			UseTexts = true;
 		break;
 		case MetaInfo::TypePhotoBook :
