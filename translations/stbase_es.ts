@@ -4008,59 +4008,59 @@ Num</source>
     </message>
     <message>
         <source>Contact</source>
-        <translation type="unfinished">Contacto</translation>
+        <translation>Contacto</translation>
     </message>
     <message>
         <source>Modify</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar</translation>
     </message>
     <message>
         <source>Shippment options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones de envío</translation>
     </message>
     <message>
         <source>Payment Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma de pago</translation>
     </message>
     <message>
         <source>Shipping option</source>
-        <translation type="unfinished"></translation>
+        <translation>Método de envío</translation>
     </message>
     <message>
         <source>By Post</source>
-        <translation type="unfinished"></translation>
+        <translation>Por correo</translation>
     </message>
     <message>
         <source>Collect In Store</source>
-        <translation type="unfinished"></translation>
+        <translation>Recoger en punto de recogida</translation>
     </message>
     <message>
         <source>Shipping Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirección de envío</translation>
     </message>
     <message>
         <source>Shipping Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Método de envio</translation>
     </message>
     <message>
         <source>Collection Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirección de punto de recogida</translation>
     </message>
     <message>
         <source>Collection Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Punto de recogida</translation>
     </message>
     <message>
         <source>More Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Mas opciones</translation>
     </message>
     <message>
         <source>Order invoice</source>
-        <translation type="unfinished"></translation>
+        <translation>Factura del pedido</translation>
     </message>
     <message>
         <source> Tel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tel:</translation>
     </message>
 </context>
 <context>
@@ -4123,7 +4123,7 @@ Num</source>
     </message>
     <message>
         <source>Other data</source>
-        <translation type="unfinished"></translation>
+        <translation>Otros datos</translation>
     </message>
     <message>
         <source>Publisher account number:</source>
@@ -5404,6 +5404,14 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>No Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error getting product format on product: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error opening database %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6773,7 +6781,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Saving Model...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Guardando el modelo...</translation>
     </message>
     <message>
         <source>Error saving photo book thumbnail at: %1</source>
@@ -7430,6 +7438,59 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <message>
         <source>You can not remove this format because there are products that references it</source>
         <translation>No puedes eliminar este formato porque hay productos que le hacen referencia</translation>
+    </message>
+</context>
+<context>
+    <name>WPrintWorkflowManager</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">Todo</translation>
+    </message>
+    <message>
+        <source>&lt;Record&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WPrintWorkflowRecord</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">Todo</translation>
+    </message>
+</context>
+<context>
+    <name>WPrinterRecord</name>
+    <message>
+        <source>General</source>
+        <translation type="unfinished">General</translation>
+    </message>
+    <message>
+        <source>Remote FTP Printer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hot Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System printer</source>
+        <translation type="unfinished">Impresora de sistema</translation>
+    </message>
+    <message>
+        <source>Get system printer settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System printer settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Passive</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
