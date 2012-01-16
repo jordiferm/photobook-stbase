@@ -806,6 +806,12 @@ void GraphicsPhotoItem::setAutoAdjustFramesToImages(bool _Value)
 	//	setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
 }
 
+void GraphicsPhotoItem::setExpandImagesToFillFrames(bool _Value)
+{
+	if (_Value)
+		setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
+}
+
 bool GraphicsPhotoItem::encryptedByFileName(const QString& _FilePath)
 {
 	return QFileInfo(_FilePath).baseName().endsWith("_cyph");

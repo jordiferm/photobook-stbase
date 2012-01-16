@@ -132,7 +132,7 @@ void DesignInfoTableModel::setTemplate(const TemplateInfo& _Template)
 {
 	Template = _Template;
 	DIList = _Template.designs();
-	DesignInfoList::Iterator it;
+	DesignInfoList::iterator it;
 	InDiskList.clear();
 	for (it=DIList.begin(); it != DIList.end(); ++it )
 	{

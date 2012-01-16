@@ -29,7 +29,7 @@ int DesignInfoList::findDesignName(const QString& _DesignName)
 	int Res = -1;
 	bool Found = false;
 	DesignInfoList::const_iterator it = begin();
-	bool Index = 0;
+	int Index = 0;
 	while (!Found && it != end())
 	{
 		Found = it->name() == _DesignName;

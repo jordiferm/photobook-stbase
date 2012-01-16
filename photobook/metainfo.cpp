@@ -138,7 +138,7 @@ void MetaInfo::setDefaults()
 	TemplateType = TypePhotoBook;
 	MultiPhoto = false;
 	AutogenerateLayouts = false;
-	PreferMinPages = true;
+	PreferMinPages = false;
 	Atomic = true;
 	Cyphered = false;
 	PageMarginRect.setRect(0, 0, 0, 0);

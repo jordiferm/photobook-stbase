@@ -1,12 +1,25 @@
 #/bin/bash
 
-
-#BIN_DIR="sysfolderprint.app/Contents/MacOS"
 BIN_DIR="${CMAKE_PROJECT_NAME}.app/Contents/MacOS"
 
 ABS_BIN_DIR="`pwd`/$BIN_DIR"
+LOCAL_LIB_DIR="/usr/local/lib"
 BASE_DIR="`pwd`"
-for i in `ls ./$BIN_DIR/libst*.?.?.?.dylib` 
+DEP_LIB_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../installer/macosx/bundlelibs"
+TOMDIR="`pwd`/tombin.app/Contents/MacOS"
+
+echo "--- Copying libs to build dir from:  $DEP_LIB_DIR"
+cp -r $DEP_LIB_DIR/Frameworks ./$BIN_DIR/..
+cp -r $DEP_LIB_DIR/locallibs/* ./$BIN_DIR
+
+echo "--- Copying TOM from: $TOMDIR"
+cp $TOMDIR/tombin $ABS_BIN_DIR
+
+
+STLIBS_AND_TOM=`ls ./$BIN_DIR/libst*.?.?.?.dylib`
+STLIBS_AND_TOM="$STLIBS_AND_TOM ./$BIN_DIR/tombin"
+
+for i in $STLIBS_AND_TOM
 do
 	echo Fixing $i ... 
 	install_name_tool -change QtXml.framework/Versions/4/QtXml @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml $i
@@ -20,14 +33,29 @@ do
 
 done 
 
+echo "Making paths relative..."
 pushd .
 cd $ABS_BIN_DIR
-for j in `ls libst*.?.?.dylib`
+for j in `ls libst*.*.dylib`
 do
-	for i in `ls libst*.?.?.dylib`
+	for i in `ls libst*.*.dylib`
 	do
 		install_name_tool -change $ABS_BIN_DIR/$j @executable_path/./$j $i
 	done
+	install_name_tool -change $ABS_BIN_DIR/$j @executable_path/./$j tombin
+
 done
+
+
+for j in `ls -1 /usr/local/lib | grep dylib`
+do
+	for i in `ls libst*.*.dylib`
+	do
+#		echo "Changing $LOCAL_LIB_DIR/$j for  @executable_path/./$j in  $i"
+		install_name_tool -change $LOCAL_LIB_DIR/$j @executable_path/./$j $i
+	done
+	install_name_tool -change $LOCAL_LIB_DIR/$j @executable_path/./$j tombin
+done
+
 popd
 
