@@ -23,6 +23,7 @@
 #include <QImage>
 #include <QColor> 
 #include "stimagelibexport.h"
+#include "simplecrypt.h"
 
 /**
 Starblitz Toolkit Image class.
@@ -98,16 +99,17 @@ public:
 	static QString supportedFormatsToWriteFilter();
 
 	//Encoding
-	void saveEncoded(const QString& _FileName, const QString& _Key = DefaultEncryptionKey);
+	SimpleCrypt getCrypto(const QString& _Key);
+
+	bool saveEncoded(const QString& _FileName, const QString& _Key = DefaultEncryptionKey);
 	quint64 keyToInt64(const QString& _Key) const;
-	void loadEncoded(const QString& _FileName, const QString& _Key = DefaultEncryptionKey);
-	void blowFishEncode(const QString& _Key = DefaultEncryptionKey);
-	void blowFishDecode(const QString& _Key = DefaultEncryptionKey);
+	bool loadEncoded(const QString& _FileName, const QString& _Key = DefaultEncryptionKey);
 
 	static void setDefaultEncryptionKey(const QString& _Key) { DefaultEncryptionKey = _Key; }
 	static QString defaultEncryptionKey() { return DefaultEncryptionKey; }
 
-	static QString encodedExtension() { return "seim"; }
+	static bool isEncoded(const QString& _FileName);
+	static QString encodedSuffix() { return "seim"; }
 	static QString encodedFileName(const QString& _ImageFileName);
 
 	//Hashing

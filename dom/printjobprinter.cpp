@@ -206,20 +206,22 @@ STDom::PrintJob PrintJobPrinter::storeImages(const STDom::PrintJob& _Job, const 
 			StoreImage.setDotsPerMeterX(CImage.dotsPerMeterX());
 			StoreImage.setDotsPerMeterY(CImage.dotsPerMeterY());
 
-			QString ImageFileName;
-			if (_Encode)
-			{
-				StoreImage.blowFishEncode(EncodeKey);
-				ImageFileName = StoreImage.hashString() + ".PNG";
-			}
-			else
-				ImageFileName = StoreImage.hashString() + "." + it->completeSuffix();
-
-
+			QString ImageFileName = StoreImage.hashString() + "." + it->completeSuffix();
 			QString DestFilePath = _DestDir.absoluteFilePath(ImageFileName);
 
-			if (!StoreImage.save( DestFilePath, 0, 100))
-				ErrorStack.push(Error(QString(QObject::tr("Error storing image %1")).arg(DestFilePath)));
+
+			if (_Encode)
+			{
+				if (!StoreImage.saveEncoded(DestFilePath))
+					ErrorStack.push(Error(QString(QObject::tr("Error storing encoded image %1")).arg(DestFilePath)));
+
+				DestFilePath = STImage::encodedFileName(DestFilePath);
+			}
+			else
+			{
+				if (!StoreImage.save( DestFilePath, 0, 100))
+					ErrorStack.push(Error(QString(QObject::tr("Error storing image %1")).arg(DestFilePath)));
+			}
 
 			DDocPrintList Prints = _Job.prints(CurrentFile);
 			DDocPrintList::iterator it;

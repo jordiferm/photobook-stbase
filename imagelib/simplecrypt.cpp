@@ -37,7 +37,11 @@ SimpleCrypt::SimpleCrypt():
 	m_protectionMode(ProtectionChecksum),
 	m_lastError(ErrorNoError)
 {
+#if QT_VERSION >= 0x040700
 	qsrand(uint(QDateTime::currentMSecsSinceEpoch() & 0xFFFF));
+#else
+	qsrand(uint(QDateTime::currentDateTime().toTime_t() & 0xFFFF));
+#endif
 }
 
 SimpleCrypt::SimpleCrypt(quint64 key):
@@ -46,7 +50,11 @@ SimpleCrypt::SimpleCrypt(quint64 key):
 	m_protectionMode(ProtectionChecksum),
 	m_lastError(ErrorNoError)
 {
+#if QT_VERSION >= 0x040700
 	qsrand(uint(QDateTime::currentMSecsSinceEpoch() & 0xFFFF));
+#else
+	qsrand(uint(QDateTime::currentDateTime().toTime_t() & 0xFFFF));
+#endif
 	splitKey();
 }
 
