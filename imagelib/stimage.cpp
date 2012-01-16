@@ -41,7 +41,9 @@
 #include "exifmetadata.h"
 
 //cipher
-#include "blowfish.h"
+#include "qxtblowfish.h"
+#include "simplecrypt.h"
+#include <QBuffer>
 
 //#define USE_PRINTKEEPER
 
@@ -202,43 +204,8 @@ STImage STImage::contrast(const unsigned int _Sharpen)
 	return IImage.image();
 }
 
-void STImage::blowFishEncode(const QString& _Key)
-{
-	CBlowFish BFish;
-	BFish.Initialize(reinterpret_cast<unsigned char*>(_Key.toAscii().data()), _Key.length());
 
-	*this = convertToFormat(QImage::Format_ARGB32);
-	#if QT_VERSION >= 0x040600
-		int DestSize = BFish.GetOutputLength(byteCount());
-	#else
-		int DestSize = BFish.GetOutputLength(bytesPerLine()*height());
-	#endif
 
-#if QT_VERSION >= 0x040700 //TODO! I don't know what a hell is going on here !
-		DestSize = BFish.GetOutputLength(byteCount()-1);
-#endif
-
-	BFish.Encode(bits(), bits(), DestSize);
-}
-
-void STImage::blowFishDecode(const QString& _Key)
-{
-	CBlowFish BFish;
-	BFish.Initialize(reinterpret_cast<unsigned char*>(_Key.toAscii().data()), _Key.length());
-	*this = convertToFormat(QImage::Format_ARGB32);
-
-	#if QT_VERSION >= 0x040600
-		int DestSize = BFish.GetOutputLength(byteCount());
-	#else
-		int DestSize = BFish.GetOutputLength(bytesPerLine()*height());
-	#endif
-
-#if QT_VERSION >= 0x040700 //TODO! I don't know what a hell is going on here !
-		DestSize = BFish.GetOutputLength(byteCount()-1);
-#endif
-
-	BFish.Decode(bits(), bits(), DestSize);
-}
 
 STImage STImage::sigmoidalContrast(const unsigned int _Sharpen, const double _Contrast, const double _MidPoint)
 {
@@ -444,6 +411,232 @@ QString STImage::supportedFormatsToWriteFilter()
 	return formatForFileFilter(QImageWriter::supportedImageFormats());
 }
 
+SimpleCrypt STImage::getCrypto(const QString& _Key)
+{
+	//setup our objects
+	SimpleCrypt Crypto(keyToInt64(_Key));
+	Crypto.setCompressionMode(SimpleCrypt::CompressionAlways); //always compress the data, see section below
+	Crypto.setIntegrityProtectionMode(SimpleCrypt::ProtectionHash);  //properly protect the integrity of the data
+	return Crypto;
+}
+
+
+bool STImage::saveEncoded(const QString& _FileName, const QString& _Key)
+{
+	//setup our objects
+	SimpleCrypt crypto(keyToInt64(_Key));
+	crypto.setCompressionMode(SimpleCrypt::CompressionAlways); //always compress the data, see section below
+	crypto.setIntegrityProtectionMode(SimpleCrypt::ProtectionHash);  //properly protect the integrity of the data
+	QBuffer buffer;
+	Buffer.open(QIODevice::WriteOnly);
+	QDataStream Stream(&Buffer);
+	//stream the data into our buffer
+	Stream.setVersion(QDataStream::Qt_4_6);
+	//s << myString; //stream in a string
+	//s << myUint16; //stream in an unsigned integer
+	Stream << *this; //stream in an image
+
+	QByteArray myCypherText = crypto.encryptToByteArray(Buffer.data());
+	if (crypto.lastError() != SimpleCrypt::ErrorNoError)
+	return false;
+
+	// Save FileName:
+	QFile DestFile(encodedFileName(_FileName));
+	if (!DestFile.open(QIODevice::WriteOnly))
+	{
+	 qDebug() << "Could not open dest file for write .";
+	 return false;
+	}
+
+	DestFile.write(myCypherText, myCypherText.size());
+	DestFile.close();
+	buffer.close();
+
+	return true;
+}
+
+void STImage::loadEncoded(const QString& _FileName, const QString& _Key)
+{
+	QFile SourceFile("/home/jordi/temp/test_enc.jpg");
+	if (!SourceFile.open(QIODevice::ReadOnly))
+	{
+		qDebug() << "Could not open dest file for write .";
+		return;
+	}
+	QByteArray mySourceCypherText = SourceFile.readAll();
+	QByteArray plaintext = crypto.decryptToByteArray(mySourceCypherText);
+	if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+	 // check why we have an error, use the error code from crypto.lastError() for that
+		qDebug() << "Error decoding!:" << crypto.lastError();
+	 return;
+	}
+	QBuffer rbuffer(&plaintext);
+	rbuffer.open(QIODevice::ReadOnly);
+	QDataStream ls(&rbuffer);
+	ls.setVersion(QDataStream::Qt_4_7);
+	//s >> myString; //stream in a string
+	//s >> myUint16; //stream in an unsigned integer
+	ls >> *this; //stream in an image
+	//s >> someMoreData;
+	//etc.
+
+	rbuffer.close();
+
+}
+
+quint64 STImage::keyToInt64(const QString& _Key) const
+{
+	bool ok;
+	QString Hex = QString("0x%1").arg(QString(_Key.toLatin1().toHex()).right(16));
+	return Hex.toLongLong(&ok, 16);
+}
+
+void STImage::blowFishEncode(const QString& _Key)
+{
+	//TODO: Treure tot lo de blowfish, i fer un mètode de saveEncoded y loadDecoded per STImage.
+	//Quan carreguem les imatges de les plantilles cifrades farem un saveEncoded (Veure tb els cliparts.)
+	//O podriem inclús fer un load que carregués un format .sbdec que ja fossin archius codificats, per fer-ho transparent.
+
+	//setup our objects
+	 SimpleCrypt crypto(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
+	 crypto.setCompressionMode(SimpleCrypt::CompressionAlways); //always compress the data, see section below
+	 crypto.setIntegrityProtectionMode(SimpleCrypt::ProtectionHash);  //properly protect the integrity of the data
+	 QBuffer buffer;
+	 buffer.open(QIODevice::WriteOnly);
+	 QDataStream s(&buffer);
+	 //stream the data into our buffer
+	 s.setVersion(QDataStream::Qt_4_6);
+	 //s << myString; //stream in a string
+	 //s << myUint16; //stream in an unsigned integer
+	 s << *this; //stream in an image
+	 //s << someMoreData;
+	 // ... etc.
+
+	 QByteArray myCypherText = crypto.encryptToByteArray(buffer.data());
+	 if (crypto.lastError() == SimpleCrypt::ErrorNoError) {
+	  // do something relevant with the cyphertext, such as storing it or sending it over a socket to another machine.
+		 QFile DestFile("/home/jordi/temp/test_enc.jpg");
+		 if (!DestFile.open(QIODevice::WriteOnly))
+		 {
+			 qDebug() << "Could not open dest file for write .";
+			 return;
+		 }
+		 DestFile.write(myCypherText, myCypherText.size());
+		 DestFile.close();
+	 }
+	 buffer.close();
+
+	 QFile SourceFile("/home/jordi/temp/test_enc.jpg");
+	 if (!SourceFile.open(QIODevice::ReadOnly))
+	 {
+		 qDebug() << "Could not open dest file for write .";
+		 return;
+	 }
+	 QByteArray mySourceCypherText = SourceFile.readAll();
+	 QByteArray plaintext = crypto.decryptToByteArray(mySourceCypherText);
+	 if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+	  // check why we have an error, use the error code from crypto.lastError() for that
+		 qDebug() << "Error decoding!:" << crypto.lastError();
+	  return;
+	 }
+	 QBuffer rbuffer(&plaintext);
+	 rbuffer.open(QIODevice::ReadOnly);
+	 QDataStream ls(&rbuffer);
+	 ls.setVersion(QDataStream::Qt_4_7);
+	 //s >> myString; //stream in a string
+	 //s >> myUint16; //stream in an unsigned integer
+	 ls >> *this; //stream in an image
+	 //s >> someMoreData;
+	 //etc.
+
+	 rbuffer.close();
+
+
+/*	QFile file("/home/jordi/temp/test.jpg");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		qDebug() << "Could not open file";
+		return;
+	}
+	QxtBlowfish BFish;
+	BFish.setKey(_Key.toLatin1());
+	QByteArray EncryptedArray = BFish.encrypt(QByteArray((const char*)bits(), byteCount()));
+
+	QFile DestFile("/home/jordi/temp/test_enc.jpg");
+	if (!DestFile.open(QIODevice::WriteOnly))
+	{
+		qDebug() << "Could not open dest file for write .";
+		return;
+	}
+	DestFile.write(EncryptedArray, EncryptedArray.size());
+	DestFile.close();*/
+
+
+/*	QxtBlowfish BFish;
+	BFish.setKey(_Key.toLatin1());
+	*this = convertToFormat(QImage::Format_ARGB32);
+	qDebug() << "ByteCount" << byteCount();
+	QByteArray EncryptedArray = BFish.encrypt(QByteArray((const char*)bits(), byteCount()));
+	qDebug() << "Res size !" << EncryptedArray.size();
+	QImage ResImage = QImage((uchar*)EncryptedArray.data(), width(), height(), format());
+	qDebug() << "ResImage.ByteCount before save:" << ResImage.byteCount();
+	ResImage.save("/home/jordi/temp/prova.png", "PNG");
+
+	ResImage.load("/home/jordi/temp/prova.png");
+	qDebug() << "ResImage.ByteCount after reload:" << ResImage.byteCount();
+	ResImage = ResImage.convertToFormat(QImage::Format_ARGB32);
+	qDebug() << "ResImage.ByteCount after reload and convert:" << ResImage.byteCount();
+	QxtBlowfish BFishD;
+	BFishD.setKey(_Key.toLatin1());
+	QByteArray DecryptedArray = BFishD.decrypt(QByteArray((const char*)ResImage.bits(), ResImage.byteCount()));
+	qDebug() << "Dec array size !" << DecryptedArray.size();
+	QImage ResDecImage = QImage((uchar*)DecryptedArray.data(), ResImage.width(), ResImage.height(), ResImage.format());
+	ResDecImage.save("/home/jordi/temp/prova_dec.png");*/
+
+
+	/*CBlowFish BFish;
+	BFish.Initialize(reinterpret_cast<unsigned char*>(_Key.toAscii().data()), _Key.length());
+
+	*this = convertToFormat(QImage::Format_ARGB32);
+	#if QT_VERSION >= 0x040600
+		int DestSize = BFish.GetOutputLength(byteCount());
+	#else
+		int DestSize = BFish.GetOutputLength(bytesPerLine()*height());
+	#endif
+
+#if QT_VERSION >= 0x040700 //TODO! I don't know what a hell is going on here !
+		DestSize = BFish.GetOutputLength(byteCount()-1);
+#endif
+
+	BFish.Encode(bits(), bits(), DestSize);*/
+}
+
+void STImage::blowFishDecode(const QString& _Key)
+{
+	/*CBlowFish BFish;
+	BFish.Initialize(reinterpret_cast<unsigned char*>(_Key.toAscii().data()), _Key.length());
+	*this = convertToFormat(QImage::Format_ARGB32);
+
+	#if QT_VERSION >= 0x040600
+		int DestSize = BFish.GetOutputLength(byteCount());
+	#else
+		int DestSize = BFish.GetOutputLength(bytesPerLine()*height());
+	#endif
+
+#if QT_VERSION >= 0x040700 //TODO! I don't know what a hell is going on here !
+		DestSize = BFish.GetOutputLength(byteCount()-1);
+#endif
+
+	BFish.Decode(bits(), bits(), DestSize);*/
+}
+
+QString STImage::encodedFileName(const QString& _ImageFileName)
+{
+	return _ImageFileName + "." + encodedExtension();
+}
+
+
+
 QString STImage::hashString() const
 {
 	QCryptographicHash CryptoHash(QCryptographicHash::Md5);
@@ -482,3 +675,4 @@ QString STImage::hashFileName(const QString& _FilePath)
 	}
 	return Res;
 }
+

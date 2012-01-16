@@ -73,8 +73,6 @@ public:
 	STImage improveColorBalance(SProcessStatusWidget* _SProcessStatusWidget = 0);
 	STImage enhanceImageContrast(SProcessStatusWidget* _SProcessStatusWidget = 0);
 	STImage contrast(const unsigned int _Sharpen );
-	void blowFishEncode(const QString& _Key = DefaultEncryptionKey);
-	void blowFishDecode(const QString& _Key = DefaultEncryptionKey);
 	STImage sigmoidalContrast(const unsigned int _Sharpen, const double _Contrast, const double _MidPoint);
 	STImage despeckle();
 	STImage enhance(); 
@@ -99,13 +97,26 @@ public:
 	static QString supportedFormatsToReadFilter();
 	static QString supportedFormatsToWriteFilter();
 
+	//Encoding
+	void saveEncoded(const QString& _FileName, const QString& _Key = DefaultEncryptionKey);
+	quint64 keyToInt64(const QString& _Key) const;
+	void loadEncoded(const QString& _FileName, const QString& _Key = DefaultEncryptionKey);
+	void blowFishEncode(const QString& _Key = DefaultEncryptionKey);
+	void blowFishDecode(const QString& _Key = DefaultEncryptionKey);
+
+	static void setDefaultEncryptionKey(const QString& _Key) { DefaultEncryptionKey = _Key; }
+	static QString defaultEncryptionKey() { return DefaultEncryptionKey; }
+
+	static QString encodedExtension() { return "seim"; }
+	static QString encodedFileName(const QString& _ImageFileName);
+
+	//Hashing
 	QString hashString() const;
+
 	//! returns a hashName for _FilePath, returns an empty string if file does not exist.
 	static QString hashString(const QString& _FilePath);
 	static QString hashFileName(const QString& _FilePath); 
 
-	static void setDefaultEncryptionKey(const QString& _Key) { DefaultEncryptionKey = _Key; }
-	static QString defaultEncryptionKey() { return DefaultEncryptionKey; }
 };
 
 #endif
