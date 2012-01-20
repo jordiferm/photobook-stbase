@@ -84,11 +84,20 @@ STImage::~STImage()
 
 bool STImage::load(const QString& _FileName, const char* _Format)
 {
+	QString FileName = _FileName;
+	//If image does not exist tries to load encoded version.
+	if (!QFile::exists(FileName))
+	{
+		FileName = encodedFileName(FileName);
+		if (!QFile::exists(FileName))
+			return false;
+	}
+
 	bool Res = false;
-	if (isEncoded(_FileName))
-		Res = loadEncoded(_FileName);
+	if (isEncoded(FileName))
+		Res = loadEncoded(FileName);
 	else
-		Res = QImage::load(_FileName, _Format);
+		Res = QImage::load(FileName, _Format);
 
 	if (Res) //A little trick to solve an strange issue with 8 bit images.
 	{
