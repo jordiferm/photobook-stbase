@@ -53,8 +53,8 @@ void SApplication::init(const QString& _AppName)
 	SplashFinishTimer = 0;
 	SplashMainWindow = 0;
 	
-	QCoreApplication::setOrganizationName("Starblitz");
-	QCoreApplication::setOrganizationDomain("starblitz-k.com");
+	QCoreApplication::setOrganizationName("Aili");
+	QCoreApplication::setOrganizationDomain("aili.es");
 	QCoreApplication::setApplicationName(_AppName);
 }
 
