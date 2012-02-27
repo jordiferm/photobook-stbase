@@ -42,14 +42,18 @@ int STFtpOrderTransfer::DefaultTimeOutSecs = 46;
 bool STFtpOrderTransfer::waitForCommand(int _CommandId, int _TimeOutSecs)
 {
 	int TimeOutSecs;
-	if (_TimeOutSecs = -1)
+	if (_TimeOutSecs == -1)
 		TimeOutSecs = DefaultTimeOutSecs; 
 	else 
 		TimeOutSecs = _TimeOutSecs;
 
+	Mutex.lock();
+	if (CurrCommandFinished == _CommandId)
+		return false;
 	CurrCommandFinished = -1;
 	bool TimeOut = false;
 	InitTime = QTime::currentTime();
+	Mutex.unlock();
 	while(CurrCommandFinished != _CommandId && !TimeOut && !Aborted)
 	{
 		QApplication::processEvents();
@@ -698,7 +702,9 @@ void STFtpOrderTransfer::slotListInfo(const QUrlInfo& _UrlInfo)
 
 void STFtpOrderTransfer::commandFinished(int _Id, bool _Error)
 {
+	Mutex.lock();
 	CurrCommandFinished = _Id;
+	Mutex.unlock();
 	if (_Error && !IgnoreErrorCommands.contains(_Id) )
 	{
 		emit transferError(errorString());		

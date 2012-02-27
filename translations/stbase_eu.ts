@@ -5394,6 +5394,14 @@ The root node is not &apos;report&apos;.</source>
         <source>No Title</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error getting product format on product: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error opening database %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -7417,6 +7425,59 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>You can not remove this format because there are products that references it</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WPrintWorkflowManager</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;Record&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WPrintWorkflowRecord</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WPrinterRecord</name>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remote FTP Printer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hot Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System printer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get system printer settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System printer settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Passive</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

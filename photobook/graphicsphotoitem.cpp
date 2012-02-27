@@ -501,8 +501,6 @@ void GraphicsPhotoItem::loadImage()
 		//!FIXME What happens if load fails ???
 
 		CurrImage = STImage(ImageResource.fileInfo().absoluteFilePath());
-		if (ImageEncrypted)
-			CurrImage.blowFishDecode();
 
 		BigImageSize = CurrImage.size();
 		//!TODO put the 800 in settings.
@@ -704,7 +702,6 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& 
 		}
 		CNode = CNode.nextSibling();
 	}
-	setImageEncrypted(_Element.attribute("encrypted", "false").toLower() == "true");
 	STImage CImage;
 	QString ImageFilePath = _Element.attribute("src");
 
@@ -715,8 +712,8 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& 
 		{
 			CImage.loadThumbnail(ImgFInfo.absoluteFilePath());
 			setThumbnail(CImage, ImgFInfo.absoluteFilePath());
-			if (ImageEncrypted)
-				loadImageSpawn();
+			/*if (ImageEncrypted)
+				loadImageSpawn();*/
 		}
 	}
 	else
@@ -765,7 +762,6 @@ QDomElement GraphicsPhotoItem::createElement(QDomDocument& _Doc, const QString& 
 	MElement.setAttribute("y", y());
 	MElement.setAttribute("panningx", PanningPoint.x());
 	MElement.setAttribute("panningy", PanningPoint.y());
-	MElement.setAttribute("encrypted", ImageEncrypted ? "true" : "false");
 	MElement.setAttribute("opacity", Opacity);
 	QDomElement RectEl = _Doc.createElement("rect");
 	RectEl.setAttribute("x", rect().x());
@@ -1325,8 +1321,8 @@ void GraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 					{
 						STDom::DImageDoc Image(ImagePath);
 						setImage(Image);
-						if (encryptedByFileName(ImagePath))
-							setImageEncrypted(true);
+/*						if (encryptedByFileName(ImagePath))
+							setImageEncrypted(true);*/
 						loadImageSpawn();
 						emit imageDropped(ImagePath, ImageMD5Sum);
 					}

@@ -24,6 +24,7 @@
 #include <QList> 
 #include <QMap>
 #include <QTime>
+#include <QMutex>
 #include "sterror.h"
 #include "stdomexport.h"
 
@@ -42,6 +43,7 @@ class ST_DOM_EXPORT STFtpOrderTransfer : public QFtp
 {
 	Q_OBJECT
 	bool Aborted; 
+	QMutex Mutex;
 			
 public:
 	ST_DECLARE_ERRORCLASS();

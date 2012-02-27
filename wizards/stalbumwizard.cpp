@@ -709,7 +709,7 @@ AlbumWizardEndPage::AlbumWizardEndPage(QWidget* _Parent) : QWizardPage(_Parent)
 	DescLabel->setWordWrap(true); 
 	MLayout->addWidget(DescLabel); 
 	
-	QLabel* LabEnjoy = new QLabel(tr("<h1>Enjoy Starblitz Photo Book !</h1>"), this);
+	QLabel* LabEnjoy = new QLabel(tr("<h1>Enjoy Aili Book !</h1>"), this);
 	LabEnjoy->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 	LabEnjoy->setAlignment(Qt::AlignCenter);
 	MLayout->addWidget(LabEnjoy);

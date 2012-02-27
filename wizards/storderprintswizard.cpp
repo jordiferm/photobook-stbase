@@ -581,7 +581,8 @@ QWidget* OPWConfirmOrder::createShipmentOptionsWidget()
 
 QWidget* OPWConfirmOrder::createOtherOptionsWidget()
 {
-	QGroupBox* GBox = new QGroupBox(tr("More Options"), this);
+	QxtGroupBox* GBox = new QxtGroupBox(tr("More Options"), this);
+	GBox->setChecked(false);
 	GBox->setFlat(true);
 
 	QVBoxLayout* MLayout = new QVBoxLayout(GBox );

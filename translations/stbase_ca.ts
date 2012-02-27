@@ -4009,59 +4009,59 @@ Num</source>
     </message>
     <message>
         <source>Contact</source>
-        <translation type="unfinished">Contacte</translation>
+        <translation>Contacte</translation>
     </message>
     <message>
         <source>Modify</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar</translation>
     </message>
     <message>
         <source>Shippment options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcions d&apos;enviament</translation>
     </message>
     <message>
         <source>Payment Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma de pagament</translation>
     </message>
     <message>
         <source>Shipping option</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma de enviament</translation>
     </message>
     <message>
         <source>By Post</source>
-        <translation type="unfinished"></translation>
+        <translation>Per correu</translation>
     </message>
     <message>
         <source>Collect In Store</source>
-        <translation type="unfinished"></translation>
+        <translation>Recollir al punt de recollida</translation>
     </message>
     <message>
         <source>Shipping Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Direcció d&apos;enviament</translation>
     </message>
     <message>
         <source>Shipping Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Mètode d&apos;enviament</translation>
     </message>
     <message>
         <source>Collection Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Direcció de punt de recollida</translation>
     </message>
     <message>
         <source>Collection Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Punt de recollida</translation>
     </message>
     <message>
         <source>More Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Més opcions</translation>
     </message>
     <message>
         <source>Order invoice</source>
-        <translation type="unfinished"></translation>
+        <translation>Factura de la comanda</translation>
     </message>
     <message>
         <source> Tel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tel:</translation>
     </message>
 </context>
 <context>
@@ -4124,7 +4124,7 @@ Num</source>
     </message>
     <message>
         <source>Other data</source>
-        <translation type="unfinished"></translation>
+        <translation>Altres dades</translation>
     </message>
     <message>
         <source>Publisher account number:</source>
@@ -5406,6 +5406,14 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>No Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error getting product format on product: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error opening database %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6775,7 +6783,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Saving Model...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvant el model...</translation>
     </message>
     <message>
         <source>Error saving photo book thumbnail at: %1</source>
@@ -7432,6 +7440,59 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>You can not remove this format because there are products that references it</source>
         <translation>No pots eliminar aquest format perque hi ha productes que li fan referencia</translation>
+    </message>
+</context>
+<context>
+    <name>WPrintWorkflowManager</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">Tot</translation>
+    </message>
+    <message>
+        <source>&lt;Record&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WPrintWorkflowRecord</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">Tot</translation>
+    </message>
+</context>
+<context>
+    <name>WPrinterRecord</name>
+    <message>
+        <source>General</source>
+        <translation type="unfinished">General</translation>
+    </message>
+    <message>
+        <source>Remote FTP Printer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hot Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System printer</source>
+        <translation type="unfinished">Impressora del sistema</translation>
+    </message>
+    <message>
+        <source>Get system printer settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System printer settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Passive</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
