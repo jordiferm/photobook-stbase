@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -49,7 +49,7 @@ public:
 	void load(const QDomElement& _Element); 
 	//! Crea una QSqlRelation a partir de l'Objecte actual.
 	QSqlRelation qSqlRelation() const; 
-	//! Retorna cert si la relació no conté cap informació.
+	//! Retorna cert si la relaciï¿½ no contï¿½ cap informaciï¿½.
 	bool isNull() const; 
 };
 
@@ -133,7 +133,7 @@ public:
 	void loadFromStr(const QString& _Xml);
 	void load(const QString& _FileName); 
 	QString xml() const;
-	bool isNull() const {return IsNull;} //No està carregada;
+	bool isNull() const {return IsNull;} //No estï¿½ carregada;
 	void configure(QSqlTableModel* _Model) const;
 	void configure(QSqlTableModel& _Model) const;
 	void configureHeaderData(QSqlTableModel& _Model) const;
@@ -150,35 +150,35 @@ public:
 
 
 /**
-Classe de MetaInformació sobre la base de dades.
+Classe de MetaInformaciï¿½ sobre la base de dades.
 
 Estructura de les metadades:
-Cada taula es definirà amb un fitxer XML amb extensió .mtd 
-L'estructura del fitxer XML de les taules és la següent: 
+Cada taula es definirï¿½ amb un fitxer XML amb extensiï¿½ .mtd 
+L'estructura del fitxer XML de les taules ï¿½s la segï¿½ent: 
 
 <!DOCTYPE TMD>
-<TMD revision="$Revision: 1.15 $" createrelations="false"> <!-- Revisió controlada per CVS o manualment: $Revision: 1.15 $ -->
+<TMD revision="$Revision: 1.15 $" createrelations="false"> <!-- Revisiï¿½ controlada per CVS o manualment: $Revision: 1.15 $ -->
 <!-- Parametres: (Opcional) createrelations per defecte = true, indica si es crearan les relacions -->
     <name>tablename</name> <!-- Nom de la taula -->
     <alias lang="ca">Nom de la taula</alias> <!-- (Opcional) Alias amb el llenguange lang (Opcional) -->
     <inherits>Nom de la taula base</inherits> <!-- (Opcional) Taula base (Opcional) -->
-    <field> <!-- Definició d'un camp de la taula -->
+    <field> <!-- Definiciï¿½ d'un camp de la taula -->
 		<!-- Requerits -->
         <name>idpeca</name> <!-- Nom del camp -->
 		  <type>uint</type> <!-- Tipus: \sa FFieldMetaData::strToVariantType -->
 		<!-- Opcionals -->
         <alias lang="ca">Peces</alias> <!-- Alias amb el llenguange lang (Opcional) -->
         <required>true</required>
-        <pk>true</pk> <!-- Si és clau primària. Per defecte false (Si hi ha varis camps llavors la clau és composta. -->
-        <serial>true</serial> <!-- Si conté una seqüència. Per defecte false. -->
+        <pk>true</pk> <!-- Si ï¿½s clau primï¿½ria. Per defecte false (Si hi ha varis camps llavors la clau ï¿½s composta. -->
+        <serial>true</serial> <!-- Si contï¿½ una seqï¿½ï¿½ncia. Per defecte false. -->
         <index>true</index> <!-- Crea un index tablename_fieldname_idx. (Per crear indexos complexos utilitzar el tag sqlcreate) -->
         <length>nnnn</length> <!-- Longitud del camp en cas de que sigui String -->
         <precision>nnnn</precision> <!-- Nombre de decimals -->
-        <regexp>nnnn</regexp> <!-- Expressió regular per a validar-lo -->
+        <regexp>nnnn</regexp> <!-- Expressiï¿½ regular per a validar-lo -->
         <default>nnnn</default> <!-- Valor per defecte -->
         <editable>nnnn</editable> <!-- Si es pot editar -->
-        <visible>nnnn</visible> <!-- Si es veurà per defecte en els viewers -->
-		<!-- Definició de relació. -->
+        <visible>nnnn</visible> <!-- Si es veurï¿½ per defecte en els viewers -->
+		<!-- Definiciï¿½ de relaciï¿½. -->
         <relation>
             <table>relatedtable</table> <!-- Nom de la taula relacionada -->
             <field>relatedtablefield</field> <!-- Nom del camp relacionat amb l'actual de la taula relacionada -->
@@ -186,24 +186,24 @@ L'estructura del fitxer XML de les taules és la següent:
         </relation>
     </field>
 	<!-- Instruccions Sql explicites. -->
-	<!-- S'executen a cada operació. -->
-	<!-- Si s'indica el drivername només s'executen en cas de que la base de dades utilitzi aquell driver. -->
-	<!-- exclusive => Només s'executarà aquest codi SQL, FLAM no farà res. -->
-	<!-- S'executarà cada vegada que es crei de nou la taula després de la creació d'aquesta. -->
+	<!-- S'executen a cada operaciï¿½. -->
+	<!-- Si s'indica el drivername nomï¿½s s'executen en cas de que la base de dades utilitzi aquell driver. -->
+	<!-- exclusive => Nomï¿½s s'executarï¿½ aquest codi SQL, FLAM no farï¿½ res. -->
+	<!-- S'executarï¿½ cada vegada que es crei de nou la taula desprï¿½s de la creaciï¿½ d'aquesta. -->
 	 <sqlaftercreate driver="drivername" > 
 CREATE INDEX code_idx ON tablename(field1, field2); 
 INSERT INTO TABLE control (desc ) VALUES ('table tablename created !.');
 	 </sqlaftercreate>
-	<!-- S'executarà cada vegada que es crei de nou la taula abans de la creació d'aquesta. -->
+	<!-- S'executarï¿½ cada vegada que es crei de nou la taula abans de la creaciï¿½ d'aquesta. -->
 	 <sqlbeforecreate exclusive="true" driver="drivername" ></sqlbeforecreate>
-	<!-- S'executarà cada vegada que s'actualitzi la taula. Després de l'actualització -->
-	<!-- fromrevision => Només s'executarà en cas de que actualitzem desde les revisions indicades. -->
+	<!-- S'executarï¿½ cada vegada que s'actualitzi la taula. Desprï¿½s de l'actualitzaciï¿½ -->
+	<!-- fromrevision => Nomï¿½s s'executarï¿½ en cas de que actualitzem desde les revisions indicades. -->
 	 <sqlafterupdate fromrevision="[&lt;,=,&lt;=,&gt;=,&gt;]nn.nn" driver="drivername"> </sqlafterupdate>
-	<!-- S'executarà cada vegada que s'actualitzi la taula. Abans de l'actualització -->
+	<!-- S'executarï¿½ cada vegada que s'actualitzi la taula. Abans de l'actualitzaciï¿½ -->
 	 <sqlbeforeupdate exclusive="true" fromrevision="[<,=,<=,>=,>]nn.nn" driver="drivername"> </sqlbeforeupdate>
-	<!-- S'executarà cada vegada que es borri la taula. Despres del borrat de la taula. -->
+	<!-- S'executarï¿½ cada vegada que es borri la taula. Despres del borrat de la taula. -->
 	 <sqlafterdelete driver="drivername"> </sqlafterdelete>
-	<!-- S'executarà cada vegada que es borri la taula. Abans del borrat de la taula. -->
+	<!-- S'executarï¿½ cada vegada que es borri la taula. Abans del borrat de la taula. -->
 	 <sqlbeforedelete exclusive="true" driver="drivername"> </sqlbeforedelete>
 </TMD>
 

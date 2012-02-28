@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -60,10 +60,10 @@ void SApplication::init(const QString& _AppName)
 
 /*!
 	Per defecte posa OrganizationName i OrganizationDomain a S3os. 
-	Si volem canviar-los només cal cridar als mètodes pertinents a QCoreApplication un 
+	Si volem canviar-los nomï¿½s cal cridar als mï¿½todes pertinents a QCoreApplication un 
 	cop instanciada SApplication.
 	Concatena _AppName i _AppVersion i l'assigna a ApplicationName. 
-	Tinquem en compte que QSettings utilitza aquest valors per a l'ordenació de Settings.
+	Tinquem en compte que QSettings utilitza aquest valors per a l'ordenaciï¿½ de Settings.
 */
 
 SApplication::SApplication(int & argc, char ** argv, const QString& _AppName, 

@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -27,7 +27,7 @@
 /**
 Index properties page.
 
-	@author Jordi Fernàndez
+	@author Jordi Fernï¿½ndez
 */
 class QSpinBox; 
 class QLabel; 
@@ -71,7 +71,7 @@ private slots:
 /**
 Output selection page.
 
-	@author Jordi Fernàndez
+	@author Jordi Fernï¿½ndez
 */
 class QToolButton; 
 class STPISelectOutputPage : public QWizardPage
@@ -86,7 +86,7 @@ public:
 /**
 Destination properties page.
 
-	@author Jordi Fernàndez
+	@author Jordi Fernï¿½ndez
 */
 class FileSelectLineEdit; 
 class DestinationPropertiesPage : public QWizardPage
@@ -102,7 +102,7 @@ public:
 /**
 End Page with some information of the generation.
 
-	@author Jordi Fernàndez
+	@author Jordi Fernï¿½ndez
 */
 
 class STPIEndPage : public QWizardPage

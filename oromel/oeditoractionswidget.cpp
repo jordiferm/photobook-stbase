@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -42,7 +42,7 @@ OEditorActionsWidget::OEditorActionsWidget(QUndoStack* _UndoStack, QWidget *pare
 	MLayout->addItem(new QSpacerItem(25,0, QSizePolicy::Maximum, QSizePolicy::Preferred));
 	
 	//Image Navigator 
-	//TODO: Utilitzar un ProxyModel que només ensenyi l'actual +- 3 per a fer un preview de la navegació.
+	//TODO: Utilitzar un ProxyModel que nomï¿½s ensenyi l'actual +- 3 per a fer un preview de la navegaciï¿½.
 	ImageNavWidget = new OImageNavigatorWidget(this);
 	MLayout->addWidget(ImageNavWidget);
 		

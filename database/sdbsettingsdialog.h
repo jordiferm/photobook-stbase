@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -92,9 +92,9 @@ public:
 	SDBSettingsDialog(FSqlDatabaseSettings& _Settings, QDataWidgetMapper* _Mapper, QWidget *parent = 0);
 	void setWarningMessage(const QString& _WarningMessage);
 	void setState(SDBSettingsDialog::EnState _State);
-	//! Si es true ensenya el botó de creació de la BD.
+	//! Si es true ensenya el botï¿½ de creaciï¿½ de la BD.
 	void setAllowCreate(bool _Value);
-	//! Marca la label _ValueType com a invàlida depenent de _Value.
+	//! Marca la label _ValueType com a invï¿½lida depenent de _Value.
 	void setInvalidValue(SDBSettingsDialog::EnValTypes _ValueType,  bool _Value);
 	int getSettings();
 	

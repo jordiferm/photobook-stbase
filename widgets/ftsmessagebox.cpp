@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -122,7 +122,7 @@ FAction::EnActionId FTSMessageBox::question(QWidget* _Parent, const QString& _Ca
 	return general(_Parent, _Caption, _Text, Question, Actions); 
 }
 
-//TODO: Aquí es podria millorar el tema amb una estàtica per a tots els messagebox on es passes el Messagebox.
+//TODO: Aquï¿½ es podria millorar el tema amb una estï¿½tica per a tots els messagebox on es passes el Messagebox.
 FAction::EnActionId FTSMessageBox::general(QWidget* _Parent, const QString& _Caption, const QString& _Text, EnIcon _Icon, const QActionGroup& _ActGroup)
 {
 	FTSMessageBox MBInfo(_Caption, _Text, _Icon, _ActGroup, _Parent);

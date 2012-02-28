@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -28,7 +28,7 @@
 
 /**
 Classe per a manejar settings d'una base de dades.
-Necessita la base de dades per a construir-se ja que utilitza el nom de la conexió per a poder guardar a QSettings la informació de vàries bases de dades.
+Necessita la base de dades per a construir-se ja que utilitza el nom de la conexiï¿½ per a poder guardar a QSettings la informaciï¿½ de vï¿½ries bases de dades.
 
 @author Shadow
 */
@@ -66,14 +66,14 @@ public:
 	void setResourcePrefix(const QString& _Prefix);
 	QString resourcePrefix() const;
 	
-	//! Retorna false si algun dels valors requerits falta o és NULL.
+	//! Retorna false si algun dels valors requerits falta o ï¿½s NULL.
 	bool isValid() const;
-	//! Crea una base de dades tinguent en compte el nom de la conexió.
+	//! Crea una base de dades tinguent en compte el nom de la conexiï¿½.
 	QSqlDatabase createDatabase() const;
-	//! Retorna la base de dades corresponent a settings a partir del nom del a conexió.
+	//! Retorna la base de dades corresponent a settings a partir del nom del a conexiï¿½.
 	QSqlDatabase database() const;
 	
-	//! Configura la base de dades obviant el nom de la conexió i el tipus.
+	//! Configura la base de dades obviant el nom de la conexiï¿½ i el tipus.
 	void configure(QSqlDatabase& ) const;
 	
 	static QString defaultUserName(); 
