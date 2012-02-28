@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -25,13 +25,13 @@
 #include "stcoreexport.h"
 
 /*! 
-	Interfície de log. 
-	Aquesta classe interpreta una sèrie de enums amb operadors de stream per a fer 
-	més clar l'entrada d'informació al log. 
+	Interfï¿½cie de log. 
+	Aquesta classe interpreta una sï¿½rie de enums amb operadors de stream per a fer 
+	mï¿½s clar l'entrada d'informaciï¿½ al log. 
 		
 	\example 
 	ISTLogIO Log;
-	Log << ISTLogIO::L2 << ISTLogIO::DateTime << "Això és un exemple de log" << ISTLogIO::Endl; 
+	Log << ISTLogIO::L2 << ISTLogIO::DateTime << "Aixï¿½ ï¿½s un exemple de log" << ISTLogIO::Endl; 
 	\sa STLog
 		
 	@author Shadow
@@ -46,7 +46,7 @@ public:
 		L1, 
 		L2, // Log de SQl
 		L3,
-		L4 // Màxima informació de log. -> Log d'aplicació
+		L4 // Mï¿½xima informaciï¿½ de log. -> Log d'aplicaciï¿½
 	};
 
 	enum ISTLogIOSpecial
@@ -119,11 +119,11 @@ protected:
 };
 
 /*! 
-	Classe estàtica que retorna una instància estàtica per a la generació de logs.
+	Classe estï¿½tica que retorna una instï¿½ncia estï¿½tica per a la generaciï¿½ de logs.
 	Existeix una macro stLog. 
 	
 	\example 
-	stLog << ISTLogIO::L2 << ISTLogIO::DateTime << "Això és un exemple de log" << ISTLogIO::Endl; 
+	stLog << ISTLogIO::L2 << ISTLogIO::DateTime << "Aixï¿½ ï¿½s un exemple de log" << ISTLogIO::Endl; 
 	
 		
 	@author Shadow

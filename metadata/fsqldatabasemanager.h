@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -28,14 +28,14 @@
 #include "stmetadataexport.h"
 
 /**
-Classe amb mètodes per a la creació i actualització de la base de dades a partir de la MetaData.
-Manté uns settings de la base de dades. 
-Permet tenir una col.lecció estàtica de instàncies FSqlDbTableManager, això és útil quan tenim vàris managers per a diferents settings i 
-no volem passar cada vegada els settings als mètodes estàtics.
-Cada manager estàtic s'identifica per un nom i es pot obtenir amb el mètode FSqlDatabaseManager::manager() podem afegir managers estàtics 
+Classe amb mï¿½todes per a la creaciï¿½ i actualitzaciï¿½ de la base de dades a partir de la MetaData.
+Mantï¿½ uns settings de la base de dades. 
+Permet tenir una col.lecciï¿½ estï¿½tica de instï¿½ncies FSqlDbTableManager, aixï¿½ ï¿½s ï¿½til quan tenim vï¿½ris managers per a diferents settings i 
+no volem passar cada vegada els settings als mï¿½todes estï¿½tics.
+Cada manager estï¿½tic s'identifica per un nom i es pot obtenir amb el mï¿½tode FSqlDatabaseManager::manager() podem afegir managers estï¿½tics 
 amb addManager() i borrar-los amb removeManager(); 
 
-D'altre banda la funcionalitat base de FSqlDatabaseManager és actualitzar de forma automàtica la base de dades a partir de la metainformació amb updateDB(), també podem tenir accés a les estructures de metainformació amb tableMetadata().
+D'altre banda la funcionalitat base de FSqlDatabaseManager ï¿½s actualitzar de forma automï¿½tica la base de dades a partir de la metainformaciï¿½ amb updateDB(), tambï¿½ podem tenir accï¿½s a les estructures de metainformaciï¿½ amb tableMetadata().
 
 \example 
 	FSqlDatabaseSettings MSettings("testconnection")
@@ -46,7 +46,7 @@ D'altre banda la funcionalitat base de FSqlDatabaseManager és actualitzar de for
 
 \example 
 	
-	Exemple d'utilització de forma estàtica: 
+	Exemple d'utilitzaciï¿½ de forma estï¿½tica: 
 	
 	FSqlDatabaseSettings Settings; 
 	if (FSqlDatabase::start(Settings))
@@ -54,13 +54,13 @@ D'altre banda la funcionalitat base de FSqlDatabaseManager és actualitzar de for
 		FSqlDatabaseManager::update(Settings)
 	}
 	FSqlDatabaseManager::manager().tableMetadata("tablename"); 
-	// Aqui el manager utilitzarà els defaultSettings.
+	// Aqui el manager utilitzarï¿½ els defaultSettings.
 	// Si volem que el manager utilitzi ens nostres settings haurem d'afegir-lo amb addManager: 
 	
 	
 	
 
-	Exemple d'utilització de forma dinàmica: 
+	Exemple d'utilitzaciï¿½ de forma dinï¿½mica: 
 	
 	FSqlDatabaseSettings Settings("test_connection"); //Settings de la conexio "test_connection".
 	QSqlDatabase DB = FSqlDatabase::start(Settings);
@@ -95,7 +95,7 @@ public:
 	QString tableFile( const QString& _TableName);
 	QSqlDatabase database() const { return Database; }
 	
-	// Mètodes estàtics, li hem de passar els settings.	
+	// Mï¿½todes estï¿½tics, li hem de passar els settings.	
 	static bool updateDB(QSqlDatabase _Database, const QString& _MetadataPath);
 	static bool updateDB(const FSqlDatabaseSettings& _Settings);
 	// El crea segons el driver.
@@ -112,7 +112,7 @@ public:
 
 
 /**
-   Creació i actualitzacio d'una taula a partir de la metainformació.
+   Creaciï¿½ i actualitzacio d'una taula a partir de la metainformaciï¿½.
 	- Deixa els errors en el log.
 */
 class ST_METADATA_EXPORT FSqlDbTableManager

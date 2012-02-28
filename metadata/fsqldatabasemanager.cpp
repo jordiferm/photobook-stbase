@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -79,7 +79,7 @@ QString FSqlDatabaseManager::tableFile( const QString& _TableName)
 bool FSqlDatabaseManager::updateDB(QSqlDatabase _Database, const QString& _MetadataPath)
 {
 	bool Res = true;
-	//Recollim la metainformació:
+	//Recollim la metainformaciï¿½:
 	//Mirem si s'han de crear o actualitzar els MTD que tenim:
 	FSqlMetaData MetaData;
 	if (FSqlDatabaseSettings::embededResources())
@@ -97,7 +97,7 @@ bool FSqlDatabaseManager::updateDB(QSqlDatabase _Database, const QString& _Metad
 		delete TmpManager;
 	}
 	
-	//Per cada taula de les taules a metadades per ordre d'actualització
+	//Per cada taula de les taules a metadades per ordre d'actualitzaciï¿½
 	QStringList::const_iterator strit;
 	for (strit = MetaData.orderedTables.begin(); strit != MetaData.orderedTables.end(); ++strit)
 	{
@@ -193,9 +193,9 @@ QString FSqlDatabaseManager::tableFile( const QString& _TableName, const QString
 /*!
 	Retorna el Manager amb el nom _Name, que ha d'haver estat previament afegit.
 	Si no indiquem _Name
-	Si no hem fet addManager(Manager) ens retornarà un Manager amb els DefaultSettings.
+	Si no hem fet addManager(Manager) ens retornarï¿½ un Manager amb els DefaultSettings.
 	Si hi hem afegit un Manager amb addManager ens retorna el defaultManager.
-	Si indiquem un nom inexistent ens retornarà un Manager amb els DefaultSettings.
+	Si indiquem un nom inexistent ens retornarï¿½ un Manager amb els DefaultSettings.
 */
 
 FSqlDatabaseManager FSqlDatabaseManager::manager(const QString& _Name)
@@ -208,8 +208,8 @@ FSqlDatabaseManager FSqlDatabaseManager::manager(const QString& _Name)
 
 /*!
 	Afegeix un manager a la llista de managers. 
-	Si el nom ja existeix aquest es substituirà per el nou _NewManager.
-	Si no hi indiquem _Name s'insertarà el manager per defecte.
+	Si el nom ja existeix aquest es substituirï¿½ per el nou _NewManager.
+	Si no hi indiquem _Name s'insertarï¿½ el manager per defecte.
 */
 
 void FSqlDatabaseManager::addManager(const FSqlDatabaseManager& _NewManager, const QString& _Name)
@@ -246,7 +246,7 @@ void FSqlDbTableManager::update()
 	Query.exec();
 	if (Query.next())
 	{
-		if (Database.tables().contains(MetaData.name)) //Si no existeix la taula no fem cas de la revisió de metadata => Forçar update.
+		if (Database.tables().contains(MetaData.name)) //Si no existeix la taula no fem cas de la revisiï¿½ de metadata => Forï¿½ar update.
 			Revision = Query.value(0).toString();
 			
 		CurrTableMetaData.loadFromStr(Query.value(1).toString());
@@ -261,7 +261,7 @@ void FSqlDbTableManager::update()
 		CurrTableMetaData.name = MetaData.name; //AlterTable comprova que no s'hagi canviat el nom.
 	}
 	Query.clear(); //SQLite needs no active queries to commit works.
-	//Comprovem si tenim una versió superior a les metadades. Si és així actualitzem.
+	//Comprovem si tenim una versiï¿½ superior a les metadades. Si ï¿½s aixï¿½ actualitzem.
 	if (MetaData.revision > Revision) // Actualitzem la taula
 	{
 		stLog << ISTLogIO::L2 << ISTLogIO::DateTime << QApplication::tr("Updating table") + ":" <<
@@ -283,7 +283,7 @@ void FSqlDbTableManager::update()
 
 /*!
 	Executa les instruccions de la llista _UpdateList. Retorna cert 
-	si la última instrucció executada és exlusive;
+	si la ï¿½ltima instrucciï¿½ executada ï¿½s exlusive;
 */
 
 bool FSqlDbTableManager::execUpdateInstrList(const FTableMetaData::TUpdateStrInstList& _UpdateList, 
@@ -320,7 +320,7 @@ void FSqlDbTableManager::alterTable(const FTableMetaData& _OldMetaData)
 	{
 		if (!Database.tables().contains(MetaData.name))
 		{
-			create(); //Si encara no hi és la creem.
+			create(); //Si encara no hi ï¿½s la creem.
 			Assert(Database.commit(), 
 				Error(QString(QApplication::tr("Error '%1' creating table '%2' to database")).arg(
 						Database.lastError().text()).arg(MetaData.name)));
@@ -330,7 +330,7 @@ void FSqlDbTableManager::alterTable(const FTableMetaData& _OldMetaData)
 			//int TotalSteps = 0;
 			if (!execUpdateInstrList(MetaData.sqlBeforeUpdateList(), _OldMetaData))
 			{
-			//Còpia de seguretat.
+			//Cï¿½pia de seguretat.
 			backupTable();
 			dbAlterTable(_OldMetaData);
 				
@@ -518,7 +518,7 @@ QString FSqlPsqlDbTableManager::columnSql(const FFieldMetaData& _Field)
 }
 
 /*!
-	retorna false si no hi ha cap error en la creació.
+	retorna false si no hi ha cap error en la creaciï¿½.
 */
 void FSqlPsqlDbTableManager::create()
 {
@@ -591,7 +591,7 @@ void FSqlPsqlDbTableManager::dbAlterTable(const FTableMetaData& _OldMetaData)
 {
 	FSqlQuery Query(Database);
 	Query.setLogExecs(true);
-	//Comparem diferències i fem alters...
+	//Comparem diferï¿½ncies i fem alters...
 	FTableMetaData::TFieldList::const_iterator it;
 	for (it=MetaData.fields.begin(); it != MetaData.fields.end(); ++it)
 	{
@@ -607,7 +607,7 @@ void FSqlPsqlDbTableManager::dbAlterTable(const FTableMetaData& _OldMetaData)
 		else 
 		{
 			OldField = _OldMetaData.fields[it->name()];
-			//Si el tipus és diferent: 
+			//Si el tipus ï¿½s diferent: 
 			if (OldField.type() != it->type())
 			{
 				//Renombrem la vella 
@@ -649,7 +649,7 @@ void FSqlPsqlDbTableManager::dbAlterTable(const FTableMetaData& _OldMetaData)
 			{
 				Query.exec("ALTER TABLE " + MetaData.name + " ALTER COLUMN " + it->name() + " SET DEFAULT " +
 					it->defaultValue().toString());
-				//Actualitzem els valors que son nulls sinó no podriem assignar un SET NOT NULL:
+				//Actualitzem els valors que son nulls sinï¿½ no podriem assignar un SET NOT NULL:
 				Query.exec("UPDATE " + MetaData.name + " SET " + it->name() + "=" + it->defaultValue().toString());
 			}
 		}
@@ -783,7 +783,7 @@ QString FSqlSqliteDbTableManager::columnSql(const FFieldMetaData& _Field)
 }
 
 /*!
-	retorna false si no hi ha cap error en la creació.
+	retorna false si no hi ha cap error en la creaciï¿½.
 */
 void FSqlSqliteDbTableManager::create()
 {
@@ -854,7 +854,7 @@ void FSqlSqliteDbTableManager::dbAlterTable(const FTableMetaData& _OldMetaData)
 {
 	FSqlQuery Query(Database);
 	Query.setLogExecs(true);
-	//Comparem diferències i fem alters...
+	//Comparem diferï¿½ncies i fem alters...
 	FTableMetaData::TFieldList::const_iterator it;
 	for (it=MetaData.fields.begin(); it != MetaData.fields.end(); ++it)
 	{

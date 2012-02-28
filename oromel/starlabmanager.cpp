@@ -56,13 +56,13 @@ QString StarlabManager::getResponse(const QString& _Path, const QList<StarlabMan
 	RequestUrl.setQueryItems(_QueryItems);
 
 	Request.setUrl(RequestUrl);
-	Request.setRawHeader("User-Agent", "Starblitzlab Client 1.0");
+	Request.setRawHeader("User-Agent", "Aili Imagelab Client 1.0");
 	QNetworkReply* Reply = Manager->get(Request);
 
 	Assert(waitForReply(Reply), Error("Time out waiting for login reply"));
 
 	QString Response = Reply->readAll();
-	Assert(!Reply->error(), Error(tr("Error connecting to StarLab Service: %1").arg(Reply->errorString())));
+	Assert(!Reply->error(), Error(tr("Error connecting to Aili Image Service: %1").arg(Reply->errorString())));
 	return Response;
 }
 

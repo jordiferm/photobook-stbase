@@ -38,7 +38,6 @@
         <file>accept.png</file>
         <file>fileopen.png</file>
         <file>question.png</file>
-        <file>logo_starblitz.png</file>
         <file>editundo.png</file>
         <file>editredo.png</file>
         <file>textbold.png</file>
@@ -60,5 +59,6 @@
         <file>smallsearch.png</file>
         <file>zoom-out-mini.png</file>
         <file>zoom-in-mini.png</file>
+        <file>logo_ailiimage.png</file>
     </qresource>
 </RCC>

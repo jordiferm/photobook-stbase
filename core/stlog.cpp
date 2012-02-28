@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -123,7 +123,7 @@ SysLogIO::SysLogIO(const QString& _Identity) : Identity(_Identity)
 {
 	#ifdef Q_OS_WIN32
 		FileName = "c:/" + _Identity + ".log";
-		//Mirem el dia del fitxer i si no és l'actual fem la copia i el trunquem. Per fer Log Rotatiu...
+		//Mirem el dia del fitxer i si no ï¿½s l'actual fem la copia i el trunquem. Per fer Log Rotatiu...
 		if (QFile::exists(FileName))
 		{
 			QFileInfo FInfo(FileName);

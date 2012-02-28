@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -149,9 +149,9 @@ void FSearchWidget::setSearchDefaults()
 }
 
 /*!
-	Indica per on ha de començar a buscar.
+	Indica per on ha de comenï¿½ar a buscar.
 	Per defecte la primera fila i columna.
-	(Buscarà per files a la columna indicada a _Start. Començant per la fila 
+	(Buscarï¿½ per files a la columna indicada a _Start. Comenï¿½ant per la fila 
 	indicada a _Start).
 	\sa QAbstractItemModel::match
 */
@@ -182,7 +182,7 @@ int FSearchWidget::searchRole() const
 }
 
 /*!
-	Indica el nombre d'incidències que s'han de complir perque es pari la cerca.
+	Indica el nombre d'incidï¿½ncies que s'han de complir perque es pari la cerca.
 	Per defecte 10.
 	\sa QAbstractItemModel::match
 */
@@ -213,7 +213,7 @@ void FSearchWidget::setSearchLabel(const QString& _Label)
 }
 
 /*!
-	Indica si el viewer es podrà editar o no.
+	Indica si el viewer es podrï¿½ editar o no.
 */
 void FSearchWidget::setEditable(bool _Editable)
 {
@@ -336,7 +336,7 @@ void FSearchWidget::selectPrevious()
 		} 
 		SelModel->setCurrentIndex(CIndex, QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 		QModelIndex Indx = View->indexAt(QPoint(0, 0));
-		if (SCIndex.row() != 0) //Si no al canviar del primer a l'últim no es veu el primer.
+		if (SCIndex.row() != 0) //Si no al canviar del primer a l'ï¿½ltim no es veu el primer.
 			View->scrollTo(Model->index(CIndex.row() - 1, Indx.column()));
 		else
 			View->scrollTo(Model->index(CIndex.row(), Indx.column()));

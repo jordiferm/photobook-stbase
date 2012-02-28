@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -27,8 +27,8 @@
 
 
 /**
-Applicació de flam, QApplication + versió.
-Demana per a construir-se el nom de l'aplicació i la versió. 
+Applicaciï¿½ de flam, QApplication + versiï¿½.
+Demana per a construir-se el nom de l'aplicaciï¿½ i la versiï¿½. 
  
  
 @author Shadow
@@ -71,7 +71,7 @@ private:
 
 public:
 	SApplication(int & argc, char ** argv, const QString& _AppName, const QString& _AppVersion, bool GUIenabled = true);
-	//! Es recomana ja que manté els settings per les diferents releases de cada minor.
+	//! Es recomana ja que mantï¿½ els settings per les diferents releases de cada minor.
 	SApplication(int & argc, char ** argv, const QString& _AppName, 
 		unsigned int _Major = 0,
 		unsigned int _Minor = 0, 
@@ -82,7 +82,7 @@ public:
 	void showSplashMessage(const QString & message, int alignment = Qt::AlignLeft, const QColor & color = Qt::black);
 	void finishSplashDelayed(QWidget* _MainWin, int _MSecs = 1000);
 	static QString version();
-	//! Nom i versió de l'aplicació.
+	//! Nom i versiï¿½ de l'aplicaciï¿½.
 	static QString fullApplicationName(); 
 	static void installTranslator(const QString& _LocaleFilePath);
 	static void installStTranslator(const QString& _Locale);

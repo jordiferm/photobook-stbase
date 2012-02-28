@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -176,8 +176,8 @@ void TPPhotoEditor::applyGammaRGB()
 
 void TPPhotoEditor::retranslateUi()
 {
-	Rotate90Action->setText(tr("Rotate 90º")); 
-	Rotate270Action->setText(tr("Rotate 270º"));
+	Rotate90Action->setText(tr("Rotate 90ï¿½")); 
+	Rotate270Action->setText(tr("Rotate 270ï¿½"));
 	ZoomMagAction->setText(tr("Zoom+"));
 	ZoomMinAction->setText(tr("Zoom-"));
 	CropAction->setText(tr("Crop"));
@@ -351,9 +351,9 @@ TPPhotoEditor::TPPhotoEditor(QWidget* parent, Qt::WindowFlags f): QDialog(parent
 
 	TopLayout->addWidget(ActToolBar); 
 
-	Rotate90Action = ActToolBar->addAction(QIcon(":/st/tpopsl/object_rotate_left.png"), tr("Rotate 90º"));
+	Rotate90Action = ActToolBar->addAction(QIcon(":/st/tpopsl/object_rotate_left.png"), tr("Rotate 90ï¿½"));
 	connect(Rotate90Action, SIGNAL(triggered( bool )), this, SLOT(doRotateLeftCommand())); 
-	Rotate270Action = ActToolBar->addAction(QIcon(":/st/tpopsl/object_rotate_right.png"), tr("Rotate 270º"));
+	Rotate270Action = ActToolBar->addAction(QIcon(":/st/tpopsl/object_rotate_right.png"), tr("Rotate 270ï¿½"));
 	connect(Rotate270Action, SIGNAL(triggered( bool )), this, SLOT(doRotateRightCommand())); 
 	ZoomMagAction = ActToolBar->addAction(QIcon(":/st/tpopsl/viewmag+.png"), tr("Zoom+"));
 	ZoomMagAction->setAutoRepeat(true); 
