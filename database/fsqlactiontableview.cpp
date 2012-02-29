@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -54,7 +54,7 @@ FSqlActionTableView::FSqlActionTableView(FSqlSearchWidget* _SearchWidget, QWidge
 }
 
 /*!
-	\return true si s'ha acceptat la operació.
+	\return true si s'ha acceptat la operaciï¿½.
 */
 bool FSqlActionTableView::execDialog()
 {
@@ -88,7 +88,7 @@ bool FSqlActionTableView::execDialog()
 }
 
 /*!
-	Si hi ha diàleg, l'acceptació  
+	Si hi ha diï¿½leg, l'acceptaciï¿½  
 */
 
 void FSqlActionTableView::insertRow(int _Row)
@@ -114,7 +114,7 @@ void FSqlActionTableView::insertRow(int _Row)
 				commit();
 			Inserting = false;
 			LastStrategy = Model->editStrategy();
-			//!! El seguent comentari està En proves
+			//!! El seguent comentari estï¿½ En proves
 			Model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 			
 			//FActionTableView::insertRow();
@@ -203,7 +203,7 @@ void FSqlActionTableView::commitInsert()
 {
 	if (Inserting)
 	{
-		commit(); //Sinó el primer delete després de un insert falla !
+		commit(); //Sinï¿½ el primer delete desprï¿½s de un insert falla !
 		emit afterInsertRow(0);
 		Inserting = false;
 	}

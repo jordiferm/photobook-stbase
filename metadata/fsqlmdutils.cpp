@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -30,7 +30,7 @@
 
 /*!
 	Retorna una query preparada amb els valors filtrats per la taula relacionada _RelatedTableName de 
-	la taula _TableMetaData. A partir dels valors que hi ha a _Values i la metainformació.
+	la taula _TableMetaData. A partir dels valors que hi ha a _Values i la metainformaciï¿½.
 */
 
 FSqlQuery FSqlMDUtils::relatedQuery(const QString& _RelatedTableName, const QString& _SelectValues, 
@@ -48,7 +48,7 @@ FSqlQuery FSqlMDUtils::relatedQuery(const QString& _RelatedTableName, const QStr
 }
 
 /*!
-	El mateix que la anterior però utilitzant el FSqlDatabaseManager per defecte per a obtenir 
+	El mateix que la anterior perï¿½ utilitzant el FSqlDatabaseManager per defecte per a obtenir 
 	les metadades de _TableName.
 */
 

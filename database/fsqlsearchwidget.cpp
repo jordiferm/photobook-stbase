@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -63,8 +63,8 @@ void FSqlSearchWidget::init()
 
 
 /*!
-	Crea un model i un viewer per defecte. El model conté les dades de _TableName filtrades per _Filter.
-	Només crea el model, no l'emplena. Per a emplenar-lo hem de cridar a select().
+	Crea un model i un viewer per defecte. El model contï¿½ les dades de _TableName filtrades per _Filter.
+	Nomï¿½s crea el model, no l'emplena. Per a emplenar-lo hem de cridar a select().
 */
 
 FSqlSearchWidget::FSqlSearchWidget(const QString& _TableName, const QString& _Filter, QWidget* _Parent, QSqlDatabase _Database) 
@@ -175,7 +175,7 @@ void FSqlSearchWidget::select()
 	}	
 }
 
-//! Assignació manual de columna de cerca.
+//! Assignaciï¿½ manual de columna de cerca.
 void FSqlSearchWidget::setSearchColumn(int _Column)
 {
 	if (model())
@@ -187,8 +187,8 @@ void FSqlSearchWidget::setSearchColumn(int _Column)
 }
 
 /*! Si _Active == true cada cop que es necessita fer un select es redimensionaran 
-	automàticament les columnes a la mida dels continguts.
-	Per defecte és true.
+	automï¿½ticament les columnes a la mida dels continguts.
+	Per defecte ï¿½s true.
 */
 void FSqlSearchWidget::setColumnToContentSize(bool _Active)
 {
@@ -248,7 +248,7 @@ void FSqlSearchWidget::search(const QString& _SearchText)
 			if (searchStart().isValid())
 			{
 				QString FieldName = Model->record().fieldName(searchStart().column());
-				//Si el model és relacional:
+				//Si el model ï¿½s relacional:
 				if (QSqlRelationalTableModel* RelModel = qobject_cast<QSqlRelationalTableModel*>(Model))	
 				{
 					QSqlRelation Rel = RelModel->relation(searchStart().column());

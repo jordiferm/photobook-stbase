@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -42,14 +42,18 @@ int STFtpOrderTransfer::DefaultTimeOutSecs = 46;
 bool STFtpOrderTransfer::waitForCommand(int _CommandId, int _TimeOutSecs)
 {
 	int TimeOutSecs;
-	if (_TimeOutSecs = -1)
+	if (_TimeOutSecs == -1)
 		TimeOutSecs = DefaultTimeOutSecs; 
 	else 
 		TimeOutSecs = _TimeOutSecs;
 
+	Mutex.lock();
+	if (CurrCommandFinished == _CommandId)
+		return false;
 	CurrCommandFinished = -1;
 	bool TimeOut = false;
 	InitTime = QTime::currentTime();
+	Mutex.unlock();
 	while(CurrCommandFinished != _CommandId && !TimeOut && !Aborted)
 	{
 		QApplication::processEvents();
@@ -698,7 +702,9 @@ void STFtpOrderTransfer::slotListInfo(const QUrlInfo& _UrlInfo)
 
 void STFtpOrderTransfer::commandFinished(int _Id, bool _Error)
 {
+	Mutex.lock();
 	CurrCommandFinished = _Id;
+	Mutex.unlock();
 	if (_Error && !IgnoreErrorCommands.contains(_Id) )
 	{
 		emit transferError(errorString());		

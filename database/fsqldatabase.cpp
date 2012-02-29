@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -38,16 +38,16 @@
 	Afegeix una base de dades utilitzant els settings. 
 	Si els _Settings no son valids mira de carregar-los amb QSettings.
 	Si no els pot carregar els demana a l'usuari. 
-	Si l'usuari entra un _Settings correctes els guarda a la configuració de l'aplicació.
+	Si l'usuari entra un _Settings correctes els guarda a la configuraciï¿½ de l'aplicaciï¿½.
 	S'ha de tenir en compte que es guarden settings diferents per a cada connectionName. 
 		
 	\example 
-	// Crearà la base de dades per defecte.
+	// Crearï¿½ la base de dades per defecte.
 	FSqlDatabase::start(); 
 	// Per recuperar la base de dades ho farem:
 	QSqlDatabase::database();
 	
-	// Crearà una base de dades amb el nom de conexió "testdb"
+	// Crearï¿½ una base de dades amb el nom de conexiï¿½ "testdb"
 	FSqlDatabase::start(FSqlDatabaseSettings("testdb")); 
 	// Per recuperar la base de dades ho farem:
 	QSqlDatabase::database("testdb");
@@ -94,7 +94,7 @@ bool FSqlDatabase::start(FSqlDatabaseSettings& _Settings, const QString& _SqlIni
 			else //Es que no estem conectats
 			{
 				SWidget.setWarningMessage(WarnMessage);
-				AskSettings = !WarnMessage.isEmpty(); //Si no hi ha queixa de la conexió vol dir que no hem pas de demanar res de nou.
+				AskSettings = !WarnMessage.isEmpty(); //Si no hi ha queixa de la conexiï¿½ vol dir que no hem pas de demanar res de nou.
 			}
 		}
 		int DResult;
@@ -125,7 +125,7 @@ bool FSqlDatabase::start(FSqlDatabaseSettings& _Settings, const QString& _SqlIni
 			if (DResult == SDBSettingsDialog::CreateDB)
 				TryConnect = create(_Settings, WarnMessage, _SqlInitFile);
 
-			// Ara ja tenim una configuració correcte i la base de dades existeix. Provem de conectar:
+			// Ara ja tenim una configuraciï¿½ correcte i la base de dades existeix. Provem de conectar:
 			if (TryConnect)
 			{
 				Connected = NDatabase.open();
@@ -171,8 +171,8 @@ bool FSqlDatabase::create(const FSqlDatabaseSettings& _Settings, QString& _Warni
 			QSqlDatabase::removeDatabase("tmpconnection");
 		}
 	}
-	//SUPPORT PER MYSQL A LA BD. ( Alerta només hi ha implementada la part de la connexió no la part de creació i
-	//gestió de taules.
+	//SUPPORT PER MYSQL A LA BD. ( Alerta nomï¿½s hi ha implementada la part de la connexiï¿½ no la part de creaciï¿½ i
+	//gestiï¿½ de taules.
 	else if ( _Settings.driver().left(6) == "QMYSQL" )
 	{
 		QSqlDatabase TmpDb = QSqlDatabase::addDatabase(_Settings.driver(), "tmpconnection");

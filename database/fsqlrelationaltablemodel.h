@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -58,9 +58,9 @@ protected:
 public:
 	FSqlRelationalTableModel( QObject * parent = 0, QSqlDatabase db = QSqlDatabase() );
 	void updateColumnSortList();
-	//! Donada una posició ens diu la columna(Absoluta) que mostra aquella posicio.
+	//! Donada una posiciï¿½ ens diu la columna(Absoluta) que mostra aquella posicio.
 	int relativeColumn(int _Pos) const;
-	//! Donada una _Columna(Absoluta) retorna la posició relativa on es mostrarà.
+	//! Donada una _Columna(Absoluta) retorna la posiciï¿½ relativa on es mostrarï¿½.
 	int relativePos(int _Column) const;
 	//! Situa els camps per ordre segons _Columns.
 	void setColOrder(const QStringList& _Columns); // Deprecated
