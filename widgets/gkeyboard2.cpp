@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -193,7 +193,7 @@ void GKeyboard2::setReceiver(QObject* _Receiver)
 	ReceiberObj = _Receiver;
 }
 
-/*! Retorna un string amb el caràcter de la tecla.
+/*! Retorna un string amb el carï¿½cter de la tecla.
 	_Key Constant de tecla de les Qt. Qt::Key...
 */
 QString GKeyboard2::keyStr(int _Key)
@@ -230,28 +230,28 @@ void GKeyboard2::keyReleased(int _Key)
 				if ( BeforeLastPressedKey != Qt::Key_Shift )
 				{
 					if ( _Key == Qt::Key_A )
-						keyEvent = getNewKeyEvent ( 0, "á" );
+						keyEvent = getNewKeyEvent ( 0, "ï¿½" );
 					if ( _Key == Qt::Key_E )
-						keyEvent = getNewKeyEvent ( 0, "é");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_I )
-						keyEvent = getNewKeyEvent ( 0, "í");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_O )
-						keyEvent = getNewKeyEvent ( 0, "ó");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_U )
-						keyEvent = getNewKeyEvent ( 0, "ú");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 				}
 				else
 				{
 					if ( _Key == Qt::Key_A )
-						keyEvent = getNewKeyEvent ( 0, "ä");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_E )
-						keyEvent = getNewKeyEvent ( 0, "ë");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_I )
-						keyEvent = getNewKeyEvent ( 0, "ï");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_O )
-						keyEvent = getNewKeyEvent ( 0, "ö");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_U )
-						keyEvent = getNewKeyEvent ( 0, "ü");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 				}
 			}
 			//Accent obert.
@@ -260,28 +260,28 @@ void GKeyboard2::keyReleased(int _Key)
 				if ( BeforeLastPressedKey != Qt::Key_Shift )
 				{
 					if ( _Key == Qt::Key_A )
-						keyEvent = getNewKeyEvent ( 0, "à");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_E )
-						keyEvent = getNewKeyEvent ( 0, "è");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_I )
-						keyEvent = getNewKeyEvent ( 0, "ì");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_O )
-						keyEvent = getNewKeyEvent ( 0, "ò");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_U )
-						keyEvent = getNewKeyEvent ( 0, "ù");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 				}
 				else
 				{
 					if ( _Key == Qt::Key_A )
-						keyEvent = getNewKeyEvent ( 0, "â");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_E )
-						keyEvent = getNewKeyEvent ( 0, "ê");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_I )
-						keyEvent = getNewKeyEvent ( 0, "î");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_O )
-						keyEvent = getNewKeyEvent ( 0, "ô");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 					if ( _Key == Qt::Key_U )
-						keyEvent = getNewKeyEvent ( 0, "û");
+						keyEvent = getNewKeyEvent ( 0, "ï¿½");
 				}
 			}
 			
@@ -310,13 +310,13 @@ void GKeyboard2::keyReleased(int _Key)
 			if ( LastPressedKey == Qt::Key_Shift )
 			{
 				if ( _Key == Qt::Key_masculine )
-					keyEvent = getNewKeyEvent ( 0, "ª");
+					keyEvent = getNewKeyEvent ( 0, "ï¿½");
 				if ( _Key == Qt::Key_1 )
 					keyEvent = getNewKeyEvent(Qt::Key_Exclam);
 				if ( _Key == Qt::Key_2 )
 					keyEvent = getNewKeyEvent(Qt::Key_QuoteDbl);
 				if ( _Key == Qt::Key_3 )
-					keyEvent = getNewKeyEvent ( 0, "·");
+					keyEvent = getNewKeyEvent ( 0, "ï¿½");
 				if ( _Key == Qt::Key_4 )
 					keyEvent = getNewKeyEvent(Qt::Key_Dollar);
 				if ( _Key == Qt::Key_5 )

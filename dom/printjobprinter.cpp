@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2010 Starblitz. All rights reserved.
+** Copyright (C) 2006-2010 Aili Image. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2010
 **
@@ -206,20 +206,22 @@ STDom::PrintJob PrintJobPrinter::storeImages(const STDom::PrintJob& _Job, const 
 			StoreImage.setDotsPerMeterX(CImage.dotsPerMeterX());
 			StoreImage.setDotsPerMeterY(CImage.dotsPerMeterY());
 
-			QString ImageFileName;
-			if (_Encode)
-			{
-				StoreImage.blowFishEncode(EncodeKey);
-				ImageFileName = StoreImage.hashString() + ".PNG";
-			}
-			else
-				ImageFileName = StoreImage.hashString() + "." + it->completeSuffix();
-
-
+			QString ImageFileName = StoreImage.hashString() + "." + it->completeSuffix();
 			QString DestFilePath = _DestDir.absoluteFilePath(ImageFileName);
 
-			if (!StoreImage.save( DestFilePath, 0, 100))
-				ErrorStack.push(Error(QString(QObject::tr("Error storing image %1")).arg(DestFilePath)));
+
+			if (_Encode)
+			{
+				if (!StoreImage.saveEncoded(DestFilePath))
+					ErrorStack.push(Error(QString(QObject::tr("Error storing encoded image %1")).arg(DestFilePath)));
+
+				DestFilePath = STImage::encodedFileName(DestFilePath);
+			}
+			else
+			{
+				if (!StoreImage.save( DestFilePath, 0, 100))
+					ErrorStack.push(Error(QString(QObject::tr("Error storing image %1")).arg(DestFilePath)));
+			}
 
 			DDocPrintList Prints = _Job.prints(CurrentFile);
 			DDocPrintList::iterator it;

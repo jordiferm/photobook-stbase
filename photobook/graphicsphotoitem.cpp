@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -501,8 +501,6 @@ void GraphicsPhotoItem::loadImage()
 		//!FIXME What happens if load fails ???
 
 		CurrImage = STImage(ImageResource.fileInfo().absoluteFilePath());
-		if (ImageEncrypted)
-			CurrImage.blowFishDecode();
 
 		BigImageSize = CurrImage.size();
 		//!TODO put the 800 in settings.
@@ -704,7 +702,6 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& 
 		}
 		CNode = CNode.nextSibling();
 	}
-	setImageEncrypted(_Element.attribute("encrypted", "false").toLower() == "true");
 	STImage CImage;
 	QString ImageFilePath = _Element.attribute("src");
 
@@ -715,8 +712,8 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& 
 		{
 			CImage.loadThumbnail(ImgFInfo.absoluteFilePath());
 			setThumbnail(CImage, ImgFInfo.absoluteFilePath());
-			if (ImageEncrypted)
-				loadImageSpawn();
+			/*if (ImageEncrypted)
+				loadImageSpawn();*/
 		}
 	}
 	else
@@ -765,7 +762,6 @@ QDomElement GraphicsPhotoItem::createElement(QDomDocument& _Doc, const QString& 
 	MElement.setAttribute("y", y());
 	MElement.setAttribute("panningx", PanningPoint.x());
 	MElement.setAttribute("panningy", PanningPoint.y());
-	MElement.setAttribute("encrypted", ImageEncrypted ? "true" : "false");
 	MElement.setAttribute("opacity", Opacity);
 	QDomElement RectEl = _Doc.createElement("rect");
 	RectEl.setAttribute("x", rect().x());
@@ -1325,8 +1321,8 @@ void GraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 					{
 						STDom::DImageDoc Image(ImagePath);
 						setImage(Image);
-						if (encryptedByFileName(ImagePath))
-							setImageEncrypted(true);
+/*						if (encryptedByFileName(ImagePath))
+							setImageEncrypted(true);*/
 						loadImageSpawn();
 						emit imageDropped(ImagePath, ImageMD5Sum);
 					}

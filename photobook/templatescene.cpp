@@ -254,18 +254,18 @@ QImage TemplateScene::getThumbnail(const QString& _ImageFileName, bool _Encrypte
 {
 	QSize ThumbnailSize(600, 400);
 	QString ThumbnailFileName = thumbnailImage(_ImageFileName);
-	QImage ThumbnailPix(ThumbnailFileName);
+	STImage ThumbnailPix(ThumbnailFileName);
 
 	if (ThumbnailPix.isNull())
 	{
-		if (_Encrypted)
+		/*if (_Encrypted)
 		{
 			STImage ThumbnailImage = STImage(_ImageFileName);
 			ThumbnailImage.blowFishDecode();
 			ThumbnailPix = ThumbnailImage.scaled(ThumbnailSize, Qt::KeepAspectRatio);
 		}
-		else
-			ThumbnailPix = QImage(_ImageFileName).scaled(ThumbnailSize, Qt::KeepAspectRatio);
+		else*/
+		ThumbnailPix = STImage(_ImageFileName).scaled(ThumbnailSize, Qt::KeepAspectRatio);
 
 		if (_CreateIfNotExist)
 			ThumbnailPix.save(ThumbnailFileName, "PNG");

@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -64,7 +64,7 @@ QSqlRecord FSqlSearchDialog::exec(const QString& _Sql, QWidget* _Parent, QSqlDat
 
 /*!
 	Retorna un QSqlRecord amb el registre seleccionat en cas de que s'accepti el dialeg.
-	Sinó retorna un QSqlRecord empty. També retorna un QSqlRecord empty en cas de que no hi hagi seleccionat res 	
+	Sinï¿½ retorna un QSqlRecord empty. Tambï¿½ retorna un QSqlRecord empty en cas de que no hi hagi seleccionat res 	
 */
 
 QSqlRecord FSqlSearchDialog::exec(const QString& _TableName, const QString& _Columns, 

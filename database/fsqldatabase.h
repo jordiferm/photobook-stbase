@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -28,11 +28,11 @@
 
 
 /**
-Representa la conexió amb una base de dades. 
-Incorpora les següents característiques: 
-- Creació automàtica de la base de dades a partir de la metainformació.
-- Actualització automàtica de les taules a partir de la comprovació de versions dels fitxers de metainformació. Les versions poden ser automàticament controlades a partir de la substitució de tags de CVS.
-- Gestió de la configuració de conexió a QSettings. 
+Representa la conexiï¿½ amb una base de dades. 
+Incorpora les segï¿½ents caracterï¿½stiques: 
+- Creaciï¿½ automï¿½tica de la base de dades a partir de la metainformaciï¿½.
+- Actualitzaciï¿½ automï¿½tica de les taules a partir de la comprovaciï¿½ de versions dels fitxers de metainformaciï¿½. Les versions poden ser automï¿½ticament controlades a partir de la substituciï¿½ de tags de CVS.
+- Gestiï¿½ de la configuraciï¿½ de conexiï¿½ a QSettings. 
  
  
 @author Shadow

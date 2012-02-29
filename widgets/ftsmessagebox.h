@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -71,7 +71,7 @@ public:
 };
 
 /*!
-	Classe de MessageBox Touch Screen amb la opció d'ensenyar un texte amb informació abansada.
+	Classe de MessageBox Touch Screen amb la opciï¿½ d'ensenyar un texte amb informaciï¿½ abansada.
 */
 class ST_WIDGETS_EXPORT FTSAdvancedMessageBox : public FTSMessageBox
 {
@@ -88,7 +88,7 @@ public:
 	QString advancedText() const;
 	static FAction::EnActionId advanced(QWidget* _Parent, const QString& _Caption, const QString& _Text, 
 		const QString& _AdvancedText, QActionGroup& _ActGroup, FTSMessageBox::EnIcon _Icon = FTSMessageBox::Information);
-	//! Sobrecàrrega de l'anterior amb _ActGroup Accept.
+	//! Sobrecï¿½rrega de l'anterior amb _ActGroup Accept.
 	static FAction::EnActionId advanced(QWidget* _Parent, const QString& _Caption, const QString& _Text, 
 		const QString& _AdvancedText, FTSMessageBox::EnIcon _Icon = FTSMessageBox::Information);
 

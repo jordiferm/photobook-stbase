@@ -53,6 +53,7 @@ SET(prj_SRCS
 	stimagetools.cpp
 	sttemporaryimagefile.cpp
 	stphotoindexbuilder.cpp
+	simplecrypt.cpp
 )
 
 SET(prj_MOC_HDRS

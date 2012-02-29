@@ -594,8 +594,8 @@ void STGraphicsPhotoItem::loadImage()
 		//!FIXME What happens if load fails ???
 
 		CurrImage = STImage(CurrImageFileName);
-		if (ImageEncrypted)
-			CurrImage.blowFishDecode();
+		/*if (ImageEncrypted)
+			CurrImage.blowFishDecode();*/
 
 		BigImageSize = CurrImage.size();
 		//!TODO put the 800 in settings.

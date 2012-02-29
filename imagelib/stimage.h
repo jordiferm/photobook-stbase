@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -23,9 +23,10 @@
 #include <QImage>
 #include <QColor> 
 #include "stimagelibexport.h"
+#include "simplecrypt.h"
 
 /**
-Starblitz Toolkit Image class.
+Aili Image Toolkit Image class.
 
 	@author
 */
@@ -73,8 +74,6 @@ public:
 	STImage improveColorBalance(SProcessStatusWidget* _SProcessStatusWidget = 0);
 	STImage enhanceImageContrast(SProcessStatusWidget* _SProcessStatusWidget = 0);
 	STImage contrast(const unsigned int _Sharpen );
-	void blowFishEncode(const QString& _Key = DefaultEncryptionKey);
-	void blowFishDecode(const QString& _Key = DefaultEncryptionKey);
 	STImage sigmoidalContrast(const unsigned int _Sharpen, const double _Contrast, const double _MidPoint);
 	STImage despeckle();
 	STImage enhance(); 
@@ -99,13 +98,27 @@ public:
 	static QString supportedFormatsToReadFilter();
 	static QString supportedFormatsToWriteFilter();
 
+	//Encoding
+	SimpleCrypt getCrypto(const QString& _Key);
+
+	bool saveEncoded(const QString& _FileName, const QString& _Key = DefaultEncryptionKey);
+	quint64 keyToInt64(const QString& _Key) const;
+	bool loadEncoded(const QString& _FileName, const QString& _Key = DefaultEncryptionKey);
+
+	static void setDefaultEncryptionKey(const QString& _Key) { DefaultEncryptionKey = _Key; }
+	static QString defaultEncryptionKey() { return DefaultEncryptionKey; }
+
+	static bool isEncoded(const QString& _FileName);
+	static QString encodedSuffix() { return "seim"; }
+	static QString encodedFileName(const QString& _ImageFileName);
+
+	//Hashing
 	QString hashString() const;
+
 	//! returns a hashName for _FilePath, returns an empty string if file does not exist.
 	static QString hashString(const QString& _FilePath);
 	static QString hashFileName(const QString& _FilePath); 
 
-	static void setDefaultEncryptionKey(const QString& _Key) { DefaultEncryptionKey = _Key; }
-	static QString defaultEncryptionKey() { return DefaultEncryptionKey; }
 };
 
 #endif

@@ -197,7 +197,7 @@ void SystemTemplates::downloadTemplateDesign(const STDom::Publisher& _Publisher,
 	QString RemoteTemplateDir = TFileInfo.absoluteFilePath();
 	RemoteTemplateDir.remove(_TemplateInfo.basePath());
 	RemoteTemplateDir = _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + RemoteTemplateDir + "/";
-	qDebug() << "Remote Template dir"  << RemoteTemplateDir << " Dest Dir: " << TemplateParentDir.absolutePath();
+	//qDebug() << "Remote Template dir"  << RemoteTemplateDir << " Dest Dir: " << TemplateParentDir.absolutePath();
 	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
 	try
 	{
@@ -211,4 +211,19 @@ void SystemTemplates::downloadTemplateDesign(const STDom::Publisher& _Publisher,
 		delete FtpTrans;
 		throw;
 	}
+#ifdef ENCRYPTED_TEMPLATES
+	encodeTemplateDesign(_TemplateInfo, SProcessStatusWidget* _ProcessWidget)
+#endif
+
+
+}
+
+
+void SystemTemplates::encodeTemplateDesign(const TemplateInfo& _TemplateInfo,
+										   const DesignInfo& _DesignInfo,
+										   SProcessStatusWidget* _ProcessWidget)
+{
+	//For all resources in design:
+	QString DesignPath = _TemplateInfo.absolutePath(_DesignInfo);
+
 }

@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -217,7 +217,7 @@ bool STUtils::copyDirRecursive(const QDir& _Source, const QDir& _Destination, bo
 	return Res;
 }
 /*!
-	Calc 'pascua' holiday: \sa http://es.wikipedia.org/wiki/Cálculo_de_la_fecha_de_Pascua
+	Calc 'pascua' holiday: \sa http://es.wikipedia.org/wiki/Cï¿½lculo_de_la_fecha_de_Pascua
 */
 QDate STUtils::pascuaDate(int _Year)
 {
@@ -255,7 +255,7 @@ QDate STUtils::pascuaDate(int _Year)
 
 	int a, b, c, d, e, dia, mes;
 
-	//Cálculo de residuos
+	//Cï¿½lculo de residuos
 	a = _Year % 19;
 	b = _Year % 4;
 	c = _Year % 7;
@@ -274,7 +274,7 @@ QDate STUtils::pascuaDate(int _Year)
 		mes = 4;
 	}
 
-	// Excepciones especiales (según artículo)
+	// Excepciones especiales (segï¿½n artï¿½culo)
 	if (dia == 26  && mes == 4)
 		dia = 19;
 	if (dia == 25 && mes == 4 && d == 28 && e == 6 && a > 10)

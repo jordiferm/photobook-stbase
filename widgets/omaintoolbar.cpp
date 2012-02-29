@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -28,18 +28,18 @@
 OMainToolBar::OMainToolBar(QWidget *parent)
  : QToolBar(parent)
 {
-	QLabel* StarblitzLab = new QLabel(this); 
-	//StarblitzLab->setPixmap(QPixmap(":/logo_starblitz.png"));
-	StarblitzLab->setText("<a href=http://www.starblitz-k.com><img src=:/st/logo_starblitz.png /></a>");
+	QLabel* AiliImageLab = new QLabel(this);
+	//AiliImageLab->setPixmap(QPixmap(":/logo_Aili Image.png"));
+	AiliImageLab->setText("<a href=http://www.ailiimage.com><img src=:/st/logo_ailiimage.png /></a>");
 	QString PublisherLogo = QApplication::applicationDirPath() + "/publisherlogo.png"; 
 	if (QFile::exists(PublisherLogo))
 	{
-		StarblitzLab->setPixmap(QPixmap(PublisherLogo));
-		StarblitzLab->setMaximumHeight(70);
+		AiliImageLab->setPixmap(QPixmap(PublisherLogo));
+		AiliImageLab->setMaximumHeight(70);
 	}
 
-	connect(StarblitzLab, SIGNAL(linkActivated(const QString&)), this, SLOT(openLink(const QString& )));
-	addWidget(StarblitzLab);
+	connect(AiliImageLab, SIGNAL(linkActivated(const QString&)), this, SLOT(openLink(const QString& )));
+	addWidget(AiliImageLab);
 	addSeparator();
 	
 	setIconSize(QSize(64, 64)); 

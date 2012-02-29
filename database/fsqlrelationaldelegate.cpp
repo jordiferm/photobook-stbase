@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -54,7 +54,7 @@ QWidget* FSqlRelationalDelegate::createEditor(QWidget* _Parent,
 
 
 	const QSqlTableModel* SqlModel = qobject_cast<const QSqlTableModel*>(_Index.model());
-	//Només per models Sql.
+	//Nomï¿½s per models Sql.
 	if (SqlModel && Res)
 	{
 		QSqlField CField = SqlModel->record().field(_Index.column());
@@ -150,7 +150,7 @@ void FSqlRelationalDelegate::setModelData(QWidget *editor, QAbstractItemModel *m
 	                  childModel->data(childModel->index(currentItem, childColIndex), Qt::DisplayRole),
 	                  Qt::DisplayRole);
 	QVariant EditData = childModel->data(childModel->index(currentItem, childEditIndex), Qt::EditRole);
-	//if (sqlModel->data(index, Qt::EditRole) != EditData) //! Hi ha cops que no actualitzat bé !.
+	//if (sqlModel->data(index, Qt::EditRole) != EditData) //! Hi ha cops que no actualitzat bï¿½ !.
 	sqlModel->setData(index, EditData, Qt::EditRole);
 	//qDebug(QString("FSqlRelationalDelegate::setModelData: " + EditData.toString()).toLatin1() );
 

@@ -32,7 +32,7 @@ INCLUDE(${QT_USE_FILE})
 # --------------------------------------------------------------------------
 # Definitions
 
-#SET(MARKETPLACEINFO_BASE_URL "http://sites.google.com/a/starblitz-k.com/marketplaceinfo")
+#SET(MARKETPLACEINFO_BASE_URL "http://sites.google.com/a/Aili Image-k.com/marketplaceinfo")
 SET(MARKETPLACEINFO_BASE_URL "http://sites.google.com/site/orometemplates" CACHE STRING "Marketplace info Base URL.")
 SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "MARKETPLACEINFO_BASE_URL=\"${MARKETPLACEINFO_BASE_URL}\"")
 
