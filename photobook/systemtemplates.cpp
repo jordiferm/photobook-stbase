@@ -18,11 +18,16 @@
 #include "systemtemplates.h"
 #include <QDir>
 #include <QDebug>
+#include <QApplication>
 
 #include "templatepaths.h"
 #include "stutils.h"
 #include "collectioninfo.h"
 #include "stftpordertransfer.h"
+#include "resource.h"
+#include "stimage.h"
+#include "sterrorstack.h"
+#include "sprocessstatuswidget.h"
 
 using namespace SPhotoBook;
 
@@ -212,10 +217,8 @@ void SystemTemplates::downloadTemplateDesign(const STDom::Publisher& _Publisher,
 		throw;
 	}
 #ifdef ENCRYPTED_TEMPLATES
-	encodeTemplateDesign(_TemplateInfo, SProcessStatusWidget* _ProcessWidget)
+	encodeTemplateDesign(_TemplateInfo, _DesignInfo, _ProcessWidget);
 #endif
-
-
 }
 
 
@@ -225,5 +228,40 @@ void SystemTemplates::encodeTemplateDesign(const TemplateInfo& _TemplateInfo,
 {
 	//For all resources in design:
 	QString DesignPath = _TemplateInfo.absolutePath(_DesignInfo);
+	QDir DesignDir(DesignPath);
+	QFileInfoList DesignFiles = DesignDir.entryInfoList(QStringList() << "*", QDir::Files );
+	QFileInfoList::iterator it = DesignFiles.begin();
+	STErrorStack ErrorStack;
 
+	if(_ProcessWidget)
+	{
+		_ProcessWidget->showProgressBar(QObject::tr("Encoding template %1").arg(_DesignInfo.name()), DesignFiles.size());
+		QApplication::processEvents();
+	}
+	while (it != DesignFiles.end())
+	{
+		if (Resource::isResource(*it))
+		{
+			Resource CurrentResource(*it);
+			if (CurrentResource.type() == Resource::TypeBackground || CurrentResource.type() == Resource::TypeFrame ||
+				CurrentResource.type() == Resource::TypeMask)
+			{
+				QString CurrentFilePath = it->absoluteFilePath();
+				if (!STImage::isEncoded(CurrentFilePath))
+				{
+					STImage ResourceImage(CurrentFilePath);
+					StackAssert(ResourceImage.saveEncoded(CurrentFilePath),
+								Error(QObject::tr("Could not save encoded image %1").arg(CurrentFilePath)), ErrorStack);
+					StackAssert(QFile(CurrentFilePath).remove(), Error(QObject::tr("Could not remove base file %1").arg(CurrentFilePath)), ErrorStack);
+				}
+			}
+		}
+		++it;
+		if(_ProcessWidget)
+		{
+			_ProcessWidget->incrementProgress();
+			QApplication::processEvents();
+		}
+	}
+	Assert(ErrorStack.isEmpty(), Error(QObject::tr("There's been errors during template encoding"), ErrorStack.errorString().join(",")));
 }
