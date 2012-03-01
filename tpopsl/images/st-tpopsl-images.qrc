@@ -29,5 +29,6 @@
         <file>show-advanced.png</file>
         <file>printer.png</file>
         <file>rotateselection.png</file>
+        <file>ok.png</file>
     </qresource>
 </RCC>

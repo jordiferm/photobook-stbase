@@ -178,7 +178,7 @@ TPPhotoSelWidget::TPPhotoSelWidget(QWidget* parent, bool _ShowNavigation, Qt::Wi
 
 	BFrameLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Preferred)); 
 	
-	AcceptBut = newActionButton(":/st/tpopsl/printer.png");
+	AcceptBut = newActionButton(":/st/tpopsl/ok.png");
 	AcceptBut->setVisible(_ShowNavigation);
 	connect(AcceptBut, SIGNAL(clicked( bool )), this, SLOT(slotAccepted())); 
 	BFrameLayout->addWidget(AcceptBut); 
