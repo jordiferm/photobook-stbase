@@ -174,7 +174,7 @@ void MetaInfo::save(const QString& _XmlFilePath, bool _CheckVersion)
 
 	//Out.setCodec(QTextCodec::codecForName("ISO-8859-1"));
 	Out.setCodec(QTextCodec::codecForName("UTF-8"));
-	QDomDocument Doc("starphob_metainfo");
+	QDomDocument Doc("aili_metainfo");
 	QDomElement Root = Doc.createElement("info");
 	Doc.appendChild(Root);
 	Root.setAttribute("version", "1.0.0");
@@ -192,7 +192,8 @@ void MetaInfo::load(const QString& _XmlFilePath)
 	StrIn.setCodec(QTextCodec::codecForName("UTF-8"));
 	Assert(Doc.setContent(StrIn.readAll()), STError(QObject::tr("Error loading file: %1").arg(_XmlFilePath)));
 	File.close();
-	Assert(Doc.doctype().name().toLower() == "starphob_metainfo", STError(QObject::tr("Wrong file type loading %1").arg(_XmlFilePath)));
+	//TODO: Remove Starphob.
+	Assert(Doc.doctype().name().toLower() == "aili_metainfo" || Doc.doctype().name().toLower() == "starphob_metainfo", STError(QObject::tr("Wrong file type loading %1").arg(_XmlFilePath)));
 	QDomElement RootEl = Doc.documentElement();
 	//TODO: Check document version.
 	QString Version = RootEl.attribute("version", "0.0.0");

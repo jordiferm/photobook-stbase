@@ -32,7 +32,7 @@ using namespace SPhotoBook;
 
 QDomDocument PageList::createDoc(const QDir& _StoreDir)
 {
-	QDomDocument Doc("starphob");
+	QDomDocument Doc("aili");
 	QDomElement Root = Doc.createElement("photobook");
 	Doc.appendChild(Root);
 	Root.setAttribute("version", "2.0.0");
@@ -111,7 +111,7 @@ QStringList PageList::saveResources(const SPhotoBook::CollectionInfo& _CInfo, bo
 void PageList::loadXml(const QString& _AbsoluteFileName, QObject* _PagesParent, const QString& _EncryptionKey, QProgressBar* _ProgressBar)
 {
 	clear();
-	QDomDocument Doc("starphob");
+	QDomDocument Doc("aili");
 	QFile File(_AbsoluteFileName);
 	QFileInfo XmlFInfo(File);
 	Assert(File.open(QIODevice::ReadOnly), Error(QObject::tr("Loading Photo Book from file %1").arg(File.fileName())));

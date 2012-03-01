@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 **
 ** Strablitz (c) 2008
 **
@@ -41,7 +41,7 @@
 #include "exifmetadata.h"
 
 //cipher
-#include "blowfish.h"
+#include <QBuffer>
 
 //#define USE_PRINTKEEPER
 
@@ -84,7 +84,21 @@ STImage::~STImage()
 
 bool STImage::load(const QString& _FileName, const char* _Format)
 {
-	bool Res = QImage::load(_FileName, _Format); 
+	QString FileName = _FileName;
+	//If image does not exist tries to load encoded version.
+	if (!QFile::exists(FileName))
+	{
+		FileName = encodedFileName(FileName);
+		if (!QFile::exists(FileName))
+			return false;
+	}
+
+	bool Res = false;
+	if (isEncoded(FileName))
+		Res = loadEncoded(FileName);
+	else
+		Res = QImage::load(FileName, _Format);
+
 	if (Res) //A little trick to solve an strange issue with 8 bit images.
 	{
 		if (format() == QImage::Format_Indexed8 || format() == QImage::Format_MonoLSB || format() == QImage::Format_Mono)
@@ -202,43 +216,8 @@ STImage STImage::contrast(const unsigned int _Sharpen)
 	return IImage.image();
 }
 
-void STImage::blowFishEncode(const QString& _Key)
-{
-	CBlowFish BFish;
-	BFish.Initialize(reinterpret_cast<unsigned char*>(_Key.toAscii().data()), _Key.length());
 
-	*this = convertToFormat(QImage::Format_ARGB32);
-	#if QT_VERSION >= 0x040600
-		int DestSize = BFish.GetOutputLength(byteCount());
-	#else
-		int DestSize = BFish.GetOutputLength(bytesPerLine()*height());
-	#endif
 
-#if QT_VERSION >= 0x040700 //TODO! I don't know what a hell is going on here !
-		DestSize = BFish.GetOutputLength(byteCount()-1);
-#endif
-
-	BFish.Encode(bits(), bits(), DestSize);
-}
-
-void STImage::blowFishDecode(const QString& _Key)
-{
-	CBlowFish BFish;
-	BFish.Initialize(reinterpret_cast<unsigned char*>(_Key.toAscii().data()), _Key.length());
-	*this = convertToFormat(QImage::Format_ARGB32);
-
-	#if QT_VERSION >= 0x040600
-		int DestSize = BFish.GetOutputLength(byteCount());
-	#else
-		int DestSize = BFish.GetOutputLength(bytesPerLine()*height());
-	#endif
-
-#if QT_VERSION >= 0x040700 //TODO! I don't know what a hell is going on here !
-		DestSize = BFish.GetOutputLength(byteCount()-1);
-#endif
-
-	BFish.Decode(bits(), bits(), DestSize);
-}
 
 STImage STImage::sigmoidalContrast(const unsigned int _Sharpen, const double _Contrast, const double _MidPoint)
 {
@@ -444,6 +423,99 @@ QString STImage::supportedFormatsToWriteFilter()
 	return formatForFileFilter(QImageWriter::supportedImageFormats());
 }
 
+SimpleCrypt STImage::getCrypto(const QString& _Key)
+{
+	//setup our objects
+	SimpleCrypt Crypto(keyToInt64(_Key));
+	Crypto.setCompressionMode(SimpleCrypt::CompressionAlways); //always compress the data, see section below
+	Crypto.setIntegrityProtectionMode(SimpleCrypt::ProtectionHash);  //properly protect the integrity of the data
+	return Crypto;
+}
+
+
+bool STImage::saveEncoded(const QString& _FileName, const QString& _Key)
+{
+	//setup our objects
+	SimpleCrypt Crypto = getCrypto(_Key);
+	QBuffer Buffer;
+	Buffer.open(QIODevice::WriteOnly);
+	QDataStream Stream(&Buffer);
+	//stream the data into our buffer
+	Stream.setVersion(QDataStream::Qt_4_6);
+	//s << myString; //stream in a string
+	//s << myUint16; //stream in an unsigned integer
+	Stream << *this; //stream in an image
+
+	QByteArray myCypherText = Crypto.encryptToByteArray(Buffer.data());
+	if (Crypto.lastError() != SimpleCrypt::ErrorNoError)
+	return false;
+
+	// Save FileName:
+	QFile DestFile(encodedFileName(_FileName));
+	if (!DestFile.open(QIODevice::WriteOnly))
+	{
+	 qDebug() << "Could not open dest file for write .";
+	 return false;
+	}
+
+	DestFile.write(myCypherText, myCypherText.size());
+	DestFile.close();
+	Buffer.close();
+
+	return true;
+}
+
+bool STImage::loadEncoded(const QString& _FileName, const QString& _Key)
+{
+	QFile SourceFile(_FileName);
+	if (!SourceFile.open(QIODevice::ReadOnly))
+	{
+		qDebug() << "Could not open dest file for read:" << _FileName;
+		return false;
+	}
+	SimpleCrypt Crypto = getCrypto(_Key);
+	QByteArray mySourceCypherText = SourceFile.readAll();
+	QByteArray plaintext = Crypto.decryptToByteArray(mySourceCypherText);
+	if (!Crypto.lastError() == SimpleCrypt::ErrorNoError) {
+	 // check why we have an error, use the error code from crypto.lastError() for that
+		qDebug() << "Error decoding!:" << Crypto.lastError();
+	 return false;
+	}
+	QBuffer rbuffer(&plaintext);
+	rbuffer.open(QIODevice::ReadOnly);
+	QDataStream ls(&rbuffer);
+	ls.setVersion(QDataStream::Qt_4_6);
+	//s >> myString; //stream in a string
+	//s >> myUint16; //stream in an unsigned integer
+	ls >> *this; //stream in an image
+	//s >> someMoreData;
+	//etc.
+
+	rbuffer.close();
+	return true;
+}
+
+quint64 STImage::keyToInt64(const QString& _Key) const
+{
+	bool ok;
+	QString Hex = QString("0x%1").arg(QString(_Key.toLatin1().toHex()).right(16));
+	return Hex.toLongLong(&ok, 16);
+}
+
+bool STImage::isEncoded(const QString& _FileName)
+{
+	QFileInfo FInfo(_FileName);
+	return FInfo.suffix().toLower() == encodedSuffix();
+}
+
+
+QString STImage::encodedFileName(const QString& _ImageFileName)
+{
+	return _ImageFileName + "." + encodedSuffix();
+}
+
+
+
 QString STImage::hashString() const
 {
 	QCryptographicHash CryptoHash(QCryptographicHash::Md5);
@@ -482,3 +554,4 @@ QString STImage::hashFileName(const QString& _FilePath)
 	}
 	return Res;
 }
+

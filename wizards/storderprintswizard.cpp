@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -57,7 +57,7 @@
 
 OPWWelcomePage::OPWWelcomePage(QWidget* _Parent) : STOWizardPage(_Parent)
 {
-	setTitle(tr("<h1>Welcome to Starblitz Order Print wizard</h1>"));
+	setTitle(tr("<h1>Welcome to Aili Image Order Print wizard</h1>"));
 	setPixmap(QWizard::WatermarkPixmap, QPixmap(":/st/wizards/watermark.png"));
 	QVBoxLayout* MLayout = new QVBoxLayout(this); 
 	
@@ -581,7 +581,8 @@ QWidget* OPWConfirmOrder::createShipmentOptionsWidget()
 
 QWidget* OPWConfirmOrder::createOtherOptionsWidget()
 {
-	QGroupBox* GBox = new QGroupBox(tr("More Options"), this);
+	QxtGroupBox* GBox = new QxtGroupBox(tr("More Options"), this);
+	GBox->setChecked(false);
 	GBox->setFlat(true);
 
 	QVBoxLayout* MLayout = new QVBoxLayout(GBox );

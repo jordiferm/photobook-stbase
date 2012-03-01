@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -294,8 +294,8 @@ void FTableMetaData::load(const QString& _FileName)
 }
 
 /*! Retorna tot el fitxer xml en forma de QString.
-	Perque funcioni aquest mètode els settings han d'estar carregats amb el mètode load().
-	Aquesta funció utilitzarà el fitxer de la última crida amb el fitxer correcte a load()
+	Perque funcioni aquest mï¿½tode els settings han d'estar carregats amb el mï¿½tode load().
+	Aquesta funciï¿½ utilitzarï¿½ el fitxer de la ï¿½ltima crida amb el fitxer correcte a load()
 */
 QString FTableMetaData::xml() const
 {
@@ -331,9 +331,9 @@ void FTableMetaData::configureHeaderData(QSqlTableModel& _Model) const
 }
 
 /*! 
-	Retorna el camp que te una relació amb la taula _RelatedTableName
-	Si no en te cap retornarà un FFieldMetaData null.
-	Si la FTableMetaData és null farà un throw.
+	Retorna el camp que te una relaciï¿½ amb la taula _RelatedTableName
+	Si no en te cap retornarï¿½ un FFieldMetaData null.
+	Si la FTableMetaData ï¿½s null farï¿½ un throw.
 */
 
 FFieldMetaData FTableMetaData::relatedField(const QString& _RelatedTableName) const
@@ -466,7 +466,7 @@ void FSqlMetaData::loadFromResources(const QString& _MetadataPath)
 }
 
 /*!
-	En cas de no trobar _TablesMetadataDir el buscarà al $(path del binari executable)/../share/tables/
+	En cas de no trobar _TablesMetadataDir el buscarï¿½ al $(path del binari executable)/../share/tables/
 */
 
 void FSqlMetaData::load(const QString& _TablesMetadataDir)

@@ -53,6 +53,10 @@ public:
 														 const DesignInfo& _DesignInfo);
 	static void downloadTemplateDesign(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
 													const DesignInfo& _DesignInfo, SProcessStatusWidget* _ProcessWidget = 0);
+	static void encodeTemplateDesign(const TemplateInfo& _TemplateInfo,
+											   const DesignInfo& _DesignInfo,
+											   SProcessStatusWidget* _ProcessWidget);
+
 };
 
 }

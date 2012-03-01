@@ -49,7 +49,7 @@ void QfNavBarItem::Private::initialize (QfNavBarItem *item, bool _Selectable)
 	labelText = new QLabel;
 	// Setup Text Label
 	labelText->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-	labelIcon->setFixedWidth(18);
+	labelIcon->setFixedWidth(26);
 
 	// Setup Font
 	QFont font = labelText->font();
@@ -152,8 +152,8 @@ const QPixmap *QfNavBarItem::icon (void) const {
 //  NavBarItem: PUBLIC Set Properties
 // =============================================================================
 void QfNavBarItem::setIcon (const QPixmap& icon) {
-	if (icon.height() > 20)
-		d->labelIcon->setPixmap(icon.scaledToHeight(20, Qt::SmoothTransformation));
+	if (icon.height() > 26)
+		d->labelIcon->setPixmap(icon.scaledToHeight(26, Qt::SmoothTransformation));
 	else
 		d->labelIcon->setPixmap(icon);
 }
@@ -175,7 +175,7 @@ void QfNavBarItem::enterEvent( QEvent * event )
 	if (!isSelected())
 	{
 		QPalette Palette =  palette();
-		Palette.setColor(QPalette::Window, QColor("#999999"));
+		Palette.setColor(QPalette::Window, QColor("#acd900"));
 		setPalette(Palette);
 	}
 }

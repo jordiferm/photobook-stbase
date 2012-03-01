@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -78,8 +78,8 @@ void FSqlModelViewUtils::setColumns(QTableView* _View, const QString& _Cols)
 }
 
 /*!
-	En un model QSqlRelationalTableModel i Qt <=4.0.1 hem de assegurar-nos de que la última columna sigui visible, 
-	sinó fa coses extranyes amb la selecció.
+	En un model QSqlRelationalTableModel i Qt <=4.0.1 hem de assegurar-nos de que la ï¿½ltima columna sigui visible, 
+	sinï¿½ fa coses extranyes amb la selecciï¿½.
 */
 
 void FSqlModelViewUtils::setColumns(QTableView* _View, const QStringList& _Cols)
@@ -161,8 +161,8 @@ int FSqlModelViewUtils::indexOf(const QSqlTableModel* _Model, const QString& _Fi
 
 /*! 
 	Retorna l'index de _FieldName dins el model _Model. Busca primer per els noms dels camps de la taula del model 
-	o sigui que si hi ha una relació compararà amb indexColumn de les relations. En cas de no trovar-lo a les relacions 
-	retornarà indexOf(_FieldName) del record() de _Model.
+	o sigui que si hi ha una relaciï¿½ compararï¿½ amb indexColumn de les relations. En cas de no trovar-lo a les relacions 
+	retornarï¿½ indexOf(_FieldName) del record() de _Model.
 */
 
 int FSqlModelViewUtils::indexOf(const QSqlRelationalTableModel* _Model, const QString& _FieldName)
@@ -172,7 +172,7 @@ int FSqlModelViewUtils::indexOf(const QSqlRelationalTableModel* _Model, const QS
 	Res = BaseRec.indexOf(_FieldName);
 	if (Res == -1)
 		Res = _Model->record().indexOf(_FieldName);
-	//relativePos és deprecated !!!
+	//relativePos ï¿½s deprecated !!!
 /*	if (_Model->inherits("FSqlRelationalTableModel"))
 		Res = static_cast<const FSqlRelationalTableModel*>(_Model)->relativePos(Res);*/
 	
@@ -180,7 +180,7 @@ int FSqlModelViewUtils::indexOf(const QSqlRelationalTableModel* _Model, const QS
 }
 
 /*!
-	Donat a que en els models relacionals els QSqlRecord poden tenir vàries taules amb columnes amb el 
+	Donat a que en els models relacionals els QSqlRecord poden tenir vï¿½ries taules amb columnes amb el 
 	mateix nom i els noms retornat per QSqlRecord no contemplen la taula, aquesta funcio recorra tots 
 	els camps del model per a retornar l'equivalent a _FieldName de la taula _TableName. 
 	\return Retorna l'index (O Column) del camp en el model _Model  o -1 si no l'ha trovat.
@@ -207,7 +207,7 @@ int FSqlModelViewUtils::indexOf(const QSqlRelationalTableModel* _Model, const QS
 		if (Trobat) 
 		{
 			Res = Cnt; 
-	//relativePos és deprecated !!!
+	//relativePos ï¿½s deprecated !!!
 /*			if (_Model->inherits("FSqlRelationalTableModel"))
 				Res = static_cast<const FSqlRelationalTableModel*>(_Model)->relativePos(Res);*/
 		}

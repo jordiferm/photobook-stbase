@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -73,7 +73,7 @@ public:
 	void addAction(QAction* _Action);
 	FSearchWidget* searchWidget() {return SearchWidget;}
 	void setEditColumn(int _EditColumn) {EditColumn = _EditColumn;}
-	//! Estat en que està la gestió actual. No te gaire sentit si no utilitzem formularis modals.
+	//! Estat en que estï¿½ la gestiï¿½ actual. No te gaire sentit si no utilitzem formularis modals.
 	EnState state() const { return State;}
 	void removeAction(int _ActionId);
 	
@@ -83,23 +83,23 @@ protected slots:
 public slots:
 	virtual void actionTriggered();
 	virtual void editCurrentRow(int _Index);
-	//! Aquí index indica la fila on s'insertarà la nova fila.
+	//! Aquï¿½ index indica la fila on s'insertarï¿½ la nova fila.
 	virtual void insertRow(int _Index);
 	virtual void removeCurrentRow(int _Index);
 	
 signals: 
 	//! Abans de cridar a insertRow()
 	void beforeInsertRow(int _Index, bool& _PreformOp);
-	//! S'emet just després de cridar insertRow();
+	//! S'emet just desprï¿½s de cridar insertRow();
 	void afterInsertRow(int _Index); 
 	//! Abans de cridar a edittRow()
 	void beforeEditRow(int _Index, bool& _PreformOp); 
-	//! Just després d'insertar una row al model sense ser editada ni validada.
+	//! Just desprï¿½s d'insertar una row al model sense ser editada ni validada.
 	void rowInserted(int _Index);
-	//! S'emet just després de cridar editRow(), si no hi ha RecDialog és equivalent a rowInserted();
+	//! S'emet just desprï¿½s de cridar editRow(), si no hi ha RecDialog ï¿½s equivalent a rowInserted();
 	void afterEditRow(int _Index); 
 	void beforeRemoveRow(int _Index, bool& _PreformOp); 
-	//! S'emet just després de cridar removeRow();
+	//! S'emet just desprï¿½s de cridar removeRow();
 	void afterRemoveRow(int _Index); 
 	void selectionChanged(const QItemSelection& _Selected, const QItemSelection& _Deselected);
 };

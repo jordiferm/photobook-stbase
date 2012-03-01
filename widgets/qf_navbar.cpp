@@ -53,8 +53,8 @@ QfNavBar::QfNavBar (QWidget *parent)
 	d->groupSelected = NULL;
 
 	// Setup Colors
-	d->colorBackground = QColor(0xdf, 0xe4, 0xea);
-	d->colorSelection = QColor(0xa6, 0xa6, 0xa6);
+	d->colorBackground = QColor(0xdb, 0xdb, 0xdb);
+	d->colorSelection = QColor(0xac, 0xdc, 0x90);
 
 	// Setup Layout
 	d->layout->addStretch(2);

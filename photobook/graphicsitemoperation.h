@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -60,7 +60,7 @@ public:
 
 /**
 Zoom the image
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author jfernandez@ailiimage.com
 */
 class GraphicsPhotoItem;
 class ST_PHOTOBOOK_EXPORT STScaleImageGIO : public GraphicsItemOperation
@@ -76,7 +76,7 @@ public:
 
 /**
 Sets mask for image frame.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class GraphicsPhotoItem;
 class ST_PHOTOBOOK_EXPORT STSetMaskGIO : public GraphicsItemOperation
@@ -93,7 +93,7 @@ public:
 
 /**
 Sets mask for image frame.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class GraphicsPhotoItem;
 class ST_PHOTOBOOK_EXPORT STSetFrameGIO : public GraphicsItemOperation
@@ -112,7 +112,7 @@ public:
 
 /**
 Sets QGraphicsEffect for QGraphicsItem.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetItemGraphicsEffectGIO : public GraphicsItemOperation
 {
@@ -130,7 +130,7 @@ public:
 
 /**
 Zoom the image
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STRotateImageGIO : public GraphicsItemOperation
 {
@@ -145,7 +145,7 @@ public:
 
 /**
 Fits in the image to item rect.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STFitInImageGIO : public GraphicsItemOperation
 {
@@ -161,7 +161,7 @@ public:
 
 /**
 Adjust frame to image size.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STFitInFrameGIO : public GraphicsItemOperation
 {
@@ -178,7 +178,7 @@ public:
 
 /**
 Changes the text for TextItem.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class GraphicsTextItem;
 class ST_PHOTOBOOK_EXPORT STChangeTextGIO : public GraphicsItemOperation
@@ -195,7 +195,7 @@ public:
 
 /**
 Set Brush .
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetItemBrushGIO : public GraphicsItemOperation
 {
@@ -211,7 +211,7 @@ public:
 
 /**
 Hides an item.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STDeleteItemGIO : public GraphicsItemOperation
 {
@@ -226,7 +226,7 @@ public:
 
 /**
 Changes the item Z Value.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetZValueGIO : public GraphicsItemOperation
 {
@@ -241,7 +241,7 @@ public:
 };
 
 /**
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STRotateItemGIO : public GraphicsItemOperation
 {
@@ -256,7 +256,7 @@ public:
 };
 
 /**
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STScaleItemGIO : public GraphicsItemOperation
 {
@@ -273,7 +273,7 @@ public:
 
 /**
 Border size changes...
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetItemBorderSizeGIO : public GraphicsItemOperation
 {
@@ -289,7 +289,7 @@ public:
 
 /**
 Border size changes...
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetItemBorderColorGIO : public GraphicsItemOperation
 {
@@ -305,7 +305,7 @@ public:
 
 /**
 Sets the frame opacity...
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetItemOpacityGIO : public GraphicsItemOperation
 {
@@ -321,7 +321,7 @@ public:
 
 /**
 Sets the x pos...
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetItemXPosGIO : public GraphicsItemOperation
 {
@@ -337,7 +337,7 @@ public:
 
 /**
 Sets the y pos...
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetItemYPosGIO : public GraphicsItemOperation
 {
@@ -353,7 +353,7 @@ public:
 
 /**
 Sets the item size ...
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STSetItemSizeGIO : public GraphicsItemOperation
 {
@@ -370,7 +370,7 @@ public:
 
 /**
 Move the item horizontally leaving the item bouding rect right edge at the given X coordinate.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STMoveRightGIO : public GraphicsItemOperation
 {
@@ -386,7 +386,7 @@ public:
 
 /**
 Move the center of item horizontally at the given X coordinate.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STMoveXCenterGIO : public GraphicsItemOperation
 {
@@ -403,7 +403,7 @@ public:
 
 /**
 Move the center of item horizontally at the given Y coordinate.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STMoveYCenterGIO : public GraphicsItemOperation
 {
@@ -420,7 +420,7 @@ public:
 
 /**
 Move the item horizontally leaving the item bouding rect right edge at the given X coordinate.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class ST_PHOTOBOOK_EXPORT STMoveBottomGIO : public GraphicsItemOperation
 {
@@ -437,7 +437,7 @@ public:
 
 /**
 Sets an image to GraphicsPhotoItem
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 class GraphicsPhotoItem;
 class ST_PHOTOBOOK_EXPORT STSetImageGIO : public GraphicsItemOperation
@@ -462,7 +462,7 @@ protected:
 
 /**
 Performs a filter to GraphicsPhotoItem.
-	@author Jordi Fernandez <shadow@starblitz-k.com>
+	@author Jordi Fernandez <jfernandez@ailiimage.com>
 */
 
 class ST_PHOTOBOOK_EXPORT STImageFilterGIO : public STSetImageGIO

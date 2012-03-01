@@ -1,15 +1,15 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2008 Starblitz. All rights reserved.
+** Copyright (C) 2012 Aili Image S.L. All rights reserved.
 **
-** This file is part of Starblitz Foto Suite.
+** This file is part of Aili Image Foto Suite.
 **
 ** This file may be used under the terms of the GNU General Public
 ** License version 2.0 as published by the Free Software Foundation
 ** and appearing in the file COPYING included in the packaging of
 ** this file.  
 **
-** Starblitz reserves all rights not expressly granted herein.
+** Aili Image reserves all rights not expressly granted herein.
 ** 
 ** Strablitz (c) 2008
 **
@@ -76,8 +76,8 @@ QString TemplatePaths::resourcesSubDir(const QDir& _TemplateDir)
 QString TemplatePaths::defaultExtraTemplatesPath()
 {
 	#ifdef Q_OS_WIN32
-	//return QDesktopServices::storageLocation(QDesktopServices::DataLocation) + "/starblitz-templates/";
-	return QApplication::applicationDirPath() + "/../../starblitz-templates";
+	//return QDesktopServices::storageLocation(QDesktopServices::DataLocation) + "/Aili Image-templates/";
+	return QApplication::applicationDirPath() + "/../../ailiimage-templates";
 	#else 
 	return SApplication::userSharedPath() + "/templates/";
 	#endif 
