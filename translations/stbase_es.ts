@@ -4198,7 +4198,7 @@ Num</source>
     <message>
         <source>ETA</source>
         <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation>Tiempo estimado</translation>
+        <translation>Tiempo restante</translation>
     </message>
     <message>
         <source>Waiting...</source>
@@ -6070,7 +6070,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>SProcessStatusWidget</name>
     <message>
         <source> - Enlapsed: %e - Estimated: %r</source>
-        <translation> - Transcurrido: %e - Estimado: %r</translation>
+        <translation> - Transcurrido: %e - Restante: %r</translation>
     </message>
 </context>
 <context>
@@ -6144,7 +6144,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Use multisession?</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar multisesion ?</translation>
     </message>
 </context>
 <context>
