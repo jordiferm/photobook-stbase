@@ -435,6 +435,7 @@ SimpleCrypt STImage::getCrypto(const QString& _Key)
 
 bool STImage::saveEncoded(const QString& _FileName, const QString& _Key)
 {
+#if QT_VERSION >= 0x040600
 	//setup our objects
 	SimpleCrypt Crypto = getCrypto(_Key);
 	QBuffer Buffer;
@@ -461,12 +462,13 @@ bool STImage::saveEncoded(const QString& _FileName, const QString& _Key)
 	DestFile.write(myCypherText, myCypherText.size());
 	DestFile.close();
 	Buffer.close();
-
+#endif
 	return true;
 }
 
 bool STImage::loadEncoded(const QString& _FileName, const QString& _Key)
 {
+#if QT_VERSION >= 0x040600
 	QFile SourceFile(_FileName);
 	if (!SourceFile.open(QIODevice::ReadOnly))
 	{
@@ -492,6 +494,7 @@ bool STImage::loadEncoded(const QString& _FileName, const QString& _Key)
 	//etc.
 
 	rbuffer.close();
+#endif
 	return true;
 }
 
