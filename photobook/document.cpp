@@ -498,8 +498,13 @@ QList<QImage> Document::prepareForPrint(const QImage& _AlbumPageImage)
 		{
 			int CurrRow = Vfor % NumRows;
 			int CurrCol = Vfor / NumRows;
-			Res.push_back(_AlbumPageImage.copy(CurrCol * PageSize.width(), CurrRow * PageSize.height(),
-											   PageSize.width(), PageSize.height()));
+                        int OverlayMarginPixels = STDom::DDocFormat::mmToPixels(MetInfo.overlayMargin(), MetInfo.dpis());
+                        int CopyRectX = qMax((int)(CurrCol * PageSize.width()) - OverlayMarginPixels, 0);
+                        int CopyRectY = qMax((int)(CurrRow * PageSize.height()) - OverlayMarginPixels, 0);
+                        int CopyRectWidth = PageSize.width() + OverlayMarginPixels;
+                        int CopyRectHeight = PageSize.height() + OverlayMarginPixels;
+
+                        Res.push_back(_AlbumPageImage.copy(CopyRectX, CopyRectY,CopyRectWidth, CopyRectHeight));
 		}
 	}
 	else

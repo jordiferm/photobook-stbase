@@ -58,6 +58,7 @@ QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 	Element.setAttribute("printpagesize_height", PrintPageSize.height());
 	Element.setAttribute("version", Version);
 	Element.setAttribute("dpis", Dpis);
+        Element.setAttribute("overlaymargin", OverlayMargin);
 	Element.setAttribute("modpages", ModPages);
 	Element.setAttribute("maxpages", MaxPages);
 	Element.setAttribute("minpages", MinPages);
@@ -96,6 +97,7 @@ void MetaInfo::loadGlobalInfo(const QDomElement& _Element)
 
 	Version= _Element.attribute("version", "1").toInt();
 	Dpis= _Element.attribute("dpis", "200").toInt();
+        OverlayMargin = _Element.attribute("overlaymargin", "0").toInt();
 	ModPages= _Element.attribute("modpages", "0").toInt();
 	MaxPages= _Element.attribute("maxpages", "100").toInt();
 	MinPages= _Element.attribute("minpages", "1").toInt();
@@ -145,6 +147,7 @@ void MetaInfo::setDefaults()
 	CoverMarginRect.setRect(0, 0, 0, 0);
 	SpineMarginRect.setRect(0, 0, 0, 0);
 	NumOptimalImagesPerPage = 3;
+        OverlayMargin = 0;
 }
 
 void MetaInfo::checkVersion(const QString& _XmlFilePath)
