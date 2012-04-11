@@ -1,6 +1,7 @@
 #include <QtCore>
 #include <QtNetwork>
 #include <iostream>
+#include <QDebug>
 
 #include "ftpspider.h"
 #include "sprocessstatuswidget.h"
@@ -10,6 +11,7 @@ using namespace std;
 void FtpSpider::logError(const QString& _Error)
 {
 	LastError += _Error + "\n";
+	qDebug() << _Error;
 }
 
 void FtpSpider::initStatus(const QString& _Message)
@@ -18,10 +20,16 @@ void FtpSpider::initStatus(const QString& _Message)
 		ProcessWidget->showProgressBar(_Message, 100);
 }
 
-void FtpSpider::updateStatus(const QString& _Message, int _Percent)
+void FtpSpider::updateStatus(const QString& _Message, int _Percent = -1)
 {
 	if (ProcessWidget)
-		ProcessWidget->updateProgress(_Percent, _Message);
+	{
+		if (_Percent < 0)
+			ProcessWidget->updateProgress(ProcessWidget->currentProgress(), _Message);
+		else
+			ProcessWidget->updateProgress(_Percent, _Message);
+
+	}
 }
 
 FtpSpider::FtpSpider(QObject *parent)
@@ -42,7 +50,7 @@ void FtpSpider::processNextDirectory()
 {
 	if (!pendingDirs.isEmpty()) {
 		currentDir = pendingDirs.takeFirst();
-		currentLocalDir = LocalDir + "/" + currentDir;
+		currentLocalDir = LocalDir + "/" + QDir(currentDir).dirName();
 		QDir(".").mkpath(currentLocalDir);
 
 		ftp.cd(currentDir);
@@ -52,9 +60,17 @@ void FtpSpider::processNextDirectory()
 	}
 }
 
+int FtpSpider::inactiveSeconds()
+{
+	return LastActivityTime.secsTo(QTime::currentTime());
+}
+
 bool FtpSpider::getDirectory(const QUrl &url)
 {
 	LastError = "";
+	FilesToTransfer = 0;
+	TransferedFiles = 0;
+	LastActivityTime = QTime::currentTime();
     if (!url.isValid()) {
 		logError("Error: Invalid URL");
         return false;
@@ -85,7 +101,7 @@ void FtpSpider::ftpDone(bool error)
     if (error) {
 		logError("Error: " + ftp.errorString());
     } else {
-        cout << "Downloaded " << qPrintable(currentDir) << " to "
+		qDebug() << "Downloaded " << qPrintable(currentDir) << " to "
              << qPrintable(QDir::convertSeparators(
                                QDir(currentLocalDir).canonicalPath()));
     }
@@ -98,22 +114,23 @@ void FtpSpider::ftpDone(bool error)
 
 void FtpSpider::ftpListInfo(const QUrlInfo &urlInfo)
 {
-    if (urlInfo.isFile()) {
-        if (urlInfo.isReadable()) {
+	qDebug() << urlInfo.name();
+	if (urlInfo.isFile()) {
+		//if (urlInfo.isReadable()) {
             QFile *file = new QFile(currentLocalDir + "/"
                                     + urlInfo.name());
 
             if (!file->open(QIODevice::WriteOnly)) {
-                cerr << "Warning: Cannot open file "
+				qDebug() << "Warning: Cannot open file "
                      << qPrintable(
                             QDir::convertSeparators(file->fileName()))
                      << endl;
                 return;
             }
-
             ftp.get(urlInfo.name(), file);
             openedFiles.append(file);
-        }
+			FilesToTransfer++;
+		//}
     } else if (urlInfo.isDir() && !urlInfo.isSymLink()) {
         pendingDirs.append(currentDir + "/" + urlInfo.name());
     }
@@ -121,5 +138,8 @@ void FtpSpider::ftpListInfo(const QUrlInfo &urlInfo)
 
 void FtpSpider::slotDataTransferProgress(qint64 _Done, qint64 _Total)
 {
-	updateStatus("Transfering...", (int)(_Done / _Total));
+	LastActivityTime = QTime::currentTime();
+	if (_Done == _Total)
+		TransferedFiles++;
+	updateStatus(tr("Transfering file... %1 \%").arg(((double)_Done / _Total) * 100 ).arg(_Total), ((double)TransferedFiles / qMax(FilesToTransfer, 1)) * 100);
 }

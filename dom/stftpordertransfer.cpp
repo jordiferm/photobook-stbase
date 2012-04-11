@@ -31,6 +31,7 @@
 #include "xmlorder.h"
 #include "publisher.h"
 #include "sprocessstatuswidget.h"
+#include "ftpspider.h"
 
 using namespace STDom;
 
@@ -386,6 +387,38 @@ void STFtpOrderTransfer::getDir(const QString& _RemoteDir, const QString& _Local
 								const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode,
 								SProcessStatusWidget* _ProcessWidget)
 {
+	FtpSpider Spider;
+	Spider.setLocalDir(_LocalDestDir);
+	Spider.setUserName(_User);
+	Spider.setPassword(_Password);
+	Spider.setProcessStatusWidget(_ProcessWidget);
+	QUrl HostUrl;
+	HostUrl.setScheme("ftp");
+	HostUrl.setHost(_Host);
+	HostUrl.setPort(_Port);
+	HostUrl.setPath(_RemoteDir);
+	Done = false;
+	connect(&Spider, SIGNAL(done()), this, SLOT(slotDone()));
+	if (Spider.getDirectory(HostUrl))
+	{
+
+		bool TimeOut = false;
+		while (!Done && !TimeOut)
+		{
+			qApp->processEvents();
+			TimeOut = Spider.inactiveSeconds() > DefaultTimeOutSecs;
+		}
+		Assert(!TimeOut, Error(tr("Timeout error downloading directory %1").arg(_RemoteDir)));
+	}
+
+	Assert(!Spider.hasErrors(), Error(Spider.lastError()));
+
+}
+
+/*void STFtpOrderTransfer::getDir_old(const QString& _RemoteDir, const QString& _LocalDestDir, const QString& _Host, int _Port,
+								const QString& _User, const QString& _Password,QFtp::TransferMode _TransferMode,
+								SProcessStatusWidget* _ProcessWidget)
+{
 	clearAbortFlag();
 	setTransferMode(_TransferMode);
 	Assert(waitForCommand(connectToHost(_Host, _Port)), Error(tr("Time out Error connecting to host.")));
@@ -409,7 +442,7 @@ void STFtpOrderTransfer::getDir(const QString& _RemoteDir, const QString& _Local
 		throw;
 	}
 
-}
+}*/
 
 QList<QUrlInfo> STFtpOrderTransfer::getFilesList(const QString& _Host, int _Port, const QString& _User, const QString& _Password,  const QString& _RemoteSourceDir, QFtp::TransferMode _TransferMode)
 {
@@ -722,3 +755,7 @@ void STFtpOrderTransfer::slotDataTransferProgress(qint64, qint64)
 	InitTime = QTime::currentTime();
 }
 
+void STFtpOrderTransfer::slotDone()
+{
+	Done = true;
+}

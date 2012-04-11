@@ -53,6 +53,7 @@ private:
 	QMap<QString, QUrlInfo> FilesTransfered;
 	int CurrCommandFinished; 
 	static int DefaultTimeOutSecs;
+	bool Done;
 	QTime InitTime;
 	
 	bool waitForCommand(int _CommandId, int _TimeOut = -1);
@@ -91,7 +92,8 @@ private slots:
 	void slotListInfo(const QUrlInfo& _UrlInfo);
 	void commandFinished(int _Id, bool _Error);
 	void slotDataTransferProgress(qint64, qint64);
-	
+	void slotDone();
+
 signals: 
 	void transferError(const QString& _Error);	
 	void overallProcessStep(int _Total, int _Done);

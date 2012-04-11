@@ -18,6 +18,9 @@ class FtpSpider : public QObject
 	QString LocalDir, UserName, Password;
 	QString LastError;
 	SProcessStatusWidget* ProcessWidget;
+	QTime LastActivityTime;
+	int FilesToTransfer;
+	int TransferedFiles;
 
 	void initStatus(const QString& _Message);
 	void updateStatus(const QString& _Message, int _Percent);
@@ -27,11 +30,14 @@ class FtpSpider : public QObject
 public:
 	FtpSpider(QObject *parent = 0);
 
-    bool getDirectory(const QUrl &url);
+	int inactiveSeconds(); //Seconds of inactivity
+	bool getDirectory(const QUrl &url);
 	void setLocalDir(const QString& _LocalDir) { LocalDir = _LocalDir; }
 	void setUserName(const QString& _UserName) { UserName = _UserName; }
 	void setPassword(const QString& _Password) { Password = _Password; }
 	void setProcessStatusWidget(SProcessStatusWidget* _ProcessWidget) { ProcessWidget = _ProcessWidget; }
+	QString lastError() const { return LastError; }
+	bool hasErrors() const { return !LastError.isEmpty(); }
 
 signals:
     void done();

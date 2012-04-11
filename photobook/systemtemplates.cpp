@@ -214,6 +214,8 @@ void SystemTemplates::downloadTemplateDesign(const STDom::Publisher& _Publisher,
 	catch (...)
 	{
 		delete FtpTrans;
+		//If there is an error delete the template to download again.
+		deleteTemplateDesign(_TemplateInfo, _DesignInfo);
 		throw;
 	}
 #ifdef ENCRYPTED_TEMPLATES
