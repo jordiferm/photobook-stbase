@@ -53,6 +53,7 @@ SET(prj_SRCS
 	collectionpoint.cpp
 	paymenttype.cpp
 	shippingmethod.cpp
+	ftpspider.cpp
 )
 
 SET(prj_MOC_HDRS
@@ -79,6 +80,7 @@ SET(prj_MOC_HDRS
 	collectionpoint.h
 	paymenttype.h
 	shippingmethod.h
+	ftpspider.h
 )
 
 QT4_AUTOMOC(${prj_SRCS})

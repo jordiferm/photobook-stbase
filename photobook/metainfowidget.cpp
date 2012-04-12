@@ -138,6 +138,10 @@ QWidget* MetaInfoWidget::createRenderWidget()
 	SBDpis->setRange(0, 500);
 	FormLayout->addRow(tr("Dpis"), SBDpis);
 
+        SBOverlayMargin = new QSpinBox(this);
+        SBOverlayMargin->setRange(0,200);
+        FormLayout->addRow(tr("Overlay Margin"), SBOverlayMargin);
+
 	CBPreProcType = new QComboBox(this);
 	CBPreProcType->addItem(tr("None"), RenderSettings::TypeNone);
 	CBPreProcType->addItem(tr("Horizontal BookLet"), RenderSettings::TypeHBooklet);
@@ -283,6 +287,7 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	SBPPageWidth->setValue(_MetaInfo.printPageSize().width());
 	SBPPageHeight->setValue(_MetaInfo.printPageSize().height());
 	SBDpis->setValue(_MetaInfo.dpis());
+        SBOverlayMargin->setValue(_MetaInfo.overlayMargin());
 
 	Index = CBPreProcType->findData(_MetaInfo.printPreprocessType());
 	if ( Index != -1)
@@ -329,6 +334,7 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	//Render
 	Res.setPrintPageSize(QSizeF(SBPPageWidth->value(), SBPPageHeight->value()));
 	Res.setDpis(SBDpis->value());
+        Res.setOverlayMargin(SBOverlayMargin->value());
 	Res.setPrintPreprocessType(static_cast<RenderSettings::EnPrintPreProcessType>(CBPreProcType->itemData(CBPreProcType->currentIndex()).toInt()));
 
 	//Behavior

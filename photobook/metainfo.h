@@ -54,6 +54,7 @@ private:
 	bool MultiPhoto, AutogenerateLayouts, PreferMinPages, Atomic, Cyphered, CutPagesOnPrint;
 	QRectF PageMarginRect, CoverMarginRect, SpineMarginRect;
 	int NumOptimalImagesPerPage;
+        double OverlayMargin;
 
 	void setMarginAttributes(QDomElement& _Element, const QString& _MarginName, const QRectF& _MarginRect) const;
 	QRectF loadMarginAttributes(const QDomElement& _Element, const QString& _MarginName) const;
@@ -101,6 +102,9 @@ public:
 	//------- Render info ----------
 	void setPrintPageSize(const QSizeF& _Value) { PrintPageSize = _Value; }
 	QSizeF printPageSize() const { return PrintPageSize; }
+
+        void setOverlayMargin(double _Value) { OverlayMargin = _Value; }
+        double overlayMargin() const { return OverlayMargin; }
 
 	void setDpis(int _Value) { Dpis = _Value; }
 	int dpis() const { return Dpis; }
