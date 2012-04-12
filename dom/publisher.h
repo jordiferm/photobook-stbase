@@ -70,6 +70,8 @@ public:
 	void setInitDir(const QString& _Value) { InitDir = _Value; }
 	QString initDir() const { return InitDir; }
 
+	QString ordersDir() const { return "orders"; }
+
 	void setTransferMode(int _Value) { TransferMode = _Value; }
 	int transferMode() const { return TransferMode; }
 

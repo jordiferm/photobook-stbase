@@ -551,6 +551,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId,const Publisher& 
 	login(_Publisher.userName(), _Publisher.password());
 	if (!_Publisher.initDir().isEmpty())
 		cd(_Publisher.initDir());
+	cd(_Publisher.ordersDir());
 	QString OrderGlobalId = orderGlobalId(OrderDir); 
 	QString RemoteDir = OrderGlobalId;
 	int MKDirCommand = mkdir(RemoteDir);
@@ -570,7 +571,7 @@ void STFtpOrderTransfer::transferOrder(const QString& _OrderId,const Publisher& 
 		Assert(waitForCommand(list()), Error(tr("Time out Error getting files list.")));
 		QFileInfoList FilesToPut = OrderDir.entryInfoList(QDir::Files); 
 		QFileInfoList::iterator it; 
-		QString DestAbsDirPath = _Publisher.initDir() + "/" + RemoteDir;
+		QString DestAbsDirPath = _Publisher.initDir() + "/" + _Publisher.ordersDir() + "/" + RemoteDir;
 		Cnt = 0; 
 		TotalSteps = FilesToPut.size() -1;
 		emit overallProcessStep(TotalSteps, Cnt++);	 
