@@ -22,6 +22,7 @@ void FtpSpider::initStatus(const QString& _Message)
 
 void FtpSpider::updateStatus(const QString& _Message, int _Percent = -1)
 {
+	emit statusUpdated(_Message, _Percent);
 	if (ProcessWidget)
 	{
 		if (_Percent < 0)
@@ -141,5 +142,5 @@ void FtpSpider::slotDataTransferProgress(qint64 _Done, qint64 _Total)
 	LastActivityTime = QTime::currentTime();
 	if (_Done == _Total)
 		TransferedFiles++;
-	updateStatus(tr("Transfering file... %1 \%").arg(((double)_Done / _Total) * 100 ).arg(_Total), ((double)TransferedFiles / qMax(FilesToTransfer, 1)) * 100);
+	updateStatus(tr("Transfering file... %1 \%").arg(((double)_Done / _Total) * 100 ), ((double)TransferedFiles / qMax(FilesToTransfer, 1)) * 100);
 }

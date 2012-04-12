@@ -41,6 +41,7 @@ public:
 
 signals:
     void done();
+	void statusUpdated(const QString& _Message, int _Percent);
 
 private slots:
     void ftpDone(bool error);
