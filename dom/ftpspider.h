@@ -3,10 +3,11 @@
 
 #include <QFtp>
 #include <QStringList>
+#include "stdomexport.h"
 
 class QFile;
 class SProcessStatusWidget;
-class FtpSpider : public QObject
+class ST_DOM_EXPORT FtpSpider : public QObject
 {
     Q_OBJECT
 
