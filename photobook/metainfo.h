@@ -52,7 +52,9 @@ private:
 	RenderSettings::EnPrintPreProcessType PrintPreprocessType;
 	EnTemplateType TemplateType;
 	bool MultiPhoto, AutogenerateLayouts, PreferMinPages, Atomic, Cyphered, CutPagesOnPrint;
-	QRectF PageMarginRect, CoverMarginRect, SpineMarginRect;
+	bool SnapToBounds, ExpandImagesToFillFrames, AutodetectImageOrientation, AutoAdjustFrames, UseImagesAsBackgrounds;
+	double FixedDotMargin;
+	QRectF PageMarginRect, CoverMarginRect, SpineMarginRect, PageSpineMarginRect;
 	int NumOptimalImagesPerPage;
         double OverlayMargin;
 
@@ -146,8 +148,29 @@ public:
 	void setSpineMarginRect(const QRectF& _Value) { SpineMarginRect = _Value; }
 	QRectF spineMarginRect() const { return SpineMarginRect; }
 
+	void setPageSpineMarginRect(const QRectF& _Value) { PageSpineMarginRect = _Value; }
+	QRectF pageSpineMarginRect() const { return PageSpineMarginRect; }
+
 	int numOptimalImagesPerPage() const { return NumOptimalImagesPerPage; }
 	void setNumOptimalImagesPerPage(int _Value) { NumOptimalImagesPerPage = _Value; }
+
+	bool snapToBounds() const { return SnapToBounds; }
+	void setSnapToBounds(bool _Value) { SnapToBounds = _Value; }
+
+	double fixedDotMargin() const { return FixedDotMargin; }
+	void setFixedDotMargin(double _Value) { FixedDotMargin = _Value; }
+
+	bool expandImagesToFillFrames() const { return ExpandImagesToFillFrames; }
+	void setExpandImagesToFillFrames(bool _Value ) { ExpandImagesToFillFrames = _Value; }
+
+	bool autodetectImageOrientation() const { return AutodetectImageOrientation; }
+	void setAutodetectImageOrientation(bool _Value) { AutodetectImageOrientation  = _Value; }
+
+	bool autoAdjustFrames() const { return AutoAdjustFrames; }
+	void setAutoAdjustFrames(bool _Value) { AutoAdjustFrames = _Value; }
+
+	bool useImagesAsBackGrounds() const { return UseImagesAsBackgrounds; }
+	void setUseImagesAsBackgrounds(bool _Value) { UseImagesAsBackgrounds = _Value; }
 
 	//------- Miscelanea ---------
 	static QPixmap typePixmap(EnTemplateType _Type);

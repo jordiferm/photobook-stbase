@@ -68,13 +68,22 @@ class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 	QSpinBox* SBOptImagesPerPage;
 	QCheckBox* CBAutoGenerate;
 
+	QCheckBox* CBSnapToBounds;
+	QCheckBox* CBExpandImagesToFillFrames;
+	QCheckBox* CBAutodetectImageOrientation;
+	QCheckBox* CBAutoAdjustFrames;
+	QCheckBox* UseImagesAsBackgrounds;
+	QSpinBox* SBFixedOutMargin;
+
 	//GUI
 	QxtGroupBox* GBCoverMargin;
 	QxtGroupBox* GBCoverSpineMargin;
 	QxtGroupBox* GBPageMargin;
+	QxtGroupBox* GBPageSpineMargin;
 	STRectEditWidget* RECover;
 	STRectEditWidget* RECoverSpine;
 	STRectEditWidget* REPage;
+	STRectEditWidget* REPageSpine;
 
 	TemplateInfoList TInfoList;
 

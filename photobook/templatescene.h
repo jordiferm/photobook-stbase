@@ -148,6 +148,7 @@ public:
 
 	//--- Autocreation
 	void shrinkFramesBy(double _Amount);
+	void setSpacing(double _Spacing);
 	void splitXFrame(int _FrameIndex);
 	void splitYFrame(int _FrameIndex);
 

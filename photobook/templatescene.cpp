@@ -910,6 +910,17 @@ void TemplateScene::shrinkFramesBy(double _Amount)
 
 }
 
+void TemplateScene::setSpacing(double _Spacing)
+{
+	QList<GraphicsPhotoItem *> PhotoItems = photoItems();
+	QList<GraphicsPhotoItem *>::iterator it;
+	QRectF SpacingRect = sceneRect().adjusted(_Spacing, _Spacing, -_Spacing, -_Spacing);
+	for (it = PhotoItems.begin(); it != PhotoItems.end(); ++it)
+	{
+		(*it)->setRect((*it)->rect() & SpacingRect);
+	}
+}
+
 void TemplateScene::splitXFrame(int _FrameIndex)
 {
 	QList<GraphicsPhotoItem *> PhotoItems = photoItems();

@@ -125,7 +125,7 @@ QPointF GraphicsItemModifier::snapToBoundsBottomRight(QPointF _Point, GraphicsPh
 		if (qAbs(ImagesBoundingRect.bottom() - Res.y()) < NearThresHoldY )
 			Res.setY(ImagesBoundingRect.bottom());
 
-		double NearThresHoldX = ImagesBoundingRect.width() / 20;
+		double NearThresHoldX = ImagesBoundingRect.width() / 30;
 		if (qAbs(ImagesBoundingRect.right() - Res.x()) < NearThresHoldX )
 			Res.setX(ImagesBoundingRect.right());
 

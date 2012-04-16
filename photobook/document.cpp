@@ -55,9 +55,13 @@ TemplateScene* Document::createPage()
 
 void Document::configurePage(TemplateScene* _Page)
 {
-	_Page->setAutoAdjustFrames(BOptions.autoadjustFrames());
-	_Page->setIgnoreExifRotation(BOptions.ignoreExifRotation());
-	_Page->setExpandImagesToFillFrames(BOptions.expandImagesToFillFrames());
+	//_Page->setAutoAdjustFrames(BOptions.autoadjustFrames());
+	//_Page->setIgnoreExifRotation(BOptions.ignoreExifRotation());
+	//_Page->setExpandImagesToFillFrames(BOptions.expandImagesToFillFrames());
+	_Page->setAutoAdjustFrames(MetInfo.autoAdjustFrames());
+	_Page->setIgnoreExifRotation(!MetInfo.autoAdjustFrames());
+	_Page->setExpandImagesToFillFrames(MetInfo.expandImagesToFillFrames());
+	_Page->setFixedOutMargin(MetInfo.fixedDotMargin());
 	_Page->setModifyAllFrames(MetInfo.multiPhoto());
 	connect(_Page, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
 	connect(_Page, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));

@@ -37,6 +37,7 @@ class ST_PHOTOBOOK_EXPORT TemplateGenerator
 	QSizeF TemplateSize;
 	QSizeF MinFrameSize;
 	double MinAspectRatio;
+	double Spacing;
 
 	//STPhotoLayoutTemplate::Frame fitFrameToRect(const STPhotoLayoutTemplate::Frame& _Frame, const QRectF& _Rect, const QSizeF& _TemplateSize);
 	//STPhotoBookTemplate::TTemplateList getFrames(const QRectF& _Rect, const STPhotoBookTemplate::TTemplateList& _Templates, int _NumFrames );
@@ -53,6 +54,10 @@ public:
 	void addTextFrames(PageList& _Templates);
 	void setMinFrameSize(const QSizeF& _Value) { MinFrameSize = _Value; }
 	QSizeF minFrameSize() const { return MinFrameSize; }
+
+	void setSpacing(double _Value) { Spacing = _Value; }
+	double spacing() const { return Spacing; }
+
 	void setMaxImagesPerPage(int _Value) { MaxImagesPerPage = _Value; }
 	int maxImagesPerPage() const { return MaxImagesPerPage; }
 	void setMinAspectRatio(double _Value) { MinAspectRatio = _Value; }

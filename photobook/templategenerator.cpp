@@ -142,6 +142,7 @@ TemplateGenerator::TemplateGenerator(const QSizeF& _TemplateSize )
 	MinFrameSize = QSize(50, 50);
 	MinAspectRatio = 0.4;
 	MaxNumImagesForTextFrame = 4;
+	Spacing = 0;
 }
 
 void TemplateGenerator::addTextFrames(PageList& _Templates)
@@ -205,6 +206,15 @@ PageList TemplateGenerator::generate(QObject* _Parent, double _Margin)
 		for (it = Res.begin(); it != Res.end(); ++it)
 		{
 			(*it)->shrinkFramesBy(_Margin);
+		}
+	}
+
+	if (Spacing > 0)
+	{
+		PageList::iterator it;
+		for (it = Res.begin(); it != Res.end(); ++it)
+		{
+			(*it)->setSpacing(Spacing);
 		}
 	}
 

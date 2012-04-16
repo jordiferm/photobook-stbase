@@ -66,7 +66,8 @@ PageList CandidateCalculator::nearestByOrientation(const PageList& _Templates, i
 CandidateCalculator::CandidateCalculator(const Document& _PhotoBook, STDom::DDocModel* _Model) :
 		DocModel(_Model)
 {
-	setFillBackgrounds(_PhotoBook.buildOptions().autoFillBackgrounds());
+	//setFillBackgrounds(_PhotoBook.buildOptions().autoFillBackgrounds());
+	setFillBackgrounds(_PhotoBook.metaInfo().useImagesAsBackGrounds());
 	reset();
 }
 

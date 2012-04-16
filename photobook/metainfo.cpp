@@ -58,7 +58,7 @@ QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 	Element.setAttribute("printpagesize_height", PrintPageSize.height());
 	Element.setAttribute("version", Version);
 	Element.setAttribute("dpis", Dpis);
-        Element.setAttribute("overlaymargin", OverlayMargin);
+	Element.setAttribute("overlaymargin", OverlayMargin);
 	Element.setAttribute("modpages", ModPages);
 	Element.setAttribute("maxpages", MaxPages);
 	Element.setAttribute("minpages", MinPages);
@@ -70,10 +70,17 @@ QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 	Element.setAttribute("atomic", Atomic);
 	Element.setAttribute("cyphered", Cyphered);
 	Element.setAttribute("cutpagesonprint", CutPagesOnPrint);
+	Element.setAttribute("snaptobounds", SnapToBounds);
+	Element.setAttribute("expandimagestofillframes", ExpandImagesToFillFrames);
+	Element.setAttribute("autodetectimageorientation", AutodetectImageOrientation);
+	Element.setAttribute("autoadjustframes", AutoAdjustFrames);
+	Element.setAttribute("useimagesasbackgrounds", UseImagesAsBackgrounds);
+	Element.setAttribute("fixeddotmargin",FixedDotMargin);
 
 	setMarginAttributes(Element, "pagemargin", PageMarginRect);
 	setMarginAttributes(Element, "covermargin", CoverMarginRect);
 	setMarginAttributes(Element, "spinemargin", SpineMarginRect);
+	setMarginAttributes(Element, "pagespinemargin", PageSpineMarginRect);
 
 	//Element.setAttribute("", CoverMarginRects);
 	Element.setAttribute("numoptimalimagesperpage", NumOptimalImagesPerPage);
@@ -109,9 +116,17 @@ void MetaInfo::loadGlobalInfo(const QDomElement& _Element)
 	Atomic = _Element.attribute("atomic", "1") == "1";
 	Cyphered = _Element.attribute("cyphered", "0") == "1";
 
+	SnapToBounds = _Element.attribute("snaptobounds", "1") == "1";
+	ExpandImagesToFillFrames = _Element.attribute("expandimagestofillframes", "1") == "1";
+	AutodetectImageOrientation = _Element.attribute("autodetectimageorientation", "1") == "1";
+	AutoAdjustFrames = _Element.attribute("autoadjustframes", "1") == "1";
+	UseImagesAsBackgrounds = _Element.attribute("useimagesasbackgrounds", "0") == "1";
+	FixedDotMargin = _Element.attribute("fixeddotmargin", "0").toDouble();
+
 	PageMarginRect = loadMarginAttributes(_Element, "pagemargin");
 	CoverMarginRect = loadMarginAttributes(_Element, "covermargin");
 	SpineMarginRect = loadMarginAttributes(_Element, "spinemargin");
+	PageSpineMarginRect = loadMarginAttributes(_Element, "pagespinemargin");
 	//PageMarginRects.clear();
 	//CoverMarginRects.clear();
 	NumOptimalImagesPerPage = _Element.attribute("numoptimalimagesperpage", "3").toInt();
@@ -143,9 +158,18 @@ void MetaInfo::setDefaults()
 	PreferMinPages = false;
 	Atomic = true;
 	Cyphered = false;
+	SnapToBounds = true;
+	ExpandImagesToFillFrames = true;
+	AutodetectImageOrientation = true;
+	AutoAdjustFrames = true;
+	UseImagesAsBackgrounds = false;
+	FixedDotMargin = 0.0;
+
+
 	PageMarginRect.setRect(0, 0, 0, 0);
 	CoverMarginRect.setRect(0, 0, 0, 0);
 	SpineMarginRect.setRect(0, 0, 0, 0);
+	PageSpineMarginRect.setRect(0, 0, 0, 0);
 	NumOptimalImagesPerPage = 3;
         OverlayMargin = 0;
 }

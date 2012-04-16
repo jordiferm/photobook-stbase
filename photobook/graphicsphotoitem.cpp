@@ -398,6 +398,7 @@ void GraphicsPhotoItem::setImageFileName(const QString& _ImageFileName)
 
 void GraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 {
+	setImageScale(1);
 	QPixmap Thumbnail = _Image.thumbnail();
 	bool ImageAssigned = false;
 	if (!IgnoreExifRotation)
@@ -456,7 +457,6 @@ void GraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 		setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
 
 	adjustRectToBounds();
-	//setImageScale(1);
 
 	update();
 }
@@ -859,6 +859,8 @@ void GraphicsPhotoItem::setExpandImagesToFillFrames(bool _Value)
 {
 	if (_Value)
 		setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
+		else
+			setAspectRatioMode(Qt::KeepAspectRatio);
 }
 
 bool GraphicsPhotoItem::encryptedByFileName(const QString& _FilePath)

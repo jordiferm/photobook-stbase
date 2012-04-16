@@ -433,30 +433,10 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent), Aut
 	QVBoxLayout* MLayout = new QVBoxLayout(this);
 
 
-	// ----  General  ----
-	GBGeneral = new QGroupBox(tr("General"), this);
-	MLayout->addWidget(GBGeneral);
-	QVBoxLayout* GenLayout = new QVBoxLayout(GBGeneral);
-	QCheckBox* CBAutoAdjust = new QCheckBox(tr("Auto adjust images to frames"), GBGeneral);
-	GenLayout->addWidget(CBAutoAdjust);
-	registerField("autoadjust", CBAutoAdjust);
-
-	QCheckBox* CBUseBackgrounds = new QCheckBox(tr("Use photos as background images"), GBGeneral);
-	GenLayout->addWidget(CBUseBackgrounds);
-	registerField("autofillbackgrounds", CBUseBackgrounds);
-
-	QCheckBox* CBDetectRotations = new QCheckBox(tr("Auto detect image orientation"), GBGeneral);
-	GenLayout->addWidget(CBDetectRotations);
-	registerField("autodetectrotation", CBDetectRotations);
-
-
 	// ----  PhotoBook  ----
 	GBPhotoBook = new QGroupBox(tr("PhotoBoook"), this);
 	MLayout->addWidget(GBPhotoBook);
 	QVBoxLayout* PhotoBookLayout = new QVBoxLayout(GBPhotoBook);
-	QCheckBox* CBIncludeTexts = new QCheckBox(tr("Include layouts with texts"), GBPhotoBook);
-	PhotoBookLayout->addWidget(CBIncludeTexts);
-	registerField("includetexts", CBIncludeTexts);
 
 	QFormLayout* FormLayout = new QFormLayout();
 	PhotoBookLayout->addLayout(FormLayout);
@@ -527,10 +507,6 @@ bool BuildOptionsPage::isComplete() const
 void BuildOptionsPage::setBuildOptions(const SPhotoBook::BuildOptions& _Options)
 {
 	DefaultBuildOptions = _Options;
-	setField("autoadjust", _Options.autoadjustFrames());
-	setField("autofillbackgrounds", _Options.autoFillBackgrounds());
-	setField("autodetectrotation", !_Options.ignoreExifRotation());
-	setField("includetexts", _Options.useTexts());
 	setField("title", _Options.title());
 	setField("subtitle", _Options.subTitle());
 	setField("author", _Options.author());
@@ -543,10 +519,6 @@ void BuildOptionsPage::setBuildOptions(const SPhotoBook::BuildOptions& _Options)
 SPhotoBook::BuildOptions BuildOptionsPage::getBuildOptions() const
 {
 	SPhotoBook::BuildOptions Res = DefaultBuildOptions;
-	Res.setAutoadjustFrames(field("autoadjust").toBool());
-	Res.setAutoFillBackgrounds(field("autofillbackgrounds").toBool());
-	Res.setIgnoreExifRotation(!field("autodetectrotation").toBool());
-	Res.setUseTexts(field("includetexts").toBool());
 	Res.setTitle(field("title").toString());
 	Res.setSubTitle(field("subtitle").toString());
 	Res.setAuthor(field("author").toString());
@@ -566,13 +538,11 @@ void BuildOptionsPage::setTemplateMetaInfo(const SPhotoBook::MetaInfo& _MInfo)
 	setBuildOptions(InitOpts);
 	GBPhotoBook->setVisible(LayoutType ==  SPhotoBook::MetaInfo::TypePhotoBook);
 	GBCalendar->setVisible(LayoutType == SPhotoBook::MetaInfo::TypeCalendar);
-
 }
 
 void BuildOptionsPage::setAutoBuildMode(bool _Value)
 {
 	AutoBuildMode = _Value;
-	GBGeneral->setVisible(_Value);
 }
 
 void BuildOptionsPage::setUsePredesign(bool _Value)
