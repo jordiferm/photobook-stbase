@@ -51,6 +51,7 @@
 #include "stimage.h"
 #include "imageTools.h" 
 #include "dimagedoc.h"
+#include "templatescene.h"
 //#include "kphoto.h"
 //#include "ophotocollection.h" // For OPhotoCollectionImage.
 
@@ -207,13 +208,13 @@ QPointF GraphicsPhotoItem::insideSceneRect(const QPointF& _Point)
 
 void GraphicsPhotoItem::checkForImageOrientation()
 {
-	if (!AutoAdjustFramesToImages)
+	/*if (!AutoAdjustFramesToImages)
 	{
 		QRect CurrImageRect = ImageMatrix.mapRect(CurrImage.rect());
 		if ( AspectRatioMode == Qt::KeepAspectRatio && ((CurrImageRect.width() > CurrImageRect.height() && rect().width() < rect().height()) ||
 				(CurrImageRect.height() > CurrImageRect.width() && rect().height() < rect().width())))
 			rotateImage(90);
-	}
+	}*/
 }
 
 
@@ -397,6 +398,7 @@ void GraphicsPhotoItem::setImageFileName(const QString& _ImageFileName)
 
 void GraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 {
+	setImageScale(1);
 	QPixmap Thumbnail = _Image.thumbnail();
 	bool ImageAssigned = false;
 	if (!IgnoreExifRotation)
@@ -434,6 +436,7 @@ void GraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 			// Thumbnail is already rotated.
 			Thumbnail = Thumbnail.transformed(Transform, Qt::SmoothTransformation);
 			setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
+
 			if (AutoAdjustFramesToImages)
 			{
 				QSize ImgSize;
@@ -441,6 +444,7 @@ void GraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 					ImgSize = ImageInfo.size();
 				else
 					ImgSize = Thumbnail.size();
+
 				if (!ImgSize.isNull())
 					adjustRectToImage(ImgSize);
 			}
@@ -451,6 +455,8 @@ void GraphicsPhotoItem::setImage(STDom::DImageDoc& _Image)
 	}
 	if (!ImageAssigned)
 		setThumbnail(Thumbnail, _Image.fileInfo().absoluteFilePath());
+
+	adjustRectToBounds();
 
 	update();
 }
@@ -560,6 +566,40 @@ void GraphicsPhotoItem::adjustRectToImage()
 	}
 }
 
+
+void GraphicsPhotoItem::adjustRectToBounds()
+{
+	QRectF FrameRect = rect();
+	TemplateScene* Scene = static_cast<TemplateScene*>(scene());
+
+	/*if (!Scene->snapToBounds())
+		return;*/
+
+	QRectF ImagesBoundingRect = Scene->photoItemsBoundingRect(this);
+
+	if (ImagesBoundingRect.width() > 0 && ImagesBoundingRect.height() > 0)
+	{
+		double NearThresHoldY = ImagesBoundingRect.height() / 8;
+
+		if (qAbs(FrameRect.top() - ImagesBoundingRect.top()) < NearThresHoldY )
+			FrameRect.moveTop(ImagesBoundingRect.top());
+
+		if (qAbs(FrameRect.bottom() - ImagesBoundingRect.bottom()) < NearThresHoldY )
+			FrameRect.setBottom(ImagesBoundingRect.bottom());
+
+		double NearThresHoldX = ImagesBoundingRect.width() / 8;
+
+		if (qAbs(FrameRect.left() - ImagesBoundingRect.left()) < NearThresHoldX )
+			FrameRect.moveLeft(ImagesBoundingRect.left());
+
+		if (qAbs(FrameRect.right() - ImagesBoundingRect.right()) < NearThresHoldX )
+			FrameRect.setRight(ImagesBoundingRect.right());
+
+		setRect(FrameRect);
+	}
+}
+
+
 void GraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 {
 	//Adjust itemRect to Image.
@@ -601,6 +641,19 @@ void GraphicsPhotoItem::adjustRectToImage(const QSize& _ImageSize)
 		OrientationChanged = !OrientationChanged;
 
 	setRect(AdjustedRect);
+
+	TemplateScene* Scene = static_cast<TemplateScene*>(scene());
+	QRectF ImagesBoundingRect = Scene->sceneRect();
+
+	if (ImagesBoundingRect.width() > 0 && ImagesBoundingRect.height() > 0 )
+	{
+		AdjustedRect.setLeft(qMax(AdjustedRect.left(), ImagesBoundingRect.left()));
+		AdjustedRect.setTop(qMax(AdjustedRect.top(), ImagesBoundingRect.top()));
+		AdjustedRect.setBottom(qMin(AdjustedRect.bottom(), ImagesBoundingRect.bottom()));
+		AdjustedRect.setRight(qMin(AdjustedRect.right(), ImagesBoundingRect.right()));
+		setRect(AdjustedRect);
+	}
+
 
 	setSelected(false);
 	modified();
@@ -806,6 +859,8 @@ void GraphicsPhotoItem::setExpandImagesToFillFrames(bool _Value)
 {
 	if (_Value)
 		setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
+		else
+			setAspectRatioMode(Qt::KeepAspectRatio);
 }
 
 bool GraphicsPhotoItem::encryptedByFileName(const QString& _FilePath)
@@ -1261,8 +1316,12 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 	else
 	if (change == ItemPositionChange)
 	{
+
+
 		// value is the new position.
 		QPointF newPos = value.toPointF();
+
+
 		//return insideSceneRect(newPos);
 		//QRectF rect = scene()->sceneRect();
 		if (SnapToGrid)

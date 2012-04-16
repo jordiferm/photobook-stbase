@@ -142,7 +142,6 @@ class BuildOptionsPage : public QWizardPage
 {
 	Q_OBJECT
 
-	QGroupBox* GBGeneral;
 	QGroupBox* GBPhotoBook;
 	QGroupBox* GBCalendar;
 	QSpinBox* SBNumPages;

@@ -21,6 +21,7 @@
 #include "documentpageview.h"
 #if QT_VERSION >= 0x040600
 #include <QTouchEvent>
+#include <QDebug>
 #endif
 #include "templatescene.h"
 #include "graphicsphotoitem.h"
@@ -32,6 +33,7 @@ DocumentPageView::DocumentPageView(TemplateScene* _Scene, QWidget* _Parent)
 {
 	NoScaleMatrix = matrix();
 	setBackgroundBrush(QBrush(QColor("#747470"))); 
+	setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
 	//viewport()->setAttribute(Qt::WA_AcceptTouchEvents);//For MultiTouch
 	//setDragMode(ScrollHandDrag);//For MultiTouch
@@ -72,6 +74,25 @@ void DocumentPageView::showEvent(QShowEvent* _Event)
 	{
 		(*it)->loadImageSpawn();
 	}
+
+}
+
+void DocumentPageView::drawItemsBoundingRect(QPainter* _Painter)
+{
+	_Painter->save();
+
+	QPen MarginMarkPen = QPen(QColor(180, 180, 180, 255));
+	MarginMarkPen.setWidthF(0);//Cosmetic pen
+	MarginMarkPen.setStyle(Qt::DashDotDotLine);
+	//MarginMarkPen.setStyle(Qt::DashLine); //this is Too slow
+	_Painter->setPen(MarginMarkPen);
+
+	TemplateScene* Scene = static_cast<TemplateScene*>(scene());
+
+
+	_Painter->drawRect(Scene->photoItemsBoundingRect());
+
+	_Painter->restore();
 
 }
 
@@ -131,8 +152,9 @@ void DocumentPageView::drawForeground(QPainter* _Painter, const QRectF& _Rect)
 	
 	//_Painter->fillRect(_Rect, backgroundBrush());
 
-		
 	_Painter->restore();
+
+	drawItemsBoundingRect(_Painter);
 }
 
 bool DocumentPageView::viewportEvent(QEvent *event)
@@ -170,3 +192,19 @@ bool DocumentPageView::viewportEvent(QEvent *event)
 #endif
      return QGraphicsView::viewportEvent(event);
  }
+
+void DocumentPageView::mouseMoveEvent(QMouseEvent * event )
+{
+	QGraphicsView::mouseMoveEvent(event);
+	event->ignore();
+
+	/*	qDebug() << "Button" << event->buttons();
+
+	if (event->buttons() & Qt::LeftButton != 0)
+	{
+		qDebug() << "Painting";
+		//invalidateScene();
+		update();
+	}*/
+}
+

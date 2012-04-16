@@ -109,6 +109,62 @@ void GraphicsItemModifier::scale(double _Sx, double _Sy)
 	modified();
 }
 
+QPointF GraphicsItemModifier::snapToBoundsBottomRight(QPointF _Point, GraphicsPhotoItem* _Item)
+{
+	QPointF Res = _Point;
+	TemplateScene* Scene = static_cast<TemplateScene*>(_Item->scene());
+
+	if (!Scene->snapToBounds())
+		return _Point;
+
+	QRectF ImagesBoundingRect = Scene->photoItemsBoundingRect(_Item);
+
+	if (ImagesBoundingRect.width() > 0 && ImagesBoundingRect.height() > 0  )
+	{
+		double NearThresHoldY = ImagesBoundingRect.height() / 20;
+		if (qAbs(ImagesBoundingRect.bottom() - Res.y()) < NearThresHoldY )
+			Res.setY(ImagesBoundingRect.bottom());
+
+		double NearThresHoldX = ImagesBoundingRect.width() / 30;
+		if (qAbs(ImagesBoundingRect.right() - Res.x()) < NearThresHoldX )
+			Res.setX(ImagesBoundingRect.right());
+
+	}
+	return Res;
+
+}
+
+
+QPointF GraphicsItemModifier::snapToBounds(QPointF _Point, GraphicsPhotoItem* _Item)
+{
+	QPointF Res = _Point;
+	TemplateScene* Scene = static_cast<TemplateScene*>(_Item->scene());
+
+	if (!Scene->snapToBounds())
+		return _Point;
+
+	QRectF ImagesBoundingRect = Scene->photoItemsBoundingRect(_Item);
+
+	if (ImagesBoundingRect.width() > 0 && ImagesBoundingRect.height() > 0  )
+	{
+		double NearThresHoldY = ImagesBoundingRect.height() / 20;
+		if (qAbs(ImagesBoundingRect.top() - Res.y()) < NearThresHoldY )
+			Res.setY(ImagesBoundingRect.top());
+		if (qAbs(ImagesBoundingRect.bottom() - (Res.y() + _Item->rect().height())) < NearThresHoldY )
+			Res.setY(ImagesBoundingRect.bottom() - _Item->rect().height());
+
+		double NearThresHoldX = ImagesBoundingRect.width() / 20;
+		if (qAbs(ImagesBoundingRect.left() - Res.x()) < NearThresHoldX )
+			Res.setX(ImagesBoundingRect.left());
+		if (qAbs(ImagesBoundingRect.right() - (Res.x() + _Item->rect().width())) < NearThresHoldX )
+			Res.setX(ImagesBoundingRect.right() - _Item->rect().width());
+
+	}
+	return Res;
+
+}
+
+
 void GraphicsItemModifier::setPos(const QPointF& _Pos, QGraphicsItem* _Sender)
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
@@ -123,6 +179,9 @@ void GraphicsItemModifier::setPos(const QPointF& _Pos, QGraphicsItem* _Sender)
 		QRectF CurrRect = CItem->rect();
 		Pos.setX(CItem->snapToGridValue(Pos.x()));
 		Pos.setY(CItem->snapToGridValue(Pos.y()));
+
+		Pos = snapToBounds(Pos, CItem);
+
 		CurrRect.moveTopLeft(Pos);
 		if (CurrRect != CItem->rect())
 		{
@@ -150,6 +209,7 @@ void GraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsItem
 		TransForm = TransForm.rotate(-m_yRotationAngle, Qt::XAxis).rotate(-m_xRotationAngle, Qt::YAxis).rotate(-m_zRotationAngle);
 
 		Pos = TransForm.map(Pos); 
+		Pos = snapToBoundsBottomRight(Pos, CItem);
 		//qDebug("CurrRect: %f, %f, %f, %f", CItem->rect().x(), CItem->rect().y(), CItem->rect().width(), CItem->rect().height()); 
 		//qDebug("Event Pos: %f, %f", Pos.x(), Pos.y()); 
 		QRectF CurrRect = CItem->rect();

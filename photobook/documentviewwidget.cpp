@@ -104,6 +104,7 @@ void DocumentViewWidget::reloadPages()
 		else
 		{
 			MarginRects.push_back(PBDocument->metaInfo().pageMarginRect());
+			MarginRects.push_back(PBDocument->metaInfo().pageSpineMarginRect());
 			NAlbumPage->setMarginRects(MarginRects);
 			//NAlbumPage->setDrawTwoPagesEffect(_PBDocument->PBDocumentTemplate().numPages() > 1);
 		}

@@ -33,6 +33,7 @@ class QGraphicsSceneMouseEvent;
 
 namespace SPhotoBook
 {
+class GraphicsPhotoItem;
 class GraphicsItemModifier : public IChangesControl
 {
 	QGraphicsItem* Item; 
@@ -52,6 +53,8 @@ public:
 	void updateToolTip();
 	void updateToolTip(const QRectF& _Rect);
 	void resetContentsRatio();
+	QPointF snapToBoundsBottomRight(QPointF _Point, GraphicsPhotoItem* _Item);
+	QPointF snapToBounds(QPointF _Point, GraphicsPhotoItem* _Item);
 	void scale(double _Sx, double _Sy);
 	void setPos(const QPointF& _Pos, QGraphicsItem* _Sender);
 	void setRectBottomRight(const QPointF& _Pos, QGraphicsItem* _Sender);

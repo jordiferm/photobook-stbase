@@ -68,9 +68,10 @@ void TemplateScene::init()
 	ModifyAllFrames = false;
 	AutoAdjustFrames = true;
 	ExpandImagesToFillFrames = false;
+	SnapToBounds = true;
 	IgnoreExifRotation = false;
 	HasChanges = false;
-
+	FixedOutMargin = 0.0;
 }
 
 TemplateScene::TemplateScene(QObject* _Parent)
@@ -318,6 +319,30 @@ QList<GraphicsPhotoItem *> TemplateScene::photoItems() const
 	return Res;*/
 	return PhotoItems;
 }
+
+QRectF TemplateScene::photoItemsBoundingRect(GraphicsPhotoItem* _ExcludeMe) const
+{
+	QRectF Res;
+
+	if (FixedOutMargin > 0)
+		Res = sceneRect().adjusted(FixedOutMargin,FixedOutMargin, -FixedOutMargin, -FixedOutMargin);
+	else
+	{
+		QList<QGraphicsItem *> AllItems = items();
+		QList<QGraphicsItem *>::iterator it;
+		for (it = AllItems.begin(); it != AllItems.end(); ++it)
+		{
+			if ( GraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
+			{
+				if (CPhotoItem != _ExcludeMe)
+					Res |= CPhotoItem->sceneBoundingRect();
+			}
+		}
+	}
+
+	return Res;
+}
+
 
 QList<GraphicsMonthItem*> TemplateScene::monthItems() const
 {
@@ -883,6 +908,17 @@ void TemplateScene::shrinkFramesBy(double _Amount)
 		(*it)->shrink(_Amount);
 	}
 
+}
+
+void TemplateScene::setSpacing(double _Spacing)
+{
+	QList<GraphicsPhotoItem *> PhotoItems = photoItems();
+	QList<GraphicsPhotoItem *>::iterator it;
+	QRectF SpacingRect = sceneRect().adjusted(_Spacing, _Spacing, -_Spacing, -_Spacing);
+	for (it = PhotoItems.begin(); it != PhotoItems.end(); ++it)
+	{
+		(*it)->setRect((*it)->rect() & SpacingRect);
+	}
 }
 
 void TemplateScene::splitXFrame(int _FrameIndex)

@@ -156,10 +156,13 @@ QWidget* MetaInfoWidget::createRenderWidget()
 QWidget* MetaInfoWidget::createBehaviorWidget()
 {
 	QWidget* Widget = new QWidget(this);
-	QVBoxLayout* MLayout = new QVBoxLayout(Widget);
+		QGroupBox* GBGeneral = new QGroupBox(this);
 
-	QFormLayout* FormLayout = new QFormLayout;
-	MLayout->addLayout(FormLayout);
+	QHBoxLayout* MLayout = new QHBoxLayout(Widget);
+		MLayout->addWidget(GBGeneral);
+
+		// ------ General -------
+	QFormLayout* FormLayout = new QFormLayout(GBGeneral);
 
 	SBModPages = new QSpinBox(this);
 	FormLayout->addRow(tr("Mod Pages"), SBModPages);
@@ -188,8 +191,33 @@ QWidget* MetaInfoWidget::createBehaviorWidget()
 	CBAutoGenerate = new QCheckBox(this);
 	FormLayout->addRow(tr("Auto generate layouts"), CBAutoGenerate);
 
-	return Widget;
+	// ------ Advanced -------
+	QGroupBox* GBAdvanced = new QGroupBox(tr("Advanced"), this);
+	MLayout->addWidget(GBAdvanced);
+	FormLayout = new QFormLayout(GBAdvanced);
 
+	CBSnapToBounds = new QCheckBox(this);
+	CBSnapToBounds->setToolTip(tr("Snap photo items to photoitem bounding rect."));
+	FormLayout->addRow(tr("Snap to bounds"), CBSnapToBounds );
+
+	CBExpandImagesToFillFrames= new QCheckBox(this);
+	FormLayout->addRow(tr("Expand images to fill frames"), CBExpandImagesToFillFrames);
+
+	CBAutodetectImageOrientation = new QCheckBox(this);
+	FormLayout->addRow(tr("Autodetect image orientation"), CBAutodetectImageOrientation);
+
+	CBAutoAdjustFrames = new QCheckBox(this);
+	FormLayout->addRow(tr("Auto adjust frames to images"), CBAutoAdjustFrames);
+
+	UseImagesAsBackgrounds = new QCheckBox(this);
+	FormLayout->addRow(tr("Use images as backgrounds"), UseImagesAsBackgrounds);
+
+	SBFixedOutMargin = new QSpinBox(this);
+	SBFixedOutMargin->setToolTip(tr("Fixed margin of image item bounding rect. Not applied if is <= 0"));
+	SBFixedOutMargin->setRange(0, 9999);
+	FormLayout->addRow(tr("Fixed out margin"), SBFixedOutMargin);
+
+	return Widget;
 }
 
 QWidget* MetaInfoWidget::createUIWidget()
@@ -223,6 +251,16 @@ QWidget* MetaInfoWidget::createUIWidget()
 	REPage->setEditedRect(QRectF(0,0,0,0));
 	REPage->setSuffix(" mm");
 	CPageMarginLayout->addWidget(REPage);
+
+	GBPageSpineMargin = new QxtGroupBox(tr("Page Spine Margins"), this);
+	GBPageSpineMargin->setChecked(false);
+	MLayout->addWidget(GBPageSpineMargin);
+	CSpineMarginLayout = new QHBoxLayout(GBPageSpineMargin);
+	REPageSpine = new STRectEditWidget(this);
+	REPageSpine->setEditedRect(QRectF(0,0,0,0));
+	REPageSpine->setSuffix(" mm");
+	CSpineMarginLayout->addWidget(REPageSpine);
+
 
 	return Widget;
 }
@@ -303,6 +341,13 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	SBOptImagesPerPage->setValue(_MetaInfo.numOptimalImagesPerPage());
 	CBAutoGenerate->setChecked(_MetaInfo.autogenerateLayouts());
 
+	CBSnapToBounds->setChecked(_MetaInfo.snapToBounds());
+	CBExpandImagesToFillFrames->setChecked(_MetaInfo.expandImagesToFillFrames());
+	CBAutodetectImageOrientation->setChecked(_MetaInfo.autodetectImageOrientation());
+	CBAutoAdjustFrames->setChecked(_MetaInfo.autoAdjustFrames());
+	UseImagesAsBackgrounds->setChecked(_MetaInfo.useImagesAsBackGrounds());
+	SBFixedOutMargin->setValue(_MetaInfo.fixedDotMargin());
+
 	//GUI
 	QRectF CoverMarginRect = _MetaInfo.coverMarginRect();
 	GBCoverMargin->setChecked(!CoverMarginRect.isNull());
@@ -315,6 +360,11 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 	QRectF PageMarginRect = _MetaInfo.pageMarginRect();
 	GBPageMargin->setChecked(!PageMarginRect.isNull());
 	REPage->setEditedRect(PageMarginRect);
+
+	QRectF PageSpineMarginRect = _MetaInfo.pageSpineMarginRect();
+	GBPageSpineMargin->setChecked(!PageSpineMarginRect.isNull());
+	REPageSpine->setEditedRect(PageSpineMarginRect);
+
 
 }
 
@@ -347,6 +397,13 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	Res.setNumOptimalImagesPerPage(SBOptImagesPerPage->value());
 	Res.setAutogenerateLayouts(CBAutoGenerate->isChecked());
 
+	Res.setSnapToBounds(CBSnapToBounds->isChecked());
+	Res.setExpandImagesToFillFrames(CBExpandImagesToFillFrames->isChecked());
+	Res.setAutodetectImageOrientation(CBAutodetectImageOrientation->isChecked());
+	Res.setAutoAdjustFrames(CBAutoAdjustFrames->isChecked());
+	Res.setUseImagesAsBackgrounds(UseImagesAsBackgrounds->isChecked());
+	Res.setFixedDotMargin(SBFixedOutMargin->value());
+
 	//GUI
 	if (GBCoverMargin->isChecked())
 		Res.setCoverMarginRect(RECover->editedRect());
@@ -354,6 +411,8 @@ MetaInfo MetaInfoWidget::metaInfo() const
 		Res.setSpineMarginRect(RECoverSpine->editedRect());
 	if (GBPageMargin->isChecked())
 		Res.setPageMarginRect(REPage->editedRect());
+	if (GBPageSpineMargin->isChecked())
+		Res.setPageSpineMarginRect(REPageSpine->editedRect());
 
 	return Res;
 }

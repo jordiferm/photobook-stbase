@@ -55,8 +55,10 @@ public:
 
 protected:
 	void showEvent(QShowEvent* _Event);
+	void drawItemsBoundingRect(QPainter* _Painter);
 	void drawForeground(QPainter* _Painter, const QRectF& _Rect);
 	bool viewportEvent(QEvent *event);
+	void mouseMoveEvent(QMouseEvent * event);
 };
 }
 #endif
