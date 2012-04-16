@@ -68,9 +68,10 @@ void TemplateScene::init()
 	ModifyAllFrames = false;
 	AutoAdjustFrames = true;
 	ExpandImagesToFillFrames = false;
+	SnapToBounds = true;
 	IgnoreExifRotation = false;
 	HasChanges = false;
-
+	FixedOutMargin = 0.0;
 }
 
 TemplateScene::TemplateScene(QObject* _Parent)
@@ -322,14 +323,20 @@ QList<GraphicsPhotoItem *> TemplateScene::photoItems() const
 QRectF TemplateScene::photoItemsBoundingRect(GraphicsPhotoItem* _ExcludeMe) const
 {
 	QRectF Res;
-	QList<QGraphicsItem *> AllItems = items();
-	QList<QGraphicsItem *>::iterator it;
-	for (it = AllItems.begin(); it != AllItems.end(); ++it)
+
+	if (FixedOutMargin > 0)
+		Res = sceneRect().adjusted(FixedOutMargin,FixedOutMargin, -FixedOutMargin, -FixedOutMargin);
+	else
 	{
-		if ( GraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
+		QList<QGraphicsItem *> AllItems = items();
+		QList<QGraphicsItem *>::iterator it;
+		for (it = AllItems.begin(); it != AllItems.end(); ++it)
 		{
-			if (CPhotoItem != _ExcludeMe)
-				Res |= CPhotoItem->sceneBoundingRect();
+			if ( GraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
+			{
+				if (CPhotoItem != _ExcludeMe)
+					Res |= CPhotoItem->sceneBoundingRect();
+			}
 		}
 	}
 

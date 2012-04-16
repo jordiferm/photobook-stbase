@@ -566,33 +566,36 @@ void GraphicsPhotoItem::adjustRectToImage()
 	}
 }
 
+
 void GraphicsPhotoItem::adjustRectToBounds()
 {
 	QRectF FrameRect = rect();
-	QRectF OrigFrameRect = FrameRect;
 	TemplateScene* Scene = static_cast<TemplateScene*>(scene());
+
+	/*if (!Scene->snapToBounds())
+		return;*/
+
 	QRectF ImagesBoundingRect = Scene->photoItemsBoundingRect(this);
 
 	if (ImagesBoundingRect.width() > 0 && ImagesBoundingRect.height() > 0)
 	{
-		double NearThresHold = 50;
+		double NearThresHoldY = ImagesBoundingRect.height() / 8;
 
-		if (qAbs(FrameRect.top() - ImagesBoundingRect.top()) < NearThresHold )
+		if (qAbs(FrameRect.top() - ImagesBoundingRect.top()) < NearThresHoldY )
 			FrameRect.moveTop(ImagesBoundingRect.top());
 
-		if (qAbs(FrameRect.bottom() - ImagesBoundingRect.bottom()) < NearThresHold )
+		if (qAbs(FrameRect.bottom() - ImagesBoundingRect.bottom()) < NearThresHoldY )
 			FrameRect.setBottom(ImagesBoundingRect.bottom());
 
-		if (qAbs(FrameRect.left() - ImagesBoundingRect.left()) < NearThresHold )
+		double NearThresHoldX = ImagesBoundingRect.width() / 8;
+
+		if (qAbs(FrameRect.left() - ImagesBoundingRect.left()) < NearThresHoldX )
 			FrameRect.moveLeft(ImagesBoundingRect.left());
 
-		if (qAbs(FrameRect.right() - ImagesBoundingRect.right()) < NearThresHold )
+		if (qAbs(FrameRect.right() - ImagesBoundingRect.right()) < NearThresHoldX )
 			FrameRect.setRight(ImagesBoundingRect.right());
 
 		setRect(FrameRect);
-		/*setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
-		if (FrameRect.size() != OrigFrameRect.size())
-			slotFitImage();//TODO: Change Aspect Ratio !*/
 	}
 }
 
@@ -1311,8 +1314,12 @@ QVariant GraphicsPhotoItem::itemChange(GraphicsItemChange change, const QVariant
 	else
 	if (change == ItemPositionChange)
 	{
+
+
 		// value is the new position.
 		QPointF newPos = value.toPointF();
+
+
 		//return insideSceneRect(newPos);
 		//QRectF rect = scene()->sceneRect();
 		if (SnapToGrid)

@@ -72,7 +72,9 @@ private:
 	bool AutoAdjustFrames;
 	bool ExpandImagesToFillFrames;
 	bool IgnoreExifRotation;
+	bool SnapToBounds;
 	bool HasChanges;
+	double FixedOutMargin;
 	TemplateDataContext DataContext;
 	QList<GraphicsPhotoItem *> PhotoItems;
 	
@@ -176,8 +178,12 @@ public:
 	bool autoAdjustFrames() const { return AutoAdjustFrames; }
 	void setExpandImagesToFillFrames(bool _Value) { ExpandImagesToFillFrames = _Value; }
 	bool expandImagesToFillFrames() const { return ExpandImagesToFillFrames; }
+	void setSnapToBounds(bool _Value) { SnapToBounds = _Value; }
+	bool snapToBounds() const { return SnapToBounds; }
 	void setIgnoreExifRotation(bool _Value) { IgnoreExifRotation = _Value; }
 	bool ignoreExifRotation() const { return IgnoreExifRotation; }
+	void setFixedOutMargin(double _Value) { FixedOutMargin = _Value; }
+	double fixedOutMargin() const { return FixedOutMargin; }
 	//IChangesControl
 	void modified();
 	void clearChanges();
