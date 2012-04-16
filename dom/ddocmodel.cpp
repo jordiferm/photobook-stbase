@@ -377,7 +377,10 @@ Qt::DropActions DDocModel::supportedDropActions() const
 Qt::ItemFlags DDocModel::flags(const QModelIndex & index) const
 {
 	Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index) ;
-	return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
+	if (index.isValid())
+		return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
+	else
+		return defaultFlags;
 }
 
 QStringList DDocModel::mimeTypes() const

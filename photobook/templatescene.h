@@ -98,6 +98,8 @@ public:
 	void clear();
 
 	QList<GraphicsPhotoItem *> photoItems() const;
+	QRectF photoItemsBoundingRect(GraphicsPhotoItem* _ExcludeMe = 0) const;
+
 	QList<GraphicsMonthItem *> monthItems() const;
 
 	void loadHiResImages(GraphicsPhotoItem* _Item);

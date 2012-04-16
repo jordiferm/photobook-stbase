@@ -319,6 +319,24 @@ QList<GraphicsPhotoItem *> TemplateScene::photoItems() const
 	return PhotoItems;
 }
 
+QRectF TemplateScene::photoItemsBoundingRect(GraphicsPhotoItem* _ExcludeMe) const
+{
+	QRectF Res;
+	QList<QGraphicsItem *> AllItems = items();
+	QList<QGraphicsItem *>::iterator it;
+	for (it = AllItems.begin(); it != AllItems.end(); ++it)
+	{
+		if ( GraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
+		{
+			if (CPhotoItem != _ExcludeMe)
+				Res |= CPhotoItem->sceneBoundingRect();
+		}
+	}
+
+	return Res;
+}
+
+
 QList<GraphicsMonthItem*> TemplateScene::monthItems() const
 {
 	QList<GraphicsMonthItem *> Res;
