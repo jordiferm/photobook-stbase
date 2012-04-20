@@ -152,7 +152,7 @@ STDom::Publisher StarlabManager::getPublisher()
 	STDom::Publisher Res;
 	QString Response = getResponse("get_publisher_info");
 	QStringList ResponseStrList = Response.split("|");
-	Assert(ResponseStrList.size() >= 8, Error(tr("Invalid number of parameters returned from server expected >=8, returned %1").arg(ResponseStrList.size())));
+	Assert(ResponseStrList.size() >= 9, Error(tr("Invalid number of parameters returned from server expected >=8, returned %1").arg(ResponseStrList.size())));
 	Res.setName(ResponseStrList[0]);
 	Res.setEmail(ResponseStrList[1]);
 	Res.setWeb(ResponseStrList[2]);
@@ -161,6 +161,7 @@ STDom::Publisher StarlabManager::getPublisher()
 	Res.setInitDir(ResponseStrList[5]);
 	Res.setTransferMode(ResponseStrList[6].toInt());
 	Res.setFtpPort(ResponseStrList[7].toInt());
+	Res.setPaymentUrl(ResponseStrList[8]);
 	Res.setId(PublisherPath);
 
 	return Res;

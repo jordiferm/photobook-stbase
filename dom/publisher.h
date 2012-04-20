@@ -34,7 +34,7 @@ class ST_DOM_EXPORT Publisher
 {
 
 	QString Id, Name, Email, Web, LogoHtml;
-	QString FtpUrl, UserName, Password, InitDir;
+	QString FtpUrl, UserName, Password, InitDir, PaymentUrl;
 	int TransferMode, FtpPort;
 public:
 	static QString DefaultUserName;
@@ -78,6 +78,8 @@ public:
 	void setFtpPort(int _Value) { FtpPort = _Value; }
 	int ftpPort() const { return FtpPort; }
 
+	void setPaymentUrl(const QString& _Value) { PaymentUrl = _Value; }
+	QString paymentUrl() { return PaymentUrl; }
 };
 
 }
