@@ -29,6 +29,7 @@ Publisher::Publisher()
 {
 	UserName = DefaultUserName;
 	Password = DefaultUserPassword;
+	PaymentUrl = "";
 }
 
 Publisher::Publisher(const QString& _Id, const QString& _Name, const QString& _Url, const QString& _UserName, const QString& _Password)
