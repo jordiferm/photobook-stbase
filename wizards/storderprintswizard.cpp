@@ -36,6 +36,7 @@
 #include <QToolButton>
 #include <QTextEdit>
 #include <QFileDialog>
+#include <QDesktopServices>
 #include <QDebug>
 
 #include "smessagebox.h"
@@ -705,6 +706,10 @@ void OPWConfirmOrder::sendViaInternet(bool _Value)
 
 bool OPWConfirmOrder::validatePayment()
 {
+	QString PaymentUrl = PublisherInfo.publisher().paymentUrl();
+	if (PaymentUrl.isEmpty())
+		QDesktopServices::openUrl(QUrl(PaymentUrl));
+
 /*	StatusWidg->showProgressBar(tr("Validating payment..."), ProdPrModel->rowCount() - 1);
 	StatusWidg->setVisible(true);*/
 	return true; 

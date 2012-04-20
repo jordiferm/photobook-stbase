@@ -67,6 +67,10 @@ QString TemplateInfo::metaInfoFileName(const DesignInfo& _Design) const
 	return CollectionInfo::xmlMetaInfoFileNameFromPath(absolutePath(_Design));
 }
 
+QString TemplateInfo::thumbnailFileName(const DesignInfo& _Design) const
+{
+	return CollectionInfo::thumbnailFileNameFromPath(absolutePath(_Design));
+}
 
 DesignInfoList TemplateInfo::designs() const
 {
