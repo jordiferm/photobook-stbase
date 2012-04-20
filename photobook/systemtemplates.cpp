@@ -171,11 +171,16 @@ void SystemTemplates::downloadTemplateDesignMetaInfo(const STDom::Publisher& _Pu
 	TemplateDir.remove(_TemplateInfo.basePath());
 	TemplateDir = _Publisher.initDir() + "/" + remoteTemplatesDir() + "/" + TemplateDir;
 	QFileInfo MetaDataFile(_TemplateInfo.metaInfoFileName(_DesignInfo));
+	QFileInfo MetaThumbnailFile(_TemplateInfo.thumbnailFileName(_DesignInfo));
+
 
 	STDom::STFtpOrderTransfer* FtpTrans = new STDom::STFtpOrderTransfer;
 	try
 	{
 		FtpTrans->getFile(MetaDataFile.fileName(), TemplateDir, MetaDataFile.absoluteFilePath(), _Publisher.ftpUrl(),
+						  _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
+						  static_cast<QFtp::TransferMode>(_Publisher.transferMode()));
+		FtpTrans->getFile(MetaThumbnailFile.fileName(), TemplateDir, MetaThumbnailFile.absoluteFilePath(), _Publisher.ftpUrl(),
 						  _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
 						  static_cast<QFtp::TransferMode>(_Publisher.transferMode()));
 		delete FtpTrans;

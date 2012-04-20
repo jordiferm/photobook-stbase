@@ -50,6 +50,7 @@ public:
 	QString photoBookName() const { return PhotoBookName; } 
 	QString photoBookPath() const { return rootPathName() + "/" + photoBookName(); }
 	QString thumbnailFileName() const;
+	static QString thumbnailFileNameFromPath(const QDir& _BasePath);
 	QString xmlFileName() const;
 	QString xmlAutoSaveFileName() const;
 	QString xmlLayoutsFileName() const;

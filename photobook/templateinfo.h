@@ -57,6 +57,7 @@ public:
 	QString absolutePath() const;
 	QString absolutePath(const DesignInfo& _Path) const;
 	QString metaInfoFileName(const DesignInfo& _Design) const;
+	QString thumbnailFileName(const DesignInfo& _Design) const;
 	QString basePath() const { return BasePath; }
 	DesignInfoList designs() const;
 	void addDesign(const DesignInfo& _Design);

@@ -47,6 +47,12 @@ QString CollectionInfo::thumbnailFileName() const
 	return photoBookPath() + "/thumbnail.jpg";
 }
 
+QString CollectionInfo::thumbnailFileNameFromPath(const QDir& _BasePath)
+{
+	return (_BasePath.absoluteFilePath("thumbnail.jpg"));
+}
+
+
 QString CollectionInfo::xmlFileName() const
 {
 	return photoBookPath() + "/pages.xml";
