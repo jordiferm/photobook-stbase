@@ -707,7 +707,6 @@ void OPWConfirmOrder::sendViaInternet(bool _Value)
 bool OPWConfirmOrder::validatePayment()
 {
 	QString PaymentUrl = PublisherInfo.publisher().paymentUrl();
-	qDebug() << "Payment Url:" << PaymentUrl;
 	if (!PaymentUrl.isEmpty())
 		QDesktopServices::openUrl(QUrl(PaymentUrl));
 
