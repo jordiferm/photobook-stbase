@@ -91,7 +91,7 @@ bool TemplateInfo::operator==(const TemplateInfo& _Other) const
 bool TemplateInfo::designOnDisk(const DesignInfo& _Design) const
 {
 	QDir DesignDir(absolutePath(_Design));
-	return DesignDir.entryList(QDir::Files).size() > 1;
+        return DesignDir.entryList(QDir::Files).size() > 2; //metainfo and thumbnail.
 }
 
 
