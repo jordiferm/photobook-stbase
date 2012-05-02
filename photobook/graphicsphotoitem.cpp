@@ -572,10 +572,10 @@ void GraphicsPhotoItem::adjustRectToBounds()
 	QRectF FrameRect = rect();
 	TemplateScene* Scene = static_cast<TemplateScene*>(scene());
 
-	/*if (!Scene->snapToBounds())
-		return;*/
+        if (!Scene->snapToBounds())
+                return;
 
-	QRectF ImagesBoundingRect = Scene->photoItemsBoundingRect(this);
+        QRectF ImagesBoundingRect = Scene->photoItemsBoundingRect(this);
 
 	if (ImagesBoundingRect.width() > 0 && ImagesBoundingRect.height() > 0)
 	{

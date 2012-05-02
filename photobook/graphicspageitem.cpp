@@ -100,3 +100,8 @@ void GraphicsPageItem::loadElement(QDomElement& _Element, const QString& _LoadDi
 	setBrush(QBrush(QColor(_Element.attribute("bgcolor", "#FFFFFF"))));
 	setToolTip("");
 }
+
+void GraphicsPageItem::adjustRectToBounds()
+{
+    return; //Does nothing.
+}

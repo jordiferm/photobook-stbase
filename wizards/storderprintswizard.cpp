@@ -50,6 +50,33 @@
 #include "tpphotoselwidget.h"
 #include "stsendersettingsdialog.h"
 
+//_____________________________________________________________________________
+//
+// class STOWPayPal
+//_____________________________________________________________________________
+
+
+QString STOWPayPal::PaymentUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=[account]&amount=[amount]&currency_code=EUR&item_name=[item_name]";
+
+
+QString STOWPayPal::paymentLink() const
+{
+        //QString PayLink = QString(PaymentUrl).arg(
+        //		PayPalAccount).arg(Amount, 0, 'f', 2).arg(ItemName);
+        QString PayLink = PaymentUrl;
+        PayLink = PayLink.replace("[account]", PayPalAccount);
+        PayLink = PayLink.replace("[amount]", QString("%1").arg(Amount, 0, 'f', 2));
+        PayLink = PayLink.replace("[item_name]", ItemName);
+        PayLink = PayLink.replace("[orderid]", OrderId);
+
+        //PayLink = PayLink.replace("&", "%26").replace("?", "%3f").replace("=", "%3d");
+        //PayLink = PayLink.replace("&", "%26");
+        //PayLink = PayLink.replace(" ", "_");
+        //qDebug() << PayLink;
+
+        return PayLink;
+}
+
 
 //_____________________________________________________________________________
 //
@@ -708,7 +735,15 @@ bool OPWConfirmOrder::validatePayment()
 {
 	QString PaymentUrl = PublisherInfo.publisher().paymentUrl();
 	if (!PaymentUrl.isEmpty())
-		QDesktopServices::openUrl(QUrl(PaymentUrl));
+        {
+            STOWPayPal PayPal;
+            PayPal.setPaymentUrl(PaymentUrl);
+            PayPal.setAmount(Bill.totalAmount());
+            PayPal.setItemName(QObject::tr("Pedido: %1-%2").arg(field("email").toString()).arg(LastOrderRef));
+            PayPal.setOrderId(LastOrderRef);
+
+            QDesktopServices::openUrl(QUrl(PayPal.paymentLink()));
+        }
 
 /*	StatusWidg->showProgressBar(tr("Validating payment..."), ProdPrModel->rowCount() - 1);
 	StatusWidg->setVisible(true);*/
@@ -762,7 +797,7 @@ void OPWConfirmOrder::storeImages()
 	Printer.setDpis(STOrderPrintsWizard::dpis());
 
 	QString OrderRef = newOrderRef();
-	LastOrderRef = OrderRef;
+        LastOrderRef = OrderRef;
 	STDom::XmlOrder XmlOrder(OrderRef);
 	//Setting sender data
 	XmlOrder.setSender(sender());
@@ -853,10 +888,10 @@ bool OPWConfirmOrder::validatePage()
 		//	emit getImagesToSend(ImagesToSend, StatusWidg);
 		if (PrintJob.totalCopies() > 0)
 		{
-			Res = Res && validatePayment(); 	
+                        storeImages();
+                        Res = Res && validatePayment();
 			
 			//Cropping and storing images: 
-			storeImages();
 		}
 		else 
 			SMessageBox::critical(this, tr("Error storing images"), tr("There was problems getting images to send. Please try again.")); 
@@ -939,7 +974,7 @@ void OPWConfirmOrder::slotUpdateCollectionPointAddress()
 void OPWConfirmOrder::slotCalcBill()
 {
 	STDom::PublisherDatabase PublDB = PublisherInfo.publisherDatabase();
-	STDom::PublisherBill Bill;
+
 	Bill = PublDB.calcBill(PrintJob, static_cast <STDom::PublisherBill::PublisherShippingMethod>(currentShippingMethod()));
 	BillLabel->setText(Bill.ritchText());
 }

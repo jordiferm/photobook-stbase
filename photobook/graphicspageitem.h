@@ -51,7 +51,8 @@ public:
 	void setResizeAllowed(bool _Value);
 	QStringList saveResources(const QDir& _StoreDir, bool _SaveImageRes = false);
 	static QString tagName() { return "pageitem"; }
-	
+        virtual void adjustRectToBounds();
+
 };
 }
 #endif

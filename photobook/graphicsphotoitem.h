@@ -193,7 +193,7 @@ public:
 
 
 	//-- Manipulation
-	void adjustRectToBounds();
+        virtual void adjustRectToBounds();
 	void adjustRectToImage();
 	void adjustRectToImage(const QSize& _ImageSize);
 	//! Rotates image in counterclockwise degrees.

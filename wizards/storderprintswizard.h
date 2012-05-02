@@ -37,12 +37,30 @@
 #include "publisherinfo.h"
 
 
+class STOWPayPal
+{
+        QString PayPalAccount;
+        double Amount;
+        QString ItemName;
+        static QString PaymentUrl;
+        QString OrderId;
+
+public:
+        static QString paymentUrl() { return PaymentUrl; }
+        static void setPaymentUrl(const QString& _Value) { PaymentUrl = _Value; }
+        QString paymentLink() const;
+        void setPayPalAccount(const QString& _Account) { PayPalAccount = _Account; }
+        void setAmount(double _Amount) { Amount = _Amount; }
+        void setItemName(const QString& _ItemName) { ItemName = _ItemName; }
+        void setOrderId(const QString& _OrderId) { OrderId = _OrderId; }
+};
+
+
 /**
 	Wizard Settings.
 
 	@author Shadow
 */
-
 
 class STOWizardSettings : public QSettings 
 {
@@ -304,6 +322,7 @@ private:
 	QLabel* ShippingAddressLabel;
 	QLabel* CollectionPointAddressLabel;
 	OPWUserDataPage* UserDataPage;
+        STDom::PublisherBill Bill;
 
 	QWidget* createContactWidget();
 	QWidget* createShipmentOptionsWidget();
