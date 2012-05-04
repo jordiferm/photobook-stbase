@@ -40,9 +40,10 @@ QImage PageThumbnailModel::getThumbnail(TemplateScene* _Scene)
 	return ResImg; 
 }
 
-PageThumbnailModel::PageThumbnailModel(QObject* _Parent)
+PageThumbnailModel::PageThumbnailModel(QObject* _Parent, bool _DisplayLabels)
  : QAbstractListModel(_Parent), ThumbnailMaxSize(120, 80)
 {
+    DisplayLabels = _DisplayLabels;
 }
 
 int PageThumbnailModel::rowCount(const QModelIndex& ) const
@@ -63,9 +64,12 @@ QVariant PageThumbnailModel::data(const QModelIndex& _Index, int _Role) const
 				Res = Thumbnails[_Index.row()];
 			}
 			else 
-			if (_Role == Qt::DisplayRole)
+            if (_Role == Qt::DisplayRole && DisplayLabels)
 			{
-				Res = QString(tr("Sheet %1").arg(_Index.row()));
+                if (_Index.row() == 0)
+                    Res = QString(tr("Cover"));
+                else
+                    Res = QString(tr("Sheet %1").arg(_Index.row()));
 			}
 		}
 	}

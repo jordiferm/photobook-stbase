@@ -1097,6 +1097,14 @@ bool Document::isPhotoBookCorrect(QString& _ErrorMessage, bool _CheckToOrder)
 	return Res;
 }
 
+int Document::pagesPerSheet() const
+{
+    int Res = (MetInfo.size().width() * MetInfo.size().height()) / (MetInfo.printPageSize().width() * MetInfo.printPageSize().height());
+    if (MetInfo.printPreprocessType() == RenderSettings::TypeHBooklet || MetInfo.printPreprocessType() == RenderSettings::TypeHBooklet )
+        Res *= 2;
+    return Res;
+}
+
 void Document::setEncryptionKey(const QString& _Key)
 {
 	EncryptionKey = _Key;

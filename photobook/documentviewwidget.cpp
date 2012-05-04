@@ -230,12 +230,21 @@ QString DocumentViewWidget::currentPageInfo()
 	QString Res;
 	if (!PBDocument)
 		return Res;
+
 	if (!PBDocument->covers().isEmpty())
 	{
 		if ( showingCover() )
 			Res = tr("Model cover");
 		else
-			Res = QString(tr("Sheet %1 of %2 ")).arg(StkLayout->currentIndex()).arg(StkLayout->count() - 1);
+        {
+            if (PBDocument->pagesPerSheet() > 1)
+            {
+                int LeftPage = StkLayout->currentIndex() * PBDocument->pagesPerSheet();
+                Res = QString(tr("Pages %1 and %2 of %3 ")).arg(LeftPage).arg(LeftPage + 1).arg(StkLayout->count()  * PBDocument->pagesPerSheet() - 1);
+            }
+            else
+                Res = QString(tr("Sheet %1 of %2 ")).arg(StkLayout->currentIndex()).arg(StkLayout->count() - 1);
+        }
 	}
 	else
 		Res = QString(tr("Sheet %1 of %2 ")).arg(StkLayout->currentIndex() + 1).arg(StkLayout->count());

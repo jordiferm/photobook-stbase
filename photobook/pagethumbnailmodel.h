@@ -42,10 +42,13 @@ Q_OBJECT
 	QSize ThumbnailMaxSize;
 	QList<QImage> Thumbnails; 
 	PageList Pages;
+    bool DisplayLabels;
 	QImage getThumbnail(TemplateScene* _Scene);
 	
 public:
-	PageThumbnailModel(QObject* _Parent = 0);
+    PageThumbnailModel(QObject* _Parent = 0, bool _DisplayLabels = true);
+    void setDisplayLabels(bool _Value) { DisplayLabels = _Value; }
+    bool displayLabels() const { return DisplayLabels; }
 	int rowCount(const QModelIndex & parent = QModelIndex() ) const;
 	QVariant data(const QModelIndex & index, int role = Qt::DisplayRole ) const;
 	void setPages(const PageList& _Pages);
