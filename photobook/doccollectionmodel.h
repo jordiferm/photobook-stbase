@@ -39,6 +39,9 @@ class ST_PHOTOBOOK_EXPORT DocCollectionModel : public QAbstractListModel
 	QSize ThumbnailSize;
 	void loadDir(const QDir& _PBDir, bool _Recursive);
 
+    enum EnCustomRoles {
+             ImageSourceRole = Qt::UserRole + 1
+         };
 
 public:
 	DocCollectionModel(QObject* _Parent = 0, bool _Load = true);

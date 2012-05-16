@@ -45,6 +45,11 @@ void DocCollectionModel::loadDir(const QDir& _PBDir, bool _Recursive)
 DocCollectionModel::DocCollectionModel(QObject* _Parent, bool _Load)
 	: QAbstractListModel(_Parent), PBDir(CollectionInfo::defaultRootPathName()), ThumbnailSize(150, 150)
 {
+    QHash<int, QByteArray> roles;
+       roles[Qt::DisplayRole] = "name";
+       roles[ImageSourceRole] = "image";
+       setRoleNames(roles);
+
 	PBFInfoList.clear();
 	if (_Load)
 		load();
@@ -74,8 +79,16 @@ QVariant DocCollectionModel::data(const QModelIndex& _Index, int _Role ) const
 				//Res = QPixmap(CInfo.thumbnailFileName()).scaled(150, 100);
 				//qDebug(CInfo.thumbnailFileName().toLatin1()); 
 			}
+            else
 			if (_Role == Qt::SizeHintRole)
 				Res = QSize(ThumbnailSize.width() + 5, ThumbnailSize.height() + 5);
+            else
+            if (_Role == ImageSourceRole)
+            {
+                CollectionInfo CInfo(QDir(PBFInfoList[_Index.row()].absoluteFilePath()));
+                Res = CInfo.thumbnailFileName();
+            }
+
 			//TODO Put the description on ToolTip Role.
 		}
 	}

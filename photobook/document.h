@@ -189,6 +189,7 @@ public:
 	QImage getPageThumbnail(int _Index, const QSize& _MaxSize);
 	QImage getLastPageThumbnail(const QSize& _MaxSize);
 	bool isPhotoBookCorrect(QString& _ErrorMessage, bool _CheckToOrder = true);
+    int pagesPerSheet() const;
 
 	//-- Encryption
 	void setEncryptionKey(const QString& );
