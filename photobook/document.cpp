@@ -48,7 +48,7 @@ using namespace SPhotoBook;
 
 TemplateScene* Document::createPage()
 {
-	TemplateScene* Scene = new TemplateScene(MetInfo.size(), this);
+	TemplateScene* Scene = new TemplateScene(MetInfo, this);
 	configurePage(Scene);
 	return Scene; 
 }
@@ -58,11 +58,11 @@ void Document::configurePage(TemplateScene* _Page)
 	//_Page->setAutoAdjustFrames(BOptions.autoadjustFrames());
 	//_Page->setIgnoreExifRotation(BOptions.ignoreExifRotation());
 	//_Page->setExpandImagesToFillFrames(BOptions.expandImagesToFillFrames());
-	_Page->setAutoAdjustFrames(MetInfo.autoAdjustFrames());
+	/*_Page->setAutoAdjustFrames(MetInfo.autoAdjustFrames());
 	_Page->setIgnoreExifRotation(!MetInfo.autoAdjustFrames());
 	_Page->setExpandImagesToFillFrames(MetInfo.expandImagesToFillFrames());
 	_Page->setFixedOutMargin(MetInfo.fixedDotMargin());
-	_Page->setModifyAllFrames(MetInfo.multiPhoto());
+	_Page->setModifyAllFrames(MetInfo.multiPhoto());*/
 	connect(_Page, SIGNAL(selectionChanged()), this, SLOT(slotSceneSelectionChange()));
 	connect(_Page, SIGNAL(doubleClicked()), this, SLOT(slotSceneDoubleClicked()));
 	connect(_Page, SIGNAL(itemContextMenu(QGraphicsItem*, const QPoint&)), this, SLOT(slotSceneItemContextMenu(QGraphicsItem*, const QPoint&)));
@@ -651,9 +651,9 @@ void Document::load(const QDir& _Dir, QProgressBar* _ProgressBar, bool _AutoSave
 void Document::loadDesign(const QDir& _DesignDir, QProgressBar* _ProgressBar)
 {
 	CollectionInfo MInfo(_DesignDir);
-	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, EncryptionKey, _ProgressBar);
-	Covers.loadXml(MInfo.xmlCoversFileName(), this, EncryptionKey, _ProgressBar);
-	BackCovers.loadXml(MInfo.xmlBackCoverFileName(), this, EncryptionKey, _ProgressBar);
+	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
+	Covers.loadXml(MInfo.xmlCoversFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
+	BackCovers.loadXml(MInfo.xmlBackCoverFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
 	Resources.load(QDir(MInfo.photoBookPath()));
 }
 
@@ -667,9 +667,9 @@ void Document::load(const QDir& _RootPath, const QString& _Name, QProgressBar* _
 	MetInfo.load(MInfo.xmlMetaInfoFileName());
 
 	if (_AutoSaved)
-		Pages.loadXml(MInfo.xmlAutoSaveFileName(), this, EncryptionKey, _ProgressBar);
+		Pages.loadXml(MInfo.xmlAutoSaveFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
 	else
-		Pages.loadXml(MInfo.xmlFileName(), this, EncryptionKey, _ProgressBar);
+		Pages.loadXml(MInfo.xmlFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
 
 	PageList::iterator it  = Pages.begin();
 	while (it != Pages.end())

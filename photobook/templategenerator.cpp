@@ -59,7 +59,7 @@ void TemplateGenerator::addCombinations(TemplateScene* _Template, PageList& _Tem
 	for (int Vfor = 0; Vfor < PhotoItems.size(); Vfor++)
 	{
 		//Split X
-		TemplateScene* NewTemplate = new TemplateScene(_Parent);
+		TemplateScene* NewTemplate = new TemplateScene(MetInfo, _Parent);
 		NewTemplate->copy(_Template);
 		NewTemplate->splitXFrame(Vfor);
 		//NewTemplate->shrinkFramesBy(3);
@@ -72,7 +72,7 @@ void TemplateGenerator::addCombinations(TemplateScene* _Template, PageList& _Tem
 	for (int Vfor = 0; Vfor < PhotoItems.size(); Vfor++)
 	{
 		//Split Y
-		TemplateScene* NewTemplate = new TemplateScene(_Parent);
+		TemplateScene* NewTemplate = new TemplateScene(MetInfo, _Parent);
 		NewTemplate->copy(_Template);
 		NewTemplate->splitYFrame(Vfor);
 		//NewTemplate->shrinkFramesBy(3);
@@ -110,7 +110,7 @@ void TemplateGenerator::incTemplatesImageDepth(int _Depth, int _NumTemplates, Pa
 	{
 		if ((*it)->numPhotoItems() == _Depth -1)
 		{
-			TemplateScene* NewTemplate = new TemplateScene((*it)->parent());
+			TemplateScene* NewTemplate = new TemplateScene(MetInfo, (*it)->parent());
 			NewTemplate->copy(*it);
 			int BiggestFrameIndex = NewTemplate->biggestFrameIndex();
 			if (BiggestFrameIndex > -1)
@@ -134,8 +134,8 @@ void TemplateGenerator::incTemplatesImageDepth(int _Depth, int _NumTemplates, Pa
 }
 
 
-TemplateGenerator::TemplateGenerator(const QSizeF& _TemplateSize )
-	: TemplateSize(_TemplateSize)
+TemplateGenerator::TemplateGenerator(const MetaInfo& _MetInfo )
+	: MetInfo(_MetInfo)
 {
 	MaxImagesPerPage = 10;
 	AllCombinationThreshold = 4;//Combination tree depth
@@ -157,7 +157,7 @@ void TemplateGenerator::addTextFrames(PageList& _Templates)
 		if (!Finished)
 		{
 			//Get the biggest Frame
-			TemplateScene* NewTemplate = new TemplateScene((*it)->parent());
+			TemplateScene* NewTemplate = new TemplateScene(MetInfo, (*it)->parent());
 			NewTemplate->copy(*it);
 			int BiggestFrameIndex = NewTemplate->biggestFrameIndex();
 			if (BiggestFrameIndex > -1)
@@ -174,9 +174,9 @@ void TemplateGenerator::addTextFrames(PageList& _Templates)
 
 TemplateScene* TemplateGenerator::createBaseTemplate(QObject* _Parent)
 {
-	TemplateScene* OneFrameTemplate = new TemplateScene(TemplateSize, _Parent);
+	TemplateScene* OneFrameTemplate = new TemplateScene(MetInfo, _Parent);
 	GraphicsPhotoItem* FrameItem = new GraphicsPhotoItem();
-	FrameItem->setRect(QRectF(QPointF(0, 0), TemplateSize));
+	FrameItem->setRect(QRectF(QPointF(0, 0), MetInfo.size()));
 	OneFrameTemplate->addPhotoItem(FrameItem);
 	return OneFrameTemplate;
 }

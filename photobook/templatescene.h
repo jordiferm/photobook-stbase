@@ -31,6 +31,7 @@
 #include "ichangescontrol.h"
 #include "collectioninfo.h"
 #include "templatedatacontext.h"
+#include "metainfo.h"
 
 /**
 	QGraphicsScene to represent templates.
@@ -75,6 +76,7 @@ private:
 	bool SnapToBounds;
 	bool HasChanges;
 	double FixedOutMargin;
+	MetaInfo MetInfo;
 	TemplateDataContext DataContext;
 	QList<GraphicsPhotoItem *> PhotoItems;
 	
@@ -83,8 +85,7 @@ private:
 	void init();
 
 public:
-	TemplateScene(QObject* _Parent = 0);
-	TemplateScene(const QSizeF& _PageSize, QObject* _Parent);
+	TemplateScene(const MetaInfo& _PageSize, QObject* _Parent = 0);
 	void copy(TemplateScene* _Other);
 	static QRectF translatedRectF(const QRectF& _Rect, const QSizeF& _DestSize, const QSizeF& _SourceSize);
 	void resize(const QSizeF& _NewSize);
@@ -98,6 +99,7 @@ public:
 	void setBgBrush(const QBrush& _Brush);
 	QBrush bgBrush() const;
 	void clear();
+	MetaInfo metaInfo() const { return MetInfo; }
 
 	QList<GraphicsPhotoItem *> photoItems() const;
 	QRectF photoItemsBoundingRect(GraphicsPhotoItem* _ExcludeMe = 0) const;

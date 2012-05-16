@@ -74,17 +74,24 @@ void TemplateScene::init()
 	FixedOutMargin = 0.0;
 }
 
-TemplateScene::TemplateScene(QObject* _Parent)
+/*TemplateScene::TemplateScene(QObject* _Parent)
  : QGraphicsScene(_Parent)
 {
 	init();
-}
+}*/
 
-TemplateScene::TemplateScene(const QSizeF& _PageSize, QObject* _Parent)
- : QGraphicsScene(_Parent)
+TemplateScene::TemplateScene(const MetaInfo& _MetInfo, QObject* _Parent)
+	: QGraphicsScene(_Parent), MetInfo(_MetInfo)
 {
 	init();
-	GraphicsPageItem* NewPageItem = new GraphicsPageItem(QRectF(0, 0, _PageSize.width(), _PageSize.height()));
+	setAutoAdjustFrames(_MetInfo.autoAdjustFrames());
+	setIgnoreExifRotation(!_MetInfo.autoAdjustFrames());
+	setExpandImagesToFillFrames(_MetInfo.expandImagesToFillFrames());
+	setFixedOutMargin(_MetInfo.fixedDotMargin());
+	setModifyAllFrames(_MetInfo.multiPhoto());
+
+	QSizeF PageSize = _MetInfo.size();
+	GraphicsPageItem* NewPageItem = new GraphicsPageItem(QRectF(0, 0, PageSize.width(), PageSize.height()));
 	NewPageItem->setZValue(PageZValue);
 	configureItem(NewPageItem);
 	addItem(NewPageItem);

@@ -22,6 +22,7 @@
 #include "templatescene.h"
 #include "stphotobookexport.h"
 #include "sterror.h"
+#include "metainfo.h"
 
 class STProgressIndicator;
 class QSizeF;
@@ -40,7 +41,7 @@ public:
 	void saveXml(const QString& _XmlFileName, const QString& _EncryptionKey = "");
 	//Return a list of stored files.
 	QStringList saveResources(const SPhotoBook::CollectionInfo& _CInfo, bool _OnlyDesignImages = false, STProgressIndicator* _Progress = 0);
-	void loadXml(const QString& _AbsoluteFileName, QObject* _PagesParent, const QString& _EncryptionKey = "", QProgressBar* _ProgressBar = 0);
+	void loadXml(const QString& _AbsoluteFileName, QObject* _PagesParent, const MetaInfo& _MetInfo, const QString& _EncryptionKey = "", QProgressBar* _ProgressBar = 0);
 	void removeTextPages();
 	//! Texts items with %Title% pattern.
 	void setTitleText(const QString& _String);

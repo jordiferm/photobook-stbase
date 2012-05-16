@@ -755,6 +755,7 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& 
 		}
 		CNode = CNode.nextSibling();
 	}
+
 	STImage CImage;
 	QString ImageFilePath = _Element.attribute("src");
 
@@ -816,6 +817,7 @@ QDomElement GraphicsPhotoItem::createElement(QDomDocument& _Doc, const QString& 
 	MElement.setAttribute("panningx", PanningPoint.x());
 	MElement.setAttribute("panningy", PanningPoint.y());
 	MElement.setAttribute("opacity", Opacity);
+
 	QDomElement RectEl = _Doc.createElement("rect");
 	RectEl.setAttribute("x", rect().x());
 	RectEl.setAttribute("y", rect().y());
@@ -859,8 +861,8 @@ void GraphicsPhotoItem::setExpandImagesToFillFrames(bool _Value)
 {
 	if (_Value)
 		setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
-		else
-			setAspectRatioMode(Qt::KeepAspectRatio);
+	else
+		setAspectRatioMode(Qt::KeepAspectRatio);
 }
 
 bool GraphicsPhotoItem::encryptedByFileName(const QString& _FilePath)

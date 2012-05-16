@@ -24,6 +24,7 @@
 #include <QSizeF>
 #include "pagelist.h"
 #include "stphotobookexport.h"
+#include "metainfo.h"
 
 class QObject;
 namespace SPhotoBook
@@ -38,6 +39,7 @@ class ST_PHOTOBOOK_EXPORT TemplateGenerator
 	QSizeF MinFrameSize;
 	double MinAspectRatio;
 	double Spacing;
+	MetaInfo MetInfo;
 
 	//STPhotoLayoutTemplate::Frame fitFrameToRect(const STPhotoLayoutTemplate::Frame& _Frame, const QRectF& _Rect, const QSizeF& _TemplateSize);
 	//STPhotoBookTemplate::TTemplateList getFrames(const QRectF& _Rect, const STPhotoBookTemplate::TTemplateList& _Templates, int _NumFrames );
@@ -49,7 +51,7 @@ class ST_PHOTOBOOK_EXPORT TemplateGenerator
 
 
 public:
-	TemplateGenerator(const QSizeF& _TemplateSize);
+	TemplateGenerator(const MetaInfo& _MetInfo);
 
 	void addTextFrames(PageList& _Templates);
 	void setMinFrameSize(const QSizeF& _Value) { MinFrameSize = _Value; }

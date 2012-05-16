@@ -108,7 +108,7 @@ QStringList PageList::saveResources(const SPhotoBook::CollectionInfo& _CInfo, bo
 }
 
 
-void PageList::loadXml(const QString& _AbsoluteFileName, QObject* _PagesParent, const QString& _EncryptionKey, QProgressBar* _ProgressBar)
+void PageList::loadXml(const QString& _AbsoluteFileName, QObject* _PagesParent, const MetaInfo& _MetInfo, const QString& _EncryptionKey, QProgressBar* _ProgressBar)
 {
 	clear();
 	QDomDocument Doc("aili");
@@ -153,7 +153,7 @@ void PageList::loadXml(const QString& _AbsoluteFileName, QObject* _PagesParent, 
 		{
 			if (CEl.tagName().toLower() == "scene" )
 			{
-				TemplateScene* NewPage = new TemplateScene(_PagesParent);
+				TemplateScene* NewPage = new TemplateScene(_MetInfo, _PagesParent);
 				NewPage->loadElement(CEl, XmlFInfo.absolutePath());
 				push_back(NewPage);
 			}

@@ -180,7 +180,7 @@ TemplateScene* CandidateCalculator::newDateCandidate(const PageList& _Templates,
 
 	if (Found)
 	{
-		Res = new TemplateScene;
+		Res = new TemplateScene((*it)->metaInfo());
 		Res->copy(*it);
 		configureDate(Res, _Date);
 	}
