@@ -67,7 +67,7 @@ public slots:
 	void slotSelectAll();
 	void slotThumbnailSizeChanged(int _Value);
 	void clearImages();
-
+    void clearSelectedImages();
 };
 }
 

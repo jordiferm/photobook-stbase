@@ -190,3 +190,26 @@ void ImagesListViewBase::clearImages()
 {
 	ImageModel->clear();
 }
+
+void ImagesListViewBase::clearSelectedImages()
+{
+    QModelIndexList SelIndexs = listView()->selectionModel()->selectedRows(0);
+    QModelIndexList::iterator it;
+    QList<int> RowList;
+    for (it = SelIndexs.begin(); it != SelIndexs.end(); ++it)
+    {
+        QModelIndex CurrIndex = ImageProxyModel->mapToSource(*it);
+        RowList.append(CurrIndex.row());
+    }
+    qSort(RowList);
+    if (!RowList.isEmpty())
+    {
+        QList<int>::iterator rit = RowList.end();
+        while(rit != RowList.begin())
+        {
+            --rit;
+            ImageModel->removeRow(*rit);
+        }
+    }
+
+}
