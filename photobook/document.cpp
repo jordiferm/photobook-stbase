@@ -275,43 +275,67 @@ void Document::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDa
 	}
 }
 
+PageList Document::suitablePageList(int _NPage, int _PagesToFill) const
+{
+    PageList PList;
+    if (_NPage == 0 && Covers.size() > 0) //First Page
+        PList = Covers;
+    else
+    {
+        if (_NPage == _PagesToFill - 1 && BackCovers.count() > 0)
+            PList = BackCovers;
+        else
+            PList = Layouts;
+    }
+    return PList;
+}
+
+int Document::calcPagesToFill(STDom::DDocModel* _PhotoModel) const
+{
+    int PagToFill = qMin(BOptions.pagesToFill(), MetInfo.maxPages());
+
+    if (BOptions.pagesFromImages())
+    {
+        PagToFill = _PhotoModel->rowCount() / qMax(1, MetInfo.numOptimalImagesPerPage());
+        qDebug() << "pagesFromImages !" << PagToFill;
+    }
+
+    if (MetInfo.preferMinPages())
+        PagToFill = MetInfo.minPages();
+
+    if (PagToFill == 0)
+        PagToFill = MetInfo.minPages();
+
+    return PagToFill;
+}
+
 //! Overload procedure provided for convenience
 void Document::autoBuild(QProgressBar* _Progress)
 {
-	STDom::DDocModel Model;
-	autoBuild(&Model, _Progress);
+    STDom::DDocModel Model;
+    autoBuild(&Model, _Progress);
 }
 
 void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 {
 	clear();
-	bool ThereIsTemplates = Covers.size() > 0 || Layouts.size() > 0 || BackCovers.size() > 0;
+    bool ThereIsTemplates = Covers.size() > 0 || Layouts.size() > 0 || BackCovers.size() > 0;
 	CandidateCalculator CCalculator(*this, _PhotoModel);
 
 	if (_Progress)
 		_Progress->setRange(0, CCalculator.totalPhotos());
-	int NPages = 0;
-	int PagToFill = qMin(BOptions.pagesToFill(), MetInfo.maxPages());
 
-	if (BOptions.pagesFromImages())
-		PagToFill = _PhotoModel->rowCount() / qMax(1, MetInfo.numOptimalImagesPerPage());
-
-	if (MetInfo.preferMinPages())
-		PagToFill = MetInfo.minPages();
-
-	if (PagToFill == 0)
-		PagToFill = MetInfo.minPages();
+    int NPages = 0;
+    int PagToFill = calcPagesToFill(_PhotoModel);
 
 	while (CCalculator.photosAvailable() && ThereIsTemplates && NPages < PagToFill )
 	{
 		//Agafem un template qualsevol
 		TemplateScene* CurrTemplate;
-		if (NPages == 0 && Covers.size() > 0) //First Page
-			CurrTemplate = CCalculator.getCandidate(Covers, PagToFill - NPages,
-													CCalculator.calcMargin(ITEM_AVERAGE_MARGIN, PagToFill - NPages));
-		else
-			CurrTemplate = CCalculator.getCandidate(Layouts, PagToFill - NPages,
-													CCalculator.calcMargin(ITEM_AVERAGE_MARGIN, PagToFill - NPages));
+
+        PageList PList = suitablePageList(NPages, PagToFill);
+        CurrTemplate = CCalculator.getCandidate(PList, PagToFill - NPages,
+                                                CCalculator.calcMargin(ITEM_AVERAGE_MARGIN, PagToFill - NPages));
 		setTemplateDataContext(BOptions, CurrTemplate);
 		TemplateScene* NewPage = createPage(CurrTemplate);
 		Pages.push_back(NewPage);
@@ -320,19 +344,16 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		NPages++;
 		emit newPageCreated();
 	}
-	if (_Progress)
+
+    if (_Progress)
 		_Progress->setValue(CCalculator.totalPhotos());
 
 	//There's no images and still pages to fill.
 	while (NPages < PagToFill && ThereIsTemplates)
 	{
-		//Agafem un template qualsevol
-		TemplateScene* CurrTemplate = 0;
-		PageList PList;
-		if (NPages == 0 && Covers.size() > 0) //First Page
-			PList = Covers;
-		else
-			PList = Layouts;
+        //Agafem un template qualsevol
+        TemplateScene* CurrTemplate = 0;
+        PageList PList = suitablePageList(NPages, PagToFill);
 
 		CurrTemplate = CCalculator.getEmptyCandidate(PList, MetInfo.numOptimalImagesPerPage(), ITEM_AVERAGE_MARGIN);
 		setTemplateDataContext(BOptions, CurrTemplate);
@@ -993,25 +1014,38 @@ bool Document::hasEmptyPhotoItems() const
 
 bool Document::suitableTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason)
 {
-	bool Res = false;
+    bool Res = true;
 	if (Covers.size() > 0)
 	{
 		//if (_PageIndex != 0 && _Template.isFirstPage())
 		if (_PageIndex != 0 && Covers.contains(_Template))
 		{
 			_Reason = tr("Template is for first page only.");
+            Res = false;
 		}
 		else
 		if (_PageIndex == 0 && !Covers.contains(_Template))
 		{
 			_Reason = tr("Template is not for first page.");
+            Res = false;
 		}
-		else
-			Res = true;
 	}
-	else
-		Res = true;
-	return Res; 
+
+    if (BackCovers.size() > 0)
+    {
+        if (_PageIndex != Pages.count() -1 && BackCovers.contains(_Template))
+        {
+            _Reason = tr("Template is for last page only.");
+            Res = false;
+        }
+        else if (_PageIndex == Pages.count() -1 && !BackCovers.contains(_Template))
+        {
+            _Reason = tr("Template is not for last page");
+            Res = false;
+        }
+    }
+
+    return Res;
 }
 
 

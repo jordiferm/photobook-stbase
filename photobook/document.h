@@ -140,7 +140,9 @@ public:
 	void removePage(int _Index); 
 	void buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress);
 	void autoBuild(QProgressBar* _Progress);
-	void autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
+    PageList suitablePageList(int _NPage, int _PagesToFill) const;
+    int calcPagesToFill(STDom::DDocModel* _PhotoModel) const;
+    void autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
 	void autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress);
 	void clearImages();
 	void movePage(int _Source, int _Destination);

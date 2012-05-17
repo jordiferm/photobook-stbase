@@ -426,6 +426,13 @@ void ChooseCreationModePage::slotPredesignChanged(const QModelIndex& _Index)
 // class BuildOptionsPage
 //_____________________________________________________________________________
 
+void BuildOptionsPage::setNumPagesVisible(bool _Value)
+{
+    NumPagesField->setVisible(_Value);
+    NumPagesLabel->setVisible(_Value);
+}
+
+
 BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent), AutoBuildMode(false)
 {
 	setTitle(tr("<h1>Build options</h1>"));
@@ -458,7 +465,9 @@ BuildOptionsPage::BuildOptionsPage(QWidget* _Parent) : QWizardPage(_Parent), Aut
 	registerField("numpages", SBNumPages);
 	FormLayout->addRow(tr("Number of pages"), SBNumPages);
 	SBNumPages->setRange(1, 999);
-
+    QLayoutItem* NPagesItem = FormLayout->itemAt(FormLayout->count() -1);
+    NumPagesField = NPagesItem->widget();
+    NumPagesLabel = FormLayout->labelForField(NPagesItem->widget());
 
 	// ----  Calendar  ----
 	GBCalendar = new QGroupBox(tr("Calendar"), this);
@@ -522,7 +531,10 @@ SPhotoBook::BuildOptions BuildOptionsPage::getBuildOptions() const
 	Res.setTitle(field("title").toString());
 	Res.setSubTitle(field("subtitle").toString());
 	Res.setAuthor(field("author").toString());
-	Res.setPagesToFill(field("numpages").toInt());
+    if (AutoBuildMode)
+        Res.setPagesFromImages(true);
+    else
+        Res.setPagesToFill(field("numpages").toInt());
 	Res.setFromDate(field("fromdate").toDate());
 	Res.setToDate(field("todate").toDate());
 	return Res;
@@ -543,6 +555,7 @@ void BuildOptionsPage::setTemplateMetaInfo(const SPhotoBook::MetaInfo& _MInfo)
 void BuildOptionsPage::setAutoBuildMode(bool _Value)
 {
 	AutoBuildMode = _Value;
+    setNumPagesVisible(!AutoBuildMode);
 }
 
 void BuildOptionsPage::setUsePredesign(bool _Value)
@@ -609,6 +622,8 @@ SelectDiskFolderPage::SelectDiskFolderPage(QWidget* _Parent) : QWizardPage(_Pare
 
 	IBListView = new SPhotoBook::ImageBoxListView(this);
 	InfoLabel = new QLabel(this);
+    //TODO: Llimpiar aixó !!!
+    InfoLabel->setVisible(false);
 	IBListView->toolBar()->addSeparator();
 	IBListView->toolBar()->addWidget(InfoLabel);
 	MiddleLayout->addWidget(IBListView );
@@ -629,6 +644,7 @@ void SelectDiskFolderPage::setMetaInfo(const SPhotoBook::MetaInfo& _Info , const
 	PagesToFill = _Options.pagesToFill();
 	OptimalImagesPerPage = _Info.numOptimalImagesPerPage();
 	AbsoluteImageCount = 0;
+    InfoLabel->setVisible(!_Options.pagesFromImages()); //No se pq no tira...
 	updateInfo();
 }
 

@@ -145,10 +145,14 @@ class BuildOptionsPage : public QWizardPage
 	QGroupBox* GBPhotoBook;
 	QGroupBox* GBCalendar;
 	QSpinBox* SBNumPages;
+    QWidget* NumPagesField;
+    QWidget* NumPagesLabel;
 	SPhotoBook::MetaInfo::EnTemplateType  LayoutType;
 	SPhotoBook::BuildOptions DefaultBuildOptions;
 	bool AutoBuildMode;
 
+
+    void setNumPagesVisible(bool _Value);
 
 public:
 	BuildOptionsPage(QWidget* _Parent = 0);
