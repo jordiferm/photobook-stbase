@@ -341,7 +341,7 @@ QRectF TemplateScene::photoItemsBoundingRect(GraphicsPhotoItem* _ExcludeMe) cons
 		{
 			if ( GraphicsPhotoItem* CPhotoItem = qgraphicsitem_cast<GraphicsPhotoItem*>(*it))
 			{
-				if (CPhotoItem != _ExcludeMe)
+                if (CPhotoItem != _ExcludeMe && CPhotoItem->isVisible())
 					Res |= CPhotoItem->sceneBoundingRect();
 			}
 		}
