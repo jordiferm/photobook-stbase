@@ -81,7 +81,7 @@ public:
 	};
 	
 private:
-	PageList Pages, Layouts, Covers, BackCovers;
+    PageList Pages, Layouts, Covers, LastPageLayouts, FirstPageLayouts;
 	ResourceList Resources;
 	CollectionInfo PBInfo;
 	QString Description; 
@@ -125,9 +125,11 @@ public:
 	void setLayouts(const PageList& _Layouts) { Layouts = _Layouts; }
 	PageList covers() const { return Covers; }
 	void setCovers(const PageList& _Covers) { Covers = _Covers; }
-	PageList backCovers() const { return BackCovers; }
-	void setBackCovers(const PageList& _BackCovers) { BackCovers = _BackCovers; }
-	ResourceList resources() const { return Resources; }
+    PageList lastPageLayouts() const { return LastPageLayouts; }
+    void setLastPageLayouts(const PageList& _Layouts) { LastPageLayouts = _Layouts; }
+    PageList firstPageLayouts() const { return FirstPageLayouts; }
+    void setFirstPageLayouts(const PageList& _Layouts) { FirstPageLayouts = _Layouts; }
+    ResourceList resources() const { return Resources; }
 	void addResource(const Resource& _Resource);
 	void removeResource(const Resource& _Resource);
 

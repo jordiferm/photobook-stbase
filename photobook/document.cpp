@@ -278,14 +278,17 @@ void Document::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDa
 PageList Document::suitablePageList(int _NPage, int _PagesToFill) const
 {
     PageList PList;
-    if (_NPage == 0 && Covers.size() > 0) //First Page
+    if (_NPage == 0 && Covers.size() > 0) //Cover
         PList = Covers;
     else
     {
-        if (_NPage == _PagesToFill - 1 && BackCovers.count() > 0)
-            PList = BackCovers;
+        if (_NPage == _PagesToFill - 1 && LastPageLayouts.count() > 0)
+            PList = LastPageLayouts;
         else
-            PList = Layouts;
+            if (_NPage == 1 && LastPageLayouts.size() > 0) //Page 1
+                PList = FirstPageLayouts;
+            else
+                PList = Layouts;
     }
     return PList;
 }
@@ -319,7 +322,7 @@ void Document::autoBuild(QProgressBar* _Progress)
 void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 {
 	clear();
-    bool ThereIsTemplates = Covers.size() > 0 || Layouts.size() > 0 || BackCovers.size() > 0;
+    bool ThereIsTemplates = Covers.size() > 0 || Layouts.size() > 0 || LastPageLayouts.size() > 0 || FirstPageLayouts.size() > 0;
 	CandidateCalculator CCalculator(*this, _PhotoModel);
 
 	if (_Progress)
@@ -413,7 +416,8 @@ void Document::resizeAll(const QSizeF& _NewSize)
 	Pages.resize(_NewSize);
 	Layouts.resize(_NewSize);
 	Covers.resize(_NewSize);
-	BackCovers.resize(_NewSize);
+    LastPageLayouts.resize(_NewSize);
+    FirstPageLayouts.resize(_NewSize);
 }
 
 QSize Document::renderPageSize() const
@@ -596,7 +600,8 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		}
 		StoredFiles += Layouts.saveResources(PBInfo, true, _Progress);
 		StoredFiles += Covers.saveResources(PBInfo, true, _Progress);
-		StoredFiles += BackCovers.saveResources(PBInfo, true, _Progress);
+        StoredFiles += LastPageLayouts.saveResources(PBInfo, true, _Progress);
+        StoredFiles += FirstPageLayouts.saveResources(PBInfo, true, _Progress);
 
 		// Delete unused images and unused mask images.
 		QDir PBooKDir(PBInfo.photoBookPath());
@@ -619,7 +624,8 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		MetInfo.save(PBInfo.xmlMetaInfoFileName());
 		Layouts.saveXml(PBInfo.xmlLayoutsFileName());
 		Covers.saveXml(PBInfo.xmlCoversFileName());
-		BackCovers.saveXml(PBInfo.xmlBackCoverFileName());
+        LastPageLayouts.saveXml(PBInfo.xmlLastPageLayoutFileName());
+        FirstPageLayouts.saveXml(PBInfo.xmlFirstPageLayoutFileName());
 
 		//Resources manually added and loaded from design
 		//Resources.save(PBDir); //We only save used resources.
@@ -674,7 +680,8 @@ void Document::loadDesign(const QDir& _DesignDir, QProgressBar* _ProgressBar)
 	CollectionInfo MInfo(_DesignDir);
 	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
 	Covers.loadXml(MInfo.xmlCoversFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
-	BackCovers.loadXml(MInfo.xmlBackCoverFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
+    LastPageLayouts.loadXml(MInfo.xmlLastPageLayoutFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
+    FirstPageLayouts.loadXml(MInfo.xmlFirstPageLayoutFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
 	Resources.load(QDir(MInfo.photoBookPath()));
 }
 
@@ -1020,25 +1027,40 @@ bool Document::suitableTemplate(int _PageIndex, TemplateScene* _Template, QStrin
 		//if (_PageIndex != 0 && _Template.isFirstPage())
 		if (_PageIndex != 0 && Covers.contains(_Template))
 		{
-			_Reason = tr("Template is for first page only.");
+            _Reason = tr("Template is for cover only.");
             Res = false;
 		}
 		else
 		if (_PageIndex == 0 && !Covers.contains(_Template))
 		{
-			_Reason = tr("Template is not for first page.");
+            _Reason = tr("Template is not for cover.");
             Res = false;
 		}
 	}
 
-    if (BackCovers.size() > 0)
+    if (FirstPageLayouts.size() > 0)
     {
-        if (_PageIndex != Pages.count() -1 && BackCovers.contains(_Template))
+        if (_PageIndex != 1 && FirstPageLayouts.contains(_Template))
+        {
+            _Reason = tr("Template is for first page only");
+            Res = false;
+        }
+        else
+        if (_PageIndex == 1 && ! FirstPageLayouts.contains(_Template))
+        {
+            _Reason = tr("Template is not for first page");
+            Res = false;
+        }
+    }
+
+    if (LastPageLayouts.size() > 0)
+    {
+        if (_PageIndex != Pages.count() -1 && LastPageLayouts.contains(_Template))
         {
             _Reason = tr("Template is for last page only.");
             Res = false;
         }
-        else if (_PageIndex == Pages.count() -1 && !BackCovers.contains(_Template))
+        else if (_PageIndex == Pages.count() -1 && !LastPageLayouts.contains(_Template))
         {
             _Reason = tr("Template is not for last page");
             Res = false;

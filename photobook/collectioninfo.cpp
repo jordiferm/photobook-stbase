@@ -73,9 +73,14 @@ QString CollectionInfo::xmlCoversFileName() const
 	return photoBookPath() + "/covers.xml";
 }
 
-QString CollectionInfo::xmlBackCoverFileName() const
+QString CollectionInfo::xmlLastPageLayoutFileName() const
 {
-	return photoBookPath() + "/backcovers.xml";
+    return photoBookPath() + "/lastpagelayouts.xml";
+}
+
+QString CollectionInfo::xmlFirstPageLayoutFileName() const
+{
+    return photoBookPath() + "/firstpagelayouts.xml";
 }
 
 QString CollectionInfo::xmlMetaInfoFileName() const
