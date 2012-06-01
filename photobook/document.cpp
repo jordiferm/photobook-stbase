@@ -213,13 +213,14 @@ bool Document::isEmpty() const
 
 void Document::insertPage(TemplateScene* _Page, int _Index)
 {
+
 	Pages.insert(_Index, _Page);
 	modified();
 }
 
 void Document::insertRandomPage(int _Index)
 {
-	insertPage(createPage(randomTemplate(Layouts)), _Index);
+    insertPage(createPage(randomTemplate(suitablePageList(_Index, Pages.count() + 1))), _Index);
 }
 
 void Document::updatePage(int _Index)
@@ -1013,6 +1014,36 @@ bool Document::hasEmptyPhotoItems() const
 		++it; 
 	}
 	return Found; 
+}
+
+
+bool Document::canInsertTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason)
+{
+    bool Res = suitableTemplate(_PageIndex, _Template, _Reason);
+    if (Pages.count() > 0 && Res)
+    {
+        if (Covers.contains(_Template)) //We already have a cover.
+            Res = false;
+        if (FirstPageLayouts.contains(_Template)) //Its a first page template
+        {
+            if (Pages.count() > 1 && Covers.count() > 0)
+            {
+                if ( FirstPageLayouts.contains(Pages[1]) ) //We already have a first page
+                    Res = false;
+            }
+            if (Covers.count() == 0)
+            {
+                if ( FirstPageLayouts.contains(Pages[0]) ) //We already have a first page
+                    Res = false;
+            }
+        }
+        if (LastPageLayouts.contains(_Template)) //Its a last page template
+        {
+            if (LastPageLayouts.contains(Pages[Pages.count() -1])) //We already have a last page
+                Res = false;
+        }
+    }
+    return Res;
 }
 
 /*!
