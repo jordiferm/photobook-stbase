@@ -168,6 +168,12 @@ TemplateScene* Document::randomTemplate(const PageList& _Templates)
 	return Res;
 }
 
+TemplateScene* Document::randomTemplate(int _Index)
+{
+	return randomTemplate(suitablePageList(_Index, Pages.count() + 1));
+}
+
+
 void Document::createRootPath()
 {
 	QDir AlbumRootDir(PBInfo.photoBookPath());
@@ -218,9 +224,16 @@ void Document::insertPage(TemplateScene* _Page, int _Index)
 	modified();
 }
 
-void Document::insertRandomPage(int _Index)
+bool Document::insertRandomPage(int _Index, QString& _CantInsertReason)
 {
-    insertPage(createPage(randomTemplate(suitablePageList(_Index, Pages.count() + 1))), _Index);
+	bool Res = false;
+	TemplateScene* RandomScene = randomTemplate(suitablePageList(_Index, Pages.count() + 1));
+	if (canInsertTemplate(_Index, RandomScene, _CantInsertReason))
+	{
+		insertPage(createPage(RandomScene), _Index);
+		Res = true;
+	}
+	return Res;
 }
 
 void Document::updatePage(int _Index)
@@ -681,8 +694,10 @@ void Document::loadDesign(const QDir& _DesignDir, QProgressBar* _ProgressBar)
 	CollectionInfo MInfo(_DesignDir);
 	Layouts.loadXml(MInfo.xmlLayoutsFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
 	Covers.loadXml(MInfo.xmlCoversFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
-    LastPageLayouts.loadXml(MInfo.xmlLastPageLayoutFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
-    FirstPageLayouts.loadXml(MInfo.xmlFirstPageLayoutFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
+	if (QFile::exists(MInfo.xmlLastPageLayoutFileName()))
+		LastPageLayouts.loadXml(MInfo.xmlLastPageLayoutFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
+	if (QFile::exists(MInfo.xmlFirstPageLayoutFileName()))
+		FirstPageLayouts.loadXml(MInfo.xmlFirstPageLayoutFileName(), this, MetInfo, EncryptionKey, _ProgressBar);
 	Resources.load(QDir(MInfo.photoBookPath()));
 }
 
@@ -1017,30 +1032,63 @@ bool Document::hasEmptyPhotoItems() const
 }
 
 
+bool Document::canRemovePage(int _PageIndex)
+{
+	bool Res = true;
+	if (Covers.count() > 0)
+	{
+		if (_PageIndex == 0)
+			Res = false;
+		if (FirstPageLayouts.count() > 0 && _PageIndex == 1)
+			Res = false;
+	}
+	else
+	{
+		if (FirstPageLayouts.count() > 0 && _PageIndex == 0)
+			Res = false;
+	}
+
+	if (LastPageLayouts.count() > 0)
+	{
+		if (_PageIndex == Pages.count() -1)
+			Res = false;
+	}
+
+	return Res;
+}
+
+
 bool Document::canInsertTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason)
 {
-    bool Res = suitableTemplate(_PageIndex, _Template, _Reason);
+	bool Res = suitableTemplate(_PageIndex, _Template, _Reason, Pages.count() + 1);
     if (Pages.count() > 0 && Res)
     {
         if (Covers.contains(_Template)) //We already have a cover.
+		{
+			_Reason = tr("We already have a cover");
             Res = false;
-        if (FirstPageLayouts.contains(_Template)) //Its a first page template
+		}
+		if (FirstPageLayouts.contains(_Template)) //Its a first page template
         {
             if (Pages.count() > 1 && Covers.count() > 0)
             {
-                if ( FirstPageLayouts.contains(Pages[1]) ) //We already have a first page
-                    Res = false;
+				_Reason = tr("First page already exist");
+				Res = false;
             }
+			else
             if (Covers.count() == 0)
             {
-                if ( FirstPageLayouts.contains(Pages[0]) ) //We already have a first page
+				if (Pages.count() > 0)
+				{
+					_Reason = tr("First page already exist");
                     Res = false;
-            }
+				}
+			}
         }
         if (LastPageLayouts.contains(_Template)) //Its a last page template
         {
-            if (LastPageLayouts.contains(Pages[Pages.count() -1])) //We already have a last page
-                Res = false;
+			_Reason = tr("Last page template can never be inserted.");
+			Res = false;
         }
     }
     return Res;
@@ -1050,9 +1098,12 @@ bool Document::canInsertTemplate(int _PageIndex, TemplateScene* _Template, QStri
 	\return True if template _Template is suitable for page with index _PageIndex.
 */
 
-bool Document::suitableTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason)
+bool Document::suitableTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason, int _PageCount)
 {
-    bool Res = true;
+	int PageCount = _PageCount;
+	if (_PageCount == -1)
+		PageCount = Pages.count();
+	bool Res = true;
 	if (Covers.size() > 0)
 	{
 		//if (_PageIndex != 0 && _Template.isFirstPage())
@@ -1086,12 +1137,12 @@ bool Document::suitableTemplate(int _PageIndex, TemplateScene* _Template, QStrin
 
     if (LastPageLayouts.size() > 0)
     {
-        if (_PageIndex != Pages.count() -1 && LastPageLayouts.contains(_Template))
+		if (_PageIndex != PageCount -1 && LastPageLayouts.contains(_Template))
         {
             _Reason = tr("Template is for last page only.");
             Res = false;
         }
-        else if (_PageIndex == Pages.count() -1 && !LastPageLayouts.contains(_Template))
+		else if (_PageIndex == PageCount -1 && !LastPageLayouts.contains(_Template))
         {
             _Reason = tr("Template is not for last page");
             Res = false;

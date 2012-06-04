@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'qwwcolorbutton.h'
 **
-** Created: Thu May 3 23:35:52 2012
-**      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
+** Created: Mon Jun 4 01:38:08 2012
+**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -10,8 +10,8 @@
 #include "qwwcolorbutton.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'qwwcolorbutton.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 63
-#error "This file was generated using the moc from 4.8.1. It"
+#elif Q_MOC_OUTPUT_REVISION != 62
+#error "This file was generated using the moc from 4.7.4. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,7 +20,7 @@ QT_BEGIN_MOC_NAMESPACE
 static const uint qt_meta_data_QwwColorButton[] = {
 
  // content:
-       6,       // revision
+       5,       // revision
        0,       // classname
        0,    0, // classinfo
        7,   14, // methods
@@ -61,31 +61,9 @@ static const char qt_meta_stringdata_QwwColorButton[] = {
     "bool\0dragEnabled\0showName\0"
 };
 
-void QwwColorButton::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
-{
-    if (_c == QMetaObject::InvokeMetaMethod) {
-        Q_ASSERT(staticMetaObject.cast(_o));
-        QwwColorButton *_t = static_cast<QwwColorButton *>(_o);
-        switch (_id) {
-        case 0: _t->colorPicked((*reinterpret_cast< const QColor(*)>(_a[1]))); break;
-        case 1: _t->setCurrentColor((*reinterpret_cast< const QColor(*)>(_a[1]))); break;
-        case 2: _t->setShowName((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 3: _t->d_func()->_q_clicked(); break;
-        case 4: _t->d_func()->_q_activated((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
-        case 5: _t->d_func()->_q_colorDialogRequested(); break;
-        case 6: _t->d_func()->_q_setCurrentIndex((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
-        default: ;
-        }
-    }
-}
-
-const QMetaObjectExtraData QwwColorButton::staticMetaObjectExtraData = {
-    0,  qt_static_metacall 
-};
-
 const QMetaObject QwwColorButton::staticMetaObject = {
     { &QPushButton::staticMetaObject, qt_meta_stringdata_QwwColorButton,
-      qt_meta_data_QwwColorButton, &staticMetaObjectExtraData }
+      qt_meta_data_QwwColorButton, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
@@ -113,8 +91,16 @@ int QwwColorButton::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
-            qt_static_metacall(this, _c, _id, _a);
+        switch (_id) {
+        case 0: colorPicked((*reinterpret_cast< const QColor(*)>(_a[1]))); break;
+        case 1: setCurrentColor((*reinterpret_cast< const QColor(*)>(_a[1]))); break;
+        case 2: setShowName((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 3: d_func()->_q_clicked(); break;
+        case 4: d_func()->_q_activated((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 5: d_func()->_q_colorDialogRequested(); break;
+        case 6: d_func()->_q_setCurrentIndex((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        default: ;
+        }
         _id -= 7;
     }
 #ifndef QT_NO_PROPERTIES

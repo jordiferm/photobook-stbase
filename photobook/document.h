@@ -108,6 +108,7 @@ public:
 	Document(const Document& _OTher);
 	~Document();
 	TemplateScene* randomTemplate(const PageList& _Templates);
+	TemplateScene* randomTemplate(int _Index);
 
 	//-- Info and pages
 	void setName(const QString& _Name) { PBInfo.setPhotoBookName(_Name); }
@@ -137,7 +138,7 @@ public:
 	void clear(); 
 	bool isEmpty() const;
 	void insertPage(TemplateScene* _Page, int _Index);
-	void insertRandomPage(int _Index);
+	bool insertRandomPage(int _Index, QString& _CantInsertReason);
 	void updatePage(int _Index);//!Updates the page(_Index) images.
 	void removePage(int _Index); 
 	void buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDate, const QDate& _ToDate, QProgressBar* _Progress);
@@ -186,8 +187,10 @@ public:
 	void cleanHasChanges() { setHasChanges(false); }
 	void modified() { setHasChanges(true); }
 	//! \returns true if this photobook contains any photoitem with no image assigned.
-	bool hasEmptyPhotoItems() const; 
-	bool suitableTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason);
+	bool hasEmptyPhotoItems() const;
+	bool canRemovePage(int _PageIndex);
+	bool canInsertTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason);
+	bool suitableTemplate(int _PageIndex, TemplateScene* _Template, QString& _Reason, int _PageCount = -1);
 	bool isExportedAsBooklet() const;
 	//int numRenderedPages(bool _Booklet);
 	QImage getPageThumbnail(int _Index, const QSize& _MaxSize);
