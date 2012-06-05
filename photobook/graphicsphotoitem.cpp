@@ -1373,14 +1373,13 @@ void GraphicsPhotoItem::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 			else
 			{
 				QList<QUrl> Urls = _Event->mimeData()->urls();
-
 				QUrl FirstUrl = _Event->mimeData()->urls().first();
 				if (!FirstUrl.isEmpty() && FirstUrl.isValid())
 				{
 					QString LocalPath = FirstUrl.toString();
 					//Only local file uris are supported.
 					QString ImagePath = FirstUrl.toLocalFile();
-					if (!ImagePath.isEmpty())
+					if (!ImagePath.isEmpty() && QFile::exists(ImagePath))
 					{
 						STDom::DImageDoc Image(ImagePath);
 						setImage(Image);

@@ -1341,7 +1341,8 @@ void TemplateScene::dropEvent(QGraphicsSceneDragDropEvent* _Event )
 				if (!FilePath.isEmpty())
 				{
 					QFileInfo FilePathInfo(FilePath);
-					if (SPhotoBook::Resource::isResource(FilePathInfo))
+					if (SPhotoBook::Resource::isResource(FilePathInfo) &&
+							SPhotoBook::Resource::fileResourceType(FilePathInfo.fileName()) != Resource::TypeImage )
 					{
 						SPhotoBook::Resource CRes(FilePathInfo);
 						applyResource(CRes);

@@ -80,7 +80,7 @@ public:
 	static QStringList fileFilter(EnResourceType _Type);
 	static QString suffixFilter(EnResourceType _Type);
 	static QString filePrefix(EnResourceType _Type);
-	EnResourceType fileResourceType(const QString& _FileName);
+	static EnResourceType fileResourceType(const QString& _FileName);
 	static bool isResource(const QFileInfo& _FileInfo);
 	static QFileInfo frameMaskFile(const Resource& _FrameResource);
 	static Resource resourceFromXmlSrc(const QString& _XmlSrc, const QString& _LoadDir);

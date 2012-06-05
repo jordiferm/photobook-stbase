@@ -208,8 +208,8 @@ Qt::ItemFlags DocCheckedProxyModel::flags(const QModelIndex & index) const
 //		return defaultFlags;
 //	}
 }
-
-QStringList DocCheckedProxyModel::mimeTypes() const
+*/
+/*QStringList DocCheckedProxyModel::mimeTypes() const
 {
 	QStringList types;
 	//See http://en.wikipedia.org/wiki/MIME_type
@@ -220,27 +220,24 @@ QStringList DocCheckedProxyModel::mimeTypes() const
 QMimeData* DocCheckedProxyModel::mimeData(const QModelIndexList &indexes) const
 {
 	QMimeData *mimeData = new QMimeData();
-	if (OPhotoCollectionImageModel* ColImageModel = qobject_cast<OPhotoCollectionImageModel*>(sourceModel()))
+	QList<QUrl> Urls;
+	foreach(QModelIndex Index, indexes)
 	{
-		QList<QUrl> Urls; 
-		foreach(QModelIndex Index, indexes)
+		if (Index.isValid() && Index.model() == this)
 		{
-			if (Index.isValid() && Index.model() == this)
-			{				
-				QModelIndex SourceIndex = mapToSource(Index); 
-				if (SourceIndex.isValid())
-				{
-					OPhotoCollectionImage Image = ColImageModel->image(SourceIndex); 
-					Urls.push_back(QUrl::fromLocalFile(Image.fileInfo().absoluteFilePath())); 
-				}
+			QModelIndex SourceIndex = mapToSource(Index);
+			if (SourceIndex.isValid())
+			{
+				STDom::DDoc* Doc = sourceModel()->doc(Index);
+				Urls.push_back(QUrl::fromLocalFile(Doc->fileInfo().absoluteFilePath()));
 			}
 		}
-		if (!Urls.isEmpty())
-			mimeData->setUrls(Urls);
 	}
+	if (!Urls.isEmpty())
+		mimeData->setUrls(Urls);
 	return mimeData;
-}
-
+}*/
+/*
 bool DocCheckedProxyModel::dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent )
 {
 	if (action == Qt::IgnoreAction)
