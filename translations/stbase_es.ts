@@ -51,8 +51,8 @@
         <translation>&lt;p&gt;Cuando pulses&lt;em&gt;Finalizar&lt;/em&gt; tu Fotolibro se creará. Luego podrás modificar todo lo que necessites. Mira al menú y la barra de iconos del programa para encontrar todas las operaciones disponibles.&lt;/p&gt;&lt;p&gt;Acuerdate de guardar los cambios y no dudes en consultar las páginas de ayuda y los manuales. &lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;h1&gt;Enjoy Starblitz Photo Book !&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Disfruta de Starblitz Photo Book !&lt;/h1&gt;</translation>
+        <source>&lt;h1&gt;Enjoy Aili Book !&lt;/h1&gt;</source>
+        <translation>&lt;h1&gt;Disfrute de Aili Book&lt;/h1&gt;</translation>
     </message>
 </context>
 <context>
@@ -96,28 +96,8 @@
         <translation>&lt;p&gt;Por favor, configure las opciones automáticas de su &lt;em&gt;FotoLibro&lt;/em&gt;&lt;/p&gt;:</translation>
     </message>
     <message>
-        <source>General</source>
-        <translation>General</translation>
-    </message>
-    <message>
-        <source>Auto adjust images to frames</source>
-        <translation>Auto ajuste de las imágenes en los marcos</translation>
-    </message>
-    <message>
-        <source>Use photos as background images</source>
-        <translation>Usar fotos como fondos</translation>
-    </message>
-    <message>
-        <source>Auto detect image orientation</source>
-        <translation>Auto detectar la orientación de las imágenes</translation>
-    </message>
-    <message>
         <source>PhotoBoook</source>
         <translation>FotoLibro</translation>
-    </message>
-    <message>
-        <source>Include layouts with texts</source>
-        <translation>Incluir plantillas con textos</translation>
     </message>
     <message>
         <source>Title</source>
@@ -2672,6 +2652,17 @@ ha fallado.</translation>
     </message>
 </context>
 <context>
+    <name>FtpSpider</name>
+    <message>
+        <source>Downloading from: %1</source>
+        <translation>Descargando de: %1</translation>
+    </message>
+    <message>
+        <source>Transfering file... %1 %</source>
+        <translation>Transfiriendo archivo... %1 %</translation>
+    </message>
+</context>
+<context>
     <name>GammaEffectFilterManager</name>
     <message>
         <source>Apply Color correction ?</source>
@@ -4137,13 +4128,13 @@ Num</source>
 <context>
     <name>OPWWelcomePage</name>
     <message>
-        <source>&lt;h1&gt;Welcome to Starblitz Order Print wizard&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Bienvenido al asistente de impresión de pedidos de Starblitz&lt;/h1&gt;</translation>
-    </message>
-    <message>
         <source>This wizard will walk you throw the process of sending your photos to your publisher.
  Click the &apos;Next&apos; button to begin.</source>
         <translation>Este asistente te guiará durante el proceso de envio de tus fotos. Haz clic en &apos;Siguiente&apos; para empezar.</translation>
+    </message>
+    <message>
+        <source>&lt;h1&gt;Welcome to Aili Image Order Print wizard&lt;/h1&gt;</source>
+        <translation>&lt;h1&gt; Bienvenodo al asistente de pedidos de impresión de Aili Image&lt;/h1&gt;</translation>
     </message>
 </context>
 <context>
@@ -5414,6 +5405,30 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <source>Error opening database %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error storing encoded image %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Encoding template %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not save encoded image %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not remove base file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There&apos;s been errors during template encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pedido: %1-%2</source>
+        <translation>Pedido: %1-%2</translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -5484,7 +5499,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
 </context>
 <context>
@@ -5547,42 +5562,38 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>SPImagesListView</name>
     <message>
         <source>Desktop</source>
-        <translation type="unfinished">Escritorio</translation>
+        <translation>Escritorio</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="unfinished">Disco</translation>
+        <translation>Disco</translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation type="unfinished">Colección</translation>
+        <translation>Colección</translation>
     </message>
     <message>
         <source>Select Folder</source>
-        <translation type="unfinished">Selecciona carpeta</translation>
+        <translation>Selecciona carpeta</translation>
     </message>
     <message>
         <source>Image(s)</source>
-        <translation type="unfinished">Imagen(es)</translation>
+        <translation>Imagen(es)</translation>
     </message>
     <message>
         <source>Please select a directory</source>
-        <translation type="unfinished">Por favor selecciona un directorio</translation>
+        <translation>Por favor selecciona un directorio</translation>
     </message>
 </context>
 <context>
     <name>SPImagesListViewBase</name>
     <message>
         <source>Select All (Ctrl+A)</source>
-        <translation type="unfinished">Seleccionar todas (Ctrl+A)</translation>
+        <translation>Seleccionar todas (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>SPOromeImagesListView</name>
-    <message>
-        <source>Clear</source>
-        <translation>Limpiar</translation>
-    </message>
     <message>
         <source>Export</source>
         <translation>Exportar</translation>
@@ -5593,7 +5604,15 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>AutoFill</source>
-        <translation type="unfinished"></translation>
+        <translation>Llenar automático</translation>
+    </message>
+    <message>
+        <source>Clear Selected</source>
+        <translation>Limpiar seleccionadas</translation>
+    </message>
+    <message>
+        <source>Clear All</source>
+        <translation>Limpiar todas</translation>
     </message>
 </context>
 <context>
@@ -5681,14 +5700,6 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Template is for first page only.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Template is not for first page.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The model contains empty frames. Please delete or fill it.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5704,6 +5715,42 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <source>Error creating calendar: No candidates found</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>We already have a cover</source>
+        <translation>Ya tenemos una portada</translation>
+    </message>
+    <message>
+        <source>First page already exist</source>
+        <translation>La primera página ya existe</translation>
+    </message>
+    <message>
+        <source>Last page template can never be inserted.</source>
+        <translation>La última página no se puede insertar nunca.</translation>
+    </message>
+    <message>
+        <source>Template is for cover only.</source>
+        <translation>La plantilla es solo para la portada.</translation>
+    </message>
+    <message>
+        <source>Template is not for cover.</source>
+        <translation>La plantilla no es para la portada.</translation>
+    </message>
+    <message>
+        <source>Template is for first page only</source>
+        <translation>La plantilla es solo para la primera página</translation>
+    </message>
+    <message>
+        <source>Template is not for first page</source>
+        <translation>La plantilla no es para la primera página</translation>
+    </message>
+    <message>
+        <source>Template is for last page only.</source>
+        <translation>La plantilla es solo para la última página.</translation>
+    </message>
+    <message>
+        <source>Template is not for last page</source>
+        <translation>La plantilla no es para la última página.</translation>
+    </message>
 </context>
 <context>
     <name>SPhotoBook::DocumentViewWidget</name>
@@ -5718,6 +5765,10 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <message>
         <source>From %1 to %2 Pages</source>
         <translation>Desde %1 a %2 páginas</translation>
+    </message>
+    <message>
+        <source>Pages %1 and %2 of %3 </source>
+        <translation>Páginas %1 i %2 de %3</translation>
     </message>
 </context>
 <context>
@@ -6029,12 +6080,60 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <source>noname</source>
         <translation>sinnombre</translation>
     </message>
+    <message>
+        <source>Overlay Margin</source>
+        <translation>Margen de superposición</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Avanzado</translation>
+    </message>
+    <message>
+        <source>Snap photo items to photoitem bounding rect.</source>
+        <translation>Ajustar los marcos de foto a caja.</translation>
+    </message>
+    <message>
+        <source>Snap to bounds</source>
+        <translation>Ajustar a limites</translation>
+    </message>
+    <message>
+        <source>Expand images to fill frames</source>
+        <translation>Expandir las imágenes para llenar los marcos</translation>
+    </message>
+    <message>
+        <source>Autodetect image orientation</source>
+        <translation>Detectar automaticamente la orientación de las imágenes</translation>
+    </message>
+    <message>
+        <source>Auto adjust frames to images</source>
+        <translation>Ajustar automáticamente los marcos a las  imágenes</translation>
+    </message>
+    <message>
+        <source>Use images as backgrounds</source>
+        <translation>Usar imágenes como fondos</translation>
+    </message>
+    <message>
+        <source>Fixed margin of image item bounding rect. Not applied if is &lt;= 0</source>
+        <translation>Margen fijo de caja (No se aplica si es &lt;= 0)</translation>
+    </message>
+    <message>
+        <source>Fixed out margin</source>
+        <translation>Margen exterior fijado</translation>
+    </message>
+    <message>
+        <source>Page Spine Margins</source>
+        <translation>Margenes del centro de la página</translation>
+    </message>
 </context>
 <context>
     <name>SPhotoBook::PageThumbnailModel</name>
     <message>
         <source>Sheet %1</source>
         <translation>Hoja %1</translation>
+    </message>
+    <message>
+        <source>Cover</source>
+        <translation>Portada</translation>
     </message>
 </context>
 <context>
@@ -6287,6 +6386,10 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     </message>
     <message>
         <source>Uploading files from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Timeout error downloading directory %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7206,6 +7309,10 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <source>Error updating template %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error connecting to Aili Image Service: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StraightenFixesWidget</name>
@@ -7231,14 +7338,6 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
 </context>
 <context>
     <name>TPPhotoEditor</name>
-    <message>
-        <source>Rotate 90º</source>
-        <translation>Rotar 90º</translation>
-    </message>
-    <message>
-        <source>Rotate 270º</source>
-        <translation>Rotar 270º</translation>
-    </message>
     <message>
         <source>Zoom+</source>
         <translation>Zoom+</translation>
@@ -7351,6 +7450,14 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
         <source>Rotate Sel.</source>
         <translation>Rotar Sel.</translation>
     </message>
+    <message>
+        <source>Rotate 90ï¿½</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate 270ï¿½</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TPPhotoSelWidget</name>
@@ -7444,7 +7551,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>WPrintWorkflowManager</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">Todo</translation>
+        <translation>Todo</translation>
     </message>
     <message>
         <source>&lt;Record&gt;</source>
@@ -7462,7 +7569,7 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <name>WPrinterRecord</name>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>General</translation>
     </message>
     <message>
         <source>Remote FTP Printer</source>

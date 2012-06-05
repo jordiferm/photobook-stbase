@@ -51,8 +51,8 @@
         <translation>&lt;p&gt;Quan premis &lt;em&gt;Finalitzar&lt;/em&gt;el teu Fotollibre es crearà. Llavors pots modificar tot el que necessitis. Mira el menú i la barra d&apos;icones per a trobar totes les operacions disponibles.&lt;/p&gt;&lt;p&gt;Recorda de guardar els teus canvis i no dubtis en consultar les pàgines d&apos;ajuda i els manuals.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;h1&gt;Enjoy Starblitz Photo Book !&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Disfruta de Starblitz Photo Book !&lt;/h1&gt;</translation>
+        <source>&lt;h1&gt;Enjoy Aili Book !&lt;/h1&gt;</source>
+        <translation>&lt;h1&gt;Disfruti d&apos;Aili Book !&lt;/h1&gt;</translation>
     </message>
 </context>
 <context>
@@ -96,28 +96,8 @@
         <translation>&lt;p&gt;Si us plau, configuri les opcions automátiques del seu &lt;em&gt;FotoLlibre&lt;/em&gt;&lt;/p&gt;:</translation>
     </message>
     <message>
-        <source>General</source>
-        <translation>General</translation>
-    </message>
-    <message>
-        <source>Auto adjust images to frames</source>
-        <translation>Auto ajust de les imatges als marcs</translation>
-    </message>
-    <message>
-        <source>Use photos as background images</source>
-        <translation>Utilitzar fotografies com a imatges de fons</translation>
-    </message>
-    <message>
-        <source>Auto detect image orientation</source>
-        <translation>Auto detectar l&apos;orientació de les imatges</translation>
-    </message>
-    <message>
         <source>PhotoBoook</source>
         <translation>FotoLlibre</translation>
-    </message>
-    <message>
-        <source>Include layouts with texts</source>
-        <translation>Incluir plantilles amb textos</translation>
     </message>
     <message>
         <source>Title</source>
@@ -2672,6 +2652,17 @@ ha fallat.</translation>
     </message>
 </context>
 <context>
+    <name>FtpSpider</name>
+    <message>
+        <source>Downloading from: %1</source>
+        <translation>Descarregant de: %1</translation>
+    </message>
+    <message>
+        <source>Transfering file... %1 %</source>
+        <translation>Transfering fitxer... %1 %</translation>
+    </message>
+</context>
+<context>
     <name>GammaEffectFilterManager</name>
     <message>
         <source>Apply Color correction ?</source>
@@ -4138,13 +4129,13 @@ Num</source>
 <context>
     <name>OPWWelcomePage</name>
     <message>
-        <source>&lt;h1&gt;Welcome to Starblitz Order Print wizard&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Benvingut a l&apos;assistent d&apos;impressió de comandes de Starblitz&lt;/h1&gt;</translation>
-    </message>
-    <message>
         <source>This wizard will walk you throw the process of sending your photos to your publisher.
  Click the &apos;Next&apos; button to begin.</source>
         <translation>Aquest asistent et guiará durant el procés per enviar les teves fotografies al teu proveidor. Fes clic a &apos;Següent&apos; per començár.</translation>
+    </message>
+    <message>
+        <source>&lt;h1&gt;Welcome to Aili Image Order Print wizard&lt;/h1&gt;</source>
+        <translation>&lt;h1&gt; Benvinguts a l&apos;assistent de comandes d&apos;impressió d&apos;Aili Image &lt;/h1&gt;</translation>
     </message>
 </context>
 <context>
@@ -5416,6 +5407,30 @@ El node arrel no es un reportatge.</translation>
         <source>Error opening database %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error storing encoded image %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Encoding template %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not save encoded image %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not remove base file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There&apos;s been errors during template encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pedido: %1-%2</source>
+        <translation>Comanda: %1-%2</translation>
+    </message>
 </context>
 <context>
     <name>QObject::QObject</name>
@@ -5486,7 +5501,7 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel·lar</translation>
     </message>
 </context>
 <context>
@@ -5549,42 +5564,38 @@ El node arrel no es un reportatge.</translation>
     <name>SPImagesListView</name>
     <message>
         <source>Desktop</source>
-        <translation type="unfinished">Escritori</translation>
+        <translation>Escritori</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="unfinished">Disc</translation>
+        <translation>Disc</translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation type="unfinished">Colecció</translation>
+        <translation>Colecció</translation>
     </message>
     <message>
         <source>Select Folder</source>
-        <translation type="unfinished">Selecciona carpeta</translation>
+        <translation>Selecciona carpeta</translation>
     </message>
     <message>
         <source>Image(s)</source>
-        <translation type="unfinished">Imatge(s)</translation>
+        <translation>Imatge(s)</translation>
     </message>
     <message>
         <source>Please select a directory</source>
-        <translation type="unfinished">Si us plau, selecciona un directori</translation>
+        <translation>Si us plau, selecciona un directori</translation>
     </message>
 </context>
 <context>
     <name>SPImagesListViewBase</name>
     <message>
         <source>Select All (Ctrl+A)</source>
-        <translation type="unfinished">Seleccionar totes (Ctrl+A)</translation>
+        <translation>Seleccionar totes (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>SPOromeImagesListView</name>
-    <message>
-        <source>Clear</source>
-        <translation>Netejar</translation>
-    </message>
     <message>
         <source>Export</source>
         <translation>Exportar</translation>
@@ -5595,7 +5606,15 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>AutoFill</source>
-        <translation type="unfinished"></translation>
+        <translation>Omplir automàtic</translation>
+    </message>
+    <message>
+        <source>Clear Selected</source>
+        <translation>Netejar seleccionades</translation>
+    </message>
+    <message>
+        <source>Clear All</source>
+        <translation>Netejar totes</translation>
     </message>
 </context>
 <context>
@@ -5683,14 +5702,6 @@ El node arrel no es un reportatge.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Template is for first page only.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Template is not for first page.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The model contains empty frames. Please delete or fill it.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5706,6 +5717,42 @@ El node arrel no es un reportatge.</translation>
         <source>Error creating calendar: No candidates found</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>We already have a cover</source>
+        <translation>Ja tenim una portada</translation>
+    </message>
+    <message>
+        <source>First page already exist</source>
+        <translation>La primera pàgina ja existeix</translation>
+    </message>
+    <message>
+        <source>Last page template can never be inserted.</source>
+        <translation>La última pàgina no es pot insertar mai</translation>
+    </message>
+    <message>
+        <source>Template is for cover only.</source>
+        <translation>La plantilla és només per la portada.</translation>
+    </message>
+    <message>
+        <source>Template is not for cover.</source>
+        <translation>La plantilla no és per la portada.</translation>
+    </message>
+    <message>
+        <source>Template is for first page only</source>
+        <translation>La plantilla és només per la primera pàgina</translation>
+    </message>
+    <message>
+        <source>Template is not for first page</source>
+        <translation>La plantilla no és per la primera pàgina</translation>
+    </message>
+    <message>
+        <source>Template is for last page only.</source>
+        <translation>La plantilla és només per l&apos;última pàgina.</translation>
+    </message>
+    <message>
+        <source>Template is not for last page</source>
+        <translation>La plantilla no és per la última pàgina.</translation>
+    </message>
 </context>
 <context>
     <name>SPhotoBook::DocumentViewWidget</name>
@@ -5720,6 +5767,10 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>From %1 to %2 Pages</source>
         <translation>Desde %1 a %2 pàgines</translation>
+    </message>
+    <message>
+        <source>Pages %1 and %2 of %3 </source>
+        <translation>Pàgines %1 i %2 de %3 </translation>
     </message>
 </context>
 <context>
@@ -6031,12 +6082,60 @@ El node arrel no es un reportatge.</translation>
         <source>noname</source>
         <translation>sensenom</translation>
     </message>
+    <message>
+        <source>Overlay Margin</source>
+        <translation>Marge de superposició</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Avançat</translation>
+    </message>
+    <message>
+        <source>Snap photo items to photoitem bounding rect.</source>
+        <translation>Ajustar els marcs de foto a la caixa.</translation>
+    </message>
+    <message>
+        <source>Snap to bounds</source>
+        <translation>Ajustar a límits</translation>
+    </message>
+    <message>
+        <source>Expand images to fill frames</source>
+        <translation>Expandir les imatges per omplir els marcs</translation>
+    </message>
+    <message>
+        <source>Autodetect image orientation</source>
+        <translation>Detectar automàticament la orientació de les imatges</translation>
+    </message>
+    <message>
+        <source>Auto adjust frames to images</source>
+        <translation>Ajustar automàticament els marcs a les imatges</translation>
+    </message>
+    <message>
+        <source>Use images as backgrounds</source>
+        <translation>Usar imatges coma fons</translation>
+    </message>
+    <message>
+        <source>Fixed margin of image item bounding rect. Not applied if is &lt;= 0</source>
+        <translation>Marge de caixa fixada (No s&apos;aplica si és &lt;= 0)</translation>
+    </message>
+    <message>
+        <source>Fixed out margin</source>
+        <translation>Marge exterior fixat</translation>
+    </message>
+    <message>
+        <source>Page Spine Margins</source>
+        <translation>Marges del centre de la pàgina</translation>
+    </message>
 </context>
 <context>
     <name>SPhotoBook::PageThumbnailModel</name>
     <message>
         <source>Sheet %1</source>
         <translation>Fulla %1</translation>
+    </message>
+    <message>
+        <source>Cover</source>
+        <translation>Portada</translation>
     </message>
 </context>
 <context>
@@ -6289,6 +6388,10 @@ El node arrel no es un reportatge.</translation>
     </message>
     <message>
         <source>Uploading files from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Timeout error downloading directory %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7208,6 +7311,10 @@ El node arrel no es un reportatge.</translation>
         <source>Error updating template %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error connecting to Aili Image Service: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StraightenFixesWidget</name>
@@ -7233,14 +7340,6 @@ El node arrel no es un reportatge.</translation>
 </context>
 <context>
     <name>TPPhotoEditor</name>
-    <message>
-        <source>Rotate 90º</source>
-        <translation>Rotar 90º</translation>
-    </message>
-    <message>
-        <source>Rotate 270º</source>
-        <translation>Rotar 270º</translation>
-    </message>
     <message>
         <source>Zoom+</source>
         <translation>Zoom+</translation>
@@ -7353,6 +7452,14 @@ El node arrel no es un reportatge.</translation>
         <source>Rotate Sel.</source>
         <translation>Girar Sel.</translation>
     </message>
+    <message>
+        <source>Rotate 90ï¿½</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate 270ï¿½</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TPPhotoSelWidget</name>
@@ -7446,7 +7553,7 @@ El node arrel no es un reportatge.</translation>
     <name>WPrintWorkflowManager</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">Tot</translation>
+        <translation>Tot</translation>
     </message>
     <message>
         <source>&lt;Record&gt;</source>
@@ -7464,11 +7571,11 @@ El node arrel no es un reportatge.</translation>
     <name>WPrinterRecord</name>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>General</translation>
     </message>
     <message>
         <source>Remote FTP Printer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Hot Folder</source>
