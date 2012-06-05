@@ -464,5 +464,10 @@ void QwwColorButton::dropEvent(QDropEvent *event) {
         col.setNamedColor(event->mimeData()->text());
     setCurrentColor(col);
 }
-#include "moc_qwwcolorbutton.cxx"
+
+#if QT_VERSION < 0x040800
+	#include "moc_qwwcolorbutton47.cxx"
+#else
+	#include "moc_qwwcolorbutton.cxx"
+#endif
 #endif
