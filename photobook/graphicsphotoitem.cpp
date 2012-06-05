@@ -1011,6 +1011,7 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 {
 
 	_P->setClipRect(_Option->exposedRect);
+	//_P->fillRect(rect(), QColor(0,0,0,0));
 	QGraphicsRectItem::paint(_P, _Option); //To draw borders and empty frames...
 
 	_P->setOpacity(Opacity);
@@ -1080,6 +1081,7 @@ void GraphicsPhotoItem::paint(QPainter* _P, const QStyleOptionGraphicsItem* _Opt
 		{ //In HiResImageMode there's a problem for example drawing to a PDF printer se we always yse BuffImage to solve it.
 			QImage BuffImage(ClipRect.size().toSize(), QImage::Format_ARGB32_Premultiplied);
 			QPainter Painter(&BuffImage);
+			Painter.fillRect(BuffImage.rect(), Qt::white);
 			Painter.drawImage(BuffImage.rect(), PaintedImage, ClipRect);
 			Painter.end();
 			if (!MaskResource.isNull())

@@ -331,6 +331,8 @@ TemplateScene* CandidateCalculator::getEmptyCandidate(const PageList& _Templates
 		//Bafem el mes petit que no sigui primera pagina.
 		if (!ValidTemplates.isEmpty())
 			Res = *(ValidTemplates.begin());
+		else //Maybe there is candidates without image frames.
+			Res = randomUsed(_Templates);
 	}
 	return Res;
 }

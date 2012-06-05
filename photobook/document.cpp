@@ -344,6 +344,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 
     int NPages = 0;
     int PagToFill = calcPagesToFill(_PhotoModel);
+	qDebug() << "Building...";
 
 	while (CCalculator.photosAvailable() && ThereIsTemplates && NPages < PagToFill )
 	{
@@ -361,6 +362,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		NPages++;
 		emit newPageCreated();
 	}
+	qDebug() << "Building... 2";
 
     if (_Progress)
 		_Progress->setValue(CCalculator.totalPhotos());
@@ -381,6 +383,7 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 		}
 		NPages++;
 	}
+	qDebug() << "Building... 3";
 }
 
 void Document::autoFill(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
