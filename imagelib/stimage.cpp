@@ -353,6 +353,12 @@ STImage STImage::multiplyImage(const QSize& _DestSize) const
 		return *this; 
 }
 
+//!Dots per meter;
+int STImage::dpM(int _Dpis) const
+{
+    return Dpis / 0.0254;
+}
+
 void STImage::print(QPainter& _Painter, bool _Center, bool _Cut)
 {
 	_Painter.save();

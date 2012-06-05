@@ -90,7 +90,8 @@ public:
 	STImage multiplyImage(const QSize& _DestSize) const;
 
 	//! Prints the image using whole _Printer page.
-	void print(QPainter& _Painter, bool _Center, bool _Cut = false);
+    static int dpM(int _Dpis) const;
+    void print(QPainter& _Painter, bool _Center, bool _Cut = false);
 	void print(QPrinter* _Printer, bool _Center, bool _Cut = false);
 	//! \return true if _FInfo is a supportedImage
 	static bool isSupportedImage(const QFileInfo& _FInfo);
