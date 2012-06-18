@@ -323,7 +323,7 @@ int Document::calcPagesToFill(STDom::DDocModel* _PhotoModel) const
     if (PagToFill == 0)
         PagToFill = MetInfo.minPages();
 
-    return PagToFill;
+	return qMin(PagToFill, MetInfo.maxPages());
 }
 
 //! Overload procedure provided for convenience

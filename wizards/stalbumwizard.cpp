@@ -532,7 +532,7 @@ SPhotoBook::BuildOptions BuildOptionsPage::getBuildOptions() const
 	Res.setSubTitle(field("subtitle").toString());
 	Res.setAuthor(field("author").toString());
     if (AutoBuildMode)
-        Res.setPagesFromImages(true);
+		Res.setPagesFromImages(true);
     else
         Res.setPagesToFill(field("numpages").toInt());
 	Res.setFromDate(field("fromdate").toDate());
