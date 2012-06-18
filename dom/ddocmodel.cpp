@@ -396,13 +396,10 @@ QMimeData* DDocModel::mimeData(const QModelIndexList &indexes) const
 {
 	QList<QUrl> Urls;
 
-	qDebug() << "DDocModel::mimeData";
 	foreach(QModelIndex Index, indexes)
 	{
-		qDebug() << "Index" << Index;
 		if (Index.isValid() && Index.column() == 0 && Index.model() == this && Index.row() < rowCount())
 		{
-			qDebug() << "Valid" << Index;
 			DDoc* Doc = doc(Index);
 			Urls.push_back(QUrl::fromLocalFile(Doc->fileInfo().absoluteFilePath()));
 		}

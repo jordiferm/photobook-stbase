@@ -291,7 +291,7 @@ void Document::buildCalendar(STDom::DDocModel* _PhotoModel, const QDate& _FromDa
 
 PageList Document::suitablePageList(int _NPage, int _PagesToFill) const
 {
-    PageList PList;
+	PageList PList = Layouts;
     if (_NPage == 0 && Covers.size() > 0) //Cover
         PList = Covers;
     else
@@ -299,7 +299,8 @@ PageList Document::suitablePageList(int _NPage, int _PagesToFill) const
         if (_NPage == _PagesToFill - 1 && LastPageLayouts.count() > 0)
             PList = LastPageLayouts;
         else
-            if (_NPage == 1 && LastPageLayouts.size() > 0) //Page 1
+			if ((_NPage == 1 && LastPageLayouts.size() > 0 && Covers.size() > 0) ||
+				(_NPage == 0 && LastPageLayouts.size() > 0 && Covers.size() == 0)) //Page 1
                 PList = FirstPageLayouts;
             else
                 PList = Layouts;
@@ -314,7 +315,6 @@ int Document::calcPagesToFill(STDom::DDocModel* _PhotoModel) const
     if (BOptions.pagesFromImages())
     {
         PagToFill = _PhotoModel->rowCount() / qMax(1, MetInfo.numOptimalImagesPerPage());
-        qDebug() << "pagesFromImages !" << PagToFill;
     }
 
     if (MetInfo.preferMinPages())
@@ -493,7 +493,6 @@ void Document::renderPage(TemplateScene* _PageScene , QProgressBar* _LoadImagesP
 	{
 		if (MetInfo.printPreprocessType() == RenderSettings::TypeMultiply)
 		{
-			qDebug() << "Multiplying: " << PageSize << " TemplateSize:" << TemplateSize;
 			STImage TmpImg(TemplateSize, QImage::Format_RGB32);
 			QPainter ImgPainter(&TmpImg);
 			_PageScene->render(&ImgPainter, QRect(QPoint(0,0), TemplateSize));
@@ -1104,6 +1103,7 @@ bool Document::suitableTemplate(int _PageIndex, TemplateScene* _Template, QStrin
 	if (_PageCount == -1)
 		PageCount = Pages.count();
 	bool Res = true;
+	int FirstPageIndex = 0;
 	if (Covers.size() > 0)
 	{
 		//if (_PageIndex != 0 && _Template.isFirstPage())
@@ -1118,17 +1118,19 @@ bool Document::suitableTemplate(int _PageIndex, TemplateScene* _Template, QStrin
             _Reason = tr("Template is not for cover.");
             Res = false;
 		}
+		FirstPageIndex = 1;
 	}
+
 
     if (FirstPageLayouts.size() > 0)
     {
-        if (_PageIndex != 1 && FirstPageLayouts.contains(_Template))
+		if (_PageIndex != FirstPageIndex && FirstPageLayouts.contains(_Template) )
         {
             _Reason = tr("Template is for first page only");
             Res = false;
         }
         else
-        if (_PageIndex == 1 && ! FirstPageLayouts.contains(_Template))
+		if (_PageIndex == FirstPageIndex && ! FirstPageLayouts.contains(_Template))
         {
             _Reason = tr("Template is not for first page");
             Res = false;
