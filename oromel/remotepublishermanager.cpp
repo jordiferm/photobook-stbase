@@ -87,7 +87,23 @@ void RemotePublisherManager::downloadTemplateMetaInfo(const SPhotoBook::Template
 			{
 				//qDebug() << "Metainfo file: " << MetaInfoFile.absoluteFilePath() << " Does not exist";
 				// - If template metainfo isn't on disk download it.
-				SPhotoBook::SystemTemplates::downloadTemplateDesignMetaInfo(_Publisher, CTemplate, CDesign);
+				int retries = 0;
+				bool success = false;
+				STFtpOrderTransfer::Error LastError;
+				while (retries < 4 && !success)
+				try
+				{
+					SPhotoBook::SystemTemplates::downloadTemplateDesignMetaInfo(_Publisher, CTemplate, CDesign);
+					success = true;
+				}
+				catch (STFtpOrderTransfer::Error& _Error)
+				{
+					retries++;
+					LastError = _Error;
+				}
+				if (!Success)
+					throw LastError;
+
 			}
 		}
 	}
