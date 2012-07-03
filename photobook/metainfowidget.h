@@ -19,6 +19,7 @@
 #ifndef METAINFOWIDGET_H
 #define METAINFOWIDGET_H
 #include <QWidget>
+#include <QLineEdit>
 #include "stphotobookexport.h"
 #include "metainfo.h"
 #include "templateinfolist.h"
@@ -45,6 +46,7 @@ class ST_PHOTOBOOK_EXPORT MetaInfoWidget : public QWidget
 	QComboBox* CBDesignName;
 	FPixmapSelector* ISImage;
 	QwwRichTextEdit* TEDescription;
+	QLineEdit* TESizeAlias;
 	QComboBox* CBType;
 	QSpinBox* SBWidth;
 	QSpinBox* SBHeight;

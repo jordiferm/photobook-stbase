@@ -23,6 +23,7 @@
 #include <QList>
 #include <QRectF>
 #include <QUrl>
+#include <QDir>
 #include <QPixmap>
 #include "sterror.h"
 #include "rendersettings.h"
@@ -46,7 +47,7 @@ public:
 	};
 
 private:
-	QString DesignName, Name, Description, ImagePath, SourceImagesPath;
+	QString DesignName, Name, Description, ImagePath, SourceImagesPath, SizeAlias;
 	QSizeF Size, PrintPageSize;
 	int Version, Dpis, ModPages, MaxPages, MinPages;
 	RenderSettings::EnPrintPreProcessType PrintPreprocessType;
@@ -67,6 +68,8 @@ public:
     MetaInfo();
 	void setDefaults();
 	void checkVersion(const QString& _XmlFilePath);
+	void saveImageThumbnail(const QString& _FileName);
+	static QString thumbnailFileNameFromPath(const QDir& _BasePath);
 	void save(const QString& _XmlFilePath, bool _CheckVersion = true);
 	void load(const QString& _XmlFilePath);
 
@@ -100,6 +103,10 @@ public:
 
 	QUrl infoUrl() const;
 	static QUrl infoUrl(const QString& _Name);
+
+	void setSizeAlias(const QString& _Value) { SizeAlias = _Value; }
+	QString sizeAlias() const { return SizeAlias; }
+
 
 	//------- Render info ----------
 	void setPrintPageSize(const QSizeF& _Value) { PrintPageSize = _Value; }

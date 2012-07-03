@@ -56,7 +56,7 @@ public:
 	void setIsPublic(bool _Value) { IsPublic = _Value; }
 	bool isPublic() const { return IsPublic || PublicVersion > 0; }
 	bool isUpToDate() const { return (isPublic() && MInfo.version() == PublicVersion) || !isPublic(); }
-	void setMetaInfo(const MetaInfo& _MInfo) { MInfo = _MInfo; }
+	void setMetaInfo(const MetaInfo& _MInfo);
 	MetaInfo metaInfo() const { return MInfo; }
 	bool isNull() const { return Name == ""; }
 };

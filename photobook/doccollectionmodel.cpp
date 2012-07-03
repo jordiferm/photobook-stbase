@@ -20,6 +20,7 @@
 #include "doccollectionmodel.h"
 #include <QDebug>
 #include <QPixmap>
+#include <QFont>
 #include "collectioninfo.h"
 
 using namespace SPhotoBook;
@@ -81,13 +82,20 @@ QVariant DocCollectionModel::data(const QModelIndex& _Index, int _Role ) const
 			}
             else
 			if (_Role == Qt::SizeHintRole)
-				Res = QSize(ThumbnailSize.width() + 5, ThumbnailSize.height() + 5);
+				Res = QSize(ThumbnailSize.width() + 5, ThumbnailSize.height() + 50);
             else
             if (_Role == ImageSourceRole)
             {
                 CollectionInfo CInfo(QDir(PBFInfoList[_Index.row()].absoluteFilePath()));
                 Res = CInfo.thumbnailFileName();
             }
+			else
+				if (_Role == Qt::FontRole)
+					return QFont("Arial", 10, QFont::Bold);
+			else
+				if (_Role == Qt::BackgroundColorRole)
+					return QColor("#AAAAAA");
+
 
 			//TODO Put the description on ToolTip Role.
 		}

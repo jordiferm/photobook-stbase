@@ -256,17 +256,17 @@ void ChooseTemplatePage::slotTemplateIndexClicked(const QModelIndex& _Index)
 	completeChanged();
 	//Load available sizes.
 	CBSize->clear();
-	QList<QSizeF> SizesList = Model->sizes(_Index);
-	QList<QSizeF>::iterator it;
+	QList<SPhotoBook::TemplateSizeInfo> SizesList = Model->sizes(_Index);
+	QList<SPhotoBook::TemplateSizeInfo>::iterator it;
 	for (it = SizesList.begin(); it != SizesList.end(); ++it)
 	{
-		QSizeF CSize = *it;
-		CBSize->addItem(QString("%1x%2 mm").arg(CSize.width()).arg(CSize.height()), CSize);
+		QSizeF CSize = it->Size;
+		CBSize->addItem(it->SizeAlias, CSize);
 	}
 	if (!SizesList.isEmpty())
 	{
 		//Get info url from model and display it.
-		QUrl InfoUrl = Manager->infoUrl(Model->templateInfo(_Index, SizesList.first()));
+		QUrl InfoUrl = Manager->infoUrl(Model->templateInfo(_Index, SizesList.first().Size));
 		WebView->setHtml("");
 		setCurrentState(StateGettingInfo);
 		WebView->load(InfoUrl);

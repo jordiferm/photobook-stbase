@@ -349,19 +349,26 @@ void Document::autoBuild(STDom::DDocModel* _PhotoModel, QProgressBar* _Progress)
 	{
 		//Agafem un template qualsevol
 		TemplateScene* CurrTemplate;
-
         PageList PList = suitablePageList(NPages, PagToFill);
-        CurrTemplate = CCalculator.getCandidate(PList, PagToFill - NPages,
+		CurrTemplate = CCalculator.getCandidate(PList, PagToFill - NPages,
                                                 CCalculator.calcMargin(ITEM_AVERAGE_MARGIN, PagToFill - NPages));
-		setTemplateDataContext(BOptions, CurrTemplate);
-		TemplateScene* NewPage = createPage(CurrTemplate);
-		Pages.push_back(NewPage);
-		CCalculator.fillPage(NewPage, MetInfo.multiPhoto(), _Progress);
-		CCalculator.markAsUsed(CurrTemplate);
+		if (!CurrTemplate && !PList.isEmpty())
+		{
+			CurrTemplate = CCalculator.randomUnused(PList);
+			if (!CurrTemplate)
+				CurrTemplate = CCalculator.randomUsed(PList);
+		}
+		if (CurrTemplate) //Defensive
+		{
+			setTemplateDataContext(BOptions, CurrTemplate);
+			TemplateScene* NewPage = createPage(CurrTemplate);
+			Pages.push_back(NewPage);
+			CCalculator.fillPage(NewPage, MetInfo.multiPhoto(), _Progress);
+			CCalculator.markAsUsed(CurrTemplate);
+			emit newPageCreated();
+		}
 		NPages++;
-		emit newPageCreated();
 	}
-
     if (_Progress)
 		_Progress->setValue(CCalculator.totalPhotos());
 
@@ -633,8 +640,16 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 			}
 		}
 
+		//Save Thumbnail
+		if (Pages.size() > 0)
+		{
+			QImage ResImg = getPageThumbnail(0, QSize(150, 100));
+			Assert(ResImg.save(PBInfo.thumbnailFileName()), Error(QString(tr("Error saving photo book thumbnail at: %1")).arg(PBInfo.thumbnailFileName())));
+		}
+
 		Pages.saveXml(PBInfo.xmlFileName());
-		MetInfo.save(PBInfo.xmlMetaInfoFileName());
+		MetInfo.save(PBInfo.xmlMetaInfoFileName());//It saves Thumbnail image.
+
 		Layouts.saveXml(PBInfo.xmlLayoutsFileName());
 		Covers.saveXml(PBInfo.xmlCoversFileName());
         LastPageLayouts.saveXml(PBInfo.xmlLastPageLayoutFileName());
@@ -643,12 +658,6 @@ void Document::saveAs(const QDir& _RootPath, const QString& _Name, STProgressInd
 		//Resources manually added and loaded from design
 		//Resources.save(PBDir); //We only save used resources.
 
-		//Save Thumbnail
-		if (Pages.size() > 0)
-		{
-			QImage ResImg = getPageThumbnail(0, QSize(150, 100));
-			Assert(ResImg.save(PBInfo.thumbnailFileName()), Error(QString(tr("Error saving photo book thumbnail at: %1")).arg(PBInfo.thumbnailFileName())));
-		}
 	}
 }
 
@@ -1198,7 +1207,10 @@ QImage Document::getPageThumbnail(int _Index, const QSize& _MaxSize)
 
 		ResImg.fill(Qt::white);
 		QPainter Painter(&ResImg);
+		Scene->setEmptyFramesVisible(false);
+		Scene->prepareForPrint();
 		Scene->render(&Painter, ResImg.rect());
+		Scene->setEmptyFramesVisible(true);
 		Res = ResImg;
 	}
 	return Res;

@@ -18,6 +18,7 @@
 
 #include "designinfo.h"
 #include "collectioninfo.h"
+#include <QDebug>
 
 using namespace SPhotoBook;
 
@@ -29,11 +30,28 @@ DesignInfo::DesignInfo(const QString& _Name) : Name(_Name), PublicVersion(0), Is
 QString DesignInfo::imageFile() const
 {
 	QString Res;
-	if (ImageFile.isEmpty())
+	bool TheresDesignThumbnail = false;
+	if (!ImageFile.isEmpty())
+		TheresDesignThumbnail = QFile::exists(ImageFile);
+
+	if (!TheresDesignThumbnail)
 	{
 		CollectionInfo CInfo;
 		QFileInfo ThumbnailFile(CInfo.thumbnailFileName());
 		Res = ThumbnailFile.fileName();
 	}
+	else
+	{
+		QFileInfo ImageFileInfo(ImageFile);
+		Res = ImageFileInfo.fileName();
+	}
+
 	return Res;
 }
+
+void DesignInfo::setMetaInfo(const MetaInfo& _MInfo)
+{
+	MInfo = _MInfo;
+	setImageFile(MInfo.imagePath());
+}
+

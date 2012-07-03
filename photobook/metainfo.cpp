@@ -21,7 +21,10 @@
 #include <QFile>
 #include <QTextCodec>
 #include <QDir>
+#include <QDebug>
+
 #include "stimage.h"
+#include "collectioninfo.h"
 
 using namespace SPhotoBook;
 
@@ -49,6 +52,7 @@ QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 
 	Element.setAttribute("name", Name);
 	Element.setAttribute("designname", DesignName);
+	Element.setAttribute("sizealias", SizeAlias);
 	Element.setAttribute("description", Description);
 	Element.setAttribute("imagepath", ImagePath);
 	Element.setAttribute("sourceimagespath", SourceImagesPath);
@@ -92,6 +96,7 @@ QDomElement MetaInfo::createGlobalInfo(QDomDocument& _Doc) const
 void MetaInfo::loadGlobalInfo(const QDomElement& _Element)
 {
 	Name = _Element.attribute("name", "noname");
+	SizeAlias = _Element.attribute("sizealias", "");
 	DesignName = _Element.attribute("designname", "noname");
 	Description = _Element.attribute("description", "");
 	ImagePath = _Element.attribute("imagepath", "");
@@ -189,12 +194,34 @@ void MetaInfo::checkVersion(const QString& _XmlFilePath)
 	}
 }
 
+void MetaInfo::saveImageThumbnail(const QString& _FileName)
+{
+	if (QFile::exists(imagePath()) && imagePath() != _FileName)
+	{
+		QImage ImageFile;
+		if (ImageFile.load(imagePath()))
+		{
+			ImageFile = ImageFile.scaledToWidth(512);
+			ImageFile.save(_FileName);
+			setImagePath(_FileName);
+		}
+		else
+			qWarning() << "Error loading Image" << imagePath();
+	}
+}
+
+QString MetaInfo::thumbnailFileNameFromPath(const QDir& _BasePath)
+{
+	return (_BasePath.absoluteFilePath("designthumbnail.jpg"));
+}
+
 void MetaInfo::save(const QString& _XmlFilePath, bool _CheckVersion)
 {
 	if (_CheckVersion)
 		checkVersion(_XmlFilePath);
 
 	QFile TextFile(_XmlFilePath);
+	QFileInfo TextFileInfo(_XmlFilePath);
 
 	Assert(TextFile.open(QFile::WriteOnly | QFile::Truncate), STError(QObject::tr("Error saving file: %1").arg(_XmlFilePath)));
 	QTextStream Out(&TextFile);
@@ -205,8 +232,8 @@ void MetaInfo::save(const QString& _XmlFilePath, bool _CheckVersion)
 	QDomElement Root = Doc.createElement("info");
 	Doc.appendChild(Root);
 	Root.setAttribute("version", "1.0.0");
+	saveImageThumbnail(thumbnailFileNameFromPath(TextFileInfo.dir()));
 	Root.appendChild(createGlobalInfo(Doc));
-
 	Out << Doc.toString();
 }
 
@@ -214,6 +241,7 @@ void MetaInfo::load(const QString& _XmlFilePath)
 {
 	QDomDocument Doc;
 	QFile File(_XmlFilePath);
+	QFileInfo XmlFileInfo(_XmlFilePath);
 	Assert(File.open(QIODevice::ReadOnly), STError(QObject::tr("Error loading file: %1").arg(_XmlFilePath)));
 	QTextStream StrIn(&File);
 	StrIn.setCodec(QTextCodec::codecForName("UTF-8"));
@@ -236,6 +264,9 @@ void MetaInfo::load(const QString& _XmlFilePath)
 		}
 		CNode = CNode.nextSibling();
 	}
+	if (!QFile::exists(imagePath()))
+		setImagePath(SPhotoBook::CollectionInfo::thumbnailFileNameFromPath(XmlFileInfo.dir()));
+
 }
 
 QUrl MetaInfo::infoUrl() const

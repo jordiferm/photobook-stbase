@@ -85,16 +85,16 @@ void TemplateInfoModel::setTemplateList(const TemplateInfoList& _List)
 	reset();
 }
 
-QList<QSizeF> TemplateInfoModel::sizes(const QModelIndex& _Index) const
+QList<TemplateSizeInfo> TemplateInfoModel::sizes(const QModelIndex& _Index) const
 {
-	QList<QSizeF> Res;
+	QList<TemplateSizeInfo> Res;
 	if (_Index.isValid() && _Index.row() >= 0 && _Index.row() < rowCount())
 	{
 		TemplateInfoList TList = TemplateList.sizes(data(_Index).toString());
 		TemplateInfoList::const_iterator it;
 		for (it = TList.begin(); it != TList.end(); ++it)
 		{
-			Res.push_back(it->size());
+			Res.push_back(TemplateSizeInfo(it->size(), it->getSizeAlias()));
 		}
 	}
 /*	QModelIndexList Res;

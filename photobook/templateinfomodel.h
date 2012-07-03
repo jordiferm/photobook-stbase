@@ -30,6 +30,16 @@
 
 namespace SPhotoBook
 {
+
+class ST_PHOTOBOOK_EXPORT TemplateSizeInfo
+{
+public:
+	QSizeF Size;
+	QString SizeAlias;
+	TemplateSizeInfo(QSizeF _Size, QString _SizeAlias) : Size(_Size), SizeAlias(_SizeAlias) {}
+};
+
+
 class ST_PHOTOBOOK_EXPORT TemplateInfoModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -43,7 +53,7 @@ public:
 	QVariant data(const QModelIndex& _Index, int _Role = Qt::DisplayRole) const;
 	TemplateInfo templateInfo(const QModelIndex& _Index, const QSizeF& _Sizes) const;
 	void setTemplateList(const TemplateInfoList& _List);
-	QList<QSizeF> sizes(const QModelIndex& _Index) const;
+	QList<TemplateSizeInfo> sizes(const QModelIndex& _Index) const;
 
 signals:
 

@@ -108,6 +108,9 @@ QWidget* MetaInfoWidget::createGeneralWidget()
 	SBHeight->setRange(0, 9999);
 	RightFormLayout->addRow(tr("Height"), SBHeight);
 
+	TESizeAlias = new QLineEdit(this);
+	RightFormLayout->addRow(tr("Size Alias"), TESizeAlias);
+
 	SBVersion = new QSpinBox(this);
 	RightFormLayout->addRow(tr("Version"), SBVersion);
 
@@ -318,6 +321,7 @@ void MetaInfoWidget::setMetaInfo(const MetaInfo& _MetaInfo)
 
 	SBWidth->setValue(_MetaInfo.size().width());
 	SBHeight->setValue(_MetaInfo.size().height());
+	TESizeAlias->setText(_MetaInfo.sizeAlias());
 	SBVersion->setValue(_MetaInfo.version());
 	CBCyphered->setChecked(_MetaInfo.cyphered());
 
@@ -378,6 +382,7 @@ MetaInfo MetaInfoWidget::metaInfo() const
 	Res.setDescription(TEDescription->toHtml());
 	Res.setTemplateType(static_cast<MetaInfo::EnTemplateType>(CBType->itemData(CBType->currentIndex()).toInt()));
 	Res.setSize(QSizeF(SBWidth->value(), SBHeight->value()));
+	Res.setSizeAlias(TESizeAlias->text());
 	Res.setVersion(SBVersion->value());
 	Res.setCyphered(CBCyphered->isChecked());
 

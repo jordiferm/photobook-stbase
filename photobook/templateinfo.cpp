@@ -72,6 +72,22 @@ QString TemplateInfo::thumbnailFileName(const DesignInfo& _Design) const
 	return CollectionInfo::thumbnailFileNameFromPath(absolutePath(_Design));
 }
 
+QString TemplateInfo::getSizeAlias() const
+{
+	QString Res = "";
+	DesignInfoList::const_iterator it = Designs.begin();
+	bool Found = false;
+	while (it != Designs.end() && !Found)
+	{
+		Res = it->metaInfo().sizeAlias();
+		Found = !Res.isEmpty();
+		++it;
+	}
+	if (!Found)
+		Res = QString("%1x%2 mm").arg(Size.width()).arg(Size.height());
+	return Res;
+}
+
 DesignInfoList TemplateInfo::designs() const
 {
 	return Designs;
