@@ -29,6 +29,7 @@
 #include "starlabtable.h"
 #include "sprocessstatuswidget.h"
 #include "publictemplatesdatabase.h"
+#include "stftpordertransfer.h"
 
 RemotePublisherManager::RemotePublisherManager(StarlabAbstractManager* _Manager, const QString& _PublisherDatabaseFilePath) :
 	Manager(_Manager), PublisherDatabaseFilePath(_PublisherDatabaseFilePath)
@@ -87,18 +88,18 @@ void RemotePublisherManager::downloadTemplateMetaInfo(const SPhotoBook::Template
 			{
 				//qDebug() << "Metainfo file: " << MetaInfoFile.absoluteFilePath() << " Does not exist";
 				// - If template metainfo isn't on disk download it.
-				int retries = 0;
-				bool success = false;
-				STFtpOrderTransfer::Error LastError;
-				while (retries < 4 && !success)
+				int Retries = 0;
+				bool Success = false;
+				STDom::STFtpOrderTransfer::Error LastError("Unknown error");
+				while (Retries < 4 && !Success)
 				try
 				{
 					SPhotoBook::SystemTemplates::downloadTemplateDesignMetaInfo(_Publisher, CTemplate, CDesign);
-					success = true;
+					Success = true;
 				}
-				catch (STFtpOrderTransfer::Error& _Error)
+				catch (STDom::STFtpOrderTransfer::Error& _Error)
 				{
-					retries++;
+					Retries++;
 					LastError = _Error;
 				}
 				if (!Success)
