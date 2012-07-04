@@ -180,6 +180,8 @@ void SystemTemplates::downloadTemplateDesignMetaInfo(const STDom::Publisher& _Pu
 		FtpTrans->getFile(MetaDataFile.fileName(), TemplateDir, MetaDataFile.absoluteFilePath(), _Publisher.ftpUrl(),
 						  _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
 						  static_cast<QFtp::TransferMode>(_Publisher.transferMode()));
+		delete FtpTrans;//Sino se queda pillat !.
+		FtpTrans = new STDom::STFtpOrderTransfer;
 		FtpTrans->getFile(MetaThumbnailFile.fileName(), TemplateDir, MetaThumbnailFile.absoluteFilePath(), _Publisher.ftpUrl(),
 						  _Publisher.ftpPort(), _Publisher.userName(), _Publisher.password(),
 						  static_cast<QFtp::TransferMode>(_Publisher.transferMode()));
@@ -190,6 +192,7 @@ void SystemTemplates::downloadTemplateDesignMetaInfo(const STDom::Publisher& _Pu
 		delete FtpTrans;
 		throw;
 	}
+
 }
 
 void SystemTemplates::downloadTemplateDesign(const STDom::Publisher& _Publisher, const TemplateInfo& _TemplateInfo,
