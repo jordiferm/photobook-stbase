@@ -331,7 +331,6 @@ void XmlOrder::loadPrints(QDomElement& _HElement)
 {
 	QDomNode CNode = _HElement.firstChild();
 
-	Prints.clear();
 	while(!CNode.isNull())
 	{
 		QDomElement CEl = CNode.toElement(); // try to convert the node to an element.
@@ -394,6 +393,7 @@ bool XmlOrder::loadXml(const QString& _FileName)
 	QDomDocument Doc("kpsxmlorder");
 	QFile File(_FileName);
 	CurrentXmlDir = QFileInfo(_FileName).dir();
+    Prints.clear();
 	if (File.open(QIODevice::ReadOnly))
 	{
 		QTextStream StrIn(&File);
