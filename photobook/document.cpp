@@ -750,6 +750,7 @@ QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSett
 	}
 	QStringList PageFiles;
 	QString Format;
+    int CurrentPageNumber = 0;
 	for (int Vfor = 0; Vfor < pages().size(); Vfor++)
 	{
 		try
@@ -779,15 +780,20 @@ QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSett
 				int CntPage = 0;
 				for (it = PageImages.begin(); it != PageImages.end(); ++it)
 				{
-					int	HalfPageOrder = PageOrder;
-					if (CntPage > 0)
-						HalfPageOrder = Vfor;
+                    int CurrentPageOrder = CurrentPageNumber;
+                    if (PrintFirstAtLast || Booklet) //TODO: Revisar-ho
+                    {
+                        int	HalfPageOrder = PageOrder;
+                        if (CntPage > 0)
+                            HalfPageOrder = Vfor;
+                            CurrentPageOrder = ((HalfPageOrder) * PageImages.size()) + CntPage++;
+                    }
 
-					QString CurrImageFileName = _ExportDir + "/" + QString(PageName + "_%1").arg(
-						QString::number(((HalfPageOrder) * PageImages.size()) + CntPage++), 4, '0') + "." + Format;
-					StackAssert(it->save(CurrImageFileName), Error(tr("There was problems storing the following files: %1").arg(CurrImageFileName)), _ErrorStack);
+                    QString CurrImageFileName = _ExportDir + "/" + QString(PageName + "_%1").arg(QString::number(CurrentPageOrder), 4, '0') + "." + Format;
+                    StackAssert(it->save(CurrImageFileName), Error(tr("There was problems storing the following files: %1").arg(CurrImageFileName)), _ErrorStack);
 					PageFiles.push_back(CurrImageFileName);
 					Res.push_back(QFileInfo(CurrImageFileName));
+                    CurrentPageNumber++;
 				}
 			}
 			else
@@ -795,7 +801,9 @@ QFileInfoList Document::exportImages(const QString& _ExportDir, const RenderSett
 				QString CurrImageFileName = _ExportDir + "/" + QString("page_%1.pdf").arg(QString::number(PageOrder), 4, '0');
 				renderPageToPdf(Vfor, 0, CurrImageFileName);
 				Res.push_back(QFileInfo(CurrImageFileName));
+                CurrentPageNumber++;
 			}
+
 		}
 		catch (STError& _Error)
 		{
