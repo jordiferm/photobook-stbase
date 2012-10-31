@@ -25,6 +25,7 @@
 #include <QTextCursor>
 #include <QGraphicsSceneMouseEvent>
 #include "stutils.h"
+#include "graphicsitemmodifier.h"
 
 using namespace SPhotoBook;
 
@@ -234,6 +235,7 @@ void GraphicsMonthItem::loadElement(const QDomElement& _Element, const QString& 
 	}
 
 	setTransform(AbstractGraphicsItem::loadTransformElement(_Element));
+    modifier()->updateInitTransform();
 	AbstractGraphicsItem::loadEffectElements(this,  _Element);
 	AbstractGraphicsItem::updateToolTip();
 }

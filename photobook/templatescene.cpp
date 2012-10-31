@@ -496,8 +496,9 @@ void TemplateScene::prepareForPrint()
 	QList<QGraphicsItem *> AllItems = items();
 	for (it = AllItems.begin(); it != AllItems.end(); ++it)
 	{
-		(*it)->setSelected(false);
-
+        if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(*it))
+            CItem->prepareForPrint();
+        (*it)->setSelected(false);
 	}	
 }
 

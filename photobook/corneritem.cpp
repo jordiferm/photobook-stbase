@@ -49,7 +49,7 @@ void CornerItem::relayout(const QRect & rect)
 	if (ItemMappedRect.width() < 30 || ItemMappedRect.height() < 30)
 		BaseRect = QRect(0, 0, 4, 4); //Small corners.
 	else
-		BaseRect = QRect(0, 0, 6, 6);
+        BaseRect = QRect(0, 0, 6, 6);
 	int side =  InvTrans.mapRect(BaseRect).width();//* m_modifier->item()->scale();//1 + (int)sqrt((float)qMin(rect.width(), rect.height()));
     if (side != m_side) {
         prepareGeometryChange();
@@ -88,7 +88,7 @@ void CornerItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
 
     // do the right op
     switch (event->button()) {
-		case Qt::LeftButton:    m_operation = Rotate | Scale | Move; break;
+        case Qt::LeftButton:    m_operation = Rotate | Scale | FixScale | Move | SetWidth; break;
         case Qt::RightButton:   m_operation = Scale | FixScale; break;
         case Qt::MidButton:     m_operation = Scale; break;
         default:                m_operation = Off; return;
@@ -122,7 +122,7 @@ void CornerItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     op &= m_opMask;
     if ((op & (Rotate | Scale)) == (Rotate | Scale))
         op |= FixScale;
-	if ((op & (Rotate | Scale | Move)) == Off)
+    if ((op & (Rotate | Scale | Move | SetWidth)) == Off)
         return;
 
     // vector relative to the centre
@@ -151,9 +151,14 @@ void CornerItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 	if (m_corner == Qt::BottomRightCorner && (op & Scale))
 	{
 		// do scaling
-			m_modifier->setRectBottomRight(event->pos(), this);
+        m_modifier->setRectBottomRight(event->pos(), this, (op & FixScale) == FixScale );
 	}
 	else 
+    if (m_corner == Qt::TopRightCorner && (op & SetWidth))
+    {
+        m_modifier->setItemWidth(event->pos(), this);
+    }
+    else
 	if (op & Move )
 	{
 		// do moving
@@ -211,10 +216,11 @@ void CornerItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * opti
             color.setAlpha(196);
     } else
         color.setAlpha(128);
-    painter->fillRect(boundingRect(), color);
+    QRectF BoundRect = boundingRect();
+    painter->fillRect(BoundRect, color);
 	if (!PixmapName.isEmpty())
 	{
 		QPixmap Pix(PixmapName);
-		painter->drawPixmap(boundingRect(), Pix, Pix.rect() );
+        painter->drawPixmap(BoundRect, Pix, Pix.rect() );
 	}
 }

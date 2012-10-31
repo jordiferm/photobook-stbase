@@ -47,7 +47,8 @@ public:
 		Scale       = 0x0010,
 		FixScale    = 0x0020,
 		Move		= 0x0040,
-		AllowAll    = 0xFFFF,
+        SetWidth	= 0x0080,
+        AllowAll    = 0xFFFF
 	};
 
 private:
