@@ -774,6 +774,7 @@ void GraphicsPhotoItem::loadElement(const QDomElement& _Element, const QString& 
 		ImageResource = Resource();
 
 	setTransform(AbstractGraphicsItem::loadTransformElement(_Element));
+    modifier()->updateInitTransform();
 	setPos(_Element.attribute("x", "0").toDouble(), _Element.attribute("y", "0").toDouble());
 	CurrScale = _Element.attribute("scale", "1.0").toDouble();
 	Opacity = _Element.attribute("opacity", "1.0").toDouble();

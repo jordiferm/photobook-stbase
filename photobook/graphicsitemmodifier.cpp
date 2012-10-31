@@ -37,40 +37,47 @@ using namespace SPhotoBook;
 void GraphicsItemModifier::applyTransformations()
 {
 
-	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
+    QTransform Transform = InitTransform;
+    if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
 	{
-		QTransform TransForm; 
-		TransForm = TransForm.translate(CItem->rect().topLeft().x(), CItem->rect().topLeft().y());
-		TransForm = TransForm.rotate(m_yRotationAngle, Qt::XAxis).rotate(m_xRotationAngle, Qt::YAxis).rotate(m_zRotationAngle);
-		TransForm = TransForm.translate(-CItem->rect().topLeft().x(), -CItem->rect().topLeft().y());
-		Item->setTransform(TransForm); 
-		/*QRectF OrigRect = CItem->rect();
-		QRectF NRect = OrigRect; 
-		NRect.moveTopLeft(QPointF(0, 0));
-		CItem->setRect(NRect);
-		CItem->rotate(m_zRotationAngle);
-		QMatrix Mat; 
-		Mat.rotate(-m_zRotationAngle);
-		QPointF NewCenter = Mat.map(OrigRect.topLeft());
-		NRect.moveTopLeft(NewCenter);
-		CItem->setRect(NRect);
-		layoutChildren();*/
-	}
+        Transform = Transform.translate(CItem->rect().topLeft().x(), CItem->rect().topLeft().y());
+        Transform = Transform.rotate(m_yRotationAngle, Qt::XAxis).rotate(m_xRotationAngle, Qt::YAxis).rotate(m_zRotationAngle);
+        Transform = Transform.translate(-CItem->rect().topLeft().x(), -CItem->rect().topLeft().y());
+        Item->setTransform(Transform);
+        /*QRectF OrigRect = CItem->rect();
+        QRectF NRect = OrigRect;
+        NRect.moveTopLeft(QPointF(0, 0));
+        CItem->setRect(NRect);
+        CItem->rotate(m_zRotationAngle);
+        QMatrix Mat;
+        Mat.rotate(-m_zRotationAngle);
+        QPointF NewCenter = Mat.map(OrigRect.topLeft());
+        NRect.moveTopLeft(NewCenter);
+        CItem->setRect(NRect);
+        layoutChildren();*/
+    }
 	else 
 	{
-		Item->setTransform(QTransform().rotate(m_yRotationAngle, Qt::XAxis).rotate(m_xRotationAngle, Qt::YAxis).rotate(m_zRotationAngle).scale(CScaleX, CScaleY));
-	}
+        Item->setTransform(Transform.rotate(m_yRotationAngle, Qt::XAxis).rotate(m_xRotationAngle, Qt::YAxis).rotate(m_zRotationAngle).scale(CScaleX, CScaleY));
+    }
 }
 
 GraphicsItemModifier::GraphicsItemModifier(QGraphicsItem* _Item) : Item(_Item)
-	, m_xRotationAngle(0)
+    , m_xRotationAngle(0)
 	, m_yRotationAngle(0)
 	, m_zRotationAngle(0)
 	, CScaleX(1)
-	, CScaleY(1)
+    , CScaleY(1)
 
 {
-	m_contentsRect = Item->boundingRect().toRect(); 
+    InitTransform = _Item->transform();
+    m_contentsRect = Item->boundingRect().toRect();
+    updateInitTransform();
+}
+
+void GraphicsItemModifier::updateInitTransform()
+{
+    InitTransform = Item->transform();
 }
 
 QRect GraphicsItemModifier::contentsRect() const
@@ -103,9 +110,9 @@ void GraphicsItemModifier::resetContentsRatio()
 
 void GraphicsItemModifier::scale(double _Sx, double _Sy)
 {
-	CScaleX = _Sx;
+    CScaleX = _Sx;
 	CScaleY = _Sy;
-	applyTransformations();
+    applyTransformations();
 	modified();
 }
 
@@ -169,14 +176,14 @@ void GraphicsItemModifier::setPos(const QPointF& _Pos, QGraphicsItem* _Sender)
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
 	{
-		QPointF Pos = _Sender->mapToScene(_Pos);
-		Pos.setX(Pos.x() - CItem->pos().x());
+        QPointF Pos = _Sender->mapToScene(_Pos);
+        Pos.setX(Pos.x() - CItem->pos().x());
 		Pos.setY(Pos.y() - CItem->pos().y());
-		QTransform TransForm;
-		TransForm = TransForm.rotate(-m_yRotationAngle, Qt::XAxis).rotate(-m_xRotationAngle, Qt::YAxis).rotate(-m_zRotationAngle);
 
-		Pos = TransForm.map(Pos);
-		QRectF CurrRect = CItem->rect();
+        QTransform Inverted = Item->transform().inverted();
+        Pos = Inverted.map(Pos);
+
+        QRectF CurrRect = CItem->rect();
 		Pos.setX(CItem->snapToGridValue(Pos.x()));
 		Pos.setY(CItem->snapToGridValue(Pos.y()));
 
@@ -197,49 +204,45 @@ void GraphicsItemModifier::setPos(const QPointF& _Pos, QGraphicsItem* _Sender)
 	updateToolTip();
 }
 
+void GraphicsItemModifier::setItemWidth(const QPointF& _Pos, QGraphicsItem* _Sender)
+{
+    if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(Item))
+    {
+        QPointF Pos = _Sender->mapToScene(_Pos);
+        QTransform Inverted = Item->transform().inverted();
+        Pos = Inverted.map(Pos);
+        QPointF ItemPos = Inverted.map(Item->pos());
+        qreal Diag = QLineF(Pos, ItemPos).length();
+        qreal NewWidth = Diag;
+#if QT_VERSION >= 0x040600
+        CItem->setTextWidth(NewWidth * 1 / CItem->scale());
+#else
+        CItem->setTextWidth(NewWidth * 1 / CScaleX);
+#endif
+        layoutChildren();
+    }
+}
 
-void GraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsItem* _Sender)
+void GraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsItem* _Sender, bool _FixScale)
 {
 	if (GraphicsPhotoItem* CItem = qgraphicsitem_cast<GraphicsPhotoItem*>(Item))
 	{
 		QPointF Pos = _Sender->mapToScene(_Pos); 
 		Pos.setX(Pos.x() - CItem->pos().x()); 
 		Pos.setY(Pos.y() - CItem->pos().y());
-		QTransform TransForm; 
-		TransForm = TransForm.rotate(-m_yRotationAngle, Qt::XAxis).rotate(-m_xRotationAngle, Qt::YAxis).rotate(-m_zRotationAngle);
 
-		Pos = TransForm.map(Pos); 
+        QTransform Inverted = Item->transform().inverted();
+        Pos = Inverted.map(Pos);
 		Pos = snapToBoundsBottomRight(Pos, CItem);
 		//qDebug("CurrRect: %f, %f, %f, %f", CItem->rect().x(), CItem->rect().y(), CItem->rect().width(), CItem->rect().height()); 
 		//qDebug("Event Pos: %f, %f", Pos.x(), Pos.y()); 
+
 		QRectF CurrRect = CItem->rect();
 		CurrRect.setRight(CItem->snapToGridValue(Pos.x()));
 		CurrRect.setBottom(CItem->snapToGridValue(Pos.y()));
 		if (CurrRect != CItem->rect())
 		{
 			CItem->setRect(CurrRect);
-			layoutChildren();
-		}
-	}
-	else
-	if (GraphicsTextItem* CItem = qgraphicsitem_cast<GraphicsTextItem*>(Item))
-	{
-		QPointF Pos = _Sender->mapToScene(_Pos);
-
-
-		qreal Height  = Item->boundingRect().height();
-		qreal Diag = QLineF(Pos, Item->pos()).length();
-		if (Diag > Height)
-		{
-			qreal NewWidth = sqrt((Diag * Diag) - (Height * Height));
-			//int NewTextWidth =  Pos.y() - Item->pos().y();
-			//CItem->document()->setTextWidth(NewWidth);
-			//qDebug() << "Item Scale: " << CItem->scale();
-#if QT_VERSION >= 0x040600
-			CItem->setTextWidth(NewWidth * 1 / CItem->scale());
-#else
-			CItem->setTextWidth(NewWidth * 1 / CScaleX);
-#endif
 			layoutChildren();
 		}
 	}
@@ -254,9 +257,18 @@ void GraphicsItemModifier::setRectBottomRight(const QPointF& _Pos, QGraphicsItem
 		
 		qreal Sx = CurrRect.width() / LastRect.width();
 		qreal Sy = CurrRect.height() / LastRect.height();
-		CScaleX = Sx * CScaleX;
-		CScaleY = Sy * CScaleY;
-		applyTransformations();
+        if (_FixScale)
+        {
+            double FixedScale = qMin(Sx , Sy);
+            CScaleX *= FixedScale;
+            CScaleY *= FixedScale;
+        }
+        else
+        {
+            CScaleX = Sx * CScaleX;
+            CScaleY = Sy * CScaleY;
+        }
+        applyTransformations();
 	}
 
 	updateToolTip(); 
@@ -310,9 +322,9 @@ void GraphicsItemModifier::layoutChildren()
 
 void GraphicsItemModifier::rotate(double _Angle)
 {
-	m_zRotationAngle = _Angle; 
-	applyTransformations(); 
-	modified();
+    m_zRotationAngle = _Angle;
+    applyTransformations();
+    modified();
 }
 
 void GraphicsItemModifier::setRotation(double angle, Qt::Axis axis)
@@ -323,7 +335,7 @@ void GraphicsItemModifier::setRotation(double angle, Qt::Axis axis)
         case Qt::ZAxis: if (m_zRotationAngle == angle) return; m_zRotationAngle = angle; break;
     }
     applyTransformations();
-	modified();
+    modified();
 }
 
 double GraphicsItemModifier::rotation(Qt::Axis axis) const

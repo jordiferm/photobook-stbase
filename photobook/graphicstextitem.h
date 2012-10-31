@@ -42,7 +42,8 @@ public:
 	
 private:
 	void init();
-	
+    void createCustomCorners();
+
 public:
 	GraphicsTextItem(QGraphicsItem * parent = 0);
 //	void setText(const QString& _Text);
@@ -52,6 +53,7 @@ public:
 	void mergeCharFormat(const QTextCharFormat& _Format);
 	QTextCharFormat charFormat() const;
 	void loadElement(const QDomElement& _Element, const QString& _LoadDir = "");
+    void prepareForPrint();
 	QDomElement createElement(QDomDocument& _Doc, const QString& _StoreDir = "") const;
 	static QString tagName() { return "textitem"; }	
 	Qt::Alignment alignment() const;

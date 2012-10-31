@@ -56,7 +56,7 @@ void AbstractGraphicsItem::createStandardCorners()
 	CornerItem* Corner = new CornerItem(Qt::BottomLeftCorner, CornerItem::Rotate , Modifier);
 	Corner->setPixmapName(":/photobook/object-rotate-right.png");
 
-	Corner = new CornerItem(Qt::BottomRightCorner, CornerItem::Scale, Modifier);
+    Corner = new CornerItem(Qt::BottomRightCorner, CornerItem::Scale | CornerItem::FixScale, Modifier);
 	Corner->setPixmapName(":/photobook/transform-scale.png");
 
 	Corner = new CornerItem(Qt::TopLeftCorner, CornerItem::Move, Modifier);

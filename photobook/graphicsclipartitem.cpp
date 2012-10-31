@@ -64,6 +64,7 @@ void GraphicsClipartItem::loadElement(const QDomElement& _Element, const QString
 	setClipartResource(Resource::resourceFromXmlSrc(_Element.attribute("src", ""), _LoadDir));
 	//renderer()->load(ImageSourcePath + "/" + _Element.attribute("src", ""));
 	setTransform(AbstractGraphicsItem::loadTransformElement(_Element));
+    modifier()->updateInitTransform();
 	AbstractGraphicsItem::loadEffectElements(this,  _Element);
 	AbstractGraphicsItem::updateToolTip();
 }

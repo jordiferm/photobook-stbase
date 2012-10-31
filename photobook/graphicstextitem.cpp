@@ -32,6 +32,7 @@
 
 #include "graphicsitemmodifier.h"
 #include "templatedatacontext.h"
+#include "corneritem.h"
 
 using namespace SPhotoBook;
 
@@ -45,12 +46,22 @@ void GraphicsTextItem::init()
 	//QGraphicsItem::setFlag(QGraphicsItem::ItemIsFocusable, false);
 }
 
+void GraphicsTextItem::createCustomCorners()
+{
+    CornerItem* Corner = new CornerItem(Qt::TopRightCorner, CornerItem::SetWidth, Modifier);
+    Corner->setPixmapName(":/photobook/transform-move.png");
+
+    Modifier->layoutChildren();
+}
+
+
 GraphicsTextItem::GraphicsTextItem(QGraphicsItem* _Parent)
  : QGraphicsTextItem(_Parent), AbstractGraphicsItem(this)
 {
 	init();
 	AbstractGraphicsItem::updateToolTip();
 	createStandardCorners();
+    createCustomCorners();
 	setControlsVisible(false);
 	if (document())
 		connect(document()->documentLayout(), SIGNAL(documentSizeChanged(QSizeF)), this, SLOT(slotDocumentLayoutChanged()));
@@ -93,6 +104,16 @@ QTextCharFormat GraphicsTextItem::charFormat() const
 }
 
 
+void GraphicsTextItem::prepareForPrint()
+{
+    if (textCursor().hasSelection())
+    {
+        QTextCursor TextCursor = textCursor();
+        TextCursor.clearSelection();
+        setTextCursor(TextCursor);
+    }
+}
+
 void GraphicsTextItem::loadElement(const QDomElement& _Element, const QString& _LoadDir)
 {
 	setPos(_Element.attribute("x", "0").toDouble(), 
@@ -112,6 +133,7 @@ void GraphicsTextItem::loadElement(const QDomElement& _Element, const QString& _
 	}
 
 	setTransform(AbstractGraphicsItem::loadTransformElement(_Element));
+    modifier()->updateInitTransform();
 	AbstractGraphicsItem::loadEffectElements(this,  _Element);
 	AbstractGraphicsItem::updateToolTip();
 }
