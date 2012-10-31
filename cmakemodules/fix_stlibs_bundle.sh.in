@@ -3,7 +3,7 @@
 BIN_DIR="${CMAKE_PROJECT_NAME}.app/Contents/MacOS"
 
 ABS_BIN_DIR="`pwd`/$BIN_DIR"
-LOCAL_LIB_DIR="/usr/local/lib"
+LOCAL_LIB_DIR="/opt/local/lib"
 BASE_DIR="`pwd`"
 DEP_LIB_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../installer/macosx/bundlelibs"
 TOMDIR="`pwd`/tombin.app/Contents/MacOS"
@@ -18,18 +18,19 @@ cp $TOMDIR/tombin $ABS_BIN_DIR
 
 STLIBS_AND_TOM=`ls ./$BIN_DIR/libst*.?.?.?.dylib`
 STLIBS_AND_TOM="$STLIBS_AND_TOM ./$BIN_DIR/tombin"
-
+QTLIB_DIR=${QT_QTCORE_INCLUDE_DIR}/../../
 for i in $STLIBS_AND_TOM
 do
 	echo Fixing $i ... 
-	install_name_tool -change QtXml.framework/Versions/4/QtXml @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml $i
-	install_name_tool -change QtCore.framework/Versions/4/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore $i
-	install_name_tool -change QtGui.framework/Versions/4/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui $i
-	install_name_tool -change QtSql.framework/Versions/4/QtSql @executable_path/../Frameworks/QtSql.framework/Versions/4/QtSql $i
-	install_name_tool -change QtSvg.framework/Versions/4/QtSvg @executable_path/../Frameworks/QtSvg.framework/Versions/4/QtSvg $i
-	install_name_tool -change QtNetwork.framework/Versions/4/QtNetwork @executable_path/../Frameworks/QtNetwork.framework/Versions/4/QtNetwork $i
-	install_name_tool -change QtWebKit.framework/Versions/4/QtWebKit @executable_path/../Frameworks/QtWebKit.framework/Versions/4/QtWebKit $i
-	install_name_tool -change Qt3Support.framework/Versions/4/Qt3Support @executable_path/../Frameworks/Qt3Support.framework/Versions/4/Qt3Support $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/QtXml.framework/Versions/4/QtXml @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/QtCore.framework/Versions/4/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/QtGui.framework/Versions/4/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/QtSql.framework/Versions/4/QtSql @executable_path/../Frameworks/QtSql.framework/Versions/4/QtSql $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/QtSvg.framework/Versions/4/QtSvg @executable_path/../Frameworks/QtSvg.framework/Versions/4/QtSvg $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/QtNetwork.framework/Versions/4/QtNetwork @executable_path/../Frameworks/QtNetwork.framework/Versions/4/QtNetwork $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/QtWebKit.framework/Versions/4/QtWebKit @executable_path/../Frameworks/QtWebKit.framework/Versions/4/QtWebKit $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/Qt3Support.framework/Versions/4/Qt3Support @executable_path/../Frameworks/Qt3Support.framework/Versions/4/Qt3Support $i
+        install_name_tool -change /Users/jfernandez/QtSDK/Desktop/Qt/4.8.1/gcc/lib/QtXmlPatterns.framework/Versions/4/QtXmlPatterns @executable_path/../Frameworks/QtXmlPatterns.framework/Versions/4/QtXmlPatterns $i
 
 done 
 
@@ -47,7 +48,7 @@ do
 done
 
 
-for j in `ls -1 /usr/local/lib | grep dylib`
+for j in `ls -1 /opt/local/lib | grep dylib`
 do
 	for i in `ls libst*.*.dylib`
 	do
