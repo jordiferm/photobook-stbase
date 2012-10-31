@@ -24,6 +24,7 @@
 #include <QRect>
 #include <QTransform>
 #include "ichangescontrol.h"
+#include "stphotobookexport.h"
 
 /**
 	@author
@@ -35,7 +36,7 @@ class QGraphicsSceneMouseEvent;
 namespace SPhotoBook
 {
 class GraphicsPhotoItem;
-class GraphicsItemModifier : public IChangesControl
+class ST_PHOTOBOOK_EXPORT GraphicsItemModifier : public IChangesControl
 {
     QGraphicsItem* Item;
     double              m_xRotationAngle;
