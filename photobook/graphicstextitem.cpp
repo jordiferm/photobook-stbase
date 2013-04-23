@@ -38,12 +38,12 @@ using namespace SPhotoBook;
 
 void GraphicsTextItem::init()
 {
-	QGraphicsItem::setFlag(QGraphicsItem::ItemIsSelectable);
+    QGraphicsItem::setFlag(QGraphicsItem::ItemIsSelectable);
 
-	//setTextInteractionFlags(Qt::NoTextInteraction);
-	setTextInteractionFlags(Qt::TextEditorInteraction);
-  	QGraphicsItem::setFlag(QGraphicsItem::ItemIsMovable, true);
-	//QGraphicsItem::setFlag(QGraphicsItem::ItemIsFocusable, false);
+    //setTextInteractionFlags(Qt::NoTextInteraction);
+    setTextInteractionFlags(Qt::TextEditorInteraction);
+    QGraphicsItem::setFlag(QGraphicsItem::ItemIsMovable, true);
+    //QGraphicsItem::setFlag(QGraphicsItem::ItemIsFocusable, false);
 }
 
 void GraphicsTextItem::createCustomCorners()
@@ -119,7 +119,7 @@ void GraphicsTextItem::loadElement(const QDomElement& _Element, const QString& _
 	setPos(_Element.attribute("x", "0").toDouble(), 
 			_Element.attribute("y", "0").toDouble());
 	setHtml(_Element.text());
-	setTextWidth(_Element.attribute("textwidth", "-1").toDouble());
+    setTextWidth(_Element.attribute("textwidth", "-1").toDouble());
 
 	//--- Char Format
 	QString OutlineCol = _Element.attribute("outlinecolor", "");
@@ -135,7 +135,7 @@ void GraphicsTextItem::loadElement(const QDomElement& _Element, const QString& _
 	setTransform(AbstractGraphicsItem::loadTransformElement(_Element));
     modifier()->updateInitTransform();
 	AbstractGraphicsItem::loadEffectElements(this,  _Element);
-	AbstractGraphicsItem::updateToolTip();
+    AbstractGraphicsItem::updateToolTip();
 }
 
 QDomElement GraphicsTextItem::createElement(QDomDocument& _Doc, const QString& _StoreDir) const

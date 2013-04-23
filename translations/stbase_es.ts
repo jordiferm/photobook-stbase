@@ -3979,7 +3979,7 @@ Num</source>
     </message>
     <message>
         <source>Storing images...</source>
-        <translation>Almazenando imágenes...</translation>
+        <translation>Almacenando imágenes...</translation>
     </message>
     <message>
         <source>Storage folder</source>
@@ -4052,6 +4052,10 @@ Num</source>
     <message>
         <source> Tel:</source>
         <translation>Tel:</translation>
+    </message>
+    <message>
+        <source>Please fill the form bellow and we will contact you to finish your order.</source>
+        <translation>Por favor rellene el formulario y nos pondremos en contacto contigo para confirmar el pedido.</translation>
     </message>
 </context>
 <context>
@@ -6123,6 +6127,10 @@ El nodo raiz no és un &apos;reportaje&apos;.</translation>
     <message>
         <source>Page Spine Margins</source>
         <translation>Margenes del centro de la página</translation>
+    </message>
+    <message>
+        <source>Size Alias</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

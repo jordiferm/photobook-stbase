@@ -704,8 +704,12 @@ OPWConfirmOrder::OPWConfirmOrder(const STDom::PublisherInfo& _PublisherInfo, OPW
 {
 	setTitle(tr("<h1>Please confirm your order</h1>"));
 	//TODO Fetch and show html from a remote URL stored in database.
-	setSubTitle(tr("Below you can see your order bill. Please check it and if all its ok click confirm button. Once you confirm your order all the data will be sent to your provider. Thank you."));
-	QVBoxLayout* MLayout = new QVBoxLayout(this); 
+#ifndef SHOW_PAYMENT_DETAILS
+    setSubTitle(tr("Please fill the form bellow and we will contact you to finish your order."));
+#else
+    setSubTitle(tr("Below you can see your order bill. Please check it and if all its ok click confirm button. Once you confirm your order all the data will be sent to your provider. Thank you."));
+#endif
+    QVBoxLayout* MLayout = new QVBoxLayout(this);
 
 	MLayout->addWidget(createContactWidget());
 

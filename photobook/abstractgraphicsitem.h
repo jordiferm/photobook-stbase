@@ -99,10 +99,10 @@ protected:
 	virtual QSizeF mouseIntersecsThreshold(QGraphicsItem* _Item);
 	EnMousePosIntersects getMouseIntersects(const QPointF& _Pos, const QRectF& _ItemBoudingRect, const QSizeF& _Threshold = QSizeF(5, 5));
 	void scaleOnMouseMoveEvent(QGraphicsSceneMouseEvent* _Event, QGraphicsItem* _Item);
-	void hoverMoveEvent(QGraphicsSceneHoverEvent * _Event, QGraphicsItem* _Item);
-	void hoverLeaveEvent(QGraphicsSceneHoverEvent* _Event, QGraphicsItem* _Item);
-	void hoverEnterEvent(QGraphicsSceneHoverEvent* _Event, QGraphicsItem* _Item);
-	void mousePressEvent(QGraphicsSceneMouseEvent* _Event, QGraphicsItem* _Item);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent * _Event, QGraphicsItem* _Item);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* _Event, QGraphicsItem* _Item);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* _Event, QGraphicsItem* _Item);
+    void mousePressEvent(QGraphicsSceneMouseEvent* _Event, QGraphicsItem* _Item);
 	void updateToolTip();
 	void updateToolTip(const QRectF& _Rect);
 	//IChangesControl interface
