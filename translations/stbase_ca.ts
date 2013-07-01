@@ -4054,6 +4054,10 @@ Num</source>
         <source> Tel:</source>
         <translation>Tel:</translation>
     </message>
+    <message>
+        <source>Please fill the form bellow and we will contact you to finish your order.</source>
+        <translation>Si us plau omple el formulari i ens posarem en contacte per a finalitzar l&apos;ordre.</translation>
+    </message>
 </context>
 <context>
     <name>OPWUserDataPage</name>
@@ -6125,6 +6129,10 @@ El node arrel no es un reportatge.</translation>
     <message>
         <source>Page Spine Margins</source>
         <translation>Marges del centre de la pàgina</translation>
+    </message>
+    <message>
+        <source>Size Alias</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

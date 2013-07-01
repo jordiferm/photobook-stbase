@@ -203,7 +203,7 @@ protected:
 	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* _Event);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* _Event);
 	void contextMenuEvent ( QGraphicsSceneContextMenuEvent * contextMenuEvent );
-	void dropEvent(QGraphicsSceneDragDropEvent* _Event );
+    void dropEvent(QGraphicsSceneDragDropEvent* _Event );
 
 private slots:
 	void panSelectedPhotoItems(const QPointF&);

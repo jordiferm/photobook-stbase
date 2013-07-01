@@ -4048,6 +4048,10 @@ Num</source>
         <source> Tel:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Please fill the form bellow and we will contact you to finish your order.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OPWUserDataPage</name>
@@ -6111,6 +6115,10 @@ The root node is not &apos;report&apos;.</source>
     </message>
     <message>
         <source>Page Spine Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size Alias</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

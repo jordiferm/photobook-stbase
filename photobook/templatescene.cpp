@@ -155,7 +155,7 @@ void TemplateScene::resize(const QSizeF& _NewSize)
 }
 
 /*!
-	Replaces the template and reuses current photoItems.	
+    Replaces the template and reuses current photoItems.
 */
 void TemplateScene::replaceTemplate(TemplateScene* _Scene)
 {
@@ -615,8 +615,8 @@ QGraphicsItem* TemplateScene::addClipartItem(const QString& _FileName)
 
 GraphicsTextItem* TemplateScene::addTextFrame(const QString& _Html)
 {
-	GraphicsTextItem* NewFrame = new GraphicsTextItem;
-	NewFrame->setHtml(_Html);
+    GraphicsTextItem* NewFrame = new GraphicsTextItem;
+    NewFrame->setHtml(_Html);
 	NewFrame->setFont(TextFrameFont);
 	NewFrame->setPos(QPoint(0, 0));
 	NewFrame->setMovable(true); //The text items are always movable.
@@ -624,8 +624,8 @@ GraphicsTextItem* TemplateScene::addTextFrame(const QString& _Html)
 	addItemOnTop(NewFrame);	
 	//NewFrame->adjustSize();
 	//NewFrame->setTextWidth(-1);
-	modified();
-	return NewFrame;
+    modified();
+    return NewFrame;
 }
 
 void TemplateScene::addSubTittleTextFrame(int _FrameIndex)

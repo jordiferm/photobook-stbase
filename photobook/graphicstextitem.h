@@ -59,13 +59,13 @@ public:
 	Qt::Alignment alignment() const;
 	void setAlignment(Qt::Alignment alignment);
 	virtual AbstractGraphicsItem* clone() const;
-	virtual void replaceTextVariables(const TemplateDataContext& );
+    virtual void replaceTextVariables(const TemplateDataContext& );
 
 
 
 protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-	void mousePressEvent(QGraphicsSceneMouseEvent* _Event);
+    void mousePressEvent(QGraphicsSceneMouseEvent* _Event);
 private slots:
 	void slotDocumentLayoutChanged();
 };

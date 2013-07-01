@@ -543,14 +543,20 @@ QWidget* OPWConfirmOrder::createShipmentOptionsWidget()
 	MLayout->addLayout(LeftLayout);
 
 	//------ Payment type ---
+#ifdef SHOW_PAYMENT_DETAILS
 	LeftLayout->addWidget(new QLabel(tr("Payment Type"), 0, 0));
-	CBPaymentType = new QComboBox(this);
+#endif
+    CBPaymentType = new QComboBox(this);
 	LeftLayout->addWidget(CBPaymentType, 0, 1);
 	STDom::IdDescTableModel* PaymentTypeModel = new STDom::IdDescTableModel(this);
 	CBPaymentType->setModel(PaymentTypeModel);
 	PaymentTypeModel->setValues(PublisherInfo.paymentTypes());
 	if (PaymentTypeModel->rowCount() > 0)
 		CBPaymentType->setCurrentIndex(0);
+#ifndef SHOW_PAYMENT_DETAILS
+    CBPaymentType->setVisible(false);
+#endif
+
 
 	//------ Shipping Option ---
 	LeftLayout->addWidget(new QLabel(tr("Shipping option")), 1, 0);
@@ -698,16 +704,27 @@ OPWConfirmOrder::OPWConfirmOrder(const STDom::PublisherInfo& _PublisherInfo, OPW
 {
 	setTitle(tr("<h1>Please confirm your order</h1>"));
 	//TODO Fetch and show html from a remote URL stored in database.
-	setSubTitle(tr("Below you can see your order bill. Please check it and if all its ok click confirm button. Once you confirm your order all the data will be sent to your provider. Thank you."));
-	QVBoxLayout* MLayout = new QVBoxLayout(this); 
+#ifndef SHOW_PAYMENT_DETAILS
+    setSubTitle(tr("Please fill the form bellow and we will contact you to finish your order."));
+#else
+    setSubTitle(tr("Below you can see your order bill. Please check it and if all its ok click confirm button. Once you confirm your order all the data will be sent to your provider. Thank you."));
+#endif
+    QVBoxLayout* MLayout = new QVBoxLayout(this);
 
 	MLayout->addWidget(createContactWidget());
 
 	MLayout->addWidget(createShipmentOptionsWidget());
 
-	MLayout->addWidget(createOtherOptionsWidget());
+    QWidget* OtherOptionsWidget = createOtherOptionsWidget();
+    MLayout->addWidget(OtherOptionsWidget);
 
-	MLayout->addWidget(createBillOptionsWidget());
+    QWidget* BillOptionsWidget = createBillOptionsWidget();
+    MLayout->addWidget(BillOptionsWidget);
+
+#ifndef SHOW_PAYMENT_DETAILS
+    BillOptionsWidget->setVisible(false);
+    OtherOptionsWidget->setVisible(false);
+#endif
 
 
 	StatusWidg = new SProcessStatusWidget(this); 
@@ -741,6 +758,7 @@ bool OPWConfirmOrder::validatePayment()
             PayPal.setAmount(Bill.totalAmount());
             PayPal.setItemName(QObject::tr("Pedido: %1-%2").arg(field("email").toString()).arg(LastOrderRef));
             PayPal.setOrderId(LastOrderRef);
+
 
             QDesktopServices::openUrl(QUrl(PayPal.paymentLink()));
         }
